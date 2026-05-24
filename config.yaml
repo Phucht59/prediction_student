@@ -1,0 +1,48 @@
+random_seed: 42
+
+datasets:
+  student_math:
+    path: data/raw/student-mat.csv
+    target_column: G3
+    processed_path: data/processed/student_math_processed.csv
+    train_path: data/splits/student_math_train.csv
+    test_path: data/splits/student_math_test.csv
+  student_por:
+    path: data/raw/student-por.csv
+    target_column: G3
+    processed_path: data/processed/student_por_processed.csv
+    train_path: data/splits/student_por_train.csv
+    test_path: data/splits/student_por_test.csv
+  xapi:
+    path: data/raw/xapi.csv
+    target_column: Class
+    processed_path: data/processed/xapi_processed.csv
+    train_path: data/splits/xapi_train.csv
+    test_path: data/splits/xapi_test.csv
+
+test_size: 0.2
+scaling_method: standard
+
+imbalance_methods:
+  - none
+  - smote
+  - adasyn
+  - borderline_smote
+
+basic_models:
+  - decision_tree
+  - random_forest
+  - svm
+  - xgboost
+  - gradient_boosting
+
+deep_models:
+  - cnn_lstm
+  - cnn_bilstm
+
+deep_learning:
+  epochs: 30
+  batch_size: 32
+  validation_split: 0.2
+  early_stopping_patience: 5
+

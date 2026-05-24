@@ -1,0 +1,19 @@
+name: student-performance
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - pandas
+  - numpy
+  - scikit-learn
+  - imbalanced-learn
+  - tensorflow
+  - matplotlib
+  - seaborn
+  - pyyaml
+  - joblib
+  - jupyter
+  - notebook
+  - xgboost
+
