@@ -1,105 +1,195 @@
-import joblib
-import numpy as np
-import pandas as pd
-from sklearn.preprocessing import LabelEncoder
-from tensorflow.keras.callbacks import EarlyStopping
+from __future__ import annotations
 
-from src.evaluate.metrics import calculate_metrics, get_classification_report
-from src.evaluate.plot_results import plot_confusion_matrix, plot_training_history
-from src.models.model_selector import get_deep_model
-from src.utils.config import make_path
+import argparse
+import subprocess
+import sys
+from pathlib import Path
 
 
-def split_features_and_target(data: pd.DataFrame):
-    X = data.drop(columns=["target"]).values
-    y = data["target"].values
-    return X, y
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 
-def reshape_for_deep_learning(X: np.ndarray) -> np.ndarray:
-    return X.reshape((X.shape[0], X.shape[1], 1))
-
-
-def train_deep_model(
-    dataset_name: str,
-    model_name: str,
-    train_data: pd.DataFrame,
-    test_data: pd.DataFrame,
-    deep_learning_config: dict,
-) -> dict:
-    X_train, y_train = split_features_and_target(train_data)
-    X_test, y_test = split_features_and_target(test_data)
-
-    label_encoder = LabelEncoder()
-    y_train_encoded = label_encoder.fit_transform(y_train)
-    y_test_encoded = label_encoder.transform(y_test)
-
-    X_train = reshape_for_deep_learning(X_train)
-    X_test = reshape_for_deep_learning(X_test)
-
-    number_of_classes = len(label_encoder.classes_)
-    model = get_deep_model(model_name, X_train.shape[1:], number_of_classes)
-
-    early_stopping = EarlyStopping(
-        monitor="val_loss",
-        patience=deep_learning_config["early_stopping_patience"],
-        restore_best_weights=True,
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Unified deep-learning training wrapper.")
+    parser.add_argument("--dataset", choices=["all", "student-mat", "student-por", "student-combined", "xapi"], required=True)
+    parser.add_argument("--scenario", choices=["all", "mid", "late"], default="all")
+    parser.add_argument("--model", default="auto")
+    parser.add_argument(
+        "--oversampling",
+        "--imbalance-strategy",
+        dest="oversampling",
+        default="auto",
+        help=(
+            "auto uses SMOTE for student datasets and ADASYN for xAPI; explicit values include "
+            "none, smote, adasyn, borderline_smote, class_weight_balanced."
+        ),
     )
-
-    history = model.fit(
-        X_train,
-        y_train_encoded,
-        epochs=deep_learning_config["epochs"],
-        batch_size=deep_learning_config["batch_size"],
-        validation_split=deep_learning_config["validation_split"],
-        callbacks=[early_stopping],
-        verbose=1,
-    )
-
-    prediction_probabilities = model.predict(X_test)
-    predictions_encoded = np.argmax(prediction_probabilities, axis=1)
-    predictions = label_encoder.inverse_transform(predictions_encoded)
-
-    metrics = calculate_metrics(y_test, predictions)
-    result = {
-        "dataset": dataset_name,
-        "model": model_name,
-        **metrics,
-    }
-
-    save_deep_model(model, dataset_name, model_name)
-    save_deep_label_encoder(label_encoder, dataset_name, model_name)
-    save_deep_report(y_test, predictions, dataset_name, model_name)
-    save_deep_training_plot(history, dataset_name, model_name)
-    save_deep_confusion_matrix(y_test, predictions, label_encoder.classes_.tolist(), dataset_name, model_name)
-
-    return result
+    parser.add_argument("--loss-weight", default="none")
+    parser.add_argument("--feature-selection", default="pearson_chi2")
+    parser.add_argument("--max-features", type=int, default=56)
+    parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--epochs", type=int, default=80)
+    parser.add_argument("--patience", type=int, default=10)
+    parser.add_argument("--batch-size", type=int, default=32)
+    parser.add_argument("--lr", type=float, default=0.001)
+    parser.add_argument("--fusion", choices=["concat", "gated"], default="concat")
+    parser.add_argument("--label-smoothing", type=float, default=0.0)
+    parser.add_argument("--scheduler", choices=["none", "cosine"], default="none")
+    parser.add_argument("--split-mode", choices=["processed", "holdout80"], default="processed")
+    parser.add_argument("--early-stopping", choices=["val_f1", "none"], default="val_f1")
+    parser.add_argument("--model-preset", choices=["default", "simple"], default="default")
+    parser.add_argument("--weight-decay", type=float, default=None)
+    parser.add_argument("--dropout", type=float, default=None)
+    parser.add_argument("--mixup-alpha", type=float, default=0.0)
+    parser.add_argument("--swa", action="store_true")
+    parser.add_argument("--cv", type=int, default=0)
+    return parser.parse_args()
 
 
-def save_deep_model(model, dataset_name: str, model_name: str) -> None:
-    output_path = make_path(f"saved_models/deep/{dataset_name}_{model_name}.keras")
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    model.save(output_path)
+def resolve_imbalance_strategy(dataset: str, requested: str) -> str:
+    """Resolve the final project default imbalance protocol."""
+    if requested == "auto":
+        return "adasyn" if dataset == "xapi" else "smote"
+    return requested
 
 
-def save_deep_label_encoder(label_encoder, dataset_name: str, model_name: str) -> None:
-    output_path = make_path(f"saved_models/deep/{dataset_name}_{model_name}_label_encoder.joblib")
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    joblib.dump(label_encoder, output_path)
+def resolve_imbalance_and_loss(dataset: str, requested_strategy: str, requested_loss: str) -> tuple[str, str]:
+    if requested_strategy == "class_weight_balanced":
+        return "none", "balanced"
+    return resolve_imbalance_strategy(dataset, requested_strategy), requested_loss
 
 
-def save_deep_report(y_true, y_pred, dataset_name: str, model_name: str) -> None:
-    report = get_classification_report(y_true, y_pred)
-    output_path = make_path(f"results/reports/{dataset_name}_{model_name}_report.csv")
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    report.to_csv(output_path)
+def run_module(module: str, extra_args: list[str]) -> int:
+    command = [sys.executable, "-m", module, *extra_args]
+    print("Running:", " ".join(command))
+    completed = subprocess.run(command, cwd=PROJECT_ROOT)
+    return int(completed.returncode)
 
 
-def save_deep_training_plot(history, dataset_name: str, model_name: str) -> None:
-    output_path = make_path(f"results/figures/{dataset_name}_{model_name}_training.png")
-    plot_training_history(history, f"{dataset_name} {model_name}", output_path)
+def main() -> int:
+    args = parse_args()
+    if args.dataset == "xapi":
+        oversampling, loss_weight = resolve_imbalance_and_loss("xapi", args.oversampling, args.loss_weight)
+        if args.cv and args.cv > 1:
+            return run_module(
+                "src.train.train_xapi_cv",
+                [
+                    "--folds",
+                    str(args.cv),
+                    "--model",
+                    "cnn_bilstm_xapi" if args.model == "auto" else args.model,
+                    "--imbalance-strategy",
+                    oversampling,
+                    "--feature-selection",
+                    args.feature_selection,
+                    "--max-features",
+                    str(args.max_features),
+                    "--seed",
+                    str(args.seed),
+                    "--epochs",
+                    str(args.epochs),
+                    "--patience",
+                    str(args.patience),
+                    "--batch-size",
+                    str(args.batch_size),
+                    "--lr",
+                    str(args.lr),
+                    "--fusion",
+                    args.fusion,
+                    "--label-smoothing",
+                    str(args.label_smoothing),
+                    "--scheduler",
+                    args.scheduler,
+                    "--loss-weight",
+                    loss_weight,
+                    *(["--swa"] if args.swa else []),
+                ],
+            )
+        model = "cnn_bilstm_xapi" if args.model == "auto" else args.model
+        return run_module(
+            "src.train.train_xapi_deep",
+            [
+                "--model",
+                model,
+                "--imbalance-strategy",
+                oversampling,
+                "--loss-weight",
+                loss_weight,
+                "--feature-selection",
+                args.feature_selection,
+                "--max-features",
+                str(args.max_features),
+                "--seed",
+                str(args.seed),
+                "--epochs",
+                str(args.epochs),
+                "--patience",
+                str(args.patience),
+                "--batch-size",
+                str(args.batch_size),
+                "--lr",
+                str(args.lr),
+                "--fusion",
+                args.fusion,
+                "--label-smoothing",
+                str(args.label_smoothing),
+                "--scheduler",
+                args.scheduler,
+                "--split-mode",
+                args.split_mode,
+                "--early-stopping",
+                args.early_stopping,
+                "--model-preset",
+                args.model_preset,
+                *([] if args.weight_decay is None else ["--weight-decay", str(args.weight_decay)]),
+                *([] if args.dropout is None else ["--dropout", str(args.dropout)]),
+                *(["--swa"] if args.swa else []),
+            ],
+        )
+
+    model = "auto" if args.model in {"auto", "cnn_bilstm_xapi", "cls_xapi"} else args.model
+    datasets = ["student-mat", "student-por", "student-combined"] if args.dataset == "all" else [args.dataset]
+    exit_code = 0
+    for dataset in datasets:
+        oversampling, loss_weight = resolve_imbalance_and_loss(dataset, args.oversampling, args.loss_weight)
+        exit_code = max(
+            exit_code,
+            run_module(
+                "src.train.train_deep_classification",
+                [
+                    "--dataset",
+                    dataset,
+                    "--scenario",
+                    args.scenario,
+                    "--model",
+                    model,
+                    "--imbalance-strategy",
+                    oversampling,
+                    "--loss-weight",
+                    loss_weight,
+                    "--feature-selection",
+                    args.feature_selection,
+                    "--max-features",
+                    str(args.max_features),
+                    "--seed",
+                    str(args.seed),
+                    "--epochs",
+                    str(args.epochs),
+                    "--patience",
+                    str(args.patience),
+                    "--batch-size",
+                    str(args.batch_size),
+                    "--lr",
+                    str(args.lr),
+                    "--mixup-alpha",
+                    str(args.mixup_alpha),
+                ],
+            ),
+        )
+    return exit_code
 
 
-def save_deep_confusion_matrix(y_true, y_pred, labels: list[str], dataset_name: str, model_name: str) -> None:
-    output_path = make_path(f"results/figures/{dataset_name}_{model_name}_confusion_matrix.png")
-    plot_confusion_matrix(y_true, y_pred, labels, f"{dataset_name} {model_name}", output_path)
+if __name__ == "__main__":
+    raise SystemExit(main())

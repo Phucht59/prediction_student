@@ -5,7 +5,7 @@ ADVICE_RULES = {
     "absences": "Reduce absences and attend class more regularly.",
     "studytime": "Increase weekly study time.",
     "failures": "Review subjects that were failed before.",
-    "G1": "Improve early semester scores.",
+    "G1": "Improve first-period scores.",
     "G2": "Improve mid semester scores.",
     "raisedhands": "Participate more in class activities.",
     "VisitedResources": "Use learning materials more often.",
@@ -32,4 +32,3 @@ def save_study_advice(advice_lines: list[str], output_path: str | Path) -> None:
     with Path(output_path).open("w", encoding="utf-8") as file:
         for line in advice_lines:
             file.write(f"- {line}\n")
-

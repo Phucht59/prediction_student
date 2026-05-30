@@ -1,48 +1,54 @@
 random_seed: 42
 
 datasets:
-  student_math:
-    path: data/raw/student-mat.csv
+  student:
+    names:
+      - student-mat
+      - student-por
+      - student-combined
+    raw_paths:
+      student-mat: data/raw/student-mat.csv
+      student-por: data/raw/student-por.csv
     target_column: G3
-    processed_path: data/processed/student_math_processed.csv
-    train_path: data/splits/student_math_train.csv
-    test_path: data/splits/student_math_test.csv
-  student_por:
-    path: data/raw/student-por.csv
-    target_column: G3
-    processed_path: data/processed/student_por_processed.csv
-    train_path: data/splits/student_por_train.csv
-    test_path: data/splits/student_por_test.csv
+    scenarios:
+      - mid
+      - late
   xapi:
-    path: data/raw/xapi.csv
+    name: xapi
+    raw_path: data/raw/xAPI-Edu-Data.csv
     target_column: Class
-    processed_path: data/processed/xapi_processed.csv
-    train_path: data/splits/xapi_train.csv
-    test_path: data/splits/xapi_test.csv
+    scenario: xapi_behavior
 
-test_size: 0.2
-scaling_method: standard
+split:
+  train_size: 0.7
+  validation_size: 0.15
+  test_size: 0.15
+  seed: 42
 
 imbalance_methods:
   - none
   - smote
   - adasyn
-  - borderline_smote
+  - class_weight_balanced
 
-basic_models:
-  - decision_tree
-  - random_forest
-  - svm
-  - xgboost
-  - gradient_boosting
-
-deep_models:
-  - cnn_lstm
-  - cnn_bilstm
+models:
+  student_deep: clsv2
+  xapi_deep: cnn_bilstm_xapi
+  baselines:
+    - decision_tree
+    - random_forest
+    - svm_rbf
+    - gradient_boosting
 
 deep_learning:
-  epochs: 30
+  epochs: 80
   batch_size: 32
-  validation_split: 0.2
-  early_stopping_patience: 5
+  learning_rate: 0.001
+  early_stopping_patience: 12
+  dropout: 0.3
+  label_smoothing: 0.0
+  scheduler: none
 
+optuna:
+  enabled: false
+  note: "Required by the thesis outline, but disabled in the final lightweight imbalance runs unless explicitly implemented and called."

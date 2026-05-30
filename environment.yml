@@ -1,5 +1,6 @@
 name: student-performance
 channels:
+  - pytorch
   - conda-forge
   - defaults
 dependencies:
@@ -8,12 +9,15 @@ dependencies:
   - numpy
   - scikit-learn
   - imbalanced-learn
-  - tensorflow
+  - pytorch
+  - optuna
   - matplotlib
   - seaborn
   - pyyaml
   - joblib
-  - jupyter
-  - notebook
-  - xgboost
-
+  - sqlalchemy
+  - psycopg2
+  - python-dotenv
+  - pip
+  - pip:
+      - ucimlrepo
