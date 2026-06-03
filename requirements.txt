@@ -10,4 +10,5 @@ sqlalchemy
 psycopg2-binary
 python-dotenv
 joblib
-ucimlrepo
+xgboost
+pytest

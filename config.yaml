@@ -1,54 +1,46 @@
-random_seed: 42
-
-datasets:
-  student:
-    names:
-      - student-mat
-      - student-por
-      - student-combined
-    raw_paths:
-      student-mat: data/raw/student-mat.csv
-      student-por: data/raw/student-por.csv
-    target_column: G3
-    scenarios:
-      - mid
-      - late
-  xapi:
-    name: xapi
-    raw_path: data/raw/xAPI-Edu-Data.csv
-    target_column: Class
-    scenario: xapi_behavior
-
-split:
-  train_size: 0.7
-  validation_size: 0.15
-  test_size: 0.15
+project:
+  name: student-performance-paper-replication
   seed: 42
 
-imbalance_methods:
-  - none
-  - smote
-  - adasyn
-  - class_weight_balanced
+datasets:
+  student-mat:
+    raw_file: data/raw/student-mat.csv
+    target: G3
+    class_bins: [0, 4, 8, 12, 16, 20]
+    selected_features: [G1, G2]
+    paper_ml_imbalance: smote
+  student-por:
+    raw_file: data/raw/student-por.csv
+    target: G3
+    class_bins: [0, 4, 8, 12, 16, 20]
+    selected_features: [G1, G2]
+    paper_ml_imbalance: none
+  xapi:
+    raw_file: data/raw/xAPI-Edu-Data.csv
+    target: Class
+    selected_features: [raisedhands, VisitedResources, StudentAbsenceDays]
+    paper_ml_imbalance: adasyn
 
-models:
-  student_deep: clsv2
-  xapi_deep: cnn_bilstm_xapi
-  baselines:
-    - decision_tree
-    - random_forest
-    - svm_rbf
-    - gradient_boosting
+paper_pipeline:
+  split_ratio_assumption:
+    train: 0.64
+    validation: 0.16
+    test: 0.20
+  deep_defaults:
+    epochs: 100
+    patience: 15
+    learning_rate: 0.001
+    weight_decay: 0.0001
+    dropout: 0.30
+    conv_channels: 64
+    bilstm_hidden: 64
+    bilstm_layers: 1
+    dense_hidden: 128
 
-deep_learning:
-  epochs: 80
-  batch_size: 32
-  learning_rate: 0.001
-  early_stopping_patience: 12
-  dropout: 0.3
-  label_smoothing: 0.0
-  scheduler: none
-
-optuna:
-  enabled: false
-  note: "Required by the thesis outline, but disabled in the final lightweight imbalance runs unless explicitly implemented and called."
+outputs:
+  processed_dir: data/processed/paper_replication
+  models_dir: models/saved/paper_replication
+  results_csv: reports/results/paper_replication_results.csv
+  predictions_csv: reports/results/paper_replication_predictions.csv
+  summary_csv: reports/tables/paper_replication_summary.csv
+  report_md: reports/paper_replication_report.md

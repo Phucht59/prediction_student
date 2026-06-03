@@ -1,4 +1,4 @@
-name: student-performance
+name: student-performance-paper
 channels:
   - pytorch
   - conda-forge
@@ -10,7 +10,6 @@ dependencies:
   - scikit-learn
   - imbalanced-learn
   - pytorch
-  - optuna
   - matplotlib
   - seaborn
   - pyyaml
@@ -20,4 +19,6 @@ dependencies:
   - python-dotenv
   - pip
   - pip:
-      - ucimlrepo
+      - optuna
+      - xgboost
+      - pytest
