@@ -1,0 +1,518 @@
+{
+  "config": {
+    "protocol": "stratified k-fold cross-validation",
+    "folds": 5,
+    "seed": 42,
+    "datasets": [
+      "student-mat",
+      "student-por",
+      "xapi"
+    ],
+    "feature_set": "paper",
+    "note": "Preprocessor is fit inside each fold to avoid leakage."
+  },
+  "summary": [
+    {
+      "dataset": "student-mat",
+      "model": "DecisionTree",
+      "folds": 5,
+      "accuracy_mean": 0.7443037974683544,
+      "accuracy_std": 0.03141689530630599,
+      "f1_macro_mean": 0.7239196436423058,
+      "f1_macro_std": 0.024859293659569077,
+      "feature_set": "paper",
+      "feature_columns": [
+        "G1",
+        "G2"
+      ],
+      "fold_rows": [
+        {
+          "dataset": "student-mat",
+          "model": "DecisionTree",
+          "fold": 1,
+          "accuracy": 0.7974683544303798,
+          "f1_macro": 0.7719596685634421,
+          "train_size": 316,
+          "test_size": 79,
+          "feature_columns": [
+            "G1",
+            "G2"
+          ]
+        },
+        {
+          "dataset": "student-mat",
+          "model": "DecisionTree",
+          "fold": 2,
+          "accuracy": 0.7088607594936709,
+          "f1_macro": 0.7217093596059112,
+          "train_size": 316,
+          "test_size": 79,
+          "feature_columns": [
+            "G1",
+            "G2"
+          ]
+        },
+        {
+          "dataset": "student-mat",
+          "model": "DecisionTree",
+          "fold": 3,
+          "accuracy": 0.7215189873417721,
+          "f1_macro": 0.7023147349104796,
+          "train_size": 316,
+          "test_size": 79,
+          "feature_columns": [
+            "G1",
+            "G2"
+          ]
+        },
+        {
+          "dataset": "student-mat",
+          "model": "DecisionTree",
+          "fold": 4,
+          "accuracy": 0.7341772151898734,
+          "f1_macro": 0.7088917748917749,
+          "train_size": 316,
+          "test_size": 79,
+          "feature_columns": [
+            "G1",
+            "G2"
+          ]
+        },
+        {
+          "dataset": "student-mat",
+          "model": "DecisionTree",
+          "fold": 5,
+          "accuracy": 0.759493670886076,
+          "f1_macro": 0.7147226802399216,
+          "train_size": 316,
+          "test_size": 79,
+          "feature_columns": [
+            "G1",
+            "G2"
+          ]
+        }
+      ]
+    },
+    {
+      "dataset": "student-mat",
+      "model": "RandomForest",
+      "folds": 5,
+      "accuracy_mean": 0.7620253164556962,
+      "accuracy_std": 0.041134371669042845,
+      "f1_macro_mean": 0.7474947356031866,
+      "f1_macro_std": 0.04160648081579047,
+      "feature_set": "paper",
+      "feature_columns": [
+        "G1",
+        "G2"
+      ],
+      "fold_rows": [
+        {
+          "dataset": "student-mat",
+          "model": "RandomForest",
+          "fold": 1,
+          "accuracy": 0.8354430379746836,
+          "f1_macro": 0.8286298451004332,
+          "train_size": 316,
+          "test_size": 79,
+          "feature_columns": [
+            "G1",
+            "G2"
+          ]
+        },
+        {
+          "dataset": "student-mat",
+          "model": "RandomForest",
+          "fold": 2,
+          "accuracy": 0.7088607594936709,
+          "f1_macro": 0.7173918992884509,
+          "train_size": 316,
+          "test_size": 79,
+          "feature_columns": [
+            "G1",
+            "G2"
+          ]
+        },
+        {
+          "dataset": "student-mat",
+          "model": "RandomForest",
+          "fold": 3,
+          "accuracy": 0.759493670886076,
+          "f1_macro": 0.7443263403263403,
+          "train_size": 316,
+          "test_size": 79,
+          "feature_columns": [
+            "G1",
+            "G2"
+          ]
+        },
+        {
+          "dataset": "student-mat",
+          "model": "RandomForest",
+          "fold": 4,
+          "accuracy": 0.7468354430379747,
+          "f1_macro": 0.7258968220719372,
+          "train_size": 316,
+          "test_size": 79,
+          "feature_columns": [
+            "G1",
+            "G2"
+          ]
+        },
+        {
+          "dataset": "student-mat",
+          "model": "RandomForest",
+          "fold": 5,
+          "accuracy": 0.759493670886076,
+          "f1_macro": 0.7212287712287712,
+          "train_size": 316,
+          "test_size": 79,
+          "feature_columns": [
+            "G1",
+            "G2"
+          ]
+        }
+      ]
+    },
+    {
+      "dataset": "student-por",
+      "model": "DecisionTree",
+      "folds": 5,
+      "accuracy_mean": 0.7412164579606441,
+      "accuracy_std": 0.02928582977682897,
+      "f1_macro_mean": 0.7316708288241229,
+      "f1_macro_std": 0.040135517990347896,
+      "feature_set": "paper",
+      "feature_columns": [
+        "G1",
+        "G2"
+      ],
+      "fold_rows": [
+        {
+          "dataset": "student-por",
+          "model": "DecisionTree",
+          "fold": 1,
+          "accuracy": 0.7461538461538462,
+          "f1_macro": 0.7463127546716031,
+          "train_size": 519,
+          "test_size": 130,
+          "feature_columns": [
+            "G1",
+            "G2"
+          ]
+        },
+        {
+          "dataset": "student-por",
+          "model": "DecisionTree",
+          "fold": 2,
+          "accuracy": 0.7076923076923077,
+          "f1_macro": 0.6696507015601201,
+          "train_size": 519,
+          "test_size": 130,
+          "feature_columns": [
+            "G1",
+            "G2"
+          ]
+        },
+        {
+          "dataset": "student-por",
+          "model": "DecisionTree",
+          "fold": 3,
+          "accuracy": 0.7461538461538462,
+          "f1_macro": 0.7398812426398633,
+          "train_size": 519,
+          "test_size": 130,
+          "feature_columns": [
+            "G1",
+            "G2"
+          ]
+        },
+        {
+          "dataset": "student-por",
+          "model": "DecisionTree",
+          "fold": 4,
+          "accuracy": 0.7153846153846154,
+          "f1_macro": 0.7115121248508043,
+          "train_size": 519,
+          "test_size": 130,
+          "feature_columns": [
+            "G1",
+            "G2"
+          ]
+        },
+        {
+          "dataset": "student-por",
+          "model": "DecisionTree",
+          "fold": 5,
+          "accuracy": 0.7906976744186046,
+          "f1_macro": 0.790997320398224,
+          "train_size": 520,
+          "test_size": 129,
+          "feature_columns": [
+            "G1",
+            "G2"
+          ]
+        }
+      ]
+    },
+    {
+      "dataset": "student-por",
+      "model": "RandomForest",
+      "folds": 5,
+      "accuracy_mean": 0.7196183661299941,
+      "accuracy_std": 0.037851513390737314,
+      "f1_macro_mean": 0.7156336481211001,
+      "f1_macro_std": 0.036144417181555616,
+      "feature_set": "paper",
+      "feature_columns": [
+        "G1",
+        "G2"
+      ],
+      "fold_rows": [
+        {
+          "dataset": "student-por",
+          "model": "RandomForest",
+          "fold": 1,
+          "accuracy": 0.7384615384615385,
+          "f1_macro": 0.7301921996178488,
+          "train_size": 519,
+          "test_size": 130,
+          "feature_columns": [
+            "G1",
+            "G2"
+          ]
+        },
+        {
+          "dataset": "student-por",
+          "model": "RandomForest",
+          "fold": 2,
+          "accuracy": 0.7230769230769231,
+          "f1_macro": 0.6974923341489369,
+          "train_size": 519,
+          "test_size": 130,
+          "feature_columns": [
+            "G1",
+            "G2"
+          ]
+        },
+        {
+          "dataset": "student-por",
+          "model": "RandomForest",
+          "fold": 3,
+          "accuracy": 0.7384615384615385,
+          "f1_macro": 0.7468433231318856,
+          "train_size": 519,
+          "test_size": 130,
+          "feature_columns": [
+            "G1",
+            "G2"
+          ]
+        },
+        {
+          "dataset": "student-por",
+          "model": "RandomForest",
+          "fold": 4,
+          "accuracy": 0.6461538461538462,
+          "f1_macro": 0.6536778570001162,
+          "train_size": 519,
+          "test_size": 130,
+          "feature_columns": [
+            "G1",
+            "G2"
+          ]
+        },
+        {
+          "dataset": "student-por",
+          "model": "RandomForest",
+          "fold": 5,
+          "accuracy": 0.751937984496124,
+          "f1_macro": 0.7499625267067127,
+          "train_size": 520,
+          "test_size": 129,
+          "feature_columns": [
+            "G1",
+            "G2"
+          ]
+        }
+      ]
+    },
+    {
+      "dataset": "xapi",
+      "model": "DecisionTree",
+      "folds": 5,
+      "accuracy_mean": 0.6229166666666667,
+      "accuracy_std": 0.02748105407973522,
+      "f1_macro_mean": 0.6318762335940669,
+      "f1_macro_std": 0.026466208460301673,
+      "feature_set": "paper",
+      "feature_columns": [
+        "raisedhands",
+        "VisitedResources",
+        "StudentAbsenceDays"
+      ],
+      "fold_rows": [
+        {
+          "dataset": "xapi",
+          "model": "DecisionTree",
+          "fold": 1,
+          "accuracy": 0.6666666666666666,
+          "f1_macro": 0.6740145164837851,
+          "train_size": 384,
+          "test_size": 96,
+          "feature_columns": [
+            "raisedhands",
+            "VisitedResources",
+            "StudentAbsenceDays"
+          ]
+        },
+        {
+          "dataset": "xapi",
+          "model": "DecisionTree",
+          "fold": 2,
+          "accuracy": 0.6354166666666666,
+          "f1_macro": 0.6469345064803433,
+          "train_size": 384,
+          "test_size": 96,
+          "feature_columns": [
+            "raisedhands",
+            "VisitedResources",
+            "StudentAbsenceDays"
+          ]
+        },
+        {
+          "dataset": "xapi",
+          "model": "DecisionTree",
+          "fold": 3,
+          "accuracy": 0.6145833333333334,
+          "f1_macro": 0.6173154853339186,
+          "train_size": 384,
+          "test_size": 96,
+          "feature_columns": [
+            "raisedhands",
+            "VisitedResources",
+            "StudentAbsenceDays"
+          ]
+        },
+        {
+          "dataset": "xapi",
+          "model": "DecisionTree",
+          "fold": 4,
+          "accuracy": 0.6145833333333334,
+          "f1_macro": 0.6243241035693866,
+          "train_size": 384,
+          "test_size": 96,
+          "feature_columns": [
+            "raisedhands",
+            "VisitedResources",
+            "StudentAbsenceDays"
+          ]
+        },
+        {
+          "dataset": "xapi",
+          "model": "DecisionTree",
+          "fold": 5,
+          "accuracy": 0.5833333333333334,
+          "f1_macro": 0.5967925561029009,
+          "train_size": 384,
+          "test_size": 96,
+          "feature_columns": [
+            "raisedhands",
+            "VisitedResources",
+            "StudentAbsenceDays"
+          ]
+        }
+      ]
+    },
+    {
+      "dataset": "xapi",
+      "model": "RandomForest",
+      "folds": 5,
+      "accuracy_mean": 0.66875,
+      "accuracy_std": 0.01530931089239485,
+      "f1_macro_mean": 0.6788319162623926,
+      "f1_macro_std": 0.015688870862474707,
+      "feature_set": "paper",
+      "feature_columns": [
+        "raisedhands",
+        "VisitedResources",
+        "StudentAbsenceDays"
+      ],
+      "fold_rows": [
+        {
+          "dataset": "xapi",
+          "model": "RandomForest",
+          "fold": 1,
+          "accuracy": 0.65625,
+          "f1_macro": 0.6710880289989353,
+          "train_size": 384,
+          "test_size": 96,
+          "feature_columns": [
+            "raisedhands",
+            "VisitedResources",
+            "StudentAbsenceDays"
+          ]
+        },
+        {
+          "dataset": "xapi",
+          "model": "RandomForest",
+          "fold": 2,
+          "accuracy": 0.6666666666666666,
+          "f1_macro": 0.6792758482703426,
+          "train_size": 384,
+          "test_size": 96,
+          "feature_columns": [
+            "raisedhands",
+            "VisitedResources",
+            "StudentAbsenceDays"
+          ]
+        },
+        {
+          "dataset": "xapi",
+          "model": "RandomForest",
+          "fold": 3,
+          "accuracy": 0.6666666666666666,
+          "f1_macro": 0.6677798392084107,
+          "train_size": 384,
+          "test_size": 96,
+          "feature_columns": [
+            "raisedhands",
+            "VisitedResources",
+            "StudentAbsenceDays"
+          ]
+        },
+        {
+          "dataset": "xapi",
+          "model": "RandomForest",
+          "fold": 4,
+          "accuracy": 0.6979166666666666,
+          "f1_macro": 0.7089840083963189,
+          "train_size": 384,
+          "test_size": 96,
+          "feature_columns": [
+            "raisedhands",
+            "VisitedResources",
+            "StudentAbsenceDays"
+          ]
+        },
+        {
+          "dataset": "xapi",
+          "model": "RandomForest",
+          "fold": 5,
+          "accuracy": 0.65625,
+          "f1_macro": 0.6670318564379559,
+          "train_size": 384,
+          "test_size": 96,
+          "feature_columns": [
+            "raisedhands",
+            "VisitedResources",
+            "StudentAbsenceDays"
+          ]
+        }
+      ]
+    }
+  ],
+  "artifacts": {
+    "results": "C:\\Huflit\\kltn\\results\\v19_baseline_cv_results.json",
+    "report": "C:\\Huflit\\kltn\\reports\\v19_baseline_cv_report.md"
+  }
+}

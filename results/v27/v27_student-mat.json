@@ -1,0 +1,694 @@
+{
+  "dataset": "student-mat",
+  "seed_results": [
+    {
+      "dataset": "student-mat",
+      "test_seed": 42,
+      "n_members": 42,
+      "best_k": 2,
+      "best_f1": 0.7486489479512736,
+      "best_metrics": {
+        "f1_macro": 0.7486489479512736,
+        "accuracy": 0.7666666666666667,
+        "precision_macro": 0.7533126293995859,
+        "recall_macro": 0.7691666666666667
+      },
+      "results_by_k": {
+        "1": {
+          "f1_macro": 0.6642899735922991,
+          "accuracy": 0.7166666666666667,
+          "precision_macro": 0.6985507246376812,
+          "recall_macro": 0.7025
+        },
+        "2": {
+          "f1_macro": 0.7486489479512736,
+          "accuracy": 0.7666666666666667,
+          "precision_macro": 0.7533126293995859,
+          "recall_macro": 0.7691666666666667
+        },
+        "3": {
+          "f1_macro": 0.7486489479512736,
+          "accuracy": 0.7666666666666667,
+          "precision_macro": 0.7533126293995859,
+          "recall_macro": 0.7691666666666667
+        },
+        "5": {
+          "f1_macro": 0.724139144029705,
+          "accuracy": 0.75,
+          "precision_macro": 0.7235507246376811,
+          "recall_macro": 0.7469444444444444
+        },
+        "7": {
+          "f1_macro": 0.6941111328252232,
+          "accuracy": 0.7333333333333333,
+          "precision_macro": 0.7176416337285902,
+          "recall_macro": 0.7247222222222222
+        },
+        "10": {
+          "f1_macro": 0.6708058106963717,
+          "accuracy": 0.7166666666666667,
+          "precision_macro": 0.6826416337285902,
+          "recall_macro": 0.7025
+        },
+        "15": {
+          "f1_macro": 0.6642899735922991,
+          "accuracy": 0.7166666666666667,
+          "precision_macro": 0.6985507246376812,
+          "recall_macro": 0.7025
+        }
+      },
+      "v18_best_f1": 0.7938,
+      "v22_best_f1": 0.8104,
+      "paper_f1": 0.94,
+      "beat_v18": false,
+      "beat_v22": false,
+      "beat_paper": false,
+      "top_members": [
+        {
+          "id": "T27/s42",
+          "val_f1": 0.7711779448621553,
+          "ep": 41,
+          "cfg_label": "T27",
+          "feat": "ultra_engineered",
+          "seed": 42
+        },
+        {
+          "id": "T20/s2024",
+          "val_f1": 0.7520330182399148,
+          "ep": 13,
+          "cfg_label": "T20",
+          "feat": "ultra_engineered",
+          "seed": 2024
+        },
+        {
+          "id": "T27/s777",
+          "val_f1": 0.7469054946211104,
+          "ep": 73,
+          "cfg_label": "T27",
+          "feat": "ultra_engineered",
+          "seed": 777
+        },
+        {
+          "id": "T20/s1234",
+          "val_f1": 0.7444155844155843,
+          "ep": 17,
+          "cfg_label": "T20",
+          "feat": "ultra_engineered",
+          "seed": 1234
+        },
+        {
+          "id": "T27/s123",
+          "val_f1": 0.7444155844155843,
+          "ep": 25,
+          "cfg_label": "T27",
+          "feat": "ultra_engineered",
+          "seed": 123
+        },
+        {
+          "id": "T20/s123",
+          "val_f1": 0.740258126465023,
+          "ep": 46,
+          "cfg_label": "T20",
+          "feat": "ultra_engineered",
+          "seed": 123
+        },
+        {
+          "id": "T27/s2024",
+          "val_f1": 0.740258126465023,
+          "ep": 27,
+          "cfg_label": "T27",
+          "feat": "ultra_engineered",
+          "seed": 2024
+        },
+        {
+          "id": "T27/s314",
+          "val_f1": 0.7369593369593369,
+          "ep": 11,
+          "cfg_label": "T27",
+          "feat": "ultra_engineered",
+          "seed": 314
+        },
+        {
+          "id": "T20/s42",
+          "val_f1": 0.7335914597983563,
+          "ep": 21,
+          "cfg_label": "T20",
+          "feat": "ultra_engineered",
+          "seed": 42
+        },
+        {
+          "id": "T28/s777",
+          "val_f1": 0.7304761904761905,
+          "ep": 16,
+          "cfg_label": "T28",
+          "feat": "ultra_engineered",
+          "seed": 777
+        },
+        {
+          "id": "T27/s999",
+          "val_f1": 0.7298623797345025,
+          "ep": 20,
+          "cfg_label": "T27",
+          "feat": "ultra_engineered",
+          "seed": 999
+        },
+        {
+          "id": "T27/s1234",
+          "val_f1": 0.7285380116959063,
+          "ep": 10,
+          "cfg_label": "T27",
+          "feat": "ultra_engineered",
+          "seed": 1234
+        },
+        {
+          "id": "T1/s314",
+          "val_f1": 0.7190382551172745,
+          "ep": 68,
+          "cfg_label": "T1",
+          "feat": "ultra_engineered",
+          "seed": 314
+        },
+        {
+          "id": "T20/s314",
+          "val_f1": 0.715988455988456,
+          "ep": 37,
+          "cfg_label": "T20",
+          "feat": "ultra_engineered",
+          "seed": 314
+        },
+        {
+          "id": "T20/s999",
+          "val_f1": 0.714373652434096,
+          "ep": 5,
+          "cfg_label": "T20",
+          "feat": "ultra_engineered",
+          "seed": 999
+        },
+        {
+          "id": "T28/s42",
+          "val_f1": 0.7135914597983564,
+          "ep": 18,
+          "cfg_label": "T28",
+          "feat": "ultra_engineered",
+          "seed": 42
+        },
+        {
+          "id": "T28/s123",
+          "val_f1": 0.7135914597983564,
+          "ep": 17,
+          "cfg_label": "T28",
+          "feat": "ultra_engineered",
+          "seed": 123
+        },
+        {
+          "id": "T28/s1234",
+          "val_f1": 0.7102388509844035,
+          "ep": 13,
+          "cfg_label": "T28",
+          "feat": "ultra_engineered",
+          "seed": 1234
+        },
+        {
+          "id": "T20/s777",
+          "val_f1": 0.7036104754640223,
+          "ep": 35,
+          "cfg_label": "T20",
+          "feat": "ultra_engineered",
+          "seed": 777
+        },
+        {
+          "id": "T28/s2024",
+          "val_f1": 0.7028282828282828,
+          "ep": 20,
+          "cfg_label": "T28",
+          "feat": "ultra_engineered",
+          "seed": 2024
+        }
+      ]
+    },
+    {
+      "dataset": "student-mat",
+      "test_seed": 123,
+      "n_members": 42,
+      "best_k": 1,
+      "best_f1": 0.7569960516314456,
+      "best_metrics": {
+        "f1_macro": 0.7569960516314456,
+        "accuracy": 0.7666666666666667,
+        "precision_macro": 0.7680735930735931,
+        "recall_macro": 0.7677777777777778
+      },
+      "results_by_k": {
+        "1": {
+          "f1_macro": 0.7569960516314456,
+          "accuracy": 0.7666666666666667,
+          "precision_macro": 0.7680735930735931,
+          "recall_macro": 0.7677777777777778
+        },
+        "2": {
+          "f1_macro": 0.7414500683994528,
+          "accuracy": 0.75,
+          "precision_macro": 0.7635507246376811,
+          "recall_macro": 0.7649999999999999
+        },
+        "3": {
+          "f1_macro": 0.7414500683994528,
+          "accuracy": 0.75,
+          "precision_macro": 0.7635507246376811,
+          "recall_macro": 0.7649999999999999
+        },
+        "5": {
+          "f1_macro": 0.7414500683994528,
+          "accuracy": 0.75,
+          "precision_macro": 0.7635507246376811,
+          "recall_macro": 0.7649999999999999
+        },
+        "7": {
+          "f1_macro": 0.699870182856719,
+          "accuracy": 0.7166666666666667,
+          "precision_macro": 0.714191750278707,
+          "recall_macro": 0.7205555555555556
+        },
+        "10": {
+          "f1_macro": 0.7414500683994528,
+          "accuracy": 0.75,
+          "precision_macro": 0.7635507246376811,
+          "recall_macro": 0.7649999999999999
+        },
+        "15": {
+          "f1_macro": 0.7414500683994528,
+          "accuracy": 0.75,
+          "precision_macro": 0.7635507246376811,
+          "recall_macro": 0.7649999999999999
+        }
+      },
+      "v18_best_f1": 0.7938,
+      "v22_best_f1": 0.8104,
+      "paper_f1": 0.94,
+      "beat_v18": false,
+      "beat_v22": false,
+      "beat_paper": false,
+      "top_members": [
+        {
+          "id": "T20/s123",
+          "val_f1": 0.9057142857142857,
+          "ep": 64,
+          "cfg_label": "T20",
+          "feat": "ultra_engineered",
+          "seed": 123
+        },
+        {
+          "id": "T20/s999",
+          "val_f1": 0.8991025641025641,
+          "ep": 38,
+          "cfg_label": "T20",
+          "feat": "ultra_engineered",
+          "seed": 999
+        },
+        {
+          "id": "T28/s123",
+          "val_f1": 0.8991025641025641,
+          "ep": 75,
+          "cfg_label": "T28",
+          "feat": "ultra_engineered",
+          "seed": 123
+        },
+        {
+          "id": "T27/s123",
+          "val_f1": 0.8991025641025641,
+          "ep": 68,
+          "cfg_label": "T27",
+          "feat": "ultra_engineered",
+          "seed": 123
+        },
+        {
+          "id": "T27/s314",
+          "val_f1": 0.8991025641025641,
+          "ep": 44,
+          "cfg_label": "T27",
+          "feat": "ultra_engineered",
+          "seed": 314
+        },
+        {
+          "id": "T27/s777",
+          "val_f1": 0.8991025641025641,
+          "ep": 44,
+          "cfg_label": "T27",
+          "feat": "ultra_engineered",
+          "seed": 777
+        },
+        {
+          "id": "T27/s1234",
+          "val_f1": 0.8955860805860805,
+          "ep": 68,
+          "cfg_label": "T27",
+          "feat": "ultra_engineered",
+          "seed": 1234
+        },
+        {
+          "id": "T20/s777",
+          "val_f1": 0.8926495726495727,
+          "ep": 42,
+          "cfg_label": "T20",
+          "feat": "ultra_engineered",
+          "seed": 777
+        },
+        {
+          "id": "T36/s314",
+          "val_f1": 0.891841491841492,
+          "ep": 43,
+          "cfg_label": "T36",
+          "feat": "ultra_engineered",
+          "seed": 314
+        },
+        {
+          "id": "T36/s2024",
+          "val_f1": 0.891841491841492,
+          "ep": 34,
+          "cfg_label": "T36",
+          "feat": "ultra_engineered",
+          "seed": 2024
+        },
+        {
+          "id": "T20/s2024",
+          "val_f1": 0.8893103448275863,
+          "ep": 54,
+          "cfg_label": "T20",
+          "feat": "ultra_engineered",
+          "seed": 2024
+        },
+        {
+          "id": "T20/s42",
+          "val_f1": 0.8837179487179487,
+          "ep": 18,
+          "cfg_label": "T20",
+          "feat": "ultra_engineered",
+          "seed": 42
+        },
+        {
+          "id": "T20/s314",
+          "val_f1": 0.8837179487179487,
+          "ep": 7,
+          "cfg_label": "T20",
+          "feat": "ultra_engineered",
+          "seed": 314
+        },
+        {
+          "id": "T20/s1234",
+          "val_f1": 0.877948717948718,
+          "ep": 25,
+          "cfg_label": "T20",
+          "feat": "ultra_engineered",
+          "seed": 1234
+        },
+        {
+          "id": "T28/s999",
+          "val_f1": 0.877948717948718,
+          "ep": 10,
+          "cfg_label": "T28",
+          "feat": "ultra_engineered",
+          "seed": 999
+        },
+        {
+          "id": "T28/s1234",
+          "val_f1": 0.877948717948718,
+          "ep": 22,
+          "cfg_label": "T28",
+          "feat": "ultra_engineered",
+          "seed": 1234
+        },
+        {
+          "id": "T28/s2024",
+          "val_f1": 0.877948717948718,
+          "ep": 12,
+          "cfg_label": "T28",
+          "feat": "ultra_engineered",
+          "seed": 2024
+        },
+        {
+          "id": "T36/s999",
+          "val_f1": 0.8774758709849987,
+          "ep": 15,
+          "cfg_label": "T36",
+          "feat": "ultra_engineered",
+          "seed": 999
+        },
+        {
+          "id": "T27/s999",
+          "val_f1": 0.8763003663003662,
+          "ep": 36,
+          "cfg_label": "T27",
+          "feat": "ultra_engineered",
+          "seed": 999
+        },
+        {
+          "id": "T27/s2024",
+          "val_f1": 0.8709523809523809,
+          "ep": 12,
+          "cfg_label": "T27",
+          "feat": "ultra_engineered",
+          "seed": 2024
+        }
+      ]
+    },
+    {
+      "dataset": "student-mat",
+      "test_seed": 314,
+      "n_members": 42,
+      "best_k": 1,
+      "best_f1": 0.7747180923651511,
+      "best_metrics": {
+        "f1_macro": 0.7747180923651511,
+        "accuracy": 0.7666666666666667,
+        "precision_macro": 0.7758403361344538,
+        "recall_macro": 0.7863888888888889
+      },
+      "results_by_k": {
+        "1": {
+          "f1_macro": 0.7747180923651511,
+          "accuracy": 0.7666666666666667,
+          "precision_macro": 0.7758403361344538,
+          "recall_macro": 0.7863888888888889
+        },
+        "2": {
+          "f1_macro": 0.7298534798534799,
+          "accuracy": 0.7333333333333333,
+          "precision_macro": 0.7347619047619048,
+          "recall_macro": 0.7369444444444444
+        },
+        "3": {
+          "f1_macro": 0.7298534798534799,
+          "accuracy": 0.7333333333333333,
+          "precision_macro": 0.7347619047619048,
+          "recall_macro": 0.7369444444444444
+        },
+        "5": {
+          "f1_macro": 0.7478442247407765,
+          "accuracy": 0.75,
+          "precision_macro": 0.7536263736263737,
+          "recall_macro": 0.7591666666666665
+        },
+        "7": {
+          "f1_macro": 0.7030812324929973,
+          "accuracy": 0.7166666666666667,
+          "precision_macro": 0.7085714285714286,
+          "recall_macro": 0.7036111111111112
+        },
+        "10": {
+          "f1_macro": 0.7478442247407765,
+          "accuracy": 0.75,
+          "precision_macro": 0.7536263736263737,
+          "recall_macro": 0.7591666666666665
+        },
+        "15": {
+          "f1_macro": 0.7478442247407765,
+          "accuracy": 0.75,
+          "precision_macro": 0.7536263736263737,
+          "recall_macro": 0.7591666666666665
+        }
+      },
+      "v18_best_f1": 0.7938,
+      "v22_best_f1": 0.8104,
+      "paper_f1": 0.94,
+      "beat_v18": false,
+      "beat_v22": false,
+      "beat_paper": false,
+      "top_members": [
+        {
+          "id": "T1/s314",
+          "val_f1": 0.8727092240404934,
+          "ep": 76,
+          "cfg_label": "T1",
+          "feat": "ultra_engineered",
+          "seed": 314
+        },
+        {
+          "id": "T20/s999",
+          "val_f1": 0.8692609351432882,
+          "ep": 50,
+          "cfg_label": "T20",
+          "feat": "ultra_engineered",
+          "seed": 999
+        },
+        {
+          "id": "T1/s123",
+          "val_f1": 0.8692609351432882,
+          "ep": 86,
+          "cfg_label": "T1",
+          "feat": "ultra_engineered",
+          "seed": 123
+        },
+        {
+          "id": "T28/s123",
+          "val_f1": 0.8671589848060435,
+          "ep": 11,
+          "cfg_label": "T28",
+          "feat": "ultra_engineered",
+          "seed": 123
+        },
+        {
+          "id": "T28/s2024",
+          "val_f1": 0.8671589848060435,
+          "ep": 7,
+          "cfg_label": "T28",
+          "feat": "ultra_engineered",
+          "seed": 2024
+        },
+        {
+          "id": "T36/s314",
+          "val_f1": 0.8671589848060435,
+          "ep": 40,
+          "cfg_label": "T36",
+          "feat": "ultra_engineered",
+          "seed": 314
+        },
+        {
+          "id": "T20/s42",
+          "val_f1": 0.8667021930723509,
+          "ep": 50,
+          "cfg_label": "T20",
+          "feat": "ultra_engineered",
+          "seed": 42
+        },
+        {
+          "id": "T20/s123",
+          "val_f1": 0.8616167870657033,
+          "ep": 12,
+          "cfg_label": "T20",
+          "feat": "ultra_engineered",
+          "seed": 123
+        },
+        {
+          "id": "T1/s1234",
+          "val_f1": 0.8585918306201938,
+          "ep": 68,
+          "cfg_label": "T1",
+          "feat": "ultra_engineered",
+          "seed": 1234
+        },
+        {
+          "id": "T20/s1234",
+          "val_f1": 0.8561663286004058,
+          "ep": 40,
+          "cfg_label": "T20",
+          "feat": "ultra_engineered",
+          "seed": 1234
+        },
+        {
+          "id": "T36/s42",
+          "val_f1": 0.8561663286004058,
+          "ep": 22,
+          "cfg_label": "T36",
+          "feat": "ultra_engineered",
+          "seed": 42
+        },
+        {
+          "id": "T36/s123",
+          "val_f1": 0.8561663286004058,
+          "ep": 29,
+          "cfg_label": "T36",
+          "feat": "ultra_engineered",
+          "seed": 123
+        },
+        {
+          "id": "T36/s777",
+          "val_f1": 0.8561663286004058,
+          "ep": 26,
+          "cfg_label": "T36",
+          "feat": "ultra_engineered",
+          "seed": 777
+        },
+        {
+          "id": "T1/s999",
+          "val_f1": 0.8561663286004058,
+          "ep": 48,
+          "cfg_label": "T1",
+          "feat": "ultra_engineered",
+          "seed": 999
+        },
+        {
+          "id": "T20/s2024",
+          "val_f1": 0.8513200975269941,
+          "ep": 24,
+          "cfg_label": "T20",
+          "feat": "ultra_engineered",
+          "seed": 2024
+        },
+        {
+          "id": "T27/s777",
+          "val_f1": 0.8491445057505983,
+          "ep": 45,
+          "cfg_label": "T27",
+          "feat": "ultra_engineered",
+          "seed": 777
+        },
+        {
+          "id": "T36/s1234",
+          "val_f1": 0.842660381225661,
+          "ep": 26,
+          "cfg_label": "T36",
+          "feat": "ultra_engineered",
+          "seed": 1234
+        },
+        {
+          "id": "T27/s123",
+          "val_f1": 0.8406410256410257,
+          "ep": 12,
+          "cfg_label": "T27",
+          "feat": "ultra_engineered",
+          "seed": 123
+        },
+        {
+          "id": "T28/s999",
+          "val_f1": 0.8406216006216006,
+          "ep": 38,
+          "cfg_label": "T28",
+          "feat": "ultra_engineered",
+          "seed": 999
+        },
+        {
+          "id": "T28/s1234",
+          "val_f1": 0.8406216006216006,
+          "ep": 12,
+          "cfg_label": "T28",
+          "feat": "ultra_engineered",
+          "seed": 1234
+        }
+      ]
+    }
+  ],
+  "f1_by_seed": [
+    0.7486489479512736,
+    0.7569960516314456,
+    0.7747180923651511
+  ],
+  "max_f1": 0.7747180923651511,
+  "median_f1": 0.7569960516314456,
+  "mean_f1": 0.76012103064929,
+  "std_f1": 0.010869657860741734,
+  "v18_best_f1": 0.7938,
+  "v22_best_f1": 0.8104,
+  "paper_f1": 0.94,
+  "beat_v18_max": false,
+  "beat_v22_max": false
+}

@@ -1,0 +1,124 @@
+{
+  "dataset": "xapi",
+  "n_members": 10,
+  "test_seed": 42,
+  "uniform_metrics": {
+    "accuracy": 0.7083333333333334,
+    "precision_macro": 0.7106257982120051,
+    "recall_macro": 0.7304720133667502,
+    "f1_macro": 0.7135287299221725
+  },
+  "weighted_metrics": {
+    "accuracy": 0.7083333333333334,
+    "precision_macro": 0.7106257982120051,
+    "recall_macro": 0.7304720133667502,
+    "f1_macro": 0.7135287299221725
+  },
+  "best_f1": 0.7135287299221725,
+  "paper_f1": 0.8447,
+  "member_details": [
+    {
+      "id": "behavior8/R1/F1",
+      "feat": "behavior8",
+      "repeat": 1,
+      "fold": 1,
+      "seed": 66,
+      "val_f1": 0.7849781504963499,
+      "ep": 11
+    },
+    {
+      "id": "behavior8/R1/F2",
+      "feat": "behavior8",
+      "repeat": 1,
+      "fold": 2,
+      "seed": 83,
+      "val_f1": 0.7371199249584085,
+      "ep": 14
+    },
+    {
+      "id": "behavior8/R1/F3",
+      "feat": "behavior8",
+      "repeat": 1,
+      "fold": 3,
+      "seed": 100,
+      "val_f1": 0.7120464121059714,
+      "ep": 43
+    },
+    {
+      "id": "behavior8/R1/F4",
+      "feat": "behavior8",
+      "repeat": 1,
+      "fold": 4,
+      "seed": 117,
+      "val_f1": 0.8039682539682539,
+      "ep": 25
+    },
+    {
+      "id": "behavior8/R1/F5",
+      "feat": "behavior8",
+      "repeat": 1,
+      "fold": 5,
+      "seed": 134,
+      "val_f1": 0.7887024312896406,
+      "ep": 15
+    },
+    {
+      "id": "full/R1/F1",
+      "feat": "full",
+      "repeat": 1,
+      "fold": 1,
+      "seed": 120,
+      "val_f1": 0.784688995215311,
+      "ep": 17
+    },
+    {
+      "id": "full/R1/F2",
+      "feat": "full",
+      "repeat": 1,
+      "fold": 2,
+      "seed": 137,
+      "val_f1": 0.7497435897435899,
+      "ep": 55
+    },
+    {
+      "id": "full/R1/F3",
+      "feat": "full",
+      "repeat": 1,
+      "fold": 3,
+      "seed": 154,
+      "val_f1": 0.7499145777032273,
+      "ep": 42
+    },
+    {
+      "id": "full/R1/F4",
+      "feat": "full",
+      "repeat": 1,
+      "fold": 4,
+      "seed": 171,
+      "val_f1": 0.7453416149068323,
+      "ep": 25
+    },
+    {
+      "id": "full/R1/F5",
+      "feat": "full",
+      "repeat": 1,
+      "fold": 5,
+      "seed": 188,
+      "val_f1": 0.8098679098679099,
+      "ep": 40
+    }
+  ],
+  "member_val_f1s": [
+    0.7849781504963499,
+    0.7371199249584085,
+    0.7120464121059714,
+    0.8039682539682539,
+    0.7887024312896406,
+    0.784688995215311,
+    0.7497435897435899,
+    0.7499145777032273,
+    0.7453416149068323,
+    0.8098679098679099
+  ],
+  "target_achieved": false
+}

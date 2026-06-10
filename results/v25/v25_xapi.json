@@ -1,0 +1,236 @@
+{
+  "dataset": "xapi",
+  "n_members_trained": 80,
+  "best_k": 1,
+  "best_metrics": {
+    "accuracy": 0.7777777777777778,
+    "precision_macro": 0.7765323565323565,
+    "recall_macro": 0.8060515873015873,
+    "f1_macro": 0.7832263521918694
+  },
+  "best_f1": 0.7832263521918694,
+  "paper_f1": 0.8447,
+  "v18_best_f1": 0.7841,
+  "beat_v18": false,
+  "beat_paper": false,
+  "results_by_k": {
+    "1": {
+      "accuracy": 0.7777777777777778,
+      "precision_macro": 0.7765323565323565,
+      "recall_macro": 0.8060515873015873,
+      "f1_macro": 0.7832263521918694
+    },
+    "3": {
+      "accuracy": 0.7638888888888888,
+      "precision_macro": 0.7672771672771672,
+      "recall_macro": 0.7939640768588138,
+      "f1_macro": 0.7704260651629072
+    },
+    "5": {
+      "accuracy": 0.7222222222222222,
+      "precision_macro": 0.7341680411855851,
+      "recall_macro": 0.7501305346700083,
+      "f1_macro": 0.7314342828585708
+    },
+    "7": {
+      "accuracy": 0.7638888888888888,
+      "precision_macro": 0.7707302444144549,
+      "recall_macro": 0.7885077276524645,
+      "f1_macro": 0.7706214689265538
+    },
+    "10": {
+      "accuracy": 0.6944444444444444,
+      "precision_macro": 0.7051587301587302,
+      "recall_macro": 0.7292972013366751,
+      "f1_macro": 0.7036783057800182
+    },
+    "15": {
+      "accuracy": 0.75,
+      "precision_macro": 0.7615079365079365,
+      "recall_macro": 0.783547410192147,
+      "f1_macro": 0.7579323893542886
+    }
+  },
+  "top_members": [
+    {
+      "id": "full/smote/secnn_bilstm/seed123",
+      "val_f1": 0.7761514441842311,
+      "ep": 19,
+      "cfg_feat": "full",
+      "cfg_samp": "smote",
+      "cfg_model": "secnn_bilstm",
+      "cfg_seed": 123
+    },
+    {
+      "id": "full/smote/deep_res_mlp/seed2048",
+      "val_f1": 0.7722222222222221,
+      "ep": 41,
+      "cfg_feat": "full",
+      "cfg_samp": "smote",
+      "cfg_model": "deep_res_mlp",
+      "cfg_seed": 2048
+    },
+    {
+      "id": "full/adasyn/deep_res_mlp/seed2024",
+      "val_f1": 0.7702027327852713,
+      "ep": 50,
+      "cfg_feat": "full",
+      "cfg_samp": "adasyn",
+      "cfg_model": "deep_res_mlp",
+      "cfg_seed": 2024
+    },
+    {
+      "id": "full/adasyn/deep_res_mlp/seed777",
+      "val_f1": 0.7684719043986777,
+      "ep": 21,
+      "cfg_feat": "full",
+      "cfg_samp": "adasyn",
+      "cfg_model": "deep_res_mlp",
+      "cfg_seed": 777
+    },
+    {
+      "id": "full/smote/deep_res_mlp/seed42",
+      "val_f1": 0.759517842224609,
+      "ep": 53,
+      "cfg_feat": "full",
+      "cfg_samp": "smote",
+      "cfg_model": "deep_res_mlp",
+      "cfg_seed": 42
+    },
+    {
+      "id": "full/smote/deep_res_mlp/seed777",
+      "val_f1": 0.7591408591408592,
+      "ep": 18,
+      "cfg_feat": "full",
+      "cfg_samp": "smote",
+      "cfg_model": "deep_res_mlp",
+      "cfg_seed": 777
+    },
+    {
+      "id": "full/adasyn/secnn_bilstm/seed123",
+      "val_f1": 0.7573607932875667,
+      "ep": 29,
+      "cfg_feat": "full",
+      "cfg_samp": "adasyn",
+      "cfg_model": "secnn_bilstm",
+      "cfg_seed": 123
+    },
+    {
+      "id": "full/adasyn/deep_res_mlp/seed42",
+      "val_f1": 0.7571406371406372,
+      "ep": 39,
+      "cfg_feat": "full",
+      "cfg_samp": "adasyn",
+      "cfg_model": "deep_res_mlp",
+      "cfg_seed": 42
+    },
+    {
+      "id": "full/class_weight/deep_res_mlp/seed512",
+      "val_f1": 0.7566694514062936,
+      "ep": 24,
+      "cfg_feat": "full",
+      "cfg_samp": "class_weight",
+      "cfg_model": "deep_res_mlp",
+      "cfg_seed": 512
+    },
+    {
+      "id": "full/adasyn/deep_res_mlp/seed1234",
+      "val_f1": 0.7563656743984613,
+      "ep": 23,
+      "cfg_feat": "full",
+      "cfg_samp": "adasyn",
+      "cfg_model": "deep_res_mlp",
+      "cfg_seed": 1234
+    },
+    {
+      "id": "behavior8/smote/deep_res_mlp/seed512",
+      "val_f1": 0.7503528937285743,
+      "ep": 23,
+      "cfg_feat": "behavior8",
+      "cfg_samp": "smote",
+      "cfg_model": "deep_res_mlp",
+      "cfg_seed": 512
+    },
+    {
+      "id": "behavior8/smote/deep_res_mlp/seed7",
+      "val_f1": 0.749223780109161,
+      "ep": 50,
+      "cfg_feat": "behavior8",
+      "cfg_samp": "smote",
+      "cfg_model": "deep_res_mlp",
+      "cfg_seed": 7
+    },
+    {
+      "id": "behavior8/smote/deep_res_mlp/seed42",
+      "val_f1": 0.7485719762315507,
+      "ep": 11,
+      "cfg_feat": "behavior8",
+      "cfg_samp": "smote",
+      "cfg_model": "deep_res_mlp",
+      "cfg_seed": 42
+    },
+    {
+      "id": "behavior8/none/secnn_bilstm/seed999",
+      "val_f1": 0.7480812837955696,
+      "ep": 18,
+      "cfg_feat": "behavior8",
+      "cfg_samp": "none",
+      "cfg_model": "secnn_bilstm",
+      "cfg_seed": 999
+    },
+    {
+      "id": "full/smote/deep_res_mlp/seed123",
+      "val_f1": 0.7478431372549018,
+      "ep": 37,
+      "cfg_feat": "full",
+      "cfg_samp": "smote",
+      "cfg_model": "deep_res_mlp",
+      "cfg_seed": 123
+    },
+    {
+      "id": "behavior8/none/secnn_bilstm/seed314",
+      "val_f1": 0.7474337026794841,
+      "ep": 7,
+      "cfg_feat": "behavior8",
+      "cfg_samp": "none",
+      "cfg_model": "secnn_bilstm",
+      "cfg_seed": 314
+    },
+    {
+      "id": "behavior8/smote/deep_res_mlp/seed777",
+      "val_f1": 0.7474337026794841,
+      "ep": 20,
+      "cfg_feat": "behavior8",
+      "cfg_samp": "smote",
+      "cfg_model": "deep_res_mlp",
+      "cfg_seed": 777
+    },
+    {
+      "id": "full/none/secnn_bilstm/seed31",
+      "val_f1": 0.7461552785857846,
+      "ep": 50,
+      "cfg_feat": "full",
+      "cfg_samp": "none",
+      "cfg_model": "secnn_bilstm",
+      "cfg_seed": 31
+    },
+    {
+      "id": "full/adasyn/deep_res_mlp/seed256",
+      "val_f1": 0.7456349206349207,
+      "ep": 12,
+      "cfg_feat": "full",
+      "cfg_samp": "adasyn",
+      "cfg_model": "deep_res_mlp",
+      "cfg_seed": 256
+    },
+    {
+      "id": "paper/smote/deep_res_mlp/seed777",
+      "val_f1": 0.7428436911487758,
+      "ep": 16,
+      "cfg_feat": "paper",
+      "cfg_samp": "smote",
+      "cfg_model": "deep_res_mlp",
+      "cfg_seed": 777
+    }
+  ]
+}

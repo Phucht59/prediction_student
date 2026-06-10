@@ -12,6 +12,7 @@ from src.paper_replication.pipeline import (
     add_targets,
     prepare_dataset,
 )
+from src.paper_replication.v18_strict_validation import prepare_strict_split, strict_student_cases
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -47,3 +48,20 @@ def test_postgres_schema_contains_paper_tables():
     schema = (PROJECT_ROOT / "database" / "schema.sql").read_text(encoding="utf-8").lower()
     for table_name in ("student_grades", "paper_runs", "paper_predictions"):
         assert f"create table if not exists {table_name}" in schema
+
+
+def test_strict_split_uses_disjoint_train_validation_test_sets():
+    raw = pd.read_csv(PROJECT_ROOT / "data" / "raw" / "student-mat.csv", sep=";")
+    split = prepare_strict_split("student-mat", raw, strict_student_cases()[0], seed=42)
+
+    train = set(split.train_indices.tolist())
+    val = set(split.val_indices.tolist())
+    test = set(split.test_indices.tolist())
+
+    assert train.isdisjoint(val)
+    assert train.isdisjoint(test)
+    assert val.isdisjoint(test)
+    assert len(train) + len(val) + len(test) == len(raw)
+    assert abs(len(train) / len(raw) - 0.70) < 0.02
+    assert abs(len(val) / len(raw) - 0.15) < 0.02
+    assert abs(len(test) / len(raw) - 0.15) < 0.02

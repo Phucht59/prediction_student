@@ -1,0 +1,236 @@
+{
+  "dataset": "student-mat",
+  "n_members_trained": 200,
+  "best_k": 1,
+  "best_metrics": {
+    "accuracy": 0.7166666666666667,
+    "precision_macro": 0.7316239316239317,
+    "recall_macro": 0.6594444444444445,
+    "f1_macro": 0.6720891586726961
+  },
+  "best_f1": 0.6720891586726961,
+  "paper_f1": 0.94,
+  "v18_best_f1": 0.7938,
+  "beat_v18": false,
+  "beat_paper": false,
+  "results_by_k": {
+    "1": {
+      "accuracy": 0.7166666666666667,
+      "precision_macro": 0.7316239316239317,
+      "recall_macro": 0.6594444444444445,
+      "f1_macro": 0.6720891586726961
+    },
+    "3": {
+      "accuracy": 0.7166666666666667,
+      "precision_macro": 0.7316239316239317,
+      "recall_macro": 0.6594444444444445,
+      "f1_macro": 0.6720891586726961
+    },
+    "5": {
+      "accuracy": 0.7166666666666667,
+      "precision_macro": 0.7316239316239317,
+      "recall_macro": 0.6594444444444445,
+      "f1_macro": 0.6720891586726961
+    },
+    "7": {
+      "accuracy": 0.7166666666666667,
+      "precision_macro": 0.722063492063492,
+      "recall_macro": 0.6497222222222222,
+      "f1_macro": 0.666983877212044
+    },
+    "10": {
+      "accuracy": 0.7166666666666667,
+      "precision_macro": 0.722063492063492,
+      "recall_macro": 0.6497222222222222,
+      "f1_macro": 0.666983877212044
+    },
+    "15": {
+      "accuracy": 0.7166666666666667,
+      "precision_macro": 0.7316239316239317,
+      "recall_macro": 0.6594444444444445,
+      "f1_macro": 0.6720891586726961
+    }
+  },
+  "top_members": [
+    {
+      "id": "paper_engineered/none/deep_res_mlp/seed7",
+      "val_f1": 0.8918265360370622,
+      "ep": 36,
+      "cfg_feat": "paper_engineered",
+      "cfg_samp": "none",
+      "cfg_model": "deep_res_mlp",
+      "cfg_seed": 7
+    },
+    {
+      "id": "paper_engineered/none/deep_res_mlp/seed42",
+      "val_f1": 0.8918265360370622,
+      "ep": 61,
+      "cfg_feat": "paper_engineered",
+      "cfg_samp": "none",
+      "cfg_model": "deep_res_mlp",
+      "cfg_seed": 42
+    },
+    {
+      "id": "deep_engineered/adasyn/deep_res_mlp/seed314",
+      "val_f1": 0.8852734663710272,
+      "ep": 35,
+      "cfg_feat": "deep_engineered",
+      "cfg_samp": "adasyn",
+      "cfg_model": "deep_res_mlp",
+      "cfg_seed": 314
+    },
+    {
+      "id": "ultra_engineered/none/secnn_bilstm/seed31",
+      "val_f1": 0.8748484848484848,
+      "ep": 4,
+      "cfg_feat": "ultra_engineered",
+      "cfg_samp": "none",
+      "cfg_model": "secnn_bilstm",
+      "cfg_seed": 31
+    },
+    {
+      "id": "deep_engineered/smote/secnn_bilstm/seed314",
+      "val_f1": 0.8733696411115766,
+      "ep": 7,
+      "cfg_feat": "deep_engineered",
+      "cfg_samp": "smote",
+      "cfg_model": "secnn_bilstm",
+      "cfg_seed": 314
+    },
+    {
+      "id": "deep_engineered/smote/secnn_bilstm/seed42",
+      "val_f1": 0.8733696411115766,
+      "ep": 6,
+      "cfg_feat": "deep_engineered",
+      "cfg_samp": "smote",
+      "cfg_model": "secnn_bilstm",
+      "cfg_seed": 42
+    },
+    {
+      "id": "paper_engineered/class_weight/deep_res_mlp/seed314",
+      "val_f1": 0.8694237931684128,
+      "ep": 11,
+      "cfg_feat": "paper_engineered",
+      "cfg_samp": "class_weight",
+      "cfg_model": "deep_res_mlp",
+      "cfg_seed": 314
+    },
+    {
+      "id": "paper_engineered/none/deep_res_mlp/seed512",
+      "val_f1": 0.8669780511885774,
+      "ep": 24,
+      "cfg_feat": "paper_engineered",
+      "cfg_samp": "none",
+      "cfg_model": "deep_res_mlp",
+      "cfg_seed": 512
+    },
+    {
+      "id": "deep_engineered/none/secnn_bilstm/seed2048",
+      "val_f1": 0.8615376562575083,
+      "ep": 5,
+      "cfg_feat": "deep_engineered",
+      "cfg_samp": "none",
+      "cfg_model": "secnn_bilstm",
+      "cfg_seed": 2048
+    },
+    {
+      "id": "paper/none/secnn_bilstm/seed2048",
+      "val_f1": 0.8611980267794221,
+      "ep": 8,
+      "cfg_feat": "paper",
+      "cfg_samp": "none",
+      "cfg_model": "secnn_bilstm",
+      "cfg_seed": 2048
+    },
+    {
+      "id": "deep_engineered/class_weight/deep_res_mlp/seed7",
+      "val_f1": 0.854434669273379,
+      "ep": 30,
+      "cfg_feat": "deep_engineered",
+      "cfg_samp": "class_weight",
+      "cfg_model": "deep_res_mlp",
+      "cfg_seed": 7
+    },
+    {
+      "id": "paper_engineered/none/secnn_bilstm/seed123",
+      "val_f1": 0.8540988835725678,
+      "ep": 5,
+      "cfg_feat": "paper_engineered",
+      "cfg_samp": "none",
+      "cfg_model": "secnn_bilstm",
+      "cfg_seed": 123
+    },
+    {
+      "id": "deep_engineered/none/deep_res_mlp/seed777",
+      "val_f1": 0.8536010873578931,
+      "ep": 24,
+      "cfg_feat": "deep_engineered",
+      "cfg_samp": "none",
+      "cfg_model": "deep_res_mlp",
+      "cfg_seed": 777
+    },
+    {
+      "id": "paper_engineered/none/deep_res_mlp/seed31",
+      "val_f1": 0.8527866904337491,
+      "ep": 34,
+      "cfg_feat": "paper_engineered",
+      "cfg_samp": "none",
+      "cfg_model": "deep_res_mlp",
+      "cfg_seed": 31
+    },
+    {
+      "id": "ultra_engineered/class_weight/deep_res_mlp/seed1234",
+      "val_f1": 0.8493879508745061,
+      "ep": 35,
+      "cfg_feat": "ultra_engineered",
+      "cfg_samp": "class_weight",
+      "cfg_model": "deep_res_mlp",
+      "cfg_seed": 1234
+    },
+    {
+      "id": "paper_engineered/smote/deep_res_mlp/seed42",
+      "val_f1": 0.8480343189875675,
+      "ep": 14,
+      "cfg_feat": "paper_engineered",
+      "cfg_samp": "smote",
+      "cfg_model": "deep_res_mlp",
+      "cfg_seed": 42
+    },
+    {
+      "id": "paper_engineered/smote/deep_res_mlp/seed2024",
+      "val_f1": 0.8480343189875675,
+      "ep": 9,
+      "cfg_feat": "paper_engineered",
+      "cfg_samp": "smote",
+      "cfg_model": "deep_res_mlp",
+      "cfg_seed": 2024
+    },
+    {
+      "id": "paper_engineered/adasyn/secnn_bilstm/seed512",
+      "val_f1": 0.8480343189875675,
+      "ep": 35,
+      "cfg_feat": "paper_engineered",
+      "cfg_samp": "adasyn",
+      "cfg_model": "secnn_bilstm",
+      "cfg_seed": 512
+    },
+    {
+      "id": "paper_engineered/adasyn/deep_res_mlp/seed123",
+      "val_f1": 0.8480343189875675,
+      "ep": 17,
+      "cfg_feat": "paper_engineered",
+      "cfg_samp": "adasyn",
+      "cfg_model": "deep_res_mlp",
+      "cfg_seed": 123
+    },
+    {
+      "id": "paper_engineered/class_weight/deep_res_mlp/seed31",
+      "val_f1": 0.8480343189875675,
+      "ep": 34,
+      "cfg_feat": "paper_engineered",
+      "cfg_samp": "class_weight",
+      "cfg_model": "deep_res_mlp",
+      "cfg_seed": 31
+    }
+  ]
+}

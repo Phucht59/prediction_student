@@ -1,0 +1,1812 @@
+{
+  "config": {
+    "seed": 42,
+    "replication_epochs": 2,
+    "tune_epochs": 2,
+    "train_epochs": 2,
+    "trials": 2,
+    "ensemble_seeds": "42,123,456,789,2024"
+  },
+  "benchmarks": {
+    "student-mat": {
+      "accuracy": 1.0,
+      "f1_macro": 0.94
+    },
+    "student-por": {
+      "accuracy": 0.9231,
+      "f1_macro": 0.9
+    },
+    "xapi": {
+      "accuracy": 0.8438,
+      "precision_macro": 0.8426,
+      "recall_macro": 0.8521,
+      "f1_macro": 0.8447
+    }
+  },
+  "stage1": {
+    "binning": {
+      "rows": [
+        {
+          "strategy": "H1_portuguese_scale",
+          "dataset": "student-mat",
+          "description": "Portuguese school grade scale",
+          "n_classes": 5,
+          "distribution_percent": [
+            32.9114,
+            26.0759,
+            15.6962,
+            15.1899,
+            10.1266
+          ],
+          "l1_to_paper_distribution": 0.012800000000002143,
+          "spearman_g2_binned_g3_binned": 0.9311555468019773,
+          "spearman_g1_binned_g3_binned": 0.8443972895326205
+        },
+        {
+          "strategy": "H1_portuguese_scale",
+          "dataset": "student-por",
+          "description": "Portuguese school grade scale",
+          "n_classes": 5,
+          "distribution_percent": [
+            15.4083,
+            30.9707,
+            23.7288,
+            17.2573,
+            12.6348
+          ],
+          "l1_to_paper_distribution": 34.993300000000005,
+          "spearman_g2_binned_g3_binned": 0.9168864277557857,
+          "spearman_g1_binned_g3_binned": 0.8482932615612205
+        },
+        {
+          "strategy": "H2_quintile",
+          "dataset": "student-mat",
+          "description": "Equal-frequency quintile cut",
+          "n_classes": 5,
+          "distribution_percent": [
+            25.8228,
+            21.2658,
+            19.7468,
+            14.6835,
+            18.481
+          ],
+          "l1_to_paper_distribution": 24.805699999999995,
+          "spearman_g2_binned_g3_binned": 0.9379415158677202,
+          "spearman_g1_binned_g3_binned": 0.8604909723533638
+        },
+        {
+          "strategy": "H2_quintile",
+          "dataset": "student-por",
+          "description": "Equal-frequency quintile cut",
+          "n_classes": 5,
+          "distribution_percent": [
+            30.3544,
+            16.0247,
+            23.7288,
+            17.2573,
+            12.6348
+          ],
+          "l1_to_paper_distribution": 25.2118,
+          "spearman_g2_binned_g3_binned": 0.90469455259625,
+          "spearman_g1_binned_g3_binned": 0.8448412205466768
+        },
+        {
+          "strategy": "H3_paper_percentile",
+          "dataset": "student-mat",
+          "description": "Custom quantiles reverse-engineered from Figure 1 distribution",
+          "n_classes": 5,
+          "distribution_percent": [
+            11.6456,
+            35.443,
+            11.8987,
+            15.6962,
+            25.3165
+          ],
+          "l1_to_paper_distribution": 50.121399999999994,
+          "spearman_g2_binned_g3_binned": 0.9213169955260819,
+          "spearman_g1_binned_g3_binned": 0.8420932929179628
+        },
+        {
+          "strategy": "H3_paper_percentile",
+          "dataset": "student-por",
+          "description": "Custom quantiles reverse-engineered from Figure 1 distribution",
+          "n_classes": 5,
+          "distribution_percent": [
+            15.4083,
+            30.9707,
+            23.7288,
+            17.2573,
+            12.6348
+          ],
+          "l1_to_paper_distribution": 34.993300000000005,
+          "spearman_g2_binned_g3_binned": 0.9159681353932947,
+          "spearman_g1_binned_g3_binned": 0.8433732259984569
+        },
+        {
+          "strategy": "H4_equal_width",
+          "dataset": "student-mat",
+          "description": "Equal-width bins",
+          "n_classes": 5,
+          "distribution_percent": [
+            9.8734,
+            15.9494,
+            41.0127,
+            27.0886,
+            6.0759
+          ],
+          "l1_to_paper_distribution": 74.43260000000001,
+          "spearman_g2_binned_g3_binned": 0.8983348819305975,
+          "spearman_g1_binned_g3_binned": 0.7935065135943468
+        },
+        {
+          "strategy": "H4_equal_width",
+          "dataset": "student-por",
+          "description": "Equal-width bins",
+          "n_classes": 5,
+          "distribution_percent": [
+            2.4653,
+            7.5501,
+            47.4576,
+            35.4391,
+            7.0878
+          ],
+          "l1_to_paper_distribution": 104.02350000000001,
+          "spearman_g2_binned_g3_binned": 0.8474249958769701,
+          "spearman_g1_binned_g3_binned": 0.7794801660869439
+        },
+        {
+          "strategy": "H5_pass_fail_3class",
+          "dataset": "student-mat",
+          "description": "3-class fail/average/excellent",
+          "n_classes": 3,
+          "distribution_percent": [
+            32.9114,
+            48.6076,
+            18.481
+          ],
+          "l1_to_paper_distribution": null,
+          "spearman_g2_binned_g3_binned": 0.8906881817439573,
+          "spearman_g1_binned_g3_binned": 0.7477555441970078
+        },
+        {
+          "strategy": "H5_pass_fail_3class",
+          "dataset": "student-por",
+          "description": "3-class fail/average/excellent",
+          "n_classes": 3,
+          "distribution_percent": [
+            15.4083,
+            64.4068,
+            20.1849
+          ],
+          "l1_to_paper_distribution": null,
+          "spearman_g2_binned_g3_binned": 0.7988343935790876,
+          "spearman_g1_binned_g3_binned": 0.7213127130458651
+        }
+      ],
+      "strategy_scores": [
+        {
+          "strategy": "H1_portuguese_scale",
+          "mean_l1_to_paper": 17.50305,
+          "mean_spearman_g2": 0.9240209872788815
+        },
+        {
+          "strategy": "H2_quintile",
+          "mean_l1_to_paper": 25.00875,
+          "mean_spearman_g2": 0.9213180342319851
+        },
+        {
+          "strategy": "H3_paper_percentile",
+          "mean_l1_to_paper": 42.55735,
+          "mean_spearman_g2": 0.9186425654596884
+        },
+        {
+          "strategy": "H4_equal_width",
+          "mean_l1_to_paper": 89.22805000000001,
+          "mean_spearman_g2": 0.8728799389037838
+        }
+      ],
+      "selected_binning": "H1_portuguese_scale"
+    },
+    "pearson": {
+      "student-mat": {
+        "dataset": "student-mat",
+        "threshold": 0.6,
+        "kept": [
+          "G2",
+          "G1"
+        ],
+        "dropped": [
+          "failures",
+          "Medu",
+          "age",
+          "Fedu",
+          "goout",
+          "absences",
+          "Walc",
+          "traveltime",
+          "Dalc",
+          "studytime",
+          "health",
+          "famrel",
+          "freetime"
+        ],
+        "correlations": {
+          "G2": 0.8743627503930844,
+          "G1": 0.8607821818773375,
+          "failures": 0.31743950973241547,
+          "Medu": 0.22531176117035923,
+          "age": 0.17949540843927375,
+          "Fedu": 0.15611103420546868,
+          "goout": 0.1482435682767512,
+          "absences": 0.13162306230861706,
+          "Walc": 0.12573659786710759,
+          "traveltime": 0.1188749740173629,
+          "Dalc": 0.11771473259698893,
+          "studytime": 0.10514352416000053,
+          "health": 0.08167988148863567,
+          "famrel": 0.053669802593708585,
+          "freetime": 0.016016524317029962
+        },
+        "g1_in_kept": true,
+        "g2_in_kept": true,
+        "selected_for_training": [
+          "G1",
+          "G2"
+        ]
+      },
+      "student-por": {
+        "dataset": "student-por",
+        "threshold": 0.6,
+        "kept": [
+          "G2",
+          "G1"
+        ],
+        "dropped": [
+          "failures",
+          "Medu",
+          "studytime",
+          "Fedu",
+          "Dalc",
+          "Walc",
+          "traveltime",
+          "absences",
+          "freetime",
+          "goout",
+          "health",
+          "famrel",
+          "age"
+        ],
+        "correlations": {
+          "G2": 0.8875634331767795,
+          "G1": 0.8538788622815576,
+          "failures": 0.37017527408657286,
+          "Medu": 0.28157627389122986,
+          "studytime": 0.25147098272532115,
+          "Fedu": 0.22099980121695556,
+          "Dalc": 0.19208914509180638,
+          "Walc": 0.17450878653806373,
+          "traveltime": 0.15620068164559417,
+          "absences": 0.14402281907645273,
+          "freetime": 0.1048532624856875,
+          "goout": 0.09417737848832183,
+          "health": 0.09282055716902336,
+          "famrel": 0.07647753268451615,
+          "age": 0.05660367920501471
+        },
+        "g1_in_kept": true,
+        "g2_in_kept": true,
+        "selected_for_training": [
+          "G1",
+          "G2"
+        ]
+      }
+    },
+    "xapi_split": {
+      "n_train": 288,
+      "n_val": 96,
+      "n_test": 96,
+      "zero_overlap": true,
+      "class_distribution_train": [
+        26.3889,
+        44.0972,
+        29.5139
+      ],
+      "class_distribution_val": [
+        26.0417,
+        43.75,
+        30.2083
+      ],
+      "class_distribution_test": [
+        27.0833,
+        43.75,
+        29.1667
+      ],
+      "overlap": {
+        "train_val": [],
+        "train_test": [],
+        "val_test": []
+      }
+    }
+  },
+  "stage2_replication": [
+    {
+      "dataset": "student-mat",
+      "stage": "replication",
+      "model": "ExactPaperCNNBiLSTM",
+      "binning": "H1_portuguese_scale",
+      "eval_mode": "best_fold",
+      "oversampling": "smote",
+      "input_layout": "feature_steps",
+      "epochs": 2,
+      "n_splits": 5,
+      "feature_columns": [
+        "G1",
+        "G2"
+      ],
+      "folds": [
+        {
+          "fold": 1,
+          "best_epoch": 1,
+          "best_val_accuracy": 0.328125,
+          "best_val_f1": 0.09882352941176471,
+          "accuracy": 0.3291139240506329,
+          "precision_macro": 0.06582278481012657,
+          "recall_macro": 0.2,
+          "f1_macro": 0.09904761904761905,
+          "effective_oversampling": "smote"
+        },
+        {
+          "fold": 2,
+          "best_epoch": 1,
+          "best_val_accuracy": 0.265625,
+          "best_val_f1": 0.08395061728395062,
+          "accuracy": 0.26582278481012656,
+          "precision_macro": 0.05316455696202531,
+          "recall_macro": 0.2,
+          "f1_macro": 0.08399999999999999,
+          "effective_oversampling": "smote"
+        },
+        {
+          "fold": 3,
+          "best_epoch": 1,
+          "best_val_accuracy": 0.15625,
+          "best_val_f1": 0.05405405405405406,
+          "accuracy": 0.1518987341772152,
+          "precision_macro": 0.03037974683544304,
+          "recall_macro": 0.2,
+          "f1_macro": 0.05274725274725275,
+          "effective_oversampling": "smote"
+        },
+        {
+          "fold": 4,
+          "best_epoch": 1,
+          "best_val_accuracy": 0.265625,
+          "best_val_f1": 0.08395061728395062,
+          "accuracy": 0.25316455696202533,
+          "precision_macro": 0.05063291139240507,
+          "recall_macro": 0.2,
+          "f1_macro": 0.0808080808080808,
+          "effective_oversampling": "smote"
+        },
+        {
+          "fold": 5,
+          "best_epoch": 1,
+          "best_val_accuracy": 0.09375,
+          "best_val_f1": 0.03428571428571429,
+          "accuracy": 0.10126582278481013,
+          "precision_macro": 0.020253164556962026,
+          "recall_macro": 0.2,
+          "f1_macro": 0.0367816091954023,
+          "effective_oversampling": "smote"
+        }
+      ],
+      "fold": 1,
+      "best_epoch": 1,
+      "best_val_accuracy": 0.328125,
+      "best_val_f1": 0.09882352941176471,
+      "accuracy": 0.3291139240506329,
+      "precision_macro": 0.06582278481012657,
+      "recall_macro": 0.2,
+      "f1_macro": 0.09904761904761905,
+      "effective_oversampling": "smote"
+    },
+    {
+      "dataset": "student-por",
+      "stage": "replication",
+      "model": "ExactPaperCNNBiLSTM",
+      "binning": "H1_portuguese_scale",
+      "eval_mode": "best_fold",
+      "oversampling": "smote",
+      "input_layout": "feature_steps",
+      "epochs": 2,
+      "n_splits": 5,
+      "feature_columns": [
+        "G1",
+        "G2"
+      ],
+      "folds": [
+        {
+          "fold": 1,
+          "best_epoch": 2,
+          "best_val_accuracy": 0.17307692307692307,
+          "best_val_f1": 0.05901639344262295,
+          "accuracy": 0.17692307692307693,
+          "precision_macro": 0.03538461538461539,
+          "recall_macro": 0.2,
+          "f1_macro": 0.06013071895424836,
+          "effective_oversampling": "smote"
+        },
+        {
+          "fold": 2,
+          "best_epoch": 2,
+          "best_val_accuracy": 0.4230769230769231,
+          "best_val_f1": 0.2276190476190476,
+          "accuracy": 0.3923076923076923,
+          "precision_macro": 0.15795454545454546,
+          "recall_macro": 0.3675,
+          "f1_macro": 0.21163227016885555,
+          "effective_oversampling": "smote"
+        },
+        {
+          "fold": 3,
+          "best_epoch": 2,
+          "best_val_accuracy": 0.18269230769230768,
+          "best_val_f1": 0.08701754385964913,
+          "accuracy": 0.16923076923076924,
+          "precision_macro": 0.048888888888888885,
+          "recall_macro": 0.2,
+          "f1_macro": 0.07857142857142857,
+          "effective_oversampling": "smote"
+        },
+        {
+          "fold": 4,
+          "best_epoch": 2,
+          "best_val_accuracy": 0.3942307692307692,
+          "best_val_f1": 0.2168291802094619,
+          "accuracy": 0.34615384615384615,
+          "precision_macro": 0.15128205128205127,
+          "recall_macro": 0.33999999999999997,
+          "f1_macro": 0.19331807780320368,
+          "effective_oversampling": "smote"
+        },
+        {
+          "fold": 5,
+          "best_epoch": 2,
+          "best_val_accuracy": 0.3173076923076923,
+          "best_val_f1": 0.23502558048012592,
+          "accuracy": 0.3178294573643411,
+          "precision_macro": 0.23436055469953776,
+          "recall_macro": 0.325,
+          "f1_macro": 0.23136962465821526,
+          "effective_oversampling": "smote"
+        }
+      ],
+      "fold": 2,
+      "best_epoch": 2,
+      "best_val_accuracy": 0.4230769230769231,
+      "best_val_f1": 0.2276190476190476,
+      "accuracy": 0.3923076923076923,
+      "precision_macro": 0.15795454545454546,
+      "recall_macro": 0.3675,
+      "f1_macro": 0.21163227016885555,
+      "effective_oversampling": "smote"
+    },
+    {
+      "dataset": "student-mat",
+      "stage": "replication",
+      "model": "ExactPaperCNNBiLSTM",
+      "binning": "H1_portuguese_scale",
+      "eval_mode": "best_fold",
+      "oversampling": "none",
+      "input_layout": "feature_steps",
+      "epochs": 2,
+      "n_splits": 5,
+      "feature_columns": [
+        "G1",
+        "G2"
+      ],
+      "folds": [
+        {
+          "fold": 1,
+          "best_epoch": 1,
+          "best_val_accuracy": 0.328125,
+          "best_val_f1": 0.09882352941176471,
+          "accuracy": 0.3291139240506329,
+          "precision_macro": 0.06582278481012657,
+          "recall_macro": 0.2,
+          "f1_macro": 0.09904761904761905,
+          "effective_oversampling": "none"
+        },
+        {
+          "fold": 2,
+          "best_epoch": 1,
+          "best_val_accuracy": 0.265625,
+          "best_val_f1": 0.08395061728395062,
+          "accuracy": 0.26582278481012656,
+          "precision_macro": 0.05316455696202531,
+          "recall_macro": 0.2,
+          "f1_macro": 0.08399999999999999,
+          "effective_oversampling": "none"
+        },
+        {
+          "fold": 3,
+          "best_epoch": 1,
+          "best_val_accuracy": 0.15625,
+          "best_val_f1": 0.05405405405405406,
+          "accuracy": 0.1518987341772152,
+          "precision_macro": 0.03037974683544304,
+          "recall_macro": 0.2,
+          "f1_macro": 0.05274725274725275,
+          "effective_oversampling": "none"
+        },
+        {
+          "fold": 4,
+          "best_epoch": 1,
+          "best_val_accuracy": 0.265625,
+          "best_val_f1": 0.08395061728395062,
+          "accuracy": 0.25316455696202533,
+          "precision_macro": 0.05063291139240507,
+          "recall_macro": 0.2,
+          "f1_macro": 0.0808080808080808,
+          "effective_oversampling": "none"
+        },
+        {
+          "fold": 5,
+          "best_epoch": 2,
+          "best_val_accuracy": 0.328125,
+          "best_val_f1": 0.09882352941176471,
+          "accuracy": 0.3291139240506329,
+          "precision_macro": 0.06582278481012657,
+          "recall_macro": 0.2,
+          "f1_macro": 0.09904761904761905,
+          "effective_oversampling": "none"
+        }
+      ],
+      "fold": 1,
+      "best_epoch": 1,
+      "best_val_accuracy": 0.328125,
+      "best_val_f1": 0.09882352941176471,
+      "accuracy": 0.3291139240506329,
+      "precision_macro": 0.06582278481012657,
+      "recall_macro": 0.2,
+      "f1_macro": 0.09904761904761905,
+      "effective_oversampling": "none"
+    },
+    {
+      "dataset": "student-por",
+      "stage": "replication",
+      "model": "ExactPaperCNNBiLSTM",
+      "binning": "H1_portuguese_scale",
+      "eval_mode": "best_fold",
+      "oversampling": "none",
+      "input_layout": "feature_steps",
+      "epochs": 2,
+      "n_splits": 5,
+      "feature_columns": [
+        "G1",
+        "G2"
+      ],
+      "folds": [
+        {
+          "fold": 1,
+          "best_epoch": 2,
+          "best_val_accuracy": 0.2403846153846154,
+          "best_val_f1": 0.07751937984496124,
+          "accuracy": 0.23076923076923078,
+          "precision_macro": 0.046153846153846156,
+          "recall_macro": 0.2,
+          "f1_macro": 0.075,
+          "effective_oversampling": "none"
+        },
+        {
+          "fold": 2,
+          "best_epoch": 1,
+          "best_val_accuracy": 0.3076923076923077,
+          "best_val_f1": 0.09411764705882353,
+          "accuracy": 0.3076923076923077,
+          "precision_macro": 0.06153846153846154,
+          "recall_macro": 0.2,
+          "f1_macro": 0.09411764705882353,
+          "effective_oversampling": "none"
+        },
+        {
+          "fold": 3,
+          "best_epoch": 2,
+          "best_val_accuracy": 0.3076923076923077,
+          "best_val_f1": 0.09411764705882353,
+          "accuracy": 0.3076923076923077,
+          "precision_macro": 0.06153846153846154,
+          "recall_macro": 0.2,
+          "f1_macro": 0.09411764705882353,
+          "effective_oversampling": "none"
+        },
+        {
+          "fold": 4,
+          "best_epoch": 1,
+          "best_val_accuracy": 0.3076923076923077,
+          "best_val_f1": 0.09411764705882353,
+          "accuracy": 0.3076923076923077,
+          "precision_macro": 0.06153846153846154,
+          "recall_macro": 0.2,
+          "f1_macro": 0.09411764705882353,
+          "effective_oversampling": "none"
+        },
+        {
+          "fold": 5,
+          "best_epoch": 2,
+          "best_val_accuracy": 0.3076923076923077,
+          "best_val_f1": 0.09411764705882353,
+          "accuracy": 0.31007751937984496,
+          "precision_macro": 0.06201550387596899,
+          "recall_macro": 0.2,
+          "f1_macro": 0.09467455621301775,
+          "effective_oversampling": "none"
+        }
+      ],
+      "fold": 2,
+      "best_epoch": 1,
+      "best_val_accuracy": 0.3076923076923077,
+      "best_val_f1": 0.09411764705882353,
+      "accuracy": 0.3076923076923077,
+      "precision_macro": 0.06153846153846154,
+      "recall_macro": 0.2,
+      "f1_macro": 0.09411764705882353,
+      "effective_oversampling": "none"
+    },
+    {
+      "dataset": "student-mat",
+      "stage": "replication",
+      "model": "ExactPaperCNNBiLSTM",
+      "binning": "H1_portuguese_scale",
+      "eval_mode": "avg_fold",
+      "oversampling": "smote",
+      "input_layout": "feature_steps",
+      "epochs": 2,
+      "n_splits": 5,
+      "feature_columns": [
+        "G1",
+        "G2"
+      ],
+      "folds": [
+        {
+          "fold": 1,
+          "best_epoch": 1,
+          "best_val_accuracy": 0.328125,
+          "best_val_f1": 0.09882352941176471,
+          "accuracy": 0.3291139240506329,
+          "precision_macro": 0.06582278481012657,
+          "recall_macro": 0.2,
+          "f1_macro": 0.09904761904761905,
+          "effective_oversampling": "smote"
+        },
+        {
+          "fold": 2,
+          "best_epoch": 1,
+          "best_val_accuracy": 0.265625,
+          "best_val_f1": 0.08395061728395062,
+          "accuracy": 0.26582278481012656,
+          "precision_macro": 0.05316455696202531,
+          "recall_macro": 0.2,
+          "f1_macro": 0.08399999999999999,
+          "effective_oversampling": "smote"
+        },
+        {
+          "fold": 3,
+          "best_epoch": 1,
+          "best_val_accuracy": 0.15625,
+          "best_val_f1": 0.05405405405405406,
+          "accuracy": 0.1518987341772152,
+          "precision_macro": 0.03037974683544304,
+          "recall_macro": 0.2,
+          "f1_macro": 0.05274725274725275,
+          "effective_oversampling": "smote"
+        },
+        {
+          "fold": 4,
+          "best_epoch": 1,
+          "best_val_accuracy": 0.265625,
+          "best_val_f1": 0.08395061728395062,
+          "accuracy": 0.25316455696202533,
+          "precision_macro": 0.05063291139240507,
+          "recall_macro": 0.2,
+          "f1_macro": 0.0808080808080808,
+          "effective_oversampling": "smote"
+        },
+        {
+          "fold": 5,
+          "best_epoch": 1,
+          "best_val_accuracy": 0.09375,
+          "best_val_f1": 0.03428571428571429,
+          "accuracy": 0.10126582278481013,
+          "precision_macro": 0.020253164556962026,
+          "recall_macro": 0.2,
+          "f1_macro": 0.0367816091954023,
+          "effective_oversampling": "smote"
+        }
+      ],
+      "accuracy": 0.22025316455696203,
+      "precision_macro": 0.044050632911392405,
+      "recall_macro": 0.2,
+      "f1_macro": 0.07067691235967097,
+      "best_val_accuracy": 0.221875,
+      "best_val_f1": 0.07101290646388686,
+      "accuracy_std": 0.08226874333808566,
+      "precision_macro_std": 0.016453748667617132,
+      "recall_macro_std": 0.0,
+      "f1_macro_std": 0.022607107319559432,
+      "best_val_accuracy_std": 0.08466385740090042,
+      "best_val_f1_std": 0.02342942078510321,
+      "best_epoch": 1.0
+    },
+    {
+      "dataset": "student-por",
+      "stage": "replication",
+      "model": "ExactPaperCNNBiLSTM",
+      "binning": "H1_portuguese_scale",
+      "eval_mode": "avg_fold",
+      "oversampling": "smote",
+      "input_layout": "feature_steps",
+      "epochs": 2,
+      "n_splits": 5,
+      "feature_columns": [
+        "G1",
+        "G2"
+      ],
+      "folds": [
+        {
+          "fold": 1,
+          "best_epoch": 2,
+          "best_val_accuracy": 0.17307692307692307,
+          "best_val_f1": 0.05901639344262295,
+          "accuracy": 0.17692307692307693,
+          "precision_macro": 0.03538461538461539,
+          "recall_macro": 0.2,
+          "f1_macro": 0.06013071895424836,
+          "effective_oversampling": "smote"
+        },
+        {
+          "fold": 2,
+          "best_epoch": 2,
+          "best_val_accuracy": 0.4230769230769231,
+          "best_val_f1": 0.2276190476190476,
+          "accuracy": 0.3923076923076923,
+          "precision_macro": 0.15795454545454546,
+          "recall_macro": 0.3675,
+          "f1_macro": 0.21163227016885555,
+          "effective_oversampling": "smote"
+        },
+        {
+          "fold": 3,
+          "best_epoch": 2,
+          "best_val_accuracy": 0.18269230769230768,
+          "best_val_f1": 0.08701754385964913,
+          "accuracy": 0.16923076923076924,
+          "precision_macro": 0.048888888888888885,
+          "recall_macro": 0.2,
+          "f1_macro": 0.07857142857142857,
+          "effective_oversampling": "smote"
+        },
+        {
+          "fold": 4,
+          "best_epoch": 2,
+          "best_val_accuracy": 0.3942307692307692,
+          "best_val_f1": 0.2168291802094619,
+          "accuracy": 0.34615384615384615,
+          "precision_macro": 0.15128205128205127,
+          "recall_macro": 0.33999999999999997,
+          "f1_macro": 0.19331807780320368,
+          "effective_oversampling": "smote"
+        },
+        {
+          "fold": 5,
+          "best_epoch": 2,
+          "best_val_accuracy": 0.3173076923076923,
+          "best_val_f1": 0.23502558048012592,
+          "accuracy": 0.3178294573643411,
+          "precision_macro": 0.23436055469953776,
+          "recall_macro": 0.325,
+          "f1_macro": 0.23136962465821526,
+          "effective_oversampling": "smote"
+        }
+      ],
+      "accuracy": 0.28048896839594517,
+      "precision_macro": 0.12557413114192775,
+      "recall_macro": 0.2865,
+      "f1_macro": 0.1550044240311903,
+      "best_val_accuracy": 0.2980769230769231,
+      "best_val_f1": 0.1651015491221815,
+      "accuracy_std": 0.09089983065183167,
+      "precision_macro_std": 0.07424102568174717,
+      "recall_macro_std": 0.07193052203341777,
+      "f1_macro_std": 0.07120297128678985,
+      "best_val_accuracy_std": 0.10409514309787968,
+      "best_val_f1_std": 0.0759272384996973,
+      "best_epoch": 2.0
+    },
+    {
+      "dataset": "student-mat",
+      "stage": "replication",
+      "model": "ExactPaperCNNBiLSTM",
+      "binning": "H1_portuguese_scale",
+      "eval_mode": "holdout",
+      "oversampling": "smote",
+      "input_layout": "feature_steps",
+      "epochs": 2,
+      "best_epoch": 1,
+      "best_val_f1": 0.08399999999999999,
+      "best_val_accuracy": 0.26582278481012656,
+      "feature_columns": [
+        "G1",
+        "G2"
+      ],
+      "accuracy": 0.26582278481012656,
+      "precision_macro": 0.05316455696202531,
+      "recall_macro": 0.2,
+      "f1_macro": 0.08399999999999999,
+      "effective_oversampling": "smote"
+    },
+    {
+      "dataset": "student-por",
+      "stage": "replication",
+      "model": "ExactPaperCNNBiLSTM",
+      "binning": "H1_portuguese_scale",
+      "eval_mode": "holdout",
+      "oversampling": "smote",
+      "input_layout": "feature_steps",
+      "epochs": 2,
+      "best_epoch": 1,
+      "best_val_f1": 0.09411764705882353,
+      "best_val_accuracy": 0.3076923076923077,
+      "feature_columns": [
+        "G1",
+        "G2"
+      ],
+      "accuracy": 0.3076923076923077,
+      "precision_macro": 0.06153846153846154,
+      "recall_macro": 0.2,
+      "f1_macro": 0.09411764705882353,
+      "effective_oversampling": "smote"
+    },
+    {
+      "dataset": "student-mat",
+      "stage": "replication",
+      "model": "ExactPaperCNNBiLSTM",
+      "binning": "H2_quintile",
+      "eval_mode": "best_fold",
+      "oversampling": "smote",
+      "input_layout": "feature_steps",
+      "epochs": 2,
+      "n_splits": 5,
+      "feature_columns": [
+        "G1",
+        "G2"
+      ],
+      "folds": [
+        {
+          "fold": 1,
+          "best_epoch": 1,
+          "best_val_accuracy": 0.25,
+          "best_val_f1": 0.08,
+          "accuracy": 0.26582278481012656,
+          "precision_macro": 0.05316455696202531,
+          "recall_macro": 0.2,
+          "f1_macro": 0.08399999999999999,
+          "effective_oversampling": "smote"
+        },
+        {
+          "fold": 2,
+          "best_epoch": 1,
+          "best_val_accuracy": 0.21875,
+          "best_val_f1": 0.07179487179487179,
+          "accuracy": 0.20253164556962025,
+          "precision_macro": 0.04050632911392405,
+          "recall_macro": 0.2,
+          "f1_macro": 0.06736842105263158,
+          "effective_oversampling": "smote"
+        },
+        {
+          "fold": 3,
+          "best_epoch": 1,
+          "best_val_accuracy": 0.140625,
+          "best_val_f1": 0.049315068493150684,
+          "accuracy": 0.1518987341772152,
+          "precision_macro": 0.03037974683544304,
+          "recall_macro": 0.2,
+          "f1_macro": 0.05274725274725275,
+          "effective_oversampling": "smote"
+        },
+        {
+          "fold": 4,
+          "best_epoch": 1,
+          "best_val_accuracy": 0.203125,
+          "best_val_f1": 0.06753246753246753,
+          "accuracy": 0.21518987341772153,
+          "precision_macro": 0.043037974683544304,
+          "recall_macro": 0.2,
+          "f1_macro": 0.07083333333333333,
+          "effective_oversampling": "smote"
+        },
+        {
+          "fold": 5,
+          "best_epoch": 1,
+          "best_val_accuracy": 0.1875,
+          "best_val_f1": 0.06315789473684211,
+          "accuracy": 0.17721518987341772,
+          "precision_macro": 0.035443037974683546,
+          "recall_macro": 0.2,
+          "f1_macro": 0.060215053763440864,
+          "effective_oversampling": "smote"
+        }
+      ],
+      "fold": 1,
+      "best_epoch": 1,
+      "best_val_accuracy": 0.25,
+      "best_val_f1": 0.08,
+      "accuracy": 0.26582278481012656,
+      "precision_macro": 0.05316455696202531,
+      "recall_macro": 0.2,
+      "f1_macro": 0.08399999999999999,
+      "effective_oversampling": "smote"
+    },
+    {
+      "dataset": "student-por",
+      "stage": "replication",
+      "model": "ExactPaperCNNBiLSTM",
+      "binning": "H2_quintile",
+      "eval_mode": "best_fold",
+      "oversampling": "smote",
+      "input_layout": "feature_steps",
+      "epochs": 2,
+      "n_splits": 5,
+      "feature_columns": [
+        "G1",
+        "G2"
+      ],
+      "folds": [
+        {
+          "fold": 1,
+          "best_epoch": 1,
+          "best_val_accuracy": 0.3076923076923077,
+          "best_val_f1": 0.09411764705882353,
+          "accuracy": 0.3,
+          "precision_macro": 0.06,
+          "recall_macro": 0.2,
+          "f1_macro": 0.09230769230769231,
+          "effective_oversampling": "smote"
+        },
+        {
+          "fold": 2,
+          "best_epoch": 2,
+          "best_val_accuracy": 0.27884615384615385,
+          "best_val_f1": 0.1765967365967366,
+          "accuracy": 0.27692307692307694,
+          "precision_macro": 0.11232541043861799,
+          "recall_macro": 0.3787114845938375,
+          "f1_macro": 0.1730612244897959,
+          "effective_oversampling": "smote"
+        },
+        {
+          "fold": 3,
+          "best_epoch": 1,
+          "best_val_accuracy": 0.17307692307692307,
+          "best_val_f1": 0.05901639344262295,
+          "accuracy": 0.16923076923076924,
+          "precision_macro": 0.033846153846153845,
+          "recall_macro": 0.2,
+          "f1_macro": 0.05789473684210526,
+          "effective_oversampling": "smote"
+        },
+        {
+          "fold": 4,
+          "best_epoch": 2,
+          "best_val_accuracy": 0.28846153846153844,
+          "best_val_f1": 0.20767543859649124,
+          "accuracy": 0.2846153846153846,
+          "precision_macro": 0.14866666666666667,
+          "recall_macro": 0.4,
+          "f1_macro": 0.20855192238591447,
+          "effective_oversampling": "smote"
+        },
+        {
+          "fold": 5,
+          "best_epoch": 2,
+          "best_val_accuracy": 0.375,
+          "best_val_f1": 0.2810960591133005,
+          "accuracy": 0.3488372093023256,
+          "precision_macro": 0.22986725663716814,
+          "recall_macro": 0.375,
+          "f1_macro": 0.2611111111111111,
+          "effective_oversampling": "smote"
+        }
+      ],
+      "fold": 5,
+      "best_epoch": 2,
+      "best_val_accuracy": 0.375,
+      "best_val_f1": 0.2810960591133005,
+      "accuracy": 0.3488372093023256,
+      "precision_macro": 0.22986725663716814,
+      "recall_macro": 0.375,
+      "f1_macro": 0.2611111111111111,
+      "effective_oversampling": "smote"
+    },
+    {
+      "dataset": "student-mat",
+      "stage": "replication",
+      "model": "ExactPaperCNNBiLSTM",
+      "binning": "H2_quintile",
+      "eval_mode": "avg_fold",
+      "oversampling": "smote",
+      "input_layout": "feature_steps",
+      "epochs": 2,
+      "n_splits": 5,
+      "feature_columns": [
+        "G1",
+        "G2"
+      ],
+      "folds": [
+        {
+          "fold": 1,
+          "best_epoch": 1,
+          "best_val_accuracy": 0.25,
+          "best_val_f1": 0.08,
+          "accuracy": 0.26582278481012656,
+          "precision_macro": 0.05316455696202531,
+          "recall_macro": 0.2,
+          "f1_macro": 0.08399999999999999,
+          "effective_oversampling": "smote"
+        },
+        {
+          "fold": 2,
+          "best_epoch": 1,
+          "best_val_accuracy": 0.21875,
+          "best_val_f1": 0.07179487179487179,
+          "accuracy": 0.20253164556962025,
+          "precision_macro": 0.04050632911392405,
+          "recall_macro": 0.2,
+          "f1_macro": 0.06736842105263158,
+          "effective_oversampling": "smote"
+        },
+        {
+          "fold": 3,
+          "best_epoch": 1,
+          "best_val_accuracy": 0.140625,
+          "best_val_f1": 0.049315068493150684,
+          "accuracy": 0.1518987341772152,
+          "precision_macro": 0.03037974683544304,
+          "recall_macro": 0.2,
+          "f1_macro": 0.05274725274725275,
+          "effective_oversampling": "smote"
+        },
+        {
+          "fold": 4,
+          "best_epoch": 1,
+          "best_val_accuracy": 0.203125,
+          "best_val_f1": 0.06753246753246753,
+          "accuracy": 0.21518987341772153,
+          "precision_macro": 0.043037974683544304,
+          "recall_macro": 0.2,
+          "f1_macro": 0.07083333333333333,
+          "effective_oversampling": "smote"
+        },
+        {
+          "fold": 5,
+          "best_epoch": 1,
+          "best_val_accuracy": 0.1875,
+          "best_val_f1": 0.06315789473684211,
+          "accuracy": 0.17721518987341772,
+          "precision_macro": 0.035443037974683546,
+          "recall_macro": 0.2,
+          "f1_macro": 0.060215053763440864,
+          "effective_oversampling": "smote"
+        }
+      ],
+      "accuracy": 0.20253164556962028,
+      "precision_macro": 0.04050632911392405,
+      "recall_macro": 0.2,
+      "f1_macro": 0.06703281217933171,
+      "best_val_accuracy": 0.2,
+      "best_val_f1": 0.06636006051146641,
+      "accuracy_std": 0.03839430604583063,
+      "precision_macro_std": 0.007678861209166124,
+      "recall_macro_std": 0.0,
+      "f1_macro_std": 0.010516663872203926,
+      "best_val_accuracy_std": 0.03617449032121945,
+      "best_val_f1_std": 0.010175905657115765,
+      "best_epoch": 1.0
+    },
+    {
+      "dataset": "student-por",
+      "stage": "replication",
+      "model": "ExactPaperCNNBiLSTM",
+      "binning": "H2_quintile",
+      "eval_mode": "avg_fold",
+      "oversampling": "smote",
+      "input_layout": "feature_steps",
+      "epochs": 2,
+      "n_splits": 5,
+      "feature_columns": [
+        "G1",
+        "G2"
+      ],
+      "folds": [
+        {
+          "fold": 1,
+          "best_epoch": 1,
+          "best_val_accuracy": 0.3076923076923077,
+          "best_val_f1": 0.09411764705882353,
+          "accuracy": 0.3,
+          "precision_macro": 0.06,
+          "recall_macro": 0.2,
+          "f1_macro": 0.09230769230769231,
+          "effective_oversampling": "smote"
+        },
+        {
+          "fold": 2,
+          "best_epoch": 2,
+          "best_val_accuracy": 0.27884615384615385,
+          "best_val_f1": 0.1765967365967366,
+          "accuracy": 0.27692307692307694,
+          "precision_macro": 0.11232541043861799,
+          "recall_macro": 0.3787114845938375,
+          "f1_macro": 0.1730612244897959,
+          "effective_oversampling": "smote"
+        },
+        {
+          "fold": 3,
+          "best_epoch": 1,
+          "best_val_accuracy": 0.17307692307692307,
+          "best_val_f1": 0.05901639344262295,
+          "accuracy": 0.16923076923076924,
+          "precision_macro": 0.033846153846153845,
+          "recall_macro": 0.2,
+          "f1_macro": 0.05789473684210526,
+          "effective_oversampling": "smote"
+        },
+        {
+          "fold": 4,
+          "best_epoch": 2,
+          "best_val_accuracy": 0.28846153846153844,
+          "best_val_f1": 0.20767543859649124,
+          "accuracy": 0.2846153846153846,
+          "precision_macro": 0.14866666666666667,
+          "recall_macro": 0.4,
+          "f1_macro": 0.20855192238591447,
+          "effective_oversampling": "smote"
+        },
+        {
+          "fold": 5,
+          "best_epoch": 2,
+          "best_val_accuracy": 0.375,
+          "best_val_f1": 0.2810960591133005,
+          "accuracy": 0.3488372093023256,
+          "precision_macro": 0.22986725663716814,
+          "recall_macro": 0.375,
+          "f1_macro": 0.2611111111111111,
+          "effective_oversampling": "smote"
+        }
+      ],
+      "accuracy": 0.27592128801431126,
+      "precision_macro": 0.11694109751772133,
+      "recall_macro": 0.3107422969187675,
+      "f1_macro": 0.15858533742732378,
+      "best_val_accuracy": 0.2846153846153846,
+      "best_val_f1": 0.16370045496159497,
+      "accuracy_std": 0.058916845881627954,
+      "precision_macro_std": 0.06917686313907412,
+      "recall_macro_std": 0.09082236849092971,
+      "f1_macro_std": 0.07449707172358455,
+      "best_val_accuracy_std": 0.06510119569157984,
+      "best_val_f1_std": 0.07960196107080295,
+      "best_epoch": 1.6
+    },
+    {
+      "dataset": "xapi",
+      "stage": "replication",
+      "model": "ExactPaperCNNBiLSTM",
+      "binning": "xapi",
+      "eval_mode": "holdout",
+      "oversampling": "adasyn",
+      "input_layout": "feature_steps",
+      "epochs": 2,
+      "best_epoch": 1,
+      "best_val_f1": 0.15466666666666667,
+      "best_val_accuracy": 0.3020833333333333,
+      "feature_columns": [
+        "raisedhands",
+        "VisITedResources",
+        "StudentAbsenceDays"
+      ],
+      "accuracy": 0.2916666666666667,
+      "precision_macro": 0.09722222222222222,
+      "recall_macro": 0.3333333333333333,
+      "f1_macro": 0.15053763440860216,
+      "effective_oversampling": "adasyn"
+    },
+    {
+      "dataset": "xapi",
+      "stage": "replication",
+      "model": "ExactPaperCNNBiLSTM",
+      "binning": "xapi",
+      "eval_mode": "holdout",
+      "oversampling": "smote",
+      "input_layout": "feature_steps",
+      "epochs": 2,
+      "best_epoch": 1,
+      "best_val_f1": 0.15466666666666667,
+      "best_val_accuracy": 0.3020833333333333,
+      "feature_columns": [
+        "raisedhands",
+        "VisITedResources",
+        "StudentAbsenceDays"
+      ],
+      "accuracy": 0.2916666666666667,
+      "precision_macro": 0.09722222222222222,
+      "recall_macro": 0.3333333333333333,
+      "f1_macro": 0.15053763440860216,
+      "effective_oversampling": "smote"
+    },
+    {
+      "dataset": "xapi",
+      "stage": "replication",
+      "model": "ExactPaperCNNBiLSTM",
+      "binning": "xapi",
+      "eval_mode": "best_fold",
+      "oversampling": "adasyn",
+      "input_layout": "feature_steps",
+      "epochs": 2,
+      "n_splits": 5,
+      "feature_columns": [
+        "raisedhands",
+        "VisITedResources",
+        "StudentAbsenceDays"
+      ],
+      "folds": [
+        {
+          "fold": 1,
+          "best_epoch": 1,
+          "best_val_accuracy": 0.2597402597402597,
+          "best_val_f1": 0.1374570446735395,
+          "accuracy": 0.2604166666666667,
+          "precision_macro": 0.08680555555555557,
+          "recall_macro": 0.3333333333333333,
+          "f1_macro": 0.13774104683195593,
+          "effective_oversampling": "adasyn"
+        },
+        {
+          "fold": 2,
+          "best_epoch": 1,
+          "best_val_accuracy": 0.44155844155844154,
+          "best_val_f1": 0.20420420420420418,
+          "accuracy": 0.4375,
+          "precision_macro": 0.14583333333333334,
+          "recall_macro": 0.3333333333333333,
+          "f1_macro": 0.2028985507246377,
+          "effective_oversampling": "adasyn"
+        },
+        {
+          "fold": 3,
+          "best_epoch": 1,
+          "best_val_accuracy": 0.44155844155844154,
+          "best_val_f1": 0.20420420420420418,
+          "accuracy": 0.4375,
+          "precision_macro": 0.14583333333333334,
+          "recall_macro": 0.3333333333333333,
+          "f1_macro": 0.2028985507246377,
+          "effective_oversampling": "adasyn"
+        },
+        {
+          "fold": 4,
+          "best_epoch": 2,
+          "best_val_accuracy": 0.5194805194805194,
+          "best_val_f1": 0.48541747322235124,
+          "accuracy": 0.5416666666666666,
+          "precision_macro": 0.5621527777777778,
+          "recall_macro": 0.6346031746031746,
+          "f1_macro": 0.4897034864776801,
+          "effective_oversampling": "adasyn"
+        },
+        {
+          "fold": 5,
+          "best_epoch": 1,
+          "best_val_accuracy": 0.2597402597402597,
+          "best_val_f1": 0.1374570446735395,
+          "accuracy": 0.2604166666666667,
+          "precision_macro": 0.08680555555555557,
+          "recall_macro": 0.3333333333333333,
+          "f1_macro": 0.13774104683195593,
+          "effective_oversampling": "adasyn"
+        }
+      ],
+      "fold": 4,
+      "best_epoch": 2,
+      "best_val_accuracy": 0.5194805194805194,
+      "best_val_f1": 0.48541747322235124,
+      "accuracy": 0.5416666666666666,
+      "precision_macro": 0.5621527777777778,
+      "recall_macro": 0.6346031746031746,
+      "f1_macro": 0.4897034864776801,
+      "effective_oversampling": "adasyn"
+    },
+    {
+      "dataset": "xapi",
+      "stage": "replication",
+      "model": "ExactPaperCNNBiLSTM",
+      "binning": "xapi",
+      "eval_mode": "holdout",
+      "oversampling": "class_weight",
+      "input_layout": "feature_steps",
+      "epochs": 2,
+      "best_epoch": 1,
+      "best_val_f1": 0.15466666666666667,
+      "best_val_accuracy": 0.3020833333333333,
+      "feature_columns": [
+        "raisedhands",
+        "VisITedResources",
+        "StudentAbsenceDays"
+      ],
+      "accuracy": 0.2916666666666667,
+      "precision_macro": 0.09722222222222222,
+      "recall_macro": 0.3333333333333333,
+      "f1_macro": 0.15053763440860216,
+      "effective_oversampling": "class_weight"
+    }
+  ],
+  "stage3_improved": [
+    {
+      "dataset": "student-mat",
+      "stage": "improved_default",
+      "model": "ImprovedCNNBiLSTM",
+      "binning": "H1_portuguese_scale",
+      "oversampling": "smote",
+      "use_attention": true,
+      "epochs": 2,
+      "best_epoch": 2,
+      "best_val_f1": 0.5815580182529334,
+      "best_val_accuracy": 0.620253164556962,
+      "accuracy": 0.569620253164557,
+      "precision_macro": 0.6045088380179658,
+      "recall_macro": 0.5393772893772893,
+      "f1_macro": 0.5004174086782782,
+      "effective_oversampling": "smote"
+    },
+    {
+      "dataset": "student-por",
+      "stage": "improved_default",
+      "model": "ImprovedCNNBiLSTM",
+      "binning": "H1_portuguese_scale",
+      "oversampling": "smote",
+      "use_attention": true,
+      "epochs": 2,
+      "best_epoch": 2,
+      "best_val_f1": 0.4161623351181925,
+      "best_val_accuracy": 0.5538461538461539,
+      "accuracy": 0.5076923076923077,
+      "precision_macro": 0.5657839721254355,
+      "recall_macro": 0.4146774193548387,
+      "f1_macro": 0.40515151515151515,
+      "effective_oversampling": "smote"
+    },
+    {
+      "dataset": "xapi",
+      "stage": "improved_default",
+      "model": "ImprovedCNNBiLSTM",
+      "binning": "xapi",
+      "oversampling": "adasyn",
+      "use_attention": false,
+      "epochs": 2,
+      "best_epoch": 1,
+      "best_val_f1": 0.5082050259936551,
+      "best_val_accuracy": 0.5520833333333334,
+      "accuracy": 0.5625,
+      "precision_macro": 0.7163742690058479,
+      "recall_macro": 0.6617826617826618,
+      "f1_macro": 0.4955283857729138,
+      "effective_oversampling": "adasyn"
+    }
+  ],
+  "stage4_optuna": {
+    "student-mat": {
+      "best_value": 0.40444444444444444,
+      "best_params": {
+        "conv_filters": 128,
+        "kernel_size": 3,
+        "num_conv_layers": 3,
+        "bilstm_hidden": 256,
+        "num_bilstm_layers": 1,
+        "dense_hidden": 256,
+        "dropout": 0.5,
+        "lr": 0.00032925293631105276,
+        "weight_decay": 1.5679933916722995e-05,
+        "batch_size": 16,
+        "label_smoothing": 0.1,
+        "use_attention": false
+      },
+      "study_path": "C:\\Huflit\\kltn\\optuna\\study_student-mat.pkl",
+      "trials": 2,
+      "tune_epochs": 2
+    },
+    "student-por": {
+      "best_value": 0.3397965959528885,
+      "best_params": {
+        "conv_filters": 128,
+        "kernel_size": 3,
+        "num_conv_layers": 3,
+        "bilstm_hidden": 256,
+        "num_bilstm_layers": 1,
+        "dense_hidden": 256,
+        "dropout": 0.5,
+        "lr": 0.00032925293631105276,
+        "weight_decay": 1.5679933916722995e-05,
+        "batch_size": 16,
+        "label_smoothing": 0.1,
+        "use_attention": false
+      },
+      "study_path": "C:\\Huflit\\kltn\\optuna\\study_student-por.pkl",
+      "trials": 2,
+      "tune_epochs": 2
+    },
+    "xapi": {
+      "best_value": 0.4444444444444444,
+      "best_params": {
+        "conv_filters": 64,
+        "kernel_size": 3,
+        "num_conv_layers": 2,
+        "bilstm_hidden": 128,
+        "num_bilstm_layers": 2,
+        "dense_hidden": 128,
+        "dropout": 0.2,
+        "lr": 0.00020366442026830908,
+        "weight_decay": 2.3270677083837777e-05,
+        "batch_size": 32,
+        "label_smoothing": 0.05,
+        "use_attention": false
+      },
+      "study_path": "C:\\Huflit\\kltn\\optuna\\study_xapi.pkl",
+      "trials": 2,
+      "tune_epochs": 2
+    }
+  },
+  "stage4_final": [
+    {
+      "dataset": "student-mat",
+      "stage": "improved_optuna",
+      "model": "ImprovedCNNBiLSTM",
+      "binning": "H1_portuguese_scale",
+      "oversampling": "smote",
+      "epochs": 2,
+      "best_epoch": 2,
+      "best_val_f1": 0.325093984962406,
+      "best_val_accuracy": 0.4810126582278481,
+      "model_path": "C:\\Huflit\\kltn\\models\\best_student-mat.pt",
+      "accuracy": 0.43037974683544306,
+      "precision_macro": 0.2950950950950951,
+      "recall_macro": 0.4073260073260073,
+      "f1_macro": 0.29048218029350104,
+      "effective_oversampling": "smote"
+    },
+    {
+      "dataset": "student-mat",
+      "stage": "ensemble",
+      "model": "ImprovedCNNBiLSTM softmax average",
+      "n_seeds": 5,
+      "seeds": [
+        42,
+        123,
+        456,
+        789,
+        2024
+      ],
+      "seed_metrics": [
+        {
+          "seed": 42,
+          "accuracy": 0.43037974683544306,
+          "precision_macro": 0.2950950950950951,
+          "recall_macro": 0.4073260073260073,
+          "f1_macro": 0.29048218029350104,
+          "effective_oversampling": "smote",
+          "best_epoch": 2
+        },
+        {
+          "seed": 123,
+          "accuracy": 0.5822784810126582,
+          "precision_macro": 0.34596949891067535,
+          "recall_macro": 0.5216117216117216,
+          "f1_macro": 0.40547829528961604,
+          "effective_oversampling": "smote",
+          "best_epoch": 2
+        },
+        {
+          "seed": 456,
+          "accuracy": 0.5569620253164557,
+          "precision_macro": 0.5311111111111111,
+          "recall_macro": 0.5285714285714285,
+          "f1_macro": 0.4513560990980346,
+          "effective_oversampling": "smote",
+          "best_epoch": 2
+        },
+        {
+          "seed": 789,
+          "accuracy": 0.5443037974683544,
+          "precision_macro": 0.3567307692307692,
+          "recall_macro": 0.5058608058608058,
+          "f1_macro": 0.3761904761904762,
+          "effective_oversampling": "smote",
+          "best_epoch": 2
+        },
+        {
+          "seed": 2024,
+          "accuracy": 0.569620253164557,
+          "precision_macro": 0.4511688311688312,
+          "recall_macro": 0.5666666666666667,
+          "f1_macro": 0.4959515846472368,
+          "effective_oversampling": "smote",
+          "best_epoch": 2
+        }
+      ],
+      "accuracy": 0.569620253164557,
+      "precision_macro": 0.411042291042291,
+      "recall_macro": 0.5261904761904762,
+      "f1_macro": 0.42841897414703584
+    },
+    {
+      "dataset": "student-por",
+      "stage": "improved_optuna",
+      "model": "ImprovedCNNBiLSTM",
+      "binning": "H1_portuguese_scale",
+      "oversampling": "smote",
+      "epochs": 2,
+      "best_epoch": 1,
+      "best_val_f1": 0.2904107428697592,
+      "best_val_accuracy": 0.33076923076923076,
+      "model_path": "C:\\Huflit\\kltn\\models\\best_student-por.pt",
+      "accuracy": 0.35384615384615387,
+      "precision_macro": 0.26048026048026046,
+      "recall_macro": 0.4690042075736326,
+      "f1_macro": 0.3033223189164431,
+      "effective_oversampling": "smote"
+    },
+    {
+      "dataset": "student-por",
+      "stage": "ensemble",
+      "model": "ImprovedCNNBiLSTM softmax average",
+      "n_seeds": 5,
+      "seeds": [
+        42,
+        123,
+        456,
+        789,
+        2024
+      ],
+      "seed_metrics": [
+        {
+          "seed": 42,
+          "accuracy": 0.35384615384615387,
+          "precision_macro": 0.26048026048026046,
+          "recall_macro": 0.4690042075736326,
+          "f1_macro": 0.3033223189164431,
+          "effective_oversampling": "smote",
+          "best_epoch": 1
+        },
+        {
+          "seed": 123,
+          "accuracy": 0.5153846153846153,
+          "precision_macro": 0.5847730496453901,
+          "recall_macro": 0.6058134642356241,
+          "f1_macro": 0.5239067135261715,
+          "effective_oversampling": "smote",
+          "best_epoch": 2
+        },
+        {
+          "seed": 456,
+          "accuracy": 0.5923076923076923,
+          "precision_macro": 0.6774603174603173,
+          "recall_macro": 0.6723071528751753,
+          "f1_macro": 0.5768774028413519,
+          "effective_oversampling": "smote",
+          "best_epoch": 2
+        },
+        {
+          "seed": 789,
+          "accuracy": 0.49230769230769234,
+          "precision_macro": 0.45406364793598836,
+          "recall_macro": 0.5661290322580645,
+          "f1_macro": 0.42836414454614824,
+          "effective_oversampling": "smote",
+          "best_epoch": 2
+        },
+        {
+          "seed": 2024,
+          "accuracy": 0.3769230769230769,
+          "precision_macro": 0.3426495726495727,
+          "recall_macro": 0.4824193548387097,
+          "f1_macro": 0.31247441502357437,
+          "effective_oversampling": "smote",
+          "best_epoch": 2
+        }
+      ],
+      "accuracy": 0.5384615384615384,
+      "precision_macro": 0.5861610929746099,
+      "recall_macro": 0.6183029453015427,
+      "f1_macro": 0.5220343470533806
+    },
+    {
+      "dataset": "xapi",
+      "stage": "improved_optuna",
+      "model": "ImprovedCNNBiLSTM",
+      "binning": "xapi",
+      "oversampling": "adasyn",
+      "epochs": 2,
+      "best_epoch": 2,
+      "best_val_f1": 0.4444444444444444,
+      "best_val_accuracy": 0.5208333333333334,
+      "model_path": "C:\\Huflit\\kltn\\models\\best_xapi.pt",
+      "accuracy": 0.5416666666666666,
+      "precision_macro": 0.3633986928104575,
+      "recall_macro": 0.641941391941392,
+      "f1_macro": 0.4630255589159698,
+      "effective_oversampling": "adasyn"
+    },
+    {
+      "dataset": "xapi",
+      "stage": "ensemble",
+      "model": "ImprovedCNNBiLSTM softmax average",
+      "n_seeds": 5,
+      "seeds": [
+        42,
+        123,
+        456,
+        789,
+        2024
+      ],
+      "seed_metrics": [
+        {
+          "seed": 42,
+          "accuracy": 0.5416666666666666,
+          "precision_macro": 0.3633986928104575,
+          "recall_macro": 0.641941391941392,
+          "f1_macro": 0.4630255589159698,
+          "effective_oversampling": "adasyn",
+          "best_epoch": 2
+        },
+        {
+          "seed": 123,
+          "accuracy": 0.2916666666666667,
+          "precision_macro": 0.09722222222222222,
+          "recall_macro": 0.3333333333333333,
+          "f1_macro": 0.15053763440860216,
+          "effective_oversampling": "adasyn",
+          "best_epoch": 1
+        },
+        {
+          "seed": 456,
+          "accuracy": 0.2708333333333333,
+          "precision_macro": 0.09027777777777778,
+          "recall_macro": 0.3333333333333333,
+          "f1_macro": 0.14207650273224043,
+          "effective_oversampling": "adasyn",
+          "best_epoch": 1
+        },
+        {
+          "seed": 789,
+          "accuracy": 0.53125,
+          "precision_macro": 0.3608277900960828,
+          "recall_macro": 0.5268620268620269,
+          "f1_macro": 0.427450376981074,
+          "effective_oversampling": "adasyn",
+          "best_epoch": 2
+        },
+        {
+          "seed": 2024,
+          "accuracy": 0.2708333333333333,
+          "precision_macro": 0.09027777777777778,
+          "recall_macro": 0.3333333333333333,
+          "f1_macro": 0.14207650273224043,
+          "effective_oversampling": "adasyn",
+          "best_epoch": 1
+        }
+      ],
+      "accuracy": 0.2708333333333333,
+      "precision_macro": 0.09027777777777778,
+      "recall_macro": 0.3333333333333333,
+      "f1_macro": 0.14207650273224043
+    }
+  ],
+  "final_table": [
+    {
+      "dataset": "student-mat",
+      "model": "Paper benchmark",
+      "accuracy": 1.0,
+      "precision_macro": null,
+      "recall_macro": null,
+      "f1_macro": 0.94
+    },
+    {
+      "dataset": "student-mat",
+      "model": "Best replication",
+      "accuracy": 0.3291139240506329,
+      "precision_macro": 0.06582278481012657,
+      "recall_macro": 0.2,
+      "f1_macro": 0.09904761904761905
+    },
+    {
+      "dataset": "student-mat",
+      "model": "improved_optuna",
+      "accuracy": 0.43037974683544306,
+      "precision_macro": 0.2950950950950951,
+      "recall_macro": 0.4073260073260073,
+      "f1_macro": 0.29048218029350104
+    },
+    {
+      "dataset": "student-mat",
+      "model": "ensemble",
+      "accuracy": 0.569620253164557,
+      "precision_macro": 0.411042291042291,
+      "recall_macro": 0.5261904761904762,
+      "f1_macro": 0.42841897414703584
+    },
+    {
+      "dataset": "student-por",
+      "model": "Paper benchmark",
+      "accuracy": 0.9231,
+      "precision_macro": null,
+      "recall_macro": null,
+      "f1_macro": 0.9
+    },
+    {
+      "dataset": "student-por",
+      "model": "Best replication",
+      "accuracy": 0.3488372093023256,
+      "precision_macro": 0.22986725663716814,
+      "recall_macro": 0.375,
+      "f1_macro": 0.2611111111111111
+    },
+    {
+      "dataset": "student-por",
+      "model": "improved_optuna",
+      "accuracy": 0.35384615384615387,
+      "precision_macro": 0.26048026048026046,
+      "recall_macro": 0.4690042075736326,
+      "f1_macro": 0.3033223189164431
+    },
+    {
+      "dataset": "student-por",
+      "model": "ensemble",
+      "accuracy": 0.5384615384615384,
+      "precision_macro": 0.5861610929746099,
+      "recall_macro": 0.6183029453015427,
+      "f1_macro": 0.5220343470533806
+    },
+    {
+      "dataset": "xapi",
+      "model": "Paper benchmark",
+      "accuracy": 0.8438,
+      "precision_macro": 0.8426,
+      "recall_macro": 0.8521,
+      "f1_macro": 0.8447
+    },
+    {
+      "dataset": "xapi",
+      "model": "Best replication",
+      "accuracy": 0.5416666666666666,
+      "precision_macro": 0.5621527777777778,
+      "recall_macro": 0.6346031746031746,
+      "f1_macro": 0.4897034864776801
+    },
+    {
+      "dataset": "xapi",
+      "model": "improved_optuna",
+      "accuracy": 0.5416666666666666,
+      "precision_macro": 0.3633986928104575,
+      "recall_macro": 0.641941391941392,
+      "f1_macro": 0.4630255589159698
+    },
+    {
+      "dataset": "xapi",
+      "model": "ensemble",
+      "accuracy": 0.2708333333333333,
+      "precision_macro": 0.09027777777777778,
+      "recall_macro": 0.3333333333333333,
+      "f1_macro": 0.14207650273224043
+    }
+  ]
+}

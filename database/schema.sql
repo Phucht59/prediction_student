@@ -52,3 +52,39 @@ CREATE TABLE IF NOT EXISTS paper_predictions (
     xapi_class VARCHAR(16),
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+CREATE TABLE IF NOT EXISTS paper_evaluation_metrics (
+    metric_id BIGSERIAL PRIMARY KEY,
+    run_id BIGINT REFERENCES paper_runs(paper_run_id) ON DELETE SET NULL,
+    dataset VARCHAR(64) NOT NULL,
+    model_name VARCHAR(128),
+    protocol_class VARCHAR(128),
+    accuracy REAL,
+    precision_macro REAL,
+    recall_macro REAL,
+    f1_macro REAL,
+    rmse REAL,
+    r2 REAL,
+    precision_recall_payload JSONB,
+    metric_payload JSONB,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS paper_learning_recommendations (
+    recommendation_id BIGSERIAL PRIMARY KEY,
+    run_id BIGINT REFERENCES paper_runs(paper_run_id) ON DELETE SET NULL,
+    dataset VARCHAR(64) NOT NULL,
+    model_name VARCHAR(128),
+    predicted_label INTEGER,
+    risk_band VARCHAR(64),
+    feature_snapshot JSONB,
+    recommended_learning_path JSONB,
+    recommendation_payload JSONB,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_students_dataset_row
+ON students(dataset_name, source_row_index);
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_student_grades_dataset_row
+ON student_grades(dataset_name, source_row_index);

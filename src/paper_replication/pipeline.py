@@ -886,6 +886,14 @@ def build_summary() -> pd.DataFrame:
 
 
 def database_url_from_env() -> str | None:
+    env_path = PROJECT_ROOT / ".env"
+    if env_path.exists():
+        try:
+            from dotenv import load_dotenv
+
+            load_dotenv(env_path)
+        except Exception:
+            pass
     direct = os.getenv("DATABASE_URL")
     if direct:
         return direct
@@ -912,6 +920,7 @@ def persist_to_postgres(run_record: dict[str, Any] | None = None) -> dict[str, A
         engine = create_engine(url)
         with engine.begin() as connection:
             connection.exec_driver_sql(schema_path.read_text(encoding="utf-8"))
+            persist_students_and_grades(connection, text)
             run_id = None
             if run_record is not None:
                 run_payload = dict(run_record)
@@ -993,6 +1002,120 @@ def persist_to_postgres(run_record: dict[str, Any] | None = None) -> dict[str, A
         return {"configured": True, "status": "failed", "message": f"{type(exc).__name__}: {exc}"}
 
 
+def json_safe_value(value: Any) -> Any:
+    value = none_if_nan(value)
+    if isinstance(value, np.generic):
+        return value.item()
+    return value
+
+
+def json_record(record: dict[str, Any]) -> dict[str, Any]:
+    return {str(key): json_safe_value(value) for key, value in record.items()}
+
+
+def float_or_none(value: Any) -> float | None:
+    value = none_if_nan(value)
+    if value is None:
+        return None
+    return float(value)
+
+
+def persist_students_and_grades(connection: Any, sql_text: Any) -> None:
+    for spec in DATASETS.values():
+        raw = add_targets(read_raw(spec), spec).reset_index(drop=True)
+        student_rows = []
+        for source_row_index, record in raw.iterrows():
+            student_rows.append(
+                {
+                    "dataset_name": spec.name,
+                    "source_row_index": int(source_row_index),
+                    "raw_profile": json.dumps(json_record(record.to_dict()), ensure_ascii=True),
+                }
+            )
+        if student_rows:
+            connection.execute(
+                sql_text(
+                    """
+                    INSERT INTO students (dataset_name, source_row_index, raw_profile)
+                    VALUES (:dataset_name, :source_row_index, CAST(:raw_profile AS JSONB))
+                    ON CONFLICT (dataset_name, source_row_index)
+                    DO UPDATE SET raw_profile = EXCLUDED.raw_profile
+                    """
+                ),
+                student_rows,
+            )
+
+        student_id_rows = connection.execute(
+            sql_text(
+                """
+                SELECT source_row_index, student_id
+                FROM students
+                WHERE dataset_name = :dataset_name
+                """
+            ),
+            {"dataset_name": spec.name},
+        )
+        student_ids = {
+            int(row._mapping["source_row_index"]): int(row._mapping["student_id"])
+            for row in student_id_rows
+        }
+        grade_rows = []
+        for source_row_index, record in raw.iterrows():
+            row = record.to_dict()
+            grade_rows.append(
+                {
+                    "student_id": student_ids.get(int(source_row_index)),
+                    "dataset_name": spec.name,
+                    "source_row_index": int(source_row_index),
+                    "G1": float_or_none(row.get("G1")),
+                    "G2": float_or_none(row.get("G2")),
+                    "G3": float_or_none(row.get("G3")),
+                    "xapi_class": none_if_nan(row.get("Class")),
+                    "target_class": int(row["target_class"]),
+                    "target_class_name": str(row["target_class_name"]),
+                    "raw_grade_payload": json.dumps(
+                        {
+                            "G1": json_safe_value(row.get("G1")),
+                            "G2": json_safe_value(row.get("G2")),
+                            "G3": json_safe_value(row.get("G3")),
+                            "Class": json_safe_value(row.get("Class")),
+                            "target_class": json_safe_value(row.get("target_class")),
+                            "target_class_name": json_safe_value(row.get("target_class_name")),
+                        },
+                        ensure_ascii=True,
+                    ),
+                }
+            )
+        if grade_rows:
+            connection.execute(
+                sql_text(
+                    """
+                    INSERT INTO student_grades (
+                        student_id, dataset_name, source_row_index,
+                        G1, G2, G3, xapi_class, target_class, target_class_name,
+                        raw_grade_payload
+                    )
+                    VALUES (
+                        :student_id, :dataset_name, :source_row_index,
+                        :G1, :G2, :G3, :xapi_class, :target_class, :target_class_name,
+                        CAST(:raw_grade_payload AS JSONB)
+                    )
+                    ON CONFLICT (dataset_name, source_row_index)
+                    DO UPDATE SET
+                        student_id = EXCLUDED.student_id,
+                        G1 = EXCLUDED.G1,
+                        G2 = EXCLUDED.G2,
+                        G3 = EXCLUDED.G3,
+                        xapi_class = EXCLUDED.xapi_class,
+                        target_class = EXCLUDED.target_class,
+                        target_class_name = EXCLUDED.target_class_name,
+                        raw_grade_payload = EXCLUDED.raw_grade_payload
+                    """
+                ),
+                grade_rows,
+            )
+
+
 def none_if_nan(value: Any) -> Any:
     try:
         if pd.isna(value):
@@ -1060,6 +1183,8 @@ def generate_report() -> Path:
         "| dataset | paper CNN-BiLSTM accuracy | other paper metrics |",
         "|---|---:|---|",
     ]
+    lines = [line for line in lines if "full sweep" not in line]
+    lines.insert(8, "- Optuna status is read from the current best-params files.")
     for spec in DATASETS.values():
         ref = spec.paper_reference
         other = []
@@ -1070,18 +1195,22 @@ def generate_report() -> Path:
     optuna_best_path = RESULTS_DIR / "paper_replication_optuna_best_params.json"
     if optuna_best_path.exists():
         optuna_payload = json.loads(optuna_best_path.read_text(encoding="utf-8"))
-        lines.extend(
-            [
-                "",
-                "## Optuna Smoke Check",
-                "",
-                f"- Dataset: {optuna_payload.get('dataset')}",
-                f"- Trials: {optuna_payload.get('trials')}",
-                f"- Epochs per trial: {optuna_payload.get('epochs_per_trial')}",
-                f"- Best validation Macro-F1: {float(optuna_payload.get('best_value', 0.0)):.4f}",
-                "- Full Optuna sweep has not been run.",
-            ]
-        )
+        optuna_rows = []
+        if "datasets" in optuna_payload:
+            iterable = optuna_payload["datasets"].items()
+        else:
+            iterable = [(optuna_payload.get("dataset"), optuna_payload)]
+        for dataset, payload in iterable:
+            optuna_rows.append(
+                {
+                    "dataset": dataset,
+                    "trials": payload.get("trials"),
+                    "epochs_per_trial": payload.get("epochs_per_trial"),
+                    "objective": payload.get("objective", "val_macro_f1"),
+                    "best_validation_score": payload.get("best_value"),
+                }
+            )
+        lines.extend(["", "## Optuna Search Results", "", markdown_table(pd.DataFrame(optuna_rows))])
     lines.extend(
         [
             "",
@@ -1092,9 +1221,44 @@ def generate_report() -> Path:
             "- Các hình training curve/confusion matrix nằm trong `reports/figures/paper_replication/`.",
         ]
     )
+    lines = normalize_report_lines(lines)
     REPORT_PATH.write_text("\n".join(lines), encoding="utf-8")
     pd.DataFrame([run_record]).to_csv(RUNS_PATH, index=False)
     return REPORT_PATH
+
+
+def normalize_report_lines(lines: list[str]) -> list[str]:
+    normalized = []
+    for line in lines:
+        if line.startswith("- Pipeline n"):
+            normalized.append("- Pipeline nay lam lai theo huong bai bao CNN-BiLSTM, khong dung ket qua V2/V3 cu.")
+        elif line.startswith("- K") and "project" in line and "PDF" not in line:
+            normalized.append("- Ket qua ben duoi la ket qua chay that tu project hien tai.")
+        elif line.startswith("- PDF kh"):
+            normalized.append(
+                "- PDF khong ghi ro split ratio, optimizer, learning rate, class bins G3; "
+                "pipeline dung stratified 64/16/20 train/val/test, Adam lr=0.001, "
+                "va G3 bins 0-4/5-8/9-12/13-16/17-20."
+            )
+        elif line.startswith("- PDF ch"):
+            normalized.append(
+                "- PDF chi ghi Pearson feature selection va ket luan Student dung G1/G2, "
+                "xAPI dung raisedhands/VisitedResources/StudentAbsenceDays; pipeline dung cac feature nay."
+            )
+        elif line.startswith("- Metric Precision"):
+            normalized.append(
+                "- Metric Precision/Recall/F1 trong project duoc tinh macro va weighted; "
+                "bang chinh hien thi macro de cong bang cho multiclass."
+            )
+        elif line.startswith("- N") and "paper" in line and "PDF" in line:
+            normalized.append("- Neu ket qua project thap hon paper, report giu nguyen so that va khong copy so tu PDF.")
+        elif line.startswith("- XGBoost"):
+            normalized.append("- XGBoost duoc chay neu package co san; neu thieu package, dong skip se nam trong CSV ket qua.")
+        elif line.startswith("- C") and "figures" in line:
+            normalized.append("- Cac hinh training curve/confusion matrix nam trong `reports/figures/paper_replication/`.")
+        else:
+            normalized.append(line)
+    return normalized
 
 
 def markdown_table(data: pd.DataFrame) -> str:

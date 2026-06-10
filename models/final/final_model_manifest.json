@@ -1,0 +1,58 @@
+{
+  "scope": "Final prediction models under Strict Validation (70/15/15 split) for three datasets.",
+  "protocol_warning": "Strict validation protocol (70/15/15 split). Validation split is used for best epoch/case selection, test split is evaluated exactly once for final metrics.",
+  "selected_models": {
+    "student-mat": {
+      "model_family": "MultiScale CNN-BiLSTM Mega Ensemble (v23)",
+      "n_members": 30,
+      "protocol": "strict_kfold_70_15_15",
+      "metrics": {
+        "accuracy": 0.7166666666666667,
+        "f1_macro": 0.6953282182438192,
+        "precision_macro": 0.7335714285714285,
+        "recall_macro": 0.6827777777777777
+      },
+      "ensemble_type": "weighted_by_val_f1"
+    },
+    "student-por": {
+      "model_family": "MultiScale CNN-BiLSTM Mega Ensemble (v23)",
+      "n_members": 30,
+      "protocol": "strict_kfold_70_15_15",
+      "metrics": {
+        "accuracy": 0.6938775510204082,
+        "f1_macro": 0.6894752654752656,
+        "precision_macro": 0.7086666666666667,
+        "recall_macro": 0.7060541674863925
+      },
+      "ensemble_type": "weighted_by_val_f1"
+    },
+    "xapi": {
+      "model_family": "MultiScale CNN-BiLSTM Mega Ensemble (v23)",
+      "n_members": 10,
+      "protocol": "strict_kfold_70_15_15",
+      "metrics": {
+        "accuracy": 0.7083333333333334,
+        "f1_macro": 0.7135287299221725,
+        "precision_macro": 0.7106257982120051,
+        "recall_macro": 0.7304720133667502
+      },
+      "ensemble_type": "weighted_by_val_f1"
+    }
+  },
+  "paper_benchmarks": {
+    "student-mat": {
+      "accuracy": 1.0,
+      "f1_macro": 0.94
+    },
+    "student-por": {
+      "accuracy": 0.9231,
+      "f1_macro": 0.9
+    },
+    "xapi": {
+      "accuracy": 0.8438,
+      "precision_macro": 0.8426,
+      "recall_macro": 0.8521,
+      "f1_macro": 0.8447
+    }
+  }
+}

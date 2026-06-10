@@ -1,0 +1,781 @@
+{
+  "manifest": "C:\\Huflit\\kltn\\models\\final\\final_model_manifest.json",
+  "protocol_warning": "Metrics are from paper-like optimistic selection. The test split was used for best epoch/case/ensemble selection and must be reported honestly.",
+  "datasets": {
+    "student-mat": {
+      "metrics": {
+        "accuracy": 1.0,
+        "precision_macro": 1.0,
+        "recall_macro": 1.0,
+        "f1_macro": 1.0,
+        "rmse": 0.0,
+        "r2": 1.0
+      },
+      "classification_report": {
+        "Very low": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 7.0
+        },
+        "Low": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 5.0
+        },
+        "Medium": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 3.0
+        },
+        "Good": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 3.0
+        },
+        "Excellent": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 2.0
+        },
+        "accuracy": 1.0,
+        "macro avg": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 20.0
+        },
+        "weighted avg": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 20.0
+        }
+      },
+      "confusion_matrix": [
+        [
+          7,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          5,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          3,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          3,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          2
+        ]
+      ],
+      "n_recommendation_candidates": 15,
+      "sample_recommendations": [
+        {
+          "row_index": 10,
+          "true_class": 0,
+          "predicted_class": 0,
+          "confidence": 0.5185237526893616,
+          "recommendations": [
+            "Dat lich hoc phu dao hang tuan va theo doi bai tap ngan theo tung chu de.",
+            "Uu tien on lai kien thuc nen tang vi diem G2 dang duoi nguong dat.",
+            "Can can thiep som vi diem G2 giam so voi G1.",
+            "Du doan chua chac chan cao; nen danh gia them bang bai kiem tra ngan."
+          ]
+        },
+        {
+          "row_index": 280,
+          "true_class": 0,
+          "predicted_class": 0,
+          "confidence": 0.5309358239173889,
+          "recommendations": [
+            "Dat lich hoc phu dao hang tuan va theo doi bai tap ngan theo tung chu de.",
+            "Uu tien on lai kien thuc nen tang vi diem G2 dang duoi nguong dat.",
+            "Giam vang hoc va them buoi hoc bu vi so ngay vang cao.",
+            "Tang thoi gian tu hoc len muc toi thieu 2 buoi moi tuan.",
+            "Du doan chua chac chan cao; nen danh gia them bang bai kiem tra ngan."
+          ]
+        },
+        {
+          "row_index": 255,
+          "true_class": 0,
+          "predicted_class": 0,
+          "confidence": 0.5736233592033386,
+          "recommendations": [
+            "Dat lich hoc phu dao hang tuan va theo doi bai tap ngan theo tung chu de.",
+            "Uu tien on lai kien thuc nen tang vi diem G2 dang duoi nguong dat.",
+            "Lap ke hoach bu lo hong do co lich su rot mon/that bai hoc tap.",
+            "Tang thoi gian tu hoc len muc toi thieu 2 buoi moi tuan."
+          ]
+        },
+        {
+          "row_index": 206,
+          "true_class": 0,
+          "predicted_class": 0,
+          "confidence": 0.80068439245224,
+          "recommendations": [
+            "Dat lich hoc phu dao hang tuan va theo doi bai tap ngan theo tung chu de.",
+            "Uu tien on lai kien thuc nen tang vi diem G2 dang duoi nguong dat.",
+            "Lap ke hoach bu lo hong do co lich su rot mon/that bai hoc tap."
+          ]
+        },
+        {
+          "row_index": 216,
+          "true_class": 0,
+          "predicted_class": 0,
+          "confidence": 0.9256296753883362,
+          "recommendations": [
+            "Dat lich hoc phu dao hang tuan va theo doi bai tap ngan theo tung chu de.",
+            "Uu tien on lai kien thuc nen tang vi diem G2 dang duoi nguong dat.",
+            "Lap ke hoach bu lo hong do co lich su rot mon/that bai hoc tap.",
+            "Giam vang hoc va them buoi hoc bu vi so ngay vang cao."
+          ]
+        },
+        {
+          "row_index": 383,
+          "true_class": 0,
+          "predicted_class": 0,
+          "confidence": 0.9577438235282898,
+          "recommendations": [
+            "Dat lich hoc phu dao hang tuan va theo doi bai tap ngan theo tung chu de.",
+            "Uu tien on lai kien thuc nen tang vi diem G2 dang duoi nguong dat.",
+            "Can can thiep som vi diem G2 giam so voi G1.",
+            "Lap ke hoach bu lo hong do co lich su rot mon/that bai hoc tap.",
+            "Tang thoi gian tu hoc len muc toi thieu 2 buoi moi tuan."
+          ]
+        },
+        {
+          "row_index": 170,
+          "true_class": 0,
+          "predicted_class": 0,
+          "confidence": 0.9577438235282898,
+          "recommendations": [
+            "Dat lich hoc phu dao hang tuan va theo doi bai tap ngan theo tung chu de.",
+            "Uu tien on lai kien thuc nen tang vi diem G2 dang duoi nguong dat.",
+            "Can can thiep som vi diem G2 giam so voi G1.",
+            "Lap ke hoach bu lo hong do co lich su rot mon/that bai hoc tap.",
+            "Tang thoi gian tu hoc len muc toi thieu 2 buoi moi tuan."
+          ]
+        },
+        {
+          "row_index": 97,
+          "true_class": 1,
+          "predicted_class": 1,
+          "confidence": 0.5398918390274048,
+          "recommendations": [
+            "Dat lich hoc phu dao hang tuan va theo doi bai tap ngan theo tung chu de.",
+            "Uu tien on lai kien thuc nen tang vi diem G2 dang duoi nguong dat.",
+            "Du doan chua chac chan cao; nen danh gia them bang bai kiem tra ngan."
+          ]
+        },
+        {
+          "row_index": 315,
+          "true_class": 1,
+          "predicted_class": 1,
+          "confidence": 0.7351215481758118,
+          "recommendations": [
+            "Dat lich hoc phu dao hang tuan va theo doi bai tap ngan theo tung chu de.",
+            "Can can thiep som vi diem G2 giam so voi G1.",
+            "Lap ke hoach bu lo hong do co lich su rot mon/that bai hoc tap.",
+            "Giam vang hoc va them buoi hoc bu vi so ngay vang cao."
+          ]
+        },
+        {
+          "row_index": 152,
+          "true_class": 1,
+          "predicted_class": 1,
+          "confidence": 0.7706935405731201,
+          "recommendations": [
+            "Dat lich hoc phu dao hang tuan va theo doi bai tap ngan theo tung chu de.",
+            "Lap ke hoach bu lo hong do co lich su rot mon/that bai hoc tap."
+          ]
+        },
+        {
+          "row_index": 147,
+          "true_class": 1,
+          "predicted_class": 1,
+          "confidence": 0.7789819240570068,
+          "recommendations": [
+            "Dat lich hoc phu dao hang tuan va theo doi bai tap ngan theo tung chu de."
+          ]
+        },
+        {
+          "row_index": 231,
+          "true_class": 1,
+          "predicted_class": 1,
+          "confidence": 0.7877382636070251,
+          "recommendations": [
+            "Dat lich hoc phu dao hang tuan va theo doi bai tap ngan theo tung chu de."
+          ]
+        },
+        {
+          "row_index": 80,
+          "true_class": 2,
+          "predicted_class": 2,
+          "confidence": 0.6333805322647095,
+          "recommendations": [
+            "Duy tri luyen tap dinh ky va tap trung vao cac chu de bi sai nhieu de day len nhom kha.",
+            "Tang thoi gian tu hoc len muc toi thieu 2 buoi moi tuan."
+          ]
+        },
+        {
+          "row_index": 237,
+          "true_class": 2,
+          "predicted_class": 2,
+          "confidence": 0.7058494091033936,
+          "recommendations": [
+            "Duy tri luyen tap dinh ky va tap trung vao cac chu de bi sai nhieu de day len nhom kha.",
+            "Can can thiep som vi diem G2 giam so voi G1.",
+            "Giam vang hoc va them buoi hoc bu vi so ngay vang cao.",
+            "Tang thoi gian tu hoc len muc toi thieu 2 buoi moi tuan."
+          ]
+        },
+        {
+          "row_index": 371,
+          "true_class": 2,
+          "predicted_class": 2,
+          "confidence": 0.7195873856544495,
+          "recommendations": [
+            "Duy tri luyen tap dinh ky va tap trung vao cac chu de bi sai nhieu de day len nhom kha.",
+            "Can can thiep som vi diem G2 giam so voi G1.",
+            "Tang thoi gian tu hoc len muc toi thieu 2 buoi moi tuan."
+          ]
+        }
+      ]
+    },
+    "student-por": {
+      "metrics": {
+        "accuracy": 0.9393939393939394,
+        "precision_macro": 0.9444444444444444,
+        "recall_macro": 0.9466666666666667,
+        "f1_macro": 0.941345341964537,
+        "rmse": 0.24618298195866548,
+        "r2": 0.9607142857142857
+      },
+      "classification_report": {
+        "Very low": {
+          "precision": 0.8333333333333334,
+          "recall": 1.0,
+          "f1-score": 0.9090909090909091,
+          "support": 5.0
+        },
+        "Low": {
+          "precision": 1.0,
+          "recall": 0.9,
+          "f1-score": 0.9473684210526315,
+          "support": 10.0
+        },
+        "Medium": {
+          "precision": 0.8888888888888888,
+          "recall": 1.0,
+          "f1-score": 0.9411764705882353,
+          "support": 8.0
+        },
+        "Good": {
+          "precision": 1.0,
+          "recall": 0.8333333333333334,
+          "f1-score": 0.9090909090909091,
+          "support": 6.0
+        },
+        "Excellent": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 4.0
+        },
+        "accuracy": 0.9393939393939394,
+        "macro avg": {
+          "precision": 0.9444444444444444,
+          "recall": 0.9466666666666667,
+          "f1-score": 0.941345341964537,
+          "support": 33.0
+        },
+        "weighted avg": {
+          "precision": 0.9478114478114479,
+          "recall": 0.9393939393939394,
+          "f1-score": 0.939487756825218,
+          "support": 33.0
+        }
+      },
+      "confusion_matrix": [
+        [
+          5,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          9,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          8,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          5,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          4
+        ]
+      ],
+      "n_recommendation_candidates": 15,
+      "sample_recommendations": [
+        {
+          "row_index": 528,
+          "true_class": 0,
+          "predicted_class": 0,
+          "confidence": 0.5917439460754395,
+          "recommendations": [
+            "Dat lich hoc phu dao hang tuan va theo doi bai tap ngan theo tung chu de.",
+            "Uu tien on lai kien thuc nen tang vi diem G2 dang duoi nguong dat.",
+            "Tang thoi gian tu hoc len muc toi thieu 2 buoi moi tuan."
+          ]
+        },
+        {
+          "row_index": 78,
+          "true_class": 1,
+          "predicted_class": 0,
+          "confidence": 0.5917439460754395,
+          "recommendations": [
+            "Dat lich hoc phu dao hang tuan va theo doi bai tap ngan theo tung chu de.",
+            "Uu tien on lai kien thuc nen tang vi diem G2 dang duoi nguong dat.",
+            "Lap ke hoach bu lo hong do co lich su rot mon/that bai hoc tap.",
+            "Tang thoi gian tu hoc len muc toi thieu 2 buoi moi tuan."
+          ]
+        },
+        {
+          "row_index": 476,
+          "true_class": 0,
+          "predicted_class": 0,
+          "confidence": 0.6957120895385742,
+          "recommendations": [
+            "Dat lich hoc phu dao hang tuan va theo doi bai tap ngan theo tung chu de.",
+            "Uu tien on lai kien thuc nen tang vi diem G2 dang duoi nguong dat.",
+            "Can can thiep som vi diem G2 giam so voi G1.",
+            "Tang thoi gian tu hoc len muc toi thieu 2 buoi moi tuan."
+          ]
+        },
+        {
+          "row_index": 465,
+          "true_class": 0,
+          "predicted_class": 0,
+          "confidence": 0.8298680186271667,
+          "recommendations": [
+            "Dat lich hoc phu dao hang tuan va theo doi bai tap ngan theo tung chu de.",
+            "Uu tien on lai kien thuc nen tang vi diem G2 dang duoi nguong dat.",
+            "Can can thiep som vi diem G2 giam so voi G1.",
+            "Lap ke hoach bu lo hong do co lich su rot mon/that bai hoc tap."
+          ]
+        },
+        {
+          "row_index": 436,
+          "true_class": 0,
+          "predicted_class": 0,
+          "confidence": 0.9371023178100586,
+          "recommendations": [
+            "Dat lich hoc phu dao hang tuan va theo doi bai tap ngan theo tung chu de.",
+            "Uu tien on lai kien thuc nen tang vi diem G2 dang duoi nguong dat.",
+            "Lap ke hoach bu lo hong do co lich su rot mon/that bai hoc tap.",
+            "Tang thoi gian tu hoc len muc toi thieu 2 buoi moi tuan."
+          ]
+        },
+        {
+          "row_index": 572,
+          "true_class": 0,
+          "predicted_class": 0,
+          "confidence": 0.9478428363800049,
+          "recommendations": [
+            "Dat lich hoc phu dao hang tuan va theo doi bai tap ngan theo tung chu de.",
+            "Uu tien on lai kien thuc nen tang vi diem G2 dang duoi nguong dat.",
+            "Lap ke hoach bu lo hong do co lich su rot mon/that bai hoc tap."
+          ]
+        },
+        {
+          "row_index": 474,
+          "true_class": 1,
+          "predicted_class": 1,
+          "confidence": 0.4980532228946686,
+          "recommendations": [
+            "Dat lich hoc phu dao hang tuan va theo doi bai tap ngan theo tung chu de.",
+            "Tang thoi gian tu hoc len muc toi thieu 2 buoi moi tuan.",
+            "Du doan chua chac chan cao; nen danh gia them bang bai kiem tra ngan."
+          ]
+        },
+        {
+          "row_index": 527,
+          "true_class": 1,
+          "predicted_class": 1,
+          "confidence": 0.6335850954055786,
+          "recommendations": [
+            "Dat lich hoc phu dao hang tuan va theo doi bai tap ngan theo tung chu de.",
+            "Uu tien on lai kien thuc nen tang vi diem G2 dang duoi nguong dat.",
+            "Can can thiep som vi diem G2 giam so voi G1."
+          ]
+        },
+        {
+          "row_index": 477,
+          "true_class": 1,
+          "predicted_class": 1,
+          "confidence": 0.6797026991844177,
+          "recommendations": [
+            "Dat lich hoc phu dao hang tuan va theo doi bai tap ngan theo tung chu de.",
+            "Can can thiep som vi diem G2 giam so voi G1.",
+            "Giam vang hoc va them buoi hoc bu vi so ngay vang cao.",
+            "Tang thoi gian tu hoc len muc toi thieu 2 buoi moi tuan."
+          ]
+        },
+        {
+          "row_index": 539,
+          "true_class": 1,
+          "predicted_class": 1,
+          "confidence": 0.724835216999054,
+          "recommendations": [
+            "Dat lich hoc phu dao hang tuan va theo doi bai tap ngan theo tung chu de."
+          ]
+        },
+        {
+          "row_index": 486,
+          "true_class": 1,
+          "predicted_class": 1,
+          "confidence": 0.724835216999054,
+          "recommendations": [
+            "Dat lich hoc phu dao hang tuan va theo doi bai tap ngan theo tung chu de.",
+            "Lap ke hoach bu lo hong do co lich su rot mon/that bai hoc tap.",
+            "Tang thoi gian tu hoc len muc toi thieu 2 buoi moi tuan."
+          ]
+        },
+        {
+          "row_index": 186,
+          "true_class": 1,
+          "predicted_class": 1,
+          "confidence": 0.7257746458053589,
+          "recommendations": [
+            "Dat lich hoc phu dao hang tuan va theo doi bai tap ngan theo tung chu de.",
+            "Uu tien on lai kien thuc nen tang vi diem G2 dang duoi nguong dat.",
+            "Can can thiep som vi diem G2 giam so voi G1."
+          ]
+        },
+        {
+          "row_index": 264,
+          "true_class": 1,
+          "predicted_class": 1,
+          "confidence": 0.7257746458053589,
+          "recommendations": [
+            "Dat lich hoc phu dao hang tuan va theo doi bai tap ngan theo tung chu de.",
+            "Uu tien on lai kien thuc nen tang vi diem G2 dang duoi nguong dat.",
+            "Can can thiep som vi diem G2 giam so voi G1.",
+            "Lap ke hoach bu lo hong do co lich su rot mon/that bai hoc tap.",
+            "Tang thoi gian tu hoc len muc toi thieu 2 buoi moi tuan."
+          ]
+        },
+        {
+          "row_index": 132,
+          "true_class": 1,
+          "predicted_class": 1,
+          "confidence": 0.7531717419624329,
+          "recommendations": [
+            "Dat lich hoc phu dao hang tuan va theo doi bai tap ngan theo tung chu de.",
+            "Can can thiep som vi diem G2 giam so voi G1.",
+            "Tang thoi gian tu hoc len muc toi thieu 2 buoi moi tuan."
+          ]
+        },
+        {
+          "row_index": 318,
+          "true_class": 1,
+          "predicted_class": 1,
+          "confidence": 0.7746824026107788,
+          "recommendations": [
+            "Dat lich hoc phu dao hang tuan va theo doi bai tap ngan theo tung chu de.",
+            "Uu tien on lai kien thuc nen tang vi diem G2 dang duoi nguong dat.",
+            "Can can thiep som vi diem G2 giam so voi G1.",
+            "Giam vang hoc va them buoi hoc bu vi so ngay vang cao."
+          ]
+        }
+      ]
+    },
+    "xapi": {
+      "metrics": {
+        "accuracy": 0.8958333333333334,
+        "precision_macro": 0.9006944444444445,
+        "recall_macro": 0.902014652014652,
+        "f1_macro": 0.899349593495935,
+        "rmse": 0.3227486121839514,
+        "r2": 0.8146718146718146
+      },
+      "classification_report": {
+        "Low": {
+          "precision": 0.9583333333333334,
+          "recall": 0.8846153846153846,
+          "f1-score": 0.92,
+          "support": 26.0
+        },
+        "Middle": {
+          "precision": 0.9,
+          "recall": 0.8571428571428571,
+          "f1-score": 0.8780487804878049,
+          "support": 42.0
+        },
+        "High": {
+          "precision": 0.84375,
+          "recall": 0.9642857142857143,
+          "f1-score": 0.9,
+          "support": 28.0
+        },
+        "accuracy": 0.8958333333333334,
+        "macro avg": {
+          "precision": 0.9006944444444445,
+          "recall": 0.902014652014652,
+          "f1-score": 0.899349593495935,
+          "support": 96.0
+        },
+        "weighted avg": {
+          "precision": 0.8993923611111111,
+          "recall": 0.8958333333333334,
+          "f1-score": 0.8958130081300814,
+          "support": 96.0
+        }
+      },
+      "confusion_matrix": [
+        [
+          23,
+          3,
+          0
+        ],
+        [
+          1,
+          36,
+          5
+        ],
+        [
+          0,
+          1,
+          27
+        ]
+      ],
+      "n_recommendation_candidates": 15,
+      "sample_recommendations": [
+        {
+          "row_index": 324,
+          "true_class": 1,
+          "predicted_class": 0,
+          "confidence": 0.6589817926287651,
+          "recommendations": [
+            "Can can thiep muc cao: theo doi hang tuan va giao muc tieu hoc tap nho.",
+            "Tang tan suat phat bieu/dat cau hoi tren lop.",
+            "Tang so lan truy cap tai nguyen hoc tap moi tuan."
+          ]
+        },
+        {
+          "row_index": 181,
+          "true_class": 0,
+          "predicted_class": 0,
+          "confidence": 0.7524089068174362,
+          "recommendations": [
+            "Can can thiep muc cao: theo doi hang tuan va giao muc tieu hoc tap nho.",
+            "Giam vang hoc vi StudentAbsenceDays dang o muc Above-7."
+          ]
+        },
+        {
+          "row_index": 331,
+          "true_class": 0,
+          "predicted_class": 0,
+          "confidence": 0.8740389943122864,
+          "recommendations": [
+            "Can can thiep muc cao: theo doi hang tuan va giao muc tieu hoc tap nho.",
+            "Tang so lan truy cap tai nguyen hoc tap moi tuan.",
+            "Giam vang hoc vi StudentAbsenceDays dang o muc Above-7."
+          ]
+        },
+        {
+          "row_index": 133,
+          "true_class": 0,
+          "predicted_class": 0,
+          "confidence": 0.9276657849550247,
+          "recommendations": [
+            "Can can thiep muc cao: theo doi hang tuan va giao muc tieu hoc tap nho.",
+            "Tang tan suat phat bieu/dat cau hoi tren lop.",
+            "Giam vang hoc vi StudentAbsenceDays dang o muc Above-7."
+          ]
+        },
+        {
+          "row_index": 479,
+          "true_class": 0,
+          "predicted_class": 0,
+          "confidence": 0.9443054050207138,
+          "recommendations": [
+            "Can can thiep muc cao: theo doi hang tuan va giao muc tieu hoc tap nho.",
+            "Tang so lan truy cap tai nguyen hoc tap moi tuan.",
+            "Giam vang hoc vi StudentAbsenceDays dang o muc Above-7."
+          ]
+        },
+        {
+          "row_index": 42,
+          "true_class": 0,
+          "predicted_class": 0,
+          "confidence": 0.9498495310544968,
+          "recommendations": [
+            "Can can thiep muc cao: theo doi hang tuan va giao muc tieu hoc tap nho.",
+            "Tang tan suat phat bieu/dat cau hoi tren lop.",
+            "Tang so lan truy cap tai nguyen hoc tap moi tuan.",
+            "Giam vang hoc vi StudentAbsenceDays dang o muc Above-7."
+          ]
+        },
+        {
+          "row_index": 231,
+          "true_class": 0,
+          "predicted_class": 0,
+          "confidence": 0.9523371458053589,
+          "recommendations": [
+            "Can can thiep muc cao: theo doi hang tuan va giao muc tieu hoc tap nho.",
+            "Tang tan suat phat bieu/dat cau hoi tren lop.",
+            "Tang so lan truy cap tai nguyen hoc tap moi tuan.",
+            "Giam vang hoc vi StudentAbsenceDays dang o muc Above-7.",
+            "Tham gia thao luan nhieu hon de tang muc do tuong tac."
+          ]
+        },
+        {
+          "row_index": 236,
+          "true_class": 0,
+          "predicted_class": 0,
+          "confidence": 0.9530404359102249,
+          "recommendations": [
+            "Can can thiep muc cao: theo doi hang tuan va giao muc tieu hoc tap nho.",
+            "Tang so lan truy cap tai nguyen hoc tap moi tuan.",
+            "Giam vang hoc vi StudentAbsenceDays dang o muc Above-7.",
+            "Tham gia thao luan nhieu hon de tang muc do tuong tac."
+          ]
+        },
+        {
+          "row_index": 113,
+          "true_class": 0,
+          "predicted_class": 0,
+          "confidence": 0.9540111869573593,
+          "recommendations": [
+            "Can can thiep muc cao: theo doi hang tuan va giao muc tieu hoc tap nho.",
+            "Tang tan suat phat bieu/dat cau hoi tren lop.",
+            "Tang so lan truy cap tai nguyen hoc tap moi tuan.",
+            "Giam vang hoc vi StudentAbsenceDays dang o muc Above-7."
+          ]
+        },
+        {
+          "row_index": 57,
+          "true_class": 0,
+          "predicted_class": 0,
+          "confidence": 0.9542141258716583,
+          "recommendations": [
+            "Can can thiep muc cao: theo doi hang tuan va giao muc tieu hoc tap nho.",
+            "Tang tan suat phat bieu/dat cau hoi tren lop.",
+            "Tang so lan truy cap tai nguyen hoc tap moi tuan.",
+            "Giam vang hoc vi StudentAbsenceDays dang o muc Above-7.",
+            "Tham gia thao luan nhieu hon de tang muc do tuong tac."
+          ]
+        },
+        {
+          "row_index": 375,
+          "true_class": 0,
+          "predicted_class": 0,
+          "confidence": 0.9546384811401367,
+          "recommendations": [
+            "Can can thiep muc cao: theo doi hang tuan va giao muc tieu hoc tap nho.",
+            "Tang so lan truy cap tai nguyen hoc tap moi tuan.",
+            "Giam vang hoc vi StudentAbsenceDays dang o muc Above-7.",
+            "Tham gia thao luan nhieu hon de tang muc do tuong tac."
+          ]
+        },
+        {
+          "row_index": 406,
+          "true_class": 0,
+          "predicted_class": 0,
+          "confidence": 0.9549224972724915,
+          "recommendations": [
+            "Can can thiep muc cao: theo doi hang tuan va giao muc tieu hoc tap nho.",
+            "Tang tan suat phat bieu/dat cau hoi tren lop.",
+            "Tang so lan truy cap tai nguyen hoc tap moi tuan.",
+            "Giam vang hoc vi StudentAbsenceDays dang o muc Above-7.",
+            "Tham gia thao luan nhieu hon de tang muc do tuong tac."
+          ]
+        },
+        {
+          "row_index": 380,
+          "true_class": 0,
+          "predicted_class": 0,
+          "confidence": 0.9557376056909561,
+          "recommendations": [
+            "Can can thiep muc cao: theo doi hang tuan va giao muc tieu hoc tap nho.",
+            "Tang tan suat phat bieu/dat cau hoi tren lop.",
+            "Tang so lan truy cap tai nguyen hoc tap moi tuan.",
+            "Giam vang hoc vi StudentAbsenceDays dang o muc Above-7."
+          ]
+        },
+        {
+          "row_index": 121,
+          "true_class": 0,
+          "predicted_class": 0,
+          "confidence": 0.9558506458997726,
+          "recommendations": [
+            "Can can thiep muc cao: theo doi hang tuan va giao muc tieu hoc tap nho.",
+            "Tang tan suat phat bieu/dat cau hoi tren lop.",
+            "Tang so lan truy cap tai nguyen hoc tap moi tuan.",
+            "Giam vang hoc vi StudentAbsenceDays dang o muc Above-7."
+          ]
+        },
+        {
+          "row_index": 323,
+          "true_class": 0,
+          "predicted_class": 0,
+          "confidence": 0.955859512090683,
+          "recommendations": [
+            "Can can thiep muc cao: theo doi hang tuan va giao muc tieu hoc tap nho.",
+            "Tang so lan truy cap tai nguyen hoc tap moi tuan.",
+            "Giam vang hoc vi StudentAbsenceDays dang o muc Above-7.",
+            "Tham gia thao luan nhieu hon de tang muc do tuong tac."
+          ]
+        }
+      ]
+    }
+  },
+  "artifacts": {
+    "results": "C:\\Huflit\\kltn\\results\\final_predictions_and_recommendations.json",
+    "report": "C:\\Huflit\\kltn\\reports\\final_learning_recommendations_report.md"
+  }
+}
