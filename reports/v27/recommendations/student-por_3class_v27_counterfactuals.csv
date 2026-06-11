@@ -1,0 +1,2 @@
+sample_idx,original_class,original_conf,desired_classes,new_class,new_conf,changed_features,num_changes
+52,0,0.5088227987289429,"[1, 2]",1,0.4898582994937897,{'Dalc': 0},1
