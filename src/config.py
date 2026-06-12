@@ -2,8 +2,10 @@ import os
 from pathlib import Path
 from dataclasses import dataclass
 from typing import List, Dict, Optional
+from dotenv import load_dotenv
 
 ROOT_DIR = Path(__file__).resolve().parents[1]
+load_dotenv(ROOT_DIR / ".env")
 DATA_DIR = ROOT_DIR / "data"
 RAW_DIR = DATA_DIR / "raw"
 REPORTS_DIR = ROOT_DIR / "reports" / "final"
@@ -23,10 +25,12 @@ def ensure_dirs():
 FIXED_SEEDS = [42, 123, 155, 156, 2025]
 DEFAULT_SEED = 42
 
+DATABASE_URL = os.getenv("DATABASE_URL", "").strip()
+
 POSTGRES_CONFIG = {
     "host": os.getenv("POSTGRES_HOST", "localhost"),
     "port": os.getenv("POSTGRES_PORT", "5432"),
-    "dbname": os.getenv("POSTGRES_DB", "kltn_final"),
+    "dbname": os.getenv("POSTGRES_DB", "student_performance"),
     "user": os.getenv("POSTGRES_USER", "postgres"),
     "password": os.getenv("POSTGRES_PASSWORD", "postgres")
 }
@@ -61,6 +65,8 @@ class TrainingConfig:
     max_epochs: int = 100
     batch_size: int = 32
     patience: int = 15
+    scheduler_patience: int = 5
+    scheduler_factor: float = 0.5
     learning_rate: float = 0.001
     weight_decay: float = 0.0001
     device: str = "cuda"

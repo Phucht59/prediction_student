@@ -1,0 +1,752 @@
+2026-06-12 17:41:18,247 - run_pipeline - INFO - === Starting E2E Pipeline for xapi (3class) ===
+2026-06-12 17:41:18,247 - run_pipeline - INFO - Starting Optuna optimization with 30 trials...
+[I 2026-06-12 17:41:18,351] A new study created in memory with name: no-name-db1c0f32-9567-49bd-9a0a-d37e932c0722
+2026-06-12 17:41:18,351 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:41:18,351 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:41:18,367 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.4190721074726053...
+2026-06-12 17:41:18,497 - preprocessing - INFO - Feature selection complete. Selected 15 / 19 features.
+2026-06-12 17:41:33,308 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:41:33,316 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:41:33,322 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.4190721074726053...
+2026-06-12 17:41:33,468 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:41:42,064] Early stopping triggered at epoch 34
+2026-06-12 17:41:42,071 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:41:42,071 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:41:42,091 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.4190721074726053...
+2026-06-12 17:41:42,209 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:41:52,762] Early stopping triggered at epoch 38
+2026-06-12 17:41:52,763 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:41:52,763 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:41:52,782 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.4190721074726053...
+2026-06-12 17:41:52,907 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:41:59,268] Early stopping triggered at epoch 24
+2026-06-12 17:41:59,275 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:41:59,275 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:41:59,296 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.4190721074726053...
+2026-06-12 17:41:59,430 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:42:09,364] Early stopping triggered at epoch 36
+[I 2026-06-12 17:42:09,366] Trial 0 finished with value: 0.8012617082366521 and parameters: {'learning_rate': 0.002958594248396769, 'weight_decay': 0.0009336558238410763, 'dropout': 0.3093558354184839, 'batch_size': 16, 'lambda_ordinal': 0.34920713801634873, 'oversample_method': 'smote', 'smote_ratio': 0.4190721074726053, 'context_architecture': 'deepfm', 'sequence_architecture': 'dsc_bilstm_attention', 'fm_embedding_dim': 32, 'dcn_cross_layers': 2, 'context_hidden_dim': 128, 'sequence_hidden_dim': 64, 'fusion_hidden_dim': 64}. Best is trial 0 with value: 0.8012617082366521.
+2026-06-12 17:42:09,370 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:42:09,370 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:42:09,516 - preprocessing - INFO - Feature selection complete. Selected 15 / 19 features.
+[I 2026-06-12 17:42:15,377] Early stopping triggered at epoch 40
+2026-06-12 17:42:15,387 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:42:15,389 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:42:15,524 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:42:19,875] Early stopping triggered at epoch 28
+2026-06-12 17:42:19,875 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:42:19,875 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:42:20,032 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:42:25,070] Early stopping triggered at epoch 32
+2026-06-12 17:42:25,077 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:42:25,077 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:42:25,221 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:42:29,460] Early stopping triggered at epoch 29
+2026-06-12 17:42:29,460 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:42:29,460 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:42:29,620 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:42:36,435] Early stopping triggered at epoch 45
+[I 2026-06-12 17:42:36,435] Trial 1 finished with value: 0.7790410253529754 and parameters: {'learning_rate': 0.0007549172633527554, 'weight_decay': 0.0006871762126104753, 'dropout': 0.32050786935065123, 'batch_size': 32, 'lambda_ordinal': 0.37725275400261354, 'oversample_method': 'none', 'focal_gamma': 1.196291559358227, 'context_architecture': 'dcnv2', 'sequence_architecture': 'dsc_bilstm_attention', 'fm_embedding_dim': 32, 'dcn_cross_layers': 2, 'context_hidden_dim': 128, 'sequence_hidden_dim': 64, 'fusion_hidden_dim': 64}. Best is trial 0 with value: 0.8012617082366521.
+2026-06-12 17:42:36,435 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:42:36,447 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:42:36,460 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.7267349655124912...
+2026-06-12 17:42:38,085 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:42:46,581] Early stopping triggered at epoch 35
+2026-06-12 17:42:46,581 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:42:46,581 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:42:46,613 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.7267349655124912...
+2026-06-12 17:42:46,743 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+2026-06-12 17:42:59,243 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:42:59,243 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:42:59,264 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.7267349655124912...
+2026-06-12 17:42:59,390 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:43:05,827] Early stopping triggered at epoch 25
+2026-06-12 17:43:05,827 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:43:05,842 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:43:05,854 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.7267349655124912...
+2026-06-12 17:43:05,986 - preprocessing - INFO - Feature selection complete. Selected 17 / 19 features.
+[I 2026-06-12 17:43:18,212] Early stopping triggered at epoch 49
+2026-06-12 17:43:18,212 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:43:18,212 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:43:18,245 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.7267349655124912...
+2026-06-12 17:43:18,388 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:43:29,104] Early stopping triggered at epoch 41
+[I 2026-06-12 17:43:29,107] Trial 2 finished with value: 0.7716004914542899 and parameters: {'learning_rate': 0.0012485776426996843, 'weight_decay': 0.00020504949890608944, 'dropout': 0.21945965661824296, 'batch_size': 16, 'lambda_ordinal': 0.1250040249866427, 'oversample_method': 'smote', 'smote_ratio': 0.7267349655124912, 'context_architecture': 'deepfm', 'sequence_architecture': 'dsc_bilstm_attention', 'fm_embedding_dim': 8, 'dcn_cross_layers': 1, 'context_hidden_dim': 32, 'sequence_hidden_dim': 32, 'fusion_hidden_dim': 64}. Best is trial 0 with value: 0.8012617082366521.
+2026-06-12 17:43:29,113 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:43:29,115 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:43:29,138 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.5472080658772963...
+2026-06-12 17:43:29,294 - preprocessing - INFO - Feature selection complete. Selected 15 / 19 features.
+[I 2026-06-12 17:43:31,927] Early stopping triggered at epoch 42
+2026-06-12 17:43:31,943 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:43:31,943 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:43:31,959 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.5472080658772963...
+2026-06-12 17:43:32,092 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:43:34,999] Early stopping triggered at epoch 47
+2026-06-12 17:43:34,999 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:43:34,999 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:43:35,014 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.5472080658772963...
+2026-06-12 17:43:35,158 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:43:37,395] Early stopping triggered at epoch 36
+2026-06-12 17:43:37,395 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:43:37,407 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:43:37,413 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.5472080658772963...
+2026-06-12 17:43:37,559 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+2026-06-12 17:43:40,715 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:43:40,715 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:43:40,736 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.5472080658772963...
+2026-06-12 17:43:40,868 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:43:42,880] Early stopping triggered at epoch 32
+[I 2026-06-12 17:43:42,880] Trial 3 finished with value: 0.7511646284950722 and parameters: {'learning_rate': 0.00011487173650858298, 'weight_decay': 0.00018709258776771322, 'dropout': 0.17403340737199308, 'batch_size': 64, 'lambda_ordinal': 0.4917181113893311, 'oversample_method': 'smote', 'smote_ratio': 0.5472080658772963, 'context_architecture': 'mlp_baseline', 'sequence_architecture': 'dsc_bilstm_attention', 'fm_embedding_dim': 32, 'dcn_cross_layers': 2, 'context_hidden_dim': 128, 'sequence_hidden_dim': 32, 'fusion_hidden_dim': 128}. Best is trial 0 with value: 0.8012617082366521.
+2026-06-12 17:43:42,895 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:43:42,895 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:43:42,914 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.627323309862269...
+2026-06-12 17:43:43,055 - preprocessing - INFO - Feature selection complete. Selected 15 / 19 features.
+[I 2026-06-12 17:43:44,836] Early stopping triggered at epoch 31
+2026-06-12 17:43:44,843 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:43:44,843 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:43:44,864 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.627323309862269...
+2026-06-12 17:43:45,000 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:43:46,903] Early stopping triggered at epoch 32
+2026-06-12 17:43:46,903 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:43:46,918 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:43:46,938 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.627323309862269...
+2026-06-12 17:43:47,085 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:43:49,314] Early stopping triggered at epoch 37
+2026-06-12 17:43:49,318 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:43:49,319 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:43:49,324 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.627323309862269...
+2026-06-12 17:43:49,456 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:43:51,762] Early stopping triggered at epoch 40
+2026-06-12 17:43:51,766 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:43:51,766 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:43:51,787 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.627323309862269...
+2026-06-12 17:43:51,922 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:43:54,985] Trial 4 finished with value: 0.762738551220835 and parameters: {'learning_rate': 0.0012355123141526503, 'weight_decay': 0.00013565904234688115, 'dropout': 0.3724680521124287, 'batch_size': 64, 'lambda_ordinal': 0.3319772291547794, 'oversample_method': 'smote', 'smote_ratio': 0.627323309862269, 'context_architecture': 'mlp_baseline', 'sequence_architecture': 'dsc_bilstm_attention', 'fm_embedding_dim': 32, 'dcn_cross_layers': 2, 'context_hidden_dim': 32, 'sequence_hidden_dim': 32, 'fusion_hidden_dim': 128}. Best is trial 0 with value: 0.8012617082366521.
+2026-06-12 17:43:54,985 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:43:55,001 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:43:55,013 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.6191364637342265...
+2026-06-12 17:43:55,027 - preprocessing - WARNING - ADASYN failed (likely too few samples). Error: No samples will be generated with the provided ratio settings.. Falling back to no oversampling.
+2026-06-12 17:43:55,159 - preprocessing - INFO - Feature selection complete. Selected 15 / 19 features.
+[I 2026-06-12 17:44:03,435] Early stopping triggered at epoch 33
+2026-06-12 17:44:03,442 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:44:03,442 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:44:03,456 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.6191364637342265...
+2026-06-12 17:44:03,472 - preprocessing - WARNING - ADASYN failed (likely too few samples). Error: No samples will be generated with the provided ratio settings.. Falling back to no oversampling.
+2026-06-12 17:44:03,602 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:44:14,202] Early stopping triggered at epoch 42
+2026-06-12 17:44:14,206 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:44:14,210 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:44:14,216 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.6191364637342265...
+2026-06-12 17:44:14,232 - preprocessing - WARNING - ADASYN failed (likely too few samples). Error: No samples will be generated with the provided ratio settings.. Falling back to no oversampling.
+2026-06-12 17:44:14,355 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:44:24,082] Early stopping triggered at epoch 37
+2026-06-12 17:44:24,082 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:44:24,082 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:44:24,109 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.6191364637342265...
+2026-06-12 17:44:24,116 - preprocessing - WARNING - ADASYN failed (likely too few samples). Error: No samples will be generated with the provided ratio settings.. Falling back to no oversampling.
+2026-06-12 17:44:24,254 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:44:34,966] Early stopping triggered at epoch 42
+2026-06-12 17:44:34,973 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:44:34,973 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:44:35,005 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.6191364637342265...
+2026-06-12 17:44:35,015 - preprocessing - WARNING - ADASYN failed (likely too few samples). Error: No samples will be generated with the provided ratio settings.. Falling back to no oversampling.
+2026-06-12 17:44:35,153 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:44:44,979] Early stopping triggered at epoch 36
+[I 2026-06-12 17:44:44,979] Trial 5 finished with value: 0.7421604890440682 and parameters: {'learning_rate': 0.0002665363777973328, 'weight_decay': 0.0008779918831947248, 'dropout': 0.1966102018802498, 'batch_size': 16, 'lambda_ordinal': 0.47443582388170547, 'oversample_method': 'adasyn', 'smote_ratio': 0.6191364637342265, 'context_architecture': 'deepfm', 'sequence_architecture': 'dsc_bilstm_attention', 'fm_embedding_dim': 32, 'dcn_cross_layers': 3, 'context_hidden_dim': 64, 'sequence_hidden_dim': 64, 'fusion_hidden_dim': 128}. Best is trial 0 with value: 0.8012617082366521.
+2026-06-12 17:44:44,979 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:44:44,995 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:44:45,013 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.5061527599880276...
+2026-06-12 17:44:45,138 - preprocessing - INFO - Feature selection complete. Selected 15 / 19 features.
+2026-06-12 17:44:56,694 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:44:56,694 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:44:56,710 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.5061527599880276...
+2026-06-12 17:44:56,849 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:45:02,215] Early stopping triggered at epoch 23
+2026-06-12 17:45:02,218 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:45:02,220 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:45:02,236 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.5061527599880276...
+2026-06-12 17:45:02,371 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:45:09,572] Early stopping triggered at epoch 30
+2026-06-12 17:45:09,588 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:45:09,588 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:45:09,604 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.5061527599880276...
+2026-06-12 17:45:09,739 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:45:15,159] Early stopping triggered at epoch 23
+2026-06-12 17:45:15,159 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:45:15,159 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:45:15,175 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.5061527599880276...
+2026-06-12 17:45:15,309 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:45:24,333] Early stopping triggered at epoch 37
+[I 2026-06-12 17:45:24,349] Trial 6 finished with value: 0.7902830595909712 and parameters: {'learning_rate': 0.0007715566558734588, 'weight_decay': 0.00025549741848098016, 'dropout': 0.39153739778616836, 'batch_size': 16, 'lambda_ordinal': 0.4132282079440738, 'oversample_method': 'adasyn', 'smote_ratio': 0.5061527599880276, 'context_architecture': 'dcnv2', 'sequence_architecture': 'dsc_bilstm_attention', 'fm_embedding_dim': 8, 'dcn_cross_layers': 2, 'context_hidden_dim': 128, 'sequence_hidden_dim': 64, 'fusion_hidden_dim': 64}. Best is trial 0 with value: 0.8012617082366521.
+2026-06-12 17:45:24,354 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:45:24,354 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:45:24,370 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.624429988415739...
+2026-06-12 17:45:24,508 - preprocessing - INFO - Feature selection complete. Selected 15 / 19 features.
+[I 2026-06-12 17:45:31,038] Early stopping triggered at epoch 26
+2026-06-12 17:45:31,042 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:45:31,042 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:45:31,063 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.624429988415739...
+2026-06-12 17:45:31,187 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:45:37,847] Early stopping triggered at epoch 25
+2026-06-12 17:45:37,854 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:45:37,854 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:45:37,876 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.624429988415739...
+2026-06-12 17:45:38,002 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:45:46,298] Early stopping triggered at epoch 28
+2026-06-12 17:45:46,308 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:45:46,311 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:45:46,334 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.624429988415739...
+2026-06-12 17:45:46,472 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:45:55,290] Early stopping triggered at epoch 33
+2026-06-12 17:45:55,290 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:45:55,290 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:45:55,306 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.624429988415739...
+2026-06-12 17:45:55,457 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:46:03,606] Early stopping triggered at epoch 29
+[I 2026-06-12 17:46:03,606] Trial 7 finished with value: 0.7633372802115224 and parameters: {'learning_rate': 0.003938472488664359, 'weight_decay': 1.3143746419467585e-05, 'dropout': 0.19834466078153057, 'batch_size': 16, 'lambda_ordinal': 0.09453798252358908, 'oversample_method': 'smote', 'smote_ratio': 0.624429988415739, 'context_architecture': 'dcnv2', 'sequence_architecture': 'dsc_bilstm_attention', 'fm_embedding_dim': 32, 'dcn_cross_layers': 3, 'context_hidden_dim': 32, 'sequence_hidden_dim': 32, 'fusion_hidden_dim': 64}. Best is trial 0 with value: 0.8012617082366521.
+2026-06-12 17:46:03,606 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:46:03,606 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:46:03,634 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.6985482592385581...
+2026-06-12 17:46:03,761 - preprocessing - INFO - Feature selection complete. Selected 15 / 19 features.
+[I 2026-06-12 17:46:07,488] Early stopping triggered at epoch 48
+2026-06-12 17:46:07,506 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:46:07,506 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:46:07,526 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.6985482592385581...
+2026-06-12 17:46:07,665 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:46:10,409] Early stopping triggered at epoch 35
+2026-06-12 17:46:10,412 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:46:10,412 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:46:10,433 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.6985482592385581...
+2026-06-12 17:46:10,558 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:46:12,983] Early stopping triggered at epoch 30
+2026-06-12 17:46:12,983 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:46:12,983 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:46:13,007 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.6985482592385581...
+2026-06-12 17:46:13,159 - preprocessing - INFO - Feature selection complete. Selected 17 / 19 features.
+[I 2026-06-12 17:46:16,616] Early stopping triggered at epoch 43
+2026-06-12 17:46:16,635 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:46:16,635 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:46:16,655 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.6985482592385581...
+2026-06-12 17:46:16,787 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:46:19,692] Early stopping triggered at epoch 35
+[I 2026-06-12 17:46:19,696] Trial 8 finished with value: 0.7681876205558509 and parameters: {'learning_rate': 0.001124103482498904, 'weight_decay': 0.0007097835411245311, 'dropout': 0.49378853388008015, 'batch_size': 64, 'lambda_ordinal': 0.03615623071681928, 'oversample_method': 'smote', 'smote_ratio': 0.6985482592385581, 'context_architecture': 'dcnv2', 'sequence_architecture': 'dsc_bilstm_attention', 'fm_embedding_dim': 16, 'dcn_cross_layers': 1, 'context_hidden_dim': 64, 'sequence_hidden_dim': 32, 'fusion_hidden_dim': 128}. Best is trial 0 with value: 0.8012617082366521.
+2026-06-12 17:46:19,700 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:46:19,702 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:46:19,722 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.5950303747328025...
+2026-06-12 17:46:19,861 - preprocessing - INFO - Feature selection complete. Selected 15 / 19 features.
+[I 2026-06-12 17:46:24,611] Early stopping triggered at epoch 45
+2026-06-12 17:46:24,615 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:46:24,617 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:46:24,637 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.5950303747328025...
+2026-06-12 17:46:24,766 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:46:28,430] Early stopping triggered at epoch 34
+2026-06-12 17:46:28,430 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:46:28,435 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:46:28,451 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.5950303747328025...
+2026-06-12 17:46:28,573 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:46:32,846] Early stopping triggered at epoch 39
+2026-06-12 17:46:32,846 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:46:32,846 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:46:32,858 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.5950303747328025...
+2026-06-12 17:46:32,993 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:46:38,231] Early stopping triggered at epoch 47
+2026-06-12 17:46:38,232 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:46:38,232 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:46:38,253 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.5950303747328025...
+2026-06-12 17:46:38,391 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:46:41,236] Early stopping triggered at epoch 25
+[I 2026-06-12 17:46:41,242] Trial 9 finished with value: 0.755478189480887 and parameters: {'learning_rate': 0.00011667929122767103, 'weight_decay': 1.6983289996517993e-05, 'dropout': 0.24493411383822555, 'batch_size': 32, 'lambda_ordinal': 0.44697386175966436, 'oversample_method': 'smote', 'smote_ratio': 0.5950303747328025, 'context_architecture': 'mlp_baseline', 'sequence_architecture': 'dsc_bilstm_attention', 'fm_embedding_dim': 32, 'dcn_cross_layers': 3, 'context_hidden_dim': 64, 'sequence_hidden_dim': 32, 'fusion_hidden_dim': 128}. Best is trial 0 with value: 0.8012617082366521.
+2026-06-12 17:46:41,256 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:46:41,256 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:46:41,408 - preprocessing - INFO - Feature selection complete. Selected 15 / 19 features.
+[I 2026-06-12 17:46:53,689] Early stopping triggered at epoch 47
+2026-06-12 17:46:53,692 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:46:53,695 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:46:53,855 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:47:01,770] Early stopping triggered at epoch 30
+2026-06-12 17:47:01,777 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:47:01,777 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:47:01,916 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:47:09,318] Early stopping triggered at epoch 27
+2026-06-12 17:47:09,318 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:47:09,318 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:47:09,471 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:47:16,650] Early stopping triggered at epoch 27
+2026-06-12 17:47:16,651 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:47:16,651 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:47:16,811 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:47:23,998] Early stopping triggered at epoch 26
+[I 2026-06-12 17:47:24,005] Trial 10 finished with value: 0.7392273846860682 and parameters: {'learning_rate': 0.008544786958357363, 'weight_decay': 4.666705949770616e-05, 'dropout': 0.4796491524325379, 'batch_size': 16, 'lambda_ordinal': 0.25145155210937403, 'oversample_method': 'none', 'focal_gamma': 2.9027916177319693, 'context_architecture': 'deepfm', 'sequence_architecture': 'dsc_bilstm_attention', 'fm_embedding_dim': 16, 'dcn_cross_layers': 1, 'context_hidden_dim': 128, 'sequence_hidden_dim': 64, 'fusion_hidden_dim': 64}. Best is trial 0 with value: 0.8012617082366521.
+2026-06-12 17:47:24,019 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:47:24,019 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:47:24,041 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.4142367852838497...
+2026-06-12 17:47:24,185 - preprocessing - INFO - Feature selection complete. Selected 15 / 19 features.
+[I 2026-06-12 17:47:33,412] Early stopping triggered at epoch 36
+2026-06-12 17:47:33,419 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:47:33,419 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:47:33,440 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.4142367852838497...
+2026-06-12 17:47:33,572 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:47:39,517] Early stopping triggered at epoch 23
+2026-06-12 17:47:39,524 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:47:39,524 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:47:39,545 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.4142367852838497...
+2026-06-12 17:47:39,684 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:47:48,147] Early stopping triggered at epoch 31
+2026-06-12 17:47:48,154 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:47:48,154 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:47:48,175 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.4142367852838497...
+2026-06-12 17:47:48,314 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:47:54,898] Early stopping triggered at epoch 25
+2026-06-12 17:47:54,904 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:47:54,904 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:47:54,925 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.4142367852838497...
+2026-06-12 17:47:55,060 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:48:04,343] Early stopping triggered at epoch 33
+[I 2026-06-12 17:48:04,343] Trial 11 finished with value: 0.787415067523692 and parameters: {'learning_rate': 0.0033919147341055387, 'weight_decay': 0.00034875309357332334, 'dropout': 0.38387597797143386, 'batch_size': 16, 'lambda_ordinal': 0.32325392864750074, 'oversample_method': 'adasyn', 'smote_ratio': 0.4142367852838497, 'context_architecture': 'deepfm', 'sequence_architecture': 'dsc_bilstm_attention', 'fm_embedding_dim': 8, 'dcn_cross_layers': 2, 'context_hidden_dim': 128, 'sequence_hidden_dim': 64, 'fusion_hidden_dim': 64}. Best is trial 0 with value: 0.8012617082366521.
+2026-06-12 17:48:04,359 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:48:04,359 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:48:04,391 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.41828626105401034...
+2026-06-12 17:48:04,506 - preprocessing - INFO - Feature selection complete. Selected 15 / 19 features.
+[I 2026-06-12 17:48:15,869] Early stopping triggered at epoch 49
+2026-06-12 17:48:15,885 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:48:15,885 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:48:15,906 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.41828626105401034...
+2026-06-12 17:48:16,029 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:48:23,050] Early stopping triggered at epoch 30
+2026-06-12 17:48:23,054 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:48:23,058 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:48:23,078 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.41828626105401034...
+2026-06-12 17:48:23,204 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:48:29,443] Early stopping triggered at epoch 26
+2026-06-12 17:48:29,443 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:48:29,459 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:48:29,466 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.41828626105401034...
+2026-06-12 17:48:29,611 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:48:36,217] Early stopping triggered at epoch 28
+2026-06-12 17:48:36,217 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:48:36,217 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:48:36,244 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.41828626105401034...
+2026-06-12 17:48:36,376 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:48:41,477] Early stopping triggered at epoch 21
+[I 2026-06-12 17:48:41,477] Trial 12 finished with value: 0.7639758743164276 and parameters: {'learning_rate': 0.0005364877997969045, 'weight_decay': 6.526189152073637e-05, 'dropout': 0.3998944720110367, 'batch_size': 16, 'lambda_ordinal': 0.2302965776236024, 'oversample_method': 'adasyn', 'smote_ratio': 0.41828626105401034, 'context_architecture': 'dcnv2', 'sequence_architecture': 'dsc_bilstm_attention', 'fm_embedding_dim': 8, 'dcn_cross_layers': 2, 'context_hidden_dim': 128, 'sequence_hidden_dim': 64, 'fusion_hidden_dim': 64}. Best is trial 0 with value: 0.8012617082366521.
+2026-06-12 17:48:41,493 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:48:41,496 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:48:41,517 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.4986017306305973...
+2026-06-12 17:48:41,646 - preprocessing - INFO - Feature selection complete. Selected 15 / 19 features.
+2026-06-12 17:48:53,914 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:48:53,914 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:48:53,944 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.4986017306305973...
+2026-06-12 17:48:54,076 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:49:01,318] Early stopping triggered at epoch 28
+2026-06-12 17:49:01,318 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:49:01,318 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:49:01,337 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.4986017306305973...
+2026-06-12 17:49:01,469 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:49:08,436] Early stopping triggered at epoch 26
+2026-06-12 17:49:08,440 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:49:08,442 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:49:08,463 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.4986017306305973...
+2026-06-12 17:49:08,622 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:49:15,104] Early stopping triggered at epoch 25
+2026-06-12 17:49:15,108 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:49:15,110 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:49:15,122 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.4986017306305973...
+2026-06-12 17:49:15,242 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:49:21,791] Early stopping triggered at epoch 25
+[I 2026-06-12 17:49:21,807] Trial 13 finished with value: 0.7947660643314987 and parameters: {'learning_rate': 0.002554363194527121, 'weight_decay': 0.0003913728039321853, 'dropout': 0.10201766864120554, 'batch_size': 16, 'lambda_ordinal': 0.3977294619526861, 'oversample_method': 'adasyn', 'smote_ratio': 0.4986017306305973, 'context_architecture': 'deepfm', 'sequence_architecture': 'dsc_bilstm_attention', 'fm_embedding_dim': 8, 'dcn_cross_layers': 2, 'context_hidden_dim': 128, 'sequence_hidden_dim': 64, 'fusion_hidden_dim': 64}. Best is trial 0 with value: 0.8012617082366521.
+2026-06-12 17:49:21,817 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:49:21,817 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:49:21,839 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.46995923771899384...
+2026-06-12 17:49:21,955 - preprocessing - INFO - Feature selection complete. Selected 15 / 19 features.
+2026-06-12 17:49:34,532 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:49:34,534 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:49:34,552 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.46995923771899384...
+2026-06-12 17:49:34,679 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:49:41,755] Early stopping triggered at epoch 28
+2026-06-12 17:49:41,755 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:49:41,764 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:49:41,783 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.46995923771899384...
+2026-06-12 17:49:41,915 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:49:47,709] Early stopping triggered at epoch 22
+2026-06-12 17:49:47,710 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:49:47,710 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:49:47,725 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.46995923771899384...
+2026-06-12 17:49:47,862 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:49:54,446] Early stopping triggered at epoch 26
+2026-06-12 17:49:54,446 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:49:54,446 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:49:54,474 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.46995923771899384...
+2026-06-12 17:49:54,599 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:50:02,492] Early stopping triggered at epoch 30
+[I 2026-06-12 17:50:02,492] Trial 14 finished with value: 0.7943555484525413 and parameters: {'learning_rate': 0.0029850008793120796, 'weight_decay': 0.00035256242539360695, 'dropout': 0.28539469257062305, 'batch_size': 16, 'lambda_ordinal': 0.25101300058182247, 'oversample_method': 'adasyn', 'smote_ratio': 0.46995923771899384, 'context_architecture': 'deepfm', 'sequence_architecture': 'dsc_bilstm_attention', 'fm_embedding_dim': 8, 'dcn_cross_layers': 1, 'context_hidden_dim': 128, 'sequence_hidden_dim': 64, 'fusion_hidden_dim': 64}. Best is trial 0 with value: 0.8012617082366521.
+2026-06-12 17:50:02,508 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:50:02,508 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:50:02,658 - preprocessing - INFO - Feature selection complete. Selected 15 / 19 features.
+[I 2026-06-12 17:50:06,807] Early stopping triggered at epoch 31
+2026-06-12 17:50:06,813 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:50:06,814 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:50:06,959 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:50:10,506] Early stopping triggered at epoch 26
+2026-06-12 17:50:10,510 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:50:10,512 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:50:10,658 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:50:16,350] Early stopping triggered at epoch 38
+2026-06-12 17:50:16,355 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:50:16,358 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:50:16,545 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:50:20,656] Early stopping triggered at epoch 29
+2026-06-12 17:50:20,672 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:50:20,672 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:50:20,813 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:50:28,063] Trial 15 finished with value: 0.7921606344274282 and parameters: {'learning_rate': 0.007641694497495967, 'weight_decay': 0.000467681833758634, 'dropout': 0.11566393318551298, 'batch_size': 32, 'lambda_ordinal': 0.3347267043716541, 'oversample_method': 'none', 'focal_gamma': 2.3249565138127783, 'context_architecture': 'deepfm', 'sequence_architecture': 'dsc_bilstm_attention', 'fm_embedding_dim': 16, 'dcn_cross_layers': 2, 'context_hidden_dim': 128, 'sequence_hidden_dim': 64, 'fusion_hidden_dim': 64}. Best is trial 0 with value: 0.8012617082366521.
+2026-06-12 17:50:28,078 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:50:28,078 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:50:28,091 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.4777652773693163...
+2026-06-12 17:50:28,224 - preprocessing - INFO - Feature selection complete. Selected 15 / 19 features.
+[I 2026-06-12 17:50:38,559] Early stopping triggered at epoch 42
+2026-06-12 17:50:38,559 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:50:38,559 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:50:38,580 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.4777652773693163...
+2026-06-12 17:50:38,719 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:50:45,260] Early stopping triggered at epoch 26
+2026-06-12 17:50:45,263 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:50:45,265 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:50:45,279 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.4777652773693163...
+2026-06-12 17:50:45,413 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:50:55,609] Early stopping triggered at epoch 39
+2026-06-12 17:50:55,613 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:50:55,615 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:50:55,632 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.4777652773693163...
+2026-06-12 17:50:55,743 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+2026-06-12 17:51:08,490 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:51:08,490 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:51:08,515 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.4777652773693163...
+2026-06-12 17:51:08,647 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:51:16,268] Early stopping triggered at epoch 29
+[I 2026-06-12 17:51:16,270] Trial 16 finished with value: 0.7831154940991814 and parameters: {'learning_rate': 0.0021305357971451518, 'weight_decay': 0.000997455073676173, 'dropout': 0.10318256922049457, 'batch_size': 16, 'lambda_ordinal': 0.3922654483148002, 'oversample_method': 'adasyn', 'smote_ratio': 0.4777652773693163, 'context_architecture': 'deepfm', 'sequence_architecture': 'dsc_bilstm_attention', 'fm_embedding_dim': 8, 'dcn_cross_layers': 3, 'context_hidden_dim': 128, 'sequence_hidden_dim': 64, 'fusion_hidden_dim': 64}. Best is trial 0 with value: 0.8012617082366521.
+2026-06-12 17:51:16,284 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:51:16,286 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:51:16,304 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.40188853005209846...
+2026-06-12 17:51:16,438 - preprocessing - INFO - Feature selection complete. Selected 15 / 19 features.
+[I 2026-06-12 17:51:26,861] Early stopping triggered at epoch 41
+2026-06-12 17:51:26,867 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:51:26,867 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:51:26,886 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.40188853005209846...
+2026-06-12 17:51:27,017 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:51:32,322] Early stopping triggered at epoch 21
+2026-06-12 17:51:32,327 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:51:32,329 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:51:32,345 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.40188853005209846...
+2026-06-12 17:51:32,486 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:51:42,014] Early stopping triggered at epoch 36
+2026-06-12 17:51:42,014 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:51:42,014 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:51:42,039 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.40188853005209846...
+2026-06-12 17:51:42,162 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:51:48,697] Early stopping triggered at epoch 26
+2026-06-12 17:51:48,697 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:51:48,697 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:51:48,718 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.40188853005209846...
+2026-06-12 17:51:48,843 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:52:01,292] Early stopping triggered at epoch 46
+[I 2026-06-12 17:52:01,294] Trial 17 finished with value: 0.7834634088965537 and parameters: {'learning_rate': 0.005297929393278662, 'weight_decay': 0.0004971323102214717, 'dropout': 0.3126505971580185, 'batch_size': 16, 'lambda_ordinal': 0.28930803580803466, 'oversample_method': 'smote', 'smote_ratio': 0.40188853005209846, 'context_architecture': 'deepfm', 'sequence_architecture': 'dsc_bilstm_attention', 'fm_embedding_dim': 8, 'dcn_cross_layers': 2, 'context_hidden_dim': 128, 'sequence_hidden_dim': 64, 'fusion_hidden_dim': 64}. Best is trial 0 with value: 0.8012617082366521.
+2026-06-12 17:52:01,310 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:52:01,310 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:52:01,329 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.7904669520312422...
+2026-06-12 17:52:01,341 - preprocessing - WARNING - ADASYN failed (likely too few samples). Error: No samples will be generated with the provided ratio settings.. Falling back to no oversampling.
+2026-06-12 17:52:01,466 - preprocessing - INFO - Feature selection complete. Selected 15 / 19 features.
+[I 2026-06-12 17:52:04,689] Early stopping triggered at epoch 44
+2026-06-12 17:52:04,689 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:52:04,689 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:52:04,716 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.7904669520312422...
+2026-06-12 17:52:04,733 - preprocessing - WARNING - ADASYN failed (likely too few samples). Error: No samples will be generated with the provided ratio settings.. Falling back to no oversampling.
+2026-06-12 17:52:04,861 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:52:07,584] Early stopping triggered at epoch 36
+2026-06-12 17:52:07,589 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:52:07,591 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:52:07,609 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.7904669520312422...
+2026-06-12 17:52:07,622 - preprocessing - WARNING - ADASYN failed (likely too few samples). Error: No samples will be generated with the provided ratio settings.. Falling back to no oversampling.
+2026-06-12 17:52:07,754 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:52:11,583] Early stopping triggered at epoch 49
+2026-06-12 17:52:11,587 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:52:11,589 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:52:11,605 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.7904669520312422...
+2026-06-12 17:52:11,626 - preprocessing - WARNING - ADASYN failed (likely too few samples). Error: No samples will be generated with the provided ratio settings.. Falling back to no oversampling.
+2026-06-12 17:52:11,758 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:52:14,789] Early stopping triggered at epoch 40
+2026-06-12 17:52:14,789 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:52:14,805 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:52:14,820 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.7904669520312422...
+2026-06-12 17:52:14,838 - preprocessing - WARNING - ADASYN failed (likely too few samples). Error: No samples will be generated with the provided ratio settings.. Falling back to no oversampling.
+2026-06-12 17:52:14,962 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:52:18,157] Early stopping triggered at epoch 41
+[I 2026-06-12 17:52:18,157] Trial 18 finished with value: 0.7820121812133759 and parameters: {'learning_rate': 0.0017354092883150507, 'weight_decay': 8.014553755593393e-05, 'dropout': 0.26211661658464214, 'batch_size': 64, 'lambda_ordinal': 0.42628225032251266, 'oversample_method': 'adasyn', 'smote_ratio': 0.7904669520312422, 'context_architecture': 'deepfm', 'sequence_architecture': 'dsc_bilstm_attention', 'fm_embedding_dim': 32, 'dcn_cross_layers': 3, 'context_hidden_dim': 32, 'sequence_hidden_dim': 64, 'fusion_hidden_dim': 64}. Best is trial 0 with value: 0.8012617082366521.
+2026-06-12 17:52:18,181 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:52:18,181 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:52:18,310 - preprocessing - INFO - Feature selection complete. Selected 15 / 19 features.
+[I 2026-06-12 17:52:22,928] Early stopping triggered at epoch 35
+2026-06-12 17:52:22,928 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:52:22,928 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:52:23,088 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:52:26,617] Early stopping triggered at epoch 26
+2026-06-12 17:52:26,617 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:52:26,617 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:52:26,770 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:52:30,617] Early stopping triggered at epoch 26
+2026-06-12 17:52:30,624 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:52:30,627 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:52:30,794 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:52:35,497] Early stopping triggered at epoch 34
+2026-06-12 17:52:35,497 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:52:35,511 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:52:35,656 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:52:39,238] Early stopping triggered at epoch 26
+[I 2026-06-12 17:52:39,238] Trial 19 finished with value: 0.7954507853175702 and parameters: {'learning_rate': 0.002154573607128265, 'weight_decay': 4.0952121897530735e-05, 'dropout': 0.1409980604593017, 'batch_size': 32, 'lambda_ordinal': 0.18704673648273068, 'oversample_method': 'none', 'focal_gamma': 1.042114233687574, 'context_architecture': 'deepfm', 'sequence_architecture': 'dsc_bilstm_attention', 'fm_embedding_dim': 16, 'dcn_cross_layers': 1, 'context_hidden_dim': 64, 'sequence_hidden_dim': 64, 'fusion_hidden_dim': 64}. Best is trial 0 with value: 0.8012617082366521.
+2026-06-12 17:52:39,266 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:52:39,266 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:52:39,396 - preprocessing - INFO - Feature selection complete. Selected 15 / 19 features.
+[I 2026-06-12 17:52:44,648] Early stopping triggered at epoch 47
+2026-06-12 17:52:44,648 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:52:44,662 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:52:44,792 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:52:47,818] Early stopping triggered at epoch 27
+2026-06-12 17:52:47,825 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:52:47,825 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:52:47,950 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:52:52,239] Early stopping triggered at epoch 37
+2026-06-12 17:52:52,253 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:52:52,255 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:52:52,397 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+2026-06-12 17:52:58,032 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:52:58,038 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:52:58,180 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:53:01,610] Early stopping triggered at epoch 30
+[I 2026-06-12 17:53:01,610] Trial 20 finished with value: 0.798982130736599 and parameters: {'learning_rate': 0.00045836685374515826, 'weight_decay': 2.944174608607154e-05, 'dropout': 0.16533633568885814, 'batch_size': 32, 'lambda_ordinal': 0.16032467503054623, 'oversample_method': 'none', 'focal_gamma': 1.0703463378572826, 'context_architecture': 'mlp_baseline', 'sequence_architecture': 'dsc_bilstm_attention', 'fm_embedding_dim': 16, 'dcn_cross_layers': 1, 'context_hidden_dim': 64, 'sequence_hidden_dim': 64, 'fusion_hidden_dim': 64}. Best is trial 0 with value: 0.8012617082366521.
+2026-06-12 17:53:01,626 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:53:01,626 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:53:01,773 - preprocessing - INFO - Feature selection complete. Selected 15 / 19 features.
+[I 2026-06-12 17:53:06,991] Early stopping triggered at epoch 46
+2026-06-12 17:53:07,002 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:53:07,008 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:53:07,146 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+2026-06-12 17:53:12,828 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:53:12,828 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:53:12,979 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:53:15,812] Early stopping triggered at epoch 25
+2026-06-12 17:53:15,815 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:53:15,817 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:53:15,957 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:53:19,205] Early stopping triggered at epoch 29
+2026-06-12 17:53:19,212 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:53:19,214 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:53:19,359 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:53:21,888] Early stopping triggered at epoch 22
+[I 2026-06-12 17:53:21,888] Trial 21 finished with value: 0.7594036844768961 and parameters: {'learning_rate': 0.00031950532932781424, 'weight_decay': 3.1611924447771954e-05, 'dropout': 0.16498995823004142, 'batch_size': 32, 'lambda_ordinal': 0.1747384782974182, 'oversample_method': 'none', 'focal_gamma': 1.0037392964781013, 'context_architecture': 'mlp_baseline', 'sequence_architecture': 'dsc_bilstm_attention', 'fm_embedding_dim': 16, 'dcn_cross_layers': 1, 'context_hidden_dim': 64, 'sequence_hidden_dim': 64, 'fusion_hidden_dim': 64}. Best is trial 0 with value: 0.8012617082366521.
+2026-06-12 17:53:21,909 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:53:21,909 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:53:22,058 - preprocessing - INFO - Feature selection complete. Selected 15 / 19 features.
+[I 2026-06-12 17:53:24,825] Early stopping triggered at epoch 25
+2026-06-12 17:53:24,836 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:53:24,836 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:53:24,968 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:53:28,177] Early stopping triggered at epoch 28
+2026-06-12 17:53:28,177 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:53:28,177 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:53:28,314 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:53:32,114] Early stopping triggered at epoch 33
+2026-06-12 17:53:32,118 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:53:32,121 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:53:32,266 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:53:36,960] Early stopping triggered at epoch 41
+2026-06-12 17:53:36,960 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:53:36,960 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:53:37,118 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:53:43,193] Trial 22 finished with value: 0.7677422649550103 and parameters: {'learning_rate': 0.00040330919566988765, 'weight_decay': 2.7709492132610016e-05, 'dropout': 0.1497808144646311, 'batch_size': 32, 'lambda_ordinal': 0.1768006513389424, 'oversample_method': 'none', 'focal_gamma': 1.5240136017524795, 'context_architecture': 'mlp_baseline', 'sequence_architecture': 'dsc_bilstm_attention', 'fm_embedding_dim': 16, 'dcn_cross_layers': 1, 'context_hidden_dim': 64, 'sequence_hidden_dim': 64, 'fusion_hidden_dim': 64}. Best is trial 0 with value: 0.8012617082366521.
+2026-06-12 17:53:43,214 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:53:43,214 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:53:43,353 - preprocessing - INFO - Feature selection complete. Selected 15 / 19 features.
+[I 2026-06-12 17:53:45,912] Early stopping triggered at epoch 23
+2026-06-12 17:53:45,917 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:53:45,919 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:53:46,062 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:53:48,993] Early stopping triggered at epoch 26
+2026-06-12 17:53:48,993 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:53:48,993 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:53:49,139 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:53:52,152] Early stopping triggered at epoch 26
+2026-06-12 17:53:52,152 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:53:52,152 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:53:52,305 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:53:55,500] Early stopping triggered at epoch 28
+2026-06-12 17:53:55,500 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:53:55,516 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:53:55,653 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:53:58,553] Early stopping triggered at epoch 25
+[I 2026-06-12 17:53:58,555] Trial 23 finished with value: 0.7746885560974139 and parameters: {'learning_rate': 0.0018072486915580535, 'weight_decay': 2.356406484833339e-05, 'dropout': 0.33618007722265375, 'batch_size': 32, 'lambda_ordinal': 0.16164281785748752, 'oversample_method': 'none', 'focal_gamma': 1.6720696682430605, 'context_architecture': 'mlp_baseline', 'sequence_architecture': 'dsc_bilstm_attention', 'fm_embedding_dim': 16, 'dcn_cross_layers': 1, 'context_hidden_dim': 64, 'sequence_hidden_dim': 64, 'fusion_hidden_dim': 64}. Best is trial 0 with value: 0.8012617082366521.
+2026-06-12 17:53:58,566 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:53:58,566 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:53:58,704 - preprocessing - INFO - Feature selection complete. Selected 15 / 19 features.
+[I 2026-06-12 17:54:03,208] Early stopping triggered at epoch 40
+2026-06-12 17:54:03,224 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:54:03,224 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:54:03,360 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:54:08,577] Early stopping triggered at epoch 46
+2026-06-12 17:54:08,577 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:54:08,577 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:54:08,709 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:54:14,096] Early stopping triggered at epoch 46
+2026-06-12 17:54:14,096 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:54:14,096 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:54:14,247 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:54:18,908] Early stopping triggered at epoch 41
+2026-06-12 17:54:18,908 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:54:18,908 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:54:19,047 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:54:24,783] Trial 24 finished with value: 0.7561359765774496 and parameters: {'learning_rate': 0.00019806120069468963, 'weight_decay': 4.941620368078972e-05, 'dropout': 0.23587148461027346, 'batch_size': 32, 'lambda_ordinal': 0.06670383000989888, 'oversample_method': 'none', 'focal_gamma': 1.0132052890494225, 'context_architecture': 'mlp_baseline', 'sequence_architecture': 'dsc_bilstm_attention', 'fm_embedding_dim': 16, 'dcn_cross_layers': 1, 'context_hidden_dim': 64, 'sequence_hidden_dim': 64, 'fusion_hidden_dim': 64}. Best is trial 0 with value: 0.8012617082366521.
+2026-06-12 17:54:24,790 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:54:24,801 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:54:24,943 - preprocessing - INFO - Feature selection complete. Selected 15 / 19 features.
+[I 2026-06-12 17:54:30,341] Early stopping triggered at epoch 41
+2026-06-12 17:54:30,341 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:54:30,347 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:54:30,502 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:54:33,628] Early stopping triggered at epoch 23
+2026-06-12 17:54:33,628 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:54:33,628 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:54:33,779 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:54:37,823] Early stopping triggered at epoch 29
+2026-06-12 17:54:37,823 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:54:37,839 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:54:37,978 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:54:41,558] Early stopping triggered at epoch 27
+2026-06-12 17:54:41,558 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:54:41,558 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:54:41,698 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:54:46,440] Early stopping triggered at epoch 34
+[I 2026-06-12 17:54:46,444] Trial 25 finished with value: 0.7896610160112999 and parameters: {'learning_rate': 0.004635614391602496, 'weight_decay': 0.00010447347025825474, 'dropout': 0.27410282920978857, 'batch_size': 32, 'lambda_ordinal': 0.21318393863334076, 'oversample_method': 'none', 'focal_gamma': 1.5703817754601688, 'context_architecture': 'deepfm', 'sequence_architecture': 'dsc_bilstm_attention', 'fm_embedding_dim': 16, 'dcn_cross_layers': 1, 'context_hidden_dim': 64, 'sequence_hidden_dim': 64, 'fusion_hidden_dim': 64}. Best is trial 0 with value: 0.8012617082366521.
+2026-06-12 17:54:46,456 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:54:46,456 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:54:46,588 - preprocessing - INFO - Feature selection complete. Selected 15 / 19 features.
+[I 2026-06-12 17:54:49,254] Early stopping triggered at epoch 24
+2026-06-12 17:54:49,254 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:54:49,254 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:54:49,404 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:54:52,104] Early stopping triggered at epoch 24
+2026-06-12 17:54:52,110 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:54:52,110 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:54:52,242 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:54:55,782] Early stopping triggered at epoch 29
+2026-06-12 17:54:55,782 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:54:55,782 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:54:55,932 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:54:58,687] Early stopping triggered at epoch 22
+2026-06-12 17:54:58,694 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:54:58,694 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:54:58,834 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:55:02,213] Early stopping triggered at epoch 27
+[I 2026-06-12 17:55:02,213] Trial 26 finished with value: 0.775686008218645 and parameters: {'learning_rate': 0.000652035475704492, 'weight_decay': 1.0043016097229522e-05, 'dropout': 0.13609953392292548, 'batch_size': 32, 'lambda_ordinal': 0.12820899719663406, 'oversample_method': 'none', 'focal_gamma': 2.1337233339377524, 'context_architecture': 'mlp_baseline', 'sequence_architecture': 'dsc_bilstm_attention', 'fm_embedding_dim': 16, 'dcn_cross_layers': 1, 'context_hidden_dim': 64, 'sequence_hidden_dim': 64, 'fusion_hidden_dim': 128}. Best is trial 0 with value: 0.8012617082366521.
+2026-06-12 17:55:02,225 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:55:02,225 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:55:02,372 - preprocessing - INFO - Feature selection complete. Selected 15 / 19 features.
+2026-06-12 17:55:08,996 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:55:08,996 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:55:09,134 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:55:14,477] Early stopping triggered at epoch 39
+2026-06-12 17:55:14,483 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:55:14,483 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:55:14,625 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:55:18,611] Early stopping triggered at epoch 29
+2026-06-12 17:55:18,611 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:55:18,628 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:55:18,771 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:55:23,842] Early stopping triggered at epoch 37
+2026-06-12 17:55:23,842 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:55:23,848 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:55:24,002 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:55:28,816] Early stopping triggered at epoch 34
+[I 2026-06-12 17:55:28,816] Trial 27 finished with value: 0.7799819980474757 and parameters: {'learning_rate': 0.0015659878971793681, 'weight_decay': 4.2637215671304456e-05, 'dropout': 0.3491289339837413, 'batch_size': 32, 'lambda_ordinal': 0.28820279972672846, 'oversample_method': 'none', 'focal_gamma': 1.3918519667665286, 'context_architecture': 'deepfm', 'sequence_architecture': 'dsc_bilstm_attention', 'fm_embedding_dim': 16, 'dcn_cross_layers': 1, 'context_hidden_dim': 64, 'sequence_hidden_dim': 64, 'fusion_hidden_dim': 64}. Best is trial 0 with value: 0.8012617082366521.
+2026-06-12 17:55:28,848 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:55:28,851 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:55:28,992 - preprocessing - INFO - Feature selection complete. Selected 15 / 19 features.
+[I 2026-06-12 17:55:33,013] Early stopping triggered at epoch 30
+2026-06-12 17:55:33,020 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:55:33,020 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:55:33,152 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:55:36,525] Early stopping triggered at epoch 25
+2026-06-12 17:55:36,531 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:55:36,531 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:55:36,678 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:55:41,172] Early stopping triggered at epoch 32
+2026-06-12 17:55:41,179 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:55:41,202 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:55:41,352 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:55:44,910] Early stopping triggered at epoch 26
+2026-06-12 17:55:44,914 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:55:44,914 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:55:45,065 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:55:48,625] Early stopping triggered at epoch 25
+[I 2026-06-12 17:55:48,637] Trial 28 finished with value: 0.7634223134596976 and parameters: {'learning_rate': 0.00529939818220399, 'weight_decay': 2.1834139008546862e-05, 'dropout': 0.43240360260345584, 'batch_size': 32, 'lambda_ordinal': 0.01654520420718325, 'oversample_method': 'none', 'focal_gamma': 1.8388438745239455, 'context_architecture': 'deepfm', 'sequence_architecture': 'dsc_bilstm_attention', 'fm_embedding_dim': 16, 'dcn_cross_layers': 1, 'context_hidden_dim': 64, 'sequence_hidden_dim': 64, 'fusion_hidden_dim': 64}. Best is trial 0 with value: 0.8012617082366521.
+2026-06-12 17:55:48,652 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:55:48,652 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:55:48,789 - preprocessing - INFO - Feature selection complete. Selected 15 / 19 features.
+[I 2026-06-12 17:55:51,652] Early stopping triggered at epoch 25
+2026-06-12 17:55:51,656 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:55:51,660 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:55:51,802 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:55:54,369] Early stopping triggered at epoch 22
+2026-06-12 17:55:54,375 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:55:54,375 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:55:54,524 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:55:57,107] Early stopping triggered at epoch 22
+2026-06-12 17:55:57,121 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:55:57,121 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:55:57,266 - preprocessing - INFO - Feature selection complete. Selected 16 / 19 features.
+[I 2026-06-12 17:56:01,998] Early stopping triggered at epoch 40
+2026-06-12 17:56:01,998 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:56:02,012 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:56:02,151 - preprocessing - INFO - Feature selection complete. Selected 18 / 19 features.
+[I 2026-06-12 17:56:06,091] Early stopping triggered at epoch 32
+[I 2026-06-12 17:56:06,098] Trial 29 finished with value: 0.7689374367117321 and parameters: {'learning_rate': 0.000861408651077777, 'weight_decay': 3.545953152017615e-05, 'dropout': 0.3067847382483982, 'batch_size': 32, 'lambda_ordinal': 0.3665677067743534, 'oversample_method': 'none', 'focal_gamma': 2.5468065625225407, 'context_architecture': 'mlp_baseline', 'sequence_architecture': 'dsc_bilstm_attention', 'fm_embedding_dim': 32, 'dcn_cross_layers': 2, 'context_hidden_dim': 64, 'sequence_hidden_dim': 64, 'fusion_hidden_dim': 64}. Best is trial 0 with value: 0.8012617082366521.
+2026-06-12 17:56:06,098 - run_pipeline - INFO - Best Optuna Trial:
+2026-06-12 17:56:06,098 - run_pipeline - INFO -   F1-Macro (CV): 0.8013
+2026-06-12 17:56:06,098 - run_pipeline - INFO -   Params: {'learning_rate': 0.002958594248396769, 'weight_decay': 0.0009336558238410763, 'dropout': 0.3093558354184839, 'batch_size': 16, 'lambda_ordinal': 0.34920713801634873, 'oversample_method': 'smote', 'smote_ratio': 0.4190721074726053, 'context_architecture': 'deepfm', 'sequence_architecture': 'dsc_bilstm_attention', 'fm_embedding_dim': 32, 'dcn_cross_layers': 2, 'context_hidden_dim': 128, 'sequence_hidden_dim': 64, 'fusion_hidden_dim': 64}
+2026-06-12 17:56:06,098 - run_pipeline - INFO - Starting Final Evaluation on Locked Test with Fixed Seeds...
+2026-06-12 17:56:06,114 - preprocessing - INFO - Applying SMOTE on train set with ratio 1.0...
+2026-06-12 17:56:06,223 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:56:06,223 - preprocessing - INFO - xAPI engineered features created: ['engagement_score', 'absence_risk', 'parent_support_signal']
+2026-06-12 17:56:06,265 - preprocessing - INFO - Feature selection complete. Selected 15 / 16 features.
+2026-06-12 17:56:06,280 - run_pipeline - INFO - Training Seed 42...
+Traceback (most recent call last):
+  File "C:\Huflit\kltn\scripts\run_pipeline.py", line 196, in <module>
+    main()
+  File "C:\Huflit\kltn\scripts\run_pipeline.py", line 136, in main
+    model, _, _ = train_model(model, train_loader, train_loader, criterion, optimizer, tconfig, device)
+  File "C:\Huflit\kltn\src\train_pipeline.py", line 101, in train_model
+    train_loss = train_epoch(model, train_loader, criterion, optimizer, device)
+  File "C:\Huflit\kltn\src\train_pipeline.py", line 57, in train_epoch
+    logits, expected_val = model(seq_x, num_x, cat_x)
+  File "C:\Users\THPhu\AppData\Local\Programs\Python\Python310\lib\site-packages\torch\nn\modules\module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "C:\Users\THPhu\AppData\Local\Programs\Python\Python310\lib\site-packages\torch\nn\modules\module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "C:\Huflit\kltn\src\models.py", line 532, in forward
+    logits, expected_val = self.core_model(seq_x, num_x, cat_x)
+  File "C:\Users\THPhu\AppData\Local\Programs\Python\Python310\lib\site-packages\torch\nn\modules\module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "C:\Users\THPhu\AppData\Local\Programs\Python\Python310\lib\site-packages\torch\nn\modules\module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "C:\Huflit\kltn\src\models.py", line 463, in forward
+    context_vector = self.context_branch(num_x, cat_x)
+  File "C:\Users\THPhu\AppData\Local\Programs\Python\Python310\lib\site-packages\torch\nn\modules\module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "C:\Users\THPhu\AppData\Local\Programs\Python\Python310\lib\site-packages\torch\nn\modules\module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "C:\Huflit\kltn\src\models.py", line 161, in forward
+    linear_out += self.linear_num(num_x)
+  File "C:\Users\THPhu\AppData\Local\Programs\Python\Python310\lib\site-packages\torch\nn\modules\module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "C:\Users\THPhu\AppData\Local\Programs\Python\Python310\lib\site-packages\torch\nn\modules\module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "C:\Users\THPhu\AppData\Local\Programs\Python\Python310\lib\site-packages\torch\nn\modules\linear.py", line 134, in forward
+    return F.linear(input, self.weight, self.bias)
+RuntimeError: mat1 and mat2 shapes cannot be multiplied (16x1 and 4x1)

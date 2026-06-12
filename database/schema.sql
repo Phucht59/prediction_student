@@ -44,6 +44,8 @@ CREATE TABLE IF NOT EXISTS paper_predictions (
     true_label_name VARCHAR(64),
     predicted_label_name VARCHAR(64),
     probability JSONB,
+    confidence REAL,
+    original_features JSONB,
     seed INTEGER,
     run_label VARCHAR(128),
     G1 REAL,
@@ -75,13 +77,31 @@ CREATE TABLE IF NOT EXISTS paper_learning_recommendations (
     run_id BIGINT REFERENCES paper_runs(paper_run_id) ON DELETE SET NULL,
     dataset VARCHAR(64) NOT NULL,
     model_name VARCHAR(128),
+    row_index INTEGER,
+    true_label INTEGER,
     predicted_label INTEGER,
+    confidence REAL,
     risk_band VARCHAR(64),
     feature_snapshot JSONB,
     recommended_learning_path JSONB,
     recommendation_payload JSONB,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+ALTER TABLE paper_predictions
+ADD COLUMN IF NOT EXISTS confidence REAL;
+
+ALTER TABLE paper_predictions
+ADD COLUMN IF NOT EXISTS original_features JSONB;
+
+ALTER TABLE paper_learning_recommendations
+ADD COLUMN IF NOT EXISTS row_index INTEGER;
+
+ALTER TABLE paper_learning_recommendations
+ADD COLUMN IF NOT EXISTS true_label INTEGER;
+
+ALTER TABLE paper_learning_recommendations
+ADD COLUMN IF NOT EXISTS confidence REAL;
 
 CREATE UNIQUE INDEX IF NOT EXISTS idx_students_dataset_row
 ON students(dataset_name, source_row_index);

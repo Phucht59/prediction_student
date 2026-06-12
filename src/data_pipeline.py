@@ -152,10 +152,17 @@ from scipy.stats import pearsonr, chi2_contingency
 logger = setup_logger("feature_selection")
 
 class FeatureSelector:
-    def __init__(self, target_col: str, use_feature_selection: bool = True, p_value_threshold: float = 0.1):
+    def __init__(
+        self,
+        target_col: str,
+        use_feature_selection: bool = True,
+        p_value_threshold: float = 0.1,
+        required_features: list | None = None,
+    ):
         self.target_col = target_col
         self.use_feature_selection = use_feature_selection
         self.p_value_threshold = p_value_threshold
+        self.required_features = required_features or []
         self.selected_features = []
         
     def fit_transform(self, df: pd.DataFrame, numerical_cols: list, categorical_cols: list):
@@ -186,6 +193,11 @@ class FeatureSelector:
                 
         # Always keep target and some essential engineered features if they dropped accidentally but shouldn't be dropped?
         # Actually let's trust the stat test, but ensure we don't drop sequence features later.
+        selected.extend(
+            feature
+            for feature in self.required_features
+            if feature in df.columns and feature not in selected
+        )
         self.selected_features = selected
         logger.info(f"Feature selection complete. Selected {len(selected)} / {len(numerical_cols) + len(categorical_cols)} features.")
         return self.transform(df)
@@ -206,10 +218,17 @@ class FeatureSelector:
 logger = setup_logger("preprocessing")
 
 class DataPreprocessor:
-    def __init__(self, target_col: str, oversample_method: str = "none", smote_ratio: float = 1.0):
+    def __init__(
+        self,
+        target_col: str,
+        oversample_method: str = "none",
+        smote_ratio: float = 1.0,
+        resampling_k_neighbors: int = 5,
+    ):
         self.target_col = target_col
         self.oversample_method = oversample_method.lower()
         self.smote_ratio = smote_ratio
+        self.resampling_k_neighbors = resampling_k_neighbors
         self.numerical_cols = []
         self.categorical_cols = []
         self.scalers = {}
@@ -250,6 +269,10 @@ class DataPreprocessor:
             # Dynamically calculate sampling strategy for multiclass
             class_counts = pd.Series(y_encoded).value_counts()
             majority_count = class_counts.max()
+            effective_k_neighbors = min(
+                self.resampling_k_neighbors,
+                max(1, int(class_counts.min()) - 1),
+            )
             strategy = {}
             for cls, count in class_counts.items():
                 if count == majority_count:
@@ -258,7 +281,18 @@ class DataPreprocessor:
                     target = int(majority_count * self.smote_ratio)
                     strategy[cls] = max(count, target) # Do not undersample if already larger
                     
-            sampler = SMOTE(sampling_strategy=strategy, random_state=42) if self.oversample_method == "smote" else ADASYN(sampling_strategy=strategy, random_state=42)
+            if self.oversample_method == "smote":
+                sampler = SMOTE(
+                    sampling_strategy=strategy,
+                    random_state=42,
+                    k_neighbors=effective_k_neighbors,
+                )
+            else:
+                sampler = ADASYN(
+                    sampling_strategy=strategy,
+                    random_state=42,
+                    n_neighbors=effective_k_neighbors,
+                )
             try:
                 X_resampled, y_resampled = sampler.fit_resample(X, y_encoded)
                 X = pd.DataFrame(X_resampled, columns=X.columns)
@@ -300,30 +334,30 @@ class DataPreprocessor:
 
 
 
+def get_sequence_columns(kind: str) -> list[str]:
+    if kind == "student":
+        return ["G1", "G2"]
+    if kind == "xapi":
+        return ["raisedhands", "VisITedResources", "AnnouncementsView", "Discussion"]
+    raise ValueError(f"Unsupported dataset kind: {kind}")
+
+
 class StudentDataset(Dataset):
     def __init__(self, df: pd.DataFrame, kind: str, target_col: str, numerical_cols: list, categorical_cols: list):
         self.y = df[target_col].values if target_col in df.columns else np.zeros(len(df))
         
-        if kind == "student":
-            seq_cols = [c for c in ["G1", "G2"] if c in df.columns]
-            if len(seq_cols) == 0:
-                self.seq_x = np.zeros((len(df), 1, 1))
-            else:
-                self.seq_x = df[seq_cols].values[..., np.newaxis] # (N, L, 1)
-        else:
-            # xAPI engagement sequence
-            seq_cols = [c for c in ["raisedhands", "VisITedResources", "AnnouncementsView", "Discussion"] if c in df.columns]
-            if len(seq_cols) == 0:
-                self.seq_x = np.zeros((len(df), 1, 1))
-            else:
-                self.seq_x = df[seq_cols].values[..., np.newaxis] # (N, L, 1)
+        seq_cols = [c for c in get_sequence_columns(kind) if c in df.columns]
+        if not seq_cols:
+            raise ValueError(f"No sequential features are available for dataset kind '{kind}'.")
+        self.seq_cols = seq_cols
+        self.seq_x = df[seq_cols].values[..., np.newaxis]
                 
         # Context features
-        num_cols = [c for c in numerical_cols if c in df.columns and c not in seq_cols]
-        cat_cols = [c for c in categorical_cols if c in df.columns and c not in seq_cols]
+        self.num_cols = [c for c in numerical_cols if c in df.columns and c not in seq_cols]
+        self.cat_cols = [c for c in categorical_cols if c in df.columns and c not in seq_cols]
         
-        self.num_x = df[num_cols].values if len(num_cols) > 0 else np.zeros((len(df), 1))
-        self.cat_x = df[cat_cols].values.astype(int) if len(cat_cols) > 0 else np.zeros((len(df), 1), dtype=int)
+        self.num_x = df[self.num_cols].values if self.num_cols else np.zeros((len(df), 1))
+        self.cat_x = df[self.cat_cols].values.astype(int) if self.cat_cols else np.zeros((len(df), 1), dtype=int)
         
         # Original features for recommendation
         self.original_features = df.to_dict('records')

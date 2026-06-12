@@ -1,0 +1,1293 @@
+2026-06-12 19:39:46,738 - run_pipeline - INFO - Starting approved thesis pipeline for student-por.
+2026-06-12 19:39:46,769 - run_pipeline - INFO - Starting Optuna optimization with 50 trials.
+[I 2026-06-12 19:39:46,769] A new study created in memory with name: no-name-913d6075-d82e-4187-9cd2-f3e2ed33e4c9
+2026-06-12 19:39:46,773 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:39:46,780 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:39:46,822 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.8468038954008399...
+2026-06-12 19:39:48,500 - preprocessing - INFO - Feature selection complete. Selected 37 / 38 features.
+2026-06-12 19:39:57,109 - train_pipeline - INFO - Early stopping triggered at epoch 21
+2026-06-12 19:39:57,116 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:39:57,116 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:39:57,171 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.8468038954008399...
+2026-06-12 19:39:57,394 - preprocessing - INFO - Feature selection complete. Selected 37 / 38 features.
+2026-06-12 19:40:06,683 - train_pipeline - INFO - Early stopping triggered at epoch 29
+2026-06-12 19:40:06,683 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:40:06,690 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:40:06,733 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.8468038954008399...
+2026-06-12 19:40:06,940 - preprocessing - INFO - Feature selection complete. Selected 35 / 38 features.
+2026-06-12 19:40:20,690 - train_pipeline - INFO - Early stopping triggered at epoch 43
+2026-06-12 19:40:20,697 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:40:20,697 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:40:20,744 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.8468038954008399...
+2026-06-12 19:40:20,960 - preprocessing - INFO - Feature selection complete. Selected 35 / 38 features.
+2026-06-12 19:40:32,844 - train_pipeline - INFO - Early stopping triggered at epoch 38
+2026-06-12 19:40:32,844 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:40:32,851 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:40:32,893 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.8468038954008399...
+2026-06-12 19:40:33,144 - preprocessing - INFO - Feature selection complete. Selected 35 / 38 features.
+2026-06-12 19:40:41,412 - train_pipeline - INFO - Early stopping triggered at epoch 25
+[I 2026-06-12 19:40:41,418] Trial 0 finished with value: 0.8167954911682335 and parameters: {'learning_rate': 0.0030889429487166507, 'weight_decay': 7.30715475958035e-05, 'batch_size': 16, 'oversample_method': 'smote', 'smote_ratio': 0.8468038954008399, 'cnn_channels': 16, 'lstm_hidden_dim': 32, 'context_hidden_dim': 64, 'fusion_hidden_dim': 128, 'dropout': 0.2678464319125041}. Best is trial 0 with value: 0.8167954911682335.
+2026-06-12 19:40:41,419 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:40:41,426 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:40:41,468 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.7110085725469903...
+2026-06-12 19:40:41,704 - preprocessing - INFO - Feature selection complete. Selected 34 / 38 features.
+2026-06-12 19:40:56,661 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:40:56,661 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:40:56,716 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.7110085725469903...
+2026-06-12 19:40:56,959 - preprocessing - INFO - Feature selection complete. Selected 34 / 38 features.
+2026-06-12 19:41:11,361 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:41:11,368 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:41:11,410 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.7110085725469903...
+2026-06-12 19:41:11,639 - preprocessing - INFO - Feature selection complete. Selected 36 / 38 features.
+2026-06-12 19:41:26,353 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:41:26,360 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:41:26,407 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.7110085725469903...
+2026-06-12 19:41:26,638 - preprocessing - INFO - Feature selection complete. Selected 36 / 38 features.
+2026-06-12 19:41:42,280 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:41:42,280 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:41:42,336 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.7110085725469903...
+2026-06-12 19:41:42,547 - preprocessing - INFO - Feature selection complete. Selected 34 / 38 features.
+[I 2026-06-12 19:41:57,334] Trial 1 finished with value: 0.7586606087446821 and parameters: {'learning_rate': 0.0001739812799140201, 'weight_decay': 0.00046836725395887934, 'batch_size': 16, 'oversample_method': 'adasyn', 'smote_ratio': 0.7110085725469903, 'cnn_channels': 32, 'lstm_hidden_dim': 32, 'context_hidden_dim': 128, 'fusion_hidden_dim': 64, 'dropout': 0.4351407418297565}. Best is trial 0 with value: 0.8167954911682335.
+2026-06-12 19:41:57,334 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:41:57,334 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:41:57,384 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.954077335053953...
+2026-06-12 19:41:57,594 - preprocessing - INFO - Feature selection complete. Selected 38 / 38 features.
+2026-06-12 19:42:16,233 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:42:16,235 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:42:16,282 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.954077335053953...
+2026-06-12 19:42:16,498 - preprocessing - INFO - Feature selection complete. Selected 37 / 38 features.
+2026-06-12 19:42:26,833 - train_pipeline - INFO - Early stopping triggered at epoch 28
+2026-06-12 19:42:26,833 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:42:26,833 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:42:26,882 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.954077335053953...
+2026-06-12 19:42:27,094 - preprocessing - INFO - Feature selection complete. Selected 34 / 38 features.
+2026-06-12 19:42:41,513 - train_pipeline - INFO - Early stopping triggered at epoch 39
+2026-06-12 19:42:41,523 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:42:41,526 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:42:41,569 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.954077335053953...
+2026-06-12 19:42:41,791 - preprocessing - INFO - Feature selection complete. Selected 35 / 38 features.
+2026-06-12 19:42:49,873 - train_pipeline - INFO - Early stopping triggered at epoch 22
+2026-06-12 19:42:49,888 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:42:49,888 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:42:49,937 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.954077335053953...
+2026-06-12 19:42:50,164 - preprocessing - INFO - Feature selection complete. Selected 35 / 38 features.
+2026-06-12 19:43:02,367 - train_pipeline - INFO - Early stopping triggered at epoch 33
+[I 2026-06-12 19:43:02,367] Trial 2 finished with value: 0.7907623080312156 and parameters: {'learning_rate': 0.0011586846999604235, 'weight_decay': 1.3485350928021338e-06, 'batch_size': 16, 'oversample_method': 'smote', 'smote_ratio': 0.954077335053953, 'cnn_channels': 32, 'lstm_hidden_dim': 64, 'context_hidden_dim': 32, 'fusion_hidden_dim': 64, 'dropout': 0.26658144382270166}. Best is trial 0 with value: 0.8167954911682335.
+2026-06-12 19:43:02,374 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:43:02,374 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:43:02,425 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.647046915664896...
+2026-06-12 19:43:02,631 - preprocessing - INFO - Feature selection complete. Selected 31 / 38 features.
+2026-06-12 19:43:13,377 - train_pipeline - INFO - Early stopping triggered at epoch 38
+2026-06-12 19:43:13,377 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:43:13,377 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:43:13,434 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.647046915664896...
+2026-06-12 19:43:13,657 - preprocessing - INFO - Feature selection complete. Selected 34 / 38 features.
+2026-06-12 19:43:22,923 - train_pipeline - INFO - Early stopping triggered at epoch 32
+2026-06-12 19:43:22,923 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:43:22,930 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:43:22,971 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.647046915664896...
+2026-06-12 19:43:23,207 - preprocessing - INFO - Feature selection complete. Selected 32 / 38 features.
+2026-06-12 19:43:36,141 - train_pipeline - INFO - Early stopping triggered at epoch 45
+2026-06-12 19:43:36,153 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:43:36,155 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:43:36,189 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.647046915664896...
+2026-06-12 19:43:36,394 - preprocessing - INFO - Feature selection complete. Selected 35 / 38 features.
+2026-06-12 19:43:49,306 - train_pipeline - INFO - Early stopping triggered at epoch 46
+2026-06-12 19:43:49,306 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:43:49,306 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:43:49,371 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.647046915664896...
+2026-06-12 19:43:49,571 - preprocessing - INFO - Feature selection complete. Selected 31 / 38 features.
+2026-06-12 19:44:01,884 - train_pipeline - INFO - Early stopping triggered at epoch 43
+[I 2026-06-12 19:44:01,888] Trial 3 finished with value: 0.8085665454182627 and parameters: {'learning_rate': 0.00048795812526680147, 'weight_decay': 0.0007784302360599614, 'batch_size': 16, 'oversample_method': 'smote', 'smote_ratio': 0.647046915664896, 'cnn_channels': 64, 'lstm_hidden_dim': 32, 'context_hidden_dim': 128, 'fusion_hidden_dim': 64, 'dropout': 0.4747109494098761}. Best is trial 0 with value: 0.8167954911682335.
+2026-06-12 19:44:01,890 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:44:01,897 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:44:01,946 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.4279056645066991...
+2026-06-12 19:44:02,163 - preprocessing - INFO - Feature selection complete. Selected 30 / 38 features.
+2026-06-12 19:44:03,585 - train_pipeline - INFO - Early stopping triggered at epoch 20
+2026-06-12 19:44:03,599 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:44:03,601 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:44:03,654 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.4279056645066991...
+2026-06-12 19:44:03,870 - preprocessing - INFO - Feature selection complete. Selected 31 / 38 features.
+2026-06-12 19:44:05,228 - train_pipeline - INFO - Early stopping triggered at epoch 19
+2026-06-12 19:44:05,228 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:44:05,228 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:44:05,285 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.4279056645066991...
+2026-06-12 19:44:05,497 - preprocessing - INFO - Feature selection complete. Selected 24 / 38 features.
+2026-06-12 19:44:06,987 - train_pipeline - INFO - Early stopping triggered at epoch 21
+2026-06-12 19:44:06,991 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:44:06,994 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:44:07,047 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.4279056645066991...
+2026-06-12 19:44:07,247 - preprocessing - INFO - Feature selection complete. Selected 35 / 38 features.
+2026-06-12 19:44:08,541 - train_pipeline - INFO - Early stopping triggered at epoch 18
+2026-06-12 19:44:08,541 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:44:08,541 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:44:08,592 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.4279056645066991...
+2026-06-12 19:44:08,800 - preprocessing - INFO - Feature selection complete. Selected 30 / 38 features.
+2026-06-12 19:44:10,259 - train_pipeline - INFO - Early stopping triggered at epoch 20
+[I 2026-06-12 19:44:10,259] Trial 4 finished with value: 0.44941783466538565 and parameters: {'learning_rate': 0.00026784643998754837, 'weight_decay': 2.5307853963570713e-06, 'batch_size': 64, 'oversample_method': 'smote', 'smote_ratio': 0.4279056645066991, 'cnn_channels': 16, 'lstm_hidden_dim': 32, 'context_hidden_dim': 32, 'fusion_hidden_dim': 128, 'dropout': 0.27632286474453926}. Best is trial 0 with value: 0.8167954911682335.
+2026-06-12 19:44:10,259 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:44:10,259 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:44:10,320 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.5338968072778392...
+2026-06-12 19:44:10,525 - preprocessing - INFO - Feature selection complete. Selected 32 / 38 features.
+2026-06-12 19:44:15,242 - train_pipeline - INFO - Early stopping triggered at epoch 33
+2026-06-12 19:44:15,245 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:44:15,245 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:44:15,287 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.5338968072778392...
+2026-06-12 19:44:15,502 - preprocessing - INFO - Feature selection complete. Selected 35 / 38 features.
+2026-06-12 19:44:21,281 - train_pipeline - INFO - Early stopping triggered at epoch 40
+2026-06-12 19:44:21,288 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:44:21,288 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:44:21,329 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.5338968072778392...
+2026-06-12 19:44:21,539 - preprocessing - INFO - Feature selection complete. Selected 31 / 38 features.
+2026-06-12 19:44:24,021 - train_pipeline - INFO - Early stopping triggered at epoch 17
+2026-06-12 19:44:24,022 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:44:24,022 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:44:24,071 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.5338968072778392...
+2026-06-12 19:44:24,387 - preprocessing - INFO - Feature selection complete. Selected 35 / 38 features.
+2026-06-12 19:44:27,178 - train_pipeline - INFO - Early stopping triggered at epoch 19
+2026-06-12 19:44:27,193 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:44:27,193 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:44:27,233 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.5338968072778392...
+2026-06-12 19:44:27,435 - preprocessing - INFO - Feature selection complete. Selected 31 / 38 features.
+2026-06-12 19:44:30,343 - train_pipeline - INFO - Early stopping triggered at epoch 20
+[I 2026-06-12 19:44:30,345] Trial 5 finished with value: 0.8461679206816806 and parameters: {'learning_rate': 0.003994506372590677, 'weight_decay': 1.1606141613720694e-05, 'batch_size': 32, 'oversample_method': 'smote', 'smote_ratio': 0.5338968072778392, 'cnn_channels': 64, 'lstm_hidden_dim': 32, 'context_hidden_dim': 128, 'fusion_hidden_dim': 64, 'dropout': 0.47692482158247906}. Best is trial 5 with value: 0.8461679206816806.
+2026-06-12 19:44:30,351 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:44:30,353 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:44:30,404 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.41494190444958456...
+2026-06-12 19:44:30,626 - preprocessing - INFO - Feature selection complete. Selected 30 / 38 features.
+2026-06-12 19:44:37,200 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:44:37,200 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:44:37,251 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.41494190444958456...
+2026-06-12 19:44:37,459 - preprocessing - INFO - Feature selection complete. Selected 32 / 38 features.
+2026-06-12 19:44:40,991 - train_pipeline - INFO - Early stopping triggered at epoch 28
+2026-06-12 19:44:40,991 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:44:40,998 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:44:41,039 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.41494190444958456...
+2026-06-12 19:44:41,251 - preprocessing - INFO - Feature selection complete. Selected 25 / 38 features.
+2026-06-12 19:44:45,707 - train_pipeline - INFO - Early stopping triggered at epoch 36
+2026-06-12 19:44:45,707 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:44:45,707 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:44:45,764 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.41494190444958456...
+2026-06-12 19:44:45,981 - preprocessing - INFO - Feature selection complete. Selected 34 / 38 features.
+2026-06-12 19:44:51,334 - train_pipeline - INFO - Early stopping triggered at epoch 42
+2026-06-12 19:44:51,350 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:44:51,350 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:44:51,398 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.41494190444958456...
+2026-06-12 19:44:51,622 - preprocessing - INFO - Feature selection complete. Selected 28 / 38 features.
+2026-06-12 19:44:55,412 - train_pipeline - INFO - Early stopping triggered at epoch 30
+[I 2026-06-12 19:44:55,412] Trial 6 finished with value: 0.8458073798411544 and parameters: {'learning_rate': 0.0016363473769737383, 'weight_decay': 0.00034456576406549514, 'batch_size': 32, 'oversample_method': 'smote', 'smote_ratio': 0.41494190444958456, 'cnn_channels': 64, 'lstm_hidden_dim': 32, 'context_hidden_dim': 64, 'fusion_hidden_dim': 64, 'dropout': 0.49138126566222906}. Best is trial 5 with value: 0.8461679206816806.
+2026-06-12 19:44:55,420 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:44:55,420 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:44:55,467 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.8265683453852869...
+2026-06-12 19:44:55,692 - preprocessing - INFO - Feature selection complete. Selected 36 / 38 features.
+2026-06-12 19:45:08,006 - train_pipeline - INFO - Early stopping triggered at epoch 38
+2026-06-12 19:45:08,006 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:45:08,013 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:45:08,060 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.8265683453852869...
+2026-06-12 19:45:08,272 - preprocessing - INFO - Feature selection complete. Selected 34 / 38 features.
+2026-06-12 19:45:24,511 - train_pipeline - INFO - Early stopping triggered at epoch 49
+2026-06-12 19:45:24,511 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:45:24,511 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:45:24,566 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.8265683453852869...
+2026-06-12 19:45:24,794 - preprocessing - INFO - Feature selection complete. Selected 35 / 38 features.
+2026-06-12 19:45:41,765 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:45:41,765 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:45:41,818 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.8265683453852869...
+2026-06-12 19:45:42,068 - preprocessing - INFO - Feature selection complete. Selected 37 / 38 features.
+2026-06-12 19:45:59,044 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:45:59,051 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:45:59,099 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.8265683453852869...
+2026-06-12 19:45:59,325 - preprocessing - INFO - Feature selection complete. Selected 37 / 38 features.
+2026-06-12 19:46:17,463 - train_pipeline - INFO - Early stopping triggered at epoch 50
+[I 2026-06-12 19:46:17,463] Trial 7 finished with value: 0.7865536235250772 and parameters: {'learning_rate': 0.0002822253410051973, 'weight_decay': 3.3427823633873868e-06, 'batch_size': 16, 'oversample_method': 'adasyn', 'smote_ratio': 0.8265683453852869, 'cnn_channels': 32, 'lstm_hidden_dim': 64, 'context_hidden_dim': 128, 'fusion_hidden_dim': 64, 'dropout': 0.37096058091309914}. Best is trial 5 with value: 0.8461679206816806.
+2026-06-12 19:46:17,479 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:46:17,479 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:46:17,532 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.6557477798061133...
+2026-06-12 19:46:17,750 - preprocessing - INFO - Feature selection complete. Selected 32 / 38 features.
+2026-06-12 19:46:26,010 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:46:26,013 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:46:26,058 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.6557477798061133...
+2026-06-12 19:46:26,268 - preprocessing - INFO - Feature selection complete. Selected 34 / 38 features.
+2026-06-12 19:46:33,128 - train_pipeline - INFO - Early stopping triggered at epoch 41
+2026-06-12 19:46:33,135 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:46:33,140 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:46:33,183 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.6557477798061133...
+2026-06-12 19:46:33,405 - preprocessing - INFO - Feature selection complete. Selected 33 / 38 features.
+2026-06-12 19:46:41,730 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:46:41,730 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:46:41,786 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.6557477798061133...
+2026-06-12 19:46:41,995 - preprocessing - INFO - Feature selection complete. Selected 35 / 38 features.
+2026-06-12 19:46:47,058 - train_pipeline - INFO - Early stopping triggered at epoch 31
+2026-06-12 19:46:47,065 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:46:47,069 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:46:47,114 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.6557477798061133...
+2026-06-12 19:46:47,315 - preprocessing - INFO - Feature selection complete. Selected 31 / 38 features.
+2026-06-12 19:46:52,714 - train_pipeline - INFO - Early stopping triggered at epoch 33
+[I 2026-06-12 19:46:52,714] Trial 8 finished with value: 0.8213639604448855 and parameters: {'learning_rate': 0.00207480337305627, 'weight_decay': 0.0001639005102441387, 'batch_size': 32, 'oversample_method': 'smote', 'smote_ratio': 0.6557477798061133, 'cnn_channels': 16, 'lstm_hidden_dim': 64, 'context_hidden_dim': 128, 'fusion_hidden_dim': 64, 'dropout': 0.25503098033203586}. Best is trial 5 with value: 0.8461679206816806.
+2026-06-12 19:46:52,719 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:46:52,725 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:46:52,771 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.5251316305862751...
+2026-06-12 19:46:53,004 - preprocessing - INFO - Feature selection complete. Selected 33 / 38 features.
+2026-06-12 19:46:57,036 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:46:57,036 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:46:57,083 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.5251316305862751...
+2026-06-12 19:46:57,317 - preprocessing - INFO - Feature selection complete. Selected 33 / 38 features.
+2026-06-12 19:46:59,677 - train_pipeline - INFO - Early stopping triggered at epoch 29
+2026-06-12 19:46:59,693 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:46:59,698 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:46:59,747 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.5251316305862751...
+2026-06-12 19:46:59,966 - preprocessing - INFO - Feature selection complete. Selected 31 / 38 features.
+2026-06-12 19:47:03,653 - train_pipeline - INFO - Early stopping triggered at epoch 45
+2026-06-12 19:47:03,653 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:47:03,659 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:47:03,708 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.5251316305862751...
+2026-06-12 19:47:03,925 - preprocessing - INFO - Feature selection complete. Selected 35 / 38 features.
+2026-06-12 19:47:08,030 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:47:08,037 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:47:08,084 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.5251316305862751...
+2026-06-12 19:47:08,301 - preprocessing - INFO - Feature selection complete. Selected 31 / 38 features.
+[I 2026-06-12 19:47:12,375] Trial 9 finished with value: 0.8312744825457272 and parameters: {'learning_rate': 0.001063611364305923, 'weight_decay': 2.5727844492886434e-05, 'batch_size': 64, 'oversample_method': 'smote', 'smote_ratio': 0.5251316305862751, 'cnn_channels': 16, 'lstm_hidden_dim': 32, 'context_hidden_dim': 64, 'fusion_hidden_dim': 128, 'dropout': 0.14483710392769875}. Best is trial 5 with value: 0.8461679206816806.
+2026-06-12 19:47:12,400 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:47:12,401 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:47:12,442 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.5508025941877255...
+2026-06-12 19:47:12,671 - preprocessing - INFO - Feature selection complete. Selected 31 / 38 features.
+2026-06-12 19:47:18,318 - train_pipeline - INFO - Early stopping triggered at epoch 37
+2026-06-12 19:47:18,323 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:47:18,326 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:47:18,367 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.5508025941877255...
+2026-06-12 19:47:18,582 - preprocessing - INFO - Feature selection complete. Selected 33 / 38 features.
+2026-06-12 19:47:21,302 - train_pipeline - INFO - Early stopping triggered at epoch 18
+2026-06-12 19:47:21,320 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:47:21,322 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:47:21,371 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.5508025941877255...
+2026-06-12 19:47:21,599 - preprocessing - INFO - Feature selection complete. Selected 31 / 38 features.
+2026-06-12 19:47:24,527 - train_pipeline - INFO - Early stopping triggered at epoch 19
+2026-06-12 19:47:24,539 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:47:24,543 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:47:24,576 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.5508025941877255...
+2026-06-12 19:47:24,814 - preprocessing - INFO - Feature selection complete. Selected 35 / 38 features.
+2026-06-12 19:47:29,231 - train_pipeline - INFO - Early stopping triggered at epoch 29
+2026-06-12 19:47:29,231 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:47:29,238 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:47:29,286 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.5508025941877255...
+2026-06-12 19:47:29,516 - preprocessing - INFO - Feature selection complete. Selected 31 / 38 features.
+2026-06-12 19:47:33,387 - train_pipeline - INFO - Early stopping triggered at epoch 25
+[I 2026-06-12 19:47:33,387] Trial 10 finished with value: 0.8651336593975858 and parameters: {'learning_rate': 0.00937811405389606, 'weight_decay': 1.1401976343746573e-05, 'batch_size': 32, 'oversample_method': 'adasyn', 'smote_ratio': 0.5508025941877255, 'cnn_channels': 64, 'lstm_hidden_dim': 64, 'context_hidden_dim': 128, 'fusion_hidden_dim': 32, 'dropout': 0.3712067340226881}. Best is trial 10 with value: 0.8651336593975858.
+2026-06-12 19:47:33,402 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:47:33,405 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:47:33,449 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.5417416885272041...
+2026-06-12 19:47:33,680 - preprocessing - INFO - Feature selection complete. Selected 31 / 38 features.
+2026-06-12 19:47:39,138 - train_pipeline - INFO - Early stopping triggered at epoch 33
+2026-06-12 19:47:39,146 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:47:39,147 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:47:39,193 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.5417416885272041...
+2026-06-12 19:47:39,434 - preprocessing - INFO - Feature selection complete. Selected 33 / 38 features.
+2026-06-12 19:47:42,041 - train_pipeline - INFO - Early stopping triggered at epoch 17
+2026-06-12 19:47:42,044 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:47:42,047 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:47:42,090 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.5417416885272041...
+2026-06-12 19:47:42,316 - preprocessing - INFO - Feature selection complete. Selected 31 / 38 features.
+2026-06-12 19:47:44,994 - train_pipeline - INFO - Early stopping triggered at epoch 18
+2026-06-12 19:47:45,000 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:47:45,005 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:47:45,048 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.5417416885272041...
+2026-06-12 19:47:45,257 - preprocessing - INFO - Feature selection complete. Selected 35 / 38 features.
+2026-06-12 19:47:51,903 - train_pipeline - INFO - Early stopping triggered at epoch 43
+2026-06-12 19:47:51,909 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:47:51,913 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:47:51,951 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.5417416885272041...
+2026-06-12 19:47:52,187 - preprocessing - INFO - Feature selection complete. Selected 31 / 38 features.
+2026-06-12 19:47:55,866 - train_pipeline - INFO - Early stopping triggered at epoch 24
+[I 2026-06-12 19:47:55,870] Trial 11 finished with value: 0.8678955456470249 and parameters: {'learning_rate': 0.009490258011320907, 'weight_decay': 1.2909297177746246e-05, 'batch_size': 32, 'oversample_method': 'adasyn', 'smote_ratio': 0.5417416885272041, 'cnn_channels': 64, 'lstm_hidden_dim': 64, 'context_hidden_dim': 128, 'fusion_hidden_dim': 32, 'dropout': 0.37573310420069517}. Best is trial 11 with value: 0.8678955456470249.
+2026-06-12 19:47:55,878 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:47:55,885 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:47:55,932 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.5530406332238317...
+2026-06-12 19:47:56,152 - preprocessing - INFO - Feature selection complete. Selected 31 / 38 features.
+2026-06-12 19:48:03,627 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:48:03,645 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:48:03,682 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.5530406332238317...
+2026-06-12 19:48:03,912 - preprocessing - INFO - Feature selection complete. Selected 33 / 38 features.
+2026-06-12 19:48:07,889 - train_pipeline - INFO - Early stopping triggered at epoch 26
+2026-06-12 19:48:07,893 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:48:07,895 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:48:07,935 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.5530406332238317...
+2026-06-12 19:48:08,170 - preprocessing - INFO - Feature selection complete. Selected 31 / 38 features.
+2026-06-12 19:48:11,565 - train_pipeline - INFO - Early stopping triggered at epoch 22
+2026-06-12 19:48:11,565 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:48:11,565 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:48:11,612 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.5530406332238317...
+2026-06-12 19:48:11,824 - preprocessing - INFO - Feature selection complete. Selected 35 / 38 features.
+2026-06-12 19:48:15,686 - train_pipeline - INFO - Early stopping triggered at epoch 25
+2026-06-12 19:48:15,702 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:48:15,702 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:48:15,756 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.5530406332238317...
+2026-06-12 19:48:15,972 - preprocessing - INFO - Feature selection complete. Selected 31 / 38 features.
+[I 2026-06-12 19:48:23,475] Trial 12 finished with value: 0.8530071507298433 and parameters: {'learning_rate': 0.00914871966931705, 'weight_decay': 1.2007915067527621e-05, 'batch_size': 32, 'oversample_method': 'adasyn', 'smote_ratio': 0.5530406332238317, 'cnn_channels': 64, 'lstm_hidden_dim': 64, 'context_hidden_dim': 128, 'fusion_hidden_dim': 32, 'dropout': 0.3615582020332912}. Best is trial 11 with value: 0.8678955456470249.
+2026-06-12 19:48:23,482 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:48:23,482 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:48:23,535 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.5884381212986586...
+2026-06-12 19:48:23,753 - preprocessing - INFO - Feature selection complete. Selected 31 / 38 features.
+2026-06-12 19:48:31,162 - train_pipeline - INFO - Early stopping triggered at epoch 47
+2026-06-12 19:48:31,174 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:48:31,177 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:48:31,212 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.5884381212986586...
+2026-06-12 19:48:31,440 - preprocessing - INFO - Feature selection complete. Selected 32 / 38 features.
+2026-06-12 19:48:39,507 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:48:39,508 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:48:39,549 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.5884381212986586...
+2026-06-12 19:48:39,767 - preprocessing - INFO - Feature selection complete. Selected 34 / 38 features.
+2026-06-12 19:48:43,139 - train_pipeline - INFO - Early stopping triggered at epoch 21
+2026-06-12 19:48:43,151 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:48:43,157 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:48:43,205 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.5884381212986586...
+2026-06-12 19:48:43,419 - preprocessing - INFO - Feature selection complete. Selected 35 / 38 features.
+2026-06-12 19:48:47,978 - train_pipeline - INFO - Early stopping triggered at epoch 26
+2026-06-12 19:48:47,986 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:48:47,990 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:48:48,027 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.5884381212986586...
+2026-06-12 19:48:48,270 - preprocessing - INFO - Feature selection complete. Selected 33 / 38 features.
+2026-06-12 19:48:55,179 - train_pipeline - INFO - Early stopping triggered at epoch 42
+[I 2026-06-12 19:48:55,181] Trial 13 finished with value: 0.8455577371797117 and parameters: {'learning_rate': 0.00864409286569478, 'weight_decay': 1.1936866791082689e-05, 'batch_size': 32, 'oversample_method': 'adasyn', 'smote_ratio': 0.5884381212986586, 'cnn_channels': 64, 'lstm_hidden_dim': 64, 'context_hidden_dim': 128, 'fusion_hidden_dim': 32, 'dropout': 0.3622908838682156}. Best is trial 11 with value: 0.8678955456470249.
+2026-06-12 19:48:55,193 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:48:55,193 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:48:55,241 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.48462568971553793...
+2026-06-12 19:48:55,461 - preprocessing - INFO - Feature selection complete. Selected 32 / 38 features.
+2026-06-12 19:49:00,459 - train_pipeline - INFO - Early stopping triggered at epoch 35
+2026-06-12 19:49:00,477 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:49:00,480 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:49:00,525 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.48462568971553793...
+2026-06-12 19:49:00,740 - preprocessing - INFO - Feature selection complete. Selected 33 / 38 features.
+2026-06-12 19:49:03,491 - train_pipeline - INFO - Early stopping triggered at epoch 19
+2026-06-12 19:49:03,495 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:49:03,497 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:49:03,539 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.48462568971553793...
+2026-06-12 19:49:03,764 - preprocessing - INFO - Feature selection complete. Selected 27 / 38 features.
+2026-06-12 19:49:06,189 - train_pipeline - INFO - Early stopping triggered at epoch 17
+2026-06-12 19:49:06,203 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:49:06,207 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:49:06,251 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.48462568971553793...
+2026-06-12 19:49:06,464 - preprocessing - INFO - Feature selection complete. Selected 35 / 38 features.
+2026-06-12 19:49:11,531 - train_pipeline - INFO - Early stopping triggered at epoch 35
+2026-06-12 19:49:11,531 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:49:11,531 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:49:11,586 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.48462568971553793...
+2026-06-12 19:49:11,800 - preprocessing - INFO - Feature selection complete. Selected 29 / 38 features.
+2026-06-12 19:49:15,610 - train_pipeline - INFO - Early stopping triggered at epoch 27
+[I 2026-06-12 19:49:15,610] Trial 14 finished with value: 0.8830480130408699 and parameters: {'learning_rate': 0.005223194537320701, 'weight_decay': 3.814395336626469e-05, 'batch_size': 32, 'oversample_method': 'adasyn', 'smote_ratio': 0.48462568971553793, 'cnn_channels': 64, 'lstm_hidden_dim': 64, 'context_hidden_dim': 128, 'fusion_hidden_dim': 32, 'dropout': 0.18687957984716916}. Best is trial 14 with value: 0.8830480130408699.
+2026-06-12 19:49:15,622 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:49:15,626 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:49:15,673 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.47798549957078507...
+2026-06-12 19:49:15,885 - preprocessing - INFO - Feature selection complete. Selected 32 / 38 features.
+2026-06-12 19:49:18,836 - train_pipeline - INFO - Early stopping triggered at epoch 21
+2026-06-12 19:49:18,843 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:49:18,848 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:49:18,892 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.47798549957078507...
+2026-06-12 19:49:19,116 - preprocessing - INFO - Feature selection complete. Selected 33 / 38 features.
+2026-06-12 19:49:22,062 - train_pipeline - INFO - Early stopping triggered at epoch 21
+2026-06-12 19:49:22,066 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:49:22,070 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:49:22,113 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.47798549957078507...
+2026-06-12 19:49:22,351 - preprocessing - INFO - Feature selection complete. Selected 27 / 38 features.
+2026-06-12 19:49:27,508 - train_pipeline - INFO - Early stopping triggered at epoch 37
+2026-06-12 19:49:27,508 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:49:27,508 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:49:27,556 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.47798549957078507...
+2026-06-12 19:49:27,782 - preprocessing - INFO - Feature selection complete. Selected 35 / 38 features.
+2026-06-12 19:49:30,633 - train_pipeline - INFO - Early stopping triggered at epoch 20
+2026-06-12 19:49:30,646 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:49:30,646 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:49:30,699 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.47798549957078507...
+2026-06-12 19:49:30,933 - preprocessing - INFO - Feature selection complete. Selected 29 / 38 features.
+2026-06-12 19:49:34,154 - train_pipeline - INFO - Early stopping triggered at epoch 23
+[I 2026-06-12 19:49:34,170] Trial 15 finished with value: 0.8684005145566989 and parameters: {'learning_rate': 0.005050828986327275, 'weight_decay': 5.0121003321437184e-05, 'batch_size': 32, 'oversample_method': 'adasyn', 'smote_ratio': 0.47798549957078507, 'cnn_channels': 64, 'lstm_hidden_dim': 64, 'context_hidden_dim': 32, 'fusion_hidden_dim': 32, 'dropout': 0.17300884350687296}. Best is trial 14 with value: 0.8830480130408699.
+2026-06-12 19:49:34,170 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:49:34,170 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:49:34,223 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.46407194745090175...
+2026-06-12 19:49:34,450 - preprocessing - INFO - Feature selection complete. Selected 30 / 38 features.
+2026-06-12 19:49:38,478 - train_pipeline - INFO - Early stopping triggered at epoch 29
+2026-06-12 19:49:38,478 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:49:38,483 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:49:38,532 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.46407194745090175...
+2026-06-12 19:49:38,755 - preprocessing - INFO - Feature selection complete. Selected 33 / 38 features.
+2026-06-12 19:49:41,681 - train_pipeline - INFO - Early stopping triggered at epoch 21
+2026-06-12 19:49:41,690 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:49:41,693 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:49:41,737 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.46407194745090175...
+2026-06-12 19:49:41,961 - preprocessing - INFO - Feature selection complete. Selected 29 / 38 features.
+2026-06-12 19:49:44,839 - train_pipeline - INFO - Early stopping triggered at epoch 22
+2026-06-12 19:49:44,843 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:49:44,845 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:49:44,891 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.46407194745090175...
+2026-06-12 19:49:45,111 - preprocessing - INFO - Feature selection complete. Selected 32 / 38 features.
+2026-06-12 19:49:50,308 - train_pipeline - INFO - Early stopping triggered at epoch 37
+2026-06-12 19:49:50,310 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:49:50,314 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:49:50,359 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.46407194745090175...
+2026-06-12 19:49:50,590 - preprocessing - INFO - Feature selection complete. Selected 29 / 38 features.
+2026-06-12 19:49:56,770 - train_pipeline - INFO - Early stopping triggered at epoch 45
+[I 2026-06-12 19:49:56,784] Trial 16 finished with value: 0.8669496774685532 and parameters: {'learning_rate': 0.0045033015544202705, 'weight_decay': 5.621346350112e-05, 'batch_size': 32, 'oversample_method': 'adasyn', 'smote_ratio': 0.46407194745090175, 'cnn_channels': 64, 'lstm_hidden_dim': 64, 'context_hidden_dim': 32, 'fusion_hidden_dim': 32, 'dropout': 0.15992311789190797}. Best is trial 14 with value: 0.8830480130408699.
+2026-06-12 19:49:56,784 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:49:56,784 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:49:56,848 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.729951705242029...
+2026-06-12 19:49:57,091 - preprocessing - INFO - Feature selection complete. Selected 36 / 38 features.
+2026-06-12 19:49:59,362 - train_pipeline - INFO - Early stopping triggered at epoch 19
+2026-06-12 19:49:59,369 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:49:59,372 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:49:59,423 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.729951705242029...
+2026-06-12 19:49:59,649 - preprocessing - INFO - Feature selection complete. Selected 34 / 38 features.
+2026-06-12 19:50:01,899 - train_pipeline - INFO - Early stopping triggered at epoch 21
+2026-06-12 19:50:01,907 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:50:01,910 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:50:01,955 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.729951705242029...
+2026-06-12 19:50:02,189 - preprocessing - INFO - Feature selection complete. Selected 35 / 38 features.
+2026-06-12 19:50:07,426 - train_pipeline - INFO - Early stopping triggered at epoch 49
+2026-06-12 19:50:07,426 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:50:07,440 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:50:07,483 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.729951705242029...
+2026-06-12 19:50:07,701 - preprocessing - INFO - Feature selection complete. Selected 36 / 38 features.
+2026-06-12 19:50:09,625 - train_pipeline - INFO - Early stopping triggered at epoch 18
+2026-06-12 19:50:09,630 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:50:09,632 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:50:09,681 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.729951705242029...
+2026-06-12 19:50:09,903 - preprocessing - INFO - Feature selection complete. Selected 34 / 38 features.
+2026-06-12 19:50:13,721 - train_pipeline - INFO - Early stopping triggered at epoch 36
+[I 2026-06-12 19:50:13,721] Trial 17 finished with value: 0.875268228746989 and parameters: {'learning_rate': 0.00496911504495217, 'weight_decay': 9.467090722736628e-05, 'batch_size': 64, 'oversample_method': 'adasyn', 'smote_ratio': 0.729951705242029, 'cnn_channels': 64, 'lstm_hidden_dim': 64, 'context_hidden_dim': 32, 'fusion_hidden_dim': 32, 'dropout': 0.1995770157352477}. Best is trial 14 with value: 0.8830480130408699.
+2026-06-12 19:50:13,726 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:50:13,736 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:50:13,776 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.7459843047429492...
+2026-06-12 19:50:14,011 - preprocessing - INFO - Feature selection complete. Selected 36 / 38 features.
+2026-06-12 19:50:19,359 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:50:19,359 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:50:19,407 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.7459843047429492...
+2026-06-12 19:50:19,617 - preprocessing - INFO - Feature selection complete. Selected 34 / 38 features.
+2026-06-12 19:50:21,863 - train_pipeline - INFO - Early stopping triggered at epoch 21
+2026-06-12 19:50:21,863 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:50:21,863 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:50:21,912 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.7459843047429492...
+2026-06-12 19:50:22,134 - preprocessing - INFO - Feature selection complete. Selected 35 / 38 features.
+2026-06-12 19:50:25,970 - train_pipeline - INFO - Early stopping triggered at epoch 36
+2026-06-12 19:50:25,978 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:50:25,979 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:50:26,028 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.7459843047429492...
+2026-06-12 19:50:26,257 - preprocessing - INFO - Feature selection complete. Selected 36 / 38 features.
+2026-06-12 19:50:28,162 - train_pipeline - INFO - Early stopping triggered at epoch 18
+2026-06-12 19:50:28,178 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:50:28,178 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:50:28,225 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.7459843047429492...
+2026-06-12 19:50:28,437 - preprocessing - INFO - Feature selection complete. Selected 34 / 38 features.
+2026-06-12 19:50:31,152 - train_pipeline - INFO - Early stopping triggered at epoch 25
+[I 2026-06-12 19:50:31,152] Trial 18 finished with value: 0.8478683623261677 and parameters: {'learning_rate': 0.00248171150647068, 'weight_decay': 0.00014142202375432337, 'batch_size': 64, 'oversample_method': 'adasyn', 'smote_ratio': 0.7459843047429492, 'cnn_channels': 64, 'lstm_hidden_dim': 64, 'context_hidden_dim': 32, 'fusion_hidden_dim': 32, 'dropout': 0.21491796631114035}. Best is trial 14 with value: 0.8830480130408699.
+2026-06-12 19:50:31,167 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:50:31,168 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:50:31,217 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.7901989792347792...
+2026-06-12 19:50:31,437 - preprocessing - INFO - Feature selection complete. Selected 36 / 38 features.
+2026-06-12 19:50:33,941 - train_pipeline - INFO - Early stopping triggered at epoch 24
+2026-06-12 19:50:33,951 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:50:33,954 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:50:33,997 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.7901989792347792...
+2026-06-12 19:50:34,216 - preprocessing - INFO - Feature selection complete. Selected 34 / 38 features.
+2026-06-12 19:50:36,369 - train_pipeline - INFO - Early stopping triggered at epoch 19
+2026-06-12 19:50:36,377 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:50:36,381 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:50:36,425 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.7901989792347792...
+2026-06-12 19:50:36,675 - preprocessing - INFO - Feature selection complete. Selected 35 / 38 features.
+2026-06-12 19:50:38,593 - train_pipeline - INFO - Early stopping triggered at epoch 18
+2026-06-12 19:50:38,603 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:50:38,607 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:50:38,652 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.7901989792347792...
+2026-06-12 19:50:38,881 - preprocessing - INFO - Feature selection complete. Selected 36 / 38 features.
+2026-06-12 19:50:41,989 - train_pipeline - INFO - Early stopping triggered at epoch 30
+2026-06-12 19:50:41,990 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:50:41,995 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:50:42,041 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.7901989792347792...
+2026-06-12 19:50:42,269 - preprocessing - INFO - Feature selection complete. Selected 34 / 38 features.
+2026-06-12 19:50:45,520 - train_pipeline - INFO - Early stopping triggered at epoch 32
+[I 2026-06-12 19:50:45,520] Trial 19 finished with value: 0.8683003074072978 and parameters: {'learning_rate': 0.006125793929382311, 'weight_decay': 0.00012674356726113278, 'batch_size': 64, 'oversample_method': 'adasyn', 'smote_ratio': 0.7901989792347792, 'cnn_channels': 32, 'lstm_hidden_dim': 64, 'context_hidden_dim': 32, 'fusion_hidden_dim': 32, 'dropout': 0.12682530056904234}. Best is trial 14 with value: 0.8830480130408699.
+2026-06-12 19:50:45,527 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:50:45,539 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:50:45,582 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.9166283614946407...
+2026-06-12 19:50:45,805 - preprocessing - INFO - Feature selection complete. Selected 36 / 38 features.
+2026-06-12 19:50:51,632 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:50:51,648 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:50:51,694 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.9166283614946407...
+2026-06-12 19:50:51,923 - preprocessing - INFO - Feature selection complete. Selected 35 / 38 features.
+2026-06-12 19:50:57,699 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:50:57,715 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:50:57,758 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.9166283614946407...
+2026-06-12 19:50:57,982 - preprocessing - INFO - Feature selection complete. Selected 36 / 38 features.
+2026-06-12 19:51:02,947 - train_pipeline - INFO - Early stopping triggered at epoch 42
+2026-06-12 19:51:02,961 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:51:02,966 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:51:03,010 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.9166283614946407...
+2026-06-12 19:51:03,232 - preprocessing - INFO - Feature selection complete. Selected 37 / 38 features.
+2026-06-12 19:51:09,114 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:51:09,114 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:51:09,156 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.9166283614946407...
+2026-06-12 19:51:09,371 - preprocessing - INFO - Feature selection complete. Selected 34 / 38 features.
+2026-06-12 19:51:14,508 - train_pipeline - INFO - Early stopping triggered at epoch 44
+[I 2026-06-12 19:51:14,512] Trial 20 finished with value: 0.8033905839201825 and parameters: {'learning_rate': 0.0005615064625140983, 'weight_decay': 2.6949879074612896e-05, 'batch_size': 64, 'oversample_method': 'adasyn', 'smote_ratio': 0.9166283614946407, 'cnn_channels': 64, 'lstm_hidden_dim': 64, 'context_hidden_dim': 32, 'fusion_hidden_dim': 32, 'dropout': 0.20574236297518245}. Best is trial 14 with value: 0.8830480130408699.
+2026-06-12 19:51:14,523 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:51:14,526 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:51:14,574 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.46782851025555244...
+2026-06-12 19:51:14,803 - preprocessing - INFO - Feature selection complete. Selected 30 / 38 features.
+2026-06-12 19:51:16,450 - train_pipeline - INFO - Early stopping triggered at epoch 19
+2026-06-12 19:51:16,455 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:51:16,457 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:51:16,503 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.46782851025555244...
+2026-06-12 19:51:16,732 - preprocessing - INFO - Feature selection complete. Selected 33 / 38 features.
+2026-06-12 19:51:18,546 - train_pipeline - INFO - Early stopping triggered at epoch 21
+2026-06-12 19:51:18,549 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:51:18,554 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:51:18,600 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.46782851025555244...
+2026-06-12 19:51:18,814 - preprocessing - INFO - Feature selection complete. Selected 29 / 38 features.
+2026-06-12 19:51:20,339 - train_pipeline - INFO - Early stopping triggered at epoch 20
+2026-06-12 19:51:20,346 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:51:20,349 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:51:20,395 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.46782851025555244...
+2026-06-12 19:51:20,631 - preprocessing - INFO - Feature selection complete. Selected 32 / 38 features.
+2026-06-12 19:51:22,559 - train_pipeline - INFO - Early stopping triggered at epoch 22
+2026-06-12 19:51:22,567 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:51:22,570 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:51:22,617 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.46782851025555244...
+2026-06-12 19:51:22,840 - preprocessing - INFO - Feature selection complete. Selected 29 / 38 features.
+2026-06-12 19:51:25,767 - train_pipeline - INFO - Early stopping triggered at epoch 38
+[I 2026-06-12 19:51:25,767] Trial 21 finished with value: 0.8897981256933332 and parameters: {'learning_rate': 0.0049509130573654235, 'weight_decay': 5.1938026547695015e-05, 'batch_size': 64, 'oversample_method': 'adasyn', 'smote_ratio': 0.46782851025555244, 'cnn_channels': 64, 'lstm_hidden_dim': 64, 'context_hidden_dim': 32, 'fusion_hidden_dim': 32, 'dropout': 0.18467328187693013}. Best is trial 21 with value: 0.8897981256933332.
+2026-06-12 19:51:25,782 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:51:25,782 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:51:25,827 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.6515115577755366...
+2026-06-12 19:51:26,060 - preprocessing - INFO - Feature selection complete. Selected 32 / 38 features.
+2026-06-12 19:51:30,881 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:51:30,884 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:51:30,928 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.6515115577755366...
+2026-06-12 19:51:31,161 - preprocessing - INFO - Feature selection complete. Selected 34 / 38 features.
+2026-06-12 19:51:33,964 - train_pipeline - INFO - Early stopping triggered at epoch 28
+2026-06-12 19:51:33,974 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:51:33,977 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:51:34,029 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.6515115577755366...
+2026-06-12 19:51:34,251 - preprocessing - INFO - Feature selection complete. Selected 33 / 38 features.
+2026-06-12 19:51:38,841 - train_pipeline - INFO - Early stopping triggered at epoch 46
+2026-06-12 19:51:38,841 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:51:38,841 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:51:38,890 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.6515115577755366...
+2026-06-12 19:51:39,107 - preprocessing - INFO - Feature selection complete. Selected 34 / 38 features.
+2026-06-12 19:51:43,942 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:51:43,942 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:51:43,997 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.6515115577755366...
+2026-06-12 19:51:44,227 - preprocessing - INFO - Feature selection complete. Selected 32 / 38 features.
+2026-06-12 19:51:47,096 - train_pipeline - INFO - Early stopping triggered at epoch 30
+[I 2026-06-12 19:51:47,096] Trial 22 finished with value: 0.8543551739792541 and parameters: {'learning_rate': 0.0032772562418304997, 'weight_decay': 0.00025211374175150477, 'batch_size': 64, 'oversample_method': 'adasyn', 'smote_ratio': 0.6515115577755366, 'cnn_channels': 64, 'lstm_hidden_dim': 64, 'context_hidden_dim': 32, 'fusion_hidden_dim': 32, 'dropout': 0.10295805138607174}. Best is trial 21 with value: 0.8897981256933332.
+2026-06-12 19:51:47,111 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:51:47,124 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:51:47,166 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.6169964103764249...
+2026-06-12 19:51:47,389 - preprocessing - INFO - Feature selection complete. Selected 34 / 38 features.
+2026-06-12 19:51:51,627 - train_pipeline - INFO - Early stopping triggered at epoch 44
+2026-06-12 19:51:51,634 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:51:51,634 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:51:51,683 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.6169964103764249...
+2026-06-12 19:51:51,900 - preprocessing - INFO - Feature selection complete. Selected 34 / 38 features.
+2026-06-12 19:51:54,818 - train_pipeline - INFO - Early stopping triggered at epoch 30
+2026-06-12 19:51:54,828 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:51:54,831 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:51:54,878 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.6169964103764249...
+2026-06-12 19:51:55,095 - preprocessing - INFO - Feature selection complete. Selected 34 / 38 features.
+2026-06-12 19:51:59,938 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:51:59,952 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:52:00,001 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.6169964103764249...
+2026-06-12 19:52:00,237 - preprocessing - INFO - Feature selection complete. Selected 35 / 38 features.
+2026-06-12 19:52:04,879 - train_pipeline - INFO - Early stopping triggered at epoch 47
+2026-06-12 19:52:04,887 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:52:04,891 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:52:04,927 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.6169964103764249...
+2026-06-12 19:52:05,164 - preprocessing - INFO - Feature selection complete. Selected 32 / 38 features.
+2026-06-12 19:52:07,965 - train_pipeline - INFO - Early stopping triggered at epoch 29
+[I 2026-06-12 19:52:07,965] Trial 23 finished with value: 0.8443578794412746 and parameters: {'learning_rate': 0.0014913326282836147, 'weight_decay': 9.61154117408517e-05, 'batch_size': 64, 'oversample_method': 'adasyn', 'smote_ratio': 0.6169964103764249, 'cnn_channels': 64, 'lstm_hidden_dim': 64, 'context_hidden_dim': 32, 'fusion_hidden_dim': 32, 'dropout': 0.20561208513497503}. Best is trial 21 with value: 0.8897981256933332.
+2026-06-12 19:52:07,979 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:52:07,979 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:52:08,021 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.47868205169497763...
+2026-06-12 19:52:08,246 - preprocessing - INFO - Feature selection complete. Selected 32 / 38 features.
+2026-06-12 19:52:10,147 - train_pipeline - INFO - Early stopping triggered at epoch 22
+2026-06-12 19:52:10,147 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:52:10,164 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:52:10,206 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.47868205169497763...
+2026-06-12 19:52:10,435 - preprocessing - INFO - Feature selection complete. Selected 33 / 38 features.
+2026-06-12 19:52:12,245 - train_pipeline - INFO - Early stopping triggered at epoch 21
+2026-06-12 19:52:12,252 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:52:12,258 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:52:12,308 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.47868205169497763...
+2026-06-12 19:52:12,537 - preprocessing - INFO - Feature selection complete. Selected 27 / 38 features.
+2026-06-12 19:52:14,035 - train_pipeline - INFO - Early stopping triggered at epoch 17
+2026-06-12 19:52:14,042 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:52:14,049 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:52:14,091 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.47868205169497763...
+2026-06-12 19:52:14,315 - preprocessing - INFO - Feature selection complete. Selected 35 / 38 features.
+2026-06-12 19:52:16,075 - train_pipeline - INFO - Early stopping triggered at epoch 19
+2026-06-12 19:52:16,089 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:52:16,093 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:52:16,137 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.47868205169497763...
+2026-06-12 19:52:16,471 - preprocessing - INFO - Feature selection complete. Selected 29 / 38 features.
+2026-06-12 19:52:20,321 - train_pipeline - INFO - Early stopping triggered at epoch 43
+[I 2026-06-12 19:52:20,321] Trial 24 finished with value: 0.8686314137774829 and parameters: {'learning_rate': 0.005860971199557584, 'weight_decay': 3.614068141374988e-05, 'batch_size': 64, 'oversample_method': 'adasyn', 'smote_ratio': 0.47868205169497763, 'cnn_channels': 64, 'lstm_hidden_dim': 64, 'context_hidden_dim': 32, 'fusion_hidden_dim': 32, 'dropout': 0.2324245365064163}. Best is trial 21 with value: 0.8897981256933332.
+2026-06-12 19:52:20,342 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:52:20,346 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:52:20,392 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.7233796902588431...
+2026-06-12 19:52:20,613 - preprocessing - INFO - Feature selection complete. Selected 36 / 38 features.
+2026-06-12 19:52:22,605 - train_pipeline - INFO - Early stopping triggered at epoch 19
+2026-06-12 19:52:22,610 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:52:22,612 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:52:22,658 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.7233796902588431...
+2026-06-12 19:52:22,876 - preprocessing - INFO - Feature selection complete. Selected 34 / 38 features.
+2026-06-12 19:52:24,795 - train_pipeline - INFO - Early stopping triggered at epoch 18
+2026-06-12 19:52:24,795 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:52:24,795 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:52:24,846 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.7233796902588431...
+2026-06-12 19:52:25,073 - preprocessing - INFO - Feature selection complete. Selected 35 / 38 features.
+2026-06-12 19:52:30,449 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:52:30,458 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:52:30,505 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.7233796902588431...
+2026-06-12 19:52:30,736 - preprocessing - INFO - Feature selection complete. Selected 36 / 38 features.
+2026-06-12 19:52:32,989 - train_pipeline - INFO - Early stopping triggered at epoch 21
+2026-06-12 19:52:32,996 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:52:32,996 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:52:33,055 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.7233796902588431...
+2026-06-12 19:52:33,273 - preprocessing - INFO - Feature selection complete. Selected 34 / 38 features.
+2026-06-12 19:52:36,374 - train_pipeline - INFO - Early stopping triggered at epoch 29
+[I 2026-06-12 19:52:36,374] Trial 25 finished with value: 0.8337221091077707 and parameters: {'learning_rate': 0.0024343362706749773, 'weight_decay': 5.741635225741905e-06, 'batch_size': 64, 'oversample_method': 'adasyn', 'smote_ratio': 0.7233796902588431, 'cnn_channels': 64, 'lstm_hidden_dim': 64, 'context_hidden_dim': 64, 'fusion_hidden_dim': 32, 'dropout': 0.32031844829772416}. Best is trial 21 with value: 0.8897981256933332.
+2026-06-12 19:52:36,388 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:52:36,392 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:52:36,436 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.7563664837594952...
+2026-06-12 19:52:36,649 - preprocessing - INFO - Feature selection complete. Selected 36 / 38 features.
+2026-06-12 19:52:38,603 - train_pipeline - INFO - Early stopping triggered at epoch 18
+2026-06-12 19:52:38,619 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:52:38,624 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:52:38,671 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.7563664837594952...
+2026-06-12 19:52:38,894 - preprocessing - INFO - Feature selection complete. Selected 34 / 38 features.
+2026-06-12 19:52:40,698 - train_pipeline - INFO - Early stopping triggered at epoch 17
+2026-06-12 19:52:40,706 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:52:40,709 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:52:40,751 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.7563664837594952...
+2026-06-12 19:52:40,969 - preprocessing - INFO - Feature selection complete. Selected 35 / 38 features.
+2026-06-12 19:52:42,930 - train_pipeline - INFO - Early stopping triggered at epoch 18
+2026-06-12 19:52:42,930 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:52:42,937 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:52:42,978 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.7563664837594952...
+2026-06-12 19:52:43,209 - preprocessing - INFO - Feature selection complete. Selected 36 / 38 features.
+2026-06-12 19:52:45,119 - train_pipeline - INFO - Early stopping triggered at epoch 18
+2026-06-12 19:52:45,119 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:52:45,119 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:52:45,177 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.7563664837594952...
+2026-06-12 19:52:45,394 - preprocessing - INFO - Feature selection complete. Selected 34 / 38 features.
+2026-06-12 19:52:47,446 - train_pipeline - INFO - Early stopping triggered at epoch 19
+[I 2026-06-12 19:52:47,446] Trial 26 finished with value: 0.39871468954856853 and parameters: {'learning_rate': 0.00010377271384999361, 'weight_decay': 2.301352091825541e-05, 'batch_size': 64, 'oversample_method': 'adasyn', 'smote_ratio': 0.7563664837594952, 'cnn_channels': 64, 'lstm_hidden_dim': 64, 'context_hidden_dim': 32, 'fusion_hidden_dim': 128, 'dropout': 0.17791130163345634}. Best is trial 21 with value: 0.8897981256933332.
+2026-06-12 19:52:47,453 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:52:47,463 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:52:47,494 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.4011331833763365...
+2026-06-12 19:52:47,522 - preprocessing - WARNING - ADASYN failed (likely too few samples). Error: No samples will be generated with the provided ratio settings.. Falling back to no oversampling.
+2026-06-12 19:52:47,736 - preprocessing - INFO - Feature selection complete. Selected 28 / 38 features.
+2026-06-12 19:52:51,062 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:52:51,071 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:52:51,118 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.4011331833763365...
+2026-06-12 19:52:51,139 - preprocessing - WARNING - ADASYN failed (likely too few samples). Error: No samples will be generated with the provided ratio settings.. Falling back to no oversampling.
+2026-06-12 19:52:51,354 - preprocessing - INFO - Feature selection complete. Selected 28 / 38 features.
+2026-06-12 19:52:54,647 - train_pipeline - INFO - Early stopping triggered at epoch 49
+2026-06-12 19:52:54,647 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:52:54,647 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:52:54,696 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.4011331833763365...
+2026-06-12 19:52:54,723 - preprocessing - WARNING - ADASYN failed (likely too few samples). Error: No samples will be generated with the provided ratio settings.. Falling back to no oversampling.
+2026-06-12 19:52:54,933 - preprocessing - INFO - Feature selection complete. Selected 25 / 38 features.
+2026-06-12 19:52:58,492 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:52:58,497 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:52:58,549 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.4011331833763365...
+2026-06-12 19:52:58,561 - preprocessing - WARNING - ADASYN failed (likely too few samples). Error: No samples will be generated with the provided ratio settings.. Falling back to no oversampling.
+2026-06-12 19:52:58,771 - preprocessing - INFO - Feature selection complete. Selected 25 / 38 features.
+2026-06-12 19:53:00,069 - train_pipeline - INFO - Early stopping triggered at epoch 19
+2026-06-12 19:53:00,069 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:53:00,085 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:53:00,137 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.4011331833763365...
+2026-06-12 19:53:00,154 - preprocessing - WARNING - ADASYN failed (likely too few samples). Error: No samples will be generated with the provided ratio settings.. Falling back to no oversampling.
+2026-06-12 19:53:00,365 - preprocessing - INFO - Feature selection complete. Selected 27 / 38 features.
+[I 2026-06-12 19:53:03,763] Trial 27 finished with value: 0.8503452478250002 and parameters: {'learning_rate': 0.0006858625006908223, 'weight_decay': 4.598054448830604e-05, 'batch_size': 64, 'oversample_method': 'adasyn', 'smote_ratio': 0.4011331833763365, 'cnn_channels': 64, 'lstm_hidden_dim': 64, 'context_hidden_dim': 32, 'fusion_hidden_dim': 32, 'dropout': 0.3092818008471404}. Best is trial 21 with value: 0.8897981256933332.
+2026-06-12 19:53:03,769 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:53:03,778 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:53:03,813 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.5984575753337193...
+2026-06-12 19:53:04,043 - preprocessing - INFO - Feature selection complete. Selected 34 / 38 features.
+2026-06-12 19:53:06,233 - train_pipeline - INFO - Early stopping triggered at epoch 23
+2026-06-12 19:53:06,233 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:53:06,233 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:53:06,276 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.5984575753337193...
+2026-06-12 19:53:06,499 - preprocessing - INFO - Feature selection complete. Selected 32 / 38 features.
+2026-06-12 19:53:08,380 - train_pipeline - INFO - Early stopping triggered at epoch 20
+2026-06-12 19:53:08,380 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:53:08,396 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:53:08,434 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.5984575753337193...
+2026-06-12 19:53:08,648 - preprocessing - INFO - Feature selection complete. Selected 34 / 38 features.
+2026-06-12 19:53:10,354 - train_pipeline - INFO - Early stopping triggered at epoch 18
+2026-06-12 19:53:10,354 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:53:10,354 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:53:10,404 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.5984575753337193...
+2026-06-12 19:53:10,618 - preprocessing - INFO - Feature selection complete. Selected 35 / 38 features.
+2026-06-12 19:53:12,406 - train_pipeline - INFO - Early stopping triggered at epoch 19
+2026-06-12 19:53:12,418 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:53:12,422 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:53:12,451 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.5984575753337193...
+2026-06-12 19:53:12,693 - preprocessing - INFO - Feature selection complete. Selected 33 / 38 features.
+[I 2026-06-12 19:53:17,328] Trial 28 finished with value: 0.869739860210004 and parameters: {'learning_rate': 0.006700054316205576, 'weight_decay': 0.00022060518585059042, 'batch_size': 64, 'oversample_method': 'adasyn', 'smote_ratio': 0.5984575753337193, 'cnn_channels': 32, 'lstm_hidden_dim': 64, 'context_hidden_dim': 64, 'fusion_hidden_dim': 32, 'dropout': 0.10416508859788473}. Best is trial 21 with value: 0.8897981256933332.
+2026-06-12 19:53:17,352 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:53:17,353 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:53:17,388 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.8718523247520065...
+2026-06-12 19:53:17,610 - preprocessing - INFO - Feature selection complete. Selected 36 / 38 features.
+2026-06-12 19:53:19,769 - train_pipeline - INFO - Early stopping triggered at epoch 19
+2026-06-12 19:53:19,770 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:53:19,775 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:53:19,816 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.8718523247520065...
+2026-06-12 19:53:20,045 - preprocessing - INFO - Feature selection complete. Selected 35 / 38 features.
+2026-06-12 19:53:22,239 - train_pipeline - INFO - Early stopping triggered at epoch 20
+2026-06-12 19:53:22,247 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:53:22,250 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:53:22,295 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.8718523247520065...
+2026-06-12 19:53:22,513 - preprocessing - INFO - Feature selection complete. Selected 36 / 38 features.
+2026-06-12 19:53:28,180 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:53:28,183 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:53:28,231 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.8718523247520065...
+2026-06-12 19:53:28,453 - preprocessing - INFO - Feature selection complete. Selected 37 / 38 features.
+2026-06-12 19:53:31,427 - train_pipeline - INFO - Early stopping triggered at epoch 26
+2026-06-12 19:53:31,441 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:53:31,443 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:53:31,494 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.8718523247520065...
+2026-06-12 19:53:31,703 - preprocessing - INFO - Feature selection complete. Selected 37 / 38 features.
+2026-06-12 19:53:37,053 - train_pipeline - INFO - Early stopping triggered at epoch 47
+[I 2026-06-12 19:53:37,071] Trial 29 finished with value: 0.815406306122948 and parameters: {'learning_rate': 0.0033646296031220485, 'weight_decay': 6.888562697003756e-05, 'batch_size': 64, 'oversample_method': 'adasyn', 'smote_ratio': 0.8718523247520065, 'cnn_channels': 16, 'lstm_hidden_dim': 64, 'context_hidden_dim': 32, 'fusion_hidden_dim': 128, 'dropout': 0.23716203035131495}. Best is trial 21 with value: 0.8897981256933332.
+2026-06-12 19:53:37,083 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:53:37,084 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:53:37,132 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.6708785733235433...
+2026-06-12 19:53:37,351 - preprocessing - INFO - Feature selection complete. Selected 32 / 38 features.
+2026-06-12 19:53:47,413 - train_pipeline - INFO - Early stopping triggered at epoch 35
+2026-06-12 19:53:47,418 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:53:47,422 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:53:47,465 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.6708785733235433...
+2026-06-12 19:53:47,698 - preprocessing - INFO - Feature selection complete. Selected 34 / 38 features.
+2026-06-12 19:53:52,332 - train_pipeline - INFO - Early stopping triggered at epoch 16
+2026-06-12 19:53:52,339 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:53:52,342 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:53:52,381 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.6708785733235433...
+2026-06-12 19:53:52,612 - preprocessing - INFO - Feature selection complete. Selected 33 / 38 features.
+2026-06-12 19:53:59,451 - train_pipeline - INFO - Early stopping triggered at epoch 24
+2026-06-12 19:53:59,451 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:53:59,451 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:53:59,499 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.6708785733235433...
+2026-06-12 19:53:59,743 - preprocessing - INFO - Feature selection complete. Selected 34 / 38 features.
+2026-06-12 19:54:04,563 - train_pipeline - INFO - Early stopping triggered at epoch 17
+2026-06-12 19:54:04,563 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:54:04,563 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:54:04,612 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.6708785733235433...
+2026-06-12 19:54:04,847 - preprocessing - INFO - Feature selection complete. Selected 32 / 38 features.
+2026-06-12 19:54:12,444 - train_pipeline - INFO - Early stopping triggered at epoch 27
+[I 2026-06-12 19:54:12,444] Trial 30 finished with value: 0.8459060423893833 and parameters: {'learning_rate': 0.0039745634854225454, 'weight_decay': 9.623502762591347e-05, 'batch_size': 16, 'oversample_method': 'adasyn', 'smote_ratio': 0.6708785733235433, 'cnn_channels': 16, 'lstm_hidden_dim': 64, 'context_hidden_dim': 64, 'fusion_hidden_dim': 32, 'dropout': 0.18979547455103182}. Best is trial 21 with value: 0.8897981256933332.
+2026-06-12 19:54:12,460 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:54:12,463 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:54:12,499 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.6001628255471775...
+2026-06-12 19:54:12,719 - preprocessing - INFO - Feature selection complete. Selected 34 / 38 features.
+2026-06-12 19:54:14,914 - train_pipeline - INFO - Early stopping triggered at epoch 23
+2026-06-12 19:54:14,914 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:54:14,914 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:54:14,969 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.6001628255471775...
+2026-06-12 19:54:15,185 - preprocessing - INFO - Feature selection complete. Selected 32 / 38 features.
+2026-06-12 19:54:17,545 - train_pipeline - INFO - Early stopping triggered at epoch 25
+2026-06-12 19:54:17,545 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:54:17,545 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:54:17,605 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.6001628255471775...
+2026-06-12 19:54:17,832 - preprocessing - INFO - Feature selection complete. Selected 34 / 38 features.
+2026-06-12 19:54:19,738 - train_pipeline - INFO - Early stopping triggered at epoch 19
+2026-06-12 19:54:19,742 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:54:19,744 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:54:19,788 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.6001628255471775...
+2026-06-12 19:54:20,021 - preprocessing - INFO - Feature selection complete. Selected 35 / 38 features.
+2026-06-12 19:54:22,875 - train_pipeline - INFO - Early stopping triggered at epoch 30
+2026-06-12 19:54:22,878 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:54:22,878 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:54:22,926 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.6001628255471775...
+2026-06-12 19:54:23,145 - preprocessing - INFO - Feature selection complete. Selected 33 / 38 features.
+2026-06-12 19:54:26,909 - train_pipeline - INFO - Early stopping triggered at epoch 40
+[I 2026-06-12 19:54:26,909] Trial 31 finished with value: 0.8704488145535814 and parameters: {'learning_rate': 0.006621548837898328, 'weight_decay': 0.0002106298093040092, 'batch_size': 64, 'oversample_method': 'adasyn', 'smote_ratio': 0.6001628255471775, 'cnn_channels': 32, 'lstm_hidden_dim': 64, 'context_hidden_dim': 64, 'fusion_hidden_dim': 32, 'dropout': 0.10229168712480775}. Best is trial 21 with value: 0.8897981256933332.
+2026-06-12 19:54:26,923 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:54:26,925 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:54:26,973 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.4953157291736583...
+2026-06-12 19:54:27,183 - preprocessing - INFO - Feature selection complete. Selected 31 / 38 features.
+2026-06-12 19:54:28,865 - train_pipeline - INFO - Early stopping triggered at epoch 20
+2026-06-12 19:54:28,872 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:54:28,876 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:54:28,920 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.4953157291736583...
+2026-06-12 19:54:29,145 - preprocessing - INFO - Feature selection complete. Selected 33 / 38 features.
+2026-06-12 19:54:30,989 - train_pipeline - INFO - Early stopping triggered at epoch 22
+2026-06-12 19:54:30,991 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:54:30,995 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:54:31,039 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.4953157291736583...
+2026-06-12 19:54:31,268 - preprocessing - INFO - Feature selection complete. Selected 30 / 38 features.
+2026-06-12 19:54:33,548 - train_pipeline - INFO - Early stopping triggered at epoch 27
+2026-06-12 19:54:33,548 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:54:33,556 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:54:33,603 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.4953157291736583...
+2026-06-12 19:54:33,831 - preprocessing - INFO - Feature selection complete. Selected 34 / 38 features.
+2026-06-12 19:54:37,787 - train_pipeline - INFO - Early stopping triggered at epoch 47
+2026-06-12 19:54:37,804 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:54:37,807 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:54:37,856 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.4953157291736583...
+2026-06-12 19:54:38,071 - preprocessing - INFO - Feature selection complete. Selected 32 / 38 features.
+[I 2026-06-12 19:54:42,476] Trial 32 finished with value: 0.8738083679478565 and parameters: {'learning_rate': 0.006461560115315177, 'weight_decay': 0.00043397480665953946, 'batch_size': 64, 'oversample_method': 'adasyn', 'smote_ratio': 0.4953157291736583, 'cnn_channels': 32, 'lstm_hidden_dim': 64, 'context_hidden_dim': 64, 'fusion_hidden_dim': 32, 'dropout': 0.13504654860456317}. Best is trial 21 with value: 0.8897981256933332.
+2026-06-12 19:54:42,476 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:54:42,476 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:54:42,532 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.45948556567654997...
+2026-06-12 19:54:42,764 - preprocessing - INFO - Feature selection complete. Selected 30 / 38 features.
+2026-06-12 19:54:44,718 - train_pipeline - INFO - Early stopping triggered at epoch 21
+2026-06-12 19:54:44,725 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:54:44,725 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:54:44,768 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.45948556567654997...
+2026-06-12 19:54:45,017 - preprocessing - INFO - Feature selection complete. Selected 33 / 38 features.
+2026-06-12 19:54:46,737 - train_pipeline - INFO - Early stopping triggered at epoch 20
+2026-06-12 19:54:46,744 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:54:46,745 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:54:46,791 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.45948556567654997...
+2026-06-12 19:54:47,015 - preprocessing - INFO - Feature selection complete. Selected 29 / 38 features.
+2026-06-12 19:54:48,609 - train_pipeline - INFO - Early stopping triggered at epoch 21
+2026-06-12 19:54:48,609 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:54:48,623 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:54:48,673 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.45948556567654997...
+2026-06-12 19:54:48,891 - preprocessing - INFO - Feature selection complete. Selected 32 / 38 features.
+2026-06-12 19:54:50,593 - train_pipeline - INFO - Early stopping triggered at epoch 20
+2026-06-12 19:54:50,607 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:54:50,610 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:54:50,656 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.45948556567654997...
+2026-06-12 19:54:50,898 - preprocessing - INFO - Feature selection complete. Selected 29 / 38 features.
+[I 2026-06-12 19:54:54,700] Trial 33 finished with value: 0.8785074107717493 and parameters: {'learning_rate': 0.002846786543431563, 'weight_decay': 0.00047334157042848803, 'batch_size': 64, 'oversample_method': 'adasyn', 'smote_ratio': 0.45948556567654997, 'cnn_channels': 32, 'lstm_hidden_dim': 64, 'context_hidden_dim': 64, 'fusion_hidden_dim': 32, 'dropout': 0.13407044636652105}. Best is trial 21 with value: 0.8897981256933332.
+2026-06-12 19:54:54,723 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:54:54,723 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:54:54,765 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.4320880447593562...
+2026-06-12 19:54:55,000 - preprocessing - INFO - Feature selection complete. Selected 30 / 38 features.
+2026-06-12 19:55:01,527 - train_pipeline - INFO - Early stopping triggered at epoch 30
+2026-06-12 19:55:01,533 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:55:01,533 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:55:01,582 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.4320880447593562...
+2026-06-12 19:55:01,820 - preprocessing - INFO - Feature selection complete. Selected 32 / 38 features.
+2026-06-12 19:55:05,772 - train_pipeline - INFO - Early stopping triggered at epoch 18
+2026-06-12 19:55:05,772 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:55:05,772 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:55:05,821 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.4320880447593562...
+2026-06-12 19:55:06,045 - preprocessing - INFO - Feature selection complete. Selected 27 / 38 features.
+2026-06-12 19:55:12,204 - train_pipeline - INFO - Early stopping triggered at epoch 28
+2026-06-12 19:55:12,204 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:55:12,204 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:55:12,266 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.4320880447593562...
+2026-06-12 19:55:12,489 - preprocessing - INFO - Feature selection complete. Selected 30 / 38 features.
+2026-06-12 19:55:16,740 - train_pipeline - INFO - Early stopping triggered at epoch 19
+2026-06-12 19:55:16,740 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:55:16,740 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:55:16,806 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.4320880447593562...
+2026-06-12 19:55:17,026 - preprocessing - INFO - Feature selection complete. Selected 30 / 38 features.
+2026-06-12 19:55:21,895 - train_pipeline - INFO - Early stopping triggered at epoch 22
+[I 2026-06-12 19:55:21,895] Trial 34 finished with value: 0.8427479820314033 and parameters: {'learning_rate': 0.0026630174633182294, 'weight_decay': 0.0009614509132087757, 'batch_size': 16, 'oversample_method': 'adasyn', 'smote_ratio': 0.4320880447593562, 'cnn_channels': 32, 'lstm_hidden_dim': 32, 'context_hidden_dim': 64, 'fusion_hidden_dim': 32, 'dropout': 0.14126167589868072}. Best is trial 21 with value: 0.8897981256933332.
+2026-06-12 19:55:21,902 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:55:21,902 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:55:21,960 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.4507571925869381...
+2026-06-12 19:55:22,189 - preprocessing - INFO - Feature selection complete. Selected 30 / 38 features.
+2026-06-12 19:55:25,655 - train_pipeline - INFO - Early stopping triggered at epoch 40
+2026-06-12 19:55:25,655 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:55:25,655 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:55:25,706 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.4507571925869381...
+2026-06-12 19:55:25,935 - preprocessing - INFO - Feature selection complete. Selected 33 / 38 features.
+2026-06-12 19:55:29,235 - train_pipeline - INFO - Early stopping triggered at epoch 38
+2026-06-12 19:55:29,235 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:55:29,235 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:55:29,290 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.4507571925869381...
+2026-06-12 19:55:29,510 - preprocessing - INFO - Feature selection complete. Selected 29 / 38 features.
+2026-06-12 19:55:31,126 - train_pipeline - INFO - Early stopping triggered at epoch 21
+2026-06-12 19:55:31,133 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:55:31,136 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:55:31,184 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.4507571925869381...
+2026-06-12 19:55:31,418 - preprocessing - INFO - Feature selection complete. Selected 32 / 38 features.
+2026-06-12 19:55:33,830 - train_pipeline - INFO - Early stopping triggered at epoch 28
+2026-06-12 19:55:33,845 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:55:33,845 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:55:33,890 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.4507571925869381...
+2026-06-12 19:55:34,121 - preprocessing - INFO - Feature selection complete. Selected 29 / 38 features.
+2026-06-12 19:55:35,735 - train_pipeline - INFO - Early stopping triggered at epoch 21
+[I 2026-06-12 19:55:35,744] Trial 35 finished with value: 0.8472529262945019 and parameters: {'learning_rate': 0.0017183756131627086, 'weight_decay': 0.000613724703568803, 'batch_size': 64, 'oversample_method': 'adasyn', 'smote_ratio': 0.4507571925869381, 'cnn_channels': 32, 'lstm_hidden_dim': 64, 'context_hidden_dim': 128, 'fusion_hidden_dim': 32, 'dropout': 0.16690246880299925}. Best is trial 21 with value: 0.8897981256933332.
+2026-06-12 19:55:35,756 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:55:35,760 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:55:35,805 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.9905908890100978...
+2026-06-12 19:55:36,028 - preprocessing - INFO - Feature selection complete. Selected 37 / 38 features.
+2026-06-12 19:55:39,482 - train_pipeline - INFO - Early stopping triggered at epoch 29
+2026-06-12 19:55:39,491 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:55:39,494 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:55:39,530 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.9905908890100978...
+2026-06-12 19:55:39,759 - preprocessing - INFO - Feature selection complete. Selected 37 / 38 features.
+2026-06-12 19:55:43,367 - train_pipeline - INFO - Early stopping triggered at epoch 30
+2026-06-12 19:55:43,372 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:55:43,373 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:55:43,422 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.9905908890100978...
+2026-06-12 19:55:43,639 - preprocessing - INFO - Feature selection complete. Selected 36 / 38 features.
+2026-06-12 19:55:47,862 - train_pipeline - INFO - Early stopping triggered at epoch 35
+2026-06-12 19:55:47,869 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:55:47,873 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:55:47,910 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.9905908890100978...
+2026-06-12 19:55:48,142 - preprocessing - INFO - Feature selection complete. Selected 36 / 38 features.
+2026-06-12 19:55:54,231 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:55:54,236 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:55:54,272 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.9905908890100978...
+2026-06-12 19:55:54,501 - preprocessing - INFO - Feature selection complete. Selected 35 / 38 features.
+2026-06-12 19:55:58,254 - train_pipeline - INFO - Early stopping triggered at epoch 31
+[I 2026-06-12 19:55:58,254] Trial 36 finished with value: 0.8389001496724159 and parameters: {'learning_rate': 0.003513218016433494, 'weight_decay': 1.8627173354512118e-05, 'batch_size': 64, 'oversample_method': 'adasyn', 'smote_ratio': 0.9905908890100978, 'cnn_channels': 32, 'lstm_hidden_dim': 32, 'context_hidden_dim': 64, 'fusion_hidden_dim': 128, 'dropout': 0.2730521328855092}. Best is trial 21 with value: 0.8897981256933332.
+2026-06-12 19:55:58,261 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:55:58,274 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:55:58,310 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.6903770248762586...
+2026-06-12 19:55:58,534 - preprocessing - INFO - Feature selection complete. Selected 33 / 38 features.
+2026-06-12 19:56:04,859 - train_pipeline - INFO - Early stopping triggered at epoch 21
+2026-06-12 19:56:04,873 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:56:04,877 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:56:04,921 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.6903770248762586...
+2026-06-12 19:56:05,146 - preprocessing - INFO - Feature selection complete. Selected 34 / 38 features.
+2026-06-12 19:56:11,750 - train_pipeline - INFO - Early stopping triggered at epoch 22
+2026-06-12 19:56:11,756 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:56:11,756 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:56:11,810 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.6903770248762586...
+2026-06-12 19:56:12,026 - preprocessing - INFO - Feature selection complete. Selected 34 / 38 features.
+2026-06-12 19:56:25,657 - train_pipeline - INFO - Early stopping triggered at epoch 45
+2026-06-12 19:56:25,664 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:56:25,670 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:56:25,706 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.6903770248762586...
+2026-06-12 19:56:25,930 - preprocessing - INFO - Feature selection complete. Selected 35 / 38 features.
+2026-06-12 19:56:30,812 - train_pipeline - INFO - Early stopping triggered at epoch 16
+2026-06-12 19:56:30,827 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:56:30,827 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:56:30,874 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.6903770248762586...
+2026-06-12 19:56:31,084 - preprocessing - INFO - Feature selection complete. Selected 33 / 38 features.
+2026-06-12 19:56:37,562 - train_pipeline - INFO - Early stopping triggered at epoch 21
+[I 2026-06-12 19:56:37,562] Trial 37 finished with value: 0.8305932327021541 and parameters: {'learning_rate': 0.004832897207856187, 'weight_decay': 7.838260459489683e-05, 'batch_size': 16, 'oversample_method': 'smote', 'smote_ratio': 0.6903770248762586, 'cnn_channels': 64, 'lstm_hidden_dim': 64, 'context_hidden_dim': 32, 'fusion_hidden_dim': 32, 'dropout': 0.19350885119419783}. Best is trial 21 with value: 0.8897981256933332.
+2026-06-12 19:56:37,576 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:56:37,576 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:56:37,624 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.5073854175698868...
+2026-06-12 19:56:37,846 - preprocessing - INFO - Feature selection complete. Selected 31 / 38 features.
+2026-06-12 19:56:42,269 - train_pipeline - INFO - Early stopping triggered at epoch 49
+2026-06-12 19:56:42,286 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:56:42,286 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:56:42,330 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.5073854175698868...
+2026-06-12 19:56:42,557 - preprocessing - INFO - Feature selection complete. Selected 33 / 38 features.
+2026-06-12 19:56:45,751 - train_pipeline - INFO - Early stopping triggered at epoch 38
+2026-06-12 19:56:45,756 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:56:45,756 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:56:45,806 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.5073854175698868...
+2026-06-12 19:56:46,033 - preprocessing - INFO - Feature selection complete. Selected 30 / 38 features.
+2026-06-12 19:56:47,621 - train_pipeline - INFO - Early stopping triggered at epoch 19
+2026-06-12 19:56:47,621 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:56:47,621 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:56:47,681 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.5073854175698868...
+2026-06-12 19:56:47,912 - preprocessing - INFO - Feature selection complete. Selected 34 / 38 features.
+2026-06-12 19:56:50,135 - train_pipeline - INFO - Early stopping triggered at epoch 27
+2026-06-12 19:56:50,138 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:56:50,142 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:56:50,189 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.5073854175698868...
+2026-06-12 19:56:50,405 - preprocessing - INFO - Feature selection complete. Selected 32 / 38 features.
+2026-06-12 19:56:53,071 - train_pipeline - INFO - Early stopping triggered at epoch 32
+[I 2026-06-12 19:56:53,071] Trial 38 finished with value: 0.8598763472290519 and parameters: {'learning_rate': 0.0019897805942214798, 'weight_decay': 4.242445619529594e-05, 'batch_size': 64, 'oversample_method': 'adasyn', 'smote_ratio': 0.5073854175698868, 'cnn_channels': 32, 'lstm_hidden_dim': 32, 'context_hidden_dim': 128, 'fusion_hidden_dim': 64, 'dropout': 0.22758043302612843}. Best is trial 21 with value: 0.8897981256933332.
+2026-06-12 19:56:53,089 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:56:53,093 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:56:53,137 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.4446025270130007...
+2026-06-12 19:56:53,345 - preprocessing - INFO - Feature selection complete. Selected 31 / 38 features.
+2026-06-12 19:57:00,053 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:57:00,058 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:57:00,104 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.4446025270130007...
+2026-06-12 19:57:00,331 - preprocessing - INFO - Feature selection complete. Selected 33 / 38 features.
+2026-06-12 19:57:05,374 - train_pipeline - INFO - Early stopping triggered at epoch 36
+2026-06-12 19:57:05,388 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:57:05,390 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:57:05,430 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.4446025270130007...
+2026-06-12 19:57:05,645 - preprocessing - INFO - Feature selection complete. Selected 29 / 38 features.
+2026-06-12 19:57:11,466 - train_pipeline - INFO - Early stopping triggered at epoch 44
+2026-06-12 19:57:11,474 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:57:11,477 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:57:11,521 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.4446025270130007...
+2026-06-12 19:57:11,727 - preprocessing - INFO - Feature selection complete. Selected 34 / 38 features.
+2026-06-12 19:57:17,382 - train_pipeline - INFO - Early stopping triggered at epoch 43
+2026-06-12 19:57:17,387 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:57:17,390 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:57:17,435 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.4446025270130007...
+2026-06-12 19:57:17,633 - preprocessing - INFO - Feature selection complete. Selected 29 / 38 features.
+2026-06-12 19:57:23,802 - train_pipeline - INFO - Early stopping triggered at epoch 47
+[I 2026-06-12 19:57:23,802] Trial 39 finished with value: 0.8387597714082247 and parameters: {'learning_rate': 0.0007900425054917658, 'weight_decay': 0.0004221447978568845, 'batch_size': 32, 'oversample_method': 'smote', 'smote_ratio': 0.4446025270130007, 'cnn_channels': 64, 'lstm_hidden_dim': 64, 'context_hidden_dim': 32, 'fusion_hidden_dim': 32, 'dropout': 0.25408747433013146}. Best is trial 21 with value: 0.8897981256933332.
+2026-06-12 19:57:23,814 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:57:23,814 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:57:23,870 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.580687823058503...
+2026-06-12 19:57:24,093 - preprocessing - INFO - Feature selection complete. Selected 31 / 38 features.
+2026-06-12 19:57:33,570 - train_pipeline - INFO - Early stopping triggered at epoch 35
+2026-06-12 19:57:33,572 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:57:33,572 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:57:33,619 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.580687823058503...
+2026-06-12 19:57:33,849 - preprocessing - INFO - Feature selection complete. Selected 33 / 38 features.
+2026-06-12 19:57:43,769 - train_pipeline - INFO - Early stopping triggered at epoch 37
+2026-06-12 19:57:43,769 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:57:43,769 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:57:43,824 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.580687823058503...
+2026-06-12 19:57:44,057 - preprocessing - INFO - Feature selection complete. Selected 33 / 38 features.
+2026-06-12 19:57:51,024 - train_pipeline - INFO - Early stopping triggered at epoch 26
+2026-06-12 19:57:51,030 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:57:51,030 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:57:51,079 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.580687823058503...
+2026-06-12 19:57:51,294 - preprocessing - INFO - Feature selection complete. Selected 35 / 38 features.
+2026-06-12 19:57:56,412 - train_pipeline - INFO - Early stopping triggered at epoch 19
+2026-06-12 19:57:56,412 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:57:56,419 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:57:56,468 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.580687823058503...
+2026-06-12 19:57:56,686 - preprocessing - INFO - Feature selection complete. Selected 33 / 38 features.
+2026-06-12 19:58:04,477 - train_pipeline - INFO - Early stopping triggered at epoch 29
+[I 2026-06-12 19:58:04,480] Trial 40 finished with value: 0.8180463982055339 and parameters: {'learning_rate': 0.0012062300196094514, 'weight_decay': 0.0003204195384092942, 'batch_size': 16, 'oversample_method': 'adasyn', 'smote_ratio': 0.580687823058503, 'cnn_channels': 16, 'lstm_hidden_dim': 64, 'context_hidden_dim': 128, 'fusion_hidden_dim': 64, 'dropout': 0.29318507975728314}. Best is trial 21 with value: 0.8897981256933332.
+2026-06-12 19:58:04,492 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:58:04,494 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:58:04,539 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.5036391267961835...
+2026-06-12 19:58:04,750 - preprocessing - INFO - Feature selection complete. Selected 31 / 38 features.
+2026-06-12 19:58:07,170 - train_pipeline - INFO - Early stopping triggered at epoch 29
+2026-06-12 19:58:07,173 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:58:07,176 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:58:07,219 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.5036391267961835...
+2026-06-12 19:58:07,444 - preprocessing - INFO - Feature selection complete. Selected 33 / 38 features.
+2026-06-12 19:58:09,771 - train_pipeline - INFO - Early stopping triggered at epoch 27
+2026-06-12 19:58:09,782 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:58:09,782 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:58:09,825 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.5036391267961835...
+2026-06-12 19:58:10,048 - preprocessing - INFO - Feature selection complete. Selected 30 / 38 features.
+2026-06-12 19:58:11,641 - train_pipeline - INFO - Early stopping triggered at epoch 18
+2026-06-12 19:58:11,648 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:58:11,648 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:58:11,697 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.5036391267961835...
+2026-06-12 19:58:11,929 - preprocessing - INFO - Feature selection complete. Selected 34 / 38 features.
+2026-06-12 19:58:13,801 - train_pipeline - INFO - Early stopping triggered at epoch 22
+2026-06-12 19:58:13,801 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:58:13,816 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:58:13,868 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.5036391267961835...
+2026-06-12 19:58:14,087 - preprocessing - INFO - Feature selection complete. Selected 32 / 38 features.
+2026-06-12 19:58:16,048 - train_pipeline - INFO - Early stopping triggered at epoch 23
+[I 2026-06-12 19:58:16,050] Trial 41 finished with value: 0.8596403497257104 and parameters: {'learning_rate': 0.007581005827154085, 'weight_decay': 0.0005520954642907937, 'batch_size': 64, 'oversample_method': 'adasyn', 'smote_ratio': 0.5036391267961835, 'cnn_channels': 32, 'lstm_hidden_dim': 64, 'context_hidden_dim': 64, 'fusion_hidden_dim': 32, 'dropout': 0.13110505595856647}. Best is trial 21 with value: 0.8897981256933332.
+2026-06-12 19:58:16,064 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:58:16,066 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:58:16,111 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.4939740124572039...
+2026-06-12 19:58:16,327 - preprocessing - INFO - Feature selection complete. Selected 31 / 38 features.
+2026-06-12 19:58:18,683 - train_pipeline - INFO - Early stopping triggered at epoch 28
+2026-06-12 19:58:18,692 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:58:18,696 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:58:18,746 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.4939740124572039...
+2026-06-12 19:58:18,962 - preprocessing - INFO - Feature selection complete. Selected 32 / 38 features.
+2026-06-12 19:58:20,767 - train_pipeline - INFO - Early stopping triggered at epoch 21
+2026-06-12 19:58:20,769 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:58:20,771 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:58:20,819 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.4939740124572039...
+2026-06-12 19:58:21,053 - preprocessing - INFO - Feature selection complete. Selected 30 / 38 features.
+2026-06-12 19:58:22,655 - train_pipeline - INFO - Early stopping triggered at epoch 19
+2026-06-12 19:58:22,669 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:58:22,673 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:58:22,721 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.4939740124572039...
+2026-06-12 19:58:22,938 - preprocessing - INFO - Feature selection complete. Selected 34 / 38 features.
+2026-06-12 19:58:24,547 - train_pipeline - INFO - Early stopping triggered at epoch 19
+2026-06-12 19:58:24,550 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:58:24,554 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:58:24,603 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.4939740124572039...
+2026-06-12 19:58:24,830 - preprocessing - INFO - Feature selection complete. Selected 32 / 38 features.
+2026-06-12 19:58:27,535 - train_pipeline - INFO - Early stopping triggered at epoch 32
+[I 2026-06-12 19:58:27,535] Trial 42 finished with value: 0.8550195828018856 and parameters: {'learning_rate': 0.005067089232022303, 'weight_decay': 0.0007873154676424355, 'batch_size': 64, 'oversample_method': 'adasyn', 'smote_ratio': 0.4939740124572039, 'cnn_channels': 32, 'lstm_hidden_dim': 64, 'context_hidden_dim': 64, 'fusion_hidden_dim': 32, 'dropout': 0.15790686423140998}. Best is trial 21 with value: 0.8897981256933332.
+2026-06-12 19:58:27,553 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:58:27,556 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:58:27,603 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.41875545855104307...
+2026-06-12 19:58:27,618 - preprocessing - WARNING - ADASYN failed (likely too few samples). Error: No samples will be generated with the provided ratio settings.. Falling back to no oversampling.
+2026-06-12 19:58:27,829 - preprocessing - INFO - Feature selection complete. Selected 28 / 38 features.
+2026-06-12 19:58:30,428 - train_pipeline - INFO - Early stopping triggered at epoch 40
+2026-06-12 19:58:30,435 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:58:30,439 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:58:30,476 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.41875545855104307...
+2026-06-12 19:58:30,496 - preprocessing - WARNING - ADASYN failed (likely too few samples). Error: No samples will be generated with the provided ratio settings.. Falling back to no oversampling.
+2026-06-12 19:58:30,707 - preprocessing - INFO - Feature selection complete. Selected 28 / 38 features.
+2026-06-12 19:58:32,918 - train_pipeline - INFO - Early stopping triggered at epoch 34
+2026-06-12 19:58:32,925 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:58:32,925 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:58:32,974 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.41875545855104307...
+2026-06-12 19:58:32,995 - preprocessing - WARNING - ADASYN failed (likely too few samples). Error: No samples will be generated with the provided ratio settings.. Falling back to no oversampling.
+2026-06-12 19:58:33,190 - preprocessing - INFO - Feature selection complete. Selected 25 / 38 features.
+2026-06-12 19:58:34,716 - train_pipeline - INFO - Early stopping triggered at epoch 23
+2026-06-12 19:58:34,717 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:58:34,722 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:58:34,766 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.41875545855104307...
+2026-06-12 19:58:34,778 - preprocessing - WARNING - ADASYN failed (likely too few samples). Error: No samples will be generated with the provided ratio settings.. Falling back to no oversampling.
+2026-06-12 19:58:34,965 - preprocessing - INFO - Feature selection complete. Selected 25 / 38 features.
+2026-06-12 19:58:36,960 - train_pipeline - INFO - Early stopping triggered at epoch 31
+2026-06-12 19:58:36,964 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:58:36,966 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:58:37,019 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.41875545855104307...
+2026-06-12 19:58:37,229 - preprocessing - INFO - Feature selection complete. Selected 30 / 38 features.
+[I 2026-06-12 19:58:40,968] Trial 43 finished with value: 0.8729117198641673 and parameters: {'learning_rate': 0.00402505032840128, 'weight_decay': 0.00046552061892428143, 'batch_size': 64, 'oversample_method': 'adasyn', 'smote_ratio': 0.41875545855104307, 'cnn_channels': 32, 'lstm_hidden_dim': 64, 'context_hidden_dim': 64, 'fusion_hidden_dim': 32, 'dropout': 0.12440663201383978}. Best is trial 21 with value: 0.8897981256933332.
+2026-06-12 19:58:40,987 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:58:40,992 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:58:41,035 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.519926682379124...
+2026-06-12 19:58:41,247 - preprocessing - INFO - Feature selection complete. Selected 31 / 38 features.
+2026-06-12 19:58:43,422 - train_pipeline - INFO - Early stopping triggered at epoch 26
+2026-06-12 19:58:43,422 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:58:43,431 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:58:43,472 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.519926682379124...
+2026-06-12 19:58:43,695 - preprocessing - INFO - Feature selection complete. Selected 33 / 38 features.
+2026-06-12 19:58:45,311 - train_pipeline - INFO - Early stopping triggered at epoch 19
+2026-06-12 19:58:45,326 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:58:45,327 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:58:45,366 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.519926682379124...
+2026-06-12 19:58:45,582 - preprocessing - INFO - Feature selection complete. Selected 32 / 38 features.
+2026-06-12 19:58:47,585 - train_pipeline - INFO - Early stopping triggered at epoch 23
+2026-06-12 19:58:47,587 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:58:47,591 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:58:47,643 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.519926682379124...
+2026-06-12 19:58:47,848 - preprocessing - INFO - Feature selection complete. Selected 35 / 38 features.
+2026-06-12 19:58:52,047 - train_pipeline - INFO - Early stopping triggered at epoch 49
+2026-06-12 19:58:52,047 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:58:52,047 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:58:52,111 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.519926682379124...
+2026-06-12 19:58:52,322 - preprocessing - INFO - Feature selection complete. Selected 31 / 38 features.
+[I 2026-06-12 19:58:56,554] Trial 44 finished with value: 0.8819922864153069 and parameters: {'learning_rate': 0.007430137715330928, 'weight_decay': 1.1830028316521304e-06, 'batch_size': 64, 'oversample_method': 'smote', 'smote_ratio': 0.519926682379124, 'cnn_channels': 32, 'lstm_hidden_dim': 64, 'context_hidden_dim': 64, 'fusion_hidden_dim': 32, 'dropout': 0.14964553000031822}. Best is trial 21 with value: 0.8897981256933332.
+2026-06-12 19:58:56,576 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:58:56,581 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:58:56,626 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.5651972060048907...
+2026-06-12 19:58:56,838 - preprocessing - INFO - Feature selection complete. Selected 30 / 38 features.
+2026-06-12 19:59:03,986 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:59:03,988 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:59:04,047 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.5651972060048907...
+2026-06-12 19:59:04,275 - preprocessing - INFO - Feature selection complete. Selected 34 / 38 features.
+2026-06-12 19:59:11,020 - train_pipeline - INFO - Early stopping triggered at epoch 47
+2026-06-12 19:59:11,027 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:59:11,033 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:59:11,081 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.5651972060048907...
+2026-06-12 19:59:11,279 - preprocessing - INFO - Feature selection complete. Selected 31 / 38 features.
+2026-06-12 19:59:18,312 - train_pipeline - INFO - Early stopping triggered at epoch 50
+2026-06-12 19:59:18,317 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:59:18,320 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:59:18,369 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.5651972060048907...
+2026-06-12 19:59:18,583 - preprocessing - INFO - Feature selection complete. Selected 35 / 38 features.
+2026-06-12 19:59:23,362 - train_pipeline - INFO - Early stopping triggered at epoch 33
+2026-06-12 19:59:23,362 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:59:23,368 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:59:23,416 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.5651972060048907...
+2026-06-12 19:59:23,728 - preprocessing - INFO - Feature selection complete. Selected 31 / 38 features.
+[I 2026-06-12 19:59:31,276] Trial 45 finished with value: 0.8421886253193243 and parameters: {'learning_rate': 0.000369286453145914, 'weight_decay': 1.809994132222259e-06, 'batch_size': 32, 'oversample_method': 'smote', 'smote_ratio': 0.5651972060048907, 'cnn_channels': 32, 'lstm_hidden_dim': 32, 'context_hidden_dim': 64, 'fusion_hidden_dim': 128, 'dropout': 0.14773983563636212}. Best is trial 21 with value: 0.8897981256933332.
+2026-06-12 19:59:31,276 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:59:31,292 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:59:31,339 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.520142111401417...
+2026-06-12 19:59:31,548 - preprocessing - INFO - Feature selection complete. Selected 31 / 38 features.
+2026-06-12 19:59:33,330 - train_pipeline - INFO - Early stopping triggered at epoch 20
+2026-06-12 19:59:33,344 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:59:33,344 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:59:33,392 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.520142111401417...
+2026-06-12 19:59:33,600 - preprocessing - INFO - Feature selection complete. Selected 33 / 38 features.
+2026-06-12 19:59:35,538 - train_pipeline - INFO - Early stopping triggered at epoch 22
+2026-06-12 19:59:35,543 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:59:35,547 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:59:35,585 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.520142111401417...
+2026-06-12 19:59:35,804 - preprocessing - INFO - Feature selection complete. Selected 32 / 38 features.
+2026-06-12 19:59:37,479 - train_pipeline - INFO - Early stopping triggered at epoch 19
+2026-06-12 19:59:37,483 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:59:37,485 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:59:37,527 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.520142111401417...
+2026-06-12 19:59:37,750 - preprocessing - INFO - Feature selection complete. Selected 35 / 38 features.
+2026-06-12 19:59:39,697 - train_pipeline - INFO - Early stopping triggered at epoch 21
+2026-06-12 19:59:39,699 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:59:39,699 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:59:39,761 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.520142111401417...
+2026-06-12 19:59:39,984 - preprocessing - INFO - Feature selection complete. Selected 31 / 38 features.
+2026-06-12 19:59:43,284 - train_pipeline - INFO - Early stopping triggered at epoch 34
+[I 2026-06-12 19:59:43,284] Trial 46 finished with value: 0.863773580901001 and parameters: {'learning_rate': 0.002844685644491804, 'weight_decay': 5.0148751643681546e-06, 'batch_size': 64, 'oversample_method': 'smote', 'smote_ratio': 0.520142111401417, 'cnn_channels': 64, 'lstm_hidden_dim': 64, 'context_hidden_dim': 128, 'fusion_hidden_dim': 32, 'dropout': 0.17582861961060373}. Best is trial 21 with value: 0.8897981256933332.
+2026-06-12 19:59:43,300 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:59:43,300 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:59:43,355 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.533382227572174...
+2026-06-12 19:59:43,570 - preprocessing - INFO - Feature selection complete. Selected 32 / 38 features.
+2026-06-12 19:59:50,023 - train_pipeline - INFO - Early stopping triggered at epoch 43
+2026-06-12 19:59:50,023 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:59:50,023 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:59:50,074 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.533382227572174...
+2026-06-12 19:59:50,294 - preprocessing - INFO - Feature selection complete. Selected 35 / 38 features.
+2026-06-12 19:59:53,032 - train_pipeline - INFO - Early stopping triggered at epoch 18
+2026-06-12 19:59:53,032 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:59:53,032 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:59:53,096 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.533382227572174...
+2026-06-12 19:59:53,317 - preprocessing - INFO - Feature selection complete. Selected 31 / 38 features.
+2026-06-12 19:59:56,531 - train_pipeline - INFO - Early stopping triggered at epoch 21
+2026-06-12 19:59:56,531 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:59:56,543 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 19:59:56,577 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.533382227572174...
+2026-06-12 19:59:56,799 - preprocessing - INFO - Feature selection complete. Selected 35 / 38 features.
+2026-06-12 20:00:04,008 - train_pipeline - INFO - Early stopping triggered at epoch 47
+2026-06-12 20:00:04,008 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 20:00:04,014 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 20:00:04,056 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.533382227572174...
+2026-06-12 20:00:04,271 - preprocessing - INFO - Feature selection complete. Selected 31 / 38 features.
+2026-06-12 20:00:10,753 - train_pipeline - INFO - Early stopping triggered at epoch 43
+[I 2026-06-12 20:00:10,758] Trial 47 finished with value: 0.8685677252566839 and parameters: {'learning_rate': 0.008039788859542086, 'weight_decay': 1.6603553276025848e-05, 'batch_size': 32, 'oversample_method': 'smote', 'smote_ratio': 0.533382227572174, 'cnn_channels': 64, 'lstm_hidden_dim': 64, 'context_hidden_dim': 64, 'fusion_hidden_dim': 64, 'dropout': 0.1897739638034992}. Best is trial 21 with value: 0.8897981256933332.
+2026-06-12 20:00:10,767 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 20:00:10,767 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 20:00:10,816 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.46747302005338737...
+2026-06-12 20:00:11,022 - preprocessing - INFO - Feature selection complete. Selected 31 / 38 features.
+2026-06-12 20:00:15,221 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 20:00:15,221 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 20:00:15,267 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.46747302005338737...
+2026-06-12 20:00:15,482 - preprocessing - INFO - Feature selection complete. Selected 34 / 38 features.
+2026-06-12 20:00:17,952 - train_pipeline - INFO - Early stopping triggered at epoch 29
+2026-06-12 20:00:17,952 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 20:00:17,959 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 20:00:18,008 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.46747302005338737...
+2026-06-12 20:00:18,223 - preprocessing - INFO - Feature selection complete. Selected 29 / 38 features.
+2026-06-12 20:00:20,342 - train_pipeline - INFO - Early stopping triggered at epoch 25
+2026-06-12 20:00:20,345 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 20:00:20,345 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 20:00:20,389 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.46747302005338737...
+2026-06-12 20:00:20,611 - preprocessing - INFO - Feature selection complete. Selected 34 / 38 features.
+2026-06-12 20:00:23,967 - train_pipeline - INFO - Early stopping triggered at epoch 39
+2026-06-12 20:00:23,973 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 20:00:23,973 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 20:00:24,023 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.46747302005338737...
+2026-06-12 20:00:24,243 - preprocessing - INFO - Feature selection complete. Selected 30 / 38 features.
+2026-06-12 20:00:27,199 - train_pipeline - INFO - Early stopping triggered at epoch 35
+[I 2026-06-12 20:00:27,199] Trial 48 finished with value: 0.8527921746708271 and parameters: {'learning_rate': 0.009977003211428727, 'weight_decay': 8.190919414044169e-06, 'batch_size': 64, 'oversample_method': 'smote', 'smote_ratio': 0.46747302005338737, 'cnn_channels': 16, 'lstm_hidden_dim': 64, 'context_hidden_dim': 128, 'fusion_hidden_dim': 32, 'dropout': 0.44776428985041766}. Best is trial 21 with value: 0.8897981256933332.
+2026-06-12 20:00:27,220 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 20:00:27,227 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 20:00:27,269 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.6255336702048147...
+2026-06-12 20:00:27,493 - preprocessing - INFO - Feature selection complete. Selected 31 / 38 features.
+2026-06-12 20:00:31,487 - train_pipeline - INFO - Early stopping triggered at epoch 28
+2026-06-12 20:00:31,496 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 20:00:31,500 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 20:00:31,548 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.6255336702048147...
+2026-06-12 20:00:31,767 - preprocessing - INFO - Feature selection complete. Selected 34 / 38 features.
+2026-06-12 20:00:35,323 - train_pipeline - INFO - Early stopping triggered at epoch 24
+2026-06-12 20:00:35,330 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 20:00:35,330 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 20:00:35,386 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.6255336702048147...
+2026-06-12 20:00:35,594 - preprocessing - INFO - Feature selection complete. Selected 31 / 38 features.
+2026-06-12 20:00:38,688 - train_pipeline - INFO - Early stopping triggered at epoch 21
+2026-06-12 20:00:38,696 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 20:00:38,699 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 20:00:38,745 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.6255336702048147...
+2026-06-12 20:00:38,945 - preprocessing - INFO - Feature selection complete. Selected 35 / 38 features.
+2026-06-12 20:00:41,629 - train_pipeline - INFO - Early stopping triggered at epoch 18
+2026-06-12 20:00:41,636 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 20:00:41,636 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 20:00:41,687 - preprocessing - INFO - Applying SMOTE on train set with ratio 0.6255336702048147...
+2026-06-12 20:00:41,904 - preprocessing - INFO - Feature selection complete. Selected 31 / 38 features.
+2026-06-12 20:00:45,931 - train_pipeline - INFO - Early stopping triggered at epoch 28
+[I 2026-06-12 20:00:45,937] Trial 49 finished with value: 0.8600152838557487 and parameters: {'learning_rate': 0.0050994427465070585, 'weight_decay': 3.479518317121823e-05, 'batch_size': 32, 'oversample_method': 'smote', 'smote_ratio': 0.6255336702048147, 'cnn_channels': 32, 'lstm_hidden_dim': 32, 'context_hidden_dim': 32, 'fusion_hidden_dim': 32, 'dropout': 0.1204115883419481}. Best is trial 21 with value: 0.8897981256933332.
+2026-06-12 20:00:45,937 - run_pipeline - INFO - Best CV F1-Macro: 0.8898
+2026-06-12 20:00:45,937 - run_pipeline - INFO - Best parameters: {'learning_rate': 0.0049509130573654235, 'weight_decay': 5.1938026547695015e-05, 'batch_size': 64, 'oversample_method': 'adasyn', 'smote_ratio': 0.46782851025555244, 'cnn_channels': 64, 'lstm_hidden_dim': 64, 'context_hidden_dim': 32, 'fusion_hidden_dim': 32, 'dropout': 0.18467328187693013}
+2026-06-12 20:00:45,937 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 20:00:45,944 - preprocessing - INFO - Student engineered features created: ['grade_growth', 'grade_avg', 'absence_study_ratio', 'failure_risk', 'alcohol_risk', 'social_risk']
+2026-06-12 20:00:45,994 - preprocessing - INFO - Applying ADASYN on train set with ratio 0.46782851025555244...
+2026-06-12 20:00:46,250 - preprocessing - INFO - Feature selection complete. Selected 32 / 38 features.
+2026-06-12 20:00:46,283 - run_pipeline - INFO - Training ensemble seed 42.
+2026-06-12 20:00:49,788 - train_pipeline - INFO - Early stopping triggered at epoch 41
+2026-06-12 20:00:49,820 - run_pipeline - INFO - Training ensemble seed 123.
+2026-06-12 20:00:53,313 - train_pipeline - INFO - Early stopping triggered at epoch 39
+2026-06-12 20:00:53,335 - run_pipeline - INFO - Training ensemble seed 155.
+2026-06-12 20:01:00,485 - run_pipeline - INFO - Training ensemble seed 156.
+2026-06-12 20:01:04,474 - train_pipeline - INFO - Early stopping triggered at epoch 45
+2026-06-12 20:01:04,481 - run_pipeline - INFO - Training ensemble seed 2025.
+2026-06-12 20:01:06,320 - train_pipeline - INFO - Early stopping triggered at epoch 21
+2026-06-12 20:01:06,341 - run_pipeline - INFO - Locked-test F1-Macro: 0.8394
+2026-06-12 20:01:06,383 - run_pipeline - INFO - Saved metrics, predictions, learning paths and report for student-por.
+2026-06-12 20:01:06,383 - explainability - INFO - Calculating permutation importance...
+2026-06-12 20:01:06,877 - evaluation - INFO - Persisted PostgreSQL evaluation run 7 for student-por.
+2026-06-12 20:01:06,877 - run_pipeline - INFO - PostgreSQL run id: 7

@@ -1,345 +1,255 @@
-import torch
-import pandas as pd
+"""Model explanation and rule-based learning-path recommendations."""
+
+from __future__ import annotations
+
+import json
+from dataclasses import dataclass
+from typing import Any
+
 import numpy as np
-import copy
-from pathlib import Path
-from src.config import *
+import pandas as pd
+import torch
+from sklearn.metrics import f1_score
+
 from src.utils import setup_logger
 
 logger = setup_logger("explainability")
 
-import torch
-import numpy as np
-import pandas as pd
-from sklearn.metrics import f1_score
-try:
-    import shap
-    HAS_SHAP = True
-except ImportError:
-    HAS_SHAP = False
+CLASS_NAMES = {0: "Low", 1: "Medium", 2: "High"}
 
 
+def calculate_permutation_importance(
+    model,
+    val_loader,
+    device,
+    numerical_feature_names,
+    categorical_feature_names,
+):
+    """Measure the F1-Macro drop after shuffling each context feature."""
 
-def calculate_permutation_importance(model, val_loader, criterion, device, feature_names):
-    """
-    Fallback Permutation Importance if SHAP fails or is too slow.
-    Works by randomly shuffling one feature column at a time and measuring drop in F1.
-    """
     model.eval()
-    
-    # 1. Get baseline F1
-    all_preds = []
-    all_labels = []
-    baseline_seq, baseline_num, baseline_cat = [], [], []
+    sequences = []
+    numerical = []
+    categorical = []
+    labels = []
+
     with torch.no_grad():
-        for seq_x, num_x, cat_x, labels, _ in val_loader:
-            seq_x = seq_x.to(device) if seq_x is not None else None
-            num_x = num_x.to(device) if num_x is not None else None
-            cat_x = cat_x.to(device) if cat_x is not None else None
-            
-            if seq_x is not None: baseline_seq.append(seq_x.cpu())
-            if num_x is not None: baseline_num.append(num_x.cpu())
-            if cat_x is not None: baseline_cat.append(cat_x.cpu())
-            
-            logits, _ = model(seq_x, num_x, cat_x)
-            preds = torch.argmax(logits, dim=1)
-            all_preds.extend(preds.cpu().numpy())
-            all_labels.extend(labels.numpy())
-            
-    baseline_f1 = f1_score(all_labels, all_preds, average='macro', zero_division=0)
-    
-    if len(baseline_num) == 0 and len(baseline_cat) == 0:
-        return pd.DataFrame()
-        
-    full_num = torch.cat(baseline_num, dim=0) if len(baseline_num) > 0 else None
-    full_cat = torch.cat(baseline_cat, dim=0) if len(baseline_cat) > 0 else None
-    full_seq = torch.cat(baseline_seq, dim=0) if len(baseline_seq) > 0 else None
-    
-    importances = {}
-    
-    # helper
-    def evaluate_shuffled(num_c, cat_c, seq_c):
-        p = []
+        for seq_x, num_x, cat_x, batch_labels, _ in val_loader:
+            sequences.append(seq_x.cpu())
+            numerical.append(num_x.cpu())
+            categorical.append(cat_x.cpu())
+            labels.extend(batch_labels.numpy())
+
+    full_seq = torch.cat(sequences, dim=0)
+    full_num = torch.cat(numerical, dim=0)
+    full_cat = torch.cat(categorical, dim=0)
+
+    def evaluate(num_values, cat_values):
+        predictions = []
         with torch.no_grad():
-            batch_size = 32
-            n_samples = num_c.shape[0] if num_c is not None else cat_c.shape[0]
-            for i in range(0, n_samples, batch_size):
-                s = seq_c[i:i+batch_size].to(device) if seq_c is not None else None
-                n = num_c[i:i+batch_size].to(device) if num_c is not None else None
-                c = cat_c[i:i+batch_size].to(device) if cat_c is not None else None
-                logits, _ = model(s, n, c)
-                p.extend(torch.argmax(logits, dim=1).cpu().numpy())
-        return f1_score(all_labels, p, average='macro', zero_division=0)
+            for start in range(0, len(labels), 32):
+                stop = start + 32
+                logits = model(
+                    full_seq[start:stop].to(device),
+                    num_values[start:stop].to(device),
+                    cat_values[start:stop].to(device),
+                )
+                predictions.extend(torch.argmax(logits, dim=1).cpu().numpy())
+        return f1_score(labels, predictions, average="macro", zero_division=0)
 
-    idx_feat = 0
-    # Process Numerical
-    if full_num is not None:
-        for i in range(full_num.shape[1]):
-            shuffled_num = full_num.clone()
-            shuffled_num[:, i] = shuffled_num[torch.randperm(full_num.shape[0]), i]
-            shuf_f1 = evaluate_shuffled(shuffled_num, full_cat, full_seq)
-            importances[feature_names[idx_feat]] = baseline_f1 - shuf_f1
-            idx_feat += 1
-            
-    # Process Categorical
-    if full_cat is not None:
-        for i in range(full_cat.shape[1]):
-            shuffled_cat = full_cat.clone()
-            shuffled_cat[:, i] = shuffled_cat[torch.randperm(full_cat.shape[0]), i]
-            shuf_f1 = evaluate_shuffled(full_num, shuffled_cat, full_seq)
-            importances[feature_names[idx_feat]] = baseline_f1 - shuf_f1
-            idx_feat += 1
-            
-    df_imp = pd.DataFrame(list(importances.items()), columns=["Feature", "Importance"])
-    df_imp = df_imp.sort_values(by="Importance", ascending=False).reset_index(drop=True)
-    return df_imp
+    baseline_f1 = evaluate(full_num, full_cat)
+    importances = []
+    for column, feature_name in enumerate(numerical_feature_names):
+        shuffled = full_num.clone()
+        shuffled[:, column] = shuffled[torch.randperm(len(shuffled)), column]
+        importances.append((feature_name, baseline_f1 - evaluate(shuffled, full_cat)))
 
-def explain_model(model, val_loader, criterion, device, feature_names, out_path):
-    """
-    Attempts SHAP, falls back to Permutation Importance.
-    """
-    logger.info("Starting Explainability Analysis...")
-    
-    # We will just use permutation importance for robust evaluation across all architectures
-    # Since SHAP requires a specific flat tensor interface which breaks on our multi-input
-    # complex architectures (DeepFM, FT-Transformer with both categorical/numerical).
-    
-    logger.info("Using Permutation Importance (Fallback from SHAP due to multi-input model complexity).")
-    df_imp = calculate_permutation_importance(model, val_loader, criterion, device, feature_names)
-    
-    if not df_imp.empty:
-        df_imp.to_csv(out_path, index=False)
-        logger.info(f"Saved feature importance to {out_path}")
-    
-    return df_imp
+    for column, feature_name in enumerate(categorical_feature_names):
+        shuffled = full_cat.clone()
+        shuffled[:, column] = shuffled[torch.randperm(len(shuffled)), column]
+        importances.append((feature_name, baseline_f1 - evaluate(full_num, shuffled)))
+
+    return pd.DataFrame(importances, columns=["Feature", "Importance"]).sort_values(
+        "Importance",
+        ascending=False,
+        ignore_index=True,
+    )
 
 
-import torch
-import copy
-import pandas as pd
-import numpy as np
+def explain_model(
+    model,
+    val_loader,
+    device,
+    numerical_feature_names,
+    categorical_feature_names,
+    out_path,
+):
+    logger.info("Calculating permutation importance...")
+    importance = calculate_permutation_importance(
+        model,
+        val_loader,
+        device,
+        numerical_feature_names,
+        categorical_feature_names,
+    )
+    importance.to_csv(out_path, index=False)
+    return importance
 
 
-logger = setup_logger("counterfactual")
+@dataclass(frozen=True)
+class RiskFactor:
+    code: str
+    title: str
+    evidence: str
+    priority: int
 
-class GreedyCounterfactualSearcher:
-    """
-    Fallback Counterfactual Search.
-    Finds minimal changes to actionable features to improve the predicted class.
-    """
-    def __init__(self, model, preprocessor, selector, spec, device):
-        self.model = model
-        self.preprocessor = preprocessor
-        self.selector = selector
-        self.spec = spec
-        self.device = device
-        
-        self.model.eval()
-        
-        # Define actionable features and directions
-        if spec.kind == "student":
-            # (feature_name, direction: 1 for increase, -1 for decrease)
-            self.actionables = {
-                "studytime": {"dir": 1, "type": "num", "min": 0, "max": 1}, # scaled 0-1
-                "absences": {"dir": -1, "type": "num", "min": 0, "max": 1},
-                "goout": {"dir": -1, "type": "num", "min": 0, "max": 1},
-                "Dalc": {"dir": -1, "type": "num", "min": 0, "max": 1},
-                "Walc": {"dir": -1, "type": "num", "min": 0, "max": 1},
-                "internet": {"dir": 1, "type": "cat"}
-            }
-            self.num_step = 0.25 # Since original values were 1-4, scaled to 0-1, step is ~0.33
+
+class RuleBasedLearningPathEngine:
+    """Map observable academic risks to a staged learning roadmap."""
+
+    def __init__(self, dataset_kind: str):
+        if dataset_kind not in {"student", "xapi"}:
+            raise ValueError(f"Unsupported dataset kind: {dataset_kind}")
+        self.dataset_kind = dataset_kind
+
+    @staticmethod
+    def _number(features: dict[str, Any], name: str, default: float = 0.0) -> float:
+        try:
+            value = features.get(name, default)
+            return default if pd.isna(value) else float(value)
+        except (TypeError, ValueError):
+            return default
+
+    def _student_risks(self, features: dict[str, Any]) -> list[RiskFactor]:
+        absences = self._number(features, "absences")
+        study_time = self._number(features, "studytime", 1.0)
+        failures = self._number(features, "failures")
+        g1 = self._number(features, "G1")
+        g2 = self._number(features, "G2")
+        alcohol = self._number(features, "Dalc") + self._number(features, "Walc")
+        goout = self._number(features, "goout")
+        ratio = absences / max(study_time, 0.5)
+        risks = []
+
+        if absences >= 10 or ratio >= 5:
+            risks.append(RiskFactor("attendance", "Nguy cơ chuyên cần", f"Vắng {absences:.0f} buổi; tỷ lệ vắng/học {ratio:.1f}.", 1))
+        if failures > 0:
+            risks.append(RiskFactor("failure_history", "Lỗ hổng kiến thức tích lũy", f"Số lần trượt môn trước đây: {failures:.0f}.", 1))
+        if g2 < 10 or (g1 > 0 and g2 < g1):
+            risks.append(RiskFactor("grade_gap", "Kết quả giữa kỳ chưa đạt", f"G1={g1:.0f}, G2={g2:.0f}.", 1))
+        if study_time <= 1:
+            risks.append(RiskFactor("study_time", "Thời lượng tự học thấp", f"Mức studytime hiện tại: {study_time:.0f}/4.", 2))
+        if alcohol >= 6:
+            risks.append(RiskFactor("wellbeing", "Thói quen sinh hoạt ảnh hưởng học tập", f"Tổng Dalc + Walc = {alcohol:.0f}.", 3))
+        if goout >= 4:
+            risks.append(RiskFactor("time_management", "Phân bổ thời gian chưa hợp lý", f"Mức goout hiện tại: {goout:.0f}/5.", 3))
+        return sorted(risks, key=lambda risk: risk.priority)
+
+    def _xapi_risks(self, features: dict[str, Any]) -> list[RiskFactor]:
+        raised_hands = self._number(features, "raisedhands")
+        resources = self._number(features, "VisITedResources")
+        announcements = self._number(features, "AnnouncementsView")
+        discussion = self._number(features, "Discussion")
+        risks = []
+
+        if str(features.get("StudentAbsenceDays", "")).lower() == "above-7":
+            risks.append(RiskFactor("attendance", "Nguy cơ chuyên cần", "Số ngày vắng học thuộc nhóm Above-7.", 1))
+        if resources < 40:
+            risks.append(RiskFactor("resource_usage", "Khai thác học liệu thấp", f"VisITedResources={resources:.0f}/100.", 1))
+        if raised_hands < 30 or discussion < 30:
+            risks.append(RiskFactor("class_engagement", "Tương tác lớp học thấp", f"raisedhands={raised_hands:.0f}, Discussion={discussion:.0f}.", 2))
+        if announcements < 30:
+            risks.append(RiskFactor("course_updates", "Theo dõi thông báo chưa đều", f"AnnouncementsView={announcements:.0f}/100.", 2))
+        if str(features.get("ParentAnsweringSurvey", "")).lower() == "no":
+            risks.append(RiskFactor("parent_support", "Thiếu phối hợp gia đình", "Phụ huynh chưa tham gia khảo sát học tập.", 3))
+        if str(features.get("ParentschoolSatisfaction", "")).lower() == "bad":
+            risks.append(RiskFactor("school_support", "Cần tăng kết nối nhà trường", "Mức hài lòng của phụ huynh là Bad.", 3))
+        return sorted(risks, key=lambda risk: risk.priority)
+
+    def _student_actions(self, risk_codes: set[str]) -> list[dict[str, str]]:
+        actions = []
+        if "attendance" in risk_codes:
+            actions.append({"phase": "Tuần 1", "goal": "Khôi phục chuyên cần", "actions": "Lập lịch đi học đủ; đăng ký lớp bù cho nội dung G1/G2 đã bỏ lỡ; cố vấn kiểm tra chuyên cần mỗi tuần."})
+        if "failure_history" in risk_codes or "grade_gap" in risk_codes:
+            actions.append({"phase": "Tuần 1-2", "goal": "Bù lỗ hổng kiến thức", "actions": "Làm bài chẩn đoán theo chủ đề; học lại hai chủ đề yếu nhất; hoàn thành tối thiểu 3 bài luyện tập có phản hồi mỗi tuần."})
+        if "study_time" in risk_codes or "time_management" in risk_codes:
+            actions.append({"phase": "Tuần 2-4", "goal": "Ổn định nếp tự học", "actions": "Tăng ít nhất 3 giờ tự học có kế hoạch mỗi tuần; chia thành các phiên 45 phút; giảm một buổi đi chơi trong tuần nếu trùng lịch học."})
+        if "wellbeing" in risk_codes:
+            actions.append({"phase": "Tuần 2-4", "goal": "Điều chỉnh thói quen sinh hoạt", "actions": "Giảm sử dụng đồ uống có cồn trong ngày học; duy trì giấc ngủ và lịch học cố định; trao đổi với cố vấn khi khó tự điều chỉnh."})
+        actions.append({"phase": "Mỗi cuối tuần", "goal": "Theo dõi tiến bộ", "actions": "Cập nhật điểm bài tập và tỷ lệ chuyên cần; nếu điểm luyện tập dưới 60% trong hai tuần liên tiếp, chuyển sang phụ đạo trực tiếp."})
+        return actions
+
+    def _xapi_actions(self, risk_codes: set[str]) -> list[dict[str, str]]:
+        actions = []
+        if "attendance" in risk_codes:
+            actions.append({"phase": "Tuần 1", "goal": "Khôi phục chuyên cần", "actions": "Xác nhận nguyên nhân vắng; hoàn thành gói bài bù; giáo viên kiểm tra tiến độ sau từng buổi học."})
+        if "resource_usage" in risk_codes or "course_updates" in risk_codes:
+            actions.append({"phase": "Tuần 1-2", "goal": "Tăng sử dụng học liệu", "actions": "Truy cập hệ thống ít nhất 4 ngày/tuần; đọc toàn bộ thông báo; hoàn thành hai tài nguyên trọng tâm trước buổi học tiếp theo."})
+        if "class_engagement" in risk_codes:
+            actions.append({"phase": "Tuần 2-4", "goal": "Tăng tương tác học tập", "actions": "Đặt ít nhất một câu hỏi hoặc phản hồi trong mỗi buổi; tham gia hai thảo luận học thuật mỗi tuần; giáo viên ghi nhận mức tham gia."})
+        if "parent_support" in risk_codes or "school_support" in risk_codes:
+            actions.append({"phase": "Trong 2 tuần", "goal": "Phối hợp gia đình - nhà trường", "actions": "Gửi báo cáo tiến độ ngắn cho phụ huynh; thống nhất một mục tiêu học tập và một lịch kiểm tra hằng tuần."})
+        actions.append({"phase": "Mỗi cuối tuần", "goal": "Đánh giá lộ trình", "actions": "So sánh mức truy cập, thảo luận và bài tập với tuần trước; nếu không cải thiện sau hai tuần, bố trí kèm cặp trực tiếp."})
+        return actions
+
+    def generate(
+        self,
+        features: dict[str, Any],
+        predicted_class: int,
+        confidence: float,
+    ) -> dict[str, Any]:
+        risks = self._student_risks(features) if self.dataset_kind == "student" else self._xapi_risks(features)
+        risk_codes = {risk.code for risk in risks}
+
+        if predicted_class == 2 and not risks:
+            risk_band = "stable"
+            headline = "Duy trì lộ trình học tập hiện tại"
+        elif predicted_class == 0 or any(risk.priority == 1 for risk in risks):
+            risk_band = "high"
+            headline = "Lộ trình can thiệp ưu tiên 4 tuần"
         else:
-            self.actionables = {
-                "raisedhands": {"dir": 1, "type": "num", "min": 0, "max": 1},
-                "VisITedResources": {"dir": 1, "type": "num", "min": 0, "max": 1},
-                "AnnouncementsView": {"dir": 1, "type": "num", "min": 0, "max": 1},
-                "Discussion": {"dir": 1, "type": "num", "min": 0, "max": 1},
-                "StudentAbsenceDays": {"dir": -1, "type": "cat"} # Under-7 vs Above-7
+            risk_band = "moderate"
+            headline = "Lộ trình củng cố để tiến lên nhóm High"
+
+        actions = self._student_actions(risk_codes) if self.dataset_kind == "student" else self._xapi_actions(risk_codes)
+        return {
+            "predicted_class": int(predicted_class),
+            "predicted_class_name": CLASS_NAMES[int(predicted_class)],
+            "confidence": round(float(confidence), 6),
+            "risk_band": risk_band,
+            "headline": headline,
+            "risk_factors": [risk.__dict__ for risk in risks],
+            "learning_path": actions,
+        }
+
+
+def generate_learning_path_report(
+    original_features: pd.DataFrame,
+    predictions: np.ndarray,
+    confidences: np.ndarray,
+    dataset_kind: str,
+) -> pd.DataFrame:
+    """Generate one staged learning path for every evaluated student."""
+
+    engine = RuleBasedLearningPathEngine(dataset_kind)
+    rows = []
+    for row_index, (_, feature_row) in enumerate(original_features.reset_index(drop=True).iterrows()):
+        feature_snapshot = feature_row.to_dict()
+        recommendation = engine.generate(
+            feature_snapshot,
+            int(predictions[row_index]),
+            float(confidences[row_index]),
+        )
+        rows.append(
+            {
+                "source_row_index": row_index,
+                "predicted_class": recommendation["predicted_class"],
+                "predicted_class_name": recommendation["predicted_class_name"],
+                "confidence": recommendation["confidence"],
+                "risk_band": recommendation["risk_band"],
+                "headline": recommendation["headline"],
+                "risk_factors": json.dumps(recommendation["risk_factors"], ensure_ascii=False),
+                "learning_path": json.dumps(recommendation["learning_path"], ensure_ascii=False),
             }
-            self.num_step = 0.1 # 10 on a scale of 100
-
-    def get_prediction(self, num_x, cat_x, seq_x=None):
-        with torch.no_grad():
-            if seq_x is not None: seq_x = seq_x.to(self.device)
-            num_x = num_x.to(self.device) if num_x is not None else None
-            cat_x = cat_x.to(self.device) if cat_x is not None else None
-            logits, _ = self.model(seq_x, num_x, cat_x)
-            probs = torch.softmax(logits, dim=1)
-            pred_class = torch.argmax(probs, dim=1).item()
-            conf = probs[0, pred_class].item()
-            return pred_class, conf, probs[0].cpu().numpy()
-
-    def search_for_sample(self, seq_tensor, num_tensor, cat_tensor, original_class, desired_classes, max_steps=3):
-        """
-        Greedy search to find counterfactual.
-        Returns: success, changed_dict, new_pred_class, new_conf
-        """
-        if original_class in desired_classes:
-            return False, {}, original_class, 1.0 # Already at target
-            
-        current_num = num_tensor.clone() if num_tensor is not None else None
-        current_cat = cat_tensor.clone() if cat_tensor is not None else None
-        
-        changed_features = {}
-        
-        for step in range(max_steps):
-            best_improvement = 0
-            best_feature = None
-            best_num = current_num.clone() if current_num is not None else None
-            best_cat = current_cat.clone() if current_cat is not None else None
-            best_pred = original_class
-            best_conf = 0
-            best_val = None
-            
-            # Try changing each actionable feature
-            for feat, rules in self.actionables.items():
-                if feat not in self.selector.selected_features:
-                    continue
-                    
-                temp_num = current_num.clone() if current_num is not None else None
-                temp_cat = current_cat.clone() if current_cat is not None else None
-                new_val = None
-                
-                if rules["type"] == "num":
-                    idx = [c for c in self.preprocessor.numerical_cols if c in self.selector.selected_features].index(feat)
-                    curr_val = temp_num[0, idx].item()
-                    new_val = curr_val + (rules["dir"] * self.num_step)
-                    new_val = max(rules["min"], min(rules["max"], new_val))
-                    if abs(new_val - curr_val) < 1e-4: continue # Can't change further
-                    temp_num[0, idx] = new_val
-                elif rules["type"] == "cat":
-                    idx = [c for c in self.preprocessor.categorical_cols if c in self.selector.selected_features].index(feat)
-                    curr_val = temp_cat[0, idx].item()
-                    # Just a simple toggle for binary cats or pick the "better" one if known
-                    # e.g., internet: yes(1) vs no(0). We want 1.
-                    if feat == "internet": new_val = 1
-                    elif feat == "StudentAbsenceDays": new_val = 0 # Assuming 0 is Under-7
-                    else: new_val = 1 - curr_val # flip binary
-                    
-                    if curr_val == new_val: continue
-                    temp_cat[0, idx] = new_val
-                    
-                pred_class, conf, probs = self.get_prediction(temp_num, temp_cat, seq_tensor)
-                
-                # We want to increase prob of desired class
-                prob_desired = sum([probs[c] for c in desired_classes])
-                
-                if prob_desired > best_improvement:
-                    best_improvement = prob_desired
-                    best_feature = feat
-                    best_num = temp_num
-                    best_cat = temp_cat
-                    best_pred = pred_class
-                    best_conf = conf
-                    best_val = new_val
-                    
-            if best_feature is not None:
-                current_num = best_num
-                current_cat = best_cat
-                changed_features[best_feature] = best_val
-                
-                if best_pred in desired_classes:
-                    return True, changed_features, best_pred, best_conf
-                    
-        return False, changed_features, original_class, 0.0
-
-def generate_counterfactuals(model, dataloader, preprocessor, selector, spec, device):
-    searcher = GreedyCounterfactualSearcher(model, preprocessor, selector, spec, device)
-    
-    results = []
-    
-    for idx, (seq_x, num_x, cat_x, labels, orig_indices) in enumerate(dataloader):
-        if seq_x is not None: seq_x = seq_x.to(device)
-        if num_x is not None: num_x = num_x.to(device)
-        if cat_x is not None: cat_x = cat_x.to(device)
-        
-        for i in range(len(labels)):
-            s_x = seq_x[i:i+1] if seq_x is not None else None
-            n_x = num_x[i:i+1] if num_x is not None else None
-            c_x = cat_x[i:i+1] if cat_x is not None else None
-            
-            orig_class, orig_conf, _ = searcher.get_prediction(n_x, c_x, s_x)
-            
-            if orig_class == 2: # Already High
-                continue
-                
-            desired = [1, 2] if orig_class == 0 else [2]
-            
-            success, changes, new_pred, new_conf = searcher.search_for_sample(s_x, n_x, c_x, orig_class, desired)
-            
-            if success:
-                res = {
-                    "sample_idx": orig_indices[i].item(),
-                    "original_class": orig_class,
-                    "original_conf": orig_conf,
-                    "desired_classes": desired,
-                    "new_class": new_pred,
-                    "new_conf": new_conf,
-                    "changed_features": str(changes),
-                    "num_changes": len(changes)
-                }
-                results.append(res)
-                
-    df_cf = pd.DataFrame(results)
-    return df_cf
-
-
-
-
-def create_recommendation_text(row):
-    if pd.isna(row.get('new_class')) or row['original_class'] == 2:
-        return "Sinh viên đang có thành tích tốt, tiếp tục duy trì phương pháp học hiện tại."
-        
-    orig_class_name = "Low" if row['original_class'] == 0 else "Medium"
-    new_class_name = "Medium" if row['new_class'] == 1 else "High"
-    
-    orig_conf = row.get('original_conf', 0.0)
-    new_conf = row.get('new_conf', 0.0)
-    
-    text = f"Sinh viên đang được dự đoán thuộc nhóm {orig_class_name} với độ tin cậy {orig_conf:.0%}. "
-    
-    changes = row.get('changed_features', "{}")
-    if changes and changes != "{}":
-        text += f"Mô hình tìm thấy phương án cải thiện: điều chỉnh các yếu tố {changes}. "
-        text += f"Sau thay đổi này, dự đoán sẽ chuyển sang {new_class_name} với xác suất {new_conf:.0%}. "
-        text += "Khuyến nghị: sinh viên nên thực hiện các thay đổi trên và liên hệ cố vấn học tập để theo dõi tiến độ."
-    else:
-        text += "Mô hình chưa tìm thấy phương án tối ưu dựa trên các biến có thể thay đổi. Đề nghị sinh viên gặp trực tiếp cố vấn học tập để phân tích sâu hơn."
-        
-    return text
-
-def generate_recommendation_report(df_predictions, df_counterfactuals):
-    # Merge predictions with counterfactuals
-    if not df_counterfactuals.empty:
-        df_merged = pd.merge(df_predictions, df_counterfactuals, left_index=True, right_on="sample_idx", how="left")
-    else:
-        df_merged = df_predictions.copy()
-        
-    df_merged['Recommendation'] = df_merged.apply(create_recommendation_text, axis=1)
-    
-    return df_merged
-
-
-import json
-
-def calculate_recommendation_metrics(df_cf, total_candidates):
-    if len(df_cf) == 0 or total_candidates == 0:
-        return {"validity": 0.0, "sparsity": 0.0, "proximity": 0.0}
-        
-    # Validity: ratio of successful counterfactuals / total candidates that needed them
-    validity = len(df_cf) / total_candidates
-    
-    # Sparsity: average number of features changed
-    sparsity = df_cf["num_changes"].mean()
-    
-    # Proximity: In this fallback, distance is roughly num_changes since we took normalized steps.
-    # We can just use the inverse of sparsity as a proxy, or average changes.
-    proximity = df_cf["num_changes"].mean()
-    
-    return {
-        "validity": validity,
-        "sparsity": sparsity,
-        "proximity": proximity
-    }
-
-
+        )
+    return pd.DataFrame(rows)

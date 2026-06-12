@@ -1,62 +1,81 @@
-# Hệ thống Dự đoán và Khuyến nghị Thành tích Học tập (V27 SOTA Tabular-Attention)
+# Hệ thống dự đoán và khuyến nghị thành tích học tập
 
-Dự án này là mã nguồn phục vụ cho **Khóa luận Tốt nghiệp**, áp dụng các kiến trúc State-of-The-Art (SOTA) từ lĩnh vực Deep Learning Tabular (DeepFM, DCN-V2, FT-Transformer) kết hợp với Trí tuệ Nhân tạo Có thể Giải thích (Explainable AI) và Hệ thống Sinh Khuyến nghị Phản thực tế (Counterfactual Recommendation).
+Dự án phục vụ khóa luận tốt nghiệp về phân loại thành tích học tập thành ba nhóm `Low`, `Medium`, `High`. Kiến trúc và chức năng bám theo đề cương đã duyệt: CNN-BiLSTM cho dữ liệu tuần tự, MLP cho thông tin ngữ cảnh, SMOTE/ADASYN cho mất cân bằng lớp, learning path theo luật và PostgreSQL cho lưu trữ kết quả.
 
-Mục tiêu chính: Dự đoán thành tích của học sinh (G3/Class) và đề xuất lộ trình hành động thiết thực giúp học sinh nâng cao điểm số.
-
-## Kiến trúc Mã nguồn (Siêu tinh gọn)
-
-Mã nguồn đã được thiết kế lại theo hướng **phẳng và cực kỳ tối giản**, chỉ giữ lại những luồng logic tối quan trọng nhất để dễ đọc, dễ chạy và dễ đưa vào báo cáo KLTN.
+## Kiến trúc
 
 ```text
-├── data/raw/                 # Chứa dữ liệu gốc (student-mat.csv, student-por.csv, xAPI-Edu-Data.csv)
-├── reports/v27/              # Báo cáo đầu ra (metrics, hình ảnh, khuyến nghị, v.v.)
-├── scripts/
-│   └── run_pipeline.py       # Script thực thi luồng E2E duy nhất
-└── src/                      # Mã nguồn Lõi (Siêu tinh gọn)
-    ├── config.py             # File cấu hình tham số, seed, và hyperparams
-    ├── utils.py              # Các hàm tiện ích (Logging, Seed fixing)
-    ├── data_pipeline.py      # Tiền xử lý, Feature Engineering, Feature Selection và Dataloader
-    ├── models.py             # Kiến trúc V27 (DeepFM, DCN-V2, FT-Transformer) và Factory
-    ├── train_pipeline.py     # Huấn luyện mô hình (Optuna Search & 5-Seed Ensemble)
-    ├── evaluation.py         # Chạy đánh giá tập Locked Test (đảm bảo không leakage)
-    └── explainability.py     # XAI (Permutation Importance) & Sinh Text Khuyến nghị
+Sequential input (G1, G2 hoặc interaction logs)
+    -> Conv1D -> Bi-LSTM -> Attention Pooling
+
+Context input (numerical + categorical)
+    -> MLP
+
+Sequence vector + Context vector
+    -> Dense fusion -> 3-class logits -> Softmax probabilities
 ```
 
-## Các Công nghệ & Kiến trúc Lõi
-- **Mô hình**: `DeepFM`, `DCN-V2` (Deep & Cross Network), `FT-Transformer` (Self-Attention trên Tabular Data).
-- **AutoML**: Sử dụng `Optuna` dò tìm 50 trials tự động trên 5-Folds Cross Validation.
-- **Robustness**: Kỹ thuật `5-Seed Ensemble` để loại bỏ nhiễu ngẫu nhiên. Chống mất cân bằng dữ liệu bằng `ADASYN/SMOTE` + `Focal Loss`.
-- **Đánh giá chặt chẽ**: `Locked Test 20%` được tách hoàn toàn biệt lập trước mọi quy trình xử lý dữ liệu.
-- **Explainable AI (XAI)**:
-  - Phân tích Feature Importance thông qua `Permutation Importance`.
-  - Thuật toán `Greedy Counterfactual Search` tìm kiếm giải pháp tối ưu thay đổi các thuộc tính hành vi (actionables) để dự báo tăng hạng.
+Hệ thống chỉ sử dụng CNN, Bi-LSTM và MLP. Không sử dụng DeepFM, DCN-V2, Transformer, Focal Loss hoặc counterfactual search.
 
-## Hướng dẫn Chạy (Quickstart)
+## Quy trình huấn luyện
 
-### 1. Cài đặt Môi trường
-Cài đặt toàn bộ các thư viện cần thiết thông qua requirements:
+1. Tách `locked test` 20% trước mọi bước tối ưu.
+2. Feature engineering, mã hóa và chuẩn hóa chỉ fit trên train.
+3. Cân bằng lớp bằng SMOTE hoặc ADASYN.
+4. Optuna tối ưu mô hình bằng Stratified 5-fold cross-validation.
+5. Huấn luyện ensemble với các seed `42, 123, 155, 156, 2025`.
+6. Đánh giá bằng F1-Macro, Accuracy, Precision, Recall, RMSE và R².
+7. Sinh learning path theo tuần cho từng sinh viên.
+8. Lưu feature gốc, dự đoán, confidence, metrics và learning path vào PostgreSQL.
+
+## Cấu trúc mã nguồn
+
+```text
+src/models.py           CNN-BiLSTM + Context MLP
+src/data_pipeline.py    split, preprocessing, SMOTE/ADASYN, feature selection
+src/train_pipeline.py   weighted CrossEntropyLoss, Optuna, early stopping
+src/explainability.py   permutation importance và rule-based learning paths
+src/evaluation.py       báo cáo và PostgreSQL persistence
+scripts/run_pipeline.py pipeline end-to-end
+database/schema.sql     schema PostgreSQL
+```
+
+## Cài đặt
+
+```powershell
+conda env create -f environment.yml
+conda activate kltn
+```
+
+Hoặc:
+
 ```powershell
 pip install -r requirements.txt
 ```
 
-### 2. Chuẩn bị Dữ liệu
-Đảm bảo 3 file dữ liệu gốc đang tồn tại trong thư mục `data/raw/`:
-- `student-mat.csv`
-- `student-por.csv`
-- `xAPI-Edu-Data.csv`
+Thiết lập `.env` bằng `DATABASE_URL` hoặc các biến `POSTGRES_HOST`, `POSTGRES_PORT`, `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`.
 
-### 3. Thực thi Pipeline End-to-End
-Sử dụng script E2E duy nhất cho từng dataset (chọn `student-mat`, `student-por` hoặc `xapi`). Hệ thống sẽ tự động chạy quy trình: Data Split -> Optuna Search -> Train Ensemble -> Evaluate -> Explainability.
+## Chạy pipeline
 
 ```powershell
-python scripts/run_pipeline.py --dataset student-mat --target-mode 3class
+py scripts/run_pipeline.py --dataset student-mat --n-trials 30
+py scripts/run_pipeline.py --dataset student-por --n-trials 30
+py scripts/run_pipeline.py --dataset xapi --n-trials 30
 ```
-*(Thêm cờ `--debug` nếu muốn chạy test cực nhanh với 2 trials Optuna và 3 epochs).*
 
-### 4. Kết quả (Output)
-Toàn bộ kết quả tự động xuất ra thư mục `reports/v27/` bao gồm:
-- **`metrics/`**: Json file chứa F1-Macro, Accuracy, RMSE...
-- **`predictions/`**: CSV chứa kết quả dự đoán của mô hình Ensemble.
-- **`explanations/`**: Phân tích tầm quan trọng của các Feature.
-- **`recommendations/`**: Báo cáo sinh Text Khuyến nghị chi tiết cho từng sinh viên, kèm các chỉ số Validity/Sparsity.
+Pipeline mặc định ghi PostgreSQL sau khi đánh giá. Chỉ dùng `--skip-postgres` cho kiểm thử phát triển ngoại tuyến.
+
+## Đầu ra
+
+- `models/saved/final/`: trọng số ensemble và best parameters.
+- `reports/final/metrics/`: metrics locked test.
+- `reports/final/predictions/`: feature gốc, nhãn, xác suất và confidence.
+- `reports/final/explanations/`: permutation feature importance.
+- `reports/final/recommendations/`: learning path theo giai đoạn.
+- PostgreSQL: `paper_runs`, `paper_predictions`, `paper_evaluation_metrics`, `paper_learning_recommendations`.
+
+## Kiểm thử
+
+```powershell
+pytest -q
+```
