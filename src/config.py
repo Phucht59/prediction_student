@@ -6,15 +6,15 @@ from typing import List, Dict, Optional
 ROOT_DIR = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT_DIR / "data"
 RAW_DIR = DATA_DIR / "raw"
-REPORTS_DIR = ROOT_DIR / "reports" / "v27"
+REPORTS_DIR = ROOT_DIR / "reports" / "final"
 METRICS_DIR = REPORTS_DIR / "metrics"
 FIGURES_DIR = REPORTS_DIR / "figures"
 PREDICTIONS_DIR = REPORTS_DIR / "predictions"
 RECOMMENDATIONS_DIR = REPORTS_DIR / "recommendations"
 EXPLANATIONS_DIR = REPORTS_DIR / "explanations"
 ABLATION_DIR = REPORTS_DIR / "ablation"
-MODELS_DIR = ROOT_DIR / "models" / "saved" / "v27"
-PROCESSED_DIR = DATA_DIR / "processed" / "v27"
+MODELS_DIR = ROOT_DIR / "models" / "saved" / "final"
+PROCESSED_DIR = DATA_DIR / "processed" / "final"
 
 def ensure_dirs():
     for d in [RAW_DIR, METRICS_DIR, FIGURES_DIR, PREDICTIONS_DIR, RECOMMENDATIONS_DIR, EXPLANATIONS_DIR, ABLATION_DIR, MODELS_DIR, PROCESSED_DIR]:
@@ -26,7 +26,7 @@ DEFAULT_SEED = 42
 POSTGRES_CONFIG = {
     "host": os.getenv("POSTGRES_HOST", "localhost"),
     "port": os.getenv("POSTGRES_PORT", "5432"),
-    "dbname": os.getenv("POSTGRES_DB", "kltn_v27"),
+    "dbname": os.getenv("POSTGRES_DB", "kltn_final"),
     "user": os.getenv("POSTGRES_USER", "postgres"),
     "password": os.getenv("POSTGRES_PASSWORD", "postgres")
 }

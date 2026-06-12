@@ -348,8 +348,9 @@ import torch.nn as nn
 import math
 
 class DepthwiseSeparableConv1d(nn.Module):
-    def __init__(self, in_channels, out_channels, kernel_size, padding=1):
+    def __init__(self, in_channels, out_channels, kernel_size=3):
         super().__init__()
+        padding = kernel_size // 2
         self.depthwise = nn.Conv1d(in_channels, in_channels, kernel_size=kernel_size, 
                                    padding=padding, groups=in_channels, bias=False)
         self.pointwise = nn.Conv1d(in_channels, out_channels, kernel_size=1, bias=False)
@@ -374,7 +375,7 @@ class AttentionPooling1D(nn.Module):
         pooled = torch.sum(x * weights, dim=1)
         return pooled, weights
 
-class StudentV27HybridModel(nn.Module):
+class StudentHybridModel(nn.Module):
     def __init__(self, 
                  num_classes: int,
                  seq_in_channels: int,
@@ -387,17 +388,19 @@ class StudentV27HybridModel(nn.Module):
                  context_hidden_dim: int = 64,
                  sequence_hidden_dim: int = 64,
                  fusion_hidden_dim: int = 64,
-                 dropout: float = 0.3):
+                 dropout: float = 0.3,
+                 cnn_kernel_size: int = 3):
         super().__init__()
         self.context_architecture = context_architecture.lower()
         self.sequence_architecture = sequence_architecture.lower()
+        self.cnn_kernel_size = cnn_kernel_size
         
         # 1. Sequence Branch
         self.use_seq = self.sequence_architecture != "none"
         if self.use_seq:
             if "dsc" in self.sequence_architecture:
                 self.seq_fe = nn.Sequential(
-                    DepthwiseSeparableConv1d(seq_in_channels, sequence_hidden_dim, kernel_size=3, padding=1),
+                    DepthwiseSeparableConv1d(seq_in_channels, sequence_hidden_dim, kernel_size=self.cnn_kernel_size),
                     nn.BatchNorm1d(sequence_hidden_dim),
                     nn.GELU(),
                     nn.Dropout(dropout)
@@ -499,73 +502,36 @@ class StudentV27HybridModel(nn.Module):
 def create_model(dataset_kind: str, config: dict, num_numerical: int, cat_cardinalities: list):
     """
     Model factory based on dataset kind.
+    Enforces Hybrid Dual-Branch architecture for all datasets.
     """
-    if dataset_kind == "student":
-        model = StudentV27HybridModel(
-            num_classes=3,
-            seq_in_channels=1, # G1, G2 feature dimension is 1 per timestep
-            num_numerical=num_numerical,
-            cat_cardinalities=cat_cardinalities,
-            context_architecture=config.get("context_architecture", "mlp_baseline"),
-            sequence_architecture=config.get("sequence_architecture", "dsc_bilstm_attention"),
-            fm_embedding_dim=config.get("fm_embedding_dim", 8),
-            dcn_cross_layers=config.get("dcn_cross_layers", 2),
-            context_hidden_dim=config.get("context_hidden_dim", 64),
-            sequence_hidden_dim=config.get("sequence_hidden_dim", 64),
-            fusion_hidden_dim=config.get("fusion_hidden_dim", 64),
-            dropout=config.get("dropout", 0.3)
-        )
-    elif dataset_kind == "xapi":
-        arch = config.get("architecture", "ft_transformer")
-        if arch == "ft_transformer":
-            model = FTTransformer(
-                num_numerical=num_numerical,
-                cat_cardinalities=cat_cardinalities,
-                d_token=config.get("d_token", 32),
-                n_heads=config.get("n_heads", 4),
-                n_layers=config.get("n_layers", 3),
-                ff_hidden_dim=config.get("ff_hidden_dim", 64),
-                attention_dropout=config.get("attention_dropout", 0.2),
-                residual_dropout=config.get("residual_dropout", 0.1),
-                output_logits=True,
-                num_classes=3,
-                pooling_type=config.get("pooling_type", "cls")
-            )
-        elif arch == "deepfm":
-            model = DeepFM(num_numerical, cat_cardinalities, 
-                           d_token=config.get("d_token", 8), 
-                           mlp_hidden=config.get("ff_hidden_dim", 64), 
-                           dropout=config.get("residual_dropout", 0.3), 
-                           output_logits=True, num_classes=3)
-        elif arch == "dcnv2":
-            model = DCNv2(num_numerical, cat_cardinalities, 
-                          d_token=config.get("d_token", 8), 
-                          cross_layers=config.get("n_layers", 2), 
-                          mlp_hidden=config.get("ff_hidden_dim", 64), 
-                          dropout=config.get("residual_dropout", 0.3), 
-                          output_logits=True, num_classes=3)
-        else:
-            raise ValueError(f"Unknown architecture for xapi: {arch}")
-            
-        # Add ordinal expected val logic for xAPI model wrapper
-        # We can dynamically add it here or modify the models to return it.
-        # Let's wrap it nicely.
-        class XAPIWrapper(nn.Module):
-            def __init__(self, core_model, num_classes):
-                super().__init__()
-                self.core_model = core_model
-                self.register_buffer('class_indices', torch.arange(num_classes).float())
-            def forward(self, seq_x, num_x, cat_x):
-                # Ignore seq_x for xapi
-                logits = self.core_model(num_x, cat_x)
-                probs = torch.softmax(logits, dim=1)
-                expected_val = torch.sum(probs * self.class_indices, dim=1)
-                return logits, expected_val
+    cnn_kernel_size = 2 if dataset_kind == "xapi" else 3
+    
+    model = StudentHybridModel(
+        num_classes=3,
+        seq_in_channels=1,
+        num_numerical=num_numerical,
+        cat_cardinalities=cat_cardinalities,
+        context_architecture=config.get("context_architecture", "mlp_baseline"),
+        sequence_architecture=config.get("sequence_architecture", "dsc_bilstm_attention"),
+        fm_embedding_dim=config.get("fm_embedding_dim", 8),
+        dcn_cross_layers=config.get("dcn_cross_layers", 2),
+        context_hidden_dim=config.get("context_hidden_dim", 64),
+        sequence_hidden_dim=config.get("sequence_hidden_dim", 64),
+        fusion_hidden_dim=config.get("fusion_hidden_dim", 64),
+        dropout=config.get("dropout", 0.3),
+        cnn_kernel_size=cnn_kernel_size
+    )
         
-        model = XAPIWrapper(model, 3)
-    else:
-        raise ValueError("dataset_kind must be student or xapi")
-        
-    return model
+    # Add ordinal expected val logic for model wrapper to support generic train loops
+    class HybridWrapper(nn.Module):
+        def __init__(self, core_model, num_classes):
+            super().__init__()
+            self.core_model = core_model
+            self.register_buffer('class_indices', torch.arange(num_classes).float())
+        def forward(self, seq_x, num_x, cat_x):
+            logits, expected_val = self.core_model(seq_x, num_x, cat_x)
+            return logits, expected_val
+    
+    return HybridWrapper(model, 3)
 
 

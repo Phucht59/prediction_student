@@ -19,7 +19,6 @@ except ImportError:
     HAS_SHAP = False
 
 
-logger = setup_logger("v27_explainability")
 
 def calculate_permutation_importance(model, val_loader, criterion, device, feature_names):
     """
@@ -121,7 +120,7 @@ import pandas as pd
 import numpy as np
 
 
-logger = setup_logger("v27_counterfactual")
+logger = setup_logger("counterfactual")
 
 class GreedyCounterfactualSearcher:
     """
@@ -285,8 +284,7 @@ def generate_counterfactuals(model, dataloader, preprocessor, selector, spec, de
     return df_cf
 
 
-import pandas as pd
-from .counterfactual import generate_counterfactuals
+
 
 def create_recommendation_text(row):
     if pd.isna(row.get('new_class')) or row['original_class'] == 2:

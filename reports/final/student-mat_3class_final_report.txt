@@ -1,0 +1,30 @@
+Dataset: student-mat
+Target Mode: 3class
+Optuna Best CV F1: 0.8874
+Best Params: {
+  "learning_rate": 0.009837712216751745,
+  "weight_decay": 0.000114452877006432,
+  "dropout": 0.3218444752167292,
+  "batch_size": 32,
+  "lambda_ordinal": 0.3296737209774025,
+  "oversample_method": "adasyn",
+  "smote_ratio": 0.513350044041829,
+  "context_architecture": "deepfm",
+  "sequence_architecture": "dsc_bilstm_attention",
+  "fm_embedding_dim": 16,
+  "dcn_cross_layers": 2,
+  "context_hidden_dim": 64,
+  "sequence_hidden_dim": 64,
+  "fusion_hidden_dim": 64
+}
+
+Final Locked Test F1-Macro: 0.8797
+              precision    recall  f1-score   support
+
+           0       0.83      0.92      0.87        26
+           1       0.94      0.79      0.86        38
+           2       0.83      1.00      0.91        15
+
+    accuracy                           0.87        79
+   macro avg       0.87      0.90      0.88        79
+weighted avg       0.88      0.87      0.87        79

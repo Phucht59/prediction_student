@@ -9,8 +9,8 @@ from pathlib import Path
 from sklearn.metrics import f1_score
 from src.config import *
 from src.utils import setup_logger, set_seed
-from src.data_pipeline import load_splits, apply_feature_engineering, V26FeatureSelector, V26Preprocessor, V27Dataset
-from src.models import create_v27_model, HybridLoss
+from src.data_pipeline import load_splits, apply_feature_engineering, FeatureSelector, DataPreprocessor, StudentDataset
+from src.models import create_model, HybridLoss
 
 logger = setup_logger("train_pipeline")
 
@@ -19,7 +19,7 @@ import copy
 from sklearn.metrics import f1_score, precision_score, recall_score, accuracy_score
 
 
-logger = setup_logger("v27_train")
+logger = setup_logger("train")
 
 class EarlyStopping:
     def __init__(self, patience=15, delta=0.0):
@@ -94,6 +94,7 @@ def validate_epoch(model, dataloader, criterion, device):
 
 def train_model(model, train_loader, val_loader, criterion, optimizer, config, device):
     early_stopping = EarlyStopping(patience=config.patience)
+    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='max', factor=0.1, patience=5)
     history = {"train_loss": [], "val_loss": [], "val_f1": [], "val_acc": []}
     
     for epoch in range(config.max_epochs):
@@ -104,6 +105,8 @@ def train_model(model, train_loader, val_loader, criterion, optimizer, config, d
         history["val_loss"].append(val_loss)
         history["val_f1"].append(val_f1)
         history["val_acc"].append(val_acc)
+        
+        scheduler.step(val_f1)
         
         early_stopping(val_f1, model)
         if early_stopping.early_stop:
@@ -122,18 +125,10 @@ import numpy as np
 from sklearn.model_selection import StratifiedKFold
 from torch.utils.data import DataLoader
 
-from src.preprocessing import V26Preprocessor
-from src.feature_engineering import apply_feature_engineering
-from src.feature_selection import V26FeatureSelector
-from src.dataset import V27Dataset
 
-
-from .model_factory import create_model
-from .losses import HybridLoss
-from .train import train_model
 from src.config import TrainingConfig
 
-logger = setup_logger("v27_optuna")
+logger = setup_logger("optuna")
 
 def calculate_class_weights(y, num_classes):
     counts = np.bincount(y, minlength=num_classes)
@@ -150,31 +145,27 @@ def objective(trial, df_train_pool: pd.DataFrame, spec, target_mode: str, cv_fol
     
     # Loss Config
     lambda_ordinal = trial.suggest_float("lambda_ordinal", 0.0, 0.5) # allow 0
-    focal_gamma = trial.suggest_float("focal_gamma", 1.0, 3.0)
     oversample_method = trial.suggest_categorical("oversample_method", ["none", "smote", "adasyn"])
+    
+    if oversample_method == "none":
+        focal_gamma = trial.suggest_float("focal_gamma", 1.0, 3.0)
+        smote_ratio = 1.0
+    else:
+        focal_gamma = 0.0 # Disable Focal Loss if oversampling
+        smote_ratio = trial.suggest_float("smote_ratio", 0.4, 0.8)
     
     config_dict = {
         "dropout": dropout
     }
     
-    # Dataset specific Architecture config
-    if spec.kind == "student":
-        config_dict["context_architecture"] = trial.suggest_categorical("context_architecture", ["mlp_baseline", "deepfm", "dcnv2"])
-        config_dict["sequence_architecture"] = trial.suggest_categorical("sequence_architecture", ["none", "dsc_bilstm_attention", "bilstm_attention", "self_attention_small"])
-        config_dict["fm_embedding_dim"] = trial.suggest_categorical("fm_embedding_dim", [8, 16, 32])
-        config_dict["dcn_cross_layers"] = trial.suggest_int("dcn_cross_layers", 1, 3)
-        config_dict["context_hidden_dim"] = trial.suggest_categorical("context_hidden_dim", [32, 64, 128])
-        config_dict["sequence_hidden_dim"] = trial.suggest_categorical("sequence_hidden_dim", [32, 64])
-        config_dict["fusion_hidden_dim"] = trial.suggest_categorical("fusion_hidden_dim", [64, 128])
-    else: # xapi
-        config_dict["architecture"] = trial.suggest_categorical("architecture", ["ft_transformer", "deepfm", "dcnv2"])
-        config_dict["d_token"] = trial.suggest_categorical("d_token", [16, 32, 64])
-        config_dict["n_heads"] = trial.suggest_categorical("n_heads", [2, 4, 8])
-        config_dict["n_layers"] = trial.suggest_int("n_layers", 1, 3)
-        config_dict["ff_hidden_dim"] = trial.suggest_categorical("ff_hidden_dim", [64, 128])
-        config_dict["attention_dropout"] = trial.suggest_float("attention_dropout", 0.1, 0.4)
-        config_dict["residual_dropout"] = trial.suggest_float("residual_dropout", 0.1, 0.4)
-        config_dict["pooling_type"] = trial.suggest_categorical("pooling_type", ["cls", "mean"])
+    # Unified Dual-Branch Architecture config
+    config_dict["context_architecture"] = trial.suggest_categorical("context_architecture", ["mlp_baseline", "deepfm", "dcnv2"])
+    config_dict["sequence_architecture"] = trial.suggest_categorical("sequence_architecture", ["dsc_bilstm_attention"])
+    config_dict["fm_embedding_dim"] = trial.suggest_categorical("fm_embedding_dim", [8, 16, 32])
+    config_dict["dcn_cross_layers"] = trial.suggest_int("dcn_cross_layers", 1, 3)
+    config_dict["context_hidden_dim"] = trial.suggest_categorical("context_hidden_dim", [32, 64, 128])
+    config_dict["sequence_hidden_dim"] = trial.suggest_categorical("sequence_hidden_dim", [32, 64])
+    config_dict["fusion_hidden_dim"] = trial.suggest_categorical("fusion_hidden_dim", [64, 128])
 
     skf = StratifiedKFold(n_splits=cv_folds, shuffle=True, random_state=42)
     
@@ -189,24 +180,24 @@ def objective(trial, df_train_pool: pd.DataFrame, spec, target_mode: str, cv_fol
         train_fold = apply_feature_engineering(train_fold, spec.kind)
         val_fold = apply_feature_engineering(val_fold, spec.kind)
         
-        preprocessor = V26Preprocessor(target_col=spec.target_col, oversample_method=oversample_method)
+        preprocessor = DataPreprocessor(target_col=spec.target_col, oversample_method=oversample_method, smote_ratio=smote_ratio)
         train_prep = preprocessor.fit_transform(train_fold)
         val_prep = preprocessor.transform(val_fold)
         
-        selector = V26FeatureSelector(target_col=spec.target_col, use_feature_selection=True)
+        selector = FeatureSelector(target_col=spec.target_col, use_feature_selection=True)
         train_sel = selector.fit_transform(train_prep, preprocessor.numerical_cols, preprocessor.categorical_cols)
         val_sel = selector.transform(val_prep)
         
         num_classes = 3 if target_mode == "3class" else 5
-        train_dataset = V27Dataset(train_sel, spec.kind, spec.target_col, preprocessor.numerical_cols, preprocessor.categorical_cols)
-        val_dataset = V27Dataset(val_sel, spec.kind, spec.target_col, preprocessor.numerical_cols, preprocessor.categorical_cols)
+        train_dataset = StudentDataset(train_sel, spec.kind, spec.target_col, preprocessor.numerical_cols, preprocessor.categorical_cols)
+        val_dataset = StudentDataset(val_sel, spec.kind, spec.target_col, preprocessor.numerical_cols, preprocessor.categorical_cols)
         
         train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, drop_last=True)
         val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
         
         device = "cuda" if torch.cuda.is_available() else "cpu"
         
-        seq_cols_list = ["G1", "G2"] if spec.kind == "student" else []
+        seq_cols_list = ["G1", "G2"] if spec.kind == "student" else ["raisedhands", "VisITedResources", "AnnouncementsView", "Discussion"]
         cat_cardinalities = [len(preprocessor.label_encoders[c].classes_) for c in preprocessor.categorical_cols if c in selector.selected_features and c not in seq_cols_list]
         num_numerical = len([c for c in preprocessor.numerical_cols if c in selector.selected_features and c not in seq_cols_list])
         
@@ -216,7 +207,7 @@ def objective(trial, df_train_pool: pd.DataFrame, spec, target_mode: str, cv_fol
         criterion = HybridLoss(class_weights=class_weights, gamma=focal_gamma, lambda_ordinal=lambda_ordinal)
         optimizer = optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
         
-        tconfig = TrainingConfig(max_epochs=40, patience=8) 
+        tconfig = TrainingConfig(max_epochs=50, patience=20) 
         
         _, _, best_val_f1 = train_model(model, train_loader, val_loader, criterion, optimizer, tconfig, device)
         fold_f1s.append(best_val_f1)

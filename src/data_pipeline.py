@@ -14,7 +14,7 @@ logger = setup_logger("data_pipeline")
 from src.config import DEFAULT_SEED, LOCKED_TEST_SIZE, PROCESSED_DIR, DATASETS, STUDENT_G3_3CLASS_BINS, XAPI_CLASS_MAPPING
 
 
-logger = setup_logger("v26_data_split")
+logger = setup_logger("data_split")
 
 def process_target_and_stratify(df: pd.DataFrame, target_col: str, kind: str, target_mode: str = "3class") -> pd.DataFrame:
     """Prepare target column for stratification."""
@@ -83,7 +83,7 @@ def check_no_leakage(train_indices, test_indices):
 
 
 
-logger = setup_logger("v26_feature_eng")
+logger = setup_logger("feature_eng")
 
 def engineer_student_features(df: pd.DataFrame) -> pd.DataFrame:
     """Engineer derived features for student-mat and student-por datasets."""
@@ -149,9 +149,9 @@ import numpy as np
 from scipy.stats import pearsonr, chi2_contingency
 
 
-logger = setup_logger("v26_feature_selection")
+logger = setup_logger("feature_selection")
 
-class V26FeatureSelector:
+class FeatureSelector:
     def __init__(self, target_col: str, use_feature_selection: bool = True, p_value_threshold: float = 0.1):
         self.target_col = target_col
         self.use_feature_selection = use_feature_selection
@@ -203,12 +203,13 @@ class V26FeatureSelector:
 
 
 
-logger = setup_logger("v26_preprocessing")
+logger = setup_logger("preprocessing")
 
-class V26Preprocessor:
-    def __init__(self, target_col: str, oversample_method: str = "none"):
+class DataPreprocessor:
+    def __init__(self, target_col: str, oversample_method: str = "none", smote_ratio: float = 1.0):
         self.target_col = target_col
         self.oversample_method = oversample_method.lower()
+        self.smote_ratio = smote_ratio
         self.numerical_cols = []
         self.categorical_cols = []
         self.scalers = {}
@@ -244,8 +245,20 @@ class V26Preprocessor:
         # Apply Oversampling ONLY on train
         if self.oversample_method in ["smote", "adasyn"]:
             # SMOTE/ADASYN requires numeric inputs, our categorical are label encoded so it's numeric now.
-            logger.info(f"Applying {self.oversample_method.upper()} on train set...")
-            sampler = SMOTE(random_state=42) if self.oversample_method == "smote" else ADASYN(random_state=42)
+            logger.info(f"Applying {self.oversample_method.upper()} on train set with ratio {self.smote_ratio}...")
+            
+            # Dynamically calculate sampling strategy for multiclass
+            class_counts = pd.Series(y_encoded).value_counts()
+            majority_count = class_counts.max()
+            strategy = {}
+            for cls, count in class_counts.items():
+                if count == majority_count:
+                    strategy[cls] = count
+                else:
+                    target = int(majority_count * self.smote_ratio)
+                    strategy[cls] = max(count, target) # Do not undersample if already larger
+                    
+            sampler = SMOTE(sampling_strategy=strategy, random_state=42) if self.oversample_method == "smote" else ADASYN(sampling_strategy=strategy, random_state=42)
             try:
                 X_resampled, y_resampled = sampler.fit_resample(X, y_encoded)
                 X = pd.DataFrame(X_resampled, columns=X.columns)
@@ -287,7 +300,7 @@ class V26Preprocessor:
 
 
 
-class V27Dataset(Dataset):
+class StudentDataset(Dataset):
     def __init__(self, df: pd.DataFrame, kind: str, target_col: str, numerical_cols: list, categorical_cols: list):
         self.y = df[target_col].values if target_col in df.columns else np.zeros(len(df))
         
@@ -298,9 +311,12 @@ class V27Dataset(Dataset):
             else:
                 self.seq_x = df[seq_cols].values[..., np.newaxis] # (N, L, 1)
         else:
-            # NO pseudo sequence for xAPI in V27 Tabular models
-            seq_cols = []
-            self.seq_x = np.zeros((len(df), 1, 1))
+            # xAPI engagement sequence
+            seq_cols = [c for c in ["raisedhands", "VisITedResources", "AnnouncementsView", "Discussion"] if c in df.columns]
+            if len(seq_cols) == 0:
+                self.seq_x = np.zeros((len(df), 1, 1))
+            else:
+                self.seq_x = df[seq_cols].values[..., np.newaxis] # (N, L, 1)
                 
         # Context features
         num_cols = [c for c in numerical_cols if c in df.columns and c not in seq_cols]

@@ -31,12 +31,12 @@ def create_summary_report(ds_name: str, target_mode: str):
             best_params = json.load(f)
             
     with open(report_path, "w", encoding="utf-8") as f:
-        f.write(f"# BÁO CÁO TỔNG KẾT V26 SCIENTIFIC HYBRID\n\n")
+        f.write(f"# BÁO CÁO TỔNG KẾT MÔ HÌNH HYBRID\n\n")
         f.write(f"- **Dataset**: {ds_name}\n")
         f.write(f"- **Chế độ mục tiêu (Target Mode)**: {target_mode}\n\n")
         
         f.write("## 1. Mục tiêu và Quy trình No-Leakage\n")
-        f.write("Mô hình HybridCNNBiLSTMAttentionOrdinalV2 được huấn luyện với kỷ luật khắt khe:\n")
+        f.write("Mô hình StudentHybridModel được huấn luyện với kỷ luật khắt khe:\n")
         f.write("- Trích lập 20% Locked Test ngay từ đầu.\n")
         f.write("- Mọi quá trình Scaler, LabelEncoding, Oversampling (SMOTE/ADASYN) CHỈ thực hiện nội bộ trong Train Pool (80%).\n")
         f.write("- Ensemble từ 5 mô hình huấn luyện với Fixed Seeds để giảm nhiễu hoàn toàn.\n\n")
