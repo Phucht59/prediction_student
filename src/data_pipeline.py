@@ -5,7 +5,7 @@ from torch.utils.data import Dataset
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler, LabelEncoder
 from sklearn.ensemble import RandomForestClassifier
-from imblearn.over_sampling import SMOTE, ADASYN
+from imblearn.over_sampling import SMOTE, ADASYN, SMOTENC
 from src.config import DEFAULT_SEED, LOCKED_TEST_SIZE, PROCESSED_DIR, DATASETS, STUDENT_G3_3CLASS_BINS, XAPI_CLASS_MAPPING
 from src.utils import setup_logger
 
@@ -125,6 +125,7 @@ def engineer_xapi_features(df: pd.DataFrame) -> pd.DataFrame:
         df["engagement_score"] = df[engagement_cols].sum(axis=1)
         created_features.append("engagement_score")
         
+        
     if "StudentAbsenceDays" in df.columns:
         df["absence_risk"] = df["StudentAbsenceDays"].apply(lambda x: 1 if x == "Above-7" else 0)
         created_features.append("absence_risk")
@@ -132,6 +133,18 @@ def engineer_xapi_features(df: pd.DataFrame) -> pd.DataFrame:
     if "ParentAnsweringSurvey" in df.columns:
         df["parent_support_signal"] = df["ParentAnsweringSurvey"].apply(lambda x: 1 if x == "Yes" else 0)
         created_features.append("parent_support_signal")
+        
+    if "raisedhands" in df.columns and "VisITedResources" in df.columns:
+        df["hands_resource_ratio"] = df["raisedhands"] / (df["VisITedResources"] + 1)
+        created_features.append("hands_resource_ratio")
+        
+    if "raisedhands" in df.columns and "Discussion" in df.columns:
+        df["active_participation"] = df["raisedhands"] * df["Discussion"]
+        created_features.append("active_participation")
+        
+    if "VisITedResources" in df.columns and "engagement_score" in df.columns:
+        df["resource_engagement_ratio"] = df["VisITedResources"] / (df["engagement_score"] + 1)
+        created_features.append("resource_engagement_ratio")
         
     logger.info(f"xAPI engineered features created: {created_features}")
     return df
@@ -282,11 +295,20 @@ class DataPreprocessor:
                     strategy[cls] = max(count, target) # Do not undersample if already larger
                     
             if self.oversample_method == "smote":
-                sampler = SMOTE(
-                    sampling_strategy=strategy,
-                    random_state=42,
-                    k_neighbors=effective_k_neighbors,
-                )
+                cat_indices = [X.columns.get_loc(c) for c in self.categorical_cols] if self.categorical_cols else []
+                if cat_indices:
+                    sampler = SMOTENC(
+                        categorical_features=cat_indices,
+                        sampling_strategy=strategy,
+                        random_state=42,
+                        k_neighbors=effective_k_neighbors,
+                    )
+                else:
+                    sampler = SMOTE(
+                        sampling_strategy=strategy,
+                        random_state=42,
+                        k_neighbors=effective_k_neighbors,
+                    )
             else:
                 sampler = ADASYN(
                     sampling_strategy=strategy,

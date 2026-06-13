@@ -2,27 +2,27 @@ Dataset: student-mat
 Target Mode: 3class
 Architecture: CNN-BiLSTM + Context MLP
 Loss: Weighted CrossEntropyLoss
-Optuna Best CV F1: 0.9112
+Optuna Best CV F1: 0.9035
 Best Params: {
-  "learning_rate": 0.0036337739343480138,
-  "weight_decay": 1.1783347556831463e-05,
+  "learning_rate": 0.0028544902735719384,
+  "weight_decay": 0.0003242474357419536,
   "batch_size": 16,
   "oversample_method": "adasyn",
-  "smote_ratio": 0.5151597995426843,
+  "smote_ratio": 0.5237614673603662,
   "cnn_channels": 64,
   "lstm_hidden_dim": 64,
   "context_hidden_dim": 32,
   "fusion_hidden_dim": 64,
-  "dropout": 0.16263508024593204
+  "dropout": 0.13816725479812164
 }
 
-Final Locked Test F1-Macro: 0.8905
+Final Locked Test F1-Macro: 0.8690
               precision    recall  f1-score   support
 
-           0       0.83      0.96      0.89        26
-           1       0.97      0.79      0.87        38
+           0       0.78      0.96      0.86        26
+           1       0.97      0.74      0.84        38
            2       0.83      1.00      0.91        15
 
-    accuracy                           0.89        79
-   macro avg       0.88      0.92      0.89        79
-weighted avg       0.90      0.89      0.88        79
+    accuracy                           0.86        79
+   macro avg       0.86      0.90      0.87        79
+weighted avg       0.88      0.86      0.86        79

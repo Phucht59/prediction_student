@@ -2,31 +2,33 @@ Dataset: xapi
 Target Mode: 3class
 Architecture: CNN-BiLSTM + Context MLP
 Loss: Weighted CrossEntropyLoss
-Optuna Best CV F1: 0.8121
+Optuna Best CV F1: 0.0000
 Best Params: {
-  "learning_rate": 0.005895084262565673,
-  "weight_decay": 0.0008186193200934173,
-  "batch_size": 64,
+  "learning_rate": 0.0024094093616044802,
+  "weight_decay": 1.6526362340511857e-05,
+  "batch_size": 8,
+  "focal_gamma": 1.8225995542045146,
+  "embedding_dim": 3,
   "oversample_method": "smote",
-  "smote_ratio": 0.613914852032189,
-  "resampling_k_neighbors": 2,
-  "cnn_channels": 16,
+  "smote_ratio": 0.4330751757021878,
+  "resampling_k_neighbors": 9,
+  "cnn_channels": 32,
   "cnn_kernel_size": 3,
-  "lstm_hidden_dim": 128,
+  "lstm_hidden_dim": 96,
   "context_hidden_dim": 256,
-  "fusion_hidden_dim": 256,
-  "sequence_dropout": 0.14613966394794353,
-  "context_dropout": 0.12477030958565044,
-  "fusion_dropout": 0.23148947180170343
+  "fusion_hidden_dim": 128,
+  "sequence_dropout": 0.2673109670872771,
+  "context_dropout": 0.38287284286497464,
+  "fusion_dropout": 0.25534335492106974
 }
 
-Final Locked Test F1-Macro: 0.7663
+Final Locked Test F1-Macro: 0.7850
               precision    recall  f1-score   support
 
-           0       0.77      0.88      0.82        26
-           1       0.73      0.71      0.72        42
-           2       0.80      0.71      0.75        28
+           0       0.77      0.92      0.84        26
+           1       0.74      0.76      0.75        42
+           2       0.86      0.68      0.76        28
 
-    accuracy                           0.76        96
-   macro avg       0.77      0.77      0.77        96
-weighted avg       0.76      0.76      0.76        96
+    accuracy                           0.78        96
+   macro avg       0.79      0.79      0.79        96
+weighted avg       0.79      0.78      0.78        96

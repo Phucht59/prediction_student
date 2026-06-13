@@ -11,7 +11,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from sklearn.metrics import accuracy_score, f1_score
-from sklearn.model_selection import StratifiedKFold
+from sklearn.model_selection import StratifiedKFold, RepeatedStratifiedKFold
 from torch.utils.data import DataLoader
 
 from src.config import TrainingConfig
@@ -22,7 +22,7 @@ from src.data_pipeline import (
     apply_feature_engineering,
     get_sequence_columns,
 )
-from src.models import create_model
+from src.models import create_model, FocalLoss
 from src.utils import set_seed, setup_logger
 
 logger = setup_logger("train_pipeline")
@@ -60,7 +60,13 @@ def train_epoch(model, dataloader, criterion, optimizer, device):
 
         optimizer.zero_grad()
         logits = model(seq_x, num_x, cat_x)
-        loss = criterion(logits, labels)
+        if logits.shape[1] == 2:
+            target_0 = (labels > 0).float()
+            target_1 = (labels > 1).float()
+            ordinal_labels = torch.stack([target_0, target_1], dim=1)
+            loss = criterion(logits, ordinal_labels)
+        else:
+            loss = criterion(logits, labels)
         loss.backward()
         torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
         optimizer.step()
@@ -83,8 +89,26 @@ def validate_epoch(model, dataloader, criterion, device):
             labels = labels.to(device)
 
             logits = model(seq_x, num_x, cat_x)
-            total_loss += criterion(logits, labels).item()
-            all_preds.extend(torch.argmax(logits, dim=1).cpu().numpy())
+            if logits.shape[1] == 2:
+                target_0 = (labels > 0).float()
+                target_1 = (labels > 1).float()
+                ordinal_labels = torch.stack([target_0, target_1], dim=1)
+                loss = criterion(logits, ordinal_labels)
+                
+                probs_gt = torch.sigmoid(logits)
+                p_gt_low = probs_gt[:, 0]
+                p_gt_medium = probs_gt[:, 1]
+                p_low = 1.0 - p_gt_low
+                p_medium = torch.clamp(p_gt_low - p_gt_medium, min=0.0)
+                p_high = p_gt_medium
+                probs = torch.stack([p_low, p_medium, p_high], dim=1)
+                preds = torch.argmax(probs, dim=1)
+            else:
+                loss = criterion(logits, labels)
+                preds = torch.argmax(logits, dim=1)
+                
+            total_loss += loss.item()
+            all_preds.extend(preds.cpu().numpy())
             all_labels.extend(labels.cpu().numpy())
 
     val_loss = total_loss / max(len(dataloader), 1)
@@ -94,6 +118,7 @@ def validate_epoch(model, dataloader, criterion, device):
 
 
 def train_model(model, train_loader, val_loader, criterion, optimizer, config, device):
+    from torch.optim.swa_utils import AveragedModel
     early_stopping = EarlyStopping(patience=config.patience)
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
         optimizer,
@@ -103,6 +128,9 @@ def train_model(model, train_loader, val_loader, criterion, optimizer, config, d
     )
     history = {"train_loss": [], "val_loss": [], "val_f1": [], "val_acc": []}
 
+    swa_model = AveragedModel(model)
+    swa_start = int(config.max_epochs * 0.6)
+
     for epoch in range(config.max_epochs):
         train_loss = train_epoch(model, train_loader, criterion, optimizer, device)
         val_loss, val_f1, val_acc = validate_epoch(model, val_loader, criterion, device)
@@ -110,6 +138,9 @@ def train_model(model, train_loader, val_loader, criterion, optimizer, config, d
         history["val_loss"].append(val_loss)
         history["val_f1"].append(val_f1)
         history["val_acc"].append(val_acc)
+
+        if epoch >= swa_start:
+            swa_model.update_parameters(model)
 
         scheduler.step(val_f1)
         early_stopping(val_f1, model)
@@ -119,6 +150,17 @@ def train_model(model, train_loader, val_loader, criterion, optimizer, config, d
 
     if early_stopping.best_state is not None:
         model.load_state_dict(early_stopping.best_state)
+        
+    # Evaluate SWA model
+    swa_model.eval()
+    with torch.no_grad():
+        _, val_f1_swa, _ = validate_epoch(swa_model, val_loader, criterion, device)
+    
+    if val_f1_swa > early_stopping.best_score:
+        logger.info(f"SWA model is better ({val_f1_swa:.4f} > {early_stopping.best_score:.4f}). Adopting SWA parameters.")
+        model.load_state_dict(swa_model.module.state_dict())
+        return model, history, val_f1_swa
+
     return model, history, early_stopping.best_score or 0.0
 
 
@@ -147,11 +189,13 @@ def suggest_trial_params(trial, dataset_kind: str) -> dict:
             "learning_rate": trial.suggest_float("learning_rate", 5e-5, 5e-2, log=True),
             "weight_decay": trial.suggest_float("weight_decay", 1e-8, 1e-2, log=True),
             "batch_size": trial.suggest_categorical("batch_size", [8, 16, 32, 64]),
+            "focal_gamma": trial.suggest_float("focal_gamma", 1.5, 2.5),
+            "embedding_dim": trial.suggest_int("embedding_dim", 2, 8),
             
             # Strategy 3: Advanced Resampling Strategy Tuning
             # Dynamically explore smote_ratio and k_neighbors
             "oversample_method": trial.suggest_categorical(
-                "oversample_method", ["smote", "adasyn"]
+                "oversample_method", ["smote"]
             ),
             "smote_ratio": trial.suggest_float("smote_ratio", 0.3, 1.0),
             "resampling_k_neighbors": trial.suggest_int("resampling_k_neighbors", 2, 10),
@@ -182,7 +226,7 @@ def suggest_trial_params(trial, dataset_kind: str) -> dict:
         "weight_decay": trial.suggest_float("weight_decay", 1e-6, 1e-3, log=True),
         "batch_size": trial.suggest_categorical("batch_size", [16, 32, 64]),
         "oversample_method": trial.suggest_categorical(
-            "oversample_method", ["smote", "adasyn"]
+            "oversample_method", ["adasyn"]
         ),
         "smote_ratio": trial.suggest_float("smote_ratio", 0.4, 1.0),
         "resampling_k_neighbors": 5,
@@ -209,7 +253,8 @@ def objective(trial, df_train_pool: pd.DataFrame, spec, target_mode: str, cv_fol
     smote_ratio = params["smote_ratio"]
     model_config = params
 
-    stratified_folds = StratifiedKFold(n_splits=cv_folds, shuffle=True, random_state=42)
+    # Strategy 3: Repeated Stratified K-Fold for more robust validation
+    stratified_folds = RepeatedStratifiedKFold(n_splits=cv_folds, n_repeats=3, random_state=42)
     target = df_train_pool[spec.target_col].astype(int).to_numpy()
     fold_f1s = []
     sequence_columns = get_sequence_columns(spec.kind)
@@ -265,7 +310,14 @@ def objective(trial, df_train_pool: pd.DataFrame, spec, target_mode: str, cv_fol
 
         original_train_labels = df_train_pool.iloc[train_index][spec.target_col].astype(int).to_numpy()
         class_weights = calculate_class_weights(original_train_labels, num_classes=3).to(device)
-        criterion = nn.CrossEntropyLoss(weight=class_weights)
+        
+        if spec.kind == "xapi":
+            criterion = nn.BCEWithLogitsLoss()
+        else:
+            if "focal_gamma" in model_config:
+                criterion = FocalLoss(weight=class_weights, gamma=model_config["focal_gamma"])
+            else:
+                criterion = nn.CrossEntropyLoss(weight=class_weights)
         optimizer = optim.Adam(
             model.parameters(),
             lr=learning_rate,

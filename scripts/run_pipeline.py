@@ -99,7 +99,7 @@ def load_study(args, train_pool, spec):
 
     import optuna
 
-    target_trials = 1 if args.debug else (args.n_trials or (150 if spec.kind == "xapi" else 50))
+    target_trials = 1 if args.debug else (args.n_trials or (250 if spec.kind == "xapi" else 50))
     study_kwargs = {
         "direction": "maximize",
         "sampler": optuna.samplers.TPESampler(seed=DEFAULT_SEED, multivariate=True),
@@ -134,6 +134,7 @@ def load_study(args, train_pool, spec):
 
 
 def prepare_datasets(train_pool, locked_test, spec, best_params):
+    # This is kept if anything else needs it, but we won't use it for ensemble training anymore.
     train_engineered = apply_feature_engineering(train_pool, spec.kind)
     test_engineered = apply_feature_engineering(locked_test, spec.kind)
     preprocessor = DataPreprocessor(
@@ -191,46 +192,79 @@ def train_seed_ensemble(
     spec,
     best_params,
     train_pool,
-    train_selected,
-    train_dataset,
-    test_dataset,
-    num_numerical,
-    cat_cardinalities,
+    locked_test,
     debug=False,
 ):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     batch_size = int(best_params["batch_size"])
-    test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
     original_train_labels = train_pool[spec.target_col].astype(int).to_numpy()
     class_weights = calculate_class_weights(original_train_labels, num_classes=3).to(device)
     seeds = FIXED_SEEDS[:1] if debug else FIXED_SEEDS
     all_probabilities = []
     last_model = None
+    last_test_loader = None
+    last_preprocessor = None
+    last_train_selected = None
 
     for seed in seeds:
         set_seed(seed)
-        labels = train_selected[spec.target_col].astype(int).to_numpy()
-        indices = np.arange(len(train_dataset))
+        # 1. Tách validation trước khi resampling
+        labels = train_pool[spec.target_col].astype(int).to_numpy()
+        indices = np.arange(len(train_pool))
         train_indices, val_indices = train_test_split(
             indices,
             test_size=0.15,
             stratify=labels,
             random_state=seed,
         )
-        train_loader = DataLoader(
-            Subset(train_dataset, train_indices),
-            batch_size=batch_size,
-            shuffle=True,
-            drop_last=len(train_indices) > batch_size,
-        )
-        val_loader = DataLoader(
-            Subset(train_dataset, val_indices),
-            batch_size=batch_size,
-            shuffle=False,
-        )
+        
+        train_sub = apply_feature_engineering(train_pool.iloc[train_indices].copy(), spec.kind)
+        val_sub = apply_feature_engineering(train_pool.iloc[val_indices].copy(), spec.kind)
+        test_engineered = apply_feature_engineering(locked_test.copy(), spec.kind)
 
+        preprocessor = DataPreprocessor(
+            target_col=spec.target_col,
+            oversample_method=best_params["oversample_method"],
+            smote_ratio=best_params.get("smote_ratio", 1.0),
+            resampling_k_neighbors=best_params.get("resampling_k_neighbors", 5),
+        )
+        train_prep = preprocessor.fit_transform(train_sub)
+        val_prep = preprocessor.transform(val_sub)
+        test_prep = preprocessor.transform(test_engineered)
+
+        selector = FeatureSelector(
+            target_col=spec.target_col,
+            use_feature_selection=True,
+            required_features=get_sequence_columns(spec.kind),
+        )
+        train_selected = selector.fit_transform(
+            train_prep,
+            preprocessor.numerical_cols,
+            preprocessor.categorical_cols,
+        )
+        val_selected = selector.transform(val_prep)
+        test_selected = selector.transform(test_prep)
+
+        train_ds = StudentDataset(train_selected, spec.kind, spec.target_col, preprocessor.numerical_cols, preprocessor.categorical_cols)
+        val_ds = StudentDataset(val_selected, spec.kind, spec.target_col, preprocessor.numerical_cols, preprocessor.categorical_cols)
+        test_ds = StudentDataset(test_selected, spec.kind, spec.target_col, preprocessor.numerical_cols, preprocessor.categorical_cols)
+
+        train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True, drop_last=len(train_indices) > batch_size)
+        val_loader = DataLoader(val_ds, batch_size=batch_size, shuffle=False)
+        test_loader = DataLoader(test_ds, batch_size=batch_size, shuffle=False)
+
+        cat_cardinalities = [len(preprocessor.label_encoders[col].classes_) for col in train_ds.cat_cols]
+        num_numerical = len(train_ds.num_cols)
+
+        from src.models import create_model, FocalLoss
         model = create_model(spec.kind, best_params, num_numerical, cat_cardinalities).to(device)
-        criterion = nn.CrossEntropyLoss(weight=class_weights)
+        if spec.kind == "xapi":
+            criterion = nn.BCEWithLogitsLoss()
+        else:
+            if "focal_gamma" in best_params:
+                criterion = FocalLoss(weight=class_weights, gamma=best_params["focal_gamma"])
+            else:
+                criterion = nn.CrossEntropyLoss(weight=class_weights)
         optimizer = optim.Adam(
             model.parameters(),
             lr=float(best_params["learning_rate"]),
@@ -265,6 +299,9 @@ def train_seed_ensemble(
         seed_probabilities = np.asarray(seed_probabilities)
         all_probabilities.append(seed_probabilities)
         last_model = model
+        last_test_loader = test_loader
+        last_preprocessor = preprocessor
+        last_train_selected = train_selected
 
         model_path = MODELS_DIR / f"{spec.name}_3class_cnn_bilstm_mlp_seed{seed}.pt"
         torch.save(model.state_dict(), model_path)
@@ -277,8 +314,10 @@ def train_seed_ensemble(
         mean_probabilities,
         confidences,
         last_model,
-        test_loader,
+        last_test_loader,
         device,
+        last_preprocessor,
+        last_train_selected
     )
 
 
@@ -355,32 +394,29 @@ def main():
     study = load_study(args, train_pool, spec)
     best_params = dict(study.best_params)
 
+    # 2. Ensemble Training & Inference
+    # Split train/val and preprocess PER seed to avoid SMOTE leakage
     (
-        preprocessor,
-        selector,
-        train_selected,
-        test_selected,
-        train_dataset,
-        test_dataset,
-        num_numerical,
-        cat_cardinalities,
-    ) = prepare_datasets(train_pool, locked_test, spec, best_params)
-
-    predictions, probabilities, confidences, model, test_loader, device = train_seed_ensemble(
+        predictions,
+        probabilities,
+        confidences,
+        best_model,
+        test_loader,
+        device,
+        final_preprocessor,
+        final_train_selected
+    ) = train_seed_ensemble(
         spec,
         best_params,
         train_pool,
-        train_selected,
-        train_dataset,
-        test_dataset,
-        num_numerical,
-        cat_cardinalities,
+        locked_test,
         debug=args.debug,
     )
-    true_labels = test_selected[spec.target_col].astype(int).to_numpy()
+    true_labels = locked_test[spec.target_col].astype(int).to_numpy()
     metrics = calculate_metrics(true_labels, predictions)
     logger.info("Locked-test F1-Macro: %.4f", metrics["F1-Macro"])
 
+    # 5. Recommendation Paths
     learning_paths = generate_learning_path_report(
         original_features=locked_test,
         predictions=predictions,
@@ -400,13 +436,16 @@ def main():
         learning_paths,
         metrics,
     )
+    seq_cols = get_sequence_columns(spec.kind)
+    num_cols = [c for c in final_preprocessor.numerical_cols if c in final_train_selected.columns and c not in seq_cols]
+    cat_cols = [c for c in final_preprocessor.categorical_cols if c in final_train_selected.columns and c not in seq_cols]
 
     explain_model(
-        model,
+        best_model,
         test_loader,
         device,
-        train_dataset.num_cols,
-        train_dataset.cat_cols,
+        num_cols,
+        cat_cols,
         EXPLANATIONS_DIR / f"{args.dataset}_{args.target_mode}_feature_importance.csv",
     )
 

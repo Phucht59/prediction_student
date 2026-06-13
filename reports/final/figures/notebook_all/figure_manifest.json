@@ -1,0 +1,194 @@
+[
+  {
+    "filename": "01_system_pipeline.png",
+    "title": "Quy trình hệ thống dự đoán và khuyến nghị",
+    "category": "Sơ đồ",
+    "data_sources": "src\\data_pipeline.py | src\\train_pipeline.py | src\\explainability.py | database\\schema.sql"
+  },
+  {
+    "filename": "02_hybrid_architecture.png",
+    "title": "Kiến trúc lai CNN-BiLSTM + Context MLP",
+    "category": "Sơ đồ",
+    "data_sources": "src\\models.py | src\\data_pipeline.py"
+  },
+  {
+    "filename": "03_leakage_control.png",
+    "title": "Giao thức chống rò rỉ dữ liệu",
+    "category": "Sơ đồ",
+    "data_sources": "src\\data_pipeline.py | src\\train_pipeline.py"
+  },
+  {
+    "filename": "04_rule_engine.png",
+    "title": "Luồng xử lý của Rule-based Learning Path Engine",
+    "category": "Sơ đồ",
+    "data_sources": "src\\explainability.py"
+  },
+  {
+    "filename": "05_postgresql_schema.png",
+    "title": "Mô hình lưu trữ PostgreSQL",
+    "category": "Sơ đồ",
+    "data_sources": "database\\schema.sql"
+  },
+  {
+    "filename": "06_dataset_split_sizes.png",
+    "title": "Quy mô dữ liệu và phân hoạch thực nghiệm",
+    "category": "Thực nghiệm",
+    "data_sources": "data\\raw\\student-mat.csv | data\\raw\\student-por.csv | data\\raw\\xAPI-Edu-Data.csv | data\\processed\\final\\student-mat_3class_train_pool.csv | data\\processed\\final\\student-por_3class_train_pool.csv | data\\processed\\final\\xapi_3class_train_pool.csv | data\\processed\\final\\student-mat_3class_locked_test.csv | data\\processed\\final\\student-por_3class_locked_test.csv | data\\processed\\final\\xapi_3class_locked_test.csv"
+  },
+  {
+    "filename": "07_train_pool_class_counts.png",
+    "title": "Phân bố lớp trong train pool",
+    "category": "Thực nghiệm",
+    "data_sources": "data\\processed\\final\\student-mat_3class_train_pool.csv | data\\processed\\final\\student-por_3class_train_pool.csv | data\\processed\\final\\xapi_3class_train_pool.csv"
+  },
+  {
+    "filename": "08_locked_test_class_counts.png",
+    "title": "Phân bố lớp trong locked test",
+    "category": "Thực nghiệm",
+    "data_sources": "data\\processed\\final\\student-mat_3class_locked_test.csv | data\\processed\\final\\student-por_3class_locked_test.csv | data\\processed\\final\\xapi_3class_locked_test.csv"
+  },
+  {
+    "filename": "09_locked_test_class_percentages.png",
+    "title": "Tỷ trọng lớp trong locked test",
+    "category": "Thực nghiệm",
+    "data_sources": "data\\processed\\final\\student-mat_3class_locked_test.csv | data\\processed\\final\\student-por_3class_locked_test.csv | data\\processed\\final\\xapi_3class_locked_test.csv"
+  },
+  {
+    "filename": "10_locked_test_metrics.png",
+    "title": "Metric phân loại trên locked test",
+    "category": "Thực nghiệm",
+    "data_sources": "reports\\final\\metrics\\student-mat_3class_locked_test_metrics.json | reports\\final\\metrics\\student-por_3class_locked_test_metrics.json | reports\\final\\metrics\\xapi_3class_locked_test_metrics.json | reports\\final\\predictions\\student-mat_3class_predictions.csv | reports\\final\\predictions\\student-por_3class_predictions.csv | reports\\final\\predictions\\xapi_3class_predictions.csv"
+  },
+  {
+    "filename": "11_f1_macro_comparison.png",
+    "title": "So sánh F1-Macro cuối cùng",
+    "category": "Thực nghiệm",
+    "data_sources": "reports\\final\\metrics\\student-mat_3class_locked_test_metrics.json | reports\\final\\metrics\\student-por_3class_locked_test_metrics.json | reports\\final\\metrics\\xapi_3class_locked_test_metrics.json"
+  },
+  {
+    "filename": "12_cv_vs_locked_test_f1.png",
+    "title": "F1-Macro: Cross-validation và Locked test",
+    "category": "Thực nghiệm",
+    "data_sources": "reports\\final\\student-mat_3class_final_report.txt | reports\\final\\student-por_3class_final_report.txt | reports\\final\\xapi_3class_final_report.txt | reports\\final\\metrics\\student-mat_3class_locked_test_metrics.json | reports\\final\\metrics\\student-por_3class_locked_test_metrics.json | reports\\final\\metrics\\xapi_3class_locked_test_metrics.json"
+  },
+  {
+    "filename": "13_cv_test_generalization_gap.png",
+    "title": "Chênh lệch F1-Macro giữa CV và Locked test",
+    "category": "Thực nghiệm",
+    "data_sources": "reports\\final\\student-mat_3class_final_report.txt | reports\\final\\student-por_3class_final_report.txt | reports\\final\\xapi_3class_final_report.txt | reports\\final\\metrics\\student-mat_3class_locked_test_metrics.json | reports\\final\\metrics\\student-por_3class_locked_test_metrics.json | reports\\final\\metrics\\xapi_3class_locked_test_metrics.json"
+  },
+  {
+    "filename": "14_rmse_r2.png",
+    "title": "RMSE và R² trên locked test",
+    "category": "Thực nghiệm",
+    "data_sources": "reports\\final\\metrics\\student-mat_3class_locked_test_metrics.json | reports\\final\\metrics\\student-por_3class_locked_test_metrics.json | reports\\final\\metrics\\xapi_3class_locked_test_metrics.json | reports\\final\\predictions\\student-mat_3class_predictions.csv | reports\\final\\predictions\\student-por_3class_predictions.csv | reports\\final\\predictions\\xapi_3class_predictions.csv"
+  },
+  {
+    "filename": "15_confusion_matrices_counts.png",
+    "title": "Ma trận nhầm lẫn trên locked test",
+    "category": "Thực nghiệm",
+    "data_sources": "reports\\final\\predictions\\student-mat_3class_predictions.csv | reports\\final\\predictions\\student-por_3class_predictions.csv | reports\\final\\predictions\\xapi_3class_predictions.csv"
+  },
+  {
+    "filename": "16_confusion_matrices_normalized.png",
+    "title": "Ma trận nhầm lẫn chuẩn hóa theo nhãn thật",
+    "category": "Thực nghiệm",
+    "data_sources": "reports\\final\\predictions\\student-mat_3class_predictions.csv | reports\\final\\predictions\\student-por_3class_predictions.csv | reports\\final\\predictions\\xapi_3class_predictions.csv"
+  },
+  {
+    "filename": "17_per_class_precision.png",
+    "title": "Precision theo từng lớp",
+    "category": "Thực nghiệm",
+    "data_sources": "reports\\final\\predictions\\student-mat_3class_predictions.csv | reports\\final\\predictions\\student-por_3class_predictions.csv | reports\\final\\predictions\\xapi_3class_predictions.csv"
+  },
+  {
+    "filename": "18_per_class_recall.png",
+    "title": "Recall theo từng lớp",
+    "category": "Thực nghiệm",
+    "data_sources": "reports\\final\\predictions\\student-mat_3class_predictions.csv | reports\\final\\predictions\\student-por_3class_predictions.csv | reports\\final\\predictions\\xapi_3class_predictions.csv"
+  },
+  {
+    "filename": "19_per_class_f1.png",
+    "title": "F1-score theo từng lớp",
+    "category": "Thực nghiệm",
+    "data_sources": "reports\\final\\predictions\\student-mat_3class_predictions.csv | reports\\final\\predictions\\student-por_3class_predictions.csv | reports\\final\\predictions\\xapi_3class_predictions.csv"
+  },
+  {
+    "filename": "20_confidence_histograms.png",
+    "title": "Phân bố độ tin cậy dự đoán",
+    "category": "Thực nghiệm",
+    "data_sources": "reports\\final\\predictions\\student-mat_3class_predictions.csv | reports\\final\\predictions\\student-por_3class_predictions.csv | reports\\final\\predictions\\xapi_3class_predictions.csv"
+  },
+  {
+    "filename": "21_confidence_correct_vs_incorrect.png",
+    "title": "Độ tin cậy trung bình: dự đoán đúng và sai",
+    "category": "Thực nghiệm",
+    "data_sources": "reports\\final\\predictions\\student-mat_3class_predictions.csv | reports\\final\\predictions\\student-por_3class_predictions.csv | reports\\final\\predictions\\xapi_3class_predictions.csv"
+  },
+  {
+    "filename": "22_confidence_quantiles.png",
+    "title": "Các phân vị của độ tin cậy",
+    "category": "Thực nghiệm",
+    "data_sources": "reports\\final\\predictions\\student-mat_3class_predictions.csv | reports\\final\\predictions\\student-por_3class_predictions.csv | reports\\final\\predictions\\xapi_3class_predictions.csv"
+  },
+  {
+    "filename": "23_true_vs_predicted_distribution.png",
+    "title": "Phân bố nhãn thật và nhãn dự đoán",
+    "category": "Thực nghiệm",
+    "data_sources": "reports\\final\\predictions\\student-mat_3class_predictions.csv | reports\\final\\predictions\\student-por_3class_predictions.csv | reports\\final\\predictions\\xapi_3class_predictions.csv"
+  },
+  {
+    "filename": "24_mean_probability_by_true_class.png",
+    "title": "Hồ sơ xác suất dự đoán trung bình theo nhãn thật",
+    "category": "Thực nghiệm",
+    "data_sources": "reports\\final\\predictions\\student-mat_3class_predictions.csv | reports\\final\\predictions\\student-por_3class_predictions.csv | reports\\final\\predictions\\xapi_3class_predictions.csv"
+  },
+  {
+    "filename": "25_feature_importance_combined.png",
+    "title": "Permutation feature importance",
+    "category": "Giải thích",
+    "data_sources": "reports\\final\\explanations\\student-mat_3class_feature_importance.csv | reports\\final\\explanations\\student-por_3class_feature_importance.csv | reports\\final\\explanations\\xapi_3class_feature_importance.csv"
+  },
+  {
+    "filename": "26_feature_importance_student_mat.png",
+    "title": "Feature importance - Student-Mat",
+    "category": "Giải thích",
+    "data_sources": "reports\\final\\explanations\\student-mat_3class_feature_importance.csv"
+  },
+  {
+    "filename": "27_feature_importance_student_por.png",
+    "title": "Feature importance - Student-Por",
+    "category": "Giải thích",
+    "data_sources": "reports\\final\\explanations\\student-por_3class_feature_importance.csv"
+  },
+  {
+    "filename": "28_feature_importance_xapi.png",
+    "title": "Feature importance - xAPI",
+    "category": "Giải thích",
+    "data_sources": "reports\\final\\explanations\\xapi_3class_feature_importance.csv"
+  },
+  {
+    "filename": "29_risk_band_distribution.png",
+    "title": "Phân bố mức rủi ro của Learning Path Engine",
+    "category": "Thực nghiệm",
+    "data_sources": "reports\\final\\recommendations\\student-mat_3class_learning_paths.csv | reports\\final\\recommendations\\student-por_3class_learning_paths.csv | reports\\final\\recommendations\\xapi_3class_learning_paths.csv"
+  },
+  {
+    "filename": "30_risk_factor_frequency.png",
+    "title": "Tần suất các yếu tố rủi ro",
+    "category": "Thực nghiệm",
+    "data_sources": "reports\\final\\recommendations\\student-mat_3class_learning_paths.csv | reports\\final\\recommendations\\student-por_3class_learning_paths.csv | reports\\final\\recommendations\\xapi_3class_learning_paths.csv"
+  },
+  {
+    "filename": "31_learning_path_phase_frequency.png",
+    "title": "Tần suất giai đoạn trong lộ trình học tập",
+    "category": "Thực nghiệm",
+    "data_sources": "reports\\final\\recommendations\\student-mat_3class_learning_paths.csv | reports\\final\\recommendations\\student-por_3class_learning_paths.csv | reports\\final\\recommendations\\xapi_3class_learning_paths.csv"
+  },
+  {
+    "filename": "32_optuna_best_hyperparameters.png",
+    "title": "Siêu tham số tốt nhất từ Optuna",
+    "category": "Thực nghiệm",
+    "data_sources": "reports\\final\\student-mat_3class_final_report.txt | reports\\final\\student-por_3class_final_report.txt | reports\\final\\xapi_3class_final_report.txt"
+  }
+]

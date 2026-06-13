@@ -6,6 +6,26 @@ from typing import Any
 
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
+
+
+class FocalLoss(nn.Module):
+    def __init__(self, weight=None, gamma=2.0, reduction='mean'):
+        super().__init__()
+        self.weight = weight
+        self.gamma = gamma
+        self.reduction = reduction
+
+    def forward(self, inputs, targets):
+        ce_loss = F.cross_entropy(inputs, targets, weight=self.weight, reduction='none')
+        pt = torch.exp(-ce_loss)
+        focal_loss = ((1 - pt) ** self.gamma) * ce_loss
+        
+        if self.reduction == 'mean':
+            return focal_loss.mean()
+        elif self.reduction == 'sum':
+            return focal_loss.sum()
+        return focal_loss
 
 
 class AttentionPooling1D(nn.Module):
@@ -44,6 +64,7 @@ class StudentHybridModel(nn.Module):
         sequence_dropout: float | None = None,
         context_dropout: float | None = None,
         fusion_dropout: float | None = None,
+        embedding_dim: int | None = None,
     ):
         super().__init__()
         self.num_numerical = num_numerical
@@ -51,6 +72,13 @@ class StudentHybridModel(nn.Module):
         sequence_dropout = dropout if sequence_dropout is None else sequence_dropout
         context_dropout = dropout if context_dropout is None else context_dropout
         fusion_dropout = dropout if fusion_dropout is None else fusion_dropout
+
+        self.embeddings = nn.ModuleList()
+        embedding_total_dim = 0
+        for cardinality in cat_cardinalities:
+            dim = embedding_dim if embedding_dim else max(2, min(50, (cardinality + 1) // 2))
+            self.embeddings.append(nn.Embedding(num_embeddings=cardinality, embedding_dim=dim))
+            embedding_total_dim += dim
 
         self.sequence_cnn = nn.Sequential(
             nn.Conv1d(
@@ -72,7 +100,7 @@ class StudentHybridModel(nn.Module):
         sequence_output_dim = lstm_hidden_dim * 2
         self.sequence_pool = AttentionPooling1D(sequence_output_dim)
 
-        context_input_dim = num_numerical + len(cat_cardinalities)
+        context_input_dim = num_numerical + embedding_total_dim
         self.context_input_dim = max(1, context_input_dim)
         self.context_mlp = nn.Sequential(
             nn.Linear(self.context_input_dim, context_hidden_dim),
@@ -106,12 +134,14 @@ class StudentHybridModel(nn.Module):
         if self.cat_cardinalities:
             if cat_x is None or cat_x.shape[1] < len(self.cat_cardinalities):
                 raise ValueError("Categorical context does not match the configured model input.")
-            normalized_categorical = []
-            for index, cardinality in enumerate(self.cat_cardinalities):
-                denominator = max(cardinality - 1, 1)
-                values = cat_x[:, index].float().clamp(0, cardinality - 1) / denominator
-                normalized_categorical.append(values.unsqueeze(1))
-            parts.append(torch.cat(normalized_categorical, dim=1))
+            embedded_categorical = []
+            for index, emb_layer in enumerate(self.embeddings):
+                values = cat_x[:, index].long()
+                # Ensure no index out of bounds
+                cardinality = self.cat_cardinalities[index]
+                values = torch.clamp(values, 0, cardinality - 1)
+                embedded_categorical.append(emb_layer(values))
+            parts.append(torch.cat(embedded_categorical, dim=1))
 
         if not parts:
             return torch.zeros(batch_size, 1, device=device)
@@ -148,6 +178,16 @@ class StudentHybridModel(nn.Module):
         num_x: torch.Tensor | None,
         cat_x: torch.Tensor | None,
     ) -> torch.Tensor:
+        if self.classifier.out_features == 2:
+            logits = self.forward(seq_x, num_x, cat_x)
+            probs_gt = torch.sigmoid(logits)
+            p_gt_low = probs_gt[:, 0]
+            p_gt_medium = probs_gt[:, 1]
+            p_low = 1.0 - p_gt_low
+            p_medium = torch.clamp(p_gt_low - p_gt_medium, min=0.0)
+            p_high = p_gt_medium
+            probs = torch.stack([p_low, p_medium, p_high], dim=1)
+            return probs / probs.sum(dim=1, keepdim=True)
         return torch.softmax(self.forward(seq_x, num_x, cat_x), dim=1)
 
 
@@ -158,20 +198,21 @@ def create_model(
     cat_cardinalities: list[int],
 ) -> StudentHybridModel:
     """Create the only model architecture allowed by the approved proposal."""
-
-    del dataset_kind  # Both dataset families use the same approved architecture.
+    embedding_dim = config.get("embedding_dim", None)
+    num_classes = 2 if dataset_kind == "xapi" else 3
     return StudentHybridModel(
-        num_classes=3,
+        num_classes=num_classes,
         seq_in_channels=1,
         num_numerical=num_numerical,
         cat_cardinalities=cat_cardinalities,
-        cnn_channels=config.get("cnn_channels", config.get("sequence_hidden_dim", 32)),
-        cnn_kernel_size=config.get("cnn_kernel_size", 3),
-        lstm_hidden_dim=config.get("lstm_hidden_dim", config.get("sequence_hidden_dim", 64)),
-        context_hidden_dim=config.get("context_hidden_dim", 64),
-        fusion_hidden_dim=config.get("fusion_hidden_dim", 64),
-        dropout=config.get("dropout", 0.3),
-        sequence_dropout=config.get("sequence_dropout"),
-        context_dropout=config.get("context_dropout"),
-        fusion_dropout=config.get("fusion_dropout"),
+        cnn_channels=int(config.get("cnn_channels", 32)),
+        cnn_kernel_size=int(config.get("cnn_kernel_size", 3)),
+        lstm_hidden_dim=int(config.get("lstm_hidden_dim", 64)),
+        context_hidden_dim=int(config.get("context_hidden_dim", 64)),
+        fusion_hidden_dim=int(config.get("fusion_hidden_dim", 64)),
+        dropout=float(config.get("dropout", 0.3)),
+        sequence_dropout=config.get("sequence_dropout", None),
+        context_dropout=config.get("context_dropout", None),
+        fusion_dropout=config.get("fusion_dropout", None),
+        embedding_dim=embedding_dim,
     )
