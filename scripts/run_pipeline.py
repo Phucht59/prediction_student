@@ -256,7 +256,7 @@ def train_seed_ensemble(
         cat_cardinalities = [len(preprocessor.label_encoders[col].classes_) for col in train_ds.cat_cols]
         num_numerical = len(train_ds.num_cols)
 
-        from src.models import create_model, FocalLoss
+        from src.models import FocalLoss, create_model
         model = create_model(spec.kind, best_params, num_numerical, cat_cardinalities).to(device)
         if spec.kind == "xapi":
             criterion = nn.BCEWithLogitsLoss()
@@ -421,7 +421,8 @@ def main():
         original_features=locked_test,
         predictions=predictions,
         confidences=confidences,
-        dataset_kind=spec.kind,
+        dataset_name=args.dataset,
+        train_frame=train_pool,
     )
     save_outputs(
         args,

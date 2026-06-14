@@ -1,0 +1,43 @@
+{
+  "dataset": "student-por",
+  "evaluation_set": "student-por_3class_locked_test.csv",
+  "training_set": "student-por_3class_train_pool.csv",
+  "training_rows": 519,
+  "test_rows": 130,
+  "supervision": "domain_criteria_weak_supervision",
+  "interpretation": "Ranking and multilabel metrics quantify fidelity to the explicit domain reference criteria; they do not establish causal improvement in student outcomes.",
+  "multilabel": {
+    "precision_macro": 0.9414822459198104,
+    "recall_macro": 0.9846921224630204,
+    "f1_macro": 0.9609912760042182,
+    "hamming_loss": 0.020512820512820513
+  },
+  "ranking": {
+    "precision_at_1": 0.7076923076923077,
+    "recall_at_1": 0.6085144927536232,
+    "ndcg_at_1": 1.0,
+    "precision_at_3": 0.46923076923076923,
+    "recall_at_3": 0.9523550724637682,
+    "ndcg_at_3": 0.9974495721411806,
+    "precision_at_5": 0.30923076923076925,
+    "recall_at_5": 0.9981884057971014,
+    "ndcg_at_5": 0.9994604354939768
+  },
+  "structural_quality": {
+    "nonempty_path_rate": 1.0,
+    "complete_step_schema_rate": 1.0,
+    "staged_path_rate": 1.0
+  },
+  "llm_judge": {
+    "status": "not_run",
+    "score": null,
+    "reason": "No external LLM annotations or validated human rating set was supplied."
+  },
+  "model": {
+    "architecture": "8/7-64-32-6 PyTorch MLP",
+    "checkpoint_schema_version": 2,
+    "epochs_completed": 372,
+    "best_validation_loss": 0.13633356988430023,
+    "seed": 42
+  }
+}

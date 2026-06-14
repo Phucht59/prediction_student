@@ -1,0 +1,6 @@
+{
+  "dataset": "student-mat",
+  "protocol": "Stratified 5-fold CV on train pool with locked hyperparameters",
+  "f1_macro_mean": 0.8994191741405532,
+  "hyperparameters_source": "student-mat_3class_best_params.json"
+}
