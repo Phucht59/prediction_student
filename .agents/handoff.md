@@ -1,18 +1,25 @@
-# Handoff Report
+# Handoff Report — Sentinel
 
 ## Observation
-A new request has been received to update the graduation report (`generate_doc.py`) to output the final document (`Bao_cao_cuoi_cung.docx`) reflecting the PyTorch MLP models and scientific evaluations, removing any rule-based logic references and not mentioning any resampling edits.
+A new user request was received to refactor the downstream RA-HLPR system under strict rules:
+1. Do not break existing CNN-BiLSTM + Context MLP.
+2. Do not retrain or modify the main classifier.
+3. Keep RA-HLPR as a downstream module.
+4. No metric fabrication (no evaluation tables for unrun datasets).
+5. Do not refer to collaborative filtering without user-item interaction data.
+6. Do not refer to knowledge graphs without real graph construction.
+7. Only use risks with corresponding features in the dataset.
 
 ## Logic Chain
-1. Spawning `teamwork_preview_orchestrator` subagent (`6b2f389c-ad53-45c4-b6bd-c24d81b113ed`) with a dedicated workspace at `c:\Huflit\kltn\.agents\teamwork_preview_orchestrator_report_update_1\`.
-2. Setting progress reporting and liveness check crons to monitor the orchestrator subagent.
-3. Once the orchestrator reports completion, a victory auditor will be spawned to verify results.
+- Spawns the Project Orchestrator (`da19f9da-92c3-4713-82c6-4444ea757405`) to handle these modifications across code (Phase 1) and reports (Phase 2).
+- Scheduled Cron 1 (Progress Monitoring) and Cron 2 (Liveness Check) to actively monitor the orchestrator's progress.
 
 ## Caveats
-- Strictly ensure no resampling edits are mentioned in the report.
+- The strict rules must be enforced during worker implementation and review.
+- Victory Audit is mandatory once the orchestrator claims completion.
 
 ## Conclusion
-The orchestrator is active and working on the document updates.
+The refactoring process is underway, overseen by the Project Orchestrator.
 
 ## Verification Method
-Check `.agents/teamwork_preview_orchestrator_report_update_1/progress.md` for orchestrator progress.
+- Monitor logs of Project Orchestrator (`da19f9da-92c3-4713-82c6-4444ea757405`).

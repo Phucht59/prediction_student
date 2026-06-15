@@ -67,3 +67,71 @@ Cập nhật nội dung trong file Python sinh báo cáo để phản ánh kiế
 ### Khả năng thực thi
 - [ ] Script `generate_doc.py` chạy thành công hoàn toàn, tự động load các thông số từ file JSON kết quả để điền vào Word.
 - [ ] Thành phẩm cuối cùng là một bản Word `Bao_cao_cuoi_cung.docx` hoàn chỉnh, đọc liền mạch và mang đậm chất báo cáo học thuật.
+
+## Follow-up — 2026-06-14T16:59:56Z
+
+Xây dựng hệ thống RA-HLPR (Risk-Aware Hybrid Learning Path Recommender) lai dựa trên kết quả của mô hình CNN+BiLSTM dự đoán học tập. Hệ thống sử dụng MLP hiện tại như một Risk Diagnosis Head và kết hợp với Intervention Knowledge Base để sinh lộ trình học tập 4 tuần cá nhân hóa cho sinh viên. Mô hình khuyến nghị phải hoạt động như một module downstream độc lập.
+
+Working directory: c:\Huflit\kltn
+Integrity mode: development
+
+## Requirements
+
+### R1. Tích hợp Downstream & Risk Diagnosis Head
+- **Downstream Predictor:** KHÔNG bắt buộc sửa hoặc fine-tune mô hình CNN-BiLSTM hiện tại. Module khuyến nghị chỉ nhận đầu vào từ file prediction CSV hoặc output inference có sẵn (gồm `predicted_label`, `class_probabilities`, `confidence` và các đặc trưng gốc). Chỉ trích xuất `student_embedding` nếu việc lấy embedding KHÔNG làm thay đổi checkpoint, KHÔNG làm thay đổi metric locked test và KHÔNG phá vỡ pipeline hiện có.
+- **Risk Diagnosis:** Refactor mô hình MLP multi-label hiện tại thành `RiskDiagnosisHead`. Đầu vào nhận `student_features` và `class_probabilities`. Đầu ra dự đoán 6 rủi ro học tập (R1->R6). Sử dụng `BCEWithLogitsLoss + pos_weight` và sinh weak labels bằng rule minh bạch. Viết toàn bộ rule tạo weak label vào file riêng có comment giải thích rõ ràng.
+
+### R2. Xây dựng Intervention Knowledge Base & Hybrid Scorer
+- **Knowledge Base:** Tạo thư mục và dữ liệu catalog (`intervention_catalog.csv` và `risk_intervention_mapping.csv`) với tối thiểu các cột: item_id, intervention_name, description, target_risks, difficulty_level, estimated_hours_per_week, recommended_phase, expected_effect, prerequisite_level.
+- **Hybrid Scorer:** Tính điểm can thiệp dựa trên công thức trọng số: risk_match (0.3), performance_need (0.2), difficulty_fit (0.15), time_fit (0.15), prerequisite_fit (0.1), expected_effect (0.1). Trả về danh sách top K can thiệp kèm score và explanation. (Tùy chọn: Xây dựng thêm `LearningPathRanker` bằng Neural Network nếu khả thi).
+
+### R3. Learning Path Planner & Evaluation
+- **Path Planner:** Module `path_planner.py` phân bổ các top can thiệp thành lộ trình 4 tuần: Week 1 (Stabilize), Week 2 (Practice), Week 3 (Reinforce), Week 4 (Evaluate & Adjust). Yêu cầu mỗi tuần phải có: objective, recommended_actions, expected_outcome, và explanation.
+- **Evaluation:** Đánh giá Risk Diagnosis (Micro/Macro F1, Precision, Recall, Hamming Loss), Ranking (Precision@K, Recall@K, NDCG@K, Coverage), và Path Quality (Risk Coverage Rate, Workload Balance, Difficulty Progression, Prerequisite Violation). Không ghi LLM-Judge nếu chưa chạy.
+
+### R4. Scripts & Output Files
+- Tái cấu trúc thư mục logic (`src/models`, `src/recommender`, `src/evaluation`, `scripts`).
+- Tạo file chạy `scripts/run_recommender_pipeline.py --dataset <dataset>` thực thi end-to-end từ load data dự đoán, weak labeling, train Risk Head, sinh lộ trình, đến đánh giá.
+- Sinh các file kết quả vào `outputs/recommender/`: `risk_predictions.csv`, `recommendation_results.csv`, `learning_paths.json`, `recommender_metrics.json`, và `recommender_report.md` (chứa báo cáo phân tích và ví dụ 3 sinh viên). 
+
+## Acceptance Criteria
+
+### Tính toàn vẹn kiến trúc
+- [ ] Tuyệt đối KHÔNG thay đổi phá vỡ pipeline CNN + BiLSTM có sẵn, cũng như không làm sai lệch metrics test.
+- [ ] Khuyến nghị hoạt động hoàn toàn như một hệ thống Downstream.
+- [ ] MLP hiện tại không còn được gọi là hệ thống recommendation chính, mà chỉ đóng vai trò Risk Diagnosis Head.
+- [ ] Catalog can thiệp phải là dữ liệu học tập/hành động hợp lý, không được "bịa" quá xa bối cảnh giáo dục.
+
+### Tính thực thi và Đánh giá
+- [ ] Lệnh `python scripts/run_recommender_pipeline.py --dataset student-mat` chạy thành công hoàn toàn không gặp lỗi.
+- [ ] File `learning_paths.json` sinh ra lộ trình 4 tuần rõ ràng, có diễn giải (explanation) tại sao tài nguyên đó được chọn.
+- [ ] Báo cáo `recommender_report.md` chứa bảng metrics hoàn toàn dựa trên số liệu đánh giá thực tế của script, không dùng thông số bịa đặt.
+- [ ] Cung cấp đoạn văn giải thích hệ thống "Risk-Aware Hybrid Learning Path Recommender" để chuẩn bị đưa vào báo cáo khóa luận.
+
+## Follow-up — 2026-06-15T10:09:15+07:00
+
+# Teamwork Project Prompt: RA-HLPR Refactoring
+Nhiệm vụ: Sửa PHẦN MÔ HÌNH KHUYẾN NGHỊ, triển khai RA-HLPR (Risk-Aware Hybrid Learning Path Recommender) như một downstream module.
+
+QUY TẮC BẮT BUỘC:
+1. Không phá mô hình dự đoán CNN-BiLSTM + Context MLP hiện có.
+2. Không train lại hoặc sửa classifier chính nếu không cần.
+3. RA-HLPR phải là downstream module, nhận input từ output dự đoán hiện có.
+4. Không được bịa metric. Không được ghi bảng đánh giá cho dataset chưa chạy.
+5. Không được gọi là collaborative filtering nếu không có dữ liệu user-item interaction.
+6. Không được gọi là knowledge graph nếu chưa xây graph thật.
+7. Không dùng các risk không có feature trong dataset.
+
+PHASE 1: SỬA MÔ HÌNH KHUYẾN NGHỊ TRONG CODE
+- Tạo `src/recommender/risk_rules.py`: Định nghĩa 6 risk (R1_LOW_PRIOR_PERFORMANCE, R2_DECLINING_TREND, R3_ATTENDANCE_RISK, R4_LOW_ENGAGEMENT, R5_INSUFFICIENT_STUDY_TIME, R6_HIGH_FAILURE_PROBABILITY). Không dùng risk không có feature.
+- Tạo `data/recommender/intervention_catalog.csv`: Ít nhất 10 items có các cột (item_id, intervention_name, description, target_risks, difficulty_level, estimated_hours_per_week, recommended_phase, expected_effect, prerequisite_level).
+- Tạo `src/recommender/hybrid_scorer.py`: Hàm score = 0.3*risk_match + 0.2*performance_need + 0.15*difficulty_fit + 0.15*time_fit + 0.1*prerequisite_fit + 0.1*expected_effect.
+- Tạo `src/recommender/candidate_generator.py`.
+- Tạo `src/recommender/path_planner.py`: Lộ trình 4 tuần (Stabilize, Practice, Reinforce, Evaluate & Adjust).
+- Tạo `src/recommender/explanation.py`.
+- Tạo `src/evaluation/recommender_metrics.py` & `src/evaluation/path_quality.py`.
+- Cập nhật `scripts/run_recommender_pipeline.py`: Chạy end-to-end, lưu output vào `outputs/recommender/{dataset}/`.
+
+PHASE 2: CHỈNH BÁO CÁO SAU KHI MODEL CHẠY XONG
+- Chỉnh sửa `generate_doc.py` để phản ánh kiến trúc mới (3.5.1 đến 3.5.5) và bảng kết quả (4.4). Bắt buộc thêm các câu giải thích về weak labels và các hạn chế.
+- Tạo file `outputs/recommender/final_recommender_section.md` chứa nội dung báo cáo để người dùng có thể tham khảo.

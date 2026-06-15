@@ -1,12 +1,11 @@
-# Progress Report
+# Progress Tracking
 
-Last visited: 2026-06-14T12:40:00+07:00
+- **Last visited**: 2026-06-15T10:30:00+07:00
+- **Current Task**: Writing the exploration report and briefing.
 
-## Tasks
-- [x] Explore directory structure and locate key files (explainability.py, datasets, training/evaluation orchestration) <!-- id: 0 -->
-- [x] Analyze `src/explainability.py` and `RuleBasedLearningPathEngine` <!-- id: 1 -->
-- [x] Locate data files/datasets (student-mat, student-por, xapi) and identify features/values <!-- id: 2 -->
-- [x] Understand model training, evaluation, and predictions orchestration <!-- id: 3 -->
-- [x] Run test suite with pytest <!-- id: 4 -->
-- [x] Compile analysis.md with findings <!-- id: 5 -->
-- [x] Prepare handoff.md report <!-- id: 6 -->
+## Subtasks
+- [x] Explore recommender implementation in `src/recommender/` and pipeline `scripts/run_recommender_pipeline.py` <!-- id: 0 -->
+- [x] Map dataset features (`student-mat`, `student-por`, `xapi`) to the 6 required risks <!-- id: 1 -->
+- [x] Analyze structure of `generate_doc.py` (specifically sections 3.5, 4.4, and insert locations) <!-- id: 2 -->
+- [x] Locate and analyze format of evaluation results, models, and prediction CSVs <!-- id: 3 -->
+- [x] Prepare handoff.md report and send completion message <!-- id: 4 -->

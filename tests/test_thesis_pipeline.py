@@ -94,7 +94,7 @@ def test_resampling_neighbor_count_is_configurable():
 
 
 def test_forbidden_architectures_and_losses_are_removed():
-    source = (PROJECT_ROOT / "src" / "models.py").read_text(encoding="utf-8")
+    source = (PROJECT_ROOT / "src" / "models" / "models.py").read_text(encoding="utf-8")
     for forbidden in (
         "DeepFM",
         "DCNv2",

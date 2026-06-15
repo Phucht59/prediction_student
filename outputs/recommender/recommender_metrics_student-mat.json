@@ -1,0 +1,24 @@
+{
+  "dataset": "student-mat",
+  "risk_diagnosis": {
+    "f1_micro": 0.9559322033898305,
+    "f1_macro": 0.9551728464771942,
+    "precision_micro": 0.9724137931034482,
+    "precision_macro": 0.9724556489262373,
+    "recall_micro": 0.94,
+    "recall_macro": 0.9431852869352869,
+    "hamming_loss": 0.027426160337552744
+  },
+  "ranking": {
+    "precision_at_3": 0.7974683544303797,
+    "recall_at_3": 0.6623116335141652,
+    "ndcg_at_3": 0.8751060352066562,
+    "coverage_at_3": 0.8333333333333334
+  },
+  "path_quality": {
+    "risk_coverage_rate": 0.9936708860759493,
+    "workload_balance_std": 2.809164361158467,
+    "difficulty_progression_rate": 0.5485232067510549,
+    "prerequisite_violation_rate": 0.0991561181434599
+  }
+}

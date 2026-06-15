@@ -1,37 +1,38 @@
-# Handoff Report
+# Handoff Report — RA-HLPR Refactoring
 
 ## 1. Observation
-- Observed `FocalLoss` definition in `src/models.py` and its import/usage in `src/train_pipeline.py` and `scripts/run_pipeline.py`.
-- Observed the rule-based logic to extract risks in `_student_risks` and `_xapi_risks` inside `src/explainability.py`.
-- Checked the `tests/test_thesis_pipeline.py` which contains tests verifying that FocalLoss is absent from models.py, and that the engine works properly.
-- Ran command `C:\Users\THPhu\anaconda3\envs\kltn\python.exe -m pytest -v` before any changes, which passed except for the `test_forbidden_architectures_and_losses_are_removed` (since FocalLoss was defined in `src/models.py`).
-- Ran command `C:\Users\THPhu\anaconda3\envs\kltn\python.exe src/eval_recommendation.py` which completed successfully and generated the evaluation JSON reports under `reports/final/recommendations/`.
-- Ran command `C:\Users\THPhu\anaconda3\envs\kltn\python.exe -m pytest -v` after changes, which passed all 10 tests.
+- Created new modular evaluation scripts: `src/evaluation/recommender_metrics.py` (for Risk Diagnosis & Ranking metrics) and `src/evaluation/path_quality.py` (for Learning Path Quality metrics).
+- Created a new unified risk rules file `src/recommender/risk_rules.py` defining 6 risks: `R1_LOW_PRIOR_PERFORMANCE`, `R2_DECLINING_TREND`, `R3_ATTENDANCE_RISK`, `R4_LOW_ENGAGEMENT`, `R5_INSUFFICIENT_STUDY_TIME`, `R6_HIGH_FAILURE_PROBABILITY`.
+- Created a Candidate Generator in `src/recommender/candidate_generator.py` to filter interventions before scoring.
+- Modified `src/recommender/risk_head.py` to support dynamic output dimension matching `targets.shape[1]` (6 for student datasets, 3 for xapi).
+- Created a database of 12 interventions with the updated risk schema in `data/recommender/intervention_catalog.csv`.
+- Modified `src/recommender/hybrid_scorer.py` to apply Candidate Generator filtering, scoring weights, and use `generate_friendly_explanation` (from `src/recommender/explanation.py`) to generate personalized Vietnamese feedback.
+- Updated `scripts/run_recommender_pipeline.py` to save files under `outputs/recommender/{dataset}/` with filenames: `risk_predictions.csv`, `recommendation_results.csv`, `learning_paths.json`, `recommender_metrics.json`, and `recommender_report.md`.
+- Modified `generate_doc.py` to document detailed sub-sections of Section 3.5 (from 3.5.1 to 3.5.5), include evaluation limitations, load metrics from the correct dataset subdirectories, and save the report to `Bao_cao_cuoi_cung.docx`.
+- Created `outputs/recommender/final_recommender_section.md` with Section 3.5 and actual metrics tables.
+- Ran tests successfully using `py -3.10 -m pytest` which yielded:
+  ```
+  ============================= 20 passed in 8.35s ==============================
+  ```
 
 ## 2. Logic Chain
-- Deleting the `FocalLoss` class entirely from `src/models.py` and updating the references in `src/train_pipeline.py` and `scripts/run_pipeline.py` to use weighted `nn.CrossEntropyLoss` addresses the architecture violation and resolves `test_forbidden_architectures_and_losses_are_removed`.
-- Implementing `extract_student_features` and `extract_xapi_features` maps the structured features (both raw strings and numbers) into tensors suitable for feed-forward neural networks.
-- Implementing the `RecommendationMLP` model class and training it for 150 epochs of `BCEWithLogitsLoss` using the Adam optimizer maps student feature vectors to the 6 risk factors.
-- Modifying the `RuleBasedLearningPathEngine` class's `__init__` and `generate` methods to check, auto-train (if weights are missing), load, and predict risks using the trained MLP matches the PyTorch model requirement.
-- Creating the script `src/eval_recommendation.py` to load the locked test sets, compute Precision/Recall/NDCG@K (where K=1, 3, 5), run LLM/NLP judge evaluation, and export the average metrics to JSON matches the requested evaluation pipeline requirements.
+- Unified 6 academic risks into `risk_rules.py` to resolve risk evaluation consistency for both student (6 risks) and xapi (3 risks) datasets.
+- Made `RiskDiagnosisHead` output dimension dynamic to handle varying risk numbers depending on features present in the dataset.
+- Added candidate filtering in `CandidateGenerator` before passing items to `HybridScorer` to target students' exact diagnosed needs (probability >= 0.3).
+- Added `generate_friendly_explanation` to translate machine scores into student-friendly Vietnamese explanations.
+- Structured pipelines in `scripts/run_recommender_pipeline.py` to execute end-to-end for `student-mat`, `student-por`, and `xapi`, outputting results in separate subfolders to prevent data overwrites.
+- Updated `generate_doc.py` to fetch from the newly structured directories and write the final document to `Bao_cao_cuoi_cung.docx`.
 
 ## 3. Caveats
-- It is assumed that the raw datasets are located under `data/raw/` in the format `student-mat.csv`, `student-por.csv`, and `xAPI-Edu-Data.csv`. If these files are missing or modified, the self-training routine will fail.
+- No caveats. All 3 dataset pipelines run successfully end-to-end.
 
 ## 4. Conclusion
-- The FocalLoss architecture mismatch has been fixed, the recommendation model has been successfully rebuilt using PyTorch MLP with self-training and inference logic, and the evaluation pipeline has been fully implemented and verified.
+- The RA-HLPR Refactoring (Phase 1 & Phase 2) has been fully implemented, verified, and integrated without regressions. All outputs are correctly generated.
 
 ## 5. Verification Method
-To verify the changes:
-1. Run pytest to ensure all unit tests pass:
-   ```bash
-   C:\Users\THPhu\anaconda3\envs\kltn\python.exe -m pytest -v
-   ```
-2. Run the evaluation script:
-   ```bash
-   C:\Users\THPhu\anaconda3\envs\kltn\python.exe src/eval_recommendation.py
-   ```
-3. Verify that the three JSON reports are correctly created under `reports/final/recommendations/`:
-   - `student_mat_evaluation.json`
-   - `student_por_evaluation.json`
-   - `xapi_evaluation.json`
+- Execute tests:
+  ```powershell
+  py -3.10 -m pytest
+  ```
+- Inspect outputs directory: `outputs/recommender/` containing subfolders: `student-mat/`, `student-por/`, and `xapi/`, each with all required CSV, JSON, and MD output files.
+- Inspect the generated Word report: `Bao_cao_cuoi_cung.docx`.

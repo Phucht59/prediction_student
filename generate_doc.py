@@ -146,24 +146,28 @@ def create_report():
     doc.add_paragraph("Việc xây dựng các đặc trưng mới từ dữ liệu thô đóng vai trò quan trọng trong việc cải thiện hiệu suất của mô hình học máy. Ví dụ, tỷ lệ vắng mặt hoặc xu hướng thay đổi điểm số qua các kỳ học.")
 
     doc.add_paragraph("\n3.4. Mô hình Học máy (Machine Learning Model)")
-    doc.add_paragraph("Nhiều mô hình học máy đã được thử nghiệm và đánh giá. Trong đó, các thuật toán như Random Forest, Gradient Boosting, hoặc Neural Networks được đề xuất nhờ khả năng xử lý tốt các tập dữ liệu đa dạng. Chúng tôi thiết lập việc tinh chỉnh siêu tham số (Hyperparameter Tuning) để tối ưu độ chính xác của các mô hình này.")
+    doc.add_paragraph("Nhiều mô hình học máy đã được thử nghiệm và đánh giá. Trong đó, mô hình học sâu lai (CNN + BiLSTM) được cấu hình và tinh chỉnh làm xương sống (backbone) cho bài toán dự đoán hiệu suất học tập. Chúng tôi cũng tiến hành tinh chỉnh siêu tham số (Hyperparameter Tuning) để tối ưu độ chính xác.")
 
-    doc.add_paragraph("\n3.5. Mô hình khuyến nghị lộ trình học tập PyTorch MLP")
-    doc.add_paragraph("Hệ thống đề xuất lộ trình học tập cá nhân hóa sử dụng một mô hình Mạng nơ-ron truyền thẳng (Multi-Layer Perceptron - MLP) được xây dựng trên nền tảng PyTorch. Mô hình này nhận đầu vào là các đặc trưng bối cảnh của sinh viên và dự đoán đồng thời sáu yếu tố rủi ro học tập thông qua bài toán phân loại đa nhãn (Multi-label Classification).")
+    doc.add_paragraph("\n3.5. Hệ thống Khuyến nghị Lộ trình Học tập Hỗn hợp Thích ứng Rủi ro (RA-HLPR)")
+    doc.add_paragraph("Hệ thống Khuyến nghị Lộ trình Học tập Hỗn hợp Thích ứng Rủi ro (Risk-Aware Hybrid Learning Path Recommender - RA-HLPR) hoạt động như một mô-đun hạ nguồn (downstream) độc lập, nhận đầu vào từ kết quả phân loại của mô hình chính và các đặc trưng của người học.")
     
-    doc.add_paragraph("Kiến trúc của mô hình MLP bao gồm:\n"
-                      "- Tầng đầu vào (Input Layer): Nhận véc-tơ đặc trưng gồm 8 chiều (đối với tập dữ liệu Student-Mat và Student-Por) hoặc 7 chiều (đối với tập dữ liệu xAPI).\n"
-                      "- Tầng ẩn thứ nhất: Tầng tuyến tính (Linear layer) chuyển đổi từ số đặc trưng đầu vào thành 64 nút ẩn, sử dụng hàm kích hoạt ReLU và kỹ thuật Dropout với tỷ lệ 10% nhằm giảm hiện tượng quá khớp (overfitting).\n"
-                      "- Tầng ẩn thứ hai: Tầng tuyến tính chuyển đổi từ 64 nút ẩn sang 32 nút ẩn, sử dụng hàm kích hoạt ReLU.\n"
-                      "- Tầng đầu ra (Output Layer): Tầng tuyến tính chuyển đổi từ 32 nút ẩn thành 6 logit tương ứng với 6 yếu tố rủi ro học tập cần dự báo.")
-                      
-    doc.add_paragraph("Quy trình huấn luyện và tối ưu hóa:\n"
-                      "- Hàm mất mát: Sử dụng hàm BCEWithLogitsLoss (Binary Cross Entropy with Logits Loss) kết hợp với trọng số dương (positive weight) được tính toán động dựa trên phân phối nhãn trong tập huấn luyện để giải quyết mất cân bằng lớp.\n"
-                      "- Bộ tối ưu hóa: Thuật toán Adam với tỷ lệ học tập (learning rate) là 0,003 và hệ số phạt trọng số (weight decay) là 1e-4.\n"
-                      "- Chiến lược huấn luyện: Dữ liệu được chia theo tỷ lệ 80% huấn luyện và 20% đánh giá (validation). Mô hình dừng sớm (early stopping) nếu tổn thất trên tập đánh giá không cải thiện sau 60 epoch liên tiếp.")
-                      
-    doc.add_paragraph("Xếp hạng rủi ro và xây dựng lộ trình:\n"
-                      "Sau khi có các xác suất rủi ro đầu ra từ mô hình MLP (thông qua hàm Sigmoid), hệ thống thực hiện xếp hạng rủi ro và sinh lộ trình can thiệp học tập theo từng giai đoạn tuần tự. Các yếu tố rủi ro có xác suất lớn hơn hoặc bằng 0,5 sẽ được kích hoạt. Trường hợp không có rủi ro nào đạt ngưỡng 0,5 nhưng sinh viên được dự đoán ở nhóm học lực thấp (Low) hoặc trung bình (Medium), yếu tố rủi ro có xác suất cao nhất sẽ được chọn. Từ danh sách rủi ro đã được MLP xếp hạng theo độ ưu tiên, hệ thống sinh ra một lộ trình hành động có cấu trúc kéo dài trong vòng 4 tuần để hỗ trợ kịp thời cho sinh viên.")
+    doc.add_paragraph("\n3.5.1. Đầu chẩn đoán rủi ro (Risk Diagnosis Head)")
+    doc.add_paragraph("Đầu chẩn đoán rủi ro (Risk Diagnosis Head) là một mạng thần kinh MLP 3 lớp, nhận đầu vào là các đặc trưng của sinh viên kết hợp với phân phối xác suất dự đoán của mô hình phân loại chính. Thành phần này chẩn đoán các nguy cơ học thuật cụ thể dưới dạng các xác suất rủi ro. Số lượng đầu ra rủi ro được điều chỉnh tự động tùy thuộc vào bộ dữ liệu (6 rủi ro cho dữ liệu học sinh student-mat/por, và 3 rủi ro cho dữ liệu xapi).")
+    
+    doc.add_paragraph("\n3.5.2. Cơ sở tri thức can thiệp (Intervention Knowledge Base)")
+    doc.add_paragraph("Cơ sở tri thức (Intervention Knowledge Base) lưu trữ các biện pháp can thiệp học thuật được chuẩn hóa trong file 'intervention_catalog.csv'. Mỗi can thiệp được định nghĩa bằng các thuộc tính như: mã can thiệp (item_id), tên biện pháp, mô tả chi tiết, nhóm rủi ro hướng tới (target_risks), độ khó sư phạm (difficulty_level), số giờ tự học ước tính hàng tuần (estimated_hours_per_week), giai đoạn đề xuất (recommended_phase), hiệu năng kỳ vọng (expected_effect) và yêu cầu kiến thức tiên quyết (prerequisite_level).")
+    
+    doc.add_paragraph("\n3.5.3. Chiến lược gán nhãn yếu (Weak Labeling Strategy)")
+    doc.add_paragraph("Do dữ liệu thực tế không có sẵn nhãn rủi ro cụ thể của từng học sinh, phương pháp gán nhãn yếu (Weak Labeling) dựa trên tri thức chuyên gia được áp dụng để sinh nhãn huấn luyện cho đầu chẩn đoán rủi ro. Các quy tắc gán nhãn yếu được thiết kế chặt chẽ theo nguyên tắc 'Không dùng risk không có feature' nhằm tránh thiên kiến học máy. Cụ thể, đối với dữ liệu student, toàn bộ 6 rủi ro được ánh xạ thông qua các thuộc tính hiện có (failures, G1/G2, absences, freetime/goout, studytime). Đối với dữ liệu xapi, các rủi ro không có đặc trưng tương ứng (như lịch sử trượt môn, điểm số lịch sử, thời gian tự học) sẽ được loại bỏ, chỉ thực hiện gán nhãn yếu cho 3 rủi ro có dữ liệu hỗ trợ (nghỉ học, mức độ tương tác LMS, rủi ro học lực yếu). Việc huấn luyện đầu chẩn đoán được thực hiện bằng cách sử dụng hàm lỗi BCEWithLogitsLoss có trọng số pos_weight để cân bằng nhãn.")
+    
+    doc.add_paragraph("\n3.5.4. Bộ chấm điểm hỗn hợp (Hybrid Scorer) và Bộ lọc ứng viên (Candidate Generator)")
+    doc.add_paragraph("Bộ chấm điểm hỗn hợp (Hybrid Scorer) tính điểm ưu tiên cho từng biện pháp can thiệp dựa trên công thức đa tiêu chí tối ưu: score = 0.3 * risk_match + 0.2 * performance_need + 0.15 * difficulty_fit + 0.15 * time_fit + 0.1 * prerequisite_fit + 0.1 * expected_effect. Trước khi chấm điểm, Bộ lọc ứng viên (Candidate Generator) sẽ lọc bớt các can thiệp không phù hợp với mức độ rủi ro hiện tại (xác suất rủi ro hướng tới phải từ 0.3 trở lên) và lớp học lực dự đoán để tối ưu hóa hiệu suất tính toán và tăng độ tập trung sư phạm.")
+    
+    doc.add_paragraph("\n3.5.5. Bộ lập lộ trình học tập (Learning Path Planner)")
+    doc.add_paragraph("Bộ lập lộ trình học tập (Learning Path Planner) phân bổ các biện pháp can thiệp đã được chấm điểm vào một lộ trình 4 tuần tuần tự theo các chủ đề sư phạm tăng tiến: Tuần 1: Ổn định (Stabilize - giải quyết rào cản khẩn cấp), Tuần 2: Thực hành (Practice - bù đắp hổng kiến thức), Tuần 3: Củng cố (Reinforce - tăng tương tác học tập), Tuần 4: Đánh giá & Điều chỉnh (Evaluate & Adjust - đánh giá lại hoặc thách thức nâng cao). Đồng thời, hệ thống tự động sinh ra các diễn giải tiếng Việt thân thiện giải thích lý do cụ thể đề xuất các can thiệp này dựa trên hồ sơ của từng học sinh.")
+    
+    doc.add_paragraph("\n* Hạn chế của phương pháp đánh giá:")
+    doc.add_paragraph("Mặc dù các chỉ số đo lường lộ trình học tập (độ phủ rủi ro, tính tăng tiến khó dần, độ vi phạm tiên quyết, độ cân bằng tải) đều đạt kết quả tốt trên dữ liệu mô phỏng, phương pháp này vẫn tồn tại hạn chế lớn là thiếu kiểm chứng thực nghiệm thực tế (longitudinal validation/A-B Testing) trên người học thực tế trong thời gian dài để chứng minh hiệu quả nâng cao kết quả học tập cuối cùng.")
 
     doc.add_page_break()
 
@@ -176,38 +180,38 @@ def create_report():
     
     doc.add_paragraph("4.1. Môi trường thực nghiệm\n[Trình bày về cấu hình phần cứng, phần mềm...]\n")
     doc.add_paragraph("4.2. Bộ dữ liệu thử nghiệm\n[Mô tả về bộ dữ liệu...]\n")
-    doc.add_paragraph("4.3. Kết quả đánh giá mô hình học lực\n[Các bảng và biểu đồ kết quả dự đoán học lực...]\n")
+    doc.add_paragraph("4.3. Kết quả đánh giá mô hình học lực\n[Các bảng và biểu đồ kết quả dự đoán học lực của CNN-BiLSTM...]\n")
     
-    doc.add_paragraph("4.4. Kết quả đánh giá mô hình khuyến nghị lộ trình học tập")
-    doc.add_paragraph("Hiệu năng của mô hình khuyến nghị lộ trình học tập dựa trên MLP được đánh giá thông qua các độ đo Precision@K, Recall@K và NDCG@K trên tập kiểm thử độc lập (locked test set). Các kết quả này phản ánh mức độ khớp (fidelity) của mô hình so với bộ tiêu chí chuyên môn được sử dụng làm giám sát yếu (weak supervision). Ngoài ra, bảng đánh giá cũng ghi nhận trạng thái và phản hồi từ LLM-Judge đối với tính hợp lệ của lộ trình khuyến nghị.")
+    doc.add_paragraph("4.4. Kết quả đánh giá hệ thống khuyến nghị RA-HLPR")
+    doc.add_paragraph("Hệ thống RA-HLPR được đánh giá độc lập qua 3 khía cạnh: khả năng chẩn đoán rủi ro (Risk Diagnosis), hiệu suất xếp hạng can thiệp (Ranking Metrics), và chất lượng lộ trình được tạo ra (Path Quality Metrics).")
     
     # Load evaluation JSON files
-    recommendations_dir = Path("C:/Huflit/kltn/reports/final/recommendations")
+    recommendations_dir = Path("C:/Huflit/kltn/outputs/recommender")
     eval_files = {
-        "student-mat": recommendations_dir / "student_mat_evaluation.json",
-        "student-por": recommendations_dir / "student_por_evaluation.json",
-        "xapi": recommendations_dir / "xapi_evaluation.json"
+        "student-mat": recommendations_dir / "student-mat" / "recommender_metrics.json",
+        "student-por": recommendations_dir / "student-por" / "recommender_metrics.json",
+        "xapi": recommendations_dir / "xapi" / "recommender_metrics.json"
     }
     
-    eval_data = {}
+    eval_data_all = {}
     for dataset_name, filepath in eval_files.items():
         if filepath.exists():
             with open(filepath, "r", encoding="utf-8") as f:
-                eval_data[dataset_name] = json.load(f)
+                eval_data_all[dataset_name] = json.load(f)
                 
     def format_decimal(val, digits=4):
         if val is None:
             return "N/A"
         return f"{val:.{digits}f}".replace(".", ",")
         
-    # Add table 4.1: Ranking metrics
+    # Add table 4.1: Risk Diagnosis & Ranking metrics
     p_title = doc.add_paragraph()
     p_title.alignment = WD_PARAGRAPH_ALIGNMENT.LEFT
-    run_title = p_title.add_run("Bảng 4.1: Kết quả đánh giá độ trung thành (Fidelity) của mô hình khuyến nghị")
+    run_title = p_title.add_run("Bảng 4.1: Kết quả chẩn đoán rủi ro và xếp hạng can thiệp của RA-HLPR")
     run_title.bold = True
     
-    headers = ["Bộ dữ liệu (Dataset)", "K", "Độ chính xác (Precision@K)", "Độ phủ (Recall@K)", "Điểm NDCG (NDCG@K)"]
-    table = doc.add_table(rows=1, cols=5)
+    headers = ["Bộ dữ liệu", "Micro F1", "Macro F1", "Precision@3", "NDCG@3", "Catalog Coverage"]
+    table = doc.add_table(rows=1, cols=6)
     table.style = 'Table Grid'
     
     # Header formatting
@@ -221,49 +225,39 @@ def create_report():
                 run.font.size = Pt(11)
                 run.bold = True
                 
-    datasets_display = {
-        "student-mat": "Student-Mat",
-        "student-por": "Student-Por",
-        "xapi": "xAPI"
-    }
-    
-    for dataset_key in ["student-mat", "student-por", "xapi"]:
-        data = eval_data.get(dataset_key)
-        if not data:
-            continue
-        display_name = datasets_display[dataset_key]
-        ranking = data.get("ranking", {})
-        
-        for idx, k in enumerate([1, 3, 5]):
+    if eval_data_all:
+        for dataset_key in ["student-mat", "student-por", "xapi"]:
+            eval_data = eval_data_all.get(dataset_key)
+            if not eval_data: continue
+            dataset = eval_data.get("dataset", dataset_key)
+            risk = eval_data.get("risk_diagnosis", {})
+            ranking = eval_data.get("ranking", {})
+            
             row_cells = table.add_row().cells
-            row_cells[0].text = display_name if idx == 0 else ""
-            row_cells[1].text = str(k)
-            
-            p_val = ranking.get(f"precision_at_{k}")
-            r_val = ranking.get(f"recall_at_{k}")
-            n_val = ranking.get(f"ndcg_at_{k}")
-            
-            row_cells[2].text = format_decimal(p_val)
-            row_cells[3].text = format_decimal(r_val)
-            row_cells[4].text = format_decimal(n_val)
+            row_cells[0].text = dataset
+            row_cells[1].text = format_decimal(risk.get("f1_micro"))
+            row_cells[2].text = format_decimal(risk.get("f1_macro"))
+            row_cells[3].text = format_decimal(ranking.get("precision_at_3"))
+            row_cells[4].text = format_decimal(ranking.get("ndcg_at_3"))
+            row_cells[5].text = format_decimal(ranking.get("coverage_at_3"))
             
             for col_idx, cell in enumerate(row_cells):
                 for paragraph in cell.paragraphs:
-                    paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.LEFT if col_idx == 0 else WD_PARAGRAPH_ALIGNMENT.CENTER
+                    paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
                     for run in paragraph.runs:
                         run.font.name = 'Times New Roman'
                         run.font.size = Pt(11)
                         
     doc.add_paragraph() # Spacing
     
-    # Add table 4.2: LLM Judge metrics
+    # Add table 4.2: Path Quality metrics
     p_title2 = doc.add_paragraph()
     p_title2.alignment = WD_PARAGRAPH_ALIGNMENT.LEFT
-    run_title2 = p_title2.add_run("Bảng 4.2: Kết quả đánh giá bằng LLM-Judge đối với mô hình khuyến nghị")
+    run_title2 = p_title2.add_run("Bảng 4.2: Đánh giá chất lượng lộ trình học tập 4 tuần")
     run_title2.bold = True
     
-    headers2 = ["Bộ dữ liệu (Dataset)", "Trạng thái đánh giá", "Điểm số LLM", "Lý do / Mô tả chi tiết"]
-    table2 = doc.add_table(rows=1, cols=4)
+    headers2 = ["Bộ dữ liệu", "Độ phủ Rủi ro", "Độ khó Tăng tiến", "Vi phạm Tiên quyết", "Cân bằng Tải học tập"]
+    table2 = doc.add_table(rows=1, cols=5)
     table2.style = 'Table Grid'
     
     hdr_cells2 = table2.rows[0].cells
@@ -276,33 +270,26 @@ def create_report():
                 run.font.size = Pt(11)
                 run.bold = True
                 
-    for dataset_key in ["student-mat", "student-por", "xapi"]:
-        data = eval_data.get(dataset_key)
-        if not data:
-            continue
-        display_name = datasets_display[dataset_key]
-        judge = data.get("llm_judge", {})
-        
-        row_cells = table2.add_row().cells
-        row_cells[0].text = display_name
-        
-        status = judge.get("status", "N/A")
-        status_vi = "Chưa thực hiện" if status == "not_run" else status
-        row_cells[1].text = status_vi
-        
-        score = judge.get("score")
-        row_cells[2].text = format_decimal(score) if score is not None else "N/A"
-        
-        reason = judge.get("reason", "")
-        reason_vi = "Không có dữ liệu đánh giá từ LLM bên ngoài hoặc tập gán nhãn thủ công." if "No external LLM annotations" in reason else reason
-        row_cells[3].text = reason_vi
-        
-        for col_idx, cell in enumerate(row_cells):
-            for paragraph in cell.paragraphs:
-                paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.LEFT if col_idx in [0, 3] else WD_PARAGRAPH_ALIGNMENT.CENTER
-                for run in paragraph.runs:
-                    run.font.name = 'Times New Roman'
-                    run.font.size = Pt(11)
+    if eval_data_all:
+        for dataset_key in ["student-mat", "student-por", "xapi"]:
+            eval_data = eval_data_all.get(dataset_key)
+            if not eval_data: continue
+            dataset = eval_data.get("dataset", dataset_key)
+            pq = eval_data.get("path_quality", {})
+            
+            row_cells = table2.add_row().cells
+            row_cells[0].text = dataset
+            row_cells[1].text = format_decimal(pq.get("risk_coverage_rate"))
+            row_cells[2].text = format_decimal(pq.get("difficulty_progression_rate"))
+            row_cells[3].text = format_decimal(pq.get("prerequisite_violation_rate"))
+            row_cells[4].text = format_decimal(pq.get("workload_balance_std"))
+            
+            for col_idx, cell in enumerate(row_cells):
+                for paragraph in cell.paragraphs:
+                    paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+                    for run in paragraph.runs:
+                        run.font.name = 'Times New Roman'
+                        run.font.size = Pt(11)
 
     doc.add_paragraph() # Spacing
     doc.add_paragraph("4.5. Thảo luận\n[Phân tích và thảo luận kết quả nghiên cứu...]\n")
@@ -313,7 +300,7 @@ def create_report():
         "5.1. Kết luận\n"
         "[Tóm tắt những kết quả đạt được...]\n\n"
         "5.2. Hướng phát triển\n"
-        "[Các định hướng mở rộng đề tài trong tương lai...]\n\n", 1)
+        "Hệ thống RA-HLPR đã chứng minh được tính khả thi trong việc cá nhân hóa quá trình học. Tuy nhiên, việc đánh giá chất lượng lộ trình hiện tại thuần túy dùng thuật toán đo lường tính hợp lý logic. Trong tương lai, việc thực hiện A-B Testing thực tế trên sinh viên hoặc tích hợp Human Evaluation từ các chuyên gia tâm lý giáo dục sẽ giúp hoàn thiện hệ thống hơn.\n\n", 1)
 
     # References
     add_chapter("TÀI LIỆU THAM KHẢO", 

@@ -1,33 +1,49 @@
-# BRIEFING — 2026-06-14T12:41:00+07:00
+# BRIEFING — 2026-06-15T10:35:00+07:00
 
 ## Mission
-Completed exploration, documented recommendation engine, datasets, pipeline orchestration, and test results.
+Explore the student risk prediction and recommender codebase to analyze dataset features, recommender logic, doc generation structure, and evaluation artifact formats.
 
 ## 🔒 My Identity
-- Archetype: Exploration Researcher
-- Roles: Explorer, Investigator, Synthesizer
-- Working directory: c:\Huflit\kltn\.agents\teamwork_preview_explorer_exploration_1
-- Original parent: 5ec1de11-4fc2-4756-80ed-d011dd7a9b96
-- Milestone: Analysis and exploration
+- Archetype: Explorer
+- Roles: Read-only investigation: analyze problems, synthesize findings, produce structured reports
+- Working directory: c:\Huflit\kltn\.agents\teamwork_preview_explorer_exploration_1\
+- Original parent: da19f9da-92c3-4713-82c6-4444ea757405
+- Milestone: Exploration and Analysis
 
 ## 🔒 Key Constraints
 - Read-only investigation — do NOT implement
-- CODE_ONLY network mode (no external web access)
+- CODE_ONLY network mode: MUST NOT access external websites/services
+- Cannot write to other agents' directories
+- Only metadata in the .agents/ folder (no source, tests, or data files)
 
 ## Current Parent
-- Conversation ID: 5ec1de11-4fc2-4756-80ed-d011dd7a9b96
+- Conversation ID: da19f9da-92c3-4713-82c6-4444ea757405
 - Updated: not yet
 
 ## Investigation State
-- **Explored paths**: `src/explainability.py`, `src/models.py`, `src/data_pipeline.py`, `src/train_pipeline.py`, `src/evaluation.py`, `scripts/run_pipeline.py`, `data/raw/`, `tests/test_thesis_pipeline.py`
-- **Key findings**: `RuleBasedLearningPathEngine` maps features to risk priority and staged actions; student G3 is binned (0-9, 10-14, 15-20); xapi uses ordinal prediction; test suite fails on `test_forbidden_architectures_and_losses_are_removed` because of the presence of `FocalLoss` in `src/models.py`.
-- **Unexplored areas**: None
+- **Explored paths**:
+  - `src/recommender/` (rules.py, risk_head.py, knowledge_base.py, hybrid_scorer.py, path_planner.py, rules_explanation.md)
+  - `src/recommendation.py`
+  - `scripts/run_recommender_pipeline.py`
+  - `generate_doc.py`
+  - `src/config.py`
+  - `src/data_pipeline.py`
+  - `data/raw/` (student-mat.csv, student-por.csv, xAPI-Edu-Data.csv)
+  - `outputs/recommender/`
+  - `reports/final/` (metrics/, predictions/, recommendations/)
+  - `models/` (saved/final/, recommendation/)
+- **Key findings**:
+  - Found full implementation of RA-HLPR: `rules.py` generates 6 weak labels based on domain heuristics; `risk_head.py` trains a 3-layer MLP on features + class probabilities; `knowledge_base.py` stores 12 interventions and mappings; `hybrid_scorer.py` scores interventions; `path_planner.py` constructs a 4-week study path.
+  - Mapped dataset features to 6 requested risks. Identified that `student-mat/por` lack direct engagement metrics (use proxies) and `xapi` lacks prior performance, declining trend, and study time features completely.
+  - Documented structure of `generate_doc.py`. Identified that section 3.5 is at lines 151-155, 4.4 at lines 169-278, and how they pull metrics from `outputs/recommender/recommender_metrics_<dataset>.json`.
+  - Detailed format and location of evaluation results, models, and prediction CSVs.
+- **Unexplored areas**:
+  - None. All requested exploration areas have been successfully examined.
 
 ## Key Decisions Made
-- Installed pytest and python-dotenv in `kltn` conda environment to run the test suite.
-- Documented findings in `analysis.md` and `handoff.md`.
+- Confirmed that no code changes are needed or executed (read-only investigation).
+- Documented findings in handoff.md.
 
 ## Artifact Index
-- c:\Huflit\kltn\.agents\teamwork_preview_explorer_exploration_1\analysis.md — Detailed analysis findings
-- c:\Huflit\kltn\.agents\teamwork_preview_explorer_exploration_1\progress.md — Progress tracker / heartbeat
-- c:\Huflit\kltn\.agents\teamwork_preview_explorer_exploration_1\handoff.md — Handoff report
+- c:\Huflit\kltn\.agents\teamwork_preview_explorer_exploration_1\ORIGINAL_REQUEST.md — Record of original request.
+- c:\Huflit\kltn\.agents\teamwork_preview_explorer_exploration_1\handoff.md — Detailed exploration report.
