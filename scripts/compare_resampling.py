@@ -10,7 +10,7 @@ import torch.optim as optim
 from torch.utils.data import DataLoader
 from sklearn.metrics import recall_score, f1_score
 from sklearn.model_selection import StratifiedKFold
-from imblearn.over_sampling import SMOTE, ADASYN, SMOTENC
+from imblearn.over_sampling import RandomOverSampler, SMOTE, SMOTENC
 
 # Add project root to sys.path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
@@ -94,13 +94,17 @@ def run_resampling_experiment(dataset_name: str, method: str, best_params: dict,
                     target = int(majority_count * best_params.get("smote_ratio", 1.0))
                     strategy[cls] = max(count, target)
             
-            if method.lower() == "smote":
-                sampler = SMOTE(sampling_strategy=strategy, random_state=42, k_neighbors=effective_k_neighbors)
-            elif method.lower() == "adasyn":
-                sampler = ADASYN(sampling_strategy=strategy, random_state=42, n_neighbors=effective_k_neighbors)
+            if method.lower() == "random_oversampling":
+                sampler = RandomOverSampler(sampling_strategy=strategy, random_state=42)
             elif method.lower() == "smotenc":
                 cat_indices = [X.columns.get_loc(c) for c in remaining_cat_cols] if remaining_cat_cols else []
                 if cat_indices:
+                    sampler = SMOTENC(categorical_features=cat_indices, sampling_strategy=strategy, random_state=42, k_neighbors=effective_k_neighbors)
+                else:
+                    sampler = SMOTE(sampling_strategy=strategy, random_state=42, k_neighbors=effective_k_neighbors)
+            elif method.lower() == "smote":
+                if remaining_cat_cols:
+                    cat_indices = [X.columns.get_loc(c) for c in remaining_cat_cols]
                     sampler = SMOTENC(categorical_features=cat_indices, sampling_strategy=strategy, random_state=42, k_neighbors=effective_k_neighbors)
                 else:
                     sampler = SMOTE(sampling_strategy=strategy, random_state=42, k_neighbors=effective_k_neighbors)
@@ -213,7 +217,7 @@ def run_resampling_experiment(dataset_name: str, method: str, best_params: dict,
 def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     datasets = ["student-mat", "student-por"]
-    methods = ["None", "SMOTE", "SMOTENC", "ADASYN"]
+    methods = ["None", "SMOTENC", "random_oversampling"]
     
     results = []
     

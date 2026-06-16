@@ -1,0 +1,7 @@
+dataset,scenario,strategy,threshold_low,score,macro_f1,recall_low
+student-mat,early,none,0.31666666666666665,0.7094210485795673,0.1697744245130495,1.0
+student-mat,early,class_weight,0.0,0.7077777777777778,0.16507936507936508,1.0
+student-mat,early,smotenc,0.0,0.7077777777777778,0.16507936507936508,1.0
+student-mat,early,random_oversampling,0.0,0.7077777777777778,0.16507936507936508,1.0
+student-mat,early,focal_loss,0.0,0.7077777777777778,0.16507936507936508,1.0
+student-mat,early,smotenc_focal_loss,0.0,0.7077777777777778,0.16507936507936508,1.0

@@ -228,7 +228,7 @@ def suggest_trial_params(trial, dataset_kind: str) -> dict:
         "weight_decay": trial.suggest_float("weight_decay", 1e-6, 1e-3, log=True),
         "batch_size": trial.suggest_categorical("batch_size", [16, 32, 64]),
         "oversample_method": trial.suggest_categorical(
-            "oversample_method", ["adasyn"]
+            "oversample_method", ["smotenc"]
         ),
         "smote_ratio": trial.suggest_float("smote_ratio", 0.4, 1.0),
         "resampling_k_neighbors": 5,

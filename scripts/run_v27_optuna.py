@@ -36,7 +36,7 @@ def objective(trial, dataset_name, spec, train_pool):
     learning_rate = trial.suggest_float("learning_rate", 1e-4, 1e-2, log=True)
     weight_decay = trial.suggest_float("weight_decay", 1e-6, 1e-2, log=True)
     batch_size = trial.suggest_categorical("batch_size", [16, 32, 64])
-    oversample_method = trial.suggest_categorical("oversample_method", ["none", "smote", "adasyn"])
+    oversample_method = trial.suggest_categorical("oversample_method", ["none", "smotenc", "random_oversampling"])
     smote_ratio = trial.suggest_float("smote_ratio", 0.5, 1.5)
     cnn_channels = trial.suggest_categorical("cnn_channels", [16, 32, 64])
     lstm_hidden_dim = trial.suggest_categorical("lstm_hidden_dim", [32, 64, 128])

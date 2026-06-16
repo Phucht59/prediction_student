@@ -5,7 +5,7 @@ from torch.utils.data import Dataset
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler, LabelEncoder
 from sklearn.ensemble import RandomForestClassifier
-from imblearn.over_sampling import SMOTE, ADASYN, SMOTENC
+from imblearn.over_sampling import RandomOverSampler, SMOTE, SMOTENC
 from src.config import DEFAULT_SEED, LOCKED_TEST_SIZE, PROCESSED_DIR, DATASETS, STUDENT_G3_3CLASS_BINS, XAPI_CLASS_MAPPING
 from src.utils import setup_logger
 
@@ -259,7 +259,7 @@ class DataPreprocessor:
         self.target_encoder = LabelEncoder()
         
     def fit_transform(self, df: pd.DataFrame, apply_oversampling: bool = True):
-        """Fit on train pool and transform it. Also handles SMOTE/ADASYN if apply_oversampling is True."""
+        """Fit on train pool and transform it. Also handles train-only oversampling."""
         df = df.copy()
         
         # Identify columns
@@ -293,7 +293,11 @@ class DataPreprocessor:
         
     def apply_oversampling(self, df: pd.DataFrame):
         """Apply oversampling to the preprocessed and potentially feature-selected DataFrame."""
-        if self.oversample_method == "none":
+        method = self.oversample_method
+        if method in {"class_weight", "focal_loss"}:
+            method = "none"
+
+        if method == "none":
             return df
             
         df = df.copy()
@@ -302,7 +306,14 @@ class DataPreprocessor:
         
         remaining_cat_cols = [col for col in self.categorical_cols if col in X.columns]
         
-        logger.info(f"Applying {self.oversample_method.upper()} on train set with ratio {self.smote_ratio}...")
+        if method == "adasyn":
+            logger.warning(
+                "ADASYN is disabled for this pipeline because it can interpolate "
+                "label-encoded categorical values. Falling back to SMOTENC/SMOTE."
+            )
+            method = "smotenc" if remaining_cat_cols else "smote"
+
+        logger.info(f"Applying {method.upper()} on train set with ratio {self.smote_ratio}...")
         
         # Dynamically calculate sampling strategy for multiclass
         class_counts = pd.Series(y_encoded).value_counts()
@@ -319,28 +330,36 @@ class DataPreprocessor:
                 target = int(majority_count * self.smote_ratio)
                 strategy[cls] = max(count, target) # Do not undersample if already larger
                 
-        # Resolve ADASYN/SMOTENC bug: if categorical columns are present, force SMOTENC instead of ADASYN.
-        if remaining_cat_cols:
-            cat_indices = [X.columns.get_loc(c) for c in remaining_cat_cols]
-            sampler = SMOTENC(
-                categorical_features=cat_indices,
+        if method in {"random", "random_oversampling", "ros"}:
+            sampler = RandomOverSampler(
                 sampling_strategy=strategy,
                 random_state=42,
-                k_neighbors=effective_k_neighbors,
             )
-        else:
-            if self.oversample_method == "smote":
+        elif remaining_cat_cols or method == "smotenc":
+            if not remaining_cat_cols:
+                logger.warning("SMOTENC requested but no categorical columns remain; falling back to SMOTE.")
                 sampler = SMOTE(
                     sampling_strategy=strategy,
                     random_state=42,
                     k_neighbors=effective_k_neighbors,
                 )
-            else: # adasyn
-                sampler = ADASYN(
+            else:
+                cat_indices = [X.columns.get_loc(c) for c in remaining_cat_cols]
+                sampler = SMOTENC(
+                    categorical_features=cat_indices,
                     sampling_strategy=strategy,
                     random_state=42,
-                    n_neighbors=effective_k_neighbors,
+                    k_neighbors=effective_k_neighbors,
                 )
+        elif method == "smote":
+            sampler = SMOTE(
+                sampling_strategy=strategy,
+                random_state=42,
+                k_neighbors=effective_k_neighbors,
+            )
+        else:
+            logger.warning("Unknown oversampling method '%s'. Falling back to no oversampling.", self.oversample_method)
+            return df
         try:
             X_resampled, y_resampled = sampler.fit_resample(X, y_encoded)
             X = pd.DataFrame(X_resampled, columns=X.columns)

@@ -1,0 +1,33 @@
+{
+  "seed": 42,
+  "cv_folds": 2,
+  "target_mode": "3class",
+  "use_feature_selection": true,
+  "smote_ratio": 1.0,
+  "resampling_k_neighbors": 5,
+  "datasets": [
+    "student-mat",
+    "student-por"
+  ],
+  "scenarios": [
+    "early",
+    "midterm",
+    "late"
+  ],
+  "baseline_strategies": [
+    "none",
+    "class_weight",
+    "smotenc",
+    "random_oversampling"
+  ],
+  "deep_strategies": [
+    "none",
+    "class_weight",
+    "smotenc",
+    "random_oversampling",
+    "focal_loss",
+    "smotenc_focal_loss"
+  ],
+  "include_baselines": true,
+  "include_deep": true
+}
