@@ -1,0 +1,22 @@
+Dataset: xapi
+Target Mode: 3class
+Final Deep Model: gated_fusion_v28
+Architecture: CNN-BiLSTM with gated context fusion
+Prediction Mode: low_f1_tuned
+
+Final Locked Test Metrics:
+- Macro F1: 0.7541
+- Recall Low: 0.8846
+- F1 Low: 0.8214
+
+Protocol Notes:
+- Locked test is used only for final evaluation.
+- Threshold tuning uses CV/OOF probabilities, not locked test.
+- Machine-learning baselines are comparison-only.
+- No teacher model, distillation, pseudo-labeling, baseline probabilities, or feature-importance outputs are used to train the deep model.
+- ADASYN is not used.
+- student-combine is not used.
+- Regression head is not claimed.
+
+Conclusion:
+The final xAPI deep model is gated_fusion_v28 + low_f1_tuned.

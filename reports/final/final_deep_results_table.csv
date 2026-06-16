@@ -1,5 +1,2 @@
 dataset,scenario,source,model_variant,prediction_mode,macro_f1,recall_low,f1_low,thesis_usage
-student-mat,late,old_champion,sequence_cnn_bilstm_only,low_f1_tuned,0.9365,0.9615,0.8929,main_student_result
-student-por,late,old_champion,sequence_cnn_bilstm_only,low_f1_tuned,0.8783,0.9000,0.8182,main_student_result
-student-por,midterm,old_champion,sequence_cnn_bilstm_only,argmax,0.8228,0.6500,0.7429,supporting_student_scenario
-xapi,xapi,v28_best_deep,gated_fusion_v28,low_f1_tuned,0.7541,0.8846,0.8214,behavior_dataset_extension
+xapi,default,v28_best_deep,gated_fusion_v28,low_f1_tuned,0.7541,0.8846,0.8214,final_xapi_deep_model

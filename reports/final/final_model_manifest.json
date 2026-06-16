@@ -1,66 +1,23 @@
 {
-  "selection_protocol": {
-    "model_selection": "Final champions are selected from prior CV/OOF-controlled experiments; locked test is used only for final evaluation.",
-    "threshold_tuning": "Low-class threshold tuning uses CV/OOF train-pool probabilities only, not locked-test labels.",
-    "excluded_methods": [
-      "student-combine",
-      "direct ADASYN on label-encoded categorical Student features",
-      "optimistic or paper-like result selection"
-    ],
-    "regression_head_note": "Regression head is not claimed as a main result because RMSE remains high."
-  },
-  "champions": [
-    {
-      "dataset": "student-mat",
-      "scenario": "late",
-      "source": "old_champion",
-      "model_variant": "sequence_cnn_bilstm_only",
-      "prediction_mode": "low_f1_tuned",
-      "macro_f1": 0.9365,
-      "recall_low": 0.9615,
-      "f1_low": 0.8929,
-      "selected_reason": "Best final deep result for Student-Mat late; later controlled ablations did not improve Macro F1 or Low-class metrics.",
-      "report_source": "historical deep_debug_summary.md, archived locally outside the GitHub final surface",
-      "note": "Selected without locked-test threshold tuning; Low threshold was tuned from CV/OOF train-pool probabilities."
-    },
-    {
-      "dataset": "student-por",
-      "scenario": "late",
-      "source": "old_champion",
-      "model_variant": "sequence_cnn_bilstm_only",
-      "prediction_mode": "low_f1_tuned",
-      "macro_f1": 0.8783,
-      "recall_low": 0.9000,
-      "f1_low": 0.8182,
-      "selected_reason": "Best final deep result for Student-Por late; later ablations did not improve the locked-test champion under CV/OOF selection.",
-      "report_source": "historical deep_debug_summary.md, archived locally outside the GitHub final surface",
-      "note": "Selected without locked-test threshold tuning; Low threshold was tuned from CV/OOF train-pool probabilities."
-    },
-    {
-      "dataset": "student-por",
-      "scenario": "midterm",
-      "source": "old_champion",
-      "model_variant": "sequence_cnn_bilstm_only",
-      "prediction_mode": "argmax",
-      "macro_f1": 0.8228,
-      "recall_low": 0.6500,
-      "f1_low": 0.7429,
-      "selected_reason": "Best final deep result for Student-Por midterm and retained after V28/V29 checks.",
-      "report_source": "historical deep_debug_summary.md, archived locally outside the GitHub final surface",
-      "note": "Argmax mode does not use locked-test threshold tuning; model selection was controlled by CV/OOF results."
-    },
+  "final_deep_models": [
     {
       "dataset": "xapi",
-      "scenario": "xapi",
+      "scenario": "default",
       "source": "v28_best_deep",
       "model_variant": "gated_fusion_v28",
+      "architecture": "CNN-BiLSTM with gated context fusion",
       "prediction_mode": "low_f1_tuned",
       "macro_f1": 0.7541,
       "recall_low": 0.8846,
       "f1_low": 0.8214,
-      "selected_reason": "Best final deep result for xAPI; later controlled ablations did not improve Macro F1 while preserving Low-class performance.",
-      "report_source": "historical xAPI deep-ablation summary, archived locally outside the GitHub final surface",
-      "note": "Selected without locked-test threshold tuning; Low threshold was tuned from CV/OOF train-pool probabilities."
+      "selected_reason": "Final xAPI model is reverted to the V28/current deep champion because it keeps the strongest Low-class performance among the tested deep xAPI settings.",
+      "evaluation_protocol": "Locked test is used only for final evaluation. Low-class threshold tuning is based on CV/OOF probabilities, not locked test.",
+      "baseline_policy": "Machine-learning baselines are used only for final comparison, not as teacher, distillation source, pseudo-label source, baseline probability source, or feature-importance source.",
+      "excluded": {
+        "adasyn": "not used",
+        "student_combine": "not used",
+        "regression_head_claim": "not claimed"
+      }
     }
   ]
 }
