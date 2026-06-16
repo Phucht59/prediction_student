@@ -1,0 +1,40 @@
+{
+  "config": {
+    "seed": 42,
+    "cv_folds": 3,
+    "max_epochs": 50,
+    "batch_size": 32,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "patience": 10,
+    "ensemble_seeds": [
+      42,
+      123,
+      155,
+      156,
+      2025,
+      7,
+      99,
+      200,
+      300,
+      500,
+      1337
+    ],
+    "use_feature_selection": true,
+    "smote_ratio": 1.0,
+    "resampling_k_neighbors": 5
+  },
+  "tasks": [
+    [
+      "student-mat",
+      "late"
+    ],
+    [
+      "xapi",
+      "xapi"
+    ]
+  ],
+  "selection": "CV/OOF only: Macro F1 mean with 0.01 near-best tolerance, then Recall Low, F1 Low, lower fold std.",
+  "locked_test": "final evaluation only",
+  "regression_head": "not claimed"
+}

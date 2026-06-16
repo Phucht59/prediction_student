@@ -31,7 +31,7 @@ def generate_weak_labels(df: pd.DataFrame, dataset_kind: str) -> np.ndarray:
             failures = _number(record, "failures")
             g1 = _number(record, "G1")
             g2 = _number(record, "G2")
-            g3 = _number(record, "G3")
+            g3 = _number(record, "G3", np.nan)
             absences = _number(record, "absences")
             freetime = _number(record, "freetime", 1.0)
             goout = _number(record, "goout", 1.0)
@@ -48,8 +48,8 @@ def generate_weak_labels(df: pd.DataFrame, dataset_kind: str) -> np.ndarray:
             r4 = float(goout >= 4 or freetime >= 4 or activities == "no")
             # R5_INSUFFICIENT_STUDY_TIME (studytime <= 1)
             r5 = float(study_time <= 1)
-            # R6_HIGH_FAILURE_PROBABILITY (failures > 0 or g1 <= 8)
-            r6 = float(failures > 0 or g1 <= 8)
+            # R6_HIGH_FAILURE_PROBABILITY (failure history, weak prior grade, or low final grade when available)
+            r6 = float(failures > 0 or g1 <= 8 or (not pd.isna(g3) and g3 <= 9))
             
             targets.append([r1, r2, r3, r4, r5, r6])
         else:
@@ -66,9 +66,9 @@ def generate_weak_labels(df: pd.DataFrame, dataset_kind: str) -> np.ndarray:
             # R4_LOW_ENGAGEMENT (VisITedResources/raisedhands/Discussion/AnnouncementsView)
             r4 = float(visited < 30 or raised < 30 or discussion < 30 or announcements < 30)
             
-            # R6_HIGH_FAILURE_PROBABILITY (Very low engagement and no parent support)
+            # R6_HIGH_FAILURE_PROBABILITY (observed low class or very low engagement with no parent support)
             parent_answer = str(record.get("ParentAnsweringSurvey", "")).strip().lower()
-            r6 = float(visited < 20 and raised < 20 and parent_answer == "no")
+            r6 = float(cls == "L" or (visited < 20 and raised < 20 and parent_answer == "no"))
             
             targets.append([r3, r4, r6])
             
