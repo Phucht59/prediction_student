@@ -33,6 +33,25 @@ from src.utils import set_seed, setup_logger
 
 logger = setup_logger("run_recommender_pipeline")
 
+def infer_model_params_from_state_dict(best_params: dict, state_dict: dict) -> dict:
+    inferred = dict(best_params)
+    if "sequence_cnn.0.weight" in state_dict:
+        inferred["cnn_channels"] = int(state_dict["sequence_cnn.0.weight"].shape[0])
+    if "sequence_bilstm.weight_hh_l0" in state_dict:
+        inferred["lstm_hidden_dim"] = int(state_dict["sequence_bilstm.weight_hh_l0"].shape[1])
+    if "context_mlp.0.weight" in state_dict:
+        inferred["context_hidden_dim"] = int(state_dict["context_mlp.0.weight"].shape[0])
+    if "fusion.0.weight" in state_dict:
+        inferred["fusion_hidden_dim"] = int(state_dict["fusion.0.weight"].shape[0])
+    embedding_dims = {
+        int(value.shape[1])
+        for key, value in state_dict.items()
+        if key.startswith("embeddings.") and key.endswith(".weight") and len(value.shape) == 2
+    }
+    if len(embedding_dims) == 1:
+        inferred["embedding_dim"] = embedding_dims.pop()
+    return inferred
+
 def get_ensemble_probabilities(dataset_name: str, target_df: pd.DataFrame, train_pool: pd.DataFrame, locked_test: pd.DataFrame, best_params: dict, device: torch.device) -> np.ndarray:
     """
     Generate ensemble class probabilities on target_df by running all 11 seed models.
@@ -110,12 +129,14 @@ def get_ensemble_probabilities(dataset_name: str, target_df: pd.DataFrame, train
             cat_cardinalities = [len(preprocessor.label_encoders[col].classes_) for col in target_ds.cat_cols]
             num_numerical = len(target_ds.num_cols)
         
-        model = create_model(spec.kind, best_params, num_numerical, cat_cardinalities).to(device)
         model_path = MODELS_DIR / f"{dataset_name}_3class_cnn_bilstm_mlp_seed{seed}.pt"
         if not model_path.exists():
             raise FileNotFoundError(f"Ensemble checkpoint not found at: {model_path}")
-            
-        model.load_state_dict(torch.load(model_path, map_location=device))
+
+        state_dict = torch.load(model_path, map_location=device)
+        checkpoint_params = infer_model_params_from_state_dict(best_params, state_dict)
+        model = create_model(spec.kind, checkpoint_params, num_numerical, cat_cardinalities).to(device)
+        model.load_state_dict(state_dict)
         model.eval()
         
         seed_probabilities = []
@@ -226,7 +247,11 @@ def main():
         pred_class = int(np.argmax(class_probs))
         
         # Filter candidates before scoring
-        student_candidates_df = candidate_generator.generate_candidates(student_diagnosed_risks, pred_class)
+        student_candidates_df = candidate_generator.generate_candidates(
+            student_diagnosed_risks,
+            pred_class,
+            class_probabilities=class_probs,
+        )
         
         # Score filtered interventions
         recs = scorer.score_student(student_features, student_diagnosed_risks, class_probs, pred_class, kind, candidates_df=student_candidates_df)

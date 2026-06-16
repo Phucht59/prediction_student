@@ -1,24 +1,24 @@
 {
   "dataset": "xapi",
   "risk_diagnosis": {
-    "f1_micro": 0.956140350877193,
-    "f1_macro": 0.9017412935323383,
-    "precision_micro": 0.9316239316239316,
-    "precision_macro": 0.8470588235294118,
-    "recall_micro": 0.9819819819819819,
-    "recall_macro": 0.98989898989899,
-    "hamming_loss": 0.034722222222222224
+    "f1_micro": 0.9812734082397003,
+    "f1_macro": 0.9830966869506423,
+    "precision_micro": 0.9776119402985075,
+    "precision_macro": 0.979352346999406,
+    "recall_micro": 0.9849624060150376,
+    "recall_macro": 0.9869281045751634,
+    "hamming_loss": 0.017361111111111112
   },
   "ranking": {
-    "precision_at_3": 0.7708333333333334,
-    "recall_at_3": 0.6674107142857144,
-    "ndcg_at_3": 0.9080607912338188,
-    "coverage_at_3": 0.8333333333333334
+    "precision_at_3": 0.7013888888888888,
+    "recall_at_3": 0.4719065656565656,
+    "ndcg_at_3": 0.8406658134274388,
+    "coverage_at_3": 0.6875
   },
   "path_quality": {
-    "risk_coverage_rate": 0.9791666666666666,
-    "workload_balance_std": 2.0119868492761603,
-    "difficulty_progression_rate": 0.6493055555555556,
-    "prerequisite_violation_rate": 0.005208333333333333
+    "risk_coverage_rate": 0.9305555555555555,
+    "workload_balance_std": 1.3151556225281447,
+    "difficulty_progression_rate": 0.7395833333333334,
+    "prerequisite_violation_rate": 0.0020833333333333333
   }
 }

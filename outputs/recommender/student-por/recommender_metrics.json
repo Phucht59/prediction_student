@@ -1,24 +1,24 @@
 {
   "dataset": "student-por",
   "risk_diagnosis": {
-    "f1_micro": 0.9090909090909091,
-    "f1_macro": 0.9442639135708443,
-    "precision_micro": 0.8969465648854962,
-    "precision_macro": 0.925668449197861,
-    "recall_micro": 0.9215686274509803,
-    "recall_macro": 0.9666666666666667,
-    "hamming_loss": 0.06025641025641026
+    "f1_micro": 0.9094269870609981,
+    "f1_macro": 0.935864679016011,
+    "precision_micro": 0.9010989010989011,
+    "precision_macro": 0.9219254820218864,
+    "recall_micro": 0.917910447761194,
+    "recall_macro": 0.9519764957264957,
+    "hamming_loss": 0.06282051282051282
   },
   "ranking": {
-    "precision_at_3": 0.8102564102564104,
-    "recall_at_3": 0.5251268176268176,
-    "ndcg_at_3": 0.8340991052846732,
+    "precision_at_3": 0.8461538461538461,
+    "recall_at_3": 0.3870126668203591,
+    "ndcg_at_3": 0.8800440613375818,
     "coverage_at_3": 1.0
   },
   "path_quality": {
-    "risk_coverage_rate": 0.9553846153846154,
-    "workload_balance_std": 1.6752165745143723,
-    "difficulty_progression_rate": 0.6128205128205128,
-    "prerequisite_violation_rate": 0.017948717948717947
+    "risk_coverage_rate": 0.9334615384615386,
+    "workload_balance_std": 1.4750927266297744,
+    "difficulty_progression_rate": 0.641025641025641,
+    "prerequisite_violation_rate": 0.020512820512820516
   }
 }

@@ -6,25 +6,25 @@
 ## 1. Executive Summary of Metrics
 
 ### Risk Diagnosis Metrics
-* **Micro F1**: 0.9561
-* **Macro F1**: 0.9017
-* **Micro Precision**: 0.9316
-* **Macro Precision**: 0.8471
-* **Micro Recall**: 0.9820
-* **Macro Recall**: 0.9899
-* **Hamming Loss**: 0.0347
+* **Micro F1**: 0.9813
+* **Macro F1**: 0.9831
+* **Micro Precision**: 0.9776
+* **Macro Precision**: 0.9794
+* **Micro Recall**: 0.9850
+* **Macro Recall**: 0.9869
+* **Hamming Loss**: 0.0174
 
 ### Ranking Metrics (at K=3)
-* **Precision@3**: 0.7708
-* **Recall@3**: 0.6674
-* **NDCG@3**: 0.9081
-* **Catalog Coverage@3**: 0.8333
+* **Precision@3**: 0.7014
+* **Recall@3**: 0.4719
+* **NDCG@3**: 0.8407
+* **Catalog Coverage@3**: 0.6875
 
 ### Path Quality Metrics
-* **Risk Coverage Rate**: 0.9792
-* **Workload Balance (std hours/week)**: 2.0120
-* **Difficulty Progression Rate**: 0.6493
-* **Prerequisite Violation Rate**: 0.0052
+* **Risk Coverage Rate**: 0.9306
+* **Workload Balance (std hours/week)**: 1.3152
+* **Difficulty Progression Rate**: 0.7396
+* **Prerequisite Violation Rate**: 0.0021
 
 ---
 
@@ -34,49 +34,49 @@
 * **Student Context**: Raised Hands: 17, Visited Resources: 61, Discussion: 14, Absences: Under-7
 * **Predicted Academic Performance**: Class 0 (Low) - Probabilities: [Low: 0.59, Medium: 0.40, High: 0.00]
 * **Diagnosed Academic Risks**:
-  - `R3_ATTENDANCE_RISK`: 0.0015 probability
-  - `R4_LOW_ENGAGEMENT`: 1.0000 probability
-  - `R6_HIGH_FAILURE_PROBABILITY`: 0.0001 probability
+  - `R3_ATTENDANCE_RISK`: 0.0003 probability
+  - `R4_LOW_ENGAGEMENT`: 0.9999 probability
+  - `R6_HIGH_FAILURE_PROBABILITY`: 0.9993 probability
 
 * **Top 3 Recommended Interventions**:
-  1. **LMS Interactive Quizzing** (Score: 0.9205)
-     * Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement.
-     * *Score Breakdown*: Đề xuất 'LMS Interactive Quizzing' được lựa chọn vì nó hỗ trợ khắc phục tình trạng mức độ tương tác lớp học thấp, đáp ứng nhu cầu cải thiện kết quả học tập hiện tại, vừa sức với năng lực hiện tại của bạn, phù hợp với thời gian học tập hàng tuần của bạn. (Risk Match: 1.00, Perf Need: 0.68, Diff Fit: 1.00, Time Fit: 1.00, Prereq Fit: 1.00, Effect: 0.85)
-  2. **LMS Navigation Tutorial** (Score: 0.9155)
-     * Interactive walkthrough of the digital learning system to track course updates and resources.
-     * *Score Breakdown*: Đề xuất 'LMS Navigation Tutorial' được lựa chọn vì nó hỗ trợ khắc phục tình trạng mức độ tương tác lớp học thấp, đáp ứng nhu cầu cải thiện kết quả học tập hiện tại, vừa sức với năng lực hiện tại của bạn, phù hợp với thời gian học tập hàng tuần của bạn. (Risk Match: 1.00, Perf Need: 0.68, Diff Fit: 1.00, Time Fit: 1.00, Prereq Fit: 1.00, Effect: 0.80)
-  3. **Parent-Teacher Engagement Sync** (Score: 0.9105)
+  1. **Daily LMS Resource Checklist** (Score: 0.9682)
+     * A short daily checklist that requires opening key resources announcements and practice links before class.
+     * *Score Breakdown*: Đề xuất 'Daily LMS Resource Checklist' được lựa chọn vì nó hỗ trợ khắc phục tình trạng mức độ tương tác lớp học thấp, đáp ứng nhu cầu cải thiện kết quả học tập hiện tại, vừa sức với năng lực hiện tại của bạn, phù hợp với thời gian học tập hàng tuần của bạn. (Risk Match: 1.00, Perf Need: 0.92, Diff Fit: 1.00, Time Fit: 1.00, Prereq Fit: 1.00, Effect: 0.88, pLow: 0.59, MaxRisk: 1.00)
+  2. **Parent-Teacher Engagement Sync** (Score: 0.9673)
      * Establishing weekly progress reporting channels between school and family to reinforce oversight.
-     * *Score Breakdown*: Đề xuất 'Parent-Teacher Engagement Sync' được lựa chọn vì nó hỗ trợ khắc phục tình trạng mức độ tương tác lớp học thấp, đáp ứng nhu cầu cải thiện kết quả học tập hiện tại, vừa sức với năng lực hiện tại của bạn, phù hợp với thời gian học tập hàng tuần của bạn. (Risk Match: 1.00, Perf Need: 0.68, Diff Fit: 1.00, Time Fit: 1.00, Prereq Fit: 1.00, Effect: 0.75)
+     * *Score Breakdown*: Đề xuất 'Parent-Teacher Engagement Sync' được lựa chọn vì nó hỗ trợ khắc phục tình trạng mức độ tương tác lớp học thấp, đáp ứng nhu cầu cải thiện kết quả học tập hiện tại, vừa sức với năng lực hiện tại của bạn, phù hợp với thời gian học tập hàng tuần của bạn. (Risk Match: 1.00, Perf Need: 0.96, Diff Fit: 1.00, Time Fit: 1.00, Prereq Fit: 1.00, Effect: 0.78, pLow: 0.59, MaxRisk: 1.00)
+  3. **Family Progress Contract** (Score: 0.9673)
+     * A simple family-school agreement with one weekly learning target and one progress check-in.
+     * *Score Breakdown*: Đề xuất 'Family Progress Contract' được lựa chọn vì nó hỗ trợ khắc phục tình trạng mức độ tương tác lớp học thấp, đáp ứng nhu cầu cải thiện kết quả học tập hiện tại, vừa sức với năng lực hiện tại của bạn, phù hợp với thời gian học tập hàng tuần của bạn. (Risk Match: 1.00, Perf Need: 0.96, Diff Fit: 1.00, Time Fit: 1.00, Prereq Fit: 1.00, Effect: 0.78, pLow: 0.59, MaxRisk: 1.00)
 
 * **Generated 4-Week Learning Path**:
   * **Week 1 - Theme: Stabilize**
-    * *Objective*: Establish basic academic stability and resolve immediate attendance or support barriers.
+    * *Objective*: Stabilize attendance, support contact and basic study routine.
     * *Recommended Actions*:
-      - LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources.
+      - Daily LMS Resource Checklist: A short daily checklist that requires opening key resources announcements and practice links before class.
       - Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.
-    * *Expected Outcome*: Regular class attendance established and a structured weekly study schedule created.
-    * *Educational Rationale*: Addressed high priority risks (lms_onboarding, parent_sync) to build a stable learning foundation.
+    * *Expected Outcome*: Immediate barriers are identified and the student has a concrete weekly plan.
+    * *Educational Rationale*: Selected top-scoring stabilize interventions linked to diagnosed risks: R4_LOW_ENGAGEMENT, R6_HIGH_FAILURE_PROBABILITY.
   * **Week 2 - Theme: Practice**
-    * *Objective*: Remediate core knowledge gaps and practice key concepts to catch up.
+    * *Objective*: Close the highest-priority knowledge or engagement gap.
     * *Recommended Actions*:
-      - Peer-Led Study Tutoring: Collaborative learning sessions with top-performing peers to target specific concept gaps.
-      - Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories.
-    * *Expected Outcome*: Completion of initial practice exercises and reduction in concept gaps.
-    * *Educational Rationale*: Prioritizes targeted tasks (peer_tutoring, extra_exercises) to reinforce basic subject mastery.
+      - Absence Recovery Pack: Short catch-up package for missed lessons with teacher verification after each completed unit.
+    * *Expected Outcome*: The student completes measurable practice tasks and receives feedback.
+    * *Educational Rationale*: Selected top-scoring practice interventions linked to diagnosed risks: R4_LOW_ENGAGEMENT, R6_HIGH_FAILURE_PROBABILITY.
   * **Week 3 - Theme: Reinforce**
-    * *Objective*: Engage in collaborative study and leverage interactive resources to deepen understanding.
+    * *Objective*: Reinforce learning through interaction, resources and repetition.
     * *Recommended Actions*:
       - LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement.
-      - Facilitated Study Group: Weekly group discussions focusing on course concepts and collaborative exercises.
-    * *Expected Outcome*: Active participation in peer groups and increased digital platform engagement.
-    * *Educational Rationale*: Uses interactive activities (interactive_quiz, study_group) to sustain motivation and learning speed.
+      - Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.
+    * *Expected Outcome*: Engagement indicators improve and weak topics are revisited.
+    * *Educational Rationale*: Selected top-scoring reinforce interventions linked to diagnosed risks: R4_LOW_ENGAGEMENT, R6_HIGH_FAILURE_PROBABILITY.
   * **Week 4 - Theme: Evaluate & Adjust**
-    * *Objective*: Self-evaluate progress and adjust study goals for the coming cycle.
+    * *Objective*: Evaluate progress and decide whether to continue, reduce or escalate support.
     * *Recommended Actions*:
-      - Review weekly study metrics and grade logs. Plan study targets for the next month.
-    * *Expected Outcome*: Clear understanding of progress and updated self-study goals.
-    * *Educational Rationale*: Cycle wrap-up: reflection on achievements and setting goals for the next month.
+      - Review attendance, LMS/resource usage and practice completion; compare with Week 1 baseline.
+      - If risk indicators remain high, continue the strongest Week 2 intervention for another cycle.
+    * *Expected Outcome*: A clear next-cycle decision based on measured progress.
+    * *Educational Rationale*: The final week evaluates whether the intervention reduced the predicted risk signals.
 
 ---
 
@@ -84,49 +84,48 @@
 * **Student Context**: Raised Hands: 72, Visited Resources: 80, Discussion: 66, Absences: Under-7
 * **Predicted Academic Performance**: Class 1 (Medium) - Probabilities: [Low: 0.00, Medium: 0.69, High: 0.30]
 * **Diagnosed Academic Risks**:
-  - `R3_ATTENDANCE_RISK`: 0.0000 probability
-  - `R4_LOW_ENGAGEMENT`: 0.0008 probability
+  - `R3_ATTENDANCE_RISK`: 0.0002 probability
+  - `R4_LOW_ENGAGEMENT`: 0.0000 probability
   - `R6_HIGH_FAILURE_PROBABILITY`: 0.0000 probability
 
 * **Top 3 Recommended Interventions**:
-  1. **Targeted Practice Exercises** (Score: 0.5597)
-     * Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories.
-     * *Score Breakdown*: Đề xuất 'Targeted Practice Exercises' được lựa chọn vì nó vừa sức với năng lực hiện tại của bạn, phù hợp với thời gian học tập hàng tuần của bạn. (Risk Match: 0.00, Perf Need: 0.35, Diff Fit: 1.00, Time Fit: 1.00, Prereq Fit: 1.00, Effect: 0.90)
-  2. **Peer-Led Study Tutoring** (Score: 0.5497)
-     * Collaborative learning sessions with top-performing peers to target specific concept gaps.
-     * *Score Breakdown*: Đề xuất 'Peer-Led Study Tutoring' được lựa chọn vì nó vừa sức với năng lực hiện tại của bạn, phù hợp với thời gian học tập hàng tuần của bạn. (Risk Match: 0.00, Perf Need: 0.35, Diff Fit: 1.00, Time Fit: 1.00, Prereq Fit: 1.00, Effect: 0.80)
-  3. **Facilitated Study Group** (Score: 0.5449)
-     * Weekly group discussions focusing on course concepts and collaborative exercises.
-     * *Score Breakdown*: Đề xuất 'Facilitated Study Group' được lựa chọn vì nó vừa sức với năng lực hiện tại của bạn, phù hợp với thời gian học tập hàng tuần của bạn. (Risk Match: 0.00, Perf Need: 0.35, Diff Fit: 1.00, Time Fit: 1.00, Prereq Fit: 1.00, Effect: 0.75)
+  1. **Daily Attendance Monitoring** (Score: 0.5216)
+     * Sign-in sheets and weekly academic advisor check-ins to rebuild class attendance consistency.
+     * *Score Breakdown*: Đề xuất 'Daily Attendance Monitoring' được lựa chọn vì nó vừa sức với năng lực hiện tại của bạn, phù hợp với thời gian học tập hàng tuần của bạn. (Risk Match: 0.00, Perf Need: 0.38, Diff Fit: 0.75, Time Fit: 1.00, Prereq Fit: 1.00, Effect: 0.90, pLow: 0.00, MaxRisk: 0.00)
+  2. **Daily LMS Resource Checklist** (Score: 0.5196)
+     * A short daily checklist that requires opening key resources announcements and practice links before class.
+     * *Score Breakdown*: Đề xuất 'Daily LMS Resource Checklist' được lựa chọn vì nó vừa sức với năng lực hiện tại của bạn, phù hợp với thời gian học tập hàng tuần của bạn. (Risk Match: 0.00, Perf Need: 0.38, Diff Fit: 0.75, Time Fit: 1.00, Prereq Fit: 1.00, Effect: 0.88, pLow: 0.00, MaxRisk: 0.00)
+  3. **Academic Counselor Consultation** (Score: 0.5166)
+     * One-on-one sessions to address personal wellbeing academic anxiety and home/school support alignment.
+     * *Score Breakdown*: Đề xuất 'Academic Counselor Consultation' được lựa chọn vì nó vừa sức với năng lực hiện tại của bạn, phù hợp với thời gian học tập hàng tuần của bạn. (Risk Match: 0.00, Perf Need: 0.38, Diff Fit: 0.75, Time Fit: 1.00, Prereq Fit: 1.00, Effect: 0.85, pLow: 0.00, MaxRisk: 0.00)
 
 * **Generated 4-Week Learning Path**:
   * **Week 1 - Theme: Stabilize**
-    * *Objective*: Establish basic academic stability and resolve immediate attendance or support barriers.
+    * *Objective*: Stabilize attendance, support contact and basic study routine.
     * *Recommended Actions*:
       - Daily Attendance Monitoring: Sign-in sheets and weekly academic advisor check-ins to rebuild class attendance consistency.
-      - Academic Counselor Consultation: One-on-one sessions to address personal wellbeing academic anxiety and home/school support alignment.
-    * *Expected Outcome*: Regular class attendance established and a structured weekly study schedule created.
-    * *Educational Rationale*: Addressed high priority risks (attendance_monitoring, counselor_meeting) to build a stable learning foundation.
+      - Daily LMS Resource Checklist: A short daily checklist that requires opening key resources announcements and practice links before class.
+    * *Expected Outcome*: Immediate barriers are identified and the student has a concrete weekly plan.
+    * *Educational Rationale*: Selected top-scoring stabilize interventions linked to diagnosed risks: general support.
   * **Week 2 - Theme: Practice**
-    * *Objective*: Remediate core knowledge gaps and practice key concepts to catch up.
+    * *Objective*: Close the highest-priority knowledge or engagement gap.
     * *Recommended Actions*:
-      - Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories.
-      - Peer-Led Study Tutoring: Collaborative learning sessions with top-performing peers to target specific concept gaps.
-    * *Expected Outcome*: Completion of initial practice exercises and reduction in concept gaps.
-    * *Educational Rationale*: Prioritizes targeted tasks (extra_exercises, peer_tutoring) to reinforce basic subject mastery.
+      - Complete standard homework plus one targeted review exercise set.
+    * *Expected Outcome*: The student completes measurable practice tasks and receives feedback.
+    * *Educational Rationale*: No catalog item was required for Practice; fallback action keeps the 4-week path complete.
   * **Week 3 - Theme: Reinforce**
-    * *Objective*: Engage in collaborative study and leverage interactive resources to deepen understanding.
+    * *Objective*: Reinforce learning through interaction, resources and repetition.
     * *Recommended Actions*:
-      - Facilitated Study Group: Weekly group discussions focusing on course concepts and collaborative exercises.
       - LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement.
-    * *Expected Outcome*: Active participation in peer groups and increased digital platform engagement.
-    * *Educational Rationale*: Uses interactive activities (study_group, interactive_quiz) to sustain motivation and learning speed.
+    * *Expected Outcome*: Engagement indicators improve and weak topics are revisited.
+    * *Educational Rationale*: Selected top-scoring reinforce interventions linked to diagnosed risks: general support.
   * **Week 4 - Theme: Evaluate & Adjust**
-    * *Objective*: Self-evaluate progress and adjust study goals for the coming cycle.
+    * *Objective*: Evaluate progress and decide whether to continue, reduce or escalate support.
     * *Recommended Actions*:
-      - Review weekly study metrics and grade logs. Plan study targets for the next month.
-    * *Expected Outcome*: Clear understanding of progress and updated self-study goals.
-    * *Educational Rationale*: Cycle wrap-up: reflection on achievements and setting goals for the next month.
+      - Review attendance, LMS/resource usage and practice completion; compare with Week 1 baseline.
+      - If risk indicators remain high, continue the strongest Week 2 intervention for another cycle.
+    * *Expected Outcome*: A clear next-cycle decision based on measured progress.
+    * *Educational Rationale*: The final week evaluates whether the intervention reduced the predicted risk signals.
 
 ---
 
@@ -139,43 +138,35 @@
   - `R6_HIGH_FAILURE_PROBABILITY`: 0.0000 probability
 
 * **Top 3 Recommended Interventions**:
-  1. **Advanced Subject Seminar** (Score: 0.9390)
+  1. **Advanced Subject Seminar** (Score: 0.9154)
      * Enrichment seminar focusing on applications and advanced extensions of the course materials.
-     * *Score Breakdown*: Đề xuất 'Advanced Subject Seminar' được lựa chọn vì nó hỗ trợ khắc phục tình trạng mức độ tương tác lớp học thấp, đáp ứng nhu cầu cải thiện kết quả học tập hiện tại, vừa sức với năng lực hiện tại của bạn, phù hợp với thời gian học tập hàng tuần của bạn. (Risk Match: 1.00, Perf Need: 0.90, Diff Fit: 1.00, Time Fit: 1.00, Prereq Fit: 1.00, Effect: 0.60)
-  2. **Remedial Topic Bootcamps** (Score: 0.5055)
-     * Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories.
-     * *Score Breakdown*: Đề xuất 'Remedial Topic Bootcamps' được lựa chọn vì nó vừa sức với năng lực hiện tại của bạn, phù hợp với thời gian học tập hàng tuần của bạn. (Risk Match: 0.00, Perf Need: 0.05, Diff Fit: 1.00, Time Fit: 1.00, Prereq Fit: 1.00, Effect: 0.95)
-  3. **Targeted Practice Exercises** (Score: 0.4255)
-     * Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories.
-     * *Score Breakdown*: Đề xuất 'Targeted Practice Exercises' được lựa chọn vì nó phù hợp với thời gian học tập hàng tuần của bạn. (Risk Match: 0.00, Perf Need: 0.05, Diff Fit: 0.50, Time Fit: 1.00, Prereq Fit: 1.00, Effect: 0.90)
+     * *Score Breakdown*: Đề xuất 'Advanced Subject Seminar' được lựa chọn vì nó hỗ trợ khắc phục tình trạng mức độ tương tác lớp học thấp, đáp ứng nhu cầu cải thiện kết quả học tập hiện tại, vừa sức với năng lực hiện tại của bạn, phù hợp với thời gian học tập hàng tuần của bạn. (Risk Match: 1.00, Perf Need: 0.90, Diff Fit: 1.00, Time Fit: 1.00, Prereq Fit: 1.00, Effect: 0.60, pLow: 0.00, MaxRisk: 0.00)
 
 * **Generated 4-Week Learning Path**:
   * **Week 1 - Theme: Stabilize**
-    * *Objective*: Establish basic academic stability and resolve immediate attendance or support barriers.
+    * *Objective*: Stabilize attendance, support contact and basic study routine.
     * *Recommended Actions*:
-      - Daily Attendance Monitoring: Sign-in sheets and weekly academic advisor check-ins to rebuild class attendance consistency.
-    * *Expected Outcome*: Regular class attendance established and a structured weekly study schedule created.
-    * *Educational Rationale*: Addressed high priority risks (attendance_monitoring) to build a stable learning foundation.
+      - Set a minimum weekly study schedule and complete one advisor/teacher check-in.
+    * *Expected Outcome*: Immediate barriers are identified and the student has a concrete weekly plan.
+    * *Educational Rationale*: No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.
   * **Week 2 - Theme: Practice**
-    * *Objective*: Remediate core knowledge gaps and practice key concepts to catch up.
+    * *Objective*: Close the highest-priority knowledge or engagement gap.
     * *Recommended Actions*:
-      - Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories.
-      - Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories.
-      - Peer-Led Study Tutoring: Collaborative learning sessions with top-performing peers to target specific concept gaps.
-    * *Expected Outcome*: Completion of initial practice exercises and reduction in concept gaps.
-    * *Educational Rationale*: Prioritizes targeted tasks (remedial_class, extra_exercises, peer_tutoring) to reinforce basic subject mastery.
+      - Complete standard homework plus one targeted review exercise set.
+    * *Expected Outcome*: The student completes measurable practice tasks and receives feedback.
+    * *Educational Rationale*: No catalog item was required for Practice; fallback action keeps the 4-week path complete.
   * **Week 3 - Theme: Reinforce**
-    * *Objective*: Engage in collaborative study and leverage interactive resources to deepen understanding.
+    * *Objective*: Reinforce learning through interaction, resources and repetition.
     * *Recommended Actions*:
-      - Facilitated Study Group: Weekly group discussions focusing on course concepts and collaborative exercises.
-    * *Expected Outcome*: Active participation in peer groups and increased digital platform engagement.
-    * *Educational Rationale*: Uses interactive activities (study_group) to sustain motivation and learning speed.
+      - Join class discussion or LMS activity at least twice during the week.
+    * *Expected Outcome*: Engagement indicators improve and weak topics are revisited.
+    * *Educational Rationale*: No catalog item was required for Reinforce; fallback action keeps the 4-week path complete.
   * **Week 4 - Theme: Evaluate & Adjust**
-    * *Objective*: Pursue advanced topics to challenge capacity and expand skills.
+    * *Objective*: Evaluate progress and decide whether to continue, reduce or escalate support.
     * *Recommended Actions*:
       - Advanced Subject Seminar: Enrichment seminar focusing on applications and advanced extensions of the course materials.
-    * *Expected Outcome*: Completion of an enrichment topic or advanced challenge.
-    * *Educational Rationale*: High performance indicates capability to handle advanced challenges.
+    * *Expected Outcome*: A clear next-cycle decision based on measured progress.
+    * *Educational Rationale*: Stable prediction and low diagnosed risk allow enrichment-oriented follow-up.
 
 ---
 

@@ -1,12 +1,16 @@
 item_id,intervention_name,description,target_risks,difficulty_level,estimated_hours_per_week,recommended_phase,expected_effect,prerequisite_level
 attendance_monitoring,Daily Attendance Monitoring,Sign-in sheets and weekly academic advisor check-ins to rebuild class attendance consistency.,R3_ATTENDANCE_RISK,1,0.5,Stabilize,0.9,0
+absence_recovery_pack,Absence Recovery Pack,Short catch-up package for missed lessons with teacher verification after each completed unit.,"R3_ATTENDANCE_RISK,R6_HIGH_FAILURE_PROBABILITY",2,2.5,Practice,0.9,0
 time_planning,Time Management Workshop,Guided sessions on creating weekly study schedules prioritizing tasks and minimizing distractions.,R5_INSUFFICIENT_STUDY_TIME,1,1.0,Stabilize,0.7,0
 counselor_meeting,Academic Counselor Consultation,One-on-one sessions to address personal wellbeing academic anxiety and home/school support alignment.,R3_ATTENDANCE_RISK,1,1.0,Stabilize,0.85,0
 lms_onboarding,LMS Navigation Tutorial,Interactive walkthrough of the digital learning system to track course updates and resources.,R4_LOW_ENGAGEMENT,1,1.0,Stabilize,0.8,0
-parent_sync,Parent-Teacher Engagement Sync,Establishing weekly progress reporting channels between school and family to reinforce oversight.,R4_LOW_ENGAGEMENT,1,1.0,Stabilize,0.75,0
+resource_checklist,Daily LMS Resource Checklist,A short daily checklist that requires opening key resources announcements and practice links before class.,R4_LOW_ENGAGEMENT,1,1.0,Stabilize,0.88,0
+parent_sync,Parent-Teacher Engagement Sync,Establishing weekly progress reporting channels between school and family to reinforce oversight.,"R4_LOW_ENGAGEMENT,R6_HIGH_FAILURE_PROBABILITY",1,1.0,Stabilize,0.78,0
+parent_progress_contract,Family Progress Contract,A simple family-school agreement with one weekly learning target and one progress check-in.,R6_HIGH_FAILURE_PROBABILITY,1,1.0,Stabilize,0.78,0
 peer_tutoring,Peer-Led Study Tutoring,Collaborative learning sessions with top-performing peers to target specific concept gaps.,R1_LOW_PRIOR_PERFORMANCE,2,2.0,Practice,0.8,0
 extra_exercises,Targeted Practice Exercises,Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories.,"R1_LOW_PRIOR_PERFORMANCE,R2_DECLINING_TREND",2,3.0,Practice,0.9,1
 study_group,Facilitated Study Group,Weekly group discussions focusing on course concepts and collaborative exercises.,"R4_LOW_ENGAGEMENT,R5_INSUFFICIENT_STUDY_TIME",2,2.0,Reinforce,0.75,0
+discussion_prompting,Guided Discussion Prompts,Teacher-provided prompts that require short answers or peer replies to increase class interaction.,R4_LOW_ENGAGEMENT,2,1.5,Reinforce,0.82,0
 interactive_quiz,LMS Interactive Quizzing,Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement.,R4_LOW_ENGAGEMENT,1,1.5,Reinforce,0.85,0
 academic_coaching,Biweekly Academic Coaching,Biweekly academic coaching for students showing declining performance trends.,R2_DECLINING_TREND,1,1.5,Reinforce,0.7,0
 remedial_class,Remedial Topic Bootcamps,Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories.,"R1_LOW_PRIOR_PERFORMANCE,R6_HIGH_FAILURE_PROBABILITY",3,4.0,Practice,0.95,1

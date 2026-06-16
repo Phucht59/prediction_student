@@ -3,12 +3,7 @@ from typing import Any
 
 class PathPlanner:
     """
-    Groups scored interventions into a structured 4-week learning path.
-
-    The path is intentionally simple enough for thesis reporting: prediction
-    result -> diagnosed risks -> staged support actions. It is not a separate
-    black-box recommender, but a transparent post-processing layer on top of the
-    prediction model.
+    Groups scored interventions into a transparent 4-week learning path.
     """
 
     PHASES = ("Stabilize", "Practice", "Reinforce", "Evaluate & Adjust")
@@ -21,7 +16,11 @@ class PathPlanner:
     ) -> dict[str, Any]:
         max_risk = max(diagnosed_risks.values()) if diagnosed_risks else 0.0
         sorted_risks = sorted(diagnosed_risks.items(), key=lambda item: item[1], reverse=True)
-        top_risks = [risk for risk, score in sorted_risks[:3] if score >= 0.30]
+        top_risk_codes = [risk for risk, score in sorted_risks[:3] if score >= 0.30]
+        top_risks = [
+            {"risk_code": risk, "score": float(score)}
+            for risk, score in sorted_risks[:3]
+        ]
 
         if predicted_class == 0 or max_risk >= 0.65:
             risk_band = "High"
@@ -46,7 +45,7 @@ class PathPlanner:
             fallback_action="Set a minimum weekly study schedule and complete one advisor/teacher check-in.",
             objective="Stabilize attendance, support contact and basic study routine.",
             expected_outcome="Immediate barriers are identified and the student has a concrete weekly plan.",
-            top_risks=top_risks,
+            top_risks=top_risk_codes,
         )
         weeks["Week 2"] = self._build_week(
             phase="Practice",
@@ -54,7 +53,7 @@ class PathPlanner:
             fallback_action="Complete standard homework plus one targeted review exercise set.",
             objective="Close the highest-priority knowledge or engagement gap.",
             expected_outcome="The student completes measurable practice tasks and receives feedback.",
-            top_risks=top_risks,
+            top_risks=top_risk_codes,
         )
         weeks["Week 3"] = self._build_week(
             phase="Reinforce",
@@ -62,7 +61,7 @@ class PathPlanner:
             fallback_action="Join class discussion or LMS activity at least twice during the week.",
             objective="Reinforce learning through interaction, resources and repetition.",
             expected_outcome="Engagement indicators improve and weak topics are revisited.",
-            top_risks=top_risks,
+            top_risks=top_risk_codes,
         )
 
         evaluate_actions = phase_map["Evaluate & Adjust"]
@@ -115,7 +114,7 @@ class PathPlanner:
             item_ids = [action["item_id"] for action in selected_actions]
             explanation = (
                 f"Selected top-scoring {phase.lower()} interventions linked to diagnosed risks: "
-                f"{', '.join(top_risks) if top_risks else 'general support'} ."
+                f"{', '.join(top_risks) if top_risks else 'general support'}."
             )
         else:
             recommended_actions = [fallback_action]

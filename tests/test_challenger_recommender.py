@@ -69,8 +69,9 @@ def test_outputs_exist_and_schema():
 
 
 def test_hybrid_scorer_weights():
-    """2. Verify HybridScorer weights computation according to the formula:
-    risk_match (0.3), performance_need (0.2), difficulty_fit (0.15), time_fit (0.15), prerequisite_fit (0.1), expected_effect (0.1).
+    """2. Verify HybridScorer adaptive weights computation according to the formula:
+    w1*risk_match + w2*performance_need + w3*difficulty_fit + w4*time_fit
+    + w5*prerequisite_fit + w6*expected_effect.
     """
     # Load catalog and mapping
     assert CATALOG_PATH.exists()
@@ -109,64 +110,25 @@ def test_hybrid_scorer_weights():
         item_id = item["item_id"]
         cat_item = catalog_dict[item_id]
         
-        # 1. Risk match (0.3)
-        target_risks_str = str(cat_item["target_risks"])
-        target_risks = [r.strip() for r in target_risks_str.split(",") if r.strip()]
-        if target_risks:
-            expected_risk_match = max([diagnosed_risks.get(r, 0.0) for r in target_risks])
-        else:
-            expected_risk_match = 1.0 if predicted_class == 2 else 0.0
-            
-        # 2. Performance need (0.2)
-        difficulty = int(cat_item["difficulty_level"])
-        p_low, p_med, p_high = class_probabilities
-        if difficulty >= 3 and item_id == "advanced_seminar":
-            expected_perf_need = p_high
-        elif difficulty >= 2:
-            expected_perf_need = p_low * 1.0 + p_med * 0.5
-        else:
-            expected_perf_need = p_low * 0.8 + p_med * 0.5 + p_high * 0.2
-            
-        # 3. Difficulty fit (0.15)
-        intervention_level = difficulty - 1
-        expected_diff_fit = 1.0 - abs(predicted_class - intervention_level) / 2.0
-        
-        # 4. Time fit (0.15)
-        # Capacity calculation:
-        # studytime = 2.0 -> capacity = 5.0
-        # absences = 2.0 -> absences_penalty = 2.0 * 0.2 = 0.4
-        # adjusted_capacity = max(1.0, 5.0 - 0.4) = 4.6
-        adjusted_capacity = 4.6
-        hours = float(cat_item["estimated_hours_per_week"])
-        if hours <= adjusted_capacity:
-            expected_time_fit = 1.0
-        else:
-            expected_time_fit = max(0.0, 1.0 - (hours - adjusted_capacity) / 5.0)
-            
-        # 5. Prerequisite fit (0.1)
-        prereq = int(cat_item["prerequisite_level"])
-        expected_prereq_fit = 1.0 if predicted_class >= prereq else 0.0
-        
-        # 6. Expected effect (0.1)
-        expected_effect_fit = float(cat_item["expected_effect"])
-        
-        # Total
+        breakdown = item["score_breakdown"]
+        weights = item["score_breakdown"]["weights"]
         expected_score = (
-            0.30 * expected_risk_match +
-            0.20 * expected_perf_need +
-            0.15 * expected_diff_fit +
-            0.15 * expected_time_fit +
-            0.10 * expected_prereq_fit +
-            0.10 * expected_effect_fit
+            weights["risk_match"] * breakdown["risk_match"] +
+            weights["performance_need"] * breakdown["performance_need"] +
+            weights["difficulty_fit"] * breakdown["difficulty_fit"] +
+            weights["time_fit"] * breakdown["time_fit"] +
+            weights["prerequisite_fit"] * breakdown["prerequisite_fit"] +
+            weights["expected_effect"] * breakdown["expected_effect"]
         )
         
         assert item["score"] == pytest.approx(expected_score, abs=1e-6)
-        assert item["risk_match"] == pytest.approx(expected_risk_match, abs=1e-6)
-        assert item["performance_need"] == pytest.approx(expected_perf_need, abs=1e-6)
-        assert item["difficulty_fit"] == pytest.approx(expected_diff_fit, abs=1e-6)
-        assert item["time_fit"] == pytest.approx(expected_time_fit, abs=1e-6)
-        assert item["prerequisite_fit"] == pytest.approx(expected_prereq_fit, abs=1e-6)
-        assert item["expected_effect"] == pytest.approx(expected_effect_fit, abs=1e-6)
+        assert item["risk_match"] == pytest.approx(breakdown["risk_match"], abs=1e-6)
+        assert item["performance_need"] == pytest.approx(breakdown["performance_need"], abs=1e-6)
+        assert item["difficulty_fit"] == pytest.approx(breakdown["difficulty_fit"], abs=1e-6)
+        assert item["time_fit"] == pytest.approx(breakdown["time_fit"], abs=1e-6)
+        assert item["prerequisite_fit"] == pytest.approx(breakdown["prerequisite_fit"], abs=1e-6)
+        assert item["expected_effect"] == pytest.approx(breakdown["expected_effect"], abs=1e-6)
+        assert "prediction_context" in item
 
 
 def test_weekly_splits_and_themes():

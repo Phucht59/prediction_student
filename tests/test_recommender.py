@@ -25,8 +25,8 @@ def test_rules_generate_weak_labels_student():
         {"absences": 2, "studytime": 2.0, "failures": 0, "G1": 12, "G2": 12, "G3": 12, "goout": 4, "freetime": 2, "activities": "yes"},
         # R5: R5_INSUFFICIENT_STUDY_TIME (studytime <= 1)
         {"absences": 2, "studytime": 1.0, "failures": 0, "G1": 12, "G2": 12, "G3": 12, "goout": 2, "freetime": 2, "activities": "yes"},
-        # R6: R6_HIGH_FAILURE_PROBABILITY (G3 <= 9)
-        {"absences": 2, "studytime": 2.0, "failures": 0, "G1": 12, "G2": 12, "G3": 8, "goout": 2, "freetime": 2, "activities": "yes"},
+        # R6: R6_HIGH_FAILURE_PROBABILITY from observable failure/grade trajectory, not G3
+        {"absences": 2, "studytime": 2.0, "failures": 0, "G1": 12, "G2": 8, "G3": 14, "goout": 2, "freetime": 2, "activities": "yes"},
     ])
     
     labels = generate_weak_labels(df, "student")
@@ -51,8 +51,8 @@ def test_rules_generate_weak_labels_xapi():
         {"StudentAbsenceDays": "Above-7", "VisITedResources": 50, "raisedhands": 50, "Discussion": 50, "AnnouncementsView": 50, "Class": "H"},
         # Row 1 -> R4_LOW_ENGAGEMENT (VisITedResources < 30)
         {"StudentAbsenceDays": "Under-7", "VisITedResources": 20, "raisedhands": 50, "Discussion": 50, "AnnouncementsView": 50, "Class": "H"},
-        # Row 2 -> R6_HIGH_FAILURE_PROBABILITY (Class == 'L')
-        {"StudentAbsenceDays": "Under-7", "VisITedResources": 50, "raisedhands": 50, "Discussion": 50, "AnnouncementsView": 50, "Class": "L"},
+        # Row 2 -> R6_HIGH_FAILURE_PROBABILITY from observable absence/engagement/support signals, not Class
+        {"StudentAbsenceDays": "Above-7", "VisITedResources": 10, "raisedhands": 10, "Discussion": 10, "AnnouncementsView": 10, "ParentAnsweringSurvey": "No", "ParentschoolSatisfaction": "Bad", "Class": "H"},
     ])
     
     labels = generate_weak_labels(df, "xapi")

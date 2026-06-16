@@ -58,6 +58,17 @@ Neu can tai lap cac thuc nghiem ky thuat, xem cac script trong `scripts/` va cac
 - `reports/final/final_prediction_model_report.md`
 - `reports/final/final_thesis_ready_summary.md`
 
+## Learning Path Recommendation
+
+RA-HLPR is the downstream learning path recommendation module after CNN-BiLSTM prediction. It uses prediction probabilities, risk diagnosis, intervention ranking, and a 4-week path planner to produce risk-aware learning plans.
+
+- Not collaborative filtering, because the datasets do not include user-item interaction histories.
+- Uses CNN-BiLSTM probabilities as the main prediction signal.
+- Outputs risk-aware recommendations and a 4-week plan.
+- Final recommender reports:
+  - `reports/final/final_recommender_report.md`
+  - `reports/final/final_recommender_thesis_summary_vi.md`
+
 ## Ghi chu hoc thuat
 
 - Locked test chi duoc dung cho final evaluation.

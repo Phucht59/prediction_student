@@ -1,16 +1,17 @@
-import pandas as pd
 import numpy as np
+import pandas as pd
 from typing import Any
+
 from src.recommender.explanation import generate_friendly_explanation
 
 
 class HybridScorer:
     """
-    Scores interventions based on prediction-aware multi-criteria evidence.
+    Scores interventions with prediction-aware multi-criteria evidence.
 
-    The recommender is intentionally downstream of the prediction model:
-    predicted class probabilities control intervention urgency, while diagnosed
-    risks and student profile signals choose the concrete support actions.
+    The recommender is downstream of the prediction model: predicted class
+    probabilities control urgency, while diagnosed risks and student profile
+    signals choose the concrete support actions.
     """
 
     def __init__(self, catalog_df: pd.DataFrame, mapping_df: pd.DataFrame):
@@ -19,7 +20,6 @@ class HybridScorer:
 
     @staticmethod
     def _adaptive_weights(predicted_class: int, p_low: float, p_high: float, max_risk: float) -> dict[str, float]:
-        """Return scoring weights adapted to the predicted academic state."""
         if int(predicted_class) == 0 or p_low >= 0.50 or max_risk >= 0.65:
             return {
                 "risk_match": 0.36,
@@ -49,7 +49,6 @@ class HybridScorer:
 
     @staticmethod
     def _difficulty_fit(student_level: int, difficulty: int, target_risks: list[str], max_risk: float) -> float:
-        """Fit difficulty to performance level without blocking remedial bootcamps."""
         high_failure_item = any(
             risk in {"R1_LOW_PRIOR_PERFORMANCE", "R6_HIGH_FAILURE_PROBABILITY"}
             for risk in target_risks
@@ -62,20 +61,17 @@ class HybridScorer:
             return 0.68 if high_failure_item or max_risk >= 0.70 else 0.35
         if student_level == 1:
             return {1: 0.75, 2: 1.0, 3: 0.72}.get(difficulty, 0.5)
-        # High performers should get enrichment unless strong risks exist.
         if max_risk >= 0.55 and high_failure_item:
             return {1: 0.85, 2: 0.90, 3: 0.70}.get(difficulty, 0.5)
         return {1: 0.50, 2: 0.82, 3: 1.0}.get(difficulty, 0.5)
 
     @staticmethod
     def _estimate_capacity(student_features: dict[str, Any], dataset_kind: str) -> tuple[float, float]:
-        """Estimate weekly study capacity and absence/support penalty."""
         if "student" in dataset_kind.lower():
             studytime = float(student_features.get("studytime", 1.0))
             capacity = {1.0: 2.0, 2.0: 5.0, 3.0: 8.0}.get(studytime, 12.0)
             absences = float(student_features.get("absences", 0.0))
-            absences_penalty = absences * 0.2
-            return capacity, absences_penalty
+            return capacity, absences * 0.2
 
         visited = float(student_features.get("VisITedResources", 50.0))
         raised = float(student_features.get("raisedhands", 50.0))
@@ -87,9 +83,9 @@ class HybridScorer:
         absences_val = str(student_features.get("StudentAbsenceDays", "")).strip().lower()
         parent_answer = str(student_features.get("ParentAnsweringSurvey", "")).strip().lower()
         school_satisfaction = str(student_features.get("ParentschoolSatisfaction", "")).strip().lower()
-        absences_penalty = 2.0 if absences_val == "above-7" else 0.0
+        absence_penalty = 2.0 if absences_val == "above-7" else 0.0
         support_penalty = 0.75 if parent_answer == "no" or school_satisfaction == "bad" else 0.0
-        return capacity, absences_penalty + support_penalty
+        return capacity, absence_penalty + support_penalty
 
     def score_student(
         self,
@@ -102,7 +98,7 @@ class HybridScorer:
     ) -> list[dict[str, Any]]:
         capacity, penalty = self._estimate_capacity(student_features, dataset_kind)
         adjusted_capacity = max(1.0, capacity - penalty)
-        student_level = int(predicted_class)  # 0: Low, 1: Medium, 2: High
+        student_level = int(predicted_class)
         p_low, p_med, p_high = [float(x) for x in class_probabilities[:3]]
         max_risk = max([float(v) for v in diagnosed_risks.values()], default=0.0)
         weights = self._adaptive_weights(student_level, p_low, p_high, max_risk)
@@ -119,43 +115,34 @@ class HybridScorer:
             effect = float(row["expected_effect"])
             prereq = int(row["prerequisite_level"])
 
-            target_risks_str = str(row["target_risks"])
-            if pd.isna(row["target_risks"]):
-                target_risks_str = ""
-            target_risks = [r.strip() for r in target_risks_str.split(",") if r.strip()]
+            target_risks_value = row.get("target_risks", "")
+            target_risks_str = "" if pd.isna(target_risks_value) else str(target_risks_value)
+            target_risks = [risk.strip() for risk in target_risks_str.split(",") if risk.strip()]
 
             if target_risks:
-                matched_scores = [diagnosed_risks.get(r, 0.0) for r in target_risks]
+                matched_scores = [diagnosed_risks.get(risk, 0.0) for risk in target_risks]
                 risk_match = max(matched_scores)
-                risk_coverage_bonus = min(0.15, 0.05 * sum(float(v) >= 0.45 for v in matched_scores))
+                risk_coverage_bonus = min(0.15, 0.05 * sum(float(value) >= 0.45 for value in matched_scores))
                 risk_match = min(1.0, risk_match + risk_coverage_bonus)
             else:
                 risk_match = 1.0 if student_level == 2 and max_risk < 0.45 else 0.0
 
-            # Performance need is driven by prediction probabilities. Low/uncertain
-            # students receive remedial support; high-confidence High students receive enrichment.
             if not target_risks and difficulty >= 3:
                 perf_need = p_high
-            elif any(r in {"R1_LOW_PRIOR_PERFORMANCE", "R6_HIGH_FAILURE_PROBABILITY"} for r in target_risks):
+            elif any(risk in {"R1_LOW_PRIOR_PERFORMANCE", "R6_HIGH_FAILURE_PROBABILITY"} for risk in target_risks):
                 perf_need = min(1.0, p_low + 0.40 * p_med + 0.20 * max_risk)
-            elif any(r in {"R3_ATTENDANCE_RISK", "R4_LOW_ENGAGEMENT", "R5_INSUFFICIENT_STUDY_TIME"} for r in target_risks):
+            elif any(risk in {"R3_ATTENDANCE_RISK", "R4_LOW_ENGAGEMENT", "R5_INSUFFICIENT_STUDY_TIME"} for risk in target_risks):
                 perf_need = min(1.0, 0.75 * p_low + 0.55 * p_med + 0.25 * max_risk)
             else:
                 perf_need = p_low * 0.60 + p_med * 0.45 + p_high * 0.25
 
             diff_fit = self._difficulty_fit(student_level, difficulty, target_risks, max_risk)
+            time_fit = 1.0 if hours <= adjusted_capacity else max(0.0, 1.0 - (hours - adjusted_capacity) / 5.0)
 
-            if hours <= adjusted_capacity:
-                time_fit = 1.0
-            else:
-                time_fit = max(0.0, 1.0 - (hours - adjusted_capacity) / 5.0)
-
-            # If predicted Low, allow prerequisite level 1 interventions because they
-            # are remedial. Advanced prerequisite violations remain penalized.
             if student_level >= prereq:
                 prereq_fit = 1.0
             elif student_level == 0 and prereq <= 1 and any(
-                r in {"R1_LOW_PRIOR_PERFORMANCE", "R6_HIGH_FAILURE_PROBABILITY"} for r in target_risks
+                risk in {"R1_LOW_PRIOR_PERFORMANCE", "R6_HIGH_FAILURE_PROBABILITY"} for risk in target_risks
             ):
                 prereq_fit = 0.85
             else:
@@ -184,13 +171,22 @@ class HybridScorer:
                 "expected_effect": float(effect),
                 "recommended_phase": phase,
                 "estimated_hours_per_week": hours,
+                "score_breakdown": {
+                    "risk_match": float(risk_match),
+                    "performance_need": float(perf_need),
+                    "difficulty_fit": float(diff_fit),
+                    "time_fit": float(time_fit),
+                    "prerequisite_fit": float(prereq_fit),
+                    "expected_effect": float(effect),
+                    "weights": dict(weights),
+                },
                 "prediction_context": {
                     "predicted_class": int(predicted_class),
-                    "p_low": round(p_low, 4),
-                    "p_medium": round(p_med, 4),
-                    "p_high": round(p_high, 4),
-                    "max_diagnosed_risk": round(max_risk, 4),
-                    "adjusted_capacity_hours": round(adjusted_capacity, 2),
+                    "p_low": float(p_low),
+                    "p_medium": float(p_med),
+                    "p_high": float(p_high),
+                    "max_diagnosed_risk": float(max_risk),
+                    "adjusted_capacity_hours": float(adjusted_capacity),
                 },
             }
 
@@ -204,5 +200,4 @@ class HybridScorer:
             rec_dict["explanation"] = friendly_exp + breakdown
             results.append(rec_dict)
 
-        results = sorted(results, key=lambda x: x["score"], reverse=True)
-        return results
+        return sorted(results, key=lambda item: item["score"], reverse=True)
