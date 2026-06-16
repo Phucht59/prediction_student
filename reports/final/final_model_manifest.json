@@ -19,8 +19,8 @@
       "macro_f1": 0.9365,
       "recall_low": 0.9615,
       "f1_low": 0.8929,
-      "selected_reason": "Best final deep result for Student-Mat late; V28-V30 controlled ablations did not improve Macro F1 or Low-class metrics.",
-      "report_source": "archive/old_reports/ablation/deep_debug_summary.md",
+      "selected_reason": "Best final deep result for Student-Mat late; later controlled ablations did not improve Macro F1 or Low-class metrics.",
+      "report_source": "historical deep_debug_summary.md, archived locally outside the GitHub final surface",
       "note": "Selected without locked-test threshold tuning; Low threshold was tuned from CV/OOF train-pool probabilities."
     },
     {
@@ -33,7 +33,7 @@
       "recall_low": 0.9000,
       "f1_low": 0.8182,
       "selected_reason": "Best final deep result for Student-Por late; later ablations did not improve the locked-test champion under CV/OOF selection.",
-      "report_source": "archive/old_reports/ablation/deep_debug_summary.md",
+      "report_source": "historical deep_debug_summary.md, archived locally outside the GitHub final surface",
       "note": "Selected without locked-test threshold tuning; Low threshold was tuned from CV/OOF train-pool probabilities."
     },
     {
@@ -46,7 +46,7 @@
       "recall_low": 0.6500,
       "f1_low": 0.7429,
       "selected_reason": "Best final deep result for Student-Por midterm and retained after V28/V29 checks.",
-      "report_source": "archive/old_reports/ablation/deep_debug_summary.md",
+      "report_source": "historical deep_debug_summary.md, archived locally outside the GitHub final surface",
       "note": "Argmax mode does not use locked-test threshold tuning; model selection was controlled by CV/OOF results."
     },
     {
@@ -58,8 +58,8 @@
       "macro_f1": 0.7541,
       "recall_low": 0.8846,
       "f1_low": 0.8214,
-      "selected_reason": "Best final deep result for xAPI; V29/V30 did not improve Macro F1 while preserving Low-class performance.",
-      "report_source": "archive/old_reports/v28/final_v28_summary.md",
+      "selected_reason": "Best final deep result for xAPI; later controlled ablations did not improve Macro F1 while preserving Low-class performance.",
+      "report_source": "historical xAPI deep-ablation summary, archived locally outside the GitHub final surface",
       "note": "Selected without locked-test threshold tuning; Low threshold was tuned from CV/OOF train-pool probabilities."
     }
   ]

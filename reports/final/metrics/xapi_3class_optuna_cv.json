@@ -1,7 +1,0 @@
-{
-  "evaluation": "Optuna best cross-validation score",
-  "f1_macro_best": 0.8232580017299357,
-  "source": "models/saved/final/xapi_3class_optuna.db",
-  "study_name": "xapi_3class_cnn_bilstm_mlp",
-  "best_trial_number": 92
-}

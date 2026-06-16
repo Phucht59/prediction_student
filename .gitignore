@@ -15,6 +15,15 @@ models/saved/*
 reports/results/*
 reports/figures/*
 reports/tables/*
+archive/
+logs/
+scratch/
+results/
+outputs/experiments/
+outputs/v27/
+notebooks/
+backup_git/
+optuna/
 
 !data/raw/.gitkeep
 !data/processed/.gitkeep

@@ -9,7 +9,6 @@
 - `reports/final/final_prediction_model_report.md`
 - `reports/final/final_thesis_ready_summary.md`
 - `reports/final/LUAN_VAN_HOAN_CHINH_FINAL.docx`
-- Existing final support folders kept in `reports/final/`: `explanations/`, `figures/`, `metrics/`, `predictions/`, `recommendations/`
 - `outputs/recommender/` because the recommender tests validate these generated artifacts
 - Protected project folders kept: `data/raw/`, `src/`, `scripts/`, `tests/`, `database/`
 
@@ -30,6 +29,11 @@ Moved experiment reports from `reports/final/` to `archive/old_reports/`:
 - `reports/final/student-mat_3class_final_report.txt`
 - `reports/final/student-por_3class_final_report.txt`
 - `reports/final/xapi_3class_final_report.txt`
+- `reports/final/explanations/`
+- `reports/final/figures/`
+- `reports/final/metrics/`
+- `reports/final/predictions/`
+- `reports/final/recommendations/`
 - `results/`
 - `outputs/experiments/`
 - `outputs/v27/`
@@ -58,6 +62,8 @@ Moved experiment code and debug workspace files:
 ## Reason for cleanup
 
 The project is now prepared for thesis writing around the final deep model selection. V28, V29, V30, ablation, imbalance, baseline and scenario outputs remain available for audit in `archive/`, but they are no longer mixed with final thesis artifacts under `reports/final/`.
+
+`archive/` is intentionally ignored by Git after the follow-up cleanup. It remains available in the local workspace for audit, but it is not part of the GitHub final surface so future readers do not confuse old experiments with the selected final model.
 
 The final model choice is unchanged:
 

@@ -1,6 +1,0 @@
-{
-  "dataset": "xapi",
-  "protocol": "Stratified 5-fold CV on train pool with locked hyperparameters",
-  "f1_macro_mean": 0.7891331642250244,
-  "hyperparameters_source": "xapi_3class_best_params.json"
-}

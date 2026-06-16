@@ -1,6 +1,0 @@
-{
-  "evaluation": "Optuna best cross-validation score",
-  "f1_macro_best": 0.9035,
-  "source": "reports/final/student-mat_3class_final_report.txt",
-  "note": "The persisted report records this value to four decimal places."
-}
