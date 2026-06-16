@@ -1,24 +1,24 @@
 {
   "dataset": "xapi",
   "risk_diagnosis": {
-    "f1_micro": 0.9765258215962441,
-    "f1_macro": 0.6543209876543209,
-    "precision_micro": 0.9629629629629629,
-    "precision_macro": 0.6473429951690821,
-    "recall_micro": 0.9904761904761905,
-    "recall_macro": 0.6616161616161617,
-    "hamming_loss": 0.017361111111111112
+    "f1_micro": 0.956140350877193,
+    "f1_macro": 0.9017412935323383,
+    "precision_micro": 0.9316239316239316,
+    "precision_macro": 0.8470588235294118,
+    "recall_micro": 0.9819819819819819,
+    "recall_macro": 0.98989898989899,
+    "hamming_loss": 0.034722222222222224
   },
   "ranking": {
     "precision_at_3": 0.7708333333333334,
-    "recall_at_3": 0.671875,
+    "recall_at_3": 0.6674107142857144,
     "ndcg_at_3": 0.9080607912338188,
     "coverage_at_3": 0.8333333333333334
   },
   "path_quality": {
-    "risk_coverage_rate": 1.0,
-    "workload_balance_std": 2.0099961867134515,
-    "difficulty_progression_rate": 0.6527777777777778,
+    "risk_coverage_rate": 0.9791666666666666,
+    "workload_balance_std": 2.0119868492761603,
+    "difficulty_progression_rate": 0.6493055555555556,
     "prerequisite_violation_rate": 0.005208333333333333
   }
 }

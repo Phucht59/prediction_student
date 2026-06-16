@@ -52,7 +52,8 @@ class EarlyStopping:
 def train_epoch(model, dataloader, criterion, optimizer, device):
     model.train()
     total_loss = 0.0
-    for seq_x, num_x, cat_x, labels, _ in dataloader:
+    for batch in dataloader:
+        seq_x, num_x, cat_x, labels, _ = batch[:5]
         seq_x = seq_x.to(device)
         num_x = num_x.to(device)
         cat_x = cat_x.to(device)
@@ -82,7 +83,8 @@ def validate_epoch(model, dataloader, criterion, device):
     all_labels = []
 
     with torch.no_grad():
-        for seq_x, num_x, cat_x, labels, _ in dataloader:
+        for batch in dataloader:
+            seq_x, num_x, cat_x, labels, _ = batch[:5]
             seq_x = seq_x.to(device)
             num_x = num_x.to(device)
             cat_x = cat_x.to(device)

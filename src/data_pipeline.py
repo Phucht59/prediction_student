@@ -19,6 +19,8 @@ logger = setup_logger("data_split")
 def process_target_and_stratify(df: pd.DataFrame, target_col: str, kind: str, target_mode: str = "3class") -> pd.DataFrame:
     """Prepare target column for stratification."""
     if kind == "student":
+        # Save raw continuous G3
+        df["G3_raw"] = df[target_col]
         # Create bins for stratifying based on mode
         if target_mode == "3class":
             df[target_col] = pd.cut(df[target_col], bins=STUDENT_G3_3CLASS_BINS, labels=[0, 1, 2], include_lowest=True)
@@ -179,6 +181,10 @@ class FeatureSelector:
         self.selected_features = []
         
     def fit_transform(self, df: pd.DataFrame, numerical_cols: list, categorical_cols: list):
+        # Exclude G3_raw from features to prevent leakage
+        numerical_cols = [c for c in numerical_cols if c != "G3_raw"]
+        categorical_cols = [c for c in categorical_cols if c != "G3_raw"]
+        
         if not self.use_feature_selection:
             self.selected_features = numerical_cols + categorical_cols
             logger.info("Feature selection is disabled. Keeping all features.")
@@ -211,8 +217,8 @@ class FeatureSelector:
             for feature in self.required_features
             if feature in df.columns and feature not in selected
         )
-        self.selected_features = selected
-        logger.info(f"Feature selection complete. Selected {len(selected)} / {len(numerical_cols) + len(categorical_cols)} features.")
+        self.selected_features = [f for f in selected if f != "G3_raw"]
+        logger.info(f"Feature selection complete. Selected {len(self.selected_features)} / {len(numerical_cols) + len(categorical_cols)} features.")
         return self.transform(df)
         
     def transform(self, df: pd.DataFrame):
@@ -222,6 +228,10 @@ class FeatureSelector:
         cols_to_keep = [col for col in self.selected_features if col in df.columns]
         if self.target_col in df.columns and self.target_col not in cols_to_keep:
             cols_to_keep.append(self.target_col)
+            
+        # Keep G3_raw if present so it can be passed to the dataset
+        if "G3_raw" in df.columns and "G3_raw" not in cols_to_keep:
+            cols_to_keep.append("G3_raw")
             
         return df[cols_to_keep]
 
@@ -248,19 +258,18 @@ class DataPreprocessor:
         self.label_encoders = {}
         self.target_encoder = LabelEncoder()
         
-    def fit_transform(self, df: pd.DataFrame):
-        """Fit on train pool and transform it. Also handles SMOTE/ADASYN."""
+    def fit_transform(self, df: pd.DataFrame, apply_oversampling: bool = True):
+        """Fit on train pool and transform it. Also handles SMOTE/ADASYN if apply_oversampling is True."""
         df = df.copy()
         
         # Identify columns
         X = df.drop(columns=[self.target_col])
-        y = df[self.target_col]
         
-        self.numerical_cols = X.select_dtypes(include=[np.number]).columns.tolist()
-        self.categorical_cols = X.select_dtypes(exclude=[np.number]).columns.tolist()
+        self.numerical_cols = [c for c in X.select_dtypes(include=[np.number]).columns.tolist() if c != "G3_raw"]
+        self.categorical_cols = [c for c in X.select_dtypes(exclude=[np.number]).columns.tolist() if c != "G3_raw"]
         
         # Fit & transform target
-        y_encoded = self.target_encoder.fit_transform(y)
+        y_encoded = self.target_encoder.fit_transform(df[self.target_col])
         
         # Fit & transform features
         for col in self.numerical_cols:
@@ -274,54 +283,74 @@ class DataPreprocessor:
             X[col] = le.fit_transform(X[col].astype(str))
             self.label_encoders[col] = le
             
-        # Apply Oversampling ONLY on train
-        if self.oversample_method in ["smote", "adasyn"]:
-            # SMOTE/ADASYN requires numeric inputs, our categorical are label encoded so it's numeric now.
-            logger.info(f"Applying {self.oversample_method.upper()} on train set with ratio {self.smote_ratio}...")
+        df_out = X.copy()
+        df_out[self.target_col] = y_encoded
+        
+        if apply_oversampling:
+            df_out = self.apply_oversampling(df_out)
             
-            # Dynamically calculate sampling strategy for multiclass
-            class_counts = pd.Series(y_encoded).value_counts()
-            majority_count = class_counts.max()
-            effective_k_neighbors = min(
-                self.resampling_k_neighbors,
-                max(1, int(class_counts.min()) - 1),
-            )
-            strategy = {}
-            for cls, count in class_counts.items():
-                if count == majority_count:
-                    strategy[cls] = count
-                else:
-                    target = int(majority_count * self.smote_ratio)
-                    strategy[cls] = max(count, target) # Do not undersample if already larger
-                    
-            if self.oversample_method == "smote":
-                cat_indices = [X.columns.get_loc(c) for c in self.categorical_cols] if self.categorical_cols else []
-                if cat_indices:
-                    sampler = SMOTENC(
-                        categorical_features=cat_indices,
-                        sampling_strategy=strategy,
-                        random_state=42,
-                        k_neighbors=effective_k_neighbors,
-                    )
-                else:
-                    sampler = SMOTE(
-                        sampling_strategy=strategy,
-                        random_state=42,
-                        k_neighbors=effective_k_neighbors,
-                    )
+        return df_out
+        
+    def apply_oversampling(self, df: pd.DataFrame):
+        """Apply oversampling to the preprocessed and potentially feature-selected DataFrame."""
+        if self.oversample_method == "none":
+            return df
+            
+        df = df.copy()
+        X = df.drop(columns=[self.target_col])
+        y_encoded = df[self.target_col]
+        
+        remaining_cat_cols = [col for col in self.categorical_cols if col in X.columns]
+        
+        logger.info(f"Applying {self.oversample_method.upper()} on train set with ratio {self.smote_ratio}...")
+        
+        # Dynamically calculate sampling strategy for multiclass
+        class_counts = pd.Series(y_encoded).value_counts()
+        majority_count = class_counts.max()
+        effective_k_neighbors = min(
+            self.resampling_k_neighbors,
+            max(1, int(class_counts.min()) - 1),
+        )
+        strategy = {}
+        for cls, count in class_counts.items():
+            if count == majority_count:
+                strategy[cls] = count
             else:
+                target = int(majority_count * self.smote_ratio)
+                strategy[cls] = max(count, target) # Do not undersample if already larger
+                
+        # Resolve ADASYN/SMOTENC bug: if categorical columns are present, force SMOTENC instead of ADASYN.
+        if remaining_cat_cols:
+            cat_indices = [X.columns.get_loc(c) for c in remaining_cat_cols]
+            sampler = SMOTENC(
+                categorical_features=cat_indices,
+                sampling_strategy=strategy,
+                random_state=42,
+                k_neighbors=effective_k_neighbors,
+            )
+        else:
+            if self.oversample_method == "smote":
+                sampler = SMOTE(
+                    sampling_strategy=strategy,
+                    random_state=42,
+                    k_neighbors=effective_k_neighbors,
+                )
+            else: # adasyn
                 sampler = ADASYN(
                     sampling_strategy=strategy,
                     random_state=42,
                     n_neighbors=effective_k_neighbors,
                 )
-            try:
-                X_resampled, y_resampled = sampler.fit_resample(X, y_encoded)
-                X = pd.DataFrame(X_resampled, columns=X.columns)
-                y_encoded = y_resampled
-            except Exception as e:
-                logger.warning(f"{self.oversample_method.upper()} failed (likely too few samples). Error: {e}. Falling back to no oversampling.")
-        
+        try:
+            X_resampled, y_resampled = sampler.fit_resample(X, y_encoded)
+            X = pd.DataFrame(X_resampled, columns=X.columns)
+            # Ensure resampled categorical variables are rounded and cast to integers
+            for col in remaining_cat_cols:
+                X[col] = X[col].round().astype(int)
+            y_encoded = y_resampled
+        except Exception as e:
+            logger.warning(f"{self.oversample_method.upper()} failed (likely too few samples). Error: {e}. Falling back to no oversampling.")
+            
         df_out = X.copy()
         df_out[self.target_col] = y_encoded
         return df_out
@@ -334,7 +363,6 @@ class DataPreprocessor:
         if self.target_col in df.columns:
             # For target, handle unseen classes by mapping to -1 or known
             known_classes = set(self.target_encoder.classes_)
-            # Map unseen to a default or keep as is (should not happen in target usually)
             y_encoded = df[self.target_col].apply(lambda x: self.target_encoder.transform([x])[0] if x in known_classes else -1)
             df_out = X.copy()
             df_out[self.target_col] = y_encoded
@@ -368,15 +396,23 @@ class StudentDataset(Dataset):
     def __init__(self, df: pd.DataFrame, kind: str, target_col: str, numerical_cols: list, categorical_cols: list):
         self.y = df[target_col].values if target_col in df.columns else np.zeros(len(df))
         
+        # Load G3_raw or default to 0.0
+        if kind == "xapi":
+            self.reg_label = np.zeros(len(df), dtype=np.float32)
+        elif "G3_raw" in df.columns:
+            self.reg_label = df["G3_raw"].values.astype(np.float32)
+        else:
+            self.reg_label = np.zeros(len(df), dtype=np.float32)
+            
         seq_cols = [c for c in get_sequence_columns(kind) if c in df.columns]
         if not seq_cols:
             raise ValueError(f"No sequential features are available for dataset kind '{kind}'.")
         self.seq_cols = seq_cols
         self.seq_x = df[seq_cols].values[..., np.newaxis]
                 
-        # Context features
-        self.num_cols = [c for c in numerical_cols if c in df.columns and c not in seq_cols]
-        self.cat_cols = [c for c in categorical_cols if c in df.columns and c not in seq_cols]
+        # Context features (exclude G3_raw to prevent leakage)
+        self.num_cols = [c for c in numerical_cols if c in df.columns and c not in seq_cols and c != "G3_raw"]
+        self.cat_cols = [c for c in categorical_cols if c in df.columns and c not in seq_cols and c != "G3_raw"]
         
         self.num_x = df[self.num_cols].values if self.num_cols else np.zeros((len(df), 1))
         self.cat_x = df[self.cat_cols].values.astype(int) if self.cat_cols else np.zeros((len(df), 1), dtype=int)
@@ -392,6 +428,7 @@ class StudentDataset(Dataset):
         num = torch.tensor(self.num_x[idx], dtype=torch.float32)
         cat = torch.tensor(self.cat_x[idx], dtype=torch.long)
         label = torch.tensor(self.y[idx], dtype=torch.long)
-        return seq, num, cat, label, idx
+        reg_val = torch.tensor(self.reg_label[idx], dtype=torch.float32)
+        return seq, num, cat, label, idx, reg_val
 
 

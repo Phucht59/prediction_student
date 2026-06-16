@@ -289,7 +289,8 @@ def train_seed_ensemble(
         model.eval()
         seed_probabilities = []
         with torch.no_grad():
-            for seq_x, num_x, cat_x, _, _ in test_loader:
+            for batch in test_loader:
+                seq_x, num_x, cat_x, _, _ = batch[:5]
                 probabilities = model.predict_proba(
                     seq_x.to(device),
                     num_x.to(device),

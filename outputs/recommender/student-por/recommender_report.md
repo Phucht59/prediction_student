@@ -6,25 +6,25 @@
 ## 1. Executive Summary of Metrics
 
 ### Risk Diagnosis Metrics
-* **Micro F1**: 0.9311
-* **Macro F1**: 0.9399
-* **Micro Precision**: 0.9403
-* **Macro Precision**: 0.9313
-* **Micro Recall**: 0.9220
-* **Macro Recall**: 0.9533
-* **Hamming Loss**: 0.0628
+* **Micro F1**: 0.9091
+* **Macro F1**: 0.9443
+* **Micro Precision**: 0.8969
+* **Macro Precision**: 0.9257
+* **Micro Recall**: 0.9216
+* **Macro Recall**: 0.9667
+* **Hamming Loss**: 0.0603
 
 ### Ranking Metrics (at K=3)
-* **Precision@3**: 0.8410
-* **Recall@3**: 0.5178
-* **NDCG@3**: 0.8629
+* **Precision@3**: 0.8103
+* **Recall@3**: 0.5251
+* **NDCG@3**: 0.8341
 * **Catalog Coverage@3**: 1.0000
 
 ### Path Quality Metrics
-* **Risk Coverage Rate**: 0.9176
-* **Workload Balance (std hours/week)**: 1.7648
-* **Difficulty Progression Rate**: 0.4564
-* **Prerequisite Violation Rate**: 0.0167
+* **Risk Coverage Rate**: 0.9554
+* **Workload Balance (std hours/week)**: 1.6752
+* **Difficulty Progression Rate**: 0.6128
+* **Prerequisite Violation Rate**: 0.0179
 
 ---
 
@@ -35,22 +35,22 @@
 * **Predicted Academic Performance**: Class 0 (Low) - Probabilities: [Low: 0.73, Medium: 0.27, High: 0.00]
 * **Diagnosed Academic Risks**:
   - `R1_LOW_PRIOR_PERFORMANCE`: 1.0000 probability
-  - `R2_DECLINING_TREND`: 0.9999 probability
+  - `R2_DECLINING_TREND`: 1.0000 probability
   - `R3_ATTENDANCE_RISK`: 0.0000 probability
-  - `R4_LOW_ENGAGEMENT`: 1.0000 probability
+  - `R4_LOW_ENGAGEMENT`: 0.9993 probability
   - `R5_INSUFFICIENT_STUDY_TIME`: 0.0000 probability
   - `R6_HIGH_FAILURE_PROBABILITY`: 1.0000 probability
 
 * **Top 3 Recommended Interventions**:
-  1. **LMS Interactive Quizzing** (Score: 0.9285)
+  1. **LMS Interactive Quizzing** (Score: 0.9283)
      * Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement.
-     * *Score Breakdown*: Đề xuất 'LMS Interactive Quizzing' được lựa chọn vì nó hỗ trợ khắc phục tình trạng rủi ro không đạt kết quả môn học, đáp ứng nhu cầu cải thiện kết quả học tập hiện tại, vừa sức với năng lực hiện tại của bạn, phù hợp với thời gian học tập hàng tuần của bạn. (Risk Match: 1.00, Perf Need: 0.72, Diff Fit: 1.00, Time Fit: 1.00, Prereq Fit: 1.00, Effect: 0.85)
-  2. **LMS Navigation Tutorial** (Score: 0.9235)
+     * *Score Breakdown*: Đề xuất 'LMS Interactive Quizzing' được lựa chọn vì nó hỗ trợ khắc phục tình trạng học lực đầu vào chưa tốt, đáp ứng nhu cầu cải thiện kết quả học tập hiện tại, vừa sức với năng lực hiện tại của bạn, phù hợp với thời gian học tập hàng tuần của bạn. (Risk Match: 1.00, Perf Need: 0.72, Diff Fit: 1.00, Time Fit: 1.00, Prereq Fit: 1.00, Effect: 0.85)
+  2. **LMS Navigation Tutorial** (Score: 0.9233)
      * Interactive walkthrough of the digital learning system to track course updates and resources.
-     * *Score Breakdown*: Đề xuất 'LMS Navigation Tutorial' được lựa chọn vì nó hỗ trợ khắc phục tình trạng rủi ro không đạt kết quả môn học, đáp ứng nhu cầu cải thiện kết quả học tập hiện tại, vừa sức với năng lực hiện tại của bạn, phù hợp với thời gian học tập hàng tuần của bạn. (Risk Match: 1.00, Perf Need: 0.72, Diff Fit: 1.00, Time Fit: 1.00, Prereq Fit: 1.00, Effect: 0.80)
-  3. **Parent-Teacher Engagement Sync** (Score: 0.9185)
+     * *Score Breakdown*: Đề xuất 'LMS Navigation Tutorial' được lựa chọn vì nó hỗ trợ khắc phục tình trạng học lực đầu vào chưa tốt, đáp ứng nhu cầu cải thiện kết quả học tập hiện tại, vừa sức với năng lực hiện tại của bạn, phù hợp với thời gian học tập hàng tuần của bạn. (Risk Match: 1.00, Perf Need: 0.72, Diff Fit: 1.00, Time Fit: 1.00, Prereq Fit: 1.00, Effect: 0.80)
+  3. **Parent-Teacher Engagement Sync** (Score: 0.9183)
      * Establishing weekly progress reporting channels between school and family to reinforce oversight.
-     * *Score Breakdown*: Đề xuất 'Parent-Teacher Engagement Sync' được lựa chọn vì nó hỗ trợ khắc phục tình trạng rủi ro không đạt kết quả môn học, đáp ứng nhu cầu cải thiện kết quả học tập hiện tại, vừa sức với năng lực hiện tại của bạn, phù hợp với thời gian học tập hàng tuần của bạn. (Risk Match: 1.00, Perf Need: 0.72, Diff Fit: 1.00, Time Fit: 1.00, Prereq Fit: 1.00, Effect: 0.75)
+     * *Score Breakdown*: Đề xuất 'Parent-Teacher Engagement Sync' được lựa chọn vì nó hỗ trợ khắc phục tình trạng học lực đầu vào chưa tốt, đáp ứng nhu cầu cải thiện kết quả học tập hiện tại, vừa sức với năng lực hiện tại của bạn, phù hợp với thời gian học tập hàng tuần của bạn. (Risk Match: 1.00, Perf Need: 0.72, Diff Fit: 1.00, Time Fit: 1.00, Prereq Fit: 1.00, Effect: 0.75)
 
 * **Generated 4-Week Learning Path**:
   * **Week 1 - Theme: Stabilize**
@@ -87,23 +87,23 @@
 * **Student Context**: Absences: 2, Study Time: 3/4, Failures: 0, G1: 11, G2: 11
 * **Predicted Academic Performance**: Class 1 (Medium) - Probabilities: [Low: 0.16, Medium: 0.81, High: 0.03]
 * **Diagnosed Academic Risks**:
-  - `R1_LOW_PRIOR_PERFORMANCE`: 0.0001 probability
-  - `R2_DECLINING_TREND`: 0.0024 probability
-  - `R3_ATTENDANCE_RISK`: 0.0001 probability
-  - `R4_LOW_ENGAGEMENT`: 0.7458 probability
+  - `R1_LOW_PRIOR_PERFORMANCE`: 0.0002 probability
+  - `R2_DECLINING_TREND`: 0.0011 probability
+  - `R3_ATTENDANCE_RISK`: 0.0000 probability
+  - `R4_LOW_ENGAGEMENT`: 0.7057 probability
   - `R5_INSUFFICIENT_STUDY_TIME`: 0.0000 probability
-  - `R6_HIGH_FAILURE_PROBABILITY`: 0.9999 probability
+  - `R6_HIGH_FAILURE_PROBABILITY`: 0.0000 probability
 
 * **Top 3 Recommended Interventions**:
-  1. **Remedial Topic Bootcamps** (Score: 0.8334)
-     * Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories.
-     * *Score Breakdown*: Đề xuất 'Remedial Topic Bootcamps' được lựa chọn vì nó hỗ trợ khắc phục tình trạng rủi ro không đạt kết quả môn học, đáp ứng nhu cầu cải thiện kết quả học tập hiện tại, phù hợp với thời gian học tập hàng tuần của bạn. (Risk Match: 1.00, Perf Need: 0.57, Diff Fit: 0.50, Time Fit: 1.00, Prereq Fit: 1.00, Effect: 0.95)
-  2. **Facilitated Study Group** (Score: 0.8122)
+  1. **Facilitated Study Group** (Score: 0.8001)
      * Weekly group discussions focusing on course concepts and collaborative exercises.
-     * *Score Breakdown*: Đề xuất 'Facilitated Study Group' được lựa chọn vì nó hỗ trợ khắc phục tình trạng rủi ro không đạt kết quả môn học, đáp ứng nhu cầu cải thiện kết quả học tập hiện tại, vừa sức với năng lực hiện tại của bạn, phù hợp với thời gian học tập hàng tuần của bạn. (Risk Match: 0.75, Perf Need: 0.57, Diff Fit: 1.00, Time Fit: 1.00, Prereq Fit: 1.00, Effect: 0.75)
-  3. **LMS Interactive Quizzing** (Score: 0.7418)
+     * *Score Breakdown*: Đề xuất 'Facilitated Study Group' được lựa chọn vì nó hỗ trợ khắc phục tình trạng mức độ tương tác lớp học thấp, đáp ứng nhu cầu cải thiện kết quả học tập hiện tại, vừa sức với năng lực hiện tại của bạn, phù hợp với thời gian học tập hàng tuần của bạn. (Risk Match: 0.71, Perf Need: 0.57, Diff Fit: 1.00, Time Fit: 1.00, Prereq Fit: 1.00, Effect: 0.75)
+  2. **LMS Interactive Quizzing** (Score: 0.7298)
      * Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement.
-     * *Score Breakdown*: Đề xuất 'LMS Interactive Quizzing' được lựa chọn vì nó hỗ trợ khắc phục tình trạng rủi ro không đạt kết quả môn học, đáp ứng nhu cầu cải thiện kết quả học tập hiện tại, phù hợp với thời gian học tập hàng tuần của bạn. (Risk Match: 0.75, Perf Need: 0.54, Diff Fit: 0.50, Time Fit: 1.00, Prereq Fit: 1.00, Effect: 0.85)
+     * *Score Breakdown*: Đề xuất 'LMS Interactive Quizzing' được lựa chọn vì nó hỗ trợ khắc phục tình trạng mức độ tương tác lớp học thấp, đáp ứng nhu cầu cải thiện kết quả học tập hiện tại, phù hợp với thời gian học tập hàng tuần của bạn. (Risk Match: 0.71, Perf Need: 0.54, Diff Fit: 0.50, Time Fit: 1.00, Prereq Fit: 1.00, Effect: 0.85)
+  3. **LMS Navigation Tutorial** (Score: 0.7248)
+     * Interactive walkthrough of the digital learning system to track course updates and resources.
+     * *Score Breakdown*: Đề xuất 'LMS Navigation Tutorial' được lựa chọn vì nó hỗ trợ khắc phục tình trạng mức độ tương tác lớp học thấp, đáp ứng nhu cầu cải thiện kết quả học tập hiện tại, phù hợp với thời gian học tập hàng tuần của bạn. (Risk Match: 0.71, Perf Need: 0.54, Diff Fit: 0.50, Time Fit: 1.00, Prereq Fit: 1.00, Effect: 0.80)
 
 * **Generated 4-Week Learning Path**:
   * **Week 1 - Theme: Stabilize**
@@ -114,11 +114,11 @@
     * *Expected Outcome*: Regular class attendance established and a structured weekly study schedule created.
     * *Educational Rationale*: Addressed high priority risks (lms_onboarding, parent_sync) to build a stable learning foundation.
   * **Week 2 - Theme: Practice**
-    * *Objective*: Remediate core knowledge gaps and practice key concepts to catch up.
+    * *Objective*: Standard practice and concept review.
     * *Recommended Actions*:
-      - Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories.
-    * *Expected Outcome*: Completion of initial practice exercises and reduction in concept gaps.
-    * *Educational Rationale*: Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.
+      - Complete standard homework assignments. Optional: review previous exam questions.
+    * *Expected Outcome*: Consistent completion of weekly homework.
+    * *Educational Rationale*: No significant knowledge gaps diagnosed. Continuing with standard practice.
   * **Week 3 - Theme: Reinforce**
     * *Objective*: Engage in collaborative study and leverage interactive resources to deepen understanding.
     * *Recommended Actions*:
@@ -142,20 +142,20 @@
   - `R1_LOW_PRIOR_PERFORMANCE`: 0.0000 probability
   - `R2_DECLINING_TREND`: 0.0000 probability
   - `R3_ATTENDANCE_RISK`: 0.0001 probability
-  - `R4_LOW_ENGAGEMENT`: 0.4928 probability
+  - `R4_LOW_ENGAGEMENT`: 0.5370 probability
   - `R5_INSUFFICIENT_STUDY_TIME`: 0.0000 probability
-  - `R6_HIGH_FAILURE_PROBABILITY`: 1.0000 probability
+  - `R6_HIGH_FAILURE_PROBABILITY`: 0.0000 probability
 
 * **Top 3 Recommended Interventions**:
   1. **Advanced Subject Seminar** (Score: 0.9053)
      * Enrichment seminar focusing on applications and advanced extensions of the course materials.
-     * *Score Breakdown*: Đề xuất 'Advanced Subject Seminar' được lựa chọn vì nó hỗ trợ khắc phục tình trạng rủi ro không đạt kết quả môn học, đáp ứng nhu cầu cải thiện kết quả học tập hiện tại, vừa sức với năng lực hiện tại của bạn, phù hợp với thời gian học tập hàng tuần của bạn. (Risk Match: 1.00, Perf Need: 0.73, Diff Fit: 1.00, Time Fit: 1.00, Prereq Fit: 1.00, Effect: 0.60)
-  2. **Remedial Topic Bootcamps** (Score: 0.8224)
-     * Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories.
-     * *Score Breakdown*: Đề xuất 'Remedial Topic Bootcamps' được lựa chọn vì nó hỗ trợ khắc phục tình trạng rủi ro không đạt kết quả môn học, vừa sức với năng lực hiện tại của bạn, phù hợp với thời gian học tập hàng tuần của bạn. (Risk Match: 1.00, Perf Need: 0.14, Diff Fit: 1.00, Time Fit: 1.00, Prereq Fit: 1.00, Effect: 0.95)
-  3. **Facilitated Study Group** (Score: 0.5753)
+     * *Score Breakdown*: Đề xuất 'Advanced Subject Seminar' được lựa chọn vì nó hỗ trợ khắc phục tình trạng mức độ tương tác lớp học thấp, đáp ứng nhu cầu cải thiện kết quả học tập hiện tại, vừa sức với năng lực hiện tại của bạn, phù hợp với thời gian học tập hàng tuần của bạn. (Risk Match: 1.00, Perf Need: 0.73, Diff Fit: 1.00, Time Fit: 1.00, Prereq Fit: 1.00, Effect: 0.60)
+  2. **Facilitated Study Group** (Score: 0.5885)
      * Weekly group discussions focusing on course concepts and collaborative exercises.
-     * *Score Breakdown*: Đề xuất 'Facilitated Study Group' được lựa chọn vì nó hỗ trợ khắc phục tình trạng rủi ro không đạt kết quả môn học, phù hợp với thời gian học tập hàng tuần của bạn. (Risk Match: 0.49, Perf Need: 0.14, Diff Fit: 0.50, Time Fit: 1.00, Prereq Fit: 1.00, Effect: 0.75)
+     * *Score Breakdown*: Đề xuất 'Facilitated Study Group' được lựa chọn vì nó hỗ trợ khắc phục tình trạng mức độ tương tác lớp học thấp, phù hợp với thời gian học tập hàng tuần của bạn. (Risk Match: 0.54, Perf Need: 0.14, Diff Fit: 0.50, Time Fit: 1.00, Prereq Fit: 1.00, Effect: 0.75)
+  3. **LMS Interactive Quizzing** (Score: 0.5525)
+     * Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement.
+     * *Score Breakdown*: Đề xuất 'LMS Interactive Quizzing' được lựa chọn vì nó hỗ trợ khắc phục tình trạng mức độ tương tác lớp học thấp, phù hợp với thời gian học tập hàng tuần của bạn. (Risk Match: 0.54, Perf Need: 0.28, Diff Fit: 0.00, Time Fit: 1.00, Prereq Fit: 1.00, Effect: 0.85)
 
 * **Generated 4-Week Learning Path**:
   * **Week 1 - Theme: Stabilize**
@@ -166,11 +166,11 @@
     * *Expected Outcome*: Regular class attendance established and a structured weekly study schedule created.
     * *Educational Rationale*: Addressed high priority risks (lms_onboarding, parent_sync) to build a stable learning foundation.
   * **Week 2 - Theme: Practice**
-    * *Objective*: Remediate core knowledge gaps and practice key concepts to catch up.
+    * *Objective*: Standard practice and concept review.
     * *Recommended Actions*:
-      - Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories.
-    * *Expected Outcome*: Completion of initial practice exercises and reduction in concept gaps.
-    * *Educational Rationale*: Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.
+      - Complete standard homework assignments. Optional: review previous exam questions.
+    * *Expected Outcome*: Consistent completion of weekly homework.
+    * *Educational Rationale*: No significant knowledge gaps diagnosed. Continuing with standard practice.
   * **Week 3 - Theme: Reinforce**
     * *Objective*: Engage in collaborative study and leverage interactive resources to deepen understanding.
     * *Recommended Actions*:

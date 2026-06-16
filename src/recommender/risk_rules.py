@@ -48,8 +48,8 @@ def generate_weak_labels(df: pd.DataFrame, dataset_kind: str) -> np.ndarray:
             r4 = float(goout >= 4 or freetime >= 4 or activities == "no")
             # R5_INSUFFICIENT_STUDY_TIME (studytime <= 1)
             r5 = float(study_time <= 1)
-            # R6_HIGH_FAILURE_PROBABILITY (G3 <= 9 or failures > 0)
-            r6 = float(g3 <= 9 or failures > 0)
+            # R6_HIGH_FAILURE_PROBABILITY (failures > 0 or g1 <= 8)
+            r6 = float(failures > 0 or g1 <= 8)
             
             targets.append([r1, r2, r3, r4, r5, r6])
         else:
@@ -66,8 +66,9 @@ def generate_weak_labels(df: pd.DataFrame, dataset_kind: str) -> np.ndarray:
             # R4_LOW_ENGAGEMENT (VisITedResources/raisedhands/Discussion/AnnouncementsView)
             r4 = float(visited < 30 or raised < 30 or discussion < 30 or announcements < 30)
             
-            # R6_HIGH_FAILURE_PROBABILITY (Class == 'L' or equivalent)
-            r6 = float(cls == "L")
+            # R6_HIGH_FAILURE_PROBABILITY (Very low engagement and no parent support)
+            parent_answer = str(record.get("ParentAnsweringSurvey", "")).strip().lower()
+            r6 = float(visited < 20 and raised < 20 and parent_answer == "no")
             
             targets.append([r3, r4, r6])
             

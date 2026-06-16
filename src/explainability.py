@@ -34,7 +34,8 @@ def calculate_permutation_importance(
     labels = []
 
     with torch.no_grad():
-        for seq_x, num_x, cat_x, batch_labels, _ in val_loader:
+        for batch in val_loader:
+            seq_x, num_x, cat_x, batch_labels, _ = batch[:5]
             sequences.append(seq_x.cpu())
             numerical.append(num_x.cpu())
             categorical.append(cat_x.cpu())

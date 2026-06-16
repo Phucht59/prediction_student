@@ -120,7 +120,8 @@ def get_ensemble_probabilities(dataset_name: str, target_df: pd.DataFrame, train
         
         seed_probabilities = []
         with torch.no_grad():
-            for seq_x, num_x, cat_x, _, _ in target_loader:
+            for batch in target_loader:
+                seq_x, num_x, cat_x, _, _ = batch[:5]
                 probabilities = model.predict_proba(
                     seq_x.to(device),
                     num_x.to(device),

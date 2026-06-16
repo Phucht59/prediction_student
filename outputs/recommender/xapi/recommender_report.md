@@ -6,24 +6,24 @@
 ## 1. Executive Summary of Metrics
 
 ### Risk Diagnosis Metrics
-* **Micro F1**: 0.9765
-* **Macro F1**: 0.6543
-* **Micro Precision**: 0.9630
-* **Macro Precision**: 0.6473
-* **Micro Recall**: 0.9905
-* **Macro Recall**: 0.6616
-* **Hamming Loss**: 0.0174
+* **Micro F1**: 0.9561
+* **Macro F1**: 0.9017
+* **Micro Precision**: 0.9316
+* **Macro Precision**: 0.8471
+* **Micro Recall**: 0.9820
+* **Macro Recall**: 0.9899
+* **Hamming Loss**: 0.0347
 
 ### Ranking Metrics (at K=3)
 * **Precision@3**: 0.7708
-* **Recall@3**: 0.6719
+* **Recall@3**: 0.6674
 * **NDCG@3**: 0.9081
 * **Catalog Coverage@3**: 0.8333
 
 ### Path Quality Metrics
-* **Risk Coverage Rate**: 1.0000
-* **Workload Balance (std hours/week)**: 2.0100
-* **Difficulty Progression Rate**: 0.6528
+* **Risk Coverage Rate**: 0.9792
+* **Workload Balance (std hours/week)**: 2.0120
+* **Difficulty Progression Rate**: 0.6493
 * **Prerequisite Violation Rate**: 0.0052
 
 ---
@@ -34,9 +34,9 @@
 * **Student Context**: Raised Hands: 17, Visited Resources: 61, Discussion: 14, Absences: Under-7
 * **Predicted Academic Performance**: Class 0 (Low) - Probabilities: [Low: 0.59, Medium: 0.40, High: 0.00]
 * **Diagnosed Academic Risks**:
-  - `R3_ATTENDANCE_RISK`: 0.0008 probability
+  - `R3_ATTENDANCE_RISK`: 0.0015 probability
   - `R4_LOW_ENGAGEMENT`: 1.0000 probability
-  - `R6_HIGH_FAILURE_PROBABILITY`: 0.0000 probability
+  - `R6_HIGH_FAILURE_PROBABILITY`: 0.0001 probability
 
 * **Top 3 Recommended Interventions**:
   1. **LMS Interactive Quizzing** (Score: 0.9205)
@@ -84,8 +84,8 @@
 * **Student Context**: Raised Hands: 72, Visited Resources: 80, Discussion: 66, Absences: Under-7
 * **Predicted Academic Performance**: Class 1 (Medium) - Probabilities: [Low: 0.00, Medium: 0.69, High: 0.30]
 * **Diagnosed Academic Risks**:
-  - `R3_ATTENDANCE_RISK`: 0.0001 probability
-  - `R4_LOW_ENGAGEMENT`: 0.0000 probability
+  - `R3_ATTENDANCE_RISK`: 0.0000 probability
+  - `R4_LOW_ENGAGEMENT`: 0.0008 probability
   - `R6_HIGH_FAILURE_PROBABILITY`: 0.0000 probability
 
 * **Top 3 Recommended Interventions**:
@@ -95,7 +95,7 @@
   2. **Peer-Led Study Tutoring** (Score: 0.5497)
      * Collaborative learning sessions with top-performing peers to target specific concept gaps.
      * *Score Breakdown*: Đề xuất 'Peer-Led Study Tutoring' được lựa chọn vì nó vừa sức với năng lực hiện tại của bạn, phù hợp với thời gian học tập hàng tuần của bạn. (Risk Match: 0.00, Perf Need: 0.35, Diff Fit: 1.00, Time Fit: 1.00, Prereq Fit: 1.00, Effect: 0.80)
-  3. **Facilitated Study Group** (Score: 0.5447)
+  3. **Facilitated Study Group** (Score: 0.5449)
      * Weekly group discussions focusing on course concepts and collaborative exercises.
      * *Score Breakdown*: Đề xuất 'Facilitated Study Group' được lựa chọn vì nó vừa sức với năng lực hiện tại của bạn, phù hợp với thời gian học tập hàng tuần của bạn. (Risk Match: 0.00, Perf Need: 0.35, Diff Fit: 1.00, Time Fit: 1.00, Prereq Fit: 1.00, Effect: 0.75)
 
@@ -135,7 +135,7 @@
 * **Predicted Academic Performance**: Class 2 (High) - Probabilities: [Low: 0.00, Medium: 0.10, High: 0.90]
 * **Diagnosed Academic Risks**:
   - `R3_ATTENDANCE_RISK`: 0.0000 probability
-  - `R4_LOW_ENGAGEMENT`: 0.0000 probability
+  - `R4_LOW_ENGAGEMENT`: 0.0001 probability
   - `R6_HIGH_FAILURE_PROBABILITY`: 0.0000 probability
 
 * **Top 3 Recommended Interventions**:

@@ -1,0 +1,46 @@
+{
+  "dataset": "student-por",
+  "avg_metrics": {
+    "accuracy": 0.903547423450336,
+    "precision_macro": 0.8721222763942229,
+    "recall_macro": 0.8989608235876894,
+    "f1_macro": 0.8832328521042978
+  },
+  "fold_metrics": [
+    {
+      "fold": 1,
+      "f1_macro": 0.8949181739879414,
+      "accuracy": 0.9134615384615384,
+      "precision_macro": 0.8740957966764418,
+      "recall_macro": 0.9235074626865671
+    },
+    {
+      "fold": 2,
+      "f1_macro": 0.9212323095453177,
+      "accuracy": 0.9326923076923077,
+      "precision_macro": 0.9262254901960785,
+      "recall_macro": 0.9166222459132908
+    },
+    {
+      "fold": 3,
+      "f1_macro": 0.8908875338753388,
+      "accuracy": 0.9134615384615384,
+      "precision_macro": 0.8963235294117647,
+      "recall_macro": 0.8858534707415305
+    },
+    {
+      "fold": 4,
+      "f1_macro": 0.9043282633149117,
+      "accuracy": 0.9134615384615384,
+      "precision_macro": 0.8751461988304093,
+      "recall_macro": 0.9443259891021084
+    },
+    {
+      "fold": 5,
+      "f1_macro": 0.8047979797979797,
+      "accuracy": 0.8446601941747572,
+      "precision_macro": 0.7888203668564199,
+      "recall_macro": 0.8244949494949495
+    }
+  ]
+}

@@ -21,15 +21,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -71,26 +69,26 @@
           "objective": "Establish basic academic stability and resolve immediate attendance or support barriers.",
           "recommended_actions": [
             "Daily Attendance Monitoring: Sign-in sheets and weekly academic advisor check-ins to rebuild class attendance consistency.",
-            "Academic Counselor Consultation: One-on-one sessions to address personal wellbeing academic anxiety and home/school support alignment."
+            "Academic Counselor Consultation: One-on-one sessions to address personal wellbeing academic anxiety and home/school support alignment.",
+            "Time Management Workshop: Guided sessions on creating weekly study schedules prioritizing tasks and minimizing distractions."
           ],
           "expected_outcome": "Regular class attendance established and a structured weekly study schedule created.",
-          "explanation": "Addressed high priority risks (attendance_monitoring, counselor_meeting) to build a stable learning foundation.",
+          "explanation": "Addressed high priority risks (attendance_monitoring, counselor_meeting, time_planning) to build a stable learning foundation.",
           "item_ids": [
             "attendance_monitoring",
-            "counselor_meeting"
+            "counselor_meeting",
+            "time_planning"
           ]
         },
         "Week 2": {
           "theme": "Practice",
           "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories.",
             "Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories."
           ],
           "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class, extra_exercises) to reinforce basic subject mastery.",
+          "explanation": "Prioritizes targeted tasks (extra_exercises) to reinforce basic subject mastery.",
           "item_ids": [
-            "remedial_class",
             "extra_exercises"
           ]
         },
@@ -143,15 +141,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -191,26 +187,26 @@
           "objective": "Establish basic academic stability and resolve immediate attendance or support barriers.",
           "recommended_actions": [
             "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources.",
+            "Time Management Workshop: Guided sessions on creating weekly study schedules prioritizing tasks and minimizing distractions.",
             "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight."
           ],
           "expected_outcome": "Regular class attendance established and a structured weekly study schedule created.",
-          "explanation": "Addressed high priority risks (lms_onboarding, parent_sync) to build a stable learning foundation.",
+          "explanation": "Addressed high priority risks (lms_onboarding, time_planning, parent_sync) to build a stable learning foundation.",
           "item_ids": [
             "lms_onboarding",
+            "time_planning",
             "parent_sync"
           ]
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -253,18 +249,18 @@
           "recommended_actions": [
             "Daily Attendance Monitoring: Sign-in sheets and weekly academic advisor check-ins to rebuild class attendance consistency.",
             "Academic Counselor Consultation: One-on-one sessions to address personal wellbeing academic anxiety and home/school support alignment.",
+            "Time Management Workshop: Guided sessions on creating weekly study schedules prioritizing tasks and minimizing distractions.",
             "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources.",
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
-            "Time Management Workshop: Guided sessions on creating weekly study schedules prioritizing tasks and minimizing distractions."
+            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight."
           ],
           "expected_outcome": "Regular class attendance established and a structured weekly study schedule created.",
-          "explanation": "Addressed high priority risks (attendance_monitoring, counselor_meeting, lms_onboarding, parent_sync, time_planning) to build a stable learning foundation.",
+          "explanation": "Addressed high priority risks (attendance_monitoring, counselor_meeting, time_planning, lms_onboarding, parent_sync) to build a stable learning foundation.",
           "item_ids": [
             "attendance_monitoring",
             "counselor_meeting",
+            "time_planning",
             "lms_onboarding",
-            "parent_sync",
-            "time_planning"
+            "parent_sync"
           ]
         },
         "Week 2": {
@@ -312,26 +308,26 @@
           "theme": "Stabilize",
           "objective": "Establish basic academic stability and resolve immediate attendance or support barriers.",
           "recommended_actions": [
-            "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources."
+            "Daily Attendance Monitoring: Sign-in sheets and weekly academic advisor check-ins to rebuild class attendance consistency.",
+            "Academic Counselor Consultation: One-on-one sessions to address personal wellbeing academic anxiety and home/school support alignment."
           ],
           "expected_outcome": "Regular class attendance established and a structured weekly study schedule created.",
-          "explanation": "Addressed high priority risks (lms_onboarding) to build a stable learning foundation.",
+          "explanation": "Addressed high priority risks (attendance_monitoring, counselor_meeting) to build a stable learning foundation.",
           "item_ids": [
-            "lms_onboarding"
+            "attendance_monitoring",
+            "counselor_meeting"
           ]
         },
         "Week 2": {
           "theme": "Practice",
           "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
           "recommended_actions": [
-            "Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories.",
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories."
           ],
           "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (extra_exercises, remedial_class) to reinforce basic subject mastery.",
+          "explanation": "Prioritizes targeted tasks (extra_exercises) to reinforce basic subject mastery.",
           "item_ids": [
-            "extra_exercises",
-            "remedial_class"
+            "extra_exercises"
           ]
         },
         "Week 3": {
@@ -427,7 +423,7 @@
   {
     "student_index": 7,
     "path": {
-      "risk_band": "High",
+      "risk_band": "Stable",
       "predicted_class": 2,
       "weeks": {
         "Week 1": {
@@ -509,26 +505,26 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
           "objective": "Engage in collaborative study and leverage interactive resources to deepen understanding.",
           "recommended_actions": [
-            "Facilitated Study Group: Weekly group discussions focusing on course concepts and collaborative exercises."
+            "Facilitated Study Group: Weekly group discussions focusing on course concepts and collaborative exercises.",
+            "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Active participation in peer groups and increased digital platform engagement.",
-          "explanation": "Uses interactive activities (study_group) to sustain motivation and learning speed.",
+          "explanation": "Uses interactive activities (study_group, interactive_quiz) to sustain motivation and learning speed.",
           "item_ids": [
-            "study_group"
+            "study_group",
+            "interactive_quiz"
           ]
         },
         "Week 4": {
@@ -568,15 +564,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -627,15 +621,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -747,15 +739,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -787,7 +777,7 @@
   {
     "student_index": 13,
     "path": {
-      "risk_band": "High",
+      "risk_band": "Moderate",
       "predicted_class": 2,
       "weeks": {
         "Week 1": {
@@ -795,26 +785,26 @@
           "objective": "Establish basic academic stability and resolve immediate attendance or support barriers.",
           "recommended_actions": [
             "Daily Attendance Monitoring: Sign-in sheets and weekly academic advisor check-ins to rebuild class attendance consistency.",
+            "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources.",
             "Academic Counselor Consultation: One-on-one sessions to address personal wellbeing academic anxiety and home/school support alignment."
           ],
           "expected_outcome": "Regular class attendance established and a structured weekly study schedule created.",
-          "explanation": "Addressed high priority risks (attendance_monitoring, counselor_meeting) to build a stable learning foundation.",
+          "explanation": "Addressed high priority risks (attendance_monitoring, lms_onboarding, counselor_meeting) to build a stable learning foundation.",
           "item_ids": [
             "attendance_monitoring",
+            "lms_onboarding",
             "counselor_meeting"
           ]
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -848,7 +838,7 @@
   {
     "student_index": 14,
     "path": {
-      "risk_band": "High",
+      "risk_band": "Moderate",
       "predicted_class": 2,
       "weeks": {
         "Week 1": {
@@ -867,15 +857,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -989,15 +977,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -1050,15 +1036,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -1092,7 +1076,7 @@
   {
     "student_index": 18,
     "path": {
-      "risk_band": "High",
+      "risk_band": "Moderate",
       "predicted_class": 1,
       "weeks": {
         "Week 1": {
@@ -1111,15 +1095,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -1158,16 +1140,16 @@
           "theme": "Stabilize",
           "objective": "Establish basic academic stability and resolve immediate attendance or support barriers.",
           "recommended_actions": [
+            "Time Management Workshop: Guided sessions on creating weekly study schedules prioritizing tasks and minimizing distractions.",
             "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources.",
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
-            "Time Management Workshop: Guided sessions on creating weekly study schedules prioritizing tasks and minimizing distractions."
+            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight."
           ],
           "expected_outcome": "Regular class attendance established and a structured weekly study schedule created.",
-          "explanation": "Addressed high priority risks (lms_onboarding, parent_sync, time_planning) to build a stable learning foundation.",
+          "explanation": "Addressed high priority risks (time_planning, lms_onboarding, parent_sync) to build a stable learning foundation.",
           "item_ids": [
+            "time_planning",
             "lms_onboarding",
-            "parent_sync",
-            "time_planning"
+            "parent_sync"
           ]
         },
         "Week 2": {
@@ -1217,38 +1199,44 @@
       "weeks": {
         "Week 1": {
           "theme": "Stabilize",
-          "objective": "Maintain current academic stability and check-in with advisor.",
+          "objective": "Establish basic academic stability and resolve immediate attendance or support barriers.",
           "recommended_actions": [
-            "Maintain current attendance and standard study schedules. No urgent stabilization required."
+            "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources."
           ],
-          "expected_outcome": "Consistent attendance and stable scheduling maintained.",
-          "explanation": "No critical stabilization issues detected based on current student profile.",
-          "item_ids": []
+          "expected_outcome": "Regular class attendance established and a structured weekly study schedule created.",
+          "explanation": "Addressed high priority risks (lms_onboarding) to build a stable learning foundation.",
+          "item_ids": [
+            "lms_onboarding"
+          ]
         },
         "Week 2": {
           "theme": "Practice",
           "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
           "recommended_actions": [
             "Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories.",
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Peer-Led Study Tutoring: Collaborative learning sessions with top-performing peers to target specific concept gaps."
           ],
           "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (extra_exercises, remedial_class) to reinforce basic subject mastery.",
+          "explanation": "Prioritizes targeted tasks (extra_exercises, peer_tutoring) to reinforce basic subject mastery.",
           "item_ids": [
             "extra_exercises",
-            "remedial_class"
+            "peer_tutoring"
           ]
         },
         "Week 3": {
           "theme": "Reinforce",
           "objective": "Engage in collaborative study and leverage interactive resources to deepen understanding.",
           "recommended_actions": [
-            "Biweekly Academic Coaching: Biweekly academic coaching for students showing declining performance trends."
+            "Biweekly Academic Coaching: Biweekly academic coaching for students showing declining performance trends.",
+            "Facilitated Study Group: Weekly group discussions focusing on course concepts and collaborative exercises.",
+            "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Active participation in peer groups and increased digital platform engagement.",
-          "explanation": "Uses interactive activities (academic_coaching) to sustain motivation and learning speed.",
+          "explanation": "Uses interactive activities (academic_coaching, study_group, interactive_quiz) to sustain motivation and learning speed.",
           "item_ids": [
-            "academic_coaching"
+            "academic_coaching",
+            "study_group",
+            "interactive_quiz"
           ]
         },
         "Week 4": {
@@ -1288,14 +1276,12 @@
           "theme": "Practice",
           "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
           "recommended_actions": [
-            "Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories.",
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories."
           ],
           "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (extra_exercises, remedial_class) to reinforce basic subject mastery.",
+          "explanation": "Prioritizes targeted tasks (extra_exercises) to reinforce basic subject mastery.",
           "item_ids": [
-            "extra_exercises",
-            "remedial_class"
+            "extra_exercises"
           ]
         },
         "Week 3": {
@@ -1303,13 +1289,15 @@
           "objective": "Engage in collaborative study and leverage interactive resources to deepen understanding.",
           "recommended_actions": [
             "Facilitated Study Group: Weekly group discussions focusing on course concepts and collaborative exercises.",
-            "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
+            "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement.",
+            "Biweekly Academic Coaching: Biweekly academic coaching for students showing declining performance trends."
           ],
           "expected_outcome": "Active participation in peer groups and increased digital platform engagement.",
-          "explanation": "Uses interactive activities (study_group, interactive_quiz) to sustain motivation and learning speed.",
+          "explanation": "Uses interactive activities (study_group, interactive_quiz, academic_coaching) to sustain motivation and learning speed.",
           "item_ids": [
             "study_group",
-            "interactive_quiz"
+            "interactive_quiz",
+            "academic_coaching"
           ]
         },
         "Week 4": {
@@ -1335,16 +1323,14 @@
           "theme": "Stabilize",
           "objective": "Establish basic academic stability and resolve immediate attendance or support barriers.",
           "recommended_actions": [
-            "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources.",
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
-            "Time Management Workshop: Guided sessions on creating weekly study schedules prioritizing tasks and minimizing distractions."
+            "Time Management Workshop: Guided sessions on creating weekly study schedules prioritizing tasks and minimizing distractions.",
+            "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources."
           ],
           "expected_outcome": "Regular class attendance established and a structured weekly study schedule created.",
-          "explanation": "Addressed high priority risks (lms_onboarding, parent_sync, time_planning) to build a stable learning foundation.",
+          "explanation": "Addressed high priority risks (time_planning, lms_onboarding) to build a stable learning foundation.",
           "item_ids": [
-            "lms_onboarding",
-            "parent_sync",
-            "time_planning"
+            "time_planning",
+            "lms_onboarding"
           ]
         },
         "Week 2": {
@@ -1364,12 +1350,14 @@
           "objective": "Engage in collaborative study and leverage interactive resources to deepen understanding.",
           "recommended_actions": [
             "Facilitated Study Group: Weekly group discussions focusing on course concepts and collaborative exercises.",
+            "Biweekly Academic Coaching: Biweekly academic coaching for students showing declining performance trends.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Active participation in peer groups and increased digital platform engagement.",
-          "explanation": "Uses interactive activities (study_group, interactive_quiz) to sustain motivation and learning speed.",
+          "explanation": "Uses interactive activities (study_group, academic_coaching, interactive_quiz) to sustain motivation and learning speed.",
           "item_ids": [
             "study_group",
+            "academic_coaching",
             "interactive_quiz"
           ]
         },
@@ -1408,15 +1396,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -1517,26 +1503,26 @@
           "objective": "Establish basic academic stability and resolve immediate attendance or support barriers.",
           "recommended_actions": [
             "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources.",
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight."
+            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
+            "Time Management Workshop: Guided sessions on creating weekly study schedules prioritizing tasks and minimizing distractions."
           ],
           "expected_outcome": "Regular class attendance established and a structured weekly study schedule created.",
-          "explanation": "Addressed high priority risks (lms_onboarding, parent_sync) to build a stable learning foundation.",
+          "explanation": "Addressed high priority risks (lms_onboarding, parent_sync, time_planning) to build a stable learning foundation.",
           "item_ids": [
             "lms_onboarding",
-            "parent_sync"
+            "parent_sync",
+            "time_planning"
           ]
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -1589,15 +1575,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -1650,15 +1634,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -1709,15 +1691,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -1756,26 +1736,26 @@
           "theme": "Stabilize",
           "objective": "Establish basic academic stability and resolve immediate attendance or support barriers.",
           "recommended_actions": [
-            "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources."
+            "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources.",
+            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight."
           ],
           "expected_outcome": "Regular class attendance established and a structured weekly study schedule created.",
-          "explanation": "Addressed high priority risks (lms_onboarding) to build a stable learning foundation.",
+          "explanation": "Addressed high priority risks (lms_onboarding, parent_sync) to build a stable learning foundation.",
           "item_ids": [
-            "lms_onboarding"
+            "lms_onboarding",
+            "parent_sync"
           ]
         },
         "Week 2": {
           "theme": "Practice",
           "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
           "recommended_actions": [
-            "Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories.",
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories."
           ],
           "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (extra_exercises, remedial_class) to reinforce basic subject mastery.",
+          "explanation": "Prioritizes targeted tasks (extra_exercises) to reinforce basic subject mastery.",
           "item_ids": [
-            "extra_exercises",
-            "remedial_class"
+            "extra_exercises"
           ]
         },
         "Week 3": {
@@ -1886,15 +1866,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -2006,15 +1984,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -2053,26 +2029,26 @@
           "theme": "Stabilize",
           "objective": "Establish basic academic stability and resolve immediate attendance or support barriers.",
           "recommended_actions": [
-            "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources."
+            "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources.",
+            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight."
           ],
           "expected_outcome": "Regular class attendance established and a structured weekly study schedule created.",
-          "explanation": "Addressed high priority risks (lms_onboarding) to build a stable learning foundation.",
+          "explanation": "Addressed high priority risks (lms_onboarding, parent_sync) to build a stable learning foundation.",
           "item_ids": [
-            "lms_onboarding"
+            "lms_onboarding",
+            "parent_sync"
           ]
         },
         "Week 2": {
           "theme": "Practice",
           "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
           "recommended_actions": [
-            "Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories.",
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories."
           ],
           "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (extra_exercises, remedial_class) to reinforce basic subject mastery.",
+          "explanation": "Prioritizes targeted tasks (extra_exercises) to reinforce basic subject mastery.",
           "item_ids": [
-            "extra_exercises",
-            "remedial_class"
+            "extra_exercises"
           ]
         },
         "Week 3": {
@@ -2115,15 +2091,13 @@
           "objective": "Establish basic academic stability and resolve immediate attendance or support barriers.",
           "recommended_actions": [
             "Daily Attendance Monitoring: Sign-in sheets and weekly academic advisor check-ins to rebuild class attendance consistency.",
-            "Academic Counselor Consultation: One-on-one sessions to address personal wellbeing academic anxiety and home/school support alignment.",
-            "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources."
+            "Academic Counselor Consultation: One-on-one sessions to address personal wellbeing academic anxiety and home/school support alignment."
           ],
           "expected_outcome": "Regular class attendance established and a structured weekly study schedule created.",
-          "explanation": "Addressed high priority risks (attendance_monitoring, counselor_meeting, lms_onboarding) to build a stable learning foundation.",
+          "explanation": "Addressed high priority risks (attendance_monitoring, counselor_meeting) to build a stable learning foundation.",
           "item_ids": [
             "attendance_monitoring",
-            "counselor_meeting",
-            "lms_onboarding"
+            "counselor_meeting"
           ]
         },
         "Week 2": {
@@ -2143,12 +2117,14 @@
           "objective": "Engage in collaborative study and leverage interactive resources to deepen understanding.",
           "recommended_actions": [
             "Facilitated Study Group: Weekly group discussions focusing on course concepts and collaborative exercises.",
+            "Biweekly Academic Coaching: Biweekly academic coaching for students showing declining performance trends.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Active participation in peer groups and increased digital platform engagement.",
-          "explanation": "Uses interactive activities (study_group, interactive_quiz) to sustain motivation and learning speed.",
+          "explanation": "Uses interactive activities (study_group, academic_coaching, interactive_quiz) to sustain motivation and learning speed.",
           "item_ids": [
             "study_group",
+            "academic_coaching",
             "interactive_quiz"
           ]
         },
@@ -2175,16 +2151,16 @@
           "theme": "Stabilize",
           "objective": "Establish basic academic stability and resolve immediate attendance or support barriers.",
           "recommended_actions": [
+            "Time Management Workshop: Guided sessions on creating weekly study schedules prioritizing tasks and minimizing distractions.",
             "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources.",
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
-            "Time Management Workshop: Guided sessions on creating weekly study schedules prioritizing tasks and minimizing distractions."
+            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight."
           ],
           "expected_outcome": "Regular class attendance established and a structured weekly study schedule created.",
-          "explanation": "Addressed high priority risks (lms_onboarding, parent_sync, time_planning) to build a stable learning foundation.",
+          "explanation": "Addressed high priority risks (time_planning, lms_onboarding, parent_sync) to build a stable learning foundation.",
           "item_ids": [
+            "time_planning",
             "lms_onboarding",
-            "parent_sync",
-            "time_planning"
+            "parent_sync"
           ]
         },
         "Week 2": {
@@ -2229,36 +2205,32 @@
   {
     "student_index": 37,
     "path": {
-      "risk_band": "High",
+      "risk_band": "Moderate",
       "predicted_class": 1,
       "weeks": {
         "Week 1": {
           "theme": "Stabilize",
           "objective": "Establish basic academic stability and resolve immediate attendance or support barriers.",
           "recommended_actions": [
-            "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources."
+            "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources.",
+            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight."
           ],
           "expected_outcome": "Regular class attendance established and a structured weekly study schedule created.",
-          "explanation": "Addressed high priority risks (lms_onboarding) to build a stable learning foundation.",
+          "explanation": "Addressed high priority risks (lms_onboarding, parent_sync) to build a stable learning foundation.",
           "item_ids": [
-            "lms_onboarding"
+            "lms_onboarding",
+            "parent_sync"
           ]
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories.",
-            "Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories.",
-            "Peer-Led Study Tutoring: Collaborative learning sessions with top-performing peers to target specific concept gaps."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class, extra_exercises, peer_tutoring) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class",
-            "extra_exercises",
-            "peer_tutoring"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -2309,15 +2281,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -2370,15 +2340,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -2540,26 +2508,26 @@
           "objective": "Establish basic academic stability and resolve immediate attendance or support barriers.",
           "recommended_actions": [
             "Time Management Workshop: Guided sessions on creating weekly study schedules prioritizing tasks and minimizing distractions.",
-            "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources."
+            "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources.",
+            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight."
           ],
           "expected_outcome": "Regular class attendance established and a structured weekly study schedule created.",
-          "explanation": "Addressed high priority risks (time_planning, lms_onboarding) to build a stable learning foundation.",
+          "explanation": "Addressed high priority risks (time_planning, lms_onboarding, parent_sync) to build a stable learning foundation.",
           "item_ids": [
             "time_planning",
-            "lms_onboarding"
+            "lms_onboarding",
+            "parent_sync"
           ]
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -2659,25 +2627,25 @@
       "weeks": {
         "Week 1": {
           "theme": "Stabilize",
-          "objective": "Maintain current academic stability and check-in with advisor.",
+          "objective": "Establish basic academic stability and resolve immediate attendance or support barriers.",
           "recommended_actions": [
-            "Maintain current attendance and standard study schedules. No urgent stabilization required."
+            "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources."
           ],
-          "expected_outcome": "Consistent attendance and stable scheduling maintained.",
-          "explanation": "No critical stabilization issues detected based on current student profile.",
-          "item_ids": []
+          "expected_outcome": "Regular class attendance established and a structured weekly study schedule created.",
+          "explanation": "Addressed high priority risks (lms_onboarding) to build a stable learning foundation.",
+          "item_ids": [
+            "lms_onboarding"
+          ]
         },
         "Week 2": {
           "theme": "Practice",
           "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories.",
             "Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories."
           ],
           "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class, extra_exercises) to reinforce basic subject mastery.",
+          "explanation": "Prioritizes targeted tasks (extra_exercises) to reinforce basic subject mastery.",
           "item_ids": [
-            "remedial_class",
             "extra_exercises"
           ]
         },
@@ -2715,7 +2683,7 @@
   {
     "student_index": 45,
     "path": {
-      "risk_band": "High",
+      "risk_band": "Moderate",
       "predicted_class": 1,
       "weeks": {
         "Week 1": {
@@ -2734,15 +2702,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -2856,15 +2822,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -2915,15 +2879,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -2957,7 +2919,7 @@
   {
     "student_index": 49,
     "path": {
-      "risk_band": "High",
+      "risk_band": "Moderate",
       "predicted_class": 1,
       "weeks": {
         "Week 1": {
@@ -2976,17 +2938,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories.",
-            "Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class, extra_exercises) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class",
-            "extra_exercises"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -3039,14 +2997,12 @@
           "theme": "Practice",
           "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
           "recommended_actions": [
-            "Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories.",
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories."
           ],
           "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (extra_exercises, remedial_class) to reinforce basic subject mastery.",
+          "explanation": "Prioritizes targeted tasks (extra_exercises) to reinforce basic subject mastery.",
           "item_ids": [
-            "extra_exercises",
-            "remedial_class"
+            "extra_exercises"
           ]
         },
         "Week 3": {
@@ -3054,13 +3010,15 @@
           "objective": "Engage in collaborative study and leverage interactive resources to deepen understanding.",
           "recommended_actions": [
             "Biweekly Academic Coaching: Biweekly academic coaching for students showing declining performance trends.",
-            "Facilitated Study Group: Weekly group discussions focusing on course concepts and collaborative exercises."
+            "Facilitated Study Group: Weekly group discussions focusing on course concepts and collaborative exercises.",
+            "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Active participation in peer groups and increased digital platform engagement.",
-          "explanation": "Uses interactive activities (academic_coaching, study_group) to sustain motivation and learning speed.",
+          "explanation": "Uses interactive activities (academic_coaching, study_group, interactive_quiz) to sustain motivation and learning speed.",
           "item_ids": [
             "academic_coaching",
-            "study_group"
+            "study_group",
+            "interactive_quiz"
           ]
         },
         "Week 4": {
@@ -3084,25 +3042,25 @@
       "weeks": {
         "Week 1": {
           "theme": "Stabilize",
-          "objective": "Maintain current academic stability and check-in with advisor.",
+          "objective": "Establish basic academic stability and resolve immediate attendance or support barriers.",
           "recommended_actions": [
-            "Maintain current attendance and standard study schedules. No urgent stabilization required."
+            "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources."
           ],
-          "expected_outcome": "Consistent attendance and stable scheduling maintained.",
-          "explanation": "No critical stabilization issues detected based on current student profile.",
-          "item_ids": []
+          "expected_outcome": "Regular class attendance established and a structured weekly study schedule created.",
+          "explanation": "Addressed high priority risks (lms_onboarding) to build a stable learning foundation.",
+          "item_ids": [
+            "lms_onboarding"
+          ]
         },
         "Week 2": {
           "theme": "Practice",
           "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories.",
             "Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories."
           ],
           "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class, extra_exercises) to reinforce basic subject mastery.",
+          "explanation": "Prioritizes targeted tasks (extra_exercises) to reinforce basic subject mastery.",
           "item_ids": [
-            "remedial_class",
             "extra_exercises"
           ]
         },
@@ -3161,12 +3119,14 @@
           "theme": "Practice",
           "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
           "recommended_actions": [
-            "Peer-Led Study Tutoring: Collaborative learning sessions with top-performing peers to target specific concept gaps."
+            "Peer-Led Study Tutoring: Collaborative learning sessions with top-performing peers to target specific concept gaps.",
+            "Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories."
           ],
           "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (peer_tutoring) to reinforce basic subject mastery.",
+          "explanation": "Prioritizes targeted tasks (peer_tutoring, extra_exercises) to reinforce basic subject mastery.",
           "item_ids": [
-            "peer_tutoring"
+            "peer_tutoring",
+            "extra_exercises"
           ]
         },
         "Week 3": {
@@ -3174,15 +3134,13 @@
           "objective": "Engage in collaborative study and leverage interactive resources to deepen understanding.",
           "recommended_actions": [
             "Biweekly Academic Coaching: Biweekly academic coaching for students showing declining performance trends.",
-            "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement.",
-            "Facilitated Study Group: Weekly group discussions focusing on course concepts and collaborative exercises."
+            "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Active participation in peer groups and increased digital platform engagement.",
-          "explanation": "Uses interactive activities (academic_coaching, interactive_quiz, study_group) to sustain motivation and learning speed.",
+          "explanation": "Uses interactive activities (academic_coaching, interactive_quiz) to sustain motivation and learning speed.",
           "item_ids": [
             "academic_coaching",
-            "interactive_quiz",
-            "study_group"
+            "interactive_quiz"
           ]
         },
         "Week 4": {
@@ -3220,15 +3178,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -3317,7 +3273,7 @@
   {
     "student_index": 55,
     "path": {
-      "risk_band": "High",
+      "risk_band": "Moderate",
       "predicted_class": 1,
       "weeks": {
         "Week 1": {
@@ -3336,15 +3292,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -3395,15 +3349,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -3578,15 +3530,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -3637,15 +3587,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -3759,15 +3707,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -3799,33 +3745,33 @@
   {
     "student_index": 63,
     "path": {
-      "risk_band": "High",
+      "risk_band": "Stable",
       "predicted_class": 2,
       "weeks": {
         "Week 1": {
           "theme": "Stabilize",
           "objective": "Establish basic academic stability and resolve immediate attendance or support barriers.",
           "recommended_actions": [
-            "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources."
+            "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources.",
+            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight."
           ],
           "expected_outcome": "Regular class attendance established and a structured weekly study schedule created.",
-          "explanation": "Addressed high priority risks (lms_onboarding) to build a stable learning foundation.",
+          "explanation": "Addressed high priority risks (lms_onboarding, parent_sync) to build a stable learning foundation.",
           "item_ids": [
-            "lms_onboarding"
+            "lms_onboarding",
+            "parent_sync"
           ]
         },
         "Week 2": {
           "theme": "Practice",
           "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories.",
-            "Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories."
+            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
           ],
           "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class, extra_exercises) to reinforce basic subject mastery.",
+          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
           "item_ids": [
-            "remedial_class",
-            "extra_exercises"
+            "remedial_class"
           ]
         },
         "Week 3": {
@@ -3879,15 +3825,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -3940,15 +3884,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -3989,40 +3931,40 @@
           "recommended_actions": [
             "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources.",
             "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
-            "Time Management Workshop: Guided sessions on creating weekly study schedules prioritizing tasks and minimizing distractions.",
-            "Daily Attendance Monitoring: Sign-in sheets and weekly academic advisor check-ins to rebuild class attendance consistency.",
-            "Academic Counselor Consultation: One-on-one sessions to address personal wellbeing academic anxiety and home/school support alignment."
+            "Time Management Workshop: Guided sessions on creating weekly study schedules prioritizing tasks and minimizing distractions."
           ],
           "expected_outcome": "Regular class attendance established and a structured weekly study schedule created.",
-          "explanation": "Addressed high priority risks (lms_onboarding, parent_sync, time_planning, attendance_monitoring, counselor_meeting) to build a stable learning foundation.",
+          "explanation": "Addressed high priority risks (lms_onboarding, parent_sync, time_planning) to build a stable learning foundation.",
           "item_ids": [
             "lms_onboarding",
             "parent_sync",
-            "time_planning",
-            "attendance_monitoring",
-            "counselor_meeting"
+            "time_planning"
           ]
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Standard practice and concept review.",
+          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
           "recommended_actions": [
-            "Complete standard homework assignments. Optional: review previous exam questions."
+            "Peer-Led Study Tutoring: Collaborative learning sessions with top-performing peers to target specific concept gaps."
           ],
-          "expected_outcome": "Consistent completion of weekly homework.",
-          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
-          "item_ids": []
+          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
+          "explanation": "Prioritizes targeted tasks (peer_tutoring) to reinforce basic subject mastery.",
+          "item_ids": [
+            "peer_tutoring"
+          ]
         },
         "Week 3": {
           "theme": "Reinforce",
           "objective": "Engage in collaborative study and leverage interactive resources to deepen understanding.",
           "recommended_actions": [
-            "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
+            "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement.",
+            "Facilitated Study Group: Weekly group discussions focusing on course concepts and collaborative exercises."
           ],
           "expected_outcome": "Active participation in peer groups and increased digital platform engagement.",
-          "explanation": "Uses interactive activities (interactive_quiz) to sustain motivation and learning speed.",
+          "explanation": "Uses interactive activities (interactive_quiz, study_group) to sustain motivation and learning speed.",
           "item_ids": [
-            "interactive_quiz"
+            "interactive_quiz",
+            "study_group"
           ]
         },
         "Week 4": {
@@ -4062,14 +4004,12 @@
           "theme": "Practice",
           "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
           "recommended_actions": [
-            "Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories.",
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories."
           ],
           "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (extra_exercises, remedial_class) to reinforce basic subject mastery.",
+          "explanation": "Prioritizes targeted tasks (extra_exercises) to reinforce basic subject mastery.",
           "item_ids": [
-            "extra_exercises",
-            "remedial_class"
+            "extra_exercises"
           ]
         },
         "Week 3": {
@@ -4077,13 +4017,15 @@
           "objective": "Engage in collaborative study and leverage interactive resources to deepen understanding.",
           "recommended_actions": [
             "Facilitated Study Group: Weekly group discussions focusing on course concepts and collaborative exercises.",
-            "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
+            "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement.",
+            "Biweekly Academic Coaching: Biweekly academic coaching for students showing declining performance trends."
           ],
           "expected_outcome": "Active participation in peer groups and increased digital platform engagement.",
-          "explanation": "Uses interactive activities (study_group, interactive_quiz) to sustain motivation and learning speed.",
+          "explanation": "Uses interactive activities (study_group, interactive_quiz, academic_coaching) to sustain motivation and learning speed.",
           "item_ids": [
             "study_group",
-            "interactive_quiz"
+            "interactive_quiz",
+            "academic_coaching"
           ]
         },
         "Week 4": {
@@ -4123,14 +4065,12 @@
           "theme": "Practice",
           "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
           "recommended_actions": [
-            "Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories.",
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories."
           ],
           "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (extra_exercises, remedial_class) to reinforce basic subject mastery.",
+          "explanation": "Prioritizes targeted tasks (extra_exercises) to reinforce basic subject mastery.",
           "item_ids": [
-            "extra_exercises",
-            "remedial_class"
+            "extra_exercises"
           ]
         },
         "Week 3": {
@@ -4138,13 +4078,15 @@
           "objective": "Engage in collaborative study and leverage interactive resources to deepen understanding.",
           "recommended_actions": [
             "Facilitated Study Group: Weekly group discussions focusing on course concepts and collaborative exercises.",
-            "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
+            "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement.",
+            "Biweekly Academic Coaching: Biweekly academic coaching for students showing declining performance trends."
           ],
           "expected_outcome": "Active participation in peer groups and increased digital platform engagement.",
-          "explanation": "Uses interactive activities (study_group, interactive_quiz) to sustain motivation and learning speed.",
+          "explanation": "Uses interactive activities (study_group, interactive_quiz, academic_coaching) to sustain motivation and learning speed.",
           "item_ids": [
             "study_group",
-            "interactive_quiz"
+            "interactive_quiz",
+            "academic_coaching"
           ]
         },
         "Week 4": {
@@ -4171,27 +4113,27 @@
           "objective": "Establish basic academic stability and resolve immediate attendance or support barriers.",
           "recommended_actions": [
             "Time Management Workshop: Guided sessions on creating weekly study schedules prioritizing tasks and minimizing distractions.",
-            "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources."
+            "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources.",
+            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight."
           ],
           "expected_outcome": "Regular class attendance established and a structured weekly study schedule created.",
-          "explanation": "Addressed high priority risks (time_planning, lms_onboarding) to build a stable learning foundation.",
+          "explanation": "Addressed high priority risks (time_planning, lms_onboarding, parent_sync) to build a stable learning foundation.",
           "item_ids": [
             "time_planning",
-            "lms_onboarding"
+            "lms_onboarding",
+            "parent_sync"
           ]
         },
         "Week 2": {
           "theme": "Practice",
           "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
           "recommended_actions": [
-            "Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories.",
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories."
           ],
           "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (extra_exercises, remedial_class) to reinforce basic subject mastery.",
+          "explanation": "Prioritizes targeted tasks (extra_exercises) to reinforce basic subject mastery.",
           "item_ids": [
-            "extra_exercises",
-            "remedial_class"
+            "extra_exercises"
           ]
         },
         "Week 3": {
@@ -4304,15 +4246,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -4353,40 +4293,40 @@
           "recommended_actions": [
             "Daily Attendance Monitoring: Sign-in sheets and weekly academic advisor check-ins to rebuild class attendance consistency.",
             "Academic Counselor Consultation: One-on-one sessions to address personal wellbeing academic anxiety and home/school support alignment.",
-            "Time Management Workshop: Guided sessions on creating weekly study schedules prioritizing tasks and minimizing distractions."
+            "Time Management Workshop: Guided sessions on creating weekly study schedules prioritizing tasks and minimizing distractions.",
+            "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources.",
+            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight."
           ],
           "expected_outcome": "Regular class attendance established and a structured weekly study schedule created.",
-          "explanation": "Addressed high priority risks (attendance_monitoring, counselor_meeting, time_planning) to build a stable learning foundation.",
+          "explanation": "Addressed high priority risks (attendance_monitoring, counselor_meeting, time_planning, lms_onboarding, parent_sync) to build a stable learning foundation.",
           "item_ids": [
             "attendance_monitoring",
             "counselor_meeting",
-            "time_planning"
+            "time_planning",
+            "lms_onboarding",
+            "parent_sync"
           ]
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Peer-Led Study Tutoring: Collaborative learning sessions with top-performing peers to target specific concept gaps."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (peer_tutoring) to reinforce basic subject mastery.",
-          "item_ids": [
-            "peer_tutoring"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
           "objective": "Engage in collaborative study and leverage interactive resources to deepen understanding.",
           "recommended_actions": [
-            "Biweekly Academic Coaching: Biweekly academic coaching for students showing declining performance trends.",
-            "Facilitated Study Group: Weekly group discussions focusing on course concepts and collaborative exercises."
+            "Biweekly Academic Coaching: Biweekly academic coaching for students showing declining performance trends."
           ],
           "expected_outcome": "Active participation in peer groups and increased digital platform engagement.",
-          "explanation": "Uses interactive activities (academic_coaching, study_group) to sustain motivation and learning speed.",
+          "explanation": "Uses interactive activities (academic_coaching) to sustain motivation and learning speed.",
           "item_ids": [
-            "academic_coaching",
-            "study_group"
+            "academic_coaching"
           ]
         },
         "Week 4": {
@@ -4424,15 +4364,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -4546,15 +4484,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -4609,15 +4545,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -4656,26 +4590,26 @@
           "theme": "Stabilize",
           "objective": "Establish basic academic stability and resolve immediate attendance or support barriers.",
           "recommended_actions": [
-            "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources."
+            "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources.",
+            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight."
           ],
           "expected_outcome": "Regular class attendance established and a structured weekly study schedule created.",
-          "explanation": "Addressed high priority risks (lms_onboarding) to build a stable learning foundation.",
+          "explanation": "Addressed high priority risks (lms_onboarding, parent_sync) to build a stable learning foundation.",
           "item_ids": [
-            "lms_onboarding"
+            "lms_onboarding",
+            "parent_sync"
           ]
         },
         "Week 2": {
           "theme": "Practice",
           "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
           "recommended_actions": [
-            "Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories.",
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories."
           ],
           "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (extra_exercises, remedial_class) to reinforce basic subject mastery.",
+          "explanation": "Prioritizes targeted tasks (extra_exercises) to reinforce basic subject mastery.",
           "item_ids": [
-            "extra_exercises",
-            "remedial_class"
+            "extra_exercises"
           ]
         },
         "Week 3": {
@@ -4710,7 +4644,7 @@
   {
     "student_index": 78,
     "path": {
-      "risk_band": "High",
+      "risk_band": "Moderate",
       "predicted_class": 2,
       "weeks": {
         "Week 1": {
@@ -4729,15 +4663,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -4771,7 +4703,7 @@
   {
     "student_index": 79,
     "path": {
-      "risk_band": "High",
+      "risk_band": "Moderate",
       "predicted_class": 1,
       "weeks": {
         "Week 1": {
@@ -4790,15 +4722,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -4837,28 +4767,24 @@
           "theme": "Stabilize",
           "objective": "Establish basic academic stability and resolve immediate attendance or support barriers.",
           "recommended_actions": [
-            "Time Management Workshop: Guided sessions on creating weekly study schedules prioritizing tasks and minimizing distractions.",
-            "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources."
+            "Time Management Workshop: Guided sessions on creating weekly study schedules prioritizing tasks and minimizing distractions."
           ],
           "expected_outcome": "Regular class attendance established and a structured weekly study schedule created.",
-          "explanation": "Addressed high priority risks (time_planning, lms_onboarding) to build a stable learning foundation.",
+          "explanation": "Addressed high priority risks (time_planning) to build a stable learning foundation.",
           "item_ids": [
-            "time_planning",
-            "lms_onboarding"
+            "time_planning"
           ]
         },
         "Week 2": {
           "theme": "Practice",
           "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
           "recommended_actions": [
-            "Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories.",
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories."
           ],
           "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (extra_exercises, remedial_class) to reinforce basic subject mastery.",
+          "explanation": "Prioritizes targeted tasks (extra_exercises) to reinforce basic subject mastery.",
           "item_ids": [
-            "extra_exercises",
-            "remedial_class"
+            "extra_exercises"
           ]
         },
         "Week 3": {
@@ -4910,15 +4836,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -4971,15 +4895,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -5201,38 +5123,44 @@
       "weeks": {
         "Week 1": {
           "theme": "Stabilize",
-          "objective": "Maintain current academic stability and check-in with advisor.",
+          "objective": "Establish basic academic stability and resolve immediate attendance or support barriers.",
           "recommended_actions": [
-            "Maintain current attendance and standard study schedules. No urgent stabilization required."
+            "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources.",
+            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight."
           ],
-          "expected_outcome": "Consistent attendance and stable scheduling maintained.",
-          "explanation": "No critical stabilization issues detected based on current student profile.",
-          "item_ids": []
+          "expected_outcome": "Regular class attendance established and a structured weekly study schedule created.",
+          "explanation": "Addressed high priority risks (lms_onboarding, parent_sync) to build a stable learning foundation.",
+          "item_ids": [
+            "lms_onboarding",
+            "parent_sync"
+          ]
         },
         "Week 2": {
           "theme": "Practice",
           "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
           "recommended_actions": [
-            "Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories.",
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories."
           ],
           "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (extra_exercises, remedial_class) to reinforce basic subject mastery.",
+          "explanation": "Prioritizes targeted tasks (extra_exercises) to reinforce basic subject mastery.",
           "item_ids": [
-            "extra_exercises",
-            "remedial_class"
+            "extra_exercises"
           ]
         },
         "Week 3": {
           "theme": "Reinforce",
           "objective": "Engage in collaborative study and leverage interactive resources to deepen understanding.",
           "recommended_actions": [
-            "Biweekly Academic Coaching: Biweekly academic coaching for students showing declining performance trends."
+            "Biweekly Academic Coaching: Biweekly academic coaching for students showing declining performance trends.",
+            "Facilitated Study Group: Weekly group discussions focusing on course concepts and collaborative exercises.",
+            "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Active participation in peer groups and increased digital platform engagement.",
-          "explanation": "Uses interactive activities (academic_coaching) to sustain motivation and learning speed.",
+          "explanation": "Uses interactive activities (academic_coaching, study_group, interactive_quiz) to sustain motivation and learning speed.",
           "item_ids": [
-            "academic_coaching"
+            "academic_coaching",
+            "study_group",
+            "interactive_quiz"
           ]
         },
         "Week 4": {
@@ -5260,27 +5188,27 @@
           "recommended_actions": [
             "Daily Attendance Monitoring: Sign-in sheets and weekly academic advisor check-ins to rebuild class attendance consistency.",
             "Academic Counselor Consultation: One-on-one sessions to address personal wellbeing academic anxiety and home/school support alignment.",
-            "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources."
+            "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources.",
+            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight."
           ],
           "expected_outcome": "Regular class attendance established and a structured weekly study schedule created.",
-          "explanation": "Addressed high priority risks (attendance_monitoring, counselor_meeting, lms_onboarding) to build a stable learning foundation.",
+          "explanation": "Addressed high priority risks (attendance_monitoring, counselor_meeting, lms_onboarding, parent_sync) to build a stable learning foundation.",
           "item_ids": [
             "attendance_monitoring",
             "counselor_meeting",
-            "lms_onboarding"
+            "lms_onboarding",
+            "parent_sync"
           ]
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -5441,16 +5369,14 @@
           "theme": "Stabilize",
           "objective": "Establish basic academic stability and resolve immediate attendance or support barriers.",
           "recommended_actions": [
-            "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources.",
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
-            "Time Management Workshop: Guided sessions on creating weekly study schedules prioritizing tasks and minimizing distractions."
+            "Time Management Workshop: Guided sessions on creating weekly study schedules prioritizing tasks and minimizing distractions.",
+            "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources."
           ],
           "expected_outcome": "Regular class attendance established and a structured weekly study schedule created.",
-          "explanation": "Addressed high priority risks (lms_onboarding, parent_sync, time_planning) to build a stable learning foundation.",
+          "explanation": "Addressed high priority risks (time_planning, lms_onboarding) to build a stable learning foundation.",
           "item_ids": [
-            "lms_onboarding",
-            "parent_sync",
-            "time_planning"
+            "time_planning",
+            "lms_onboarding"
           ]
         },
         "Week 2": {
@@ -5463,65 +5389,6 @@
           "explanation": "Prioritizes targeted tasks (extra_exercises) to reinforce basic subject mastery.",
           "item_ids": [
             "extra_exercises"
-          ]
-        },
-        "Week 3": {
-          "theme": "Reinforce",
-          "objective": "Engage in collaborative study and leverage interactive resources to deepen understanding.",
-          "recommended_actions": [
-            "Facilitated Study Group: Weekly group discussions focusing on course concepts and collaborative exercises.",
-            "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
-          ],
-          "expected_outcome": "Active participation in peer groups and increased digital platform engagement.",
-          "explanation": "Uses interactive activities (study_group, interactive_quiz) to sustain motivation and learning speed.",
-          "item_ids": [
-            "study_group",
-            "interactive_quiz"
-          ]
-        },
-        "Week 4": {
-          "theme": "Evaluate & Adjust",
-          "objective": "Self-evaluate progress and adjust study goals for the coming cycle.",
-          "recommended_actions": [
-            "Review weekly study metrics and grade logs. Plan study targets for the next month."
-          ],
-          "expected_outcome": "Clear understanding of progress and updated self-study goals.",
-          "explanation": "Cycle wrap-up: reflection on achievements and setting goals for the next month.",
-          "item_ids": []
-        }
-      }
-    }
-  },
-  {
-    "student_index": 91,
-    "path": {
-      "risk_band": "High",
-      "predicted_class": 1,
-      "weeks": {
-        "Week 1": {
-          "theme": "Stabilize",
-          "objective": "Establish basic academic stability and resolve immediate attendance or support barriers.",
-          "recommended_actions": [
-            "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources."
-          ],
-          "expected_outcome": "Regular class attendance established and a structured weekly study schedule created.",
-          "explanation": "Addressed high priority risks (lms_onboarding) to build a stable learning foundation.",
-          "item_ids": [
-            "lms_onboarding"
-          ]
-        },
-        "Week 2": {
-          "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
-          "recommended_actions": [
-            "Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories.",
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
-          ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (extra_exercises, remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "extra_exercises",
-            "remedial_class"
           ]
         },
         "Week 3": {
@@ -5554,6 +5421,67 @@
     }
   },
   {
+    "student_index": 91,
+    "path": {
+      "risk_band": "High",
+      "predicted_class": 1,
+      "weeks": {
+        "Week 1": {
+          "theme": "Stabilize",
+          "objective": "Establish basic academic stability and resolve immediate attendance or support barriers.",
+          "recommended_actions": [
+            "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources.",
+            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight."
+          ],
+          "expected_outcome": "Regular class attendance established and a structured weekly study schedule created.",
+          "explanation": "Addressed high priority risks (lms_onboarding, parent_sync) to build a stable learning foundation.",
+          "item_ids": [
+            "lms_onboarding",
+            "parent_sync"
+          ]
+        },
+        "Week 2": {
+          "theme": "Practice",
+          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "recommended_actions": [
+            "Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories."
+          ],
+          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
+          "explanation": "Prioritizes targeted tasks (extra_exercises) to reinforce basic subject mastery.",
+          "item_ids": [
+            "extra_exercises"
+          ]
+        },
+        "Week 3": {
+          "theme": "Reinforce",
+          "objective": "Engage in collaborative study and leverage interactive resources to deepen understanding.",
+          "recommended_actions": [
+            "Facilitated Study Group: Weekly group discussions focusing on course concepts and collaborative exercises.",
+            "Biweekly Academic Coaching: Biweekly academic coaching for students showing declining performance trends.",
+            "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
+          ],
+          "expected_outcome": "Active participation in peer groups and increased digital platform engagement.",
+          "explanation": "Uses interactive activities (study_group, academic_coaching, interactive_quiz) to sustain motivation and learning speed.",
+          "item_ids": [
+            "study_group",
+            "academic_coaching",
+            "interactive_quiz"
+          ]
+        },
+        "Week 4": {
+          "theme": "Evaluate & Adjust",
+          "objective": "Self-evaluate progress and adjust study goals for the coming cycle.",
+          "recommended_actions": [
+            "Review weekly study metrics and grade logs. Plan study targets for the next month."
+          ],
+          "expected_outcome": "Clear understanding of progress and updated self-study goals.",
+          "explanation": "Cycle wrap-up: reflection on achievements and setting goals for the next month.",
+          "item_ids": []
+        }
+      }
+    }
+  },
+  {
     "student_index": 92,
     "path": {
       "risk_band": "High",
@@ -5564,36 +5492,40 @@
           "objective": "Establish basic academic stability and resolve immediate attendance or support barriers.",
           "recommended_actions": [
             "Daily Attendance Monitoring: Sign-in sheets and weekly academic advisor check-ins to rebuild class attendance consistency.",
-            "Academic Counselor Consultation: One-on-one sessions to address personal wellbeing academic anxiety and home/school support alignment."
+            "Academic Counselor Consultation: One-on-one sessions to address personal wellbeing academic anxiety and home/school support alignment.",
+            "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources."
           ],
           "expected_outcome": "Regular class attendance established and a structured weekly study schedule created.",
-          "explanation": "Addressed high priority risks (attendance_monitoring, counselor_meeting) to build a stable learning foundation.",
+          "explanation": "Addressed high priority risks (attendance_monitoring, counselor_meeting, lms_onboarding) to build a stable learning foundation.",
           "item_ids": [
             "attendance_monitoring",
-            "counselor_meeting"
+            "counselor_meeting",
+            "lms_onboarding"
           ]
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
-          "objective": "General reinforcement and digital resource reading.",
+          "objective": "Engage in collaborative study and leverage interactive resources to deepen understanding.",
           "recommended_actions": [
-            "Participate in general class discussions. Use LMS resources for regular reading."
+            "Facilitated Study Group: Weekly group discussions focusing on course concepts and collaborative exercises.",
+            "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
-          "expected_outcome": "Steady engagement with digital course resources.",
-          "explanation": "Student engagement and habits are already at acceptable levels.",
-          "item_ids": []
+          "expected_outcome": "Active participation in peer groups and increased digital platform engagement.",
+          "explanation": "Uses interactive activities (study_group, interactive_quiz) to sustain motivation and learning speed.",
+          "item_ids": [
+            "study_group",
+            "interactive_quiz"
+          ]
         },
         "Week 4": {
           "theme": "Evaluate & Adjust",
@@ -5693,15 +5625,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -5803,29 +5733,27 @@
           "theme": "Stabilize",
           "objective": "Establish basic academic stability and resolve immediate attendance or support barriers.",
           "recommended_actions": [
-            "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources.",
             "Time Management Workshop: Guided sessions on creating weekly study schedules prioritizing tasks and minimizing distractions.",
+            "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources.",
             "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight."
           ],
           "expected_outcome": "Regular class attendance established and a structured weekly study schedule created.",
-          "explanation": "Addressed high priority risks (lms_onboarding, time_planning, parent_sync) to build a stable learning foundation.",
+          "explanation": "Addressed high priority risks (time_planning, lms_onboarding, parent_sync) to build a stable learning foundation.",
           "item_ids": [
-            "lms_onboarding",
             "time_planning",
+            "lms_onboarding",
             "parent_sync"
           ]
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -5876,15 +5804,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -5935,15 +5861,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -5984,26 +5908,26 @@
           "theme": "Stabilize",
           "objective": "Establish basic academic stability and resolve immediate attendance or support barriers.",
           "recommended_actions": [
-            "Time Management Workshop: Guided sessions on creating weekly study schedules prioritizing tasks and minimizing distractions."
+            "Time Management Workshop: Guided sessions on creating weekly study schedules prioritizing tasks and minimizing distractions.",
+            "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources."
           ],
           "expected_outcome": "Regular class attendance established and a structured weekly study schedule created.",
-          "explanation": "Addressed high priority risks (time_planning) to build a stable learning foundation.",
+          "explanation": "Addressed high priority risks (time_planning, lms_onboarding) to build a stable learning foundation.",
           "item_ids": [
-            "time_planning"
+            "time_planning",
+            "lms_onboarding"
           ]
         },
         "Week 2": {
           "theme": "Practice",
           "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
           "recommended_actions": [
-            "Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories.",
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories."
           ],
           "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (extra_exercises, remedial_class) to reinforce basic subject mastery.",
+          "explanation": "Prioritizes targeted tasks (extra_exercises) to reinforce basic subject mastery.",
           "item_ids": [
-            "extra_exercises",
-            "remedial_class"
+            "extra_exercises"
           ]
         },
         "Week 3": {
@@ -6106,28 +6030,24 @@
           "theme": "Stabilize",
           "objective": "Establish basic academic stability and resolve immediate attendance or support barriers.",
           "recommended_actions": [
-            "Time Management Workshop: Guided sessions on creating weekly study schedules prioritizing tasks and minimizing distractions.",
-            "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources."
+            "Time Management Workshop: Guided sessions on creating weekly study schedules prioritizing tasks and minimizing distractions."
           ],
           "expected_outcome": "Regular class attendance established and a structured weekly study schedule created.",
-          "explanation": "Addressed high priority risks (time_planning, lms_onboarding) to build a stable learning foundation.",
+          "explanation": "Addressed high priority risks (time_planning) to build a stable learning foundation.",
           "item_ids": [
-            "time_planning",
-            "lms_onboarding"
+            "time_planning"
           ]
         },
         "Week 2": {
           "theme": "Practice",
           "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
           "recommended_actions": [
-            "Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories.",
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories."
           ],
           "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (extra_exercises, remedial_class) to reinforce basic subject mastery.",
+          "explanation": "Prioritizes targeted tasks (extra_exercises) to reinforce basic subject mastery.",
           "item_ids": [
-            "extra_exercises",
-            "remedial_class"
+            "extra_exercises"
           ]
         },
         "Week 3": {
@@ -6160,7 +6080,7 @@
   {
     "student_index": 102,
     "path": {
-      "risk_band": "High",
+      "risk_band": "Moderate",
       "predicted_class": 1,
       "weeks": {
         "Week 1": {
@@ -6179,15 +6099,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -6360,13 +6278,11 @@
           "theme": "Practice",
           "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories.",
             "Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories."
           ],
           "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class, extra_exercises) to reinforce basic subject mastery.",
+          "explanation": "Prioritizes targeted tasks (extra_exercises) to reinforce basic subject mastery.",
           "item_ids": [
-            "remedial_class",
             "extra_exercises"
           ]
         },
@@ -6375,13 +6291,15 @@
           "objective": "Engage in collaborative study and leverage interactive resources to deepen understanding.",
           "recommended_actions": [
             "Facilitated Study Group: Weekly group discussions focusing on course concepts and collaborative exercises.",
-            "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
+            "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement.",
+            "Biweekly Academic Coaching: Biweekly academic coaching for students showing declining performance trends."
           ],
           "expected_outcome": "Active participation in peer groups and increased digital platform engagement.",
-          "explanation": "Uses interactive activities (study_group, interactive_quiz) to sustain motivation and learning speed.",
+          "explanation": "Uses interactive activities (study_group, interactive_quiz, academic_coaching) to sustain motivation and learning speed.",
           "item_ids": [
             "study_group",
-            "interactive_quiz"
+            "interactive_quiz",
+            "academic_coaching"
           ]
         },
         "Week 4": {
@@ -6482,15 +6400,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -6545,15 +6461,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -6604,15 +6518,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -6655,18 +6567,18 @@
           "recommended_actions": [
             "Daily Attendance Monitoring: Sign-in sheets and weekly academic advisor check-ins to rebuild class attendance consistency.",
             "Academic Counselor Consultation: One-on-one sessions to address personal wellbeing academic anxiety and home/school support alignment.",
+            "Time Management Workshop: Guided sessions on creating weekly study schedules prioritizing tasks and minimizing distractions.",
             "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources.",
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
-            "Time Management Workshop: Guided sessions on creating weekly study schedules prioritizing tasks and minimizing distractions."
+            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight."
           ],
           "expected_outcome": "Regular class attendance established and a structured weekly study schedule created.",
-          "explanation": "Addressed high priority risks (attendance_monitoring, counselor_meeting, lms_onboarding, parent_sync, time_planning) to build a stable learning foundation.",
+          "explanation": "Addressed high priority risks (attendance_monitoring, counselor_meeting, time_planning, lms_onboarding, parent_sync) to build a stable learning foundation.",
           "item_ids": [
             "attendance_monitoring",
             "counselor_meeting",
+            "time_planning",
             "lms_onboarding",
-            "parent_sync",
-            "time_planning"
+            "parent_sync"
           ]
         },
         "Week 2": {
@@ -6726,15 +6638,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -6789,14 +6699,12 @@
           "theme": "Practice",
           "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
           "recommended_actions": [
-            "Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories.",
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories."
           ],
           "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (extra_exercises, remedial_class) to reinforce basic subject mastery.",
+          "explanation": "Prioritizes targeted tasks (extra_exercises) to reinforce basic subject mastery.",
           "item_ids": [
-            "extra_exercises",
-            "remedial_class"
+            "extra_exercises"
           ]
         },
         "Week 3": {
@@ -6804,12 +6712,14 @@
           "objective": "Engage in collaborative study and leverage interactive resources to deepen understanding.",
           "recommended_actions": [
             "Facilitated Study Group: Weekly group discussions focusing on course concepts and collaborative exercises.",
+            "Biweekly Academic Coaching: Biweekly academic coaching for students showing declining performance trends.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Active participation in peer groups and increased digital platform engagement.",
-          "explanation": "Uses interactive activities (study_group, interactive_quiz) to sustain motivation and learning speed.",
+          "explanation": "Uses interactive activities (study_group, academic_coaching, interactive_quiz) to sustain motivation and learning speed.",
           "item_ids": [
             "study_group",
+            "academic_coaching",
             "interactive_quiz"
           ]
         },
@@ -6848,15 +6758,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -6909,15 +6817,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -7010,7 +6916,7 @@
   {
     "student_index": 116,
     "path": {
-      "risk_band": "High",
+      "risk_band": "Moderate",
       "predicted_class": 2,
       "weeks": {
         "Week 1": {
@@ -7029,15 +6935,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -7071,7 +6975,7 @@
   {
     "student_index": 117,
     "path": {
-      "risk_band": "High",
+      "risk_band": "Moderate",
       "predicted_class": 1,
       "weeks": {
         "Week 1": {
@@ -7090,15 +6994,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -7149,15 +7051,13 @@
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -7197,15 +7097,15 @@
           "objective": "Establish basic academic stability and resolve immediate attendance or support barriers.",
           "recommended_actions": [
             "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources.",
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
-            "Time Management Workshop: Guided sessions on creating weekly study schedules prioritizing tasks and minimizing distractions."
+            "Time Management Workshop: Guided sessions on creating weekly study schedules prioritizing tasks and minimizing distractions.",
+            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight."
           ],
           "expected_outcome": "Regular class attendance established and a structured weekly study schedule created.",
-          "explanation": "Addressed high priority risks (lms_onboarding, parent_sync, time_planning) to build a stable learning foundation.",
+          "explanation": "Addressed high priority risks (lms_onboarding, time_planning, parent_sync) to build a stable learning foundation.",
           "item_ids": [
             "lms_onboarding",
-            "parent_sync",
-            "time_planning"
+            "time_planning",
+            "parent_sync"
           ]
         },
         "Week 2": {
@@ -7257,26 +7157,26 @@
           "theme": "Stabilize",
           "objective": "Establish basic academic stability and resolve immediate attendance or support barriers.",
           "recommended_actions": [
-            "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources."
+            "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources.",
+            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight."
           ],
           "expected_outcome": "Regular class attendance established and a structured weekly study schedule created.",
-          "explanation": "Addressed high priority risks (lms_onboarding) to build a stable learning foundation.",
+          "explanation": "Addressed high priority risks (lms_onboarding, parent_sync) to build a stable learning foundation.",
           "item_ids": [
-            "lms_onboarding"
+            "lms_onboarding",
+            "parent_sync"
           ]
         },
         "Week 2": {
           "theme": "Practice",
           "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
           "recommended_actions": [
-            "Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories.",
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories."
           ],
           "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (extra_exercises, remedial_class) to reinforce basic subject mastery.",
+          "explanation": "Prioritizes targeted tasks (extra_exercises) to reinforce basic subject mastery.",
           "item_ids": [
-            "extra_exercises",
-            "remedial_class"
+            "extra_exercises"
           ]
         },
         "Week 3": {
@@ -7501,29 +7401,27 @@
           "theme": "Stabilize",
           "objective": "Establish basic academic stability and resolve immediate attendance or support barriers.",
           "recommended_actions": [
+            "Time Management Workshop: Guided sessions on creating weekly study schedules prioritizing tasks and minimizing distractions.",
             "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources.",
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
-            "Time Management Workshop: Guided sessions on creating weekly study schedules prioritizing tasks and minimizing distractions."
+            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight."
           ],
           "expected_outcome": "Regular class attendance established and a structured weekly study schedule created.",
-          "explanation": "Addressed high priority risks (lms_onboarding, parent_sync, time_planning) to build a stable learning foundation.",
+          "explanation": "Addressed high priority risks (time_planning, lms_onboarding, parent_sync) to build a stable learning foundation.",
           "item_ids": [
+            "time_planning",
             "lms_onboarding",
-            "parent_sync",
-            "time_planning"
+            "parent_sync"
           ]
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -7684,29 +7582,27 @@
           "theme": "Stabilize",
           "objective": "Establish basic academic stability and resolve immediate attendance or support barriers.",
           "recommended_actions": [
+            "Time Management Workshop: Guided sessions on creating weekly study schedules prioritizing tasks and minimizing distractions.",
             "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources.",
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
-            "Time Management Workshop: Guided sessions on creating weekly study schedules prioritizing tasks and minimizing distractions."
+            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight."
           ],
           "expected_outcome": "Regular class attendance established and a structured weekly study schedule created.",
-          "explanation": "Addressed high priority risks (lms_onboarding, parent_sync, time_planning) to build a stable learning foundation.",
+          "explanation": "Addressed high priority risks (time_planning, lms_onboarding, parent_sync) to build a stable learning foundation.",
           "item_ids": [
+            "time_planning",
             "lms_onboarding",
-            "parent_sync",
-            "time_planning"
+            "parent_sync"
           ]
         },
         "Week 2": {
           "theme": "Practice",
-          "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
+          "objective": "Standard practice and concept review.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories."
+            "Complete standard homework assignments. Optional: review previous exam questions."
           ],
-          "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class) to reinforce basic subject mastery.",
-          "item_ids": [
-            "remedial_class"
-          ]
+          "expected_outcome": "Consistent completion of weekly homework.",
+          "explanation": "No significant knowledge gaps diagnosed. Continuing with standard practice.",
+          "item_ids": []
         },
         "Week 3": {
           "theme": "Reinforce",
@@ -7743,25 +7639,25 @@
       "weeks": {
         "Week 1": {
           "theme": "Stabilize",
-          "objective": "Maintain current academic stability and check-in with advisor.",
+          "objective": "Establish basic academic stability and resolve immediate attendance or support barriers.",
           "recommended_actions": [
-            "Maintain current attendance and standard study schedules. No urgent stabilization required."
+            "LMS Navigation Tutorial: Interactive walkthrough of the digital learning system to track course updates and resources."
           ],
-          "expected_outcome": "Consistent attendance and stable scheduling maintained.",
-          "explanation": "No critical stabilization issues detected based on current student profile.",
-          "item_ids": []
+          "expected_outcome": "Regular class attendance established and a structured weekly study schedule created.",
+          "explanation": "Addressed high priority risks (lms_onboarding) to build a stable learning foundation.",
+          "item_ids": [
+            "lms_onboarding"
+          ]
         },
         "Week 2": {
           "theme": "Practice",
           "objective": "Remediate core knowledge gaps and practice key concepts to catch up.",
           "recommended_actions": [
-            "Remedial Topic Bootcamps: Instructor-led intensive review sessions on fundamental subjects to fix cumulative failure histories.",
             "Targeted Practice Exercises: Curated weekly practice worksheets focusing on areas with negative grade gaps or failing histories."
           ],
           "expected_outcome": "Completion of initial practice exercises and reduction in concept gaps.",
-          "explanation": "Prioritizes targeted tasks (remedial_class, extra_exercises) to reinforce basic subject mastery.",
+          "explanation": "Prioritizes targeted tasks (extra_exercises) to reinforce basic subject mastery.",
           "item_ids": [
-            "remedial_class",
             "extra_exercises"
           ]
         },
@@ -7769,15 +7665,15 @@
           "theme": "Reinforce",
           "objective": "Engage in collaborative study and leverage interactive resources to deepen understanding.",
           "recommended_actions": [
-            "Biweekly Academic Coaching: Biweekly academic coaching for students showing declining performance trends.",
             "Facilitated Study Group: Weekly group discussions focusing on course concepts and collaborative exercises.",
+            "Biweekly Academic Coaching: Biweekly academic coaching for students showing declining performance trends.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Active participation in peer groups and increased digital platform engagement.",
-          "explanation": "Uses interactive activities (academic_coaching, study_group, interactive_quiz) to sustain motivation and learning speed.",
+          "explanation": "Uses interactive activities (study_group, academic_coaching, interactive_quiz) to sustain motivation and learning speed.",
           "item_ids": [
-            "academic_coaching",
             "study_group",
+            "academic_coaching",
             "interactive_quiz"
           ]
         },
@@ -7807,15 +7703,15 @@
           "objective": "Establish basic academic stability and resolve immediate attendance or support barriers.",
           "recommended_actions": [
             "Daily Attendance Monitoring: Sign-in sheets and weekly academic advisor check-ins to rebuild class attendance consistency.",
-            "Academic Counselor Consultation: One-on-one sessions to address personal wellbeing academic anxiety and home/school support alignment.",
-            "Time Management Workshop: Guided sessions on creating weekly study schedules prioritizing tasks and minimizing distractions."
+            "Time Management Workshop: Guided sessions on creating weekly study schedules prioritizing tasks and minimizing distractions.",
+            "Academic Counselor Consultation: One-on-one sessions to address personal wellbeing academic anxiety and home/school support alignment."
           ],
           "expected_outcome": "Regular class attendance established and a structured weekly study schedule created.",
-          "explanation": "Addressed high priority risks (attendance_monitoring, counselor_meeting, time_planning) to build a stable learning foundation.",
+          "explanation": "Addressed high priority risks (attendance_monitoring, time_planning, counselor_meeting) to build a stable learning foundation.",
           "item_ids": [
             "attendance_monitoring",
-            "counselor_meeting",
-            "time_planning"
+            "time_planning",
+            "counselor_meeting"
           ]
         },
         "Week 2": {

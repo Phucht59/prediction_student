@@ -135,3 +135,50 @@ PHASE 1: SỬA MÔ HÌNH KHUYẾN NGHỊ TRONG CODE
 PHASE 2: CHỈNH BÁO CÁO SAU KHI MODEL CHẠY XONG
 - Chỉnh sửa `generate_doc.py` để phản ánh kiến trúc mới (3.5.1 đến 3.5.5) và bảng kết quả (4.4). Bắt buộc thêm các câu giải thích về weak labels và các hạn chế.
 - Tạo file `outputs/recommender/final_recommender_section.md` chứa nội dung báo cáo để người dùng có thể tham khảo.
+
+## Follow-up — 2026-06-15T08:04:55Z
+
+# Teamwork Project Prompt — Draft
+
+> Status: Ready for launch — awaiting user approval.
+> Goal: Craft prompt → get user approval → delegate to teamwork_preview
+
+Cải tiến mô hình dự đoán kết quả học tập CNN-BiLSTM + Context MLP trên 3 dataset (student-mat, student-por, xapi) để tối ưu hóa Macro-F1 và Recall nhóm Low, tuân thủ nghiêm ngặt đề cương khóa luận và kiểm soát rủi ro data leakage.
+
+Working directory: c:\Huflit\kltn
+Integrity mode: development
+
+## Requirements
+
+### R1. Phase 1-2: Audit & Fix Resampling
+- Kiểm tra toàn bộ pipeline hiện tại để đảm bảo không có rò rỉ dữ liệu (locked test phải được cách ly hoàn toàn).
+- Sửa lỗi Resampling cho dữ liệu hỗn hợp: Ưu tiên SMOTENC, nếu dùng ADASYN chỉ áp dụng cho phần numeric-safe. Không bao giờ áp dụng trên validation hoặc locked test. Tạo bảng so sánh các phương pháp (outputs/experiments/resampling_comparison.csv).
+
+### R2. Phase 3-5: Kiến trúc V27 & Tối ưu hóa
+- Triển khai mô hình `StudentHybridV27` (src/models_v27.py) với Sequence Branch (Conv1D + BiLSTM) và Context Branch (Categorical Embeddings + Context MLP), kết hợp bằng Gated Fusion.
+- Thêm Auxiliary Heads: Ordinal cho thứ tự lớp học, Regression (chỉ với dataset có numeric grade).
+- Thử nghiệm các Loss function (src/losses_v27.py) như Weighted CE, Focal Loss, CB-Focal, Ordinal loss. (outputs/experiments/loss_comparison.csv)
+- Tối ưu hóa đặc thù theo từng dataset (Student-mat cần regularization, Student-por cần cân bằng lớp Medium, xAPI cần tương tác feature học tập).
+
+### R3. Phase 6-8: Optuna & Ensemble
+- Chạy Optuna tuning (scripts/run_v27_optuna.py) cho từng dataset (50-150 trials tùy tài nguyên). Tuyệt đối không tune trên locked test.
+- Tune decision thresholds trên validation set sau khi train (outputs/experiments/thresholds_{dataset}.json).
+- Tạo Seed Ensemble (42-46) để trung bình xác suất (outputs/v27/{dataset}/ensemble_metrics.json).
+
+### R4. Phase 9-10: Ablation & Evaluation
+- Thực hiện Ablation study bắt buộc với 10 biến thể (outputs/v27/ablation_results.csv).
+- Đánh giá chuẩn các metrics: Accuracy, Precision/Recall macro, F1-Macro, F1 từng class, Recall Low, RMSE, R² (outputs/v27/{dataset}/metrics.json).
+
+### R5. Phase 12: Báo cáo
+- CHỈ tạo báo cáo (outputs/v27/final_prediction_section.md) SAU KHI có kết quả thật từ Artifacts. Không ghi đè báo cáo Word ngay. Trả về bảng đối chiếu đầy đủ.
+
+## Acceptance Criteria
+
+- [ ] Giữ nguyên mô hình chính là CNN-BiLSTM + Context MLP (không chuyển qua ML truyền thống).
+- [ ] Không có data leakage (kiểm tra locked test isolation và feature target).
+- [ ] Pipeline chạy thành công xuất ra đầy đủ metrics, ablation results và predictions.
+- [ ] **Mục tiêu hiệu năng:** 
+      - Macro-F1 trên locked test tăng so với baseline cũ (Mat: 0.8690, Por: 0.8156, xAPI: 0.7850) ít nhất `0.01`, HOẶC
+      - Recall Low tăng đáng kể mà Macro-F1 không giảm quá `0.01`, HOẶC
+      - Dataset xAPI cải thiện rõ ràng so với baseline `0.7850`.
+- [ ] Nếu mô hình V27 không vượt qua baseline, giữ nguyên baseline cũ và báo cáo V27 là thí nghiệm mở rộng. Tuyệt đối không bịa số liệu.
