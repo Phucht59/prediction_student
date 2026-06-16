@@ -1,13 +1,16 @@
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 
 from src.experiments.common import (
     IMBALANCE_STRATEGIES,
+    ExperimentConfig,
     apply_student_scenario,
     compute_required_metrics,
     scenario_sequence_columns,
 )
+from src.experiments.deep_debug import DebugRunConfig, tune_low_class_thresholds, variant_specs_for_scenario
 
 
 def test_student_scenarios_remove_unavailable_grade_features():
@@ -61,3 +64,29 @@ def test_data_pipeline_no_longer_imports_adasyn_sampler():
     source = (Path(__file__).resolve().parents[1] / "src" / "data_pipeline.py").read_text(encoding="utf-8")
     assert "ADASYN," not in source
     assert "ADASYN(" not in source
+
+
+def test_deep_debug_early_uses_context_variants_only():
+    specs = variant_specs_for_scenario("early", ExperimentConfig(), DebugRunConfig())
+    variants = {spec.variant for spec in specs}
+    assert variants == {"context_mlp_only", "context_mlp_v2"}
+    assert "sequence_cnn_bilstm_only" not in variants
+    assert "fusion_cnn_bilstm_context" not in variants
+
+
+def test_low_class_threshold_tuning_exports_required_modes():
+    probabilities = np.array(
+        [
+            [0.8, 0.1, 0.1],
+            [0.2, 0.6, 0.2],
+            [0.3, 0.2, 0.5],
+            [0.4, 0.5, 0.1],
+        ]
+    )
+    rows = tune_low_class_thresholds(np.array([0, 1, 2, 0]), probabilities)
+    assert {row["prediction_mode"] for row in rows} == {
+        "argmax",
+        "low_threshold_tuned",
+        "low_f1_tuned",
+        "low_recall_priority",
+    }
