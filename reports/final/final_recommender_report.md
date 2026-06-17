@@ -61,14 +61,14 @@ Each recommendation keeps a score breakdown and prediction context: `predicted_c
 Each student receives a 4-week plan: Week 1 Stabilize, Week 2 Practice, Week 3 Reinforce, Week 4 Evaluate & Adjust.
 
 ## Evaluation Metrics
-The recommender is evaluated offline against weak-supervision/rule-based reference labels. The full xAPI and Student-Por pipelines were refreshed in this run. Student-Mat is pending a refreshed full run because of missing/inconsistent final prediction feature metadata.
+The recommender is evaluated offline against weak-supervision/rule-based reference labels. The full xAPI and Student-Por pipelines were refreshed in this run. Student-Mat is pending a refreshed full run because the final prediction checkpoint metadata is missing/inconsistent.
 
 | Dataset | Risk Macro F1 | Risk Micro F1 | Precision@3 | Recall@3 | NDCG@3 | Coverage@3 | Risk Coverage | Workload Std | Difficulty Progression | Prereq Violation |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
 | xapi | 0.9831 | 0.9813 | 0.7014 | 0.4719 | 0.8407 | 0.6875 | 0.9306 | 1.3152 | 0.7396 | 0.0021 |
 | student-por | 0.9359 | 0.9094 | 0.8462 | 0.3870 | 0.8800 | 1.0000 | 0.9335 | 1.4751 | 0.6410 | 0.0205 |
 
-Student-Mat status: Current full run blocked because final Student-Mat prediction metadata is missing/inconsistent: models/saved/final/student-mat_3class_ensemble_features.json is absent and checkpoint input shape does not match regenerated feature selection. Existing outputs/recommender/student-mat files were not refreshed in this run.
+Student-Mat status: pending full run because missing final prediction checkpoint metadata: models/saved/final/student-mat_3class_ensemble_features.json. The available Student-Mat checkpoint input shape does not match regenerated feature selection, so existing outputs/recommender/student-mat files were not refreshed in this run.
 
 ## Case Studies
 ### xapi - High Risk (Struggling) Student (Test Index 1)

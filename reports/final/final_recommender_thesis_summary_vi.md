@@ -72,7 +72,7 @@ C?c tr?ng s? ???c ?i?u ch?nh theo l?p d? ?o?n v? m?c r?i ro. V?i sinh vi?n ???c 
 | xapi | 0.9831 | 0.9813 | 0.7014 | 0.4719 | 0.8407 | 0.6875 | 0.9306 | 1.3152 | 0.7396 | 0.0021 |
 | student-por | 0.9359 | 0.9094 | 0.8462 | 0.3870 | 0.8800 | 1.0000 | 0.9335 | 1.4751 | 0.6410 | 0.0205 |
 
-Ghi ch? Student-Mat: Current full run blocked because final Student-Mat prediction metadata is missing/inconsistent: models/saved/final/student-mat_3class_ensemble_features.json is absent and checkpoint input shape does not match regenerated feature selection. Existing outputs/recommender/student-mat files were not refreshed in this run.
+Ghi chú Student-Mat: pending full run because missing final prediction checkpoint metadata: models/saved/final/student-mat_3class_ensemble_features.json. Checkpoint Student-Mat hiện có không khớp input shape khi tái tạo feature selection, nên các file outputs/recommender/student-mat không được refresh trong lần chạy này.
 
 ## Gi?i h?n
 - ??nh gi? recommender l? ??nh gi? offline d?a tr?n weak-supervision/rule-based reference.
