@@ -43,7 +43,7 @@
      * A short daily checklist that requires opening key resources announcements and practice links before class.
      * *Score Breakdown*: Đề xuất 'Daily LMS Resource Checklist' được lựa chọn vì nó hỗ trợ khắc phục tình trạng mức độ tương tác lớp học thấp, đáp ứng nhu cầu cải thiện kết quả học tập hiện tại, vừa sức với năng lực hiện tại của bạn, phù hợp với thời gian học tập hàng tuần của bạn. (Risk Match: 1.00, Perf Need: 0.92, Diff Fit: 1.00, Time Fit: 1.00, Prereq Fit: 1.00, Effect: 0.88, pLow: 0.59, MaxRisk: 1.00)
   2. **Guided Discussion Prompts** (Score: 1.0000)
-     * Teacher-provided prompts that require short answers or peer replies to increase class interaction.
+     * Instructor-provided prompts that require short answers or peer replies to increase class interaction.
      * *Score Breakdown*: Đề xuất 'Guided Discussion Prompts' được lựa chọn vì nó hỗ trợ khắc phục tình trạng mức độ tương tác lớp học thấp, đáp ứng nhu cầu cải thiện kết quả học tập hiện tại, vừa sức với năng lực hiện tại của bạn, phù hợp với thời gian học tập hàng tuần của bạn. (Risk Match: 1.00, Perf Need: 0.92, Diff Fit: 0.88, Time Fit: 1.00, Prereq Fit: 1.00, Effect: 0.82, pLow: 0.59, MaxRisk: 1.00)
   3. **LMS Interactive Quizzing** (Score: 1.0000)
      * Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement.
@@ -54,19 +54,19 @@
     * *Objective*: Stabilize attendance, support contact and basic study routine.
     * *Recommended Actions*:
       - Daily LMS Resource Checklist: A short daily checklist that requires opening key resources announcements and practice links before class.
-      - Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.
+      - Parent-School Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.
     * *Expected Outcome*: Immediate barriers are identified and the student has a concrete weekly plan.
     * *Educational Rationale*: Selected top-scoring stabilize interventions linked to diagnosed risks: R4_LOW_ENGAGEMENT, R6_HIGH_FAILURE_PROBABILITY.
   * **Week 2 - Theme: Practice**
     * *Objective*: Close the highest-priority knowledge or engagement gap.
     * *Recommended Actions*:
-      - Absence Recovery Pack: Short catch-up package for missed lessons with teacher verification after each completed unit.
+      - Absence Recovery Pack: Short catch-up package for missed lessons with school verification after each completed unit.
     * *Expected Outcome*: The student completes measurable practice tasks and receives feedback.
     * *Educational Rationale*: Selected top-scoring practice interventions linked to diagnosed risks: R4_LOW_ENGAGEMENT, R6_HIGH_FAILURE_PROBABILITY.
   * **Week 3 - Theme: Reinforce**
     * *Objective*: Reinforce learning through interaction, resources and repetition.
     * *Recommended Actions*:
-      - Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.
+      - Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.
       - LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement.
     * *Expected Outcome*: Engagement indicators improve and weak topics are revisited.
     * *Educational Rationale*: Selected top-scoring reinforce interventions linked to diagnosed risks: R4_LOW_ENGAGEMENT, R6_HIGH_FAILURE_PROBABILITY.
@@ -103,7 +103,7 @@
   * **Week 1 - Theme: Stabilize**
     * *Objective*: Stabilize attendance, support contact and basic study routine.
     * *Recommended Actions*:
-      - Set a minimum weekly study schedule and complete one advisor/teacher check-in.
+      - Set a minimum weekly study schedule and complete one advisor or school check-in.
     * *Expected Outcome*: Immediate barriers are identified and the student has a concrete weekly plan.
     * *Educational Rationale*: No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.
   * **Week 2 - Theme: Practice**
@@ -152,7 +152,7 @@
   * **Week 1 - Theme: Stabilize**
     * *Objective*: Stabilize attendance, support contact and basic study routine.
     * *Recommended Actions*:
-      - Set a minimum weekly study schedule and complete one advisor/teacher check-in.
+      - Set a minimum weekly study schedule and complete one advisor or school check-in.
     * *Expected Outcome*: Immediate barriers are identified and the student has a concrete weekly plan.
     * *Educational Rationale*: No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.
   * **Week 2 - Theme: Practice**

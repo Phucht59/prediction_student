@@ -56,7 +56,7 @@
   * **Week 1 - Theme: Stabilize**
     * *Objective*: Stabilize attendance, support contact and basic study routine.
     * *Recommended Actions*:
-      - Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.
+      - Parent-School Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.
       - Family Progress Contract: A simple family-school agreement with one weekly learning target and one progress check-in.
     * *Expected Outcome*: Immediate barriers are identified and the student has a concrete weekly plan.
     * *Educational Rationale*: Selected top-scoring stabilize interventions linked to diagnosed risks: R6_HIGH_FAILURE_PROBABILITY, R1_LOW_PRIOR_PERFORMANCE, R2_DECLINING_TREND.
@@ -162,7 +162,7 @@
   * **Week 1 - Theme: Stabilize**
     * *Objective*: Stabilize attendance, support contact and basic study routine.
     * *Recommended Actions*:
-      - Set a minimum weekly study schedule and complete one advisor/teacher check-in.
+      - Set a minimum weekly study schedule and complete one advisor or school check-in.
     * *Expected Outcome*: Immediate barriers are identified and the student has a concrete weekly plan.
     * *Educational Rationale*: No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.
   * **Week 2 - Theme: Practice**

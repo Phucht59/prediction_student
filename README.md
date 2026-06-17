@@ -1,78 +1,82 @@
-# Xay dung mo hinh hoc ket hop de du doan thanh tich hoc tap sinh vien
+# Xây dựng mô hình học kết hợp để dự đoán thành tích học tập sinh viên
 
-## Mo ta ngan
+## Mô tả ngắn
 
-Du an xay dung pipeline du doan thanh tich hoc tap sinh vien theo ba muc bang mo hinh Deep Learning CNN-BiLSTM. Baseline models duoc dung de doi chung ky thuat, trong khi mo hinh chinh cua de tai la CNN-BiLSTM theo dung de cuong.
+Dự án xây dựng pipeline dự đoán thành tích học tập sinh viên theo ba mức `Low`, `Medium`, `High` bằng mô hình Deep Learning CNN-BiLSTM. Sau dự đoán, module RA-HLPR tạo lộ trình học tập 4 tuần dựa trên xác suất dự đoán và chẩn đoán rủi ro học tập.
+
+Baseline machine learning chỉ được dùng để đối chứng. Mô hình chính của đề tài là CNN-BiLSTM và module khuyến nghị downstream.
 
 ## Dataset
 
-| Dataset | Vai tro |
-| --- | --- |
-| `student-mat` | Du lieu Student Performance mon Toan |
-| `student-por` | Du lieu Student Performance mon Tieng Bo Dao Nha |
-| `xAPI` | Du lieu hanh vi hoc tap va tuong tac hoc truc tuyen |
+| Dataset | Vai trò |
+|---|---|
+| `student-mat` | Student Performance môn Toán |
+| `student-por` | Student Performance môn Tiếng Bồ Đào Nha |
+| `xAPI` | Dữ liệu hành vi học tập và tương tác học trực tuyến |
 
-Du an khong su dung `student-combine` lam dataset chinh.
+Không dùng `student-combine` làm dataset chính.
 
-## Mo hinh chinh
-
-- Student datasets: `sequence_cnn_bilstm_only`.
-- xAPI: `gated_fusion_v28`, ket hop sequence branch va context branch bang gated fusion.
-- Sequence branch dung CNN de trich xuat dac trung cuc bo, sau do BiLSTM hoc bieu dien chuoi.
-
-## Xu ly mat can bang
-
-Pipeline thuc nghiem da kiem tra cac chien luoc hop le nhu class weight, SMOTENC, random oversampling va focal loss. Khong dung ADASYN truc tiep tren du lieu Student co bien phan loai da label encoding.
-
-## Final results
+## Final Prediction Results
 
 | Dataset | Scenario | Model | Prediction mode | Macro F1 | Recall Low | F1 Low |
-| --- | --- | --- | --- | ---: | ---: | ---: |
+|---|---|---|---|---:|---:|---:|
 | student-mat | late | sequence_cnn_bilstm_only | low_f1_tuned | 0.9365 | 0.9615 | 0.8929 |
 | student-por | late | sequence_cnn_bilstm_only | low_f1_tuned | 0.8783 | 0.9000 | 0.8182 |
 | student-por | midterm | sequence_cnn_bilstm_only | argmax | 0.8228 | 0.6500 | 0.7429 |
-| xAPI | xapi | gated_fusion_v28 | low_f1_tuned | 0.7541 | 0.8846 | 0.8214 |
+| xAPI | default | gated_fusion_v28 | low_f1_tuned | 0.7541 | 0.8846 | 0.8214 |
 
-## Cach chay pipeline final
+## Final Recommender Summary
 
-Chay test co ban:
+RA-HLPR là module downstream của CNN-BiLSTM:
+
+```text
+CNN-BiLSTM probabilities -> risk diagnosis -> intervention ranking -> 4-week learning path
+```
+
+- Recommender đã refresh cho `xapi` và `student-por`.
+- Student-Mat recommender đang pending vì thiếu metadata checkpoint: `models/saved/final/student-mat_3class_ensemble_features.json`.
+- Recommender không phải collaborative filtering.
+- Không claim causal improvement vì chưa có dữ liệu phản hồi thực tế sau khi sinh viên nhận khuyến nghị.
+
+## Cách chạy test
 
 ```powershell
 py -3.10 -m pytest -q
 ```
 
-Xem ket qua final:
+Hoặc trong môi trường Python đã cài dependency:
 
 ```powershell
-Get-Content reports\final\final_prediction_model_report.md
-Import-Csv reports\final\final_deep_results_table.csv | Format-Table -AutoSize
+python -m pytest -q
 ```
 
-Neu can tai lap cac thuc nghiem ky thuat, xem cac script trong `scripts/` va cac module trong `src/`. Cac thuc nghiem V28-V30 da duoc archive de tranh nham voi artifact final.
+## Cách chạy recommender
 
-## Bao cao
+```powershell
+py -3.10 scripts\run_recommender_pipeline.py --dataset xapi
+py -3.10 scripts\run_recommender_pipeline.py --dataset student-por
+```
+
+Student-Mat recommender cần metadata checkpoint trước khi refresh full run.
+
+## Báo cáo final
 
 - `reports/final/final_model_manifest.json`
 - `reports/final/final_deep_results_table.csv`
 - `reports/final/final_baseline_comparison.csv`
 - `reports/final/final_prediction_model_report.md`
 - `reports/final/final_thesis_ready_summary.md`
+- `reports/final/final_recommender_report.md`
+- `reports/final/final_recommender_thesis_summary_vi.md`
+- `reports/final/recommender_model_design.md`
+- `reports/final/FINAL_PROJECT_STATUS.md`
 
-## Learning Path Recommendation
+## Guardrails
 
-RA-HLPR is the downstream learning path recommendation module after CNN-BiLSTM prediction. It uses prediction probabilities, risk diagnosis, intervention ranking, and a 4-week path planner to produce risk-aware learning plans.
-
-- Not collaborative filtering, because the datasets do not include user-item interaction histories.
-- Uses CNN-BiLSTM probabilities as the main prediction signal.
-- Outputs risk-aware recommendations and a 4-week plan.
-- Final recommender reports:
-  - `reports/final/final_recommender_report.md`
-  - `reports/final/final_recommender_thesis_summary_vi.md`
-
-## Ghi chu hoc thuat
-
-- Locked test chi duoc dung cho final evaluation.
-- Threshold tuning cho lop Low dung CV/OOF train-pool probabilities, khong dung locked test.
-- Baseline chi dung de doi chung, khong phai mo hinh chinh cua de tai.
-- Regression head khong duoc claim la ket qua chinh vi RMSE con cao.
-- Khong su dung optimistic/paper-like result selection.
+- Locked test chỉ dùng cho final evaluation.
+- Baseline chỉ dùng đối chứng, không phải mô hình chính.
+- Không dùng `student-combine`.
+- Không dùng direct ADASYN với categorical label encoding.
+- Không claim regression head.
+- Không dùng ML baseline làm teacher hoặc distillation cho deep model/recommender.
+- Không dùng true `G3`/`Class` để sinh operational recommendation.

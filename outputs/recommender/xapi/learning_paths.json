@@ -25,7 +25,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -98,7 +98,7 @@
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
             "Daily LMS Resource Checklist: A short daily checklist that requires opening key resources announcements and practice links before class.",
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight."
+            "Parent-School Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "Selected top-scoring stabilize interventions linked to diagnosed risks: R4_LOW_ENGAGEMENT, R6_HIGH_FAILURE_PROBABILITY.",
@@ -111,7 +111,7 @@
           "theme": "Practice",
           "objective": "Close the highest-priority knowledge or engagement gap.",
           "recommended_actions": [
-            "Absence Recovery Pack: Short catch-up package for missed lessons with teacher verification after each completed unit."
+            "Absence Recovery Pack: Short catch-up package for missed lessons with school verification after each completed unit."
           ],
           "expected_outcome": "The student completes measurable practice tasks and receives feedback.",
           "explanation": "Selected top-scoring practice interventions linked to diagnosed risks: R4_LOW_ENGAGEMENT, R6_HIGH_FAILURE_PROBABILITY.",
@@ -123,7 +123,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -197,7 +197,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -271,7 +271,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -321,7 +321,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -396,7 +396,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -468,7 +468,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -564,7 +564,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -628,7 +628,7 @@
           "theme": "Practice",
           "objective": "Close the highest-priority knowledge or engagement gap.",
           "recommended_actions": [
-            "Absence Recovery Pack: Short catch-up package for missed lessons with teacher verification after each completed unit."
+            "Absence Recovery Pack: Short catch-up package for missed lessons with school verification after each completed unit."
           ],
           "expected_outcome": "The student completes measurable practice tasks and receives feedback.",
           "explanation": "Selected top-scoring practice interventions linked to diagnosed risks: R3_ATTENDANCE_RISK.",
@@ -688,7 +688,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -763,7 +763,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -835,7 +835,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -910,7 +910,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -985,7 +985,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -1071,7 +1071,7 @@
           "theme": "Practice",
           "objective": "Close the highest-priority knowledge or engagement gap.",
           "recommended_actions": [
-            "Absence Recovery Pack: Short catch-up package for missed lessons with teacher verification after each completed unit."
+            "Absence Recovery Pack: Short catch-up package for missed lessons with school verification after each completed unit."
           ],
           "expected_outcome": "The student completes measurable practice tasks and receives feedback.",
           "explanation": "Selected top-scoring practice interventions linked to diagnosed risks: R4_LOW_ENGAGEMENT, R6_HIGH_FAILURE_PROBABILITY, R3_ATTENDANCE_RISK.",
@@ -1083,7 +1083,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -1157,7 +1157,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -1207,7 +1207,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -1282,7 +1282,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -1354,7 +1354,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -1443,7 +1443,7 @@
           "theme": "Practice",
           "objective": "Close the highest-priority knowledge or engagement gap.",
           "recommended_actions": [
-            "Absence Recovery Pack: Short catch-up package for missed lessons with teacher verification after each completed unit."
+            "Absence Recovery Pack: Short catch-up package for missed lessons with school verification after each completed unit."
           ],
           "expected_outcome": "The student completes measurable practice tasks and receives feedback.",
           "explanation": "Selected top-scoring practice interventions linked to diagnosed risks: R4_LOW_ENGAGEMENT, R6_HIGH_FAILURE_PROBABILITY.",
@@ -1455,7 +1455,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -1519,7 +1519,7 @@
           "theme": "Practice",
           "objective": "Close the highest-priority knowledge or engagement gap.",
           "recommended_actions": [
-            "Absence Recovery Pack: Short catch-up package for missed lessons with teacher verification after each completed unit."
+            "Absence Recovery Pack: Short catch-up package for missed lessons with school verification after each completed unit."
           ],
           "expected_outcome": "The student completes measurable practice tasks and receives feedback.",
           "explanation": "Selected top-scoring practice interventions linked to diagnosed risks: R4_LOW_ENGAGEMENT, R6_HIGH_FAILURE_PROBABILITY.",
@@ -1531,7 +1531,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -1605,7 +1605,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -1679,7 +1679,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -1729,7 +1729,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -1804,7 +1804,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -1876,7 +1876,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -1962,7 +1962,7 @@
           "theme": "Practice",
           "objective": "Close the highest-priority knowledge or engagement gap.",
           "recommended_actions": [
-            "Absence Recovery Pack: Short catch-up package for missed lessons with teacher verification after each completed unit."
+            "Absence Recovery Pack: Short catch-up package for missed lessons with school verification after each completed unit."
           ],
           "expected_outcome": "The student completes measurable practice tasks and receives feedback.",
           "explanation": "Selected top-scoring practice interventions linked to diagnosed risks: R3_ATTENDANCE_RISK, R6_HIGH_FAILURE_PROBABILITY, R4_LOW_ENGAGEMENT.",
@@ -2020,7 +2020,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -2095,7 +2095,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -2167,7 +2167,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -2242,7 +2242,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -2341,7 +2341,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -2391,7 +2391,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -2480,7 +2480,7 @@
           "theme": "Practice",
           "objective": "Close the highest-priority knowledge or engagement gap.",
           "recommended_actions": [
-            "Absence Recovery Pack: Short catch-up package for missed lessons with teacher verification after each completed unit."
+            "Absence Recovery Pack: Short catch-up package for missed lessons with school verification after each completed unit."
           ],
           "expected_outcome": "The student completes measurable practice tasks and receives feedback.",
           "explanation": "Selected top-scoring practice interventions linked to diagnosed risks: R3_ATTENDANCE_RISK, R6_HIGH_FAILURE_PROBABILITY.",
@@ -2538,7 +2538,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -2627,7 +2627,7 @@
           "theme": "Practice",
           "objective": "Close the highest-priority knowledge or engagement gap.",
           "recommended_actions": [
-            "Absence Recovery Pack: Short catch-up package for missed lessons with teacher verification after each completed unit."
+            "Absence Recovery Pack: Short catch-up package for missed lessons with school verification after each completed unit."
           ],
           "expected_outcome": "The student completes measurable practice tasks and receives feedback.",
           "explanation": "Selected top-scoring practice interventions linked to diagnosed risks: R4_LOW_ENGAGEMENT, R3_ATTENDANCE_RISK, R6_HIGH_FAILURE_PROBABILITY.",
@@ -2639,7 +2639,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -2703,7 +2703,7 @@
           "theme": "Practice",
           "objective": "Close the highest-priority knowledge or engagement gap.",
           "recommended_actions": [
-            "Absence Recovery Pack: Short catch-up package for missed lessons with teacher verification after each completed unit."
+            "Absence Recovery Pack: Short catch-up package for missed lessons with school verification after each completed unit."
           ],
           "expected_outcome": "The student completes measurable practice tasks and receives feedback.",
           "explanation": "Selected top-scoring practice interventions linked to diagnosed risks: R3_ATTENDANCE_RISK, R4_LOW_ENGAGEMENT, R6_HIGH_FAILURE_PROBABILITY.",
@@ -2715,7 +2715,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -2779,7 +2779,7 @@
           "theme": "Practice",
           "objective": "Close the highest-priority knowledge or engagement gap.",
           "recommended_actions": [
-            "Absence Recovery Pack: Short catch-up package for missed lessons with teacher verification after each completed unit."
+            "Absence Recovery Pack: Short catch-up package for missed lessons with school verification after each completed unit."
           ],
           "expected_outcome": "The student completes measurable practice tasks and receives feedback.",
           "explanation": "Selected top-scoring practice interventions linked to diagnosed risks: R3_ATTENDANCE_RISK.",
@@ -2853,7 +2853,7 @@
           "theme": "Practice",
           "objective": "Close the highest-priority knowledge or engagement gap.",
           "recommended_actions": [
-            "Absence Recovery Pack: Short catch-up package for missed lessons with teacher verification after each completed unit."
+            "Absence Recovery Pack: Short catch-up package for missed lessons with school verification after each completed unit."
           ],
           "expected_outcome": "The student completes measurable practice tasks and receives feedback.",
           "explanation": "Selected top-scoring practice interventions linked to diagnosed risks: R4_LOW_ENGAGEMENT, R6_HIGH_FAILURE_PROBABILITY.",
@@ -2865,7 +2865,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -2929,7 +2929,7 @@
           "theme": "Practice",
           "objective": "Close the highest-priority knowledge or engagement gap.",
           "recommended_actions": [
-            "Absence Recovery Pack: Short catch-up package for missed lessons with teacher verification after each completed unit."
+            "Absence Recovery Pack: Short catch-up package for missed lessons with school verification after each completed unit."
           ],
           "expected_outcome": "The student completes measurable practice tasks and receives feedback.",
           "explanation": "Selected top-scoring practice interventions linked to diagnosed risks: R4_LOW_ENGAGEMENT, R6_HIGH_FAILURE_PROBABILITY.",
@@ -2941,7 +2941,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -3015,7 +3015,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -3089,7 +3089,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -3153,7 +3153,7 @@
           "theme": "Practice",
           "objective": "Close the highest-priority knowledge or engagement gap.",
           "recommended_actions": [
-            "Absence Recovery Pack: Short catch-up package for missed lessons with teacher verification after each completed unit."
+            "Absence Recovery Pack: Short catch-up package for missed lessons with school verification after each completed unit."
           ],
           "expected_outcome": "The student completes measurable practice tasks and receives feedback.",
           "explanation": "Selected top-scoring practice interventions linked to diagnosed risks: R3_ATTENDANCE_RISK.",
@@ -3213,7 +3213,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -3309,7 +3309,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -3359,7 +3359,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -3445,7 +3445,7 @@
           "theme": "Practice",
           "objective": "Close the highest-priority knowledge or engagement gap.",
           "recommended_actions": [
-            "Absence Recovery Pack: Short catch-up package for missed lessons with teacher verification after each completed unit."
+            "Absence Recovery Pack: Short catch-up package for missed lessons with school verification after each completed unit."
           ],
           "expected_outcome": "The student completes measurable practice tasks and receives feedback.",
           "explanation": "Selected top-scoring practice interventions linked to diagnosed risks: R6_HIGH_FAILURE_PROBABILITY, R4_LOW_ENGAGEMENT.",
@@ -3457,7 +3457,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -3507,7 +3507,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -3606,7 +3606,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -3670,7 +3670,7 @@
           "theme": "Practice",
           "objective": "Close the highest-priority knowledge or engagement gap.",
           "recommended_actions": [
-            "Absence Recovery Pack: Short catch-up package for missed lessons with teacher verification after each completed unit."
+            "Absence Recovery Pack: Short catch-up package for missed lessons with school verification after each completed unit."
           ],
           "expected_outcome": "The student completes measurable practice tasks and receives feedback.",
           "explanation": "Selected top-scoring practice interventions linked to diagnosed risks: R4_LOW_ENGAGEMENT, R6_HIGH_FAILURE_PROBABILITY.",
@@ -3682,7 +3682,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -3756,7 +3756,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -3830,7 +3830,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -3894,7 +3894,7 @@
           "theme": "Practice",
           "objective": "Close the highest-priority knowledge or engagement gap.",
           "recommended_actions": [
-            "Absence Recovery Pack: Short catch-up package for missed lessons with teacher verification after each completed unit."
+            "Absence Recovery Pack: Short catch-up package for missed lessons with school verification after each completed unit."
           ],
           "expected_outcome": "The student completes measurable practice tasks and receives feedback.",
           "explanation": "Selected top-scoring practice interventions linked to diagnosed risks: R3_ATTENDANCE_RISK.",
@@ -3954,7 +3954,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -4029,7 +4029,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -4128,7 +4128,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -4202,7 +4202,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -4276,7 +4276,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -4326,7 +4326,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -4401,7 +4401,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -4500,7 +4500,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -4551,7 +4551,7 @@
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
             "Daily LMS Resource Checklist: A short daily checklist that requires opening key resources announcements and practice links before class.",
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight."
+            "Parent-School Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "Selected top-scoring stabilize interventions linked to diagnosed risks: R4_LOW_ENGAGEMENT, R6_HIGH_FAILURE_PROBABILITY.",
@@ -4564,7 +4564,7 @@
           "theme": "Practice",
           "objective": "Close the highest-priority knowledge or engagement gap.",
           "recommended_actions": [
-            "Absence Recovery Pack: Short catch-up package for missed lessons with teacher verification after each completed unit."
+            "Absence Recovery Pack: Short catch-up package for missed lessons with school verification after each completed unit."
           ],
           "expected_outcome": "The student completes measurable practice tasks and receives feedback.",
           "explanation": "Selected top-scoring practice interventions linked to diagnosed risks: R4_LOW_ENGAGEMENT, R6_HIGH_FAILURE_PROBABILITY.",
@@ -4576,7 +4576,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -4650,7 +4650,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -4714,7 +4714,7 @@
           "theme": "Practice",
           "objective": "Close the highest-priority knowledge or engagement gap.",
           "recommended_actions": [
-            "Absence Recovery Pack: Short catch-up package for missed lessons with teacher verification after each completed unit."
+            "Absence Recovery Pack: Short catch-up package for missed lessons with school verification after each completed unit."
           ],
           "expected_outcome": "The student completes measurable practice tasks and receives feedback.",
           "explanation": "Selected top-scoring practice interventions linked to diagnosed risks: R3_ATTENDANCE_RISK.",
@@ -4788,7 +4788,7 @@
           "theme": "Practice",
           "objective": "Close the highest-priority knowledge or engagement gap.",
           "recommended_actions": [
-            "Absence Recovery Pack: Short catch-up package for missed lessons with teacher verification after each completed unit."
+            "Absence Recovery Pack: Short catch-up package for missed lessons with school verification after each completed unit."
           ],
           "expected_outcome": "The student completes measurable practice tasks and receives feedback.",
           "explanation": "Selected top-scoring practice interventions linked to diagnosed risks: R4_LOW_ENGAGEMENT, R6_HIGH_FAILURE_PROBABILITY.",
@@ -4800,7 +4800,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -4874,7 +4874,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -4938,7 +4938,7 @@
           "theme": "Practice",
           "objective": "Close the highest-priority knowledge or engagement gap.",
           "recommended_actions": [
-            "Absence Recovery Pack: Short catch-up package for missed lessons with teacher verification after each completed unit."
+            "Absence Recovery Pack: Short catch-up package for missed lessons with school verification after each completed unit."
           ],
           "expected_outcome": "The student completes measurable practice tasks and receives feedback.",
           "explanation": "Selected top-scoring practice interventions linked to diagnosed risks: R3_ATTENDANCE_RISK.",
@@ -5022,7 +5022,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -5096,7 +5096,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "Facilitated Study Group: Weekly group discussions focusing on course concepts and collaborative exercises."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -5170,7 +5170,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -5244,7 +5244,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -5318,7 +5318,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -5382,7 +5382,7 @@
           "theme": "Practice",
           "objective": "Close the highest-priority knowledge or engagement gap.",
           "recommended_actions": [
-            "Absence Recovery Pack: Short catch-up package for missed lessons with teacher verification after each completed unit."
+            "Absence Recovery Pack: Short catch-up package for missed lessons with school verification after each completed unit."
           ],
           "expected_outcome": "The student completes measurable practice tasks and receives feedback.",
           "explanation": "Selected top-scoring practice interventions linked to diagnosed risks: R3_ATTENDANCE_RISK.",
@@ -5395,7 +5395,7 @@
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement.",
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction."
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
           "explanation": "Selected top-scoring reinforce interventions linked to diagnosed risks: R3_ATTENDANCE_RISK.",
@@ -5444,7 +5444,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -5543,7 +5543,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -5617,7 +5617,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -5691,7 +5691,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -5741,7 +5741,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -5837,7 +5837,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -5901,7 +5901,7 @@
           "theme": "Practice",
           "objective": "Close the highest-priority knowledge or engagement gap.",
           "recommended_actions": [
-            "Absence Recovery Pack: Short catch-up package for missed lessons with teacher verification after each completed unit."
+            "Absence Recovery Pack: Short catch-up package for missed lessons with school verification after each completed unit."
           ],
           "expected_outcome": "The student completes measurable practice tasks and receives feedback.",
           "explanation": "Selected top-scoring practice interventions linked to diagnosed risks: R4_LOW_ENGAGEMENT, R6_HIGH_FAILURE_PROBABILITY.",
@@ -5913,7 +5913,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -5964,7 +5964,7 @@
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
             "Daily LMS Resource Checklist: A short daily checklist that requires opening key resources announcements and practice links before class.",
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight."
+            "Parent-School Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "Selected top-scoring stabilize interventions linked to diagnosed risks: R4_LOW_ENGAGEMENT, R6_HIGH_FAILURE_PROBABILITY.",
@@ -5977,7 +5977,7 @@
           "theme": "Practice",
           "objective": "Close the highest-priority knowledge or engagement gap.",
           "recommended_actions": [
-            "Absence Recovery Pack: Short catch-up package for missed lessons with teacher verification after each completed unit."
+            "Absence Recovery Pack: Short catch-up package for missed lessons with school verification after each completed unit."
           ],
           "expected_outcome": "The student completes measurable practice tasks and receives feedback.",
           "explanation": "Selected top-scoring practice interventions linked to diagnosed risks: R4_LOW_ENGAGEMENT, R6_HIGH_FAILURE_PROBABILITY.",
@@ -5989,7 +5989,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -6063,7 +6063,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -6127,7 +6127,7 @@
           "theme": "Practice",
           "objective": "Close the highest-priority knowledge or engagement gap.",
           "recommended_actions": [
-            "Absence Recovery Pack: Short catch-up package for missed lessons with teacher verification after each completed unit."
+            "Absence Recovery Pack: Short catch-up package for missed lessons with school verification after each completed unit."
           ],
           "expected_outcome": "The student completes measurable practice tasks and receives feedback.",
           "explanation": "Selected top-scoring practice interventions linked to diagnosed risks: R4_LOW_ENGAGEMENT, R6_HIGH_FAILURE_PROBABILITY.",
@@ -6139,7 +6139,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -6189,7 +6189,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -6288,7 +6288,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -6362,7 +6362,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -6436,7 +6436,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -6510,7 +6510,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -6584,7 +6584,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -6658,7 +6658,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -6722,7 +6722,7 @@
           "theme": "Practice",
           "objective": "Close the highest-priority knowledge or engagement gap.",
           "recommended_actions": [
-            "Absence Recovery Pack: Short catch-up package for missed lessons with teacher verification after each completed unit."
+            "Absence Recovery Pack: Short catch-up package for missed lessons with school verification after each completed unit."
           ],
           "expected_outcome": "The student completes measurable practice tasks and receives feedback.",
           "explanation": "Selected top-scoring practice interventions linked to diagnosed risks: R4_LOW_ENGAGEMENT, R6_HIGH_FAILURE_PROBABILITY.",
@@ -6734,7 +6734,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -6798,7 +6798,7 @@
           "theme": "Practice",
           "objective": "Close the highest-priority knowledge or engagement gap.",
           "recommended_actions": [
-            "Absence Recovery Pack: Short catch-up package for missed lessons with teacher verification after each completed unit."
+            "Absence Recovery Pack: Short catch-up package for missed lessons with school verification after each completed unit."
           ],
           "expected_outcome": "The student completes measurable practice tasks and receives feedback.",
           "explanation": "Selected top-scoring practice interventions linked to diagnosed risks: R6_HIGH_FAILURE_PROBABILITY, R3_ATTENDANCE_RISK, R4_LOW_ENGAGEMENT.",
@@ -6810,7 +6810,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -6861,7 +6861,7 @@
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
             "Daily Attendance Monitoring: Sign-in sheets and weekly academic advisor check-ins to rebuild class attendance consistency.",
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight."
+            "Parent-School Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "Selected top-scoring stabilize interventions linked to diagnosed risks: R3_ATTENDANCE_RISK, R6_HIGH_FAILURE_PROBABILITY.",
@@ -6874,7 +6874,7 @@
           "theme": "Practice",
           "objective": "Close the highest-priority knowledge or engagement gap.",
           "recommended_actions": [
-            "Absence Recovery Pack: Short catch-up package for missed lessons with teacher verification after each completed unit."
+            "Absence Recovery Pack: Short catch-up package for missed lessons with school verification after each completed unit."
           ],
           "expected_outcome": "The student completes measurable practice tasks and receives feedback.",
           "explanation": "Selected top-scoring practice interventions linked to diagnosed risks: R3_ATTENDANCE_RISK, R6_HIGH_FAILURE_PROBABILITY.",
@@ -6958,7 +6958,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -7032,7 +7032,7 @@
           "theme": "Reinforce",
           "objective": "Reinforce learning through interaction, resources and repetition.",
           "recommended_actions": [
-            "Guided Discussion Prompts: Teacher-provided prompts that require short answers or peer replies to increase class interaction.",
+            "Guided Discussion Prompts: Instructor-provided prompts that require short answers or peer replies to increase class interaction.",
             "LMS Interactive Quizzing: Gamified weekly self-assessment quizzes on LMS to boost digital resource engagement."
           ],
           "expected_outcome": "Engagement indicators improve and weak topics are revisited.",
@@ -7082,7 +7082,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",

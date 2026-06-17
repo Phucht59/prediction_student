@@ -42,7 +42,7 @@ class PathPlanner:
         weeks["Week 1"] = self._build_week(
             phase="Stabilize",
             actions=phase_map["Stabilize"],
-            fallback_action="Set a minimum weekly study schedule and complete one advisor/teacher check-in.",
+            fallback_action="Set a minimum weekly study schedule and complete one advisor or school check-in.",
             objective="Stabilize attendance, support contact and basic study routine.",
             expected_outcome="Immediate barriers are identified and the student has a concrete weekly plan.",
             top_risks=top_risk_codes,

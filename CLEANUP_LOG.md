@@ -1,6 +1,10 @@
 # Cleanup Log
 
-## Final files kept
+## Cleanup Date
+
+- 2026-06-17
+
+## Final Files Kept
 
 - `README.md`
 - `reports/final/final_model_manifest.json`
@@ -8,74 +12,69 @@
 - `reports/final/final_baseline_comparison.csv`
 - `reports/final/final_prediction_model_report.md`
 - `reports/final/final_thesis_ready_summary.md`
+- `reports/final/final_recommender_report.md`
+- `reports/final/final_recommender_thesis_summary_vi.md`
+- `reports/final/recommender_model_design.md`
+- `reports/final/FINAL_PROJECT_STATUS.md`
 - `reports/final/LUAN_VAN_HOAN_CHINH_FINAL.docx`
-- `outputs/recommender/` because the recommender tests validate these generated artifacts
-- Protected project folders kept: `data/raw/`, `src/`, `scripts/`, `tests/`, `database/`
+- `outputs/recommender/xapi/`
+- `outputs/recommender/student-por/`
+- `models/saved/final/`
+- `data/raw/` structure. Raw CSV files are not tracked in Git.
+- `data/processed/final/`
+- Source and pipeline folders needed for final use: `src/`, `scripts/`, `tests/`, `database/`
 
-## Files and folders moved to archive
+## Files And Folders Moved To Archive
 
-Moved experiment reports from `reports/final/` to `archive/old_reports/`:
+Moved or retained in archive for audit instead of deletion:
 
-- `reports/final/v28/`
-- `reports/final/v29/`
-- `reports/final/v30/`
-- `reports/final/ablation/`
-- `reports/final/imbalance/`
-- `reports/final/scenarios/`
-- `reports/final/baselines/`
-- `reports/final/Bao_cao_tien_do.md`
-- `reports/final/README.md`
-- `reports/final/technical_experiment_report.md`
-- `reports/final/student-mat_3class_final_report.txt`
-- `reports/final/student-por_3class_final_report.txt`
-- `reports/final/xapi_3class_final_report.txt`
-- `reports/final/explanations/`
-- `reports/final/figures/`
-- `reports/final/metrics/`
-- `reports/final/predictions/`
-- `reports/final/recommendations/`
-- `results/`
-- `outputs/experiments/`
-- `outputs/v27/`
+- Old reports: `archive/old_reports/`
+- Old experiment scripts: `archive/experiments/scripts/`
+- Old source experiments: `archive/experiments/src_experiments/`
+- Debug and scratch material: `archive/debug_runs/`
 
-Moved experiment code and debug workspace files:
+Final cleanup moves performed in this pass:
 
-- `scripts/run_v28_experiments.py` -> `archive/experiments/scripts/run_v28_experiments.py`
-- `scripts/run_v29_experiments.py` -> `archive/experiments/scripts/run_v29_experiments.py`
-- `scripts/run_v30_experiments.py` -> `archive/experiments/scripts/run_v30_experiments.py`
-- `scripts/update_final_report.py` -> `archive/experiments/scripts/update_final_report.py`
-- `src/experiments/v28.py` -> `archive/experiments/src_experiments/v28.py`
-- `src/experiments/v29.py` -> `archive/experiments/src_experiments/v29.py`
-- `src/experiments/v30.py` -> `archive/experiments/src_experiments/v30.py`
-- `scratch/` -> `archive/debug_runs/scratch/`
+- `reports/final/README.md` -> `archive/old_reports/README.md` if present
+- `reports/final/xapi_3class_final_report.txt` -> `archive/old_reports/xapi_3class_final_report.txt` if present
+- `scripts/run_technical_experiments.py` -> `archive/experiments/scripts/run_technical_experiments.py` if present
+- `src/experiments/` -> timestamped folder under `archive/experiments/src_experiments/` if present
+- `tests/test_technical_experiments.py` -> `archive/experiments/tests/test_technical_experiments.py` if present
+- Root-level legacy recommender outputs under `outputs/recommender/` -> `archive/old_reports/outputs/recommender_root_legacy/`
+- Stale Student-Mat recommender output -> `archive/old_reports/outputs/recommender_student-mat_pending/`
 
-## Files deleted
+## Files And Folders Deleted
 
-- Python/test caches: `__pycache__/`, `.pytest_cache/`
-- Temporary Word lock file: `reports/final/~$AN_VAN_HOAN_CHINH_FINAL.docx`
-- Old run logs in `logs/`, including Optuna and obsolete ADASYN-era training logs
+Safe generated artifacts only:
 
-## Config cleanup
+- Python caches: `__pycache__/`
+- Pytest cache: `.pytest_cache/`
+- Notebook checkpoints: `.ipynb_checkpoints/`
 
-- Updated `config.yaml` so `xapi.paper_ml_imbalance` no longer points to `adasyn`; it now uses `smotenc`.
+## Reason For Cleanup
 
-## Reason for cleanup
+The project is now prepared for thesis submission. Final reports and final runnable pipeline surfaces are kept in the main repo. Old experiments, debug materials, and stale outputs are archived so readers do not confuse them with the selected final model.
 
-The project is now prepared for thesis writing around the final deep model selection. V28, V29, V30, ablation, imbalance, baseline and scenario outputs remain available for audit in `archive/`, but they are no longer mixed with final thesis artifacts under `reports/final/`.
+## Final Model Status
 
-`archive/` is intentionally ignored by Git after the follow-up cleanup. It remains available in the local workspace for audit, but it is not part of the GitHub final surface so future readers do not confuse old experiments with the selected final model.
-
-The final model choice is unchanged:
+Prediction final champions are unchanged:
 
 - `student-mat late`: `sequence_cnn_bilstm_only + low_f1_tuned`
 - `student-por late`: `sequence_cnn_bilstm_only + low_f1_tuned`
 - `student-por midterm`: `sequence_cnn_bilstm_only + argmax`
 - `xAPI`: `gated_fusion_v28 + low_f1_tuned`
 
-## Future safety notes
+## Recommender Status
 
-- Do not restore archived V28/V29/V30 reports into `reports/final/` unless they are explicitly needed for audit.
+- RA-HLPR is finalized as a prediction-aware and dataset-aware downstream module.
+- Latest xAPI and student-por recommender outputs are kept in the final output folders.
+- Student-Mat recommender is pending because metadata is missing: `models/saved/final/student-mat_3class_ensemble_features.json`.
+
+## Future Safety Notes
+
+- Do not restore V28/V29/V30/V31/V32 experiment files into `reports/final/` unless explicitly needed for audit.
 - Do not use `student-combine` as a final dataset.
 - Do not use direct ADASYN on Student data with label-encoded categorical features.
 - Do not tune thresholds on locked-test labels.
+- Do not use ML baseline outputs as teacher, distillation source, pseudo-labels, baseline probabilities, or feature importance for the deep model/recommender.
 - Do not claim the regression head as a main result unless RMSE is substantially improved and validated.

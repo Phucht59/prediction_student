@@ -25,7 +25,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -383,7 +383,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
+            "Parent-School Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
             "Family Progress Contract: A simple family-school agreement with one weekly learning target and one progress check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
@@ -461,7 +461,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
+            "Parent-School Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
             "Family Progress Contract: A simple family-school agreement with one weekly learning target and one progress check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
@@ -539,7 +539,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -824,7 +824,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
+            "Parent-School Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
             "Family Progress Contract: A simple family-school agreement with one weekly learning target and one progress check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
@@ -972,7 +972,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -1043,7 +1043,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -1112,7 +1112,7 @@
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
             "Time Management Workshop: Guided sessions on creating weekly study schedules prioritizing tasks and minimizing distractions.",
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight."
+            "Parent-School Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "Selected top-scoring stabilize interventions linked to diagnosed risks: R5_INSUFFICIENT_STUDY_TIME, R2_DECLINING_TREND, R4_LOW_ENGAGEMENT.",
@@ -1189,7 +1189,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -1257,7 +1257,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -1397,7 +1397,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
+            "Parent-School Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
             "Family Progress Contract: A simple family-school agreement with one weekly learning target and one progress check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
@@ -1547,7 +1547,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
+            "Parent-School Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
             "Family Progress Contract: A simple family-school agreement with one weekly learning target and one progress check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
@@ -2211,7 +2211,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
+            "Parent-School Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
             "Family Progress Contract: A simple family-school agreement with one weekly learning target and one progress check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
@@ -2361,7 +2361,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
+            "Parent-School Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
             "Family Progress Contract: A simple family-school agreement with one weekly learning target and one progress check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
@@ -2509,7 +2509,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
+            "Parent-School Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
             "Family Progress Contract: A simple family-school agreement with one weekly learning target and one progress check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
@@ -2663,7 +2663,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
+            "Parent-School Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
             "Family Progress Contract: A simple family-school agreement with one weekly learning target and one progress check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
@@ -2811,7 +2811,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -2951,7 +2951,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
+            "Parent-School Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
             "Family Progress Contract: A simple family-school agreement with one weekly learning target and one progress check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
@@ -3027,7 +3027,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
+            "Parent-School Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
             "Family Progress Contract: A simple family-school agreement with one weekly learning target and one progress check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
@@ -3173,7 +3173,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
+            "Parent-School Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
             "Family Progress Contract: A simple family-school agreement with one weekly learning target and one progress check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
@@ -3251,7 +3251,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -3395,7 +3395,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
+            "Parent-School Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
             "Family Progress Contract: A simple family-school agreement with one weekly learning target and one progress check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
@@ -3543,7 +3543,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -3759,7 +3759,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -3831,7 +3831,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
+            "Parent-School Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
             "Family Progress Contract: A simple family-school agreement with one weekly learning target and one progress check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
@@ -3981,7 +3981,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
+            "Parent-School Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
             "Family Progress Contract: A simple family-school agreement with one weekly learning target and one progress check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
@@ -4131,7 +4131,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -4199,7 +4199,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
+            "Parent-School Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
             "Family Progress Contract: A simple family-school agreement with one weekly learning target and one progress check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
@@ -4275,7 +4275,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
+            "Parent-School Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
             "Family Progress Contract: A simple family-school agreement with one weekly learning target and one progress check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
@@ -4425,7 +4425,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -4493,7 +4493,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
+            "Parent-School Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
             "Family Progress Contract: A simple family-school agreement with one weekly learning target and one progress check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
@@ -4641,7 +4641,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -4712,7 +4712,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -4854,7 +4854,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
+            "Parent-School Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
             "Family Progress Contract: A simple family-school agreement with one weekly learning target and one progress check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
@@ -5378,7 +5378,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -5518,7 +5518,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -5658,7 +5658,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
+            "Parent-School Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
             "Family Progress Contract: A simple family-school agreement with one weekly learning target and one progress check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
@@ -5736,7 +5736,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -5952,7 +5952,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -6022,7 +6022,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -6090,7 +6090,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
+            "Parent-School Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
             "Family Progress Contract: A simple family-school agreement with one weekly learning target and one progress check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
@@ -6168,7 +6168,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
+            "Parent-School Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
             "Family Progress Contract: A simple family-school agreement with one weekly learning target and one progress check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
@@ -6244,7 +6244,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
+            "Parent-School Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
             "Family Progress Contract: A simple family-school agreement with one weekly learning target and one progress check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
@@ -6545,7 +6545,7 @@
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
             "Time Management Workshop: Guided sessions on creating weekly study schedules prioritizing tasks and minimizing distractions.",
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight."
+            "Parent-School Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "Selected top-scoring stabilize interventions linked to diagnosed risks: R1_LOW_PRIOR_PERFORMANCE, R5_INSUFFICIENT_STUDY_TIME, R4_LOW_ENGAGEMENT.",
@@ -6844,7 +6844,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
+            "Parent-School Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
             "Family Progress Contract: A simple family-school agreement with one weekly learning target and one progress check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
@@ -6922,7 +6922,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -6990,7 +6990,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
+            "Parent-School Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
             "Family Progress Contract: A simple family-school agreement with one weekly learning target and one progress check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
@@ -7210,7 +7210,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -7426,7 +7426,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
+            "Parent-School Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
             "Family Progress Contract: A simple family-school agreement with one weekly learning target and one progress check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
@@ -7577,7 +7577,7 @@
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
             "Time Management Workshop: Guided sessions on creating weekly study schedules prioritizing tasks and minimizing distractions.",
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight."
+            "Parent-School Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "Selected top-scoring stabilize interventions linked to diagnosed risks: R1_LOW_PRIOR_PERFORMANCE, R5_INSUFFICIENT_STUDY_TIME, R6_HIGH_FAILURE_PROBABILITY.",
@@ -7652,7 +7652,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
+            "Parent-School Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
             "Family Progress Contract: A simple family-school agreement with one weekly learning target and one progress check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
@@ -7728,7 +7728,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -7800,7 +7800,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
+            "Parent-School Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
             "Family Progress Contract: A simple family-school agreement with one weekly learning target and one progress check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
@@ -7876,7 +7876,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -8018,7 +8018,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -8158,7 +8158,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -8226,7 +8226,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
+            "Parent-School Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
             "Family Progress Contract: A simple family-school agreement with one weekly learning target and one progress check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
@@ -8449,7 +8449,7 @@
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
             "Daily Attendance Monitoring: Sign-in sheets and weekly academic advisor check-ins to rebuild class attendance consistency.",
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight."
+            "Parent-School Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "Selected top-scoring stabilize interventions linked to diagnosed risks: R1_LOW_PRIOR_PERFORMANCE, R3_ATTENDANCE_RISK, R6_HIGH_FAILURE_PROBABILITY.",
@@ -8524,7 +8524,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
@@ -8736,7 +8736,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
+            "Parent-School Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
             "Family Progress Contract: A simple family-school agreement with one weekly learning target and one progress check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
@@ -8888,7 +8888,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
+            "Parent-School Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
             "Family Progress Contract: A simple family-school agreement with one weekly learning target and one progress check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
@@ -8964,7 +8964,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
+            "Parent-School Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
             "Family Progress Contract: A simple family-school agreement with one weekly learning target and one progress check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
@@ -9042,7 +9042,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Parent-Teacher Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
+            "Parent-School Engagement Sync: Establishing weekly progress reporting channels between school and family to reinforce oversight.",
             "Family Progress Contract: A simple family-school agreement with one weekly learning target and one progress check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
@@ -9414,7 +9414,7 @@
           "theme": "Stabilize",
           "objective": "Stabilize attendance, support contact and basic study routine.",
           "recommended_actions": [
-            "Set a minimum weekly study schedule and complete one advisor/teacher check-in."
+            "Set a minimum weekly study schedule and complete one advisor or school check-in."
           ],
           "expected_outcome": "Immediate barriers are identified and the student has a concrete weekly plan.",
           "explanation": "No catalog item was required for Stabilize; fallback action keeps the 4-week path complete.",
