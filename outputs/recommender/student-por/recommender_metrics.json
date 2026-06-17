@@ -10,15 +10,15 @@
     "hamming_loss": 0.06282051282051282
   },
   "ranking": {
-    "precision_at_3": 0.8461538461538461,
-    "recall_at_3": 0.3870126668203591,
-    "ndcg_at_3": 0.8800440613375818,
-    "coverage_at_3": 1.0
+    "precision_at_3": 0.664102564102564,
+    "recall_at_3": 0.31851366582135815,
+    "ndcg_at_3": 0.7455099676494799,
+    "coverage_at_3": 0.55
   },
   "path_quality": {
-    "risk_coverage_rate": 0.9334615384615386,
-    "workload_balance_std": 1.4750927266297744,
-    "difficulty_progression_rate": 0.641025641025641,
-    "prerequisite_violation_rate": 0.020512820512820516
+    "risk_coverage_rate": 0.9507692307692307,
+    "workload_balance_std": 1.3136817811288097,
+    "difficulty_progression_rate": 0.6,
+    "prerequisite_violation_rate": 0.04487179487179487
   }
 }

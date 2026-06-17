@@ -6,7 +6,6 @@ R5_INSUFFICIENT_STUDY_TIME,time_planning
 R3_ATTENDANCE_RISK,counselor_meeting
 R4_LOW_ENGAGEMENT,lms_onboarding
 R4_LOW_ENGAGEMENT,resource_checklist
-R4_LOW_ENGAGEMENT,parent_sync
 R6_HIGH_FAILURE_PROBABILITY,parent_sync
 R6_HIGH_FAILURE_PROBABILITY,parent_progress_contract
 R1_LOW_PRIOR_PERFORMANCE,peer_tutoring

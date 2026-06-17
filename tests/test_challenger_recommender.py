@@ -118,8 +118,10 @@ def test_hybrid_scorer_weights():
             weights["difficulty_fit"] * breakdown["difficulty_fit"] +
             weights["time_fit"] * breakdown["time_fit"] +
             weights["prerequisite_fit"] * breakdown["prerequisite_fit"] +
-            weights["expected_effect"] * breakdown["expected_effect"]
+            weights["expected_effect"] * breakdown["expected_effect"] +
+            breakdown.get("rule_adjustment", 0.0)
         )
+        expected_score = max(0.0, min(1.0, expected_score))
         
         assert item["score"] == pytest.approx(expected_score, abs=1e-6)
         assert item["risk_match"] == pytest.approx(breakdown["risk_match"], abs=1e-6)

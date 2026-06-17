@@ -19,11 +19,26 @@ class CandidateGenerator:
             return max(0.28, 0.38 - 0.10 * uncertainty)
         return 0.50 if p_high >= 0.60 else 0.42
 
+    @staticmethod
+    def _kind(dataset_kind: str | None) -> str | None:
+        if dataset_kind is None:
+            return None
+        value = dataset_kind.lower()
+        return "student" if "student" in value else "xapi"
+
+    def _catalog_for_kind(self, dataset_kind: str | None) -> pd.DataFrame:
+        kind = self._kind(dataset_kind)
+        if kind is None or "applicable_kind" not in self.catalog_df.columns:
+            return self.catalog_df.copy()
+        applicable = self.catalog_df["applicable_kind"].fillna("both").astype(str).str.lower()
+        return self.catalog_df[(applicable == "both") | (applicable == kind)].copy()
+
     def generate_candidates(
         self,
         diagnosed_risks: dict[str, float],
         predicted_class: int,
         class_probabilities: list[float] | None = None,
+        dataset_kind: str | None = None,
         min_candidates: int = 5,
     ) -> pd.DataFrame:
         """
@@ -36,14 +51,26 @@ class CandidateGenerator:
         threshold = self._risk_threshold(predicted_class, class_probabilities)
         active_risks = [risk for risk, prob in diagnosed_risks.items() if float(prob) >= threshold]
         strong_risks = [risk for risk, prob in diagnosed_risks.items() if float(prob) >= 0.60]
+        catalog_df = self._catalog_for_kind(dataset_kind)
 
         if not active_risks and int(predicted_class) == 0 and diagnosed_risks:
             active_risks = [max(diagnosed_risks.items(), key=lambda item: item[1])[0]]
 
+        if not active_risks and int(predicted_class) in {1, 2}:
+            general = []
+            for _, row in catalog_df.iterrows():
+                target_risks_value = row.get("target_risks", "")
+                target_risks_str = "" if pd.isna(target_risks_value) else str(target_risks_value)
+                has_target_risks = any(risk.strip() for risk in target_risks_str.split(","))
+                if not has_target_risks:
+                    general.append(row)
+            if general:
+                return pd.DataFrame(general).reset_index(drop=True)
+
         candidates = []
         seen_item_ids: set[str] = set()
 
-        for _, row in self.catalog_df.iterrows():
+        for _, row in catalog_df.iterrows():
             item_id = str(row.get("item_id", ""))
             if item_id in seen_item_ids:
                 continue
@@ -73,10 +100,15 @@ class CandidateGenerator:
             return pd.DataFrame(candidates).reset_index(drop=True)
 
         if len(candidates) < min_candidates:
-            filler = self.catalog_df.sort_values(
+            filler = catalog_df.sort_values(
                 by=["difficulty_level", "expected_effect"], ascending=[True, False]
             )
             for _, row in filler.iterrows():
+                if not active_risks and int(predicted_class) in {1, 2}:
+                    target_risks_value = row.get("target_risks", "")
+                    target_risks_str = "" if pd.isna(target_risks_value) else str(target_risks_value)
+                    if any(risk.strip() for risk in target_risks_str.split(",")):
+                        continue
                 item_id = str(row.get("item_id", ""))
                 if item_id not in seen_item_ids:
                     candidates.append(row)
@@ -85,5 +117,5 @@ class CandidateGenerator:
                     break
 
         if not candidates:
-            return self.catalog_df.copy()
+            return catalog_df.copy()
         return pd.DataFrame(candidates).reset_index(drop=True)

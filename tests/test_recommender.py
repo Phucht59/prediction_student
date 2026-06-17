@@ -89,6 +89,7 @@ def test_knowledge_base_loading():
         assert "item_id" in catalog_df.columns
         assert "intervention_name" in catalog_df.columns
         assert "target_risks" in catalog_df.columns
+        assert "applicable_kind" in catalog_df.columns
         assert "difficulty_level" in catalog_df.columns
         assert len(catalog_df) >= 12
         

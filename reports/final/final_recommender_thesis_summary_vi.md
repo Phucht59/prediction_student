@@ -10,7 +10,7 @@ Module n?y kh?ng ph?i collaborative filtering, v? c?c b? d? li?u kh?ng c? l?ch s
 ```text
 X?c su?t CNN-BiLSTM (Low/Medium/High)
 -> RiskDiagnosisHead
--> CandidateGenerator
+-> CandidateGenerator theo dataset/risk
 -> HybridScorer
 -> PathPlanner
 -> L? tr?nh h?c t?p 4 tu?n
@@ -26,9 +26,10 @@ w1 * risk_match
 + w4 * time_fit
 + w5 * prerequisite_fit
 + w6 * expected_effect
++ rule_adjustment
 ```
 
-C?c tr?ng s? ???c ?i?u ch?nh theo l?p d? ?o?n v? m?c r?i ro. V?i sinh vi?n ???c d? ?o?n Low ho?c c? r?i ro cao, h? th?ng ?u ti?n `risk_match` v? `performance_need`. V?i sinh vi?n Medium, h? th?ng d?ng tr?ng s? c?n b?ng. V?i sinh vi?n High ho?c ?n ??nh, h? th?ng ?u ti?n ho?t ??ng n?ng cao, ?? ph? h?p ?? kh? v? ?i?u ki?n ti?n quy?t.
+C?c tr?ng s? ???c ?i?u ch?nh theo l?p d? ?o?n v? m?c r?i ro. V?i sinh vi?n ???c d? ?o?n Low ho?c c? r?i ro cao, h? th?ng ?u ti?n `risk_match` v? `performance_need`. V?i sinh vi?n Medium, h? th?ng d?ng tr?ng s? c?n b?ng. V?i sinh vi?n High ho?c ?n ??nh, h? th?ng ?u ti?n ho?t ??ng n?ng cao, ?? ph? h?p ?? kh? v? ?i?u ki?n ti?n quy?t. `rule_adjustment` ???c d?ng ?? ??m b?o logic s? ph?m: Student R1/R2 ?u ti?n luy?n t?p, tutoring, bootcamp v? academic coaching; xAPI R4 ?u ti?n LMS/resource/discussion; h? tr? ph? huynh ch? ???c ??y cao khi R6/support risk cao.
 
 ## B?ng y?u t? r?i ro
 
@@ -46,15 +47,15 @@ C?c tr?ng s? ???c ?i?u ch?nh theo l?p d? ?o?n v? m?c r?i ro. V?i sinh vi?n ???c 
 
 ## Nh?m can thi?p
 
-| Nh?m can thi?p | V? d? |
-|---|---|
-| Chuy?n c?n | theo d?i chuy?n c?n, g?i ph?c h?i v?ng h?c |
-| L?p k? ho?ch h?c t?p | qu?n l? th?i gian, k? ho?ch h?c theo tu?n |
-| T??ng t?c LMS | h??ng d?n LMS, checklist t?i nguy?n, quiz t??ng t?c |
-| H? tr? b?n h?c/nh?m | h?c nh?m, peer tutoring |
-| Luy?n t?p b? ??p | b?i t?p m?c ti?u, l?p ph? ??o |
-| H? tr? ph? huynh/nh? tr??ng | ??ng b? ph? huynh-gi?o vi?n, h?p ??ng ti?n ?? |
-| M? r?ng cho sinh vi?n ?n ??nh | seminar n?ng cao |
+| Nh?m can thi?p | V? d? | Ph?m vi ?p d?ng |
+|---|---|---|
+| Chuy?n c?n | Daily Attendance Monitoring, Absence Recovery Pack | both/xAPI khi c? R3 |
+| L?p k? ho?ch h?c t?p | Time Management Workshop, Standard Practice Plan | both |
+| T??ng t?c LMS | Resource Checklist, Maintain LMS Engagement, Interactive Quiz | xAPI |
+| H? tr? b?n h?c/nh?m | Peer Tutoring, Study Group | student/both |
+| Luy?n t?p b? ??p | Targeted Practice, Remedial Bootcamp, Academic Coaching | student |
+| H? tr? ph? huynh/nh? tr??ng | Parent Sync, Family Progress Contract | both, ch? ?u ti?n khi R6 cao |
+| Duy tr?/m? r?ng | Weekly Progress Review, Advanced Seminar, Optional Discussion | both/xAPI |
 
 ## L? tr?nh 4 tu?n
 
@@ -69,10 +70,15 @@ C?c tr?ng s? ???c ?i?u ch?nh theo l?p d? ?o?n v? m?c r?i ro. V?i sinh vi?n ???c 
 
 | Dataset | Risk Macro F1 | Risk Micro F1 | Precision@3 | Recall@3 | NDCG@3 | Coverage@3 | Risk Coverage | Workload Std | Difficulty Progression | Prereq Violation |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| xapi | 0.9831 | 0.9813 | 0.7014 | 0.4719 | 0.8407 | 0.6875 | 0.9306 | 1.3152 | 0.7396 | 0.0021 |
-| student-por | 0.9359 | 0.9094 | 0.8462 | 0.3870 | 0.8800 | 1.0000 | 0.9335 | 1.4751 | 0.6410 | 0.0205 |
+| xapi | 0.9831 | 0.9813 | 0.6840 | 0.4720 | 0.8229 | 0.6500 | 0.8958 | 1.1210 | 0.7153 | 0.0000 |
+| student-por | 0.9359 | 0.9094 | 0.6641 | 0.3185 | 0.7455 | 0.5500 | 0.9508 | 1.3137 | 0.6000 | 0.0449 |
 
-Ghi chú Student-Mat: pending full run because missing final prediction checkpoint metadata: models/saved/final/student-mat_3class_ensemble_features.json. Checkpoint Student-Mat hiện có không khớp input shape khi tái tạo feature selection, nên các file outputs/recommender/student-mat không được refresh trong lần chạy này.
+Ghi ch? Student-Mat: pending full run because missing final prediction checkpoint metadata: models/saved/final/student-mat_3class_ensemble_features.json. The available Student-Mat checkpoint input shape does not match regenerated feature selection, so outputs/recommender/student-mat was not refreshed in this run.
+
+## Ki?m tra logic sau khi s?a
+- Case Student-Por c? R1/R2 cao ?? ?u ti?n Peer-Led Study Tutoring, Targeted Practice Exercises v? Academic Coaching trong top 3.
+- Case xAPI Medium kh?ng c? r?i ro ?? chuy?n sang Standard Practice Plan, Weekly Progress Review v? Maintain LMS Engagement.
+- Case xAPI Low c? engagement risk ?? ?u ti?n LMS Resource Checklist, Discussion Prompts v? Interactive Quizzing.
 
 ## Gi?i h?n
 - ??nh gi? recommender l? ??nh gi? offline d?a tr?n weak-supervision/rule-based reference.

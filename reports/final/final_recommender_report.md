@@ -10,8 +10,8 @@ The module is downstream of prediction:
 ## Pipeline Architecture
 - **Prediction model**: finalized CNN-BiLSTM outputs `p_low`, `p_medium`, and `p_high`.
 - **RiskDiagnosisHead**: maps observable academic/context features and class probabilities to multi-label risk scores.
-- **CandidateGenerator**: filters interventions with prediction-aware thresholds. Low predictions use lower thresholds; High predictions use higher thresholds to avoid excessive remediation.
-- **HybridScorer**: ranks candidates with adaptive weights based on predicted class, probability confidence, and maximum diagnosed risk.
+- **CandidateGenerator**: filters interventions with prediction-aware thresholds and `applicable_kind` (`student`, `xapi`, `both`). Low predictions use lower thresholds; High predictions use higher thresholds to avoid excessive remediation. When no risk is active and the prediction is Medium/High, only general/light reinforcement items are considered.
+- **HybridScorer**: ranks candidates with adaptive weights based on predicted class, probability confidence, maximum diagnosed risk, dataset kind, and intervention type.
 - **PathPlanner**: schedules top interventions into a 4-week plan with risk band, plan intensity, top risks, and weekly actions.
 
 ## Fit With Thesis Scope
@@ -38,7 +38,17 @@ xAPI uses three observable risk factors:
 | R6 | High failure probability | attendance, engagement, parent/school support; not true Class |
 
 ## Intervention Catalog
-The intervention catalog covers attendance, study planning, LMS engagement, peer/group support, remedial practice, parent/school support, and enrichment for stable/high students.
+The intervention catalog is dataset-aware through `applicable_kind`:
+
+| Group | Example interventions | Scope |
+|---|---|---|
+| attendance | Daily Attendance Monitoring, Absence Recovery Pack | both/xAPI when R3 is active |
+| study planning | Time Management Workshop, Standard Practice Plan | both |
+| LMS engagement | LMS Resource Checklist, Maintain LMS Engagement, Interactive Quizzing | xAPI |
+| peer/group support | Peer-Led Study Tutoring, Facilitated Study Group | student/both |
+| remedial practice | Targeted Practice Exercises, Remedial Topic Bootcamps, Academic Coaching | student |
+| parent/school support | Parent-Teacher Sync, Family Progress Contract | both, scored high only when R6/support risk is active |
+| enrichment/light maintenance | Advanced Seminar, Weekly Progress Review, Optional Discussion Prompt | both/xAPI |
 
 ## Scoring Formula
 For each candidate intervention:
@@ -51,9 +61,10 @@ w1 * risk_match
 + w4 * time_fit
 + w5 * prerequisite_fit
 + w6 * expected_effect
++ rule_adjustment
 ```
 
-Weights are adaptive: Low/high-risk students prioritize `risk_match` and `performance_need`; Medium uses balanced weights; High/stable prioritizes enrichment, difficulty fit, prerequisites, and expected effect.
+Weights are adaptive: Low/high-risk students prioritize `risk_match` and `performance_need`; Medium uses balanced weights; High/stable prioritizes enrichment, difficulty fit, prerequisites, and expected effect. Rule adjustments enforce domain logic: Student R1/R2 boosts academic remediation, xAPI R4 boosts LMS/resource/discussion actions, and parent/family support is penalized unless R6/support risk is active.
 
 Each recommendation keeps a score breakdown and prediction context: `predicted_class`, `p_low`, `p_medium`, `p_high`, `max_diagnosed_risk`, and `adjusted_capacity_hours`.
 
@@ -65,42 +76,47 @@ The recommender is evaluated offline against weak-supervision/rule-based referen
 
 | Dataset | Risk Macro F1 | Risk Micro F1 | Precision@3 | Recall@3 | NDCG@3 | Coverage@3 | Risk Coverage | Workload Std | Difficulty Progression | Prereq Violation |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| xapi | 0.9831 | 0.9813 | 0.7014 | 0.4719 | 0.8407 | 0.6875 | 0.9306 | 1.3152 | 0.7396 | 0.0021 |
-| student-por | 0.9359 | 0.9094 | 0.8462 | 0.3870 | 0.8800 | 1.0000 | 0.9335 | 1.4751 | 0.6410 | 0.0205 |
+| xapi | 0.9831 | 0.9813 | 0.6840 | 0.4720 | 0.8229 | 0.6500 | 0.8958 | 1.1210 | 0.7153 | 0.0000 |
+| student-por | 0.9359 | 0.9094 | 0.6641 | 0.3185 | 0.7455 | 0.5500 | 0.9508 | 1.3137 | 0.6000 | 0.0449 |
 
-Student-Mat status: pending full run because missing final prediction checkpoint metadata: models/saved/final/student-mat_3class_ensemble_features.json. The available Student-Mat checkpoint input shape does not match regenerated feature selection, so existing outputs/recommender/student-mat files were not refreshed in this run.
+Student-Mat status: pending full run because missing final prediction checkpoint metadata: models/saved/final/student-mat_3class_ensemble_features.json. The available Student-Mat checkpoint input shape does not match regenerated feature selection, so outputs/recommender/student-mat was not refreshed in this run.
 
 ## Case Studies
 ### xapi - High Risk (Struggling) Student (Test Index 1)
 - Predicted class/probability: Class 0 (Low) - Probabilities: [Low: 0.59, Medium: 0.40, High: 0.00]
-- Main risks: R3_ATTENDANCE_RISK=0.00, R4_LOW_ENGAGEMENT=1.00, R6_HIGH_FAILURE_PROBABILITY=1.00
-- Top 3 interventions: Daily LMS Resource Checklist (0.97), Parent-Teacher Engagement Sync (0.97), Family Progress Contract (0.97)
+- Main risks: R4_LOW_ENGAGEMENT=1.00, R6_HIGH_FAILURE_PROBABILITY=1.00, R3_ATTENDANCE_RISK=0.00
+- Top 3 interventions: Daily LMS Resource Checklist (1.00), Guided Discussion Prompts (1.00), LMS Interactive Quizzing (1.00)
 - Path: Week 1: Stabilize, Week 2: Practice, Week 3: Reinforce, Week 4: Evaluate & Adjust
 ### xapi - Moderate Risk (Average) Student (Test Index 0)
 - Predicted class/probability: Class 1 (Medium) - Probabilities: [Low: 0.00, Medium: 0.69, High: 0.30]
 - Main risks: R3_ATTENDANCE_RISK=0.00, R4_LOW_ENGAGEMENT=0.00, R6_HIGH_FAILURE_PROBABILITY=0.00
-- Top 3 interventions: Daily Attendance Monitoring (0.52), Daily LMS Resource Checklist (0.52), Academic Counselor Consultation (0.52)
+- Top 3 interventions: Standard Practice Plan (0.80), Weekly Progress Review (0.80), Maintain LMS Engagement (0.78)
 - Path: Week 1: Stabilize, Week 2: Practice, Week 3: Reinforce, Week 4: Evaluate & Adjust
 ### xapi - Stable (High Performer) Student (Test Index 4)
 - Predicted class/probability: Class 2 (High) - Probabilities: [Low: 0.00, Medium: 0.10, High: 0.90]
-- Main risks: R3_ATTENDANCE_RISK=0.00, R4_LOW_ENGAGEMENT=0.00, R6_HIGH_FAILURE_PROBABILITY=0.00
-- Top 3 interventions: Advanced Subject Seminar (0.92)
+- Main risks: R4_LOW_ENGAGEMENT=0.00, R3_ATTENDANCE_RISK=0.00, R6_HIGH_FAILURE_PROBABILITY=0.00
+- Top 3 interventions: Advanced Subject Seminar (1.00), Maintain LMS Engagement (0.85), Standard Practice Plan (0.85)
 - Path: Week 1: Stabilize, Week 2: Practice, Week 3: Reinforce, Week 4: Evaluate & Adjust
 ### student-por - High Risk (Struggling) Student (Test Index 6)
 - Predicted class/probability: Class 0 (Low) - Probabilities: [Low: 0.73, Medium: 0.27, High: 0.00]
-- Main risks: R1_LOW_PRIOR_PERFORMANCE=1.00, R2_DECLINING_TREND=1.00, R3_ATTENDANCE_RISK=0.00
-- Top 3 interventions: Parent-Teacher Engagement Sync (0.98), Family Progress Contract (0.98), Daily LMS Resource Checklist (0.97)
+- Main risks: R1_LOW_PRIOR_PERFORMANCE=1.00, R2_DECLINING_TREND=1.00, R6_HIGH_FAILURE_PROBABILITY=1.00
+- Top 3 interventions: Peer-Led Study Tutoring (1.00), Targeted Practice Exercises (1.00), Biweekly Academic Coaching (1.00)
 - Path: Week 1: Stabilize, Week 2: Practice, Week 3: Reinforce, Week 4: Evaluate & Adjust
 ### student-por - Moderate Risk (Average) Student (Test Index 2)
 - Predicted class/probability: Class 1 (Medium) - Probabilities: [Low: 0.16, Medium: 0.81, High: 0.03]
-- Main risks: R1_LOW_PRIOR_PERFORMANCE=0.00, R2_DECLINING_TREND=0.00, R3_ATTENDANCE_RISK=0.00
-- Top 3 interventions: Guided Discussion Prompts (0.81), Facilitated Study Group (0.80), Daily LMS Resource Checklist (0.78)
+- Main risks: R4_LOW_ENGAGEMENT=0.65, R2_DECLINING_TREND=0.00, R6_HIGH_FAILURE_PROBABILITY=0.00
+- Top 3 interventions: Facilitated Study Group (0.80), Daily Attendance Monitoring (0.53), Academic Counselor Consultation (0.53)
 - Path: Week 1: Stabilize, Week 2: Practice, Week 3: Reinforce, Week 4: Evaluate & Adjust
 ### student-por - Stable (High Performer) Student (Test Index 0)
 - Predicted class/probability: Class 2 (High) - Probabilities: [Low: 0.00, Medium: 0.27, High: 0.73]
-- Main risks: R1_LOW_PRIOR_PERFORMANCE=0.00, R2_DECLINING_TREND=0.00, R3_ATTENDANCE_RISK=0.00
-- Top 3 interventions: Advanced Subject Seminar (0.61)
+- Main risks: R4_LOW_ENGAGEMENT=0.49, R3_ATTENDANCE_RISK=0.00, R1_LOW_PRIOR_PERFORMANCE=0.00
+- Top 3 interventions: Advanced Subject Seminar (0.67), Standard Practice Plan (0.54), Weekly Progress Review (0.54)
 - Path: Week 1: Stabilize, Week 2: Practice, Week 3: Reinforce, Week 4: Evaluate & Adjust
+
+## Sanity Checks After Dataset-Aware Filtering
+- Student-Por high-risk R1/R2 case now ranks academic remediation in the top 3.
+- xAPI no-risk Medium case now ranks light/general items instead of attendance/counselor interventions.
+- xAPI high-risk low-engagement case ranks LMS/resource/discussion interventions before family support.
 
 ## Technical Guardrails
 - Final prediction champions are unchanged.

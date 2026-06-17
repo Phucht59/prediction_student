@@ -55,6 +55,59 @@ def test_candidate_generator_prediction_aware_thresholds(tmp_path):
     assert "advanced_seminar" in set(high_candidates["item_id"])
 
 
+def test_xapi_no_risk_medium_uses_general_candidates(tmp_path):
+    catalog_df, _ = initialize_knowledge_base(tmp_path)
+    generator = CandidateGenerator(catalog_df)
+    risks = {
+        "R3_ATTENDANCE_RISK": 0.0,
+        "R4_LOW_ENGAGEMENT": 0.0,
+        "R6_HIGH_FAILURE_PROBABILITY": 0.0,
+    }
+    candidates = generator.generate_candidates(
+        risks,
+        1,
+        class_probabilities=[0.05, 0.70, 0.25],
+        dataset_kind="xapi",
+    )
+    item_ids = set(candidates["item_id"])
+
+    assert {"weekly_progress_review", "standard_practice_plan", "maintain_lms_engagement"}.issubset(item_ids)
+    assert "attendance_monitoring" not in item_ids
+    assert "counselor_meeting" not in item_ids
+
+
+def test_student_academic_risk_prioritizes_remediation(tmp_path):
+    catalog_df, mapping_df = initialize_knowledge_base(tmp_path)
+    generator = CandidateGenerator(catalog_df)
+    risks = {
+        "R1_LOW_PRIOR_PERFORMANCE": 1.0,
+        "R2_DECLINING_TREND": 1.0,
+        "R3_ATTENDANCE_RISK": 0.0,
+        "R4_LOW_ENGAGEMENT": 0.0,
+        "R5_INSUFFICIENT_STUDY_TIME": 0.0,
+        "R6_HIGH_FAILURE_PROBABILITY": 0.2,
+    }
+    candidates = generator.generate_candidates(
+        risks,
+        0,
+        class_probabilities=[0.75, 0.25, 0.0],
+        dataset_kind="student",
+    )
+    scorer = HybridScorer(catalog_df, mapping_df)
+    recs = scorer.score_student(
+        student_features={"studytime": 2.0, "absences": 0.0},
+        diagnosed_risks=risks,
+        class_probabilities=[0.75, 0.25, 0.0],
+        predicted_class=0,
+        dataset_kind="student",
+        candidates_df=candidates,
+    )
+    top3 = {rec["item_id"] for rec in recs[:3]}
+
+    assert len(top3.intersection({"extra_exercises", "peer_tutoring", "remedial_class", "academic_coaching"})) >= 2
+    assert "resource_checklist" not in top3
+
+
 def test_hybrid_scorer_returns_sorted_results_with_prediction_context(tmp_path):
     catalog_df, mapping_df = initialize_knowledge_base(tmp_path)
     scorer = HybridScorer(catalog_df, mapping_df)

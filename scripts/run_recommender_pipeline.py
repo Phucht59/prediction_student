@@ -251,6 +251,7 @@ def main():
             student_diagnosed_risks,
             pred_class,
             class_probabilities=class_probs,
+            dataset_kind=kind,
         )
         
         # Score filtered interventions
