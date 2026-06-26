@@ -1,0 +1,301 @@
+[0000] (Normal) TRƯỜNG ĐẠI HỌC NGOẠI NGỮ - TIN HỌC TP. HỒ CHÍ MINH
+[0001] (Normal) KHOA CÔNG NGHỆ THÔNG TIN
+[0002] (Normal) ______________________________
+[0003] (Normal) KHÓA LUẬN TỐT NGHIỆP
+[0004] (Normal) XÂY DỰNG MÔ HÌNH HỌC KẾT HỢP ĐỂ DỰ ĐOÁN
+THÀNH TÍCH HỌC TẬP SINH VIÊN VÀ ĐỀ XUẤT
+LỘ TRÌNH HỌC TẬP CÁ NHÂN HÓA
+[0005] (Normal) GIẢNG VIÊN HƯỚNG DẪN: [BỔ SUNG HỌ TÊN GIẢNG VIÊN]
+[0006] (Normal) SINH VIÊN THỰC HIỆN: TRẦN HOÀNG PHÚC - 23DH112780
+[0007] (Normal) TP. HỒ CHÍ MINH - THÁNG 06 NĂM 2026
+[0009] (Normal) TRƯỜNG ĐẠI HỌC NGOẠI NGỮ - TIN HỌC TP. HỒ CHÍ MINH
+[0010] (Normal) KHOA CÔNG NGHỆ THÔNG TIN
+[0011] (Normal) ______________________________
+[0012] (Normal) KHÓA LUẬN TỐT NGHIỆP
+[0013] (Normal) XÂY DỰNG MÔ HÌNH HỌC KẾT HỢP ĐỂ DỰ ĐOÁN
+THÀNH TÍCH HỌC TẬP SINH VIÊN VÀ ĐỀ XUẤT
+LỘ TRÌNH HỌC TẬP CÁ NHÂN HÓA
+[0014] (Normal) GIẢNG VIÊN HƯỚNG DẪN: [BỔ SUNG HỌ TÊN GIẢNG VIÊN]
+[0015] (Normal) SINH VIÊN THỰC HIỆN: TRẦN HOÀNG PHÚC - 23DH112780
+[0016] (Normal) TP. HỒ CHÍ MINH - THÁNG 06 NĂM 2026
+[0018] (Normal) LỜI CẢM ƠN
+[0019] (Normal) Em xin bày tỏ lòng biết ơn đến quý thầy cô Trường Đại học Ngoại ngữ - Tin học TP. Hồ Chí Minh đã trang bị nền tảng kiến thức và tạo điều kiện học tập trong suốt quá trình thực hiện khóa luận. Em trân trọng cảm ơn giảng viên hướng dẫn đã định hướng nghiên cứu, góp ý về phương pháp và hỗ trợ em trong quá trình hoàn thiện đề tài.
+[0020] (Normal) Em cũng cảm ơn gia đình, bạn bè và các bạn cùng học đã động viên, hỗ trợ em trong quá trình học tập và thực hiện đề tài. Do giới hạn về thời gian và dữ liệu, báo cáo khó tránh khỏi một số thiếu sót; em mong nhận được các góp ý để tiếp tục hoàn thiện công trình.
+[0021] (Normal) Tác giả
+Trần Hoàng Phúc
+[0023] (Normal) LỜI CAM ĐOAN
+[0024] (Normal) Em cam đoan nội dung khóa luận này là kết quả nghiên cứu và tổng hợp do em thực hiện dưới sự hướng dẫn của giảng viên hướng dẫn. Các tài liệu, dữ liệu và kết quả được sử dụng trong báo cáo đều được trích dẫn hoặc ghi nguồn phù hợp. Những kết quả thực nghiệm của dự án được trình bày theo nguyên tắc kiểm chứng bằng artifact, không bổ sung số liệu không có bằng chứng.
+[0025] (Normal) TP. Hồ Chí Minh, tháng 06 năm 2026
+Tác giả
+Trần Hoàng Phúc
+[0027] (Normal) TÓM TẮT
+[0028] (Normal) Khóa luận xây dựng một pipeline dự đoán thành tích học tập theo ba mức Low, Medium và High, đồng thời đề xuất một module gợi ý lộ trình học tập cá nhân hóa mang tên Risk-Aware Hybrid Learning Path Recommender (RA-HLPR). Phần dự đoán sử dụng mô hình CNN-BiLSTM cho dữ liệu có thành phần chuỗi và ngữ cảnh; với bộ xAPI, artifact cuối cùng ghi nhận biến thể gated fusion để kết hợp biểu diễn chuỗi với đặc trưng ngữ cảnh. Phần RA-HLPR tiếp nhận xác suất dự đoán, chẩn đoán rủi ro, sinh và xếp hạng các can thiệp, sau đó lập lộ trình học tập trong bốn tuần.
+[0029] (Normal) Báo cáo áp dụng cách tiếp cận evidence-first: số liệu xAPI được dùng như kết quả đã xác minh bằng manifest/CSV final, trong khi các kết quả Student chỉ được trình bày với trạng thái partially verified do workspace hiện tại thiếu checkpoint, manifest và CSV per-run tương ứng. Trên xAPI, mô hình gated fusion đạt Macro F1 0.7541, Recall Low 0.8846 và F1 Low 0.8214. Baseline Random Forest đạt Macro F1 0.8465, do đó khóa luận không kết luận mô hình deep learning vượt baseline về Macro F1 trên xAPI. RA-HLPR được đánh giá offline trên xAPI và student-por theo nhóm metric chẩn đoán rủi ro, xếp hạng can thiệp và chất lượng lộ trình; báo cáo không khẳng định hệ thống cải thiện điểm số thực tế vì chưa có user study hoặc dữ liệu phản hồi sau can thiệp.
+[0030] (Normal) Từ khóa: dự đoán thành tích học tập, educational data mining, CNN-BiLSTM, gated fusion, RA-HLPR, lộ trình học tập cá nhân hóa.
+[0032] (Normal) MỤC LỤC
+[0033] (Normal) LỜI CẢM ƠN
+[0034] (Normal) LỜI CAM ĐOAN
+[0035] (Normal) TÓM TẮT
+[0036] (Normal) DANH MỤC TỪ VIẾT TẮT
+[0037] (Normal) DANH MỤC BẢNG
+[0038] (Normal) DANH MỤC HÌNH
+[0039] (Normal) CHƯƠNG 1. MỞ ĐẦU
+[0040] (Normal) CHƯƠNG 2. CƠ SỞ LÝ THUYẾT VÀ NGHIÊN CỨU LIÊN QUAN
+[0041] (Normal) CHƯƠNG 3. PHƯƠNG PHÁP VÀ THIẾT KẾ HỆ THỐNG
+[0042] (Normal) CHƯƠNG 4. THỰC NGHIỆM VÀ ĐÁNH GIÁ
+[0043] (Normal) CHƯƠNG 5. KẾT LUẬN VÀ HƯỚNG PHÁT TRIỂN
+[0044] (Normal) TÀI LIỆU THAM KHẢO
+[0045] (Normal) PHỤ LỤC
+[0046] (Normal) Ghi chú: Mục lục là bản nháp. Mở tài liệu trong Microsoft Word và cập nhật số trang sau khi hoàn thiện nội dung.
+[0048] (Normal) DANH MỤC TỪ VIẾT TẮT
+[0051] (Normal) DANH MỤC BẢNG
+[0052] (Normal) Bảng 1.1. Phạm vi nghiên cứu của đề tài
+[0053] (Normal) Bảng 2.1. Các metric đánh giá chính
+[0054] (Normal) Bảng 3.1. Mô tả các bộ dữ liệu
+[0055] (Normal) Bảng 3.2. Quy tắc gán nhãn ba lớp
+[0056] (Normal) Bảng 3.3. Scenario cho Student datasets
+[0057] (Normal) Bảng 3.4. Thành phần kiến trúc dự đoán
+[0058] (Normal) Bảng 3.5. Thành phần RA-HLPR
+[0059] (Normal) Bảng 4.1. Môi trường và kiểm tra tái lập
+[0060] (Normal) Bảng 4.2. Kết quả dự đoán theo dataset/scenario
+[0061] (Normal) Bảng 4.3. So sánh deep model và baseline trên xAPI
+[0062] (Normal) Bảng 4.4. Kết quả offline của RA-HLPR
+[0063] (Normal) Bảng 5.1. Hạn chế và hướng xử lý
+[0065] (Normal) DANH MỤC HÌNH
+[0066] (Normal) Hình 3.1. Kiến trúc tổng thể của hệ thống
+[0067] (Normal) Hình 3.2. Quy trình RA-HLPR
+[0068] (Normal) Hình 4.1. Kết quả dự đoán theo dataset và scenario
+[0069] (Normal) Hình 4.2. So sánh Macro F1 trên xAPI
+[0070] (Normal) Hình 4.3. Phân tích năng lực nhận diện lớp Low
+[0071] (Normal) Hình 4.4. Đánh giá offline khối chẩn đoán rủi ro
+[0072] (Normal) Hình 4.5. Đánh giá offline bước xếp hạng can thiệp
+[0073] (Normal) Hình 4.6. Đánh giá offline chất lượng lộ trình học 4 tuần
+[0075] (Normal) CHƯƠNG 1. MỞ ĐẦU
+[0076] (Normal) 1.1. Lý do chọn đề tài
+[0077] (Normal) Khai phá dữ liệu giáo dục hướng đến việc trích xuất thông tin có ý nghĩa từ dữ liệu phát sinh trong môi trường học tập để hỗ trợ hiểu biết, dự đoán và ra quyết định. Trong số các bài toán thường gặp, dự đoán kết quả học tập có giá trị thực tiễn vì có thể hỗ trợ phát hiện sớm nhóm sinh viên cần được quan tâm và gợi ý cách thức hỗ trợ phù hợp [1], [8].
+[0078] (Normal) Tuy nhiên, một hệ thống chỉ dừng ở dự đoán nhãn Low, Medium hoặc High vẫn chưa trả lời câu hỏi “nên hỗ trợ người học như thế nào”. Vì vậy, đề tài kết hợp mô hình dự đoán ba lớp với RA-HLPR nhằm chuyển xác suất dự đoán thành các rủi ro quan sát được, danh sách can thiệp và lộ trình học tập bốn tuần. Hướng tiếp cận này chỉ được hiểu là hỗ trợ ra quyết định: đề tài không xem nhãn Low là kết luận cố định về năng lực, cũng không khẳng định lộ trình sinh ra đã làm điểm số cải thiện khi chưa có nghiên cứu can thiệp theo thời gian.
+[0079] (Normal) 1.2. Mục tiêu nghiên cứu
+[0080] (Normal) 1.2.1. Mục tiêu tổng quát
+[0081] (Normal) Xây dựng và đánh giá pipeline dự đoán thành tích học tập sinh viên theo ba lớp Low, Medium và High bằng CNN-BiLSTM/gated fusion, đồng thời xây dựng RA-HLPR để sinh lộ trình học tập cá nhân hóa bốn tuần từ xác suất dự đoán và tín hiệu rủi ro quan sát được.
+[0082] (Normal) 1.2.2. Mục tiêu cụ thể
+[0083] (List Bullet) Chuẩn hóa nhãn ba lớp từ G3 đối với Student Performance và từ Class đối với xAPI.
+[0084] (List Bullet) Xây dựng pipeline tiền xử lý, tách locked test, mã hóa/chuẩn hóa đặc trưng và tạo biểu diễn chuỗi.
+[0085] (List Bullet) Thiết kế mô hình CNN-BiLSTM cho dữ liệu có thành phần chuỗi và ngữ cảnh; kiểm tra biến thể gated fusion trên xAPI.
+[0086] (List Bullet) Đánh giá mô hình bằng Macro F1, Recall Low và F1 Low; so sánh baseline khi có artifact final.
+[0087] (List Bullet) Triển khai RA-HLPR gồm chẩn đoán rủi ro, sinh ứng viên, hybrid scoring và lập lộ trình học bốn tuần.
+[0088] (List Bullet) Đánh giá RA-HLPR ở chế độ offline bằng metric chẩn đoán rủi ro, ranking và path quality.
+[0089] (Normal) 1.3. Câu hỏi nghiên cứu
+[0090] (List Bullet) RQ1: Mô hình CNN-BiLSTM/gated fusion dự đoán ba mức Low, Medium, High hiệu quả như thế nào trên các dataset và scenario được sử dụng?
+[0091] (List Bullet) RQ2: Việc ưu tiên lớp Low thông qua threshold tuning dựa trên OOF probabilities hỗ trợ đánh giá nhóm có nguy cơ như thế nào?
+[0092] (List Bullet) RQ3: Trên artifact xAPI, kết quả của mô hình deep learning so với baseline Random Forest ra sao?
+[0093] (List Bullet) RQ4: Xác suất dự đoán và các tín hiệu quan sát được có thể được RA-HLPR chuyển thành gợi ý can thiệp và lộ trình bốn tuần ở chế độ offline hay không?
+[0094] (Normal) 1.4. Đối tượng và phạm vi nghiên cứu
+[0096] (Normal) Bảng 1.1. Phạm vi nghiên cứu của đề tài
+[0097] (Normal) 1.5. Ý nghĩa khoa học và thực tiễn
+[0098] (Normal) Về phương pháp, đề tài thể hiện một quy trình dự đoán có kiểm soát leakage theo thời điểm: với Student datasets, scenario được áp dụng trước feature engineering để không sử dụng các điểm chưa có tại thời điểm dự đoán. Về triển khai, RA-HLPR tạo cầu nối giữa xác suất dự đoán và gợi ý hành động có cấu trúc. Giá trị thực tiễn của hệ thống nằm ở khả năng hỗ trợ giảng viên hoặc cố vấn xem xét các tín hiệu rủi ro; hệ thống không thay thế phán đoán chuyên môn của con người.
+[0099] (Normal) 1.6. Bố cục khóa luận
+[0100] (Normal) Khóa luận gồm năm chương. Chương 1 trình bày bối cảnh, mục tiêu và phạm vi. Chương 2 trình bày cơ sở lý thuyết và nghiên cứu liên quan. Chương 3 mô tả phương pháp, pipeline và thiết kế hệ thống. Chương 4 trình bày thực nghiệm và đánh giá trên artifact hiện có. Chương 5 tổng kết đóng góp, hạn chế và hướng phát triển.
+[0102] (Normal) CHƯƠNG 2. CƠ SỞ LÝ THUYẾT VÀ NGHIÊN CỨU LIÊN QUAN
+[0103] (Normal) 2.1. Khai phá dữ liệu giáo dục và dự đoán thành tích
+[0104] (Normal) Educational Data Mining (EDM) nghiên cứu các phương pháp khai thác dữ liệu phát sinh trong bối cảnh giáo dục nhằm hiểu hành vi học tập, dự đoán kết quả và hỗ trợ quyết định [1]. Đối với dự đoán thành tích, dữ liệu có thể bao gồm điểm theo giai đoạn, mức độ tương tác, tình trạng vắng mặt, thông tin bối cảnh và các tín hiệu hành vi. Từ góc nhìn can thiệp, giá trị của mô hình không chỉ nằm ở độ chính xác tổng quát mà còn ở khả năng nhận diện kịp thời nhóm cần được hỗ trợ.
+[0105] (Normal) Các bộ Student Performance do Cortez và Silva công bố cung cấp hai môn học với thông tin nhân khẩu học, xã hội, trường học và điểm G1/G2/G3. UCI cũng lưu ý G3 có quan hệ mạnh với G1 và G2, vì vậy việc đánh giá theo thời điểm cần kiểm soát nghiêm ngặt các biến điểm được phép sử dụng [2], [3]. Đây là cơ sở để đề tài xây dựng các scenario early, midterm và late trong source archive.
+[0106] (Normal) 2.2. Phân loại đa lớp và metric đánh giá
+[0107] (Normal) Trong bài toán phân loại ba lớp, độ chính xác (accuracy) có thể che lấp hiệu năng không đồng đều giữa các lớp. Vì vậy, Macro F1 được sử dụng để lấy trung bình F1 của từng lớp với trọng số bằng nhau; Recall Low và F1 Low được theo dõi riêng để phản ánh khả năng nhận diện nhóm Low. Các metric này phù hợp với bối cảnh hỗ trợ sớm, nơi bỏ sót một trường hợp Low có thể làm giảm cơ hội can thiệp kịp thời [9].
+[0109] (Normal) Bảng 2.1. Các metric đánh giá chính
+[0110] (Normal) 2.3. CNN, LSTM và BiLSTM
+[0111] (Normal) CNN sử dụng các kernel trượt để học đặc trưng cục bộ và có khả năng tạo biểu diễn giàu thông tin từ cấu trúc đầu vào [4]. LSTM được thiết kế để điều tiết dòng thông tin qua các cổng, từ đó hỗ trợ mô hình hóa phụ thuộc dài hơn so với RNN cơ bản [5]. BiLSTM khai thác hai chiều xử lý chuỗi để tạo biểu diễn kết hợp thông tin theo cả hướng tiến và lùi [6]. Trong đề tài, CNN-BiLSTM được dùng như khung kiến trúc để xử lý chuỗi điểm hoặc chuỗi tín hiệu tương tác, sau đó kết hợp với đặc trưng ngữ cảnh.
+[0112] (Normal) 2.4. Attention pooling và gated fusion
+[0113] (Normal) Attention pooling cho phép tổng hợp các trạng thái ẩn theo trọng số học được thay vì chỉ lấy trạng thái cuối. Cơ chế attention có nền tảng rộng trong các mô hình biểu diễn chuỗi [7]. Trong source dự án, gated fusion chiếu vector sequence và context về cùng không gian, sau đó học một gate sigmoid để trộn hai nhánh. Cách thiết kế này cho phép mô hình điều chỉnh tương đối mức đóng góp của chuỗi hành vi và bối cảnh đối với đầu ra. Lưu ý rằng artifact final gọi biến thể xAPI là gated_fusion_v28, trong khi source exact cùng tên chưa được truy thấy; báo cáo chỉ mô tả nguyên lý theo source GatedFusion đã xác minh.
+[0114] (Normal) 2.5. Dự đoán sớm và threshold cho lớp Low
+[0115] (Normal) Các nghiên cứu về dự đoán kết quả trong môi trường học trực tuyến cho thấy dữ liệu chuỗi có thể hữu ích ở giai đoạn sớm, nhưng hiệu năng phụ thuộc mạnh vào lượng thông tin quan sát được [8]. Trong dự án, low_f1_tuned là chế độ dự đoán điều chỉnh threshold lớp Low dựa trên OOF probabilities. Locked test được thiết kế chỉ dùng cho đánh giá cuối; do đó không được diễn giải threshold cụ thể khi artifact final chưa lưu giá trị threshold tương ứng.
+[0116] (Normal) 2.6. Hệ gợi ý lộ trình học tập
+[0117] (Normal) RA-HLPR là module gợi ý downstream theo rủi ro. Khác với collaborative filtering, RA-HLPR không dựa vào tương đồng user-user, item-item hay lịch sử tương tác user-item. Thay vào đó, module sử dụng xác suất dự đoán, weak risk labels, intervention catalog và hybrid scoring để tạo lộ trình bốn tuần. Vì dữ liệu đánh giá hiện là offline và tham chiếu rule-based/weak supervision, kết quả chỉ phản ánh chất lượng nội bộ của pipeline, không phải hiệu quả nhân quả trên kết quả học tập thực tế.
+[0118] (Normal) 2.7. Nghiên cứu liên quan và khoảng trống
+[0119] (Normal) GritNet là một ví dụ về việc mô hình hóa dự đoán kết quả học tập như bài toán chuỗi sự kiện và sử dụng BLSTM để hỗ trợ dự đoán theo tiến trình học [8]. So với các hướng chỉ dự đoán nhãn, đề tài này bổ sung một lớp downstream để chuyển xác suất thành lộ trình học có cấu trúc. Khoảng trống của dự án hiện tại nằm ở việc chưa có đánh giá người dùng hoặc outcome sau can thiệp, do đó đóng góp được xác định ở mức thiết kế hệ thống và đánh giá offline thay vì chứng minh tác động giáo dục.
+[0121] (Normal) CHƯƠNG 3. PHƯƠNG PHÁP VÀ THIẾT KẾ HỆ THỐNG
+[0122] (Normal) 3.1. Tổng quan pipeline
+[0123] (Normal) Pipeline hệ thống gồm bảy lớp chức năng: dữ liệu thô, tiền xử lý và chia tập, xây dựng đặc trưng/chuỗi, dự đoán CNN-BiLSTM hoặc gated fusion, chẩn đoán rủi ro, xếp hạng can thiệp, và lập lộ trình học bốn tuần. Các hình trong báo cáo được tái tạo từ artifact final hoặc source code đã audit, không sử dụng dữ liệu giả.
+[0125] (Normal) Hình 3.1. Kiến trúc tổng thể của hệ thống
+[0126] (Normal) Ghi chú: Nguồn: Tác giả tổng hợp từ src/data_pipeline.py, src/models/models.py, src/models_v27.py và scripts/run_recommender_pipeline.py.
+[0127] (Normal) 3.2. Dữ liệu và quy tắc gán nhãn
+[0128] (Normal) Repository cấu hình ba dataset: student-mat, student-por và xAPI. Dữ liệu Student Performance dùng biến mục tiêu G3; đề tài chuyển G3 thành ba lớp bằng bins [0, 9, 14, 20]. Dữ liệu xAPI dùng biến Class với mapping L/M/H tương ứng 0/1/2. Raw CSV và processed final split không còn trong workspace audit, vì vậy số mẫu xAPI và Student trong Bảng 3.1 được ghi cùng trạng thái xác thực thay vì suy diễn thêm thống kê missing/duplicate.
+[0130] (Normal) Bảng 3.1. Mô tả các bộ dữ liệu và trạng thái xác thực
+[0131] (Normal) Ghi chú: Số liệu student-mat/student-por/xAPI trong bảng xuất phát từ checkpoint hoặc output hiện có khi raw CSV không có trong workspace. Không sử dụng bảng này để suy luận missing value, duplicate hay phân bố lớp.
+[0133] (Normal) Bảng 3.2. Quy tắc gán nhãn ba lớp
+[0134] (Normal) 3.3. Tiền xử lý và kiểm soát leakage
+[0135] (Normal) Theo source pipeline, dữ liệu được tách thành train pool và locked test với tỷ lệ 80/20, stratify theo target và seed mặc định 42. Các categorical features được mã hóa, numerical features được MinMax scaling. G3_raw được loại khỏi input để tránh leakage. Với Student scenarios, các điểm chưa tồn tại tại thời điểm dự đoán phải được loại trước feature engineering để không hình thành biến dẫn xuất chứa thông tin tương lai.
+[0137] (Normal) Bảng 3.3. Scenario và kiểm soát thông tin theo thời điểm
+[0138] (Normal) 3.4. Kiến trúc dự đoán CNN-BiLSTM và gated fusion
+[0139] (Normal) StudentHybridModel trong source hiện có nhận sequence tensor dạng (batch, seq_len, 1). Nhánh sequence đi qua Conv1d, BatchNorm, ReLU, Dropout và BiLSTM hai chiều; attention pooling tạo vector biểu diễn chuỗi. Nhánh context nhận numerical features và categorical embeddings qua MLP; hai nhánh được hợp nhất trước classifier. Với xAPI, artifact final ghi nhận gated fusion v28; nguyên lý gated fusion được mô tả từ source v27 qua công thức h_fused = g x h_seq + (1-g) x h_ctx, với g là sigmoid của phép biến đổi từ hai vector đầu vào.
+[0141] (Normal) Bảng 3.4. Các thành phần kiến trúc dự đoán
+[0142] (Normal) 3.5. Thiết kế RA-HLPR
+[0143] (Normal) RA-HLPR là Risk-Aware Hybrid Learning Path Recommender. Script final load class probabilities, tạo weak labels bằng risk rules, huấn luyện RiskDiagnosisHead, lọc candidate interventions từ intervention catalog, chấm điểm bằng HybridScorer và lập lộ trình bốn tuần bằng PathPlanner. Module này không sử dụng collaborative filtering; không có user-user similarity, item-item similarity, matrix factorization hoặc implicit feedback trong source final.
+[0145] (Normal) Hình 3.2. Quy trình RA-HLPR từ xác suất dự đoán đến lộ trình học 4 tuần
+[0146] (Normal) Ghi chú: Nguồn: Tác giả tổng hợp từ scripts/run_recommender_pipeline.py và src/recommender/.
+[0148] (Normal) Bảng 3.5. Các thành phần của RA-HLPR
+[0149] (Normal) 3.6. Thiết kế đánh giá
+[0150] (Normal) Prediction được đánh giá bằng Macro F1, Recall Low và F1 Low. Threshold Low được tune trên OOF/CV probabilities theo source/archive và final report; locked test chỉ dùng để đánh giá final. Recommender được đánh giá offline bằng risk diagnosis metrics, Precision@3, Recall@3, NDCG@3, coverage và các metric path quality. Không có statistical significance test, calibration, latency benchmark hay user feedback trong artifact hiện có.
+[0152] (Normal) CHƯƠNG 4. THỰC NGHIỆM VÀ ĐÁNH GIÁ
+[0153] (Normal) 4.1. Môi trường và trạng thái tái lập
+[0155] (Normal) Bảng 4.1. Môi trường và kiểm tra tái lập
+[0156] (Normal) Do dữ liệu thô, processed split và một số checkpoint final không còn trong workspace, phần này tách rõ kết quả VERIFIED và PARTIALLY VERIFIED. Xác định này không làm thay đổi các con số đã ghi trong final status, nhưng giới hạn mức độ khẳng định có thể đưa ra từ từng dòng kết quả.
+[0157] (Normal) 4.2. Kết quả dự đoán
+[0159] (Normal) Bảng 4.2. Kết quả dự đoán theo dataset và scenario
+[0160] (Normal) Ghi chú: Ba dòng Student có trong final status/README nhưng thiếu manifest/checkpoint/per-run CSV exact trong workspace hiện tại. Dòng xAPI được đối chiếu bằng manifest và CSV final.
+[0162] (Normal) Hình 4.1. Kết quả dự đoán theo dataset và scenario
+[0163] (Normal) Ghi chú: Nguồn: Tác giả tổng hợp từ FINAL_PROJECT_STATUS.md và artifact final. Các cấu hình Student là partially verified; xAPI là verified.
+[0164] (Normal) Trên artifact hiện có, các scenario late của Student có metric lớp Low cao hơn student-por midterm. Nhận xét này phù hợp với thiết kế input, vì late có thêm G2 bên cạnh G1, trong khi midterm chỉ sử dụng G1. Tuy nhiên, đây không phải bằng chứng nhân quả độc lập và ba dòng Student vẫn cần được xem là partially verified cho đến khi khôi phục per-run artifact.
+[0165] (Normal) 4.3. So sánh baseline trên xAPI
+[0167] (Normal) Bảng 4.3. So sánh deep model và baseline trên xAPI
+[0169] (Normal) Hình 4.2. So sánh Macro F1 giữa gated fusion v28 và Random Forest trên xAPI
+[0170] (Normal) Kết quả này yêu cầu cách diễn giải thận trọng: Random Forest đạt Macro F1 cao hơn gated fusion v28 trong final baseline CSV. Vì baseline không có Recall Low/F1 Low trong artifact final, báo cáo chỉ so sánh trực tiếp Macro F1. Do đó không có cơ sở để khẳng định deep learning vượt baseline trên xAPI. Giá trị của nhánh deep trong pipeline hiện tại nằm ở mô hình hóa sequence/context, prediction probabilities và khả năng tích hợp downstream với RA-HLPR.
+[0171] (Normal) 4.4. Phân tích lớp Low
+[0173] (Normal) Hình 4.3. Phân tích Recall Low và F1 Low theo dataset/scenario
+[0174] (Normal) Ghi chú: Nguồn: Tác giả tổng hợp từ final status; Student rows là partially verified.
+[0175] (Normal) Với xAPI, Recall Low đạt 0.8846 và F1 Low đạt 0.8214, cho thấy mô hình final nhận diện được phần lớn mẫu Low theo artifact final. Trong bối cảnh hỗ trợ học tập, Recall Low có ý nghĩa vì nó phản ánh tỷ lệ sinh viên Low được phát hiện. Tuy nhiên, metric này không đủ để kết luận độc lập về chất lượng tổng thể; cần xem đồng thời Macro F1 và trade-off precision/recall khi có prediction detail.
+[0176] (Normal) 4.5. Đánh giá offline RA-HLPR
+[0178] (Normal) Bảng 4.4. Kết quả đánh giá offline RA-HLPR
+[0179] (Normal) Ghi chú: Reference đánh giá risk diagnosis là weak labels/rule-based; các metric không đo tác động thật sau khi sinh viên nhận khuyến nghị.
+[0181] (Normal) Hình 4.4. Đánh giá offline khối chẩn đoán rủi ro
+[0183] (Normal) Hình 4.5. Đánh giá offline bước xếp hạng can thiệp
+[0185] (Normal) Hình 4.6. Đánh giá offline chất lượng lộ trình học 4 tuần
+[0186] (Normal) Các metric risk diagnosis cao phản ánh khả năng RiskDiagnosisHead tái hiện nhãn rủi ro yếu được sinh từ quy tắc, không phải đo lường rủi ro được gán nhãn độc lập bởi chuyên gia. Với ranking, xAPI có NDCG@3 cao hơn student-por, trong khi Recall@3 trên cả hai dataset ở mức thấp hơn Precision@3. Điều này cho thấy danh sách top-3 có độ phù hợp nhất định với reference nội bộ nhưng chưa bao phủ hết các intervention/risk phù hợp. Path quality ghi nhận risk coverage cao, song các chỉ số này chỉ đánh giá tính nhất quán nội bộ của lộ trình, không chứng minh hiệu quả giáo dục thực tế.
+[0187] (Normal) 4.6. Thảo luận về tính tái lập và giới hạn kết quả
+[0188] (Normal) Các kết quả xAPI có bằng chứng mạnh nhất vì tồn tại manifest và CSV final; các kết quả Student chỉ được giữ ở mức partially verified. Hệ quả là khóa luận không đưa confusion matrix, threshold numeric, batch size, epoch hoặc learning rate final của Student như các sự thật đã xác minh. Việc thiếu baseline final Student cũng ngăn cản kết luận deep model tốt hơn baseline trên các dataset này. Đây là giới hạn artifact, không phải khoảng trống được phép lấp bằng diễn giải cảm tính.
+[0190] (Normal) CHƯƠNG 5. KẾT LUẬN VÀ HƯỚNG PHÁT TRIỂN
+[0191] (Normal) 5.1. Kết luận
+[0192] (Normal) Khóa luận đã tổ chức một pipeline dự đoán thành tích học tập ba lớp Low, Medium và High, kết hợp CNN-BiLSTM/gated fusion với RA-HLPR. Điểm chính của hệ thống là nối bước dự đoán với bước hỗ trợ hành động: xác suất lớp được sử dụng để chẩn đoán rủi ro, xếp hạng intervention và tạo lộ trình học bốn tuần. Với xAPI, artifact final xác minh gated_fusion_v28 đạt Macro F1 0.7541, Recall Low 0.8846 và F1 Low 0.8214. RA-HLPR có output refreshed cho xAPI và student-por cùng các metric offline đã lưu.
+[0193] (Normal) Báo cáo cũng ghi nhận một kết quả không thuận lợi nhưng quan trọng: trên xAPI, Random Forest có Macro F1 0.8465, cao hơn deep model. Do đó, kết luận của đề tài không phải deep learning luôn tốt hơn baseline, mà là pipeline deep/prediction-aware có thể cung cấp xác suất đầu ra để phục vụ downstream recommendation trong bối cảnh thiết kế hiện tại.
+[0194] (Normal) 5.2. Đóng góp
+[0195] (List Bullet) Thiết kế bài toán classification ba lớp với guardrail chống leakage theo thời điểm cho Student scenarios.
+[0196] (List Bullet) Triển khai khung CNN-BiLSTM có nhánh sequence/context, attention pooling và nguyên lý gated fusion.
+[0197] (List Bullet) Đánh giá không chỉ bằng Macro F1 mà còn theo Recall Low và F1 Low.
+[0198] (List Bullet) Xây dựng RA-HLPR theo risk-aware hybrid pipeline để sinh lộ trình bốn tuần có cấu trúc.
+[0199] (List Bullet) Thực hiện evidence audit để phân biệt VERIFIED, PARTIALLY VERIFIED và MISSING trước khi diễn giải kết quả.
+[0200] (Normal) 5.3. Hạn chế
+[0202] (Normal) Bảng 5.1. Hạn chế và hướng xử lý
+[0203] (Normal) 5.4. Hướng phát triển
+[0204] (Normal) Các hướng phát triển ưu tiên gồm: chuẩn hóa quy trình lưu artifact final; bổ sung confusion matrix, prediction probability, calibration và confidence interval; hoàn thiện baseline cho Student; xác minh exact source/checkpoint của gated_fusion_v28; và thực hiện đánh giá người dùng cho RA-HLPR. Về mặt ứng dụng, hệ thống cần được đặt trong quy trình có giảng viên/cố vấn giám sát, bảo mật dữ liệu học tập và minh bạch với người học. Nhãn Low cần được hiểu là tín hiệu hỗ trợ, không phải nhãn kết luận hoặc cơ sở cho quyết định trừng phạt.
+[0206] (Normal) TÀI LIỆU THAM KHẢO
+[0207] (Normal) [1] R. S. J. d. Baker and K. Yacef, “The state of educational data mining in 2009: A review and future visions,” Journal of Educational Data Mining, vol. 1, no. 1, pp. 3-17, 2009.
+[0208] (Normal) [2] P. Cortez and A. M. G. Silva, “Using data mining to predict secondary school student performance,” in Proceedings of the 5th Annual Future Business Technology Conference, 2008.
+[0209] (Normal) [3] P. Cortez, “Student Performance,” UCI Machine Learning Repository, 2008. doi: 10.24432/C5TG7T.
+[0210] (Normal) [4] Y. LeCun, L. Bottou, Y. Bengio, and P. Haffner, “Gradient-based learning applied to document recognition,” Proceedings of the IEEE, vol. 86, no. 11, pp. 2278-2324, 1998, doi: 10.1109/5.726791.
+[0211] (Normal) [5] S. Hochreiter and J. Schmidhuber, “Long short-term memory,” Neural Computation, vol. 9, no. 8, pp. 1735-1780, 1997, doi: 10.1162/neco.1997.9.8.1735.
+[0212] (Normal) [6] M. Schuster and K. K. Paliwal, “Bidirectional recurrent neural networks,” IEEE Transactions on Signal Processing, vol. 45, no. 11, pp. 2673-2681, 1997, doi: 10.1109/78.650093.
+[0213] (Normal) [7] D. Bahdanau, K. Cho, and Y. Bengio, “Neural machine translation by jointly learning to align and translate,” in Proceedings of the 3rd International Conference on Learning Representations, 2015.
+[0214] (Normal) [8] B.-H. Kim, E. Vizitei, and V. Ganapathi, “GritNet: Student performance prediction with deep learning,” arXiv:1804.07405, 2018.
+[0215] (Normal) [9] M. Sokolova and G. Lapalme, “A systematic analysis of performance measures for classification tasks,” Information Processing & Management, vol. 45, no. 4, pp. 427-437, 2009, doi: 10.1016/j.ipm.2009.03.002.
+[0216] (Normal) [10] K. Järvelin and J. Kekäläinen, “Cumulated gain-based evaluation of IR techniques,” ACM Transactions on Information Systems, vol. 20, no. 4, pp. 422-446, 2002, doi: 10.1145/582415.582418.
+[0217] (Normal) [11] F. Pedregosa et al., “Scikit-learn: Machine learning in Python,” Journal of Machine Learning Research, vol. 12, pp. 2825-2830, 2011.
+[0218] (Normal) [12] T. Akiba, S. Sano, T. Yanase, T. Ohta, and M. Koyama, “Optuna: A next-generation hyperparameter optimization framework,” in Proceedings of the 25th ACM SIGKDD International Conference on Knowledge Discovery & Data Mining, 2019, pp. 2623-2631.
+[0220] (Normal) PHỤ LỤC A. GHI CHÚ VỀ EVIDENCE VÀ TÁI LẬP
+[0221] (Normal) Phụ lục này ghi các điều kiện cần để tái lập đầy đủ kết quả final. Dữ liệu raw phải được khôi phục đúng version cho student-mat, student-por và xAPI. Processed train pool/locked test cần được tạo với test size 0.2, stratification và seed 42. Cần có checkpoint/metadata exact, OOF probabilities hoặc threshold metadata, và prediction CSV để sinh confusion matrix. Nếu chưa có các artifact này, các kết quả Student giữ trạng thái partially verified.
+[0222] (Normal) A.1. Lệnh kiểm tra đã xác minh
+[0223] (Normal) py -3.10 -m pytest -q
+[0224] (Normal) py -3.10 scripts\run_recommender_pipeline.py --dataset xapi
+[0225] (Normal) py -3.10 scripts\run_recommender_pipeline.py --dataset student-por
+[0226] (Normal) Ghi chú: Hai lệnh recommender không được rerun trong audit vì thiếu raw/processed data và metadata checkpoint ở models/saved/final/.
+[0227] (Normal) A.2. Quy tắc diễn giải kết quả
+[0228] (List Bullet) Dùng VERIFIED để viết claim khẳng định.
+[0229] (List Bullet) Dùng PARTIALLY VERIFIED với chú thích rõ artifact còn thiếu.
+[0230] (List Bullet) Không chuyển MISSING thành kết quả hoặc tham số cụ thể.
+[0231] (List Bullet) Không claim RA-HLPR cải thiện điểm số thật nếu chưa có feedback/user study.
+[0232] (List Bullet) Không claim deep model tốt hơn baseline trên Student nếu chưa có baseline final tương ứng.
+
+[TABLE 0] rows=10 cols=2
+Từ viết tắt | Diễn giải
+CNN | Convolutional Neural Network - Mạng nơ-ron tích chập
+LSTM | Long Short-Term Memory
+BiLSTM | Bidirectional Long Short-Term Memory
+EDM | Educational Data Mining - Khai phá dữ liệu giáo dục
+RA-HLPR | Risk-Aware Hybrid Learning Path Recommender
+OOF | Out-of-Fold
+MLP | Multi-Layer Perceptron
+
+[TABLE 1] rows=7 cols=2
+Nội dung | Phạm vi
+Bài toán chính | Phân loại ba lớp Low, Medium, High; không coi hồi quy là kết quả final.
+Dataset | student-mat, student-por và xAPI theo cấu hình repository.
+Mô hình | CNN-BiLSTM; xAPI có artifact final gated fusion v28; baseline dùng đối chứng.
+Khuyến nghị | RA-HLPR là recommender theo rủi ro/quy tắc/metadata, không phải collaborative filtering.
+Đánh giá | Prediction trên locked test theo artifact; RA-HLPR offline theo weak labels/rule-based reference.
+Ngoài phạm vi | Không có user study, A/B test, feedback sau can thiệp hoặc claim cải thiện điểm số thật.
+
+[TABLE 2] rows=7 cols=3
+Metric | Công thức/diễn giải | Vai trò trong đề tài
+Precision | TP / (TP + FP) | Đánh giá mức chính xác của các dự đoán dương.
+Recall | TP / (TP + FN) | Đánh giá tỷ lệ trường hợp thật được nhận diện.
+F1 | 2 x Precision x Recall / (Precision + Recall) | Cân bằng precision và recall.
+Macro F1 | Trung bình F1 trên các lớp | Đánh giá cân bằng ba lớp Low/Medium/High.
+Recall Low | Recall riêng của lớp Low | Theo dõi mức bỏ sót nhóm cần hỗ trợ.
+NDCG@3 | Đánh giá chất lượng thứ tự của top-3 | Dùng cho ranking intervention ở RA-HLPR [10].
+
+[TABLE 3] rows=4 cols=5
+Dataset | Số mẫu | Nhãn | Scenario final | Trạng thái evidence
+student-mat | 395 (suy ra từ checkpoint/output) | G3 -> 3 lớp | late | PARTIALLY VERIFIED
+student-por | 649 (checkpoint/output; khớp UCI) | G3 -> 3 lớp | late, midterm | PARTIALLY VERIFIED
+xAPI | 480 (384 train + 96 locked output) | Class: L/M/H -> 0/1/2 | default | VERIFIED cho final prediction/recommender output
+
+[TABLE 4] rows=3 cols=4
+Dataset | Nhãn gốc | Quy tắc | Nhãn đầu ra
+student-mat, student-por | G3 | pd.cut với bins [0, 9, 14, 20] | 0=Low; 1=Medium; 2=High
+xAPI | Class | Mapping rời rạc | L=0; M=1; H=2
+
+[TABLE 5] rows=5 cols=4
+Scenario | Thông tin điểm được dùng | Sequence | Biến phải loại trước feature engineering
+early | Không dùng G1, G2 | Không có | G1, G2, G3/G3_raw
+midterm | Dùng G1 | [G1] | G2, G3/G3_raw
+late | Dùng G1 và G2 | [G1, G2] | G3/G3_raw
+xAPI default | Tín hiệu tương tác | raisedhands, VisITedResources, AnnouncementsView, Discussion | Class
+
+[TABLE 6] rows=7 cols=3
+Thành phần | Chức năng đã xác minh | Trạng thái
+Conv1d + BatchNorm + ReLU + Dropout | Trích xuất đặc trưng cục bộ từ chuỗi | VERIFIED source
+BiLSTM | Mô hình hóa quan hệ hai chiều trong sequence | VERIFIED source
+Attention pooling | Tổng hợp hidden states thành vector sequence | VERIFIED source
+Context MLP | Xử lý numerical features và categorical embeddings | VERIFIED source
+GatedFusion | Học gate để trộn vector sequence và context | VERIFIED source v27; exact v28 MISSING
+SequenceCNNBiLSTMOnly | Tên model khớp các dòng Student final | PARTIALLY VERIFIED
+
+[TABLE 7] rows=6 cols=2
+Khối | Vai trò
+Risk rules / weak labels | Sinh nhãn rủi ro từ tín hiệu quan sát được; không dùng G3/Class thật khi recommendation vận hành.
+RiskDiagnosisHead | Ước lượng xác suất rủi ro theo nhãn yếu.
+CandidateGenerator | Lọc intervention theo dataset, rủi ro và predicted class.
+HybridScorer | Xếp hạng theo risk match, performance need, difficulty/time/prerequisite fit, expected effect và rule adjustment.
+PathPlanner | Phân bổ can thiệp theo bốn pha: Stabilize, Practice, Reinforce, Evaluate & Adjust.
+
+[TABLE 8] rows=6 cols=2
+Nội dung | Kết quả/Trạng thái
+Python dùng để kiểm thử | Python 3.10.8; phù hợp environment.yml.
+Test suite | py -3.10 -m pytest -q: 31 passed in 20.57s.
+Default runtime | Python 3.14 thiếu pytest; không dùng để đánh giá repo.
+Visual pack | Tạo thành công từ artifact/output JSON hiện có.
+Rủi ro tái lập | Thiếu raw data, processed split, exact Student checkpoints/metrics CSV và một phần metadata final.
+
+[TABLE 9] rows=5 cols=8
+Dataset | Scenario | Model | Mode | Macro F1 | Recall Low | F1 Low | Evidence
+student-mat | late | sequence_cnn_bilstm_only | low_f1_tuned | 0.9365 | 0.9615 | 0.8929 | PARTIALLY VERIFIED
+student-por | late | sequence_cnn_bilstm_only | low_f1_tuned | 0.8783 | 0.9000 | 0.8182 | PARTIALLY VERIFIED
+student-por | midterm | sequence_cnn_bilstm_only | argmax | 0.8228 | 0.6500 | 0.7429 | PARTIALLY VERIFIED
+xAPI | default | gated_fusion_v28 | low_f1_tuned | 0.7541 | 0.8846 | 0.8214 | VERIFIED
+
+[TABLE 10] rows=3 cols=5
+Model | Macro F1 | Recall Low | F1 Low | Kết luận hợp lệ
+gated_fusion_v28 | 0.7541 | 0.8846 | 0.8214 | Mô hình deep trong pipeline final; có probability output phục vụ RA-HLPR.
+RandomForestClassifier | 0.8465 | Không có artifact | Không có artifact | Baseline có Macro F1 cao hơn deep model trên xAPI.
+
+[TABLE 11] rows=3 cols=10
+Dataset | Risk F1 macro | Risk F1 micro | P@3 | R@3 | NDCG@3 | Coverage@3 | Risk coverage | Difficulty progression | Prereq violation
+xAPI | 0.9831 | 0.9813 | 0.6840 | 0.4720 | 0.8229 | 0.6500 | 0.8958 | 0.7153 | 0.0000
+student-por | 0.9359 | 0.9094 | 0.6641 | 0.3185 | 0.7455 | 0.5500 | 0.9508 | 0.6000 | 0.0449
+
+[TABLE 12] rows=7 cols=3
+Hạn chế | Tác động | Hướng xử lý
+Thiếu raw data và processed split | Không kiểm trực tiếp schema, missing/duplicate, exact indices | Khôi phục dữ liệu đúng version, lưu checksum và split artifact.
+Thiếu Student per-run artifacts | Ba kết quả Student chỉ partially verified | Khôi phục checkpoint, OOF, prediction CSV và manifest final.
+Thiếu baseline final Student | Không so sánh được deep vs baseline trên Student | Rerun/khôi phục baseline trên locked test cùng protocol.
+Không có confusion matrix, calibration, significance test | Giới hạn chiều sâu đánh giá prediction | Xuất predictions, chạy bootstrap/McNemar, calibration analysis.
+RA-HLPR chỉ evaluated offline | Không claim cải thiện điểm số thật | Thực hiện user study, A/B test hoặc longitudinal intervention study.
+Exact source class gated_fusion_v28 thiếu | Giới hạn tái lập chi tiết kiến trúc xAPI | Khôi phục commit/artifact v28 và mapping source-to-manifest.

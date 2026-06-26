@@ -1,0 +1,489 @@
+[
+  {
+    "idx": 0,
+    "rows": 10,
+    "cols": 2,
+    "preview": [
+      [
+        "Từ viết tắt",
+        "Diễn giải"
+      ],
+      [
+        "CNN",
+        "Convolutional Neural Network - Mạng nơ-ron tích chập"
+      ],
+      [
+        "LSTM",
+        "Long Short-Term Memory"
+      ],
+      [
+        "BiLSTM",
+        "Bidirectional Long Short-Term Memory"
+      ],
+      [
+        "EDM",
+        "Educational Data Mining - Khai phá dữ liệu giáo dục"
+      ],
+      [
+        "RA-HLPR",
+        "Risk-Aware Hybrid Learning Path Recommender"
+      ],
+      [
+        "OOF",
+        "Out-of-Fold"
+      ],
+      [
+        "MLP",
+        "Multi-Layer Perceptron"
+      ]
+    ]
+  },
+  {
+    "idx": 1,
+    "rows": 7,
+    "cols": 2,
+    "preview": [
+      [
+        "Nội dung",
+        "Phạm vi"
+      ],
+      [
+        "Bài toán chính",
+        "Phân loại ba lớp Low, Medium, High; không coi hồi quy là kết quả final."
+      ],
+      [
+        "Dataset",
+        "student-mat, student-por và xAPI theo cấu hình repository."
+      ],
+      [
+        "Mô hình",
+        "CNN-BiLSTM; xAPI có artifact final gated fusion v28; baseline dùng đối chứng."
+      ],
+      [
+        "Khuyến nghị",
+        "RA-HLPR là recommender theo rủi ro/quy tắc/metadata, không phải collaborative filtering."
+      ],
+      [
+        "Đánh giá",
+        "Prediction trên locked test theo artifact; RA-HLPR offline theo weak labels/rule-based reference."
+      ],
+      [
+        "Ngoài phạm vi",
+        "Không có user study, A/B test, feedback sau can thiệp hoặc claim cải thiện điểm số thật."
+      ]
+    ]
+  },
+  {
+    "idx": 2,
+    "rows": 7,
+    "cols": 3,
+    "preview": [
+      [
+        "Metric",
+        "Công thức/diễn giải",
+        "Vai trò trong đề tài"
+      ],
+      [
+        "Precision",
+        "TP / (TP + FP)",
+        "Đánh giá mức chính xác của các dự đoán dương."
+      ],
+      [
+        "Recall",
+        "TP / (TP + FN)",
+        "Đánh giá tỷ lệ trường hợp thật được nhận diện."
+      ],
+      [
+        "F1",
+        "2 x Precision x Recall / (Precision + Recall)",
+        "Cân bằng precision và recall."
+      ],
+      [
+        "Macro F1",
+        "Trung bình F1 trên các lớp",
+        "Đánh giá cân bằng ba lớp Low/Medium/High."
+      ],
+      [
+        "Recall Low",
+        "Recall riêng của lớp Low",
+        "Theo dõi mức bỏ sót nhóm cần hỗ trợ."
+      ],
+      [
+        "NDCG@3",
+        "Đánh giá chất lượng thứ tự của top-3",
+        "Dùng cho ranking intervention ở RA-HLPR [10]."
+      ]
+    ]
+  },
+  {
+    "idx": 3,
+    "rows": 4,
+    "cols": 5,
+    "preview": [
+      [
+        "Dataset",
+        "Số mẫu",
+        "Nhãn",
+        "Scenario final",
+        "Trạng thái evidence"
+      ],
+      [
+        "student-mat",
+        "395 (suy ra từ checkpoint/output)",
+        "G3 -> 3 lớp",
+        "late",
+        "PARTIALLY VERIFIED"
+      ],
+      [
+        "student-por",
+        "649 (checkpoint/output; khớp UCI)",
+        "G3 -> 3 lớp",
+        "late, midterm",
+        "PARTIALLY VERIFIED"
+      ],
+      [
+        "xAPI",
+        "480 (384 train + 96 locked output)",
+        "Class: L/M/H -> 0/1/2",
+        "default",
+        "VERIFIED cho final prediction/recommender output"
+      ]
+    ]
+  },
+  {
+    "idx": 4,
+    "rows": 3,
+    "cols": 4,
+    "preview": [
+      [
+        "Dataset",
+        "Nhãn gốc",
+        "Quy tắc",
+        "Nhãn đầu ra"
+      ],
+      [
+        "student-mat, student-por",
+        "G3",
+        "pd.cut với bins [0, 9, 14, 20]",
+        "0=Low; 1=Medium; 2=High"
+      ],
+      [
+        "xAPI",
+        "Class",
+        "Mapping rời rạc",
+        "L=0; M=1; H=2"
+      ]
+    ]
+  },
+  {
+    "idx": 5,
+    "rows": 5,
+    "cols": 4,
+    "preview": [
+      [
+        "Scenario",
+        "Thông tin điểm được dùng",
+        "Sequence",
+        "Biến phải loại trước feature engineering"
+      ],
+      [
+        "early",
+        "Không dùng G1, G2",
+        "Không có",
+        "G1, G2, G3/G3_raw"
+      ],
+      [
+        "midterm",
+        "Dùng G1",
+        "[G1]",
+        "G2, G3/G3_raw"
+      ],
+      [
+        "late",
+        "Dùng G1 và G2",
+        "[G1, G2]",
+        "G3/G3_raw"
+      ],
+      [
+        "xAPI default",
+        "Tín hiệu tương tác",
+        "raisedhands, VisITedResources, AnnouncementsView, Discussion",
+        "Class"
+      ]
+    ]
+  },
+  {
+    "idx": 6,
+    "rows": 7,
+    "cols": 3,
+    "preview": [
+      [
+        "Thành phần",
+        "Chức năng đã xác minh",
+        "Trạng thái"
+      ],
+      [
+        "Conv1d + BatchNorm + ReLU + Dropout",
+        "Trích xuất đặc trưng cục bộ từ chuỗi",
+        "VERIFIED source"
+      ],
+      [
+        "BiLSTM",
+        "Mô hình hóa quan hệ hai chiều trong sequence",
+        "VERIFIED source"
+      ],
+      [
+        "Attention pooling",
+        "Tổng hợp hidden states thành vector sequence",
+        "VERIFIED source"
+      ],
+      [
+        "Context MLP",
+        "Xử lý numerical features và categorical embeddings",
+        "VERIFIED source"
+      ],
+      [
+        "GatedFusion",
+        "Học gate để trộn vector sequence và context",
+        "VERIFIED source v27; exact v28 MISSING"
+      ],
+      [
+        "SequenceCNNBiLSTMOnly",
+        "Tên model khớp các dòng Student final",
+        "PARTIALLY VERIFIED"
+      ]
+    ]
+  },
+  {
+    "idx": 7,
+    "rows": 6,
+    "cols": 2,
+    "preview": [
+      [
+        "Khối",
+        "Vai trò"
+      ],
+      [
+        "Risk rules / weak labels",
+        "Sinh nhãn rủi ro từ tín hiệu quan sát được; không dùng G3/Class thật khi recommendation vận hành."
+      ],
+      [
+        "RiskDiagnosisHead",
+        "Ước lượng xác suất rủi ro theo nhãn yếu."
+      ],
+      [
+        "CandidateGenerator",
+        "Lọc intervention theo dataset, rủi ro và predicted class."
+      ],
+      [
+        "HybridScorer",
+        "Xếp hạng theo risk match, performance need, difficulty/time/prerequisite fit, expected effect và rule adjustment."
+      ],
+      [
+        "PathPlanner",
+        "Phân bổ can thiệp theo bốn pha: Stabilize, Practice, Reinforce, Evaluate & Adjust."
+      ]
+    ]
+  },
+  {
+    "idx": 8,
+    "rows": 6,
+    "cols": 2,
+    "preview": [
+      [
+        "Nội dung",
+        "Kết quả/Trạng thái"
+      ],
+      [
+        "Python dùng để kiểm thử",
+        "Python 3.10.8; phù hợp environment.yml."
+      ],
+      [
+        "Test suite",
+        "py -3.10 -m pytest -q: 31 passed in 20.57s."
+      ],
+      [
+        "Default runtime",
+        "Python 3.14 thiếu pytest; không dùng để đánh giá repo."
+      ],
+      [
+        "Visual pack",
+        "Tạo thành công từ artifact/output JSON hiện có."
+      ],
+      [
+        "Rủi ro tái lập",
+        "Thiếu raw data, processed split, exact Student checkpoints/metrics CSV và một phần metadata final."
+      ]
+    ]
+  },
+  {
+    "idx": 9,
+    "rows": 5,
+    "cols": 8,
+    "preview": [
+      [
+        "Dataset",
+        "Scenario",
+        "Model",
+        "Mode",
+        "Macro F1",
+        "Recall Low",
+        "F1 Low",
+        "Evidence"
+      ],
+      [
+        "student-mat",
+        "late",
+        "sequence_cnn_bilstm_only",
+        "low_f1_tuned",
+        "0.9365",
+        "0.9615",
+        "0.8929",
+        "PARTIALLY VERIFIED"
+      ],
+      [
+        "student-por",
+        "late",
+        "sequence_cnn_bilstm_only",
+        "low_f1_tuned",
+        "0.8783",
+        "0.9000",
+        "0.8182",
+        "PARTIALLY VERIFIED"
+      ],
+      [
+        "student-por",
+        "midterm",
+        "sequence_cnn_bilstm_only",
+        "argmax",
+        "0.8228",
+        "0.6500",
+        "0.7429",
+        "PARTIALLY VERIFIED"
+      ],
+      [
+        "xAPI",
+        "default",
+        "gated_fusion_v28",
+        "low_f1_tuned",
+        "0.7541",
+        "0.8846",
+        "0.8214",
+        "VERIFIED"
+      ]
+    ]
+  },
+  {
+    "idx": 10,
+    "rows": 3,
+    "cols": 5,
+    "preview": [
+      [
+        "Model",
+        "Macro F1",
+        "Recall Low",
+        "F1 Low",
+        "Kết luận hợp lệ"
+      ],
+      [
+        "gated_fusion_v28",
+        "0.7541",
+        "0.8846",
+        "0.8214",
+        "Mô hình deep trong pipeline final; có probability output phục vụ RA-HLPR."
+      ],
+      [
+        "RandomForestClassifier",
+        "0.8465",
+        "Không có artifact",
+        "Không có artifact",
+        "Baseline có Macro F1 cao hơn deep model trên xAPI."
+      ]
+    ]
+  },
+  {
+    "idx": 11,
+    "rows": 3,
+    "cols": 10,
+    "preview": [
+      [
+        "Dataset",
+        "Risk F1 macro",
+        "Risk F1 micro",
+        "P@3",
+        "R@3",
+        "NDCG@3",
+        "Coverage@3",
+        "Risk coverage",
+        "Difficulty progression",
+        "Prereq violation"
+      ],
+      [
+        "xAPI",
+        "0.9831",
+        "0.9813",
+        "0.6840",
+        "0.4720",
+        "0.8229",
+        "0.6500",
+        "0.8958",
+        "0.7153",
+        "0.0000"
+      ],
+      [
+        "student-por",
+        "0.9359",
+        "0.9094",
+        "0.6641",
+        "0.3185",
+        "0.7455",
+        "0.5500",
+        "0.9508",
+        "0.6000",
+        "0.0449"
+      ]
+    ]
+  },
+  {
+    "idx": 12,
+    "rows": 7,
+    "cols": 3,
+    "preview": [
+      [
+        "Hạn chế",
+        "Tác động",
+        "Hướng xử lý"
+      ],
+      [
+        "Thiếu raw data và processed split",
+        "Không kiểm trực tiếp schema, missing/duplicate, exact indices",
+        "Khôi phục dữ liệu đúng version, lưu checksum và split artifact."
+      ],
+      [
+        "Thiếu Student per-run artifacts",
+        "Ba kết quả Student chỉ partially verified",
+        "Khôi phục checkpoint, OOF, prediction CSV và manifest final."
+      ],
+      [
+        "Thiếu baseline final Student",
+        "Không so sánh được deep vs baseline trên Student",
+        "Rerun/khôi phục baseline trên locked test cùng protocol."
+      ],
+      [
+        "Không có confusion matrix, calibration, significance test",
+        "Giới hạn chiều sâu đánh giá prediction",
+        "Xuất predictions, chạy bootstrap/McNemar, calibration analysis."
+      ],
+      [
+        "RA-HLPR chỉ evaluated offline",
+        "Không claim cải thiện điểm số thật",
+        "Thực hiện user study, A/B test hoặc longitudinal intervention study."
+      ],
+      [
+        "Exact source class gated_fusion_v28 thiếu",
+        "Giới hạn tái lập chi tiết kiến trúc xAPI",
+        "Khôi phục commit/artifact v28 và mapping source-to-manifest."
+      ]
+    ]
+  }
+]
