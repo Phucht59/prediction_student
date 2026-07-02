@@ -46,6 +46,7 @@ from src.data_pipeline import (
     StudentDataset,
     apply_feature_engineering,
     create_and_save_locked_test,
+    get_context_excluded_columns,
     get_sequence_columns,
     load_splits,
 )
@@ -439,8 +440,17 @@ def main():
         metrics,
     )
     seq_cols = get_sequence_columns(spec.kind)
-    num_cols = [c for c in final_preprocessor.numerical_cols if c in final_train_selected.columns and c not in seq_cols]
-    cat_cols = [c for c in final_preprocessor.categorical_cols if c in final_train_selected.columns and c not in seq_cols]
+    context_exclusions = get_context_excluded_columns(spec.kind)
+    num_cols = [
+        c
+        for c in final_preprocessor.numerical_cols
+        if c in final_train_selected.columns and c not in seq_cols and c not in context_exclusions
+    ]
+    cat_cols = [
+        c
+        for c in final_preprocessor.categorical_cols
+        if c in final_train_selected.columns and c not in seq_cols and c not in context_exclusions
+    ]
 
     explain_model(
         best_model,

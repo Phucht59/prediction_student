@@ -194,10 +194,11 @@ def suggest_trial_params(trial, dataset_kind: str) -> dict:
             "focal_gamma": trial.suggest_float("focal_gamma", 1.5, 2.5),
             "embedding_dim": trial.suggest_int("embedding_dim", 2, 8),
             
-            # Strategy 3: Advanced Resampling Strategy Tuning
-            # Dynamically explore smote_ratio and k_neighbors
+            # Strategy 3: Leakage-safe resampling strategy tuning.
+            # xAPI contains categorical context features, so vanilla SMOTE must
+            # not be selected on label-encoded inputs.
             "oversample_method": trial.suggest_categorical(
-                "oversample_method", ["smote"]
+                "oversample_method", ["none", "random", "smotenc"]
             ),
             "smote_ratio": trial.suggest_float("smote_ratio", 0.3, 1.0),
             "resampling_k_neighbors": trial.suggest_int("resampling_k_neighbors", 2, 10),

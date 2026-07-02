@@ -5,7 +5,12 @@ import pandas as pd
 import torch
 import torch.nn as nn
 
-from src.data_pipeline import DataPreprocessor, FeatureSelector, StudentDataset
+from src.data_pipeline import (
+    DataPreprocessor,
+    FeatureSelector,
+    StudentDataset,
+    XAPI_BEHAVIOR_DERIVED_CONTEXT_EXCLUSIONS,
+)
 from src.explainability import RuleBasedLearningPathEngine, generate_learning_path_report
 from src.models import StudentHybridModel, create_model
 from src.train_pipeline import calculate_class_weights, suggest_trial_params
@@ -59,7 +64,7 @@ def test_xapi_model_supports_independent_branch_dropouts():
     assert model.fusion[2].p == 0.4
 
 
-def test_xapi_optuna_space_matches_high_trial_configuration():
+def test_xapi_optuna_space_excludes_vanilla_smote():
     class RecordingTrial:
         def __init__(self):
             self.calls = {}
@@ -80,6 +85,8 @@ def test_xapi_optuna_space_matches_high_trial_configuration():
     params = suggest_trial_params(trial, "xapi")
 
     assert trial.calls["learning_rate"] == ("float", 5e-5, 5e-2, True)
+    assert trial.calls["oversample_method"] == ("categorical", ["none", "random", "smotenc"])
+    assert "smote" not in trial.calls["oversample_method"][1]
     assert trial.calls["cnn_kernel_size"][1] == [2, 3, 4]
     assert trial.calls["lstm_hidden_dim"][1][-1] == 128
     assert trial.calls["fusion_hidden_dim"][1][-1] == 256
@@ -126,6 +133,48 @@ def test_feature_selector_keeps_required_sequence_columns():
     selector = FeatureSelector("G3", required_features=["G1", "G2"])
     selected = selector.fit_transform(frame, ["G1", "G2", "noise"], [])
     assert {"G1", "G2", "G3"}.issubset(selected.columns)
+
+
+def test_xapi_student_dataset_excludes_behavior_derived_context_duplicates():
+    frame = pd.DataFrame(
+        {
+            "raisedhands": [10, 80],
+            "VisITedResources": [20, 90],
+            "AnnouncementsView": [5, 40],
+            "Discussion": [7, 70],
+            "engagement_score": [42, 280],
+            "absence_risk": [1, 0],
+            "hands_resource_ratio": [0.5, 0.9],
+            "active_participation": [70, 5600],
+            "resource_engagement_ratio": [0.45, 0.32],
+            "parent_support_signal": [0, 1],
+            "gender": [0, 1],
+            "Class": [0, 2],
+        }
+    )
+    numerical_cols = [
+        "raisedhands",
+        "VisITedResources",
+        "AnnouncementsView",
+        "Discussion",
+        "engagement_score",
+        "absence_risk",
+        "hands_resource_ratio",
+        "active_participation",
+        "resource_engagement_ratio",
+        "parent_support_signal",
+    ]
+    dataset = StudentDataset(
+        frame,
+        kind="xapi",
+        target_col="Class",
+        numerical_cols=numerical_cols,
+        categorical_cols=["gender"],
+    )
+
+    assert set(dataset.num_cols).isdisjoint(XAPI_BEHAVIOR_DERIVED_CONTEXT_EXCLUSIONS)
+    assert "parent_support_signal" in dataset.num_cols
+    assert dataset.cat_cols == ["gender"]
 
 
 def test_learning_path_engine_returns_staged_roadmap_not_variable_tweaks():

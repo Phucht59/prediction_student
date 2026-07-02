@@ -87,6 +87,17 @@ def check_no_leakage(train_indices, test_indices):
 
 logger = setup_logger("feature_eng")
 
+XAPI_BEHAVIOR_DERIVED_CONTEXT_EXCLUSIONS = frozenset(
+    {
+        "engagement_score",
+        "absence_risk",
+        "hands_resource_ratio",
+        "active_participation",
+        "resource_engagement_ratio",
+    }
+)
+
+
 def engineer_student_features(df: pd.DataFrame) -> pd.DataFrame:
     """Engineer derived features for student-mat and student-por datasets."""
     df = df.copy()
@@ -411,6 +422,12 @@ def get_sequence_columns(kind: str) -> list[str]:
     raise ValueError(f"Unsupported dataset kind: {kind}")
 
 
+def get_context_excluded_columns(kind: str) -> set[str]:
+    if kind == "xapi":
+        return set(XAPI_BEHAVIOR_DERIVED_CONTEXT_EXCLUSIONS)
+    return set()
+
+
 class StudentDataset(Dataset):
     def __init__(self, df: pd.DataFrame, kind: str, target_col: str, numerical_cols: list, categorical_cols: list):
         self.y = df[target_col].values if target_col in df.columns else np.zeros(len(df))
@@ -429,9 +446,18 @@ class StudentDataset(Dataset):
         self.seq_cols = seq_cols
         self.seq_x = df[seq_cols].values[..., np.newaxis]
                 
-        # Context features (exclude G3_raw to prevent leakage)
-        self.num_cols = [c for c in numerical_cols if c in df.columns and c not in seq_cols and c != "G3_raw"]
-        self.cat_cols = [c for c in categorical_cols if c in df.columns and c not in seq_cols and c != "G3_raw"]
+        # Context features (exclude G3_raw and xAPI behavior-derived duplicates)
+        context_exclusions = get_context_excluded_columns(kind)
+        self.num_cols = [
+            c
+            for c in numerical_cols
+            if c in df.columns and c not in seq_cols and c != "G3_raw" and c not in context_exclusions
+        ]
+        self.cat_cols = [
+            c
+            for c in categorical_cols
+            if c in df.columns and c not in seq_cols and c != "G3_raw" and c not in context_exclusions
+        ]
         
         self.num_x = df[self.num_cols].values if self.num_cols else np.zeros((len(df), 1))
         self.cat_x = df[self.cat_cols].values.astype(int) if self.cat_cols else np.zeros((len(df), 1), dtype=int)
