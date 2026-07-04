@@ -249,7 +249,7 @@ def prepare_storage_context(
     target_mode: str,
     dataset_kind: str,
     target_col: str,
-    raw_path: Path,
+    raw_path: Path | None,
     csv_sep: str,
     raw_frame: pd.DataFrame,
     train_pool: pd.DataFrame,
@@ -265,19 +265,46 @@ def prepare_storage_context(
     environment_lock_uri: str,
     environment_lock_hash: str,
     split_manifest_path: Path,
+    dataset_version: dict[str, Any] | None = None,
     started_at: datetime | None = None,
 ) -> dict[str, Any]:
     raw_with_source = attach_source_row_numbers(raw_frame)
     raw_without_metadata = drop_protected_metadata(raw_with_source)
-    ingestion_contract = build_ingestion_contract(csv_sep, list(raw_without_metadata.columns))
+    if dataset_version is None:
+        if raw_path is None:
+            raise ValueError("raw_path is required when dataset_version is not provided.")
+        ingestion_contract = build_ingestion_contract(csv_sep, list(raw_without_metadata.columns))
+        dataset_version_identity = {
+            "dataset_code": dataset_name,
+            "hash_algorithm": HASH_ALGORITHM,
+            "content_hash": sha256_file(raw_path),
+            "ingestion_contract_hash_algorithm": HASH_ALGORITHM,
+            "ingestion_contract_hash": sha256_json(ingestion_contract),
+        }
+        dataset_version_payload = {
+            **dataset_version_identity,
+            "source_locator": project_uri(raw_path),
+            "ingestion_contract": ingestion_contract,
+            "row_count": int(len(raw_frame)),
+            "metadata": {},
+        }
+    else:
+        ingestion_contract = dataset_version["ingestion_contract"]
+        dataset_version_identity = {
+            "dataset_code": dataset_version["dataset_code"],
+            "hash_algorithm": dataset_version["hash_algorithm"],
+            "content_hash": dataset_version["content_hash"],
+            "ingestion_contract_hash_algorithm": dataset_version["ingestion_contract_hash_algorithm"],
+            "ingestion_contract_hash": dataset_version["ingestion_contract_hash"],
+        }
+        dataset_version_payload = {
+            **dataset_version_identity,
+            "source_locator": dataset_version["source_locator"],
+            "ingestion_contract": ingestion_contract,
+            "row_count": int(dataset_version["row_count"]),
+            "metadata": dataset_version.get("metadata", {}),
+        }
     target_definition = build_target_definition(dataset_name, target_col, target_mode, dataset_kind)
-    dataset_version_identity = {
-        "dataset_code": dataset_name,
-        "hash_algorithm": HASH_ALGORITHM,
-        "content_hash": sha256_file(raw_path),
-        "ingestion_contract_hash_algorithm": HASH_ALGORITHM,
-        "ingestion_contract_hash": sha256_json(ingestion_contract),
-    }
     split_manifest = build_split_manifest(
         dataset_version_identity=dataset_version_identity,
         target_definition=target_definition,
@@ -350,11 +377,7 @@ def prepare_storage_context(
             },
         },
         "dataset_version": {
-            **dataset_version_identity,
-            "source_locator": project_uri(raw_path),
-            "ingestion_contract": ingestion_contract,
-            "row_count": int(len(raw_frame)),
-            "metadata": {},
+            **dataset_version_payload,
         },
         "source_records": source_records,
         "split_memberships": split_memberships,

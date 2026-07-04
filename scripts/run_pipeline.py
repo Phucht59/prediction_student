@@ -11,7 +11,6 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import numpy as np
-import pandas as pd
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -34,11 +33,11 @@ from src.config import (
     DEFAULT_SEED,
     EXPLANATIONS_DIR,
     FIXED_SEEDS,
+    LOCKED_TEST_SIZE,
     METRICS_DIR,
     MANIFESTS_DIR,
     MODELS_DIR,
     PREDICTIONS_DIR,
-    RAW_DIR,
     ROOT_DIR,
     RECOMMENDATIONS_DIR,
     REPORTS_DIR,
@@ -51,12 +50,10 @@ from src.data_pipeline import (
     StudentDataset,
     apply_feature_engineering,
     attach_source_row_numbers,
-    create_and_save_locked_test,
     SOURCE_ROW_NUMBER_COLUMN,
     get_context_excluded_columns,
     get_sequence_columns,
-    load_splits,
-    split_sidecar_matches_current_raw,
+    process_target_and_stratify,
 )
 from src.evaluation import (
     initialize_experiment_run_in_postgres,
@@ -66,6 +63,13 @@ from src.evaluation import (
 )
 from src.explainability import explain_model
 from src.models import create_model
+from src.postgres_data_source import (
+    ingest_dataset_csv_to_postgres,
+    load_dataset_version_from_postgres,
+    load_experiment_run,
+    reconstruct_splits_from_run,
+    verify_run_split_manifest,
+)
 from src.recommendation import generate_learning_path_report
 from src.reproducibility import sha256_file
 from src.train_pipeline import calculate_class_weights, objective, train_model
@@ -88,6 +92,12 @@ def parse_args():
     parser.add_argument("--debug", action="store_true")
     parser.add_argument("--params-json", default=None, help="JSON file or JSON string used to skip Optuna")
     parser.add_argument("--run-id", default=None, help="Existing UUID used to retry the same execution")
+    parser.add_argument("--dataset-version-id", type=int, default=None)
+    parser.add_argument(
+        "--seed-from-csv",
+        action="store_true",
+        help="Seed source_records from raw CSV, then reload the dataset from PostgreSQL before training.",
+    )
     parser.add_argument(
         "--skip-postgres",
         action="store_true",
@@ -96,40 +106,35 @@ def parse_args():
     return parser.parse_args()
 
 
-def load_raw_frame(dataset_name: str) -> pd.DataFrame:
+def derive_target_frame(raw_frame, dataset_name: str, target_mode: str):
     spec = DATASETS[dataset_name]
-    return attach_source_row_numbers(pd.read_csv(RAW_DIR / spec.raw_file, sep=spec.csv_sep))
-
-
-def load_or_create_splits(dataset_name: str, target_mode: str):
-    spec = DATASETS[dataset_name]
-    raw_path = RAW_DIR / spec.raw_file
-    try:
-        train_pool, locked_test = load_splits(dataset_name, target_mode)
-        has_source_metadata = (
-            SOURCE_ROW_NUMBER_COLUMN in train_pool.columns
-            and SOURCE_ROW_NUMBER_COLUMN in locked_test.columns
-        )
-        sidecar_is_current = split_sidecar_matches_current_raw(
-            dataset_name,
-            target_mode,
-            raw_path=raw_path,
-            csv_sep=spec.csv_sep,
-        )
-        if has_source_metadata and sidecar_is_current:
-            return train_pool, locked_test
-        logger.warning("Existing split files are stale or lack source-row metadata; recreating locked split.")
-    except FileNotFoundError:
-        pass
-
-    create_and_save_locked_test(
-        load_raw_frame(dataset_name),
-        dataset_name,
+    df_strat = process_target_and_stratify(
+        attach_source_row_numbers(raw_frame),
+        spec.target_col,
+        spec.kind,
         target_mode,
-        raw_path=raw_path,
-        csv_sep=spec.csv_sep,
     )
-    return load_splits(dataset_name, target_mode)
+    return df_strat.dropna(subset=["_strat_target"])
+
+
+def create_locked_split_from_frame(raw_frame, dataset_name: str, target_mode: str):
+    df_strat = derive_target_frame(raw_frame, dataset_name, target_mode)
+    train_pool, locked_test = train_test_split(
+        df_strat,
+        test_size=LOCKED_TEST_SIZE,
+        stratify=df_strat["_strat_target"],
+        random_state=DEFAULT_SEED,
+    )
+    return (
+        train_pool.drop(columns=["_strat_target"]),
+        locked_test.drop(columns=["_strat_target"]),
+    )
+
+
+def reconstruct_existing_run_splits(raw_frame, run_id: str, dataset_name: str, target_mode: str):
+    target_frame = derive_target_frame(raw_frame, dataset_name, target_mode)
+    target_frame = target_frame.drop(columns=["_strat_target"])
+    return reconstruct_splits_from_run(target_frame, run_id)
 
 
 def git_output(*args: str) -> str:
@@ -519,57 +524,111 @@ def main():
     spec = DATASETS[args.dataset]
     logger.info("Starting approved thesis pipeline for %s.", args.dataset)
 
-    train_pool, locked_test = load_or_create_splits(args.dataset, args.target_mode)
-    study = load_study(args, train_pool, spec)
-    best_params = dict(study.best_params)
-    raw_frame = load_raw_frame(args.dataset)
+    effective_dataset_version_id = args.dataset_version_id
+    if args.seed_from_csv:
+        if args.run_id:
+            raise ValueError("--seed-from-csv cannot be combined with --run-id; retry uses the run's dataset version.")
+        seed_result = ingest_dataset_csv_to_postgres(args.dataset)
+        seeded_dataset_version_id = int(seed_result["dataset_version_id"])
+        if (
+            effective_dataset_version_id is not None
+            and int(effective_dataset_version_id) != seeded_dataset_version_id
+        ):
+            raise ValueError(
+                "--seed-from-csv returned dataset_version_id="
+                f"{seeded_dataset_version_id}, but --dataset-version-id={effective_dataset_version_id} was requested."
+            )
+        effective_dataset_version_id = seeded_dataset_version_id
+        logger.info(
+            "Seeded dataset %s into PostgreSQL dataset_version_id=%s row_count=%s.",
+            args.dataset,
+            seed_result["dataset_version_id"],
+            seed_result["row_count"],
+        )
 
     run_id = args.run_id or str(uuid.uuid4())
+    existing_run = load_experiment_run(run_id) if args.run_id else None
+    if existing_run:
+        raw_frame, dataset_version = load_dataset_version_from_postgres(
+            args.dataset,
+            int(existing_run["dataset_version_id"]),
+        )
+        verify_run_split_manifest(existing_run)
+        train_pool, locked_test = reconstruct_existing_run_splits(
+            raw_frame,
+            run_id,
+            args.dataset,
+            args.target_mode,
+        )
+        logger.info("Loaded split membership for retry run %s from PostgreSQL.", run_id)
+    else:
+        raw_frame, dataset_version = load_dataset_version_from_postgres(
+            args.dataset,
+            effective_dataset_version_id,
+        )
+        train_pool, locked_test = create_locked_split_from_frame(
+            raw_frame,
+            args.dataset,
+            args.target_mode,
+        )
+        logger.info(
+            "Loaded dataset %s dataset_version_id=%s from PostgreSQL.",
+            args.dataset,
+            dataset_version["dataset_version_id"],
+        )
+
+    study = load_study(args, train_pool, spec)
+    best_params = dict(study.best_params)
+
     storage_context = None
     if not args.skip_postgres:
-        run_manifest = load_or_create_run_manifest(run_id)
-        git_context = git_reproducibility_context(run_id)
-        env_context = environment_lock_context()
-        artifact_context = artifact_manifest_context(run_id, args.dataset, args.target_mode, best_params)
-        train_config = {
-            "target_mode": args.target_mode,
-            "best_params": best_params,
-            "fixed_seeds": FIXED_SEEDS[:1] if args.debug else FIXED_SEEDS,
-            "debug": bool(args.debug),
-            "augmentation": {
-                "method": best_params.get("oversample_method", "none"),
-                "smote_ratio": best_params.get("smote_ratio"),
-                "resampling_k_neighbors": best_params.get("resampling_k_neighbors"),
-                "raw_train_records_before_oversampling": int(len(train_pool)),
-                "synthetic_samples_generated": None,
-                "note": "Synthetic samples are generated inside per-seed train folds and are not source records.",
-            },
-        }
-        split_manifest_path = MANIFESTS_DIR / "splits" / f"{args.dataset}_{args.target_mode}_{run_id}.json"
-        storage_context = prepare_storage_context(
-            dataset_name=args.dataset,
-            target_mode=args.target_mode,
-            dataset_kind=spec.kind,
-            target_col=spec.target_col,
-            raw_path=RAW_DIR / spec.raw_file,
-            csv_sep=spec.csv_sep,
-            raw_frame=raw_frame,
-            train_pool=train_pool,
-            locked_test=locked_test,
-            run_id=run_id,
-            model_name="cnn_bilstm_mlp_ensemble",
-            train_config=train_config,
-            artifact_uri=artifact_context["artifact_uri"],
-            git_commit=git_context["git_commit"],
-            working_tree_state=git_context["working_tree_state"],
-            source_diff_uri=git_context["source_diff_uri"],
-            source_diff_hash=git_context["source_diff_hash"],
-            environment_lock_uri=env_context["environment_lock_uri"],
-            environment_lock_hash=env_context["environment_lock_hash"],
-            split_manifest_path=split_manifest_path,
-            started_at=datetime.fromisoformat(run_manifest["started_at"]),
-        )
-        initialize_experiment_run_in_postgres(storage_context)
+        if existing_run:
+            storage_context = {"run": existing_run}
+        else:
+            run_manifest = load_or_create_run_manifest(run_id)
+            git_context = git_reproducibility_context(run_id)
+            env_context = environment_lock_context()
+            artifact_context = artifact_manifest_context(run_id, args.dataset, args.target_mode, best_params)
+            train_config = {
+                "target_mode": args.target_mode,
+                "best_params": best_params,
+                "fixed_seeds": FIXED_SEEDS[:1] if args.debug else FIXED_SEEDS,
+                "debug": bool(args.debug),
+                "augmentation": {
+                    "method": best_params.get("oversample_method", "none"),
+                    "smote_ratio": best_params.get("smote_ratio"),
+                    "resampling_k_neighbors": best_params.get("resampling_k_neighbors"),
+                    "raw_train_records_before_oversampling": int(len(train_pool)),
+                    "synthetic_samples_generated": None,
+                    "note": "Synthetic samples are generated inside per-seed train folds and are not source records.",
+                },
+            }
+            split_manifest_path = MANIFESTS_DIR / "splits" / f"{args.dataset}_{args.target_mode}_{run_id}.json"
+            storage_context = prepare_storage_context(
+                dataset_name=args.dataset,
+                target_mode=args.target_mode,
+                dataset_kind=spec.kind,
+                target_col=spec.target_col,
+                raw_path=None,
+                csv_sep=spec.csv_sep,
+                raw_frame=raw_frame,
+                train_pool=train_pool,
+                locked_test=locked_test,
+                run_id=run_id,
+                model_name="cnn_bilstm_mlp_ensemble",
+                train_config=train_config,
+                artifact_uri=artifact_context["artifact_uri"],
+                git_commit=git_context["git_commit"],
+                working_tree_state=git_context["working_tree_state"],
+                source_diff_uri=git_context["source_diff_uri"],
+                source_diff_hash=git_context["source_diff_hash"],
+                environment_lock_uri=env_context["environment_lock_uri"],
+                environment_lock_hash=env_context["environment_lock_hash"],
+                split_manifest_path=split_manifest_path,
+                dataset_version=dataset_version,
+                started_at=datetime.fromisoformat(run_manifest["started_at"]),
+            )
+            initialize_experiment_run_in_postgres(storage_context)
 
     # 2. Ensemble Training & Inference
     # Split train/val and preprocess PER seed to avoid SMOTE leakage

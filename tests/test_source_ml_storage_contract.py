@@ -1,10 +1,13 @@
 import json
+from types import SimpleNamespace
 from pathlib import Path
 
 import pandas as pd
+import pytest
 
 from scripts import run_pipeline
 from src import data_pipeline
+from src import postgres_data_source
 from src.data_pipeline import (
     DataPreprocessor,
     SOURCE_ROW_NUMBER_COLUMN,
@@ -27,6 +30,44 @@ from src.evaluation.evaluation import (
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 MIGRATION_PATH = PROJECT_ROOT / "database" / "migrations" / "001_create_source_ml_schema.sql"
+
+
+class _FakeCursor:
+    def __init__(self, version=None, rows=None):
+        self.version = version
+        self.rows = rows or []
+        self.result = None
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc, tb):
+        return False
+
+    def execute(self, query, params=None):
+        if "FROM source_dataset_versions" in query:
+            self.result = self.version
+        elif "FROM source_records" in query:
+            self.result = self.rows
+        else:
+            raise AssertionError(f"unexpected query: {query}")
+
+    def fetchone(self):
+        return self.result
+
+    def fetchall(self):
+        return self.result
+
+
+class _FakeConnection:
+    def __init__(self, version=None, rows=None):
+        self.cursor_obj = _FakeCursor(version=version, rows=rows)
+
+    def cursor(self, *args, **kwargs):
+        return self.cursor_obj
+
+    def close(self):
+        pass
 
 
 def test_source_ml_migration_contains_hard_gate_constraints():
@@ -344,7 +385,6 @@ def test_stale_split_sidecar_rejects_raw_byte_change_with_same_row_count(tmp_pat
     raw_path.write_text("\n".join(rows) + "\n", encoding="utf-8")
 
     monkeypatch.setattr(data_pipeline, "PROCESSED_DIR", processed_dir)
-    monkeypatch.setattr(run_pipeline, "RAW_DIR", raw_dir)
 
     raw_frame = attach_source_row_numbers(pd.read_csv(raw_path, sep=";"))
     create_and_save_locked_test(
@@ -360,7 +400,266 @@ def test_stale_split_sidecar_rejects_raw_byte_change_with_same_row_count(tmp_pat
     raw_path.write_text(changed, encoding="utf-8")
     assert not split_sidecar_matches_current_raw("student-mat", "3class", raw_path=raw_path, csv_sep=";")
 
-    train_pool, locked_test = run_pipeline.load_or_create_splits("student-mat", "3class")
-    assert SOURCE_ROW_NUMBER_COLUMN in train_pool.columns
-    assert SOURCE_ROW_NUMBER_COLUMN in locked_test.columns
-    assert split_sidecar_matches_current_raw("student-mat", "3class", raw_path=raw_path, csv_sep=";")
+
+def test_postgres_loader_reconstructs_dataframe_without_database_metadata(monkeypatch):
+    version = {
+        "dataset_version_id": 10,
+        "dataset_code": "student-mat",
+        "source_locator": "project://data/raw/student-mat.csv",
+        "hash_algorithm": "sha256",
+        "content_hash": "content",
+        "ingestion_contract": {
+            "canonical_columns": ["G1", "G2", "G3"],
+        },
+        "ingestion_contract_hash_algorithm": "sha256",
+        "ingestion_contract_hash": "contract",
+        "row_count": 2,
+        "metadata": {},
+        "created_at": "now",
+    }
+    rows = [
+        {"source_row_number": 0, "raw_payload": {"G1": 8, "G2": 9, "G3": 8}},
+        {"source_row_number": 1, "raw_payload": {"G1": 10, "G2": 11, "G3": 11}},
+    ]
+    monkeypatch.setattr(postgres_data_source, "_connect", lambda: _FakeConnection(version, rows))
+
+    frame, metadata = postgres_data_source.load_dataset_version_from_postgres("student-mat")
+
+    assert metadata["dataset_version_id"] == 10
+    assert frame.columns.tolist() == [SOURCE_ROW_NUMBER_COLUMN, "G1", "G2", "G3"]
+    assert "record_id" not in frame.columns
+    assert "dataset_version_id" not in frame.columns
+    assert frame[SOURCE_ROW_NUMBER_COLUMN].tolist() == [0, 1]
+
+    preprocessor = DataPreprocessor(target_col="G3", oversample_method="none")
+    prepared = preprocessor.fit_transform(frame, apply_oversampling=False)
+    assert SOURCE_ROW_NUMBER_COLUMN not in prepared.columns
+
+
+def test_postgres_loader_missing_dataset_fails_without_csv_fallback(monkeypatch):
+    monkeypatch.setattr(postgres_data_source, "_connect", lambda: _FakeConnection(None, []))
+    monkeypatch.setattr(pd, "read_csv", lambda *args, **kwargs: (_ for _ in ()).throw(AssertionError("CSV fallback used")))
+
+    with pytest.raises(RuntimeError, match="dataset version not found"):
+        postgres_data_source.load_dataset_version_from_postgres("student-mat")
+
+
+def test_run_pipeline_normal_mode_does_not_fallback_to_csv(monkeypatch):
+    args = SimpleNamespace(
+        dataset="student-mat",
+        target_mode="3class",
+        n_trials=1,
+        debug=True,
+        params_json=None,
+        run_id=None,
+        dataset_version_id=None,
+        seed_from_csv=False,
+        skip_postgres=False,
+    )
+    monkeypatch.setattr(run_pipeline, "parse_args", lambda: args)
+    monkeypatch.setattr(run_pipeline, "ensure_dirs", lambda: None)
+    monkeypatch.setattr(run_pipeline, "set_seed", lambda seed: None)
+    monkeypatch.setattr(
+        run_pipeline,
+        "load_dataset_version_from_postgres",
+        lambda *args, **kwargs: (_ for _ in ()).throw(RuntimeError("dataset version not found")),
+    )
+    monkeypatch.setattr(pd, "read_csv", lambda *args, **kwargs: (_ for _ in ()).throw(AssertionError("CSV fallback used")))
+
+    with pytest.raises(RuntimeError, match="dataset version not found"):
+        run_pipeline.main()
+
+
+def test_seed_from_csv_reloads_from_postgres_before_training(monkeypatch):
+    calls = []
+    args = SimpleNamespace(
+        dataset="student-mat",
+        target_mode="3class",
+        n_trials=1,
+        debug=True,
+        params_json=None,
+        run_id=None,
+        dataset_version_id=None,
+        seed_from_csv=True,
+        skip_postgres=False,
+    )
+    monkeypatch.setattr(run_pipeline, "parse_args", lambda: args)
+    monkeypatch.setattr(run_pipeline, "ensure_dirs", lambda: None)
+    monkeypatch.setattr(run_pipeline, "set_seed", lambda seed: None)
+    monkeypatch.setattr(
+        run_pipeline,
+        "ingest_dataset_csv_to_postgres",
+        lambda dataset: calls.append(("seed", dataset)) or {"dataset_version_id": 1, "row_count": 395},
+    )
+
+    def stop_after_postgres_load(dataset, dataset_version_id=None):
+        calls.append(("load_postgres", dataset, dataset_version_id))
+        raise RuntimeError("stop after postgres load")
+
+    monkeypatch.setattr(run_pipeline, "load_dataset_version_from_postgres", stop_after_postgres_load)
+    monkeypatch.setattr(pd, "read_csv", lambda *args, **kwargs: (_ for _ in ()).throw(AssertionError("CSV read after seed")))
+
+    with pytest.raises(RuntimeError, match="stop after postgres load"):
+        run_pipeline.main()
+    assert calls == [("seed", "student-mat"), ("load_postgres", "student-mat", 1)]
+
+
+def test_seed_from_csv_uses_seeded_dataset_version_not_latest(monkeypatch):
+    calls = []
+    args = SimpleNamespace(
+        dataset="student-mat",
+        target_mode="3class",
+        n_trials=1,
+        debug=True,
+        params_json=None,
+        run_id=None,
+        dataset_version_id=None,
+        seed_from_csv=True,
+        skip_postgres=False,
+    )
+    monkeypatch.setattr(run_pipeline, "parse_args", lambda: args)
+    monkeypatch.setattr(run_pipeline, "ensure_dirs", lambda: None)
+    monkeypatch.setattr(run_pipeline, "set_seed", lambda seed: None)
+    monkeypatch.setattr(
+        run_pipeline,
+        "ingest_dataset_csv_to_postgres",
+        lambda dataset: calls.append(("seed", dataset)) or {"dataset_version_id": 7, "row_count": 395},
+    )
+
+    def stop_after_versioned_load(dataset, dataset_version_id=None):
+        calls.append(("load_postgres", dataset, dataset_version_id))
+        raise RuntimeError("stop after postgres load")
+
+    monkeypatch.setattr(run_pipeline, "load_dataset_version_from_postgres", stop_after_versioned_load)
+
+    with pytest.raises(RuntimeError, match="stop after postgres load"):
+        run_pipeline.main()
+    assert calls == [("seed", "student-mat"), ("load_postgres", "student-mat", 7)]
+
+
+def test_seed_from_csv_rejects_conflicting_dataset_version_id(monkeypatch):
+    args = SimpleNamespace(
+        dataset="student-mat",
+        target_mode="3class",
+        n_trials=1,
+        debug=True,
+        params_json=None,
+        run_id=None,
+        dataset_version_id=8,
+        seed_from_csv=True,
+        skip_postgres=False,
+    )
+    monkeypatch.setattr(run_pipeline, "parse_args", lambda: args)
+    monkeypatch.setattr(run_pipeline, "ensure_dirs", lambda: None)
+    monkeypatch.setattr(run_pipeline, "set_seed", lambda seed: None)
+    monkeypatch.setattr(
+        run_pipeline,
+        "ingest_dataset_csv_to_postgres",
+        lambda dataset: {"dataset_version_id": 7, "row_count": 395},
+    )
+    monkeypatch.setattr(
+        run_pipeline,
+        "load_dataset_version_from_postgres",
+        lambda *args, **kwargs: (_ for _ in ()).throw(AssertionError("conflict should fail before load")),
+    )
+
+    with pytest.raises(ValueError, match="dataset_version_id=7"):
+        run_pipeline.main()
+
+
+def test_seed_from_csv_allows_matching_dataset_version_id(monkeypatch):
+    calls = []
+    args = SimpleNamespace(
+        dataset="student-mat",
+        target_mode="3class",
+        n_trials=1,
+        debug=True,
+        params_json=None,
+        run_id=None,
+        dataset_version_id=7,
+        seed_from_csv=True,
+        skip_postgres=False,
+    )
+    monkeypatch.setattr(run_pipeline, "parse_args", lambda: args)
+    monkeypatch.setattr(run_pipeline, "ensure_dirs", lambda: None)
+    monkeypatch.setattr(run_pipeline, "set_seed", lambda seed: None)
+    monkeypatch.setattr(
+        run_pipeline,
+        "ingest_dataset_csv_to_postgres",
+        lambda dataset: {"dataset_version_id": 7, "row_count": 395},
+    )
+
+    def stop_after_versioned_load(dataset, dataset_version_id=None):
+        calls.append(("load_postgres", dataset, dataset_version_id))
+        raise RuntimeError("stop after postgres load")
+
+    monkeypatch.setattr(run_pipeline, "load_dataset_version_from_postgres", stop_after_versioned_load)
+
+    with pytest.raises(RuntimeError, match="stop after postgres load"):
+        run_pipeline.main()
+    assert calls == [("load_postgres", "student-mat", 7)]
+
+
+def test_seed_from_csv_rejects_run_id_retry(monkeypatch):
+    args = SimpleNamespace(
+        dataset="student-mat",
+        target_mode="3class",
+        n_trials=1,
+        debug=True,
+        params_json=None,
+        run_id="00000000-0000-0000-0000-000000000123",
+        dataset_version_id=None,
+        seed_from_csv=True,
+        skip_postgres=False,
+    )
+    monkeypatch.setattr(run_pipeline, "parse_args", lambda: args)
+    monkeypatch.setattr(run_pipeline, "ensure_dirs", lambda: None)
+    monkeypatch.setattr(run_pipeline, "set_seed", lambda seed: None)
+    monkeypatch.setattr(
+        run_pipeline,
+        "ingest_dataset_csv_to_postgres",
+        lambda dataset: (_ for _ in ()).throw(AssertionError("seed should not run for retry")),
+    )
+
+    with pytest.raises(ValueError, match="cannot be combined with --run-id"):
+        run_pipeline.main()
+
+
+def test_retry_uses_postgres_split_ledger_without_creating_new_split(monkeypatch):
+    args = SimpleNamespace(
+        dataset="student-mat",
+        target_mode="3class",
+        n_trials=1,
+        debug=True,
+        params_json=None,
+        run_id="00000000-0000-0000-0000-000000000123",
+        dataset_version_id=None,
+        seed_from_csv=False,
+        skip_postgres=False,
+    )
+    raw_frame = attach_source_row_numbers(
+        pd.DataFrame(
+            [
+                {"G1": 8, "G2": 9, "G3": 8},
+                {"G1": 10, "G2": 11, "G3": 11},
+            ]
+        )
+    )
+    calls = []
+    monkeypatch.setattr(run_pipeline, "parse_args", lambda: args)
+    monkeypatch.setattr(run_pipeline, "ensure_dirs", lambda: None)
+    monkeypatch.setattr(run_pipeline, "set_seed", lambda seed: None)
+    monkeypatch.setattr(run_pipeline, "load_experiment_run", lambda run_id: {"run_id": run_id, "dataset_version_id": 1})
+    monkeypatch.setattr(run_pipeline, "load_dataset_version_from_postgres", lambda dataset, version_id: (raw_frame, {"dataset_version_id": version_id}))
+    monkeypatch.setattr(run_pipeline, "verify_run_split_manifest", lambda run: calls.append("verify_manifest"))
+    monkeypatch.setattr(run_pipeline, "create_locked_split_from_frame", lambda *args, **kwargs: (_ for _ in ()).throw(AssertionError("created new split")))
+
+    def stop_after_retry_split(*args, **kwargs):
+        calls.append("reconstruct_split")
+        raise RuntimeError("stop after retry split")
+
+    monkeypatch.setattr(run_pipeline, "reconstruct_existing_run_splits", stop_after_retry_split)
+
+    with pytest.raises(RuntimeError, match="stop after retry split"):
+        run_pipeline.main()
+    assert calls == ["verify_manifest", "reconstruct_split"]
