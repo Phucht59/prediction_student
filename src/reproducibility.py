@@ -17,7 +17,7 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-from src.data_pipeline import process_target_and_stratify
+from src.data_pipeline import attach_source_row_numbers, process_target_and_stratify
 
 
 class ReproducibilityError(RuntimeError):
@@ -137,7 +137,7 @@ def prepare_locked_split(
     _validate_raw_frame(raw_frame, target_col)
 
     prepared_frame = process_target_and_stratify(
-        raw_frame.copy(), target_col, dataset_kind, target_mode
+        attach_source_row_numbers(raw_frame), target_col, dataset_kind, target_mode
     ).dropna(subset=["_strat_target"])
     if prepared_frame.empty:
         raise ReproducibilityError("No rows remain after target preparation.")

@@ -3,8 +3,11 @@
 from __future__ import annotations
 
 import argparse
+import subprocess
 import json
 import sys
+import uuid
+from datetime import datetime, timezone
 from pathlib import Path
 
 import numpy as np
@@ -32,9 +35,11 @@ from src.config import (
     EXPLANATIONS_DIR,
     FIXED_SEEDS,
     METRICS_DIR,
+    MANIFESTS_DIR,
     MODELS_DIR,
     PREDICTIONS_DIR,
     RAW_DIR,
+    ROOT_DIR,
     RECOMMENDATIONS_DIR,
     REPORTS_DIR,
     TrainingConfig,
@@ -45,14 +50,24 @@ from src.data_pipeline import (
     FeatureSelector,
     StudentDataset,
     apply_feature_engineering,
+    attach_source_row_numbers,
     create_and_save_locked_test,
+    SOURCE_ROW_NUMBER_COLUMN,
     get_context_excluded_columns,
     get_sequence_columns,
     load_splits,
+    split_sidecar_matches_current_raw,
 )
-from src.evaluation import persist_evaluation_to_postgres
-from src.explainability import explain_model, generate_learning_path_report
+from src.evaluation import (
+    initialize_experiment_run_in_postgres,
+    persist_evaluation_to_postgres,
+    prepare_storage_context,
+    project_uri,
+)
+from src.explainability import explain_model
 from src.models import create_model
+from src.recommendation import generate_learning_path_report
+from src.reproducibility import sha256_file
 from src.train_pipeline import calculate_class_weights, objective, train_model
 from src.utils import set_seed, setup_logger
 
@@ -72,6 +87,7 @@ def parse_args():
     parser.add_argument("--n-trials", type=int, default=None)
     parser.add_argument("--debug", action="store_true")
     parser.add_argument("--params-json", default=None, help="JSON file or JSON string used to skip Optuna")
+    parser.add_argument("--run-id", default=None, help="Existing UUID used to retry the same execution")
     parser.add_argument(
         "--skip-postgres",
         action="store_true",
@@ -80,14 +96,125 @@ def parse_args():
     return parser.parse_args()
 
 
+def load_raw_frame(dataset_name: str) -> pd.DataFrame:
+    spec = DATASETS[dataset_name]
+    return attach_source_row_numbers(pd.read_csv(RAW_DIR / spec.raw_file, sep=spec.csv_sep))
+
+
 def load_or_create_splits(dataset_name: str, target_mode: str):
+    spec = DATASETS[dataset_name]
+    raw_path = RAW_DIR / spec.raw_file
     try:
-        return load_splits(dataset_name, target_mode)
+        train_pool, locked_test = load_splits(dataset_name, target_mode)
+        has_source_metadata = (
+            SOURCE_ROW_NUMBER_COLUMN in train_pool.columns
+            and SOURCE_ROW_NUMBER_COLUMN in locked_test.columns
+        )
+        sidecar_is_current = split_sidecar_matches_current_raw(
+            dataset_name,
+            target_mode,
+            raw_path=raw_path,
+            csv_sep=spec.csv_sep,
+        )
+        if has_source_metadata and sidecar_is_current:
+            return train_pool, locked_test
+        logger.warning("Existing split files are stale or lack source-row metadata; recreating locked split.")
     except FileNotFoundError:
-        spec = DATASETS[dataset_name]
-        raw = pd.read_csv(RAW_DIR / spec.raw_file, sep=spec.csv_sep)
-        create_and_save_locked_test(raw, dataset_name, target_mode)
-        return load_splits(dataset_name, target_mode)
+        pass
+
+    create_and_save_locked_test(
+        load_raw_frame(dataset_name),
+        dataset_name,
+        target_mode,
+        raw_path=raw_path,
+        csv_sep=spec.csv_sep,
+    )
+    return load_splits(dataset_name, target_mode)
+
+
+def git_output(*args: str) -> str:
+    result = subprocess.run(
+        ["git", *args],
+        cwd=ROOT_DIR,
+        check=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        capture_output=True,
+    )
+    return result.stdout.strip()
+
+
+def git_reproducibility_context(run_id: str) -> dict:
+    git_commit = git_output("rev-parse", "HEAD")
+    status = git_output("status", "--porcelain")
+    if not status:
+        return {
+            "git_commit": git_commit,
+            "working_tree_state": "clean",
+            "source_diff_uri": None,
+            "source_diff_hash": None,
+        }
+
+    diff_text = "\n".join(
+        [
+            "# git status --porcelain",
+            status,
+            "",
+            "# git diff --binary HEAD",
+            git_output("diff", "--binary", "HEAD"),
+        ]
+    )
+    diff_path = MANIFESTS_DIR / "source_diffs" / f"{run_id}.diff"
+    diff_path.parent.mkdir(parents=True, exist_ok=True)
+    diff_path.write_text(diff_text, encoding="utf-8")
+    return {
+        "git_commit": git_commit,
+        "working_tree_state": "dirty",
+        "source_diff_uri": project_uri(diff_path),
+        "source_diff_hash": sha256_file(diff_path),
+    }
+
+
+def environment_lock_context() -> dict:
+    lock_path = ROOT_DIR / "environment.yml"
+    if not lock_path.exists():
+        lock_path = ROOT_DIR / "requirements.txt"
+    if not lock_path.exists():
+        raise FileNotFoundError("Missing environment.yml or requirements.txt for environment lock provenance.")
+    return {
+        "environment_lock_uri": project_uri(lock_path),
+        "environment_lock_hash": sha256_file(lock_path),
+    }
+
+
+def artifact_manifest_context(run_id: str, dataset_name: str, target_mode: str, best_params: dict) -> dict:
+    artifact_path = MANIFESTS_DIR / "artifacts" / f"{run_id}.json"
+    artifact_path.parent.mkdir(parents=True, exist_ok=True)
+    artifact_payload = {
+        "run_id": run_id,
+        "dataset": dataset_name,
+        "target_mode": target_mode,
+        "model_artifact_directory": project_uri(MODELS_DIR),
+        "model_artifact_pattern": f"{dataset_name}_3class_cnn_bilstm_mlp_seed*.pt",
+        "best_params": best_params,
+    }
+    artifact_path.write_text(json.dumps(artifact_payload, ensure_ascii=False, indent=2), encoding="utf-8")
+    return {"artifact_uri": project_uri(artifact_path)}
+
+
+def load_or_create_run_manifest(run_id: str) -> dict:
+    manifest_path = MANIFESTS_DIR / "runs" / f"{run_id}.json"
+    if manifest_path.exists():
+        return json.loads(manifest_path.read_text(encoding="utf-8"))
+
+    manifest_path.parent.mkdir(parents=True, exist_ok=True)
+    manifest = {
+        "run_id": run_id,
+        "started_at": datetime.now(timezone.utc).isoformat(),
+    }
+    manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=True), encoding="utf-8")
+    return manifest
 
 
 def load_study(args, train_pool, spec):
@@ -395,6 +522,54 @@ def main():
     train_pool, locked_test = load_or_create_splits(args.dataset, args.target_mode)
     study = load_study(args, train_pool, spec)
     best_params = dict(study.best_params)
+    raw_frame = load_raw_frame(args.dataset)
+
+    run_id = args.run_id or str(uuid.uuid4())
+    storage_context = None
+    if not args.skip_postgres:
+        run_manifest = load_or_create_run_manifest(run_id)
+        git_context = git_reproducibility_context(run_id)
+        env_context = environment_lock_context()
+        artifact_context = artifact_manifest_context(run_id, args.dataset, args.target_mode, best_params)
+        train_config = {
+            "target_mode": args.target_mode,
+            "best_params": best_params,
+            "fixed_seeds": FIXED_SEEDS[:1] if args.debug else FIXED_SEEDS,
+            "debug": bool(args.debug),
+            "augmentation": {
+                "method": best_params.get("oversample_method", "none"),
+                "smote_ratio": best_params.get("smote_ratio"),
+                "resampling_k_neighbors": best_params.get("resampling_k_neighbors"),
+                "raw_train_records_before_oversampling": int(len(train_pool)),
+                "synthetic_samples_generated": None,
+                "note": "Synthetic samples are generated inside per-seed train folds and are not source records.",
+            },
+        }
+        split_manifest_path = MANIFESTS_DIR / "splits" / f"{args.dataset}_{args.target_mode}_{run_id}.json"
+        storage_context = prepare_storage_context(
+            dataset_name=args.dataset,
+            target_mode=args.target_mode,
+            dataset_kind=spec.kind,
+            target_col=spec.target_col,
+            raw_path=RAW_DIR / spec.raw_file,
+            csv_sep=spec.csv_sep,
+            raw_frame=raw_frame,
+            train_pool=train_pool,
+            locked_test=locked_test,
+            run_id=run_id,
+            model_name="cnn_bilstm_mlp_ensemble",
+            train_config=train_config,
+            artifact_uri=artifact_context["artifact_uri"],
+            git_commit=git_context["git_commit"],
+            working_tree_state=git_context["working_tree_state"],
+            source_diff_uri=git_context["source_diff_uri"],
+            source_diff_hash=git_context["source_diff_hash"],
+            environment_lock_uri=env_context["environment_lock_uri"],
+            environment_lock_hash=env_context["environment_lock_hash"],
+            split_manifest_path=split_manifest_path,
+            started_at=datetime.fromisoformat(run_manifest["started_at"]),
+        )
+        initialize_experiment_run_in_postgres(storage_context)
 
     # 2. Ensemble Training & Inference
     # Split train/val and preprocess PER seed to avoid SMOTE leakage
@@ -474,6 +649,7 @@ def main():
             probabilities=probabilities,
             learning_paths=learning_paths,
             metrics=metrics,
+            storage_context=storage_context,
         )
         logger.info("PostgreSQL run id: %s", run_id)
 

@@ -1,6 +1,9 @@
 import pandas as pd
 import numpy as np
 import torch
+import hashlib
+import json
+from pathlib import Path
 from torch.utils.data import Dataset
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler, LabelEncoder
@@ -15,6 +18,149 @@ from src.config import DEFAULT_SEED, LOCKED_TEST_SIZE, PROCESSED_DIR, DATASETS, 
 
 
 logger = setup_logger("data_split")
+
+SOURCE_ROW_NUMBER_COLUMN = "__source_row_number"
+PROTECTED_METADATA_COLUMNS = frozenset({SOURCE_ROW_NUMBER_COLUMN})
+SPLIT_SIDECAR_SUFFIX = "_split_manifest.json"
+
+
+def _json_safe(value):
+    if isinstance(value, dict):
+        return {str(key): _json_safe(item) for key, item in value.items()}
+    if isinstance(value, (list, tuple, np.ndarray)):
+        return [_json_safe(item) for item in value]
+    if isinstance(value, (np.integer,)):
+        return int(value)
+    if isinstance(value, (np.floating,)):
+        return None if np.isnan(value) else float(value)
+    if isinstance(value, (np.bool_,)):
+        return bool(value)
+    return value
+
+
+def canonical_json(value) -> str:
+    return json.dumps(_json_safe(value), ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+
+
+def sha256_json(value) -> str:
+    return hashlib.sha256(canonical_json(value).encode("utf-8")).hexdigest()
+
+
+def sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with Path(path).open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def attach_source_row_numbers(df: pd.DataFrame) -> pd.DataFrame:
+    """Attach zero-based raw CSV row numbers as protected lineage metadata."""
+    df = df.copy()
+    if SOURCE_ROW_NUMBER_COLUMN not in df.columns:
+        df.insert(0, SOURCE_ROW_NUMBER_COLUMN, np.arange(len(df), dtype=int))
+    return df
+
+
+def drop_protected_metadata(df: pd.DataFrame) -> pd.DataFrame:
+    return df.drop(columns=[c for c in PROTECTED_METADATA_COLUMNS if c in df.columns], errors="ignore")
+
+
+def exclude_protected_columns(columns: list[str]) -> list[str]:
+    return [column for column in columns if column not in PROTECTED_METADATA_COLUMNS]
+
+
+def build_ingestion_contract(csv_sep: str, columns: list[str]) -> dict:
+    return {
+        "source_format": "csv",
+        "delimiter": csv_sep,
+        "encoding": "utf-8",
+        "header_policy": "first_row_header",
+        "null_value_policy": "pandas_default",
+        "parser": "pandas.read_csv",
+        "parser_version": pd.__version__,
+        "canonical_columns": list(columns),
+        "schema_fingerprint": sha256_json(list(columns)),
+    }
+
+
+def build_split_target_definition(ds_name: str, target_mode: str = "3class") -> dict:
+    spec = DATASETS[ds_name]
+    definition = {
+        "task_type": "classification",
+        "dataset_code": ds_name,
+        "target_column": spec.target_col,
+        "target_mode": target_mode,
+    }
+    if spec.kind == "student":
+        definition["derivation"] = {
+            "type": "pd.cut",
+            "bin_edges": list(STUDENT_G3_3CLASS_BINS),
+            "labels": [0, 1, 2],
+            "include_lowest": True,
+        }
+    elif spec.kind == "xapi":
+        definition["derivation"] = {
+            "type": "categorical_mapping",
+            "mapping": dict(XAPI_CLASS_MAPPING),
+        }
+    return definition
+
+
+def split_sidecar_path(ds_name: str, target_mode: str = "3class") -> Path:
+    return PROCESSED_DIR / f"{ds_name}_{target_mode}{SPLIT_SIDECAR_SUFFIX}"
+
+
+def build_split_sidecar(
+    ds_name: str,
+    target_mode: str,
+    *,
+    raw_path: Path,
+    csv_sep: str,
+    raw_frame: pd.DataFrame,
+) -> dict:
+    raw_without_metadata = drop_protected_metadata(attach_source_row_numbers(raw_frame))
+    ingestion_contract = build_ingestion_contract(csv_sep, list(raw_without_metadata.columns))
+    target_definition = build_split_target_definition(ds_name, target_mode)
+    return {
+        "dataset_code": ds_name,
+        "hash_algorithm": "sha256",
+        "content_hash": sha256_file(raw_path),
+        "ingestion_contract_hash_algorithm": "sha256",
+        "ingestion_contract_hash": sha256_json(ingestion_contract),
+        "row_count": int(len(raw_frame)),
+        "target_definition_hash": sha256_json(target_definition),
+        "split_protocol": {
+            "name": "stratified_locked_test",
+            "test_size": LOCKED_TEST_SIZE,
+            "random_seed": DEFAULT_SEED,
+            "membership_names": ["train", "test"],
+        },
+    }
+
+
+def write_split_sidecar(sidecar: dict, ds_name: str, target_mode: str = "3class") -> Path:
+    path = split_sidecar_path(ds_name, target_mode)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(sidecar, ensure_ascii=False, indent=2, sort_keys=True), encoding="utf-8")
+    return path
+
+
+def split_sidecar_matches_current_raw(ds_name: str, target_mode: str, *, raw_path: Path, csv_sep: str) -> bool:
+    path = split_sidecar_path(ds_name, target_mode)
+    if not path.exists():
+        return False
+    raw_frame = attach_source_row_numbers(pd.read_csv(raw_path, sep=csv_sep))
+    expected = build_split_sidecar(
+        ds_name,
+        target_mode,
+        raw_path=raw_path,
+        csv_sep=csv_sep,
+        raw_frame=raw_frame,
+    )
+    actual = json.loads(path.read_text(encoding="utf-8"))
+    return canonical_json(actual) == canonical_json(expected)
+
 
 def process_target_and_stratify(df: pd.DataFrame, target_col: str, kind: str, target_mode: str = "3class") -> pd.DataFrame:
     """Prepare target column for stratification."""
@@ -38,10 +184,16 @@ def process_target_and_stratify(df: pd.DataFrame, target_col: str, kind: str, ta
         
     return df
 
-def create_and_save_locked_test(df: pd.DataFrame, ds_name: str, target_mode: str = "3class"):
+def create_and_save_locked_test(
+    df: pd.DataFrame,
+    ds_name: str,
+    target_mode: str = "3class",
+    raw_path: Path | None = None,
+    csv_sep: str | None = None,
+):
     """Split data into 80% train pool and 20% locked test, and save them."""
     spec = DATASETS[ds_name]
-    df_strat = process_target_and_stratify(df.copy(), spec.target_col, spec.kind, target_mode)
+    df_strat = process_target_and_stratify(attach_source_row_numbers(df), spec.target_col, spec.kind, target_mode)
     
     # Drop rows where strat target is null if any
     df_strat = df_strat.dropna(subset=["_strat_target"])
@@ -62,6 +214,19 @@ def create_and_save_locked_test(df: pd.DataFrame, ds_name: str, target_mode: str
     
     train_pool.to_csv(train_path, index=False)
     locked_test.to_csv(test_path, index=False)
+
+    if raw_path is not None:
+        write_split_sidecar(
+            build_split_sidecar(
+                ds_name,
+                target_mode,
+                raw_path=Path(raw_path),
+                csv_sep=csv_sep or spec.csv_sep,
+                raw_frame=attach_source_row_numbers(df),
+            ),
+            ds_name,
+            target_mode,
+        )
     
     logger.info(f"[{ds_name} - {target_mode}] Train pool: {len(train_pool)} rows. Locked test: {len(locked_test)} rows.")
     return train_path, test_path
@@ -193,8 +358,8 @@ class FeatureSelector:
         
     def fit_transform(self, df: pd.DataFrame, numerical_cols: list, categorical_cols: list):
         # Exclude G3_raw from features to prevent leakage
-        numerical_cols = [c for c in numerical_cols if c != "G3_raw"]
-        categorical_cols = [c for c in categorical_cols if c != "G3_raw"]
+        numerical_cols = [c for c in numerical_cols if c != "G3_raw" and c not in PROTECTED_METADATA_COLUMNS]
+        categorical_cols = [c for c in categorical_cols if c != "G3_raw" and c not in PROTECTED_METADATA_COLUMNS]
         
         if not self.use_feature_selection:
             self.selected_features = numerical_cols + categorical_cols
@@ -274,10 +439,16 @@ class DataPreprocessor:
         df = df.copy()
         
         # Identify columns
-        X = df.drop(columns=[self.target_col])
+        X = drop_protected_metadata(df.drop(columns=[self.target_col]))
         
-        self.numerical_cols = [c for c in X.select_dtypes(include=[np.number]).columns.tolist() if c != "G3_raw"]
-        self.categorical_cols = [c for c in X.select_dtypes(exclude=[np.number]).columns.tolist() if c != "G3_raw"]
+        self.numerical_cols = [
+            c for c in X.select_dtypes(include=[np.number]).columns.tolist()
+            if c != "G3_raw" and c not in PROTECTED_METADATA_COLUMNS
+        ]
+        self.categorical_cols = [
+            c for c in X.select_dtypes(exclude=[np.number]).columns.tolist()
+            if c != "G3_raw" and c not in PROTECTED_METADATA_COLUMNS
+        ]
         
         # Fit & transform target
         y_encoded = self.target_encoder.fit_transform(df[self.target_col])
@@ -388,7 +559,7 @@ class DataPreprocessor:
     def transform(self, df: pd.DataFrame):
         """Transform validation/test sets without fitting or oversampling."""
         df = df.copy()
-        X = df.drop(columns=[self.target_col], errors='ignore')
+        X = drop_protected_metadata(df.drop(columns=[self.target_col], errors='ignore'))
         
         if self.target_col in df.columns:
             # For target, handle unseen classes by mapping to -1 or known
@@ -451,12 +622,12 @@ class StudentDataset(Dataset):
         self.num_cols = [
             c
             for c in numerical_cols
-            if c in df.columns and c not in seq_cols and c != "G3_raw" and c not in context_exclusions
+            if c in df.columns and c not in seq_cols and c != "G3_raw" and c not in context_exclusions and c not in PROTECTED_METADATA_COLUMNS
         ]
         self.cat_cols = [
             c
             for c in categorical_cols
-            if c in df.columns and c not in seq_cols and c != "G3_raw" and c not in context_exclusions
+            if c in df.columns and c not in seq_cols and c != "G3_raw" and c not in context_exclusions and c not in PROTECTED_METADATA_COLUMNS
         ]
         
         self.num_x = df[self.num_cols].values if self.num_cols else np.zeros((len(df), 1))
