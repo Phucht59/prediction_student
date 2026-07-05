@@ -4,64 +4,66 @@ import numpy as np
 import pandas as pd
 import torch
 import torch.nn as nn
+from torch.utils.data import DataLoader
 
 from src.data_pipeline import (
     DataPreprocessor,
     FeatureSelector,
     StudentDataset,
-    XAPI_BEHAVIOR_DERIVED_CONTEXT_EXCLUSIONS,
 )
-from src.explainability import RuleBasedLearningPathEngine, generate_learning_path_report
-from src.models import StudentHybridModel, create_model
+from src.explainability import (
+    RuleBasedLearningPathEngine,
+    calculate_permutation_importance,
+    generate_learning_path_report,
+)
+from src.models import create_model
+from src.model_selection import student_search_space
 from src.train_pipeline import calculate_class_weights, suggest_trial_params
+from scripts.run_pipeline import normalize_cnn_bilstm_classifier_params
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
 
-def test_model_is_cnn_bilstm_mlp_and_outputs_three_class_probabilities():
+def test_model_is_cnn_bilstm_classifier_without_context_branch():
     model = create_model(
         "student",
         {
             "cnn_channels": 16,
             "cnn_kernel_size": 3,
             "lstm_hidden_dim": 12,
-            "context_hidden_dim": 10,
-            "fusion_hidden_dim": 8,
             "dropout": 0.1,
         },
-        num_numerical=3,
-        cat_cardinalities=[2, 4],
+        num_numerical=0,
+        cat_cardinalities=[],
     )
     assert isinstance(model.sequence_cnn[0], nn.Conv1d)
     assert isinstance(model.sequence_bilstm, nn.LSTM)
     assert model.sequence_bilstm.bidirectional
-    assert isinstance(model.context_mlp[0], nn.Linear)
+    assert model.context_mlp_enabled is False
+    assert not hasattr(model, "context_mlp")
+    assert not hasattr(model, "fusion")
 
     seq_x = torch.randn(5, 2, 1)
-    num_x = torch.randn(5, 3)
-    cat_x = torch.tensor([[0, 1], [1, 2], [0, 3], [1, 0], [0, 2]])
-    logits = model(seq_x, num_x, cat_x)
-    probabilities = model.predict_proba(seq_x, num_x, cat_x)
+    logits = model(seq_x)
+    probabilities = model.predict_proba(seq_x)
 
     assert logits.shape == (5, 3)
     assert torch.allclose(probabilities.sum(dim=1), torch.ones(5), atol=1e-6)
 
 
-def test_xapi_model_supports_independent_branch_dropouts():
+def test_model_uses_sequence_dropout_and_linear_classifier_head():
     model = create_model(
-        "xapi",
+        "student",
         {
             "sequence_dropout": 0.2,
-            "context_dropout": 0.3,
-            "fusion_dropout": 0.4,
         },
-        num_numerical=4,
-        cat_cardinalities=[2],
+        num_numerical=0,
+        cat_cardinalities=[],
     )
-    assert model.sequence_cnn[-1].p == 0.2
-    assert model.context_mlp[2].p == 0.3
-    assert model.fusion[2].p == 0.4
+    assert model.sequence_dropout.p == 0.2
+    assert model.classifier_head == "linear"
+    assert isinstance(model.classifier, nn.Linear)
 
 
 def test_xapi_optuna_space_excludes_vanilla_smote():
@@ -89,10 +91,57 @@ def test_xapi_optuna_space_excludes_vanilla_smote():
     assert "smote" not in trial.calls["oversample_method"][1]
     assert trial.calls["cnn_kernel_size"][1] == [2, 3, 4]
     assert trial.calls["lstm_hidden_dim"][1][-1] == 128
-    assert trial.calls["fusion_hidden_dim"][1][-1] == 256
     assert trial.calls["sequence_dropout"] == ("float", 0.1, 0.6, False)
     assert trial.calls["smote_ratio"] == ("float", 0.3, 1.0, False)
     assert "resampling_k_neighbors" in params
+    assert "context_hidden_dim" not in trial.calls
+    assert "fusion_hidden_dim" not in trial.calls
+
+
+def test_student_model_selection_space_uses_only_requested_resampling_methods():
+    class RecordingTrial:
+        def __init__(self):
+            self.calls = {}
+
+        def suggest_float(self, name, low, high, log=False):
+            self.calls[name] = ("float", low, high, log)
+            return low
+
+        def suggest_int(self, name, low, high):
+            self.calls[name] = ("int", low, high)
+            return low
+
+        def suggest_categorical(self, name, choices):
+            self.calls[name] = ("categorical", list(choices))
+            return choices[0]
+
+    trial = RecordingTrial()
+    student_search_space(trial)
+
+    assert trial.calls["oversample_method"] == ("categorical", ["none", "smote", "adasyn"])
+
+
+def test_sequence_only_oversampling_uses_only_model_input_columns():
+    frame = pd.DataFrame(
+        {
+            "G1": [6, 7, 8, 9, 14, 15, 16, 17, 18],
+            "G2": [7, 8, 9, 10, 15, 16, 17, 18, 19],
+            "school": ["GP", "MS", "GP", "MS", "GP", "MS", "GP", "MS", "GP"],
+            "G3": [0, 0, 0, 1, 1, 1, 2, 2, 2],
+        }
+    )
+    preprocessor = DataPreprocessor(
+        "G3",
+        oversample_method="adasyn",
+        smote_ratio=1.0,
+        resampling_k_neighbors=2,
+        oversampling_feature_columns=["G1", "G2"],
+    )
+
+    transformed = preprocessor.fit_transform(frame)
+
+    assert set(transformed.columns) == {"G1", "G2", "G3"}
+    assert "school" not in transformed.columns
 
 
 def test_resampling_neighbor_count_is_configurable():
@@ -135,7 +184,80 @@ def test_feature_selector_keeps_required_sequence_columns():
     assert {"G1", "G2", "G3"}.issubset(selected.columns)
 
 
-def test_xapi_student_dataset_excludes_behavior_derived_context_duplicates():
+def test_student_sequence_input_uses_only_prior_grade_allowlist():
+    frame = pd.DataFrame(
+        {
+            "G1": [8.0, 12.0],
+            "G2": [9.0, 13.0],
+            "G3": [0, 2],
+            "studytime": [1.0, 3.0],
+            "__source_row_number": [0, 1],
+        }
+    )
+    dataset = StudentDataset(
+        frame,
+        kind="student",
+        target_col="G3",
+        numerical_cols=["G1", "G2", "studytime", "__source_row_number"],
+        categorical_cols=[],
+    )
+
+    assert dataset.seq_cols == ["G1", "G2"]
+    assert dataset.num_cols == []
+    assert dataset.cat_cols == []
+    seq_x, num_x, cat_x, *_ = dataset[0]
+    assert seq_x.flatten().tolist() == [8.0, 9.0]
+    assert num_x.shape == (0,)
+    assert cat_x.shape == (0,)
+
+
+def test_final_train_config_params_disable_context_mlp():
+    params = normalize_cnn_bilstm_classifier_params(
+        {
+            "cnn_channels": 32,
+            "lstm_hidden_dim": 64,
+            "context_hidden_dim": 128,
+            "fusion_hidden_dim": 128,
+            "context_dropout": 0.2,
+            "fusion_dropout": 0.3,
+        }
+    )
+
+    assert params["architecture"] == "cnn_bilstm_classifier"
+    assert params["context_mlp_enabled"] is False
+    assert params["classifier_head"] == "linear"
+    assert "context_hidden_dim" not in params
+    assert "fusion_hidden_dim" not in params
+
+
+def test_active_pipeline_uses_cnn_bilstm_classifier_names():
+    source = (PROJECT_ROOT / "scripts" / "run_pipeline.py").read_text(encoding="utf-8")
+
+    assert "cnn_bilstm_classifier" in source
+    assert "cnn_bilstm_mlp" not in source
+    assert "CNN-BiLSTM + MLP" not in source
+    assert "confidences = mean_probabilities.max(axis=1)" in source
+
+
+def test_context_permutation_importance_is_empty_for_sequence_only_model():
+    frame = pd.DataFrame(
+        {
+            "G1": [8.0, 12.0, 14.0],
+            "G2": [9.0, 13.0, 15.0],
+            "G3": [0, 1, 2],
+        }
+    )
+    dataset = StudentDataset(frame, "student", "G3", numerical_cols=["G1", "G2"], categorical_cols=[])
+    loader = DataLoader(dataset, batch_size=2)
+    model = create_model("student", {}, num_numerical=0, cat_cardinalities=[])
+
+    importance = calculate_permutation_importance(model, loader, torch.device("cpu"), [], [])
+
+    assert list(importance.columns) == ["Feature", "Importance"]
+    assert importance.empty
+
+
+def test_student_dataset_is_sequence_only_and_excludes_context_features():
     frame = pd.DataFrame(
         {
             "raisedhands": [10, 80],
@@ -172,9 +294,13 @@ def test_xapi_student_dataset_excludes_behavior_derived_context_duplicates():
         categorical_cols=["gender"],
     )
 
-    assert set(dataset.num_cols).isdisjoint(XAPI_BEHAVIOR_DERIVED_CONTEXT_EXCLUSIONS)
-    assert "parent_support_signal" in dataset.num_cols
-    assert dataset.cat_cols == ["gender"]
+    assert dataset.seq_cols == ["raisedhands", "VisITedResources", "AnnouncementsView", "Discussion"]
+    assert dataset.num_cols == []
+    assert dataset.cat_cols == []
+    seq_x, num_x, cat_x, *_ = dataset[0]
+    assert seq_x.shape == (4, 1)
+    assert num_x.shape == (0,)
+    assert cat_x.shape == (0,)
 
 
 def test_learning_path_engine_returns_staged_roadmap_not_variable_tweaks():

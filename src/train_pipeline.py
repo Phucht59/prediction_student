@@ -1,4 +1,4 @@
-"""Training and Optuna search for the approved CNN-BiLSTM + MLP model."""
+"""Training and Optuna search for the approved CNN-BiLSTM classifier."""
 
 from __future__ import annotations
 
@@ -192,7 +192,6 @@ def suggest_trial_params(trial, dataset_kind: str) -> dict:
             "weight_decay": trial.suggest_float("weight_decay", 1e-8, 1e-2, log=True),
             "batch_size": trial.suggest_categorical("batch_size", [8, 16, 32, 64]),
             "focal_gamma": trial.suggest_float("focal_gamma", 1.5, 2.5),
-            "embedding_dim": trial.suggest_int("embedding_dim", 2, 8),
             
             # Strategy 3: Leakage-safe resampling strategy tuning.
             # xAPI contains categorical context features, so vanilla SMOTE must
@@ -203,44 +202,26 @@ def suggest_trial_params(trial, dataset_kind: str) -> dict:
             "smote_ratio": trial.suggest_float("smote_ratio", 0.3, 1.0),
             "resampling_k_neighbors": trial.suggest_int("resampling_k_neighbors", 2, 10),
             
-            # Strategy 2: Fine-Tuning the CNN-BiLSTM (Sequential Branch)
             "cnn_channels": trial.suggest_categorical("cnn_channels", [16, 32, 64, 128]),
-            # Expand cnn_kernel_size specifically for xapi [2, 3, 4]
             "cnn_kernel_size": trial.suggest_categorical("cnn_kernel_size", [2, 3, 4]),
-            # Increase upper bound for sequence_hidden_dim (lstm_hidden_dim) up to 128
             "lstm_hidden_dim": trial.suggest_categorical(
                 "lstm_hidden_dim", [32, 64, 96, 128]
             ),
-            "context_hidden_dim": trial.suggest_categorical(
-                "context_hidden_dim", [32, 64, 128, 256]
-            ),
-            # Increase upper bound for fusion_hidden_dim up to 256
-            "fusion_hidden_dim": trial.suggest_categorical(
-                "fusion_hidden_dim", [32, 64, 128, 256]
-            ),
-            # Optimize dropout ranges specifically for the sequence branch (0.1 to 0.6)
             "sequence_dropout": trial.suggest_float("sequence_dropout", 0.1, 0.6),
-            "context_dropout": trial.suggest_float("context_dropout", 0.1, 0.5),
-            "fusion_dropout": trial.suggest_float("fusion_dropout", 0.1, 0.6),
         }
 
     return {
         "learning_rate": trial.suggest_float("learning_rate", 1e-4, 1e-2, log=True),
         "weight_decay": trial.suggest_float("weight_decay", 1e-6, 1e-3, log=True),
         "batch_size": trial.suggest_categorical("batch_size", [16, 32, 64]),
-        "oversample_method": trial.suggest_categorical(
-            "oversample_method", ["smotenc"]
-        ),
+        "oversample_method": trial.suggest_categorical("oversample_method", ["none", "smote", "adasyn"]),
         "smote_ratio": trial.suggest_float("smote_ratio", 0.4, 1.0),
         "resampling_k_neighbors": 5,
         "cnn_channels": trial.suggest_categorical("cnn_channels", [16, 32, 64]),
         "cnn_kernel_size": 3,
         "lstm_hidden_dim": trial.suggest_categorical("lstm_hidden_dim", [32, 64]),
-        "context_hidden_dim": trial.suggest_categorical(
-            "context_hidden_dim", [32, 64, 128]
-        ),
-        "fusion_hidden_dim": trial.suggest_categorical("fusion_hidden_dim", [32, 64, 128]),
         "dropout": trial.suggest_float("dropout", 0.1, 0.5),
+        "sequence_dropout": trial.suggest_float("sequence_dropout", 0.1, 0.5),
     }
 
 
@@ -274,6 +255,7 @@ def objective(trial, df_train_pool: pd.DataFrame, spec, target_mode: str, cv_fol
             oversample_method=oversample_method,
             smote_ratio=smote_ratio,
             resampling_k_neighbors=params["resampling_k_neighbors"],
+            oversampling_feature_columns=sequence_columns,
         )
         train_prep = preprocessor.fit_transform(train_fold)
         val_prep = preprocessor.transform(val_fold)

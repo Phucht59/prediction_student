@@ -8,7 +8,7 @@ from torch.utils.data import Dataset
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler, LabelEncoder
 from sklearn.ensemble import RandomForestClassifier
-from imblearn.over_sampling import RandomOverSampler, SMOTE, SMOTENC
+from imblearn.over_sampling import ADASYN, RandomOverSampler, SMOTE, SMOTENC
 from src.config import DEFAULT_SEED, LOCKED_TEST_SIZE, PROCESSED_DIR, DATASETS, STUDENT_G3_3CLASS_BINS, XAPI_CLASS_MAPPING
 from src.utils import setup_logger
 
@@ -423,11 +423,13 @@ class DataPreprocessor:
         oversample_method: str = "none",
         smote_ratio: float = 1.0,
         resampling_k_neighbors: int = 5,
+        oversampling_feature_columns: list[str] | None = None,
     ):
         self.target_col = target_col
         self.oversample_method = oversample_method.lower()
         self.smote_ratio = smote_ratio
         self.resampling_k_neighbors = resampling_k_neighbors
+        self.oversampling_feature_columns = list(oversampling_feature_columns or [])
         self.numerical_cols = []
         self.categorical_cols = []
         self.scalers = {}
@@ -483,12 +485,23 @@ class DataPreprocessor:
             return df
             
         df = df.copy()
+        if self.oversampling_feature_columns:
+            allowed_features = [
+                column
+                for column in self.oversampling_feature_columns
+                if column in df.columns and column != self.target_col
+            ]
+            if not allowed_features:
+                logger.warning("No allowed model-input features available for oversampling. Falling back to no oversampling.")
+                return df
+            df = df[allowed_features + [self.target_col]]
+
         X = df.drop(columns=[self.target_col])
         y_encoded = df[self.target_col]
         
         remaining_cat_cols = [col for col in self.categorical_cols if col in X.columns]
         
-        if method == "adasyn":
+        if method == "adasyn" and remaining_cat_cols:
             logger.warning(
                 "ADASYN is disabled for this pipeline because it can interpolate "
                 "label-encoded categorical values. Falling back to SMOTENC/SMOTE."
@@ -533,6 +546,12 @@ class DataPreprocessor:
                     random_state=42,
                     k_neighbors=effective_k_neighbors,
                 )
+        elif method == "adasyn":
+            sampler = ADASYN(
+                sampling_strategy=strategy,
+                random_state=42,
+                n_neighbors=effective_k_neighbors,
+            )
         elif method == "smote":
             sampler = SMOTE(
                 sampling_strategy=strategy,
@@ -601,6 +620,7 @@ def get_context_excluded_columns(kind: str) -> set[str]:
 
 class StudentDataset(Dataset):
     def __init__(self, df: pd.DataFrame, kind: str, target_col: str, numerical_cols: list, categorical_cols: list):
+        self.target_col = target_col
         self.y = df[target_col].values if target_col in df.columns else np.zeros(len(df))
         
         # Load G3_raw or default to 0.0
@@ -611,27 +631,41 @@ class StudentDataset(Dataset):
         else:
             self.reg_label = np.zeros(len(df), dtype=np.float32)
             
-        seq_cols = [c for c in get_sequence_columns(kind) if c in df.columns]
+        allowed_seq_cols = get_sequence_columns(kind)
+        seq_cols = [c for c in allowed_seq_cols if c in df.columns]
+        if len(seq_cols) < 2:
+            raise ValueError(
+                f"Dataset kind '{kind}' requires at least two chronological sequence columns; "
+                f"available={seq_cols}, required={allowed_seq_cols}."
+            )
+        forbidden_sequence_inputs = {
+            self.target_col,
+            "G3",
+            "G3_raw",
+            "_strat_target",
+            SOURCE_ROW_NUMBER_COLUMN,
+            "record_id",
+            "dataset_version_id",
+            "prediction_id",
+            "run_id",
+        }
+        if set(seq_cols) & forbidden_sequence_inputs:
+            raise ValueError(f"Forbidden target or lineage metadata in sequence input: {sorted(set(seq_cols) & forbidden_sequence_inputs)}")
+        if seq_cols != allowed_seq_cols:
+            raise ValueError(f"Sequence columns must match the approved chronological allowlist: {allowed_seq_cols}")
         if not seq_cols:
             raise ValueError(f"No sequential features are available for dataset kind '{kind}'.")
         self.seq_cols = seq_cols
         self.seq_x = df[seq_cols].values[..., np.newaxis]
                 
-        # Context features (exclude G3_raw and xAPI behavior-derived duplicates)
-        context_exclusions = get_context_excluded_columns(kind)
-        self.num_cols = [
-            c
-            for c in numerical_cols
-            if c in df.columns and c not in seq_cols and c != "G3_raw" and c not in context_exclusions and c not in PROTECTED_METADATA_COLUMNS
-        ]
-        self.cat_cols = [
-            c
-            for c in categorical_cols
-            if c in df.columns and c not in seq_cols and c != "G3_raw" and c not in context_exclusions and c not in PROTECTED_METADATA_COLUMNS
-        ]
-        
-        self.num_x = df[self.num_cols].values if self.num_cols else np.zeros((len(df), 1))
-        self.cat_x = df[self.cat_cols].values.astype(int) if self.cat_cols else np.zeros((len(df), 1), dtype=int)
+        # Final predictor is sequence-only. Profile/tabular columns may remain
+        # in the dataframe for recommendation/explanation but are not exposed
+        # to the active CNN-BiLSTM classifier.
+        self.num_cols = []
+        self.cat_cols = []
+
+        self.num_x = np.zeros((len(df), 0), dtype=np.float32)
+        self.cat_x = np.zeros((len(df), 0), dtype=int)
         
         # Original features for recommendation
         self.original_features = df.to_dict('records')

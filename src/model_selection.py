@@ -1,4 +1,4 @@
-"""Validation-only model selection for the CNN-BiLSTM + Context MLP pipeline."""
+"""Validation-only model selection for the CNN-BiLSTM classifier pipeline."""
 
 from __future__ import annotations
 
@@ -68,18 +68,14 @@ def student_search_space(trial: optuna.Trial) -> dict[str, Any]:
         "learning_rate": trial.suggest_float("learning_rate", 5e-5, 2e-2, log=True),
         "weight_decay": trial.suggest_float("weight_decay", 1e-7, 3e-3, log=True),
         "batch_size": trial.suggest_categorical("batch_size", [16, 32, 64]),
-        "oversample_method": trial.suggest_categorical("oversample_method", ["none", "smote", "smotenc", "adasyn"]),
+        "oversample_method": trial.suggest_categorical("oversample_method", ["none", "smote", "adasyn"]),
         "smote_ratio": trial.suggest_float("smote_ratio", 0.35, 1.0),
         "resampling_k_neighbors": trial.suggest_int("resampling_k_neighbors", 2, 7),
         "cnn_channels": trial.suggest_categorical("cnn_channels", [16, 32, 64, 96]),
         "cnn_kernel_size": trial.suggest_categorical("cnn_kernel_size", [2, 3, 5]),
         "lstm_hidden_dim": trial.suggest_categorical("lstm_hidden_dim", [32, 64, 96]),
-        "context_hidden_dim": trial.suggest_categorical("context_hidden_dim", [32, 64, 128]),
-        "fusion_hidden_dim": trial.suggest_categorical("fusion_hidden_dim", [32, 64, 128]),
         "dropout": trial.suggest_float("dropout", 0.1, 0.55),
         "sequence_dropout": trial.suggest_float("sequence_dropout", 0.05, 0.55),
-        "context_dropout": trial.suggest_float("context_dropout", 0.05, 0.5),
-        "fusion_dropout": trial.suggest_float("fusion_dropout", 0.05, 0.55),
         "loss": loss_name,
         "max_epochs": trial.suggest_categorical("max_epochs", [60, 80, 100]),
         "patience": trial.suggest_categorical("patience", [12, 15, 20]),
@@ -144,7 +140,7 @@ def fit_fold_predict_proba(
     params: dict[str, Any],
     seed: int,
     fold_index: int,
-    ablation_mode: str = "hybrid",
+    ablation_mode: str = "sequence_only",
 ) -> FoldModelResult:
     """Fit on fold-training data and predict probabilities for a held-out scoring fold.
 
@@ -167,6 +163,7 @@ def fit_fold_predict_proba(
         oversample_method=params.get("oversample_method", "none"),
         smote_ratio=float(params.get("smote_ratio", 1.0)),
         resampling_k_neighbors=int(params.get("resampling_k_neighbors", 5)),
+        oversampling_feature_columns=get_sequence_columns(spec.kind),
     )
     train_prepared = preprocessor.fit_transform(train_engineered, apply_oversampling=True)
     early_stop_prepared = preprocessor.transform(early_stop_engineered)
@@ -186,7 +183,7 @@ def fit_fold_predict_proba(
     validation_selected = selector.transform(validation_prepared)
 
     model_params = dict(params)
-    model_params["ablation_mode"] = ablation_mode
+    model_params["ablation_mode"] = "sequence_only"
     train_dataset = StudentDataset(train_selected, spec.kind, spec.target_col, preprocessor.numerical_cols, preprocessor.categorical_cols)
     early_stop_dataset = StudentDataset(early_stop_selected, spec.kind, spec.target_col, preprocessor.numerical_cols, preprocessor.categorical_cols)
     validation_dataset = StudentDataset(validation_selected, spec.kind, spec.target_col, preprocessor.numerical_cols, preprocessor.categorical_cols)
@@ -292,7 +289,7 @@ def collect_oof_by_seed(
     folds: list[tuple[np.ndarray, np.ndarray]],
     seeds: list[int],
     *,
-    ablation_mode: str = "hybrid",
+    ablation_mode: str = "sequence_only",
 ) -> dict[str, Any]:
     y_true = train_pool[spec.target_col].astype(int).to_numpy()
     seed_probabilities: dict[int, np.ndarray] = {

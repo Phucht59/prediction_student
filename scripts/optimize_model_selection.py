@@ -162,7 +162,7 @@ def evaluate_deep_outer_fold(
         best["best_params"],
         inner_split,
         FIXED_SEEDS,
-        ablation_mode="hybrid",
+        ablation_mode="sequence_only",
     )
     strategies, selected_strategy = evaluate_ensemble_strategies(inner_oof, FIXED_SEEDS)
     outer_seed_probabilities = {}
@@ -175,7 +175,7 @@ def evaluate_deep_outer_fold(
             params=best["best_params"],
             seed=int(seed),
             fold_index=outer_fold,
-            ablation_mode="hybrid",
+            ablation_mode="sequence_only",
         )
         outer_seed_probabilities[int(seed)] = result.probabilities
         selected_features[str(seed)] = result.selected_features
@@ -264,7 +264,7 @@ def choose_final_config(train_pool: pd.DataFrame, spec, *, n_trials: int, inner_
         n_splits=inner_folds,
         seed=DEFAULT_SEED,
     )
-    inner_oof = collect_oof_by_seed(train_pool, spec, best["best_params"], folds, FIXED_SEEDS, ablation_mode="hybrid")
+    inner_oof = collect_oof_by_seed(train_pool, spec, best["best_params"], folds, FIXED_SEEDS, ablation_mode="sequence_only")
     strategies, selected_strategy = evaluate_ensemble_strategies(inner_oof, FIXED_SEEDS)
     return best, selected_strategy, strategies
 
@@ -354,6 +354,10 @@ def main() -> None:
         "tabular_baseline": baseline["summary"],
         "best_cv_f1_macro": final_best["best_cv_f1_macro"],
         "best_params": final_best["best_params"],
+        "architecture": "cnn_bilstm_classifier",
+        "context_mlp_enabled": False,
+        "sequence_columns": get_sequence_columns(spec.kind),
+        "classifier_head": "linear",
         "selected_strategy": final_strategy,
     }
 

@@ -1,4 +1,4 @@
-"""End-to-end thesis pipeline: CNN-BiLSTM + MLP, learning paths, PostgreSQL."""
+"""End-to-end thesis pipeline: CNN-BiLSTM classifier, learning paths, PostgreSQL."""
 
 from __future__ import annotations
 
@@ -123,6 +123,23 @@ def resolve_frozen_strategy_metadata(
     }
 
 
+def normalize_cnn_bilstm_classifier_params(params: dict) -> dict:
+    """Drop inactive Context-MLP/fusion keys from historical configs."""
+    forbidden = {
+        "context_hidden_dim",
+        "fusion_hidden_dim",
+        "context_dropout",
+        "fusion_dropout",
+        "embedding_dim",
+        "ablation_mode",
+    }
+    normalized = {key: value for key, value in dict(params).items() if key not in forbidden}
+    normalized["architecture"] = "cnn_bilstm_classifier"
+    normalized["context_mlp_enabled"] = False
+    normalized["classifier_head"] = "linear"
+    return normalized
+
+
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--dataset", choices=sorted(DATASETS), required=True)
@@ -245,7 +262,7 @@ def artifact_manifest_context(run_id: str, dataset_name: str, target_mode: str, 
         "dataset": dataset_name,
         "target_mode": target_mode,
         "model_artifact_directory": project_uri(MODELS_DIR),
-        "model_artifact_pattern": f"{dataset_name}_3class_cnn_bilstm_mlp_seed*.pt",
+        "model_artifact_pattern": f"{dataset_name}_3class_cnn_bilstm_classifier_seed*.pt",
         "best_params": best_params,
     }
     artifact_path.write_text(json.dumps(artifact_payload, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -284,7 +301,7 @@ def load_study(args, train_pool, spec):
     }
     if spec.kind == "xapi" and not args.debug:
         study_kwargs.update(
-            study_name=f"{spec.name}_{args.target_mode}_cnn_bilstm_mlp",
+            study_name=f"{spec.name}_{args.target_mode}_cnn_bilstm_classifier",
             storage=f"sqlite:///{(MODELS_DIR / f'{spec.name}_{args.target_mode}_optuna.db').as_posix()}",
             load_if_exists=True,
         )
@@ -319,6 +336,7 @@ def prepare_datasets(train_pool, locked_test, spec, best_params):
         oversample_method=best_params["oversample_method"],
         smote_ratio=best_params.get("smote_ratio", 1.0),
         resampling_k_neighbors=best_params.get("resampling_k_neighbors", 5),
+        oversampling_feature_columns=get_sequence_columns(spec.kind),
     )
     train_prepared = preprocessor.fit_transform(train_engineered)
     test_prepared = preprocessor.transform(test_engineered)
@@ -409,6 +427,7 @@ def train_seed_ensemble(
             oversample_method=best_params["oversample_method"],
             smote_ratio=best_params.get("smote_ratio", 1.0),
             resampling_k_neighbors=best_params.get("resampling_k_neighbors", 5),
+            oversampling_feature_columns=get_sequence_columns(spec.kind),
         )
         train_prep = preprocessor.fit_transform(train_sub)
         val_prep = preprocessor.transform(val_sub)
@@ -487,7 +506,7 @@ def train_seed_ensemble(
         last_preprocessor = preprocessor
         last_train_selected = train_selected
 
-        model_path = MODELS_DIR / f"{spec.name}_3class_cnn_bilstm_mlp_seed{seed}.pt"
+        model_path = MODELS_DIR / f"{spec.name}_3class_cnn_bilstm_classifier_seed{seed}.pt"
         torch.save(model.state_dict(), model_path)
 
     if probabilities_by_seed:
@@ -501,7 +520,7 @@ def train_seed_ensemble(
         mean_probabilities = np.mean(np.asarray(all_probabilities), axis=0)
     mean_probabilities = apply_probability_calibration(mean_probabilities, calibration_policy)
     ensemble_predictions = apply_threshold_policy(mean_probabilities, threshold_policy)
-    confidences = mean_probabilities[np.arange(len(ensemble_predictions)), ensemble_predictions]
+    confidences = mean_probabilities.max(axis=1)
     return (
         np.asarray(ensemble_predictions, dtype=int),
         mean_probabilities,
@@ -602,7 +621,7 @@ def save_outputs(
             [
                 f"Dataset: {args.dataset}",
                 f"Target Mode: {args.target_mode}",
-                "Architecture: CNN-BiLSTM + Context MLP",
+                "Architecture: CNN-BiLSTM classifier",
                 "Loss: Weighted CrossEntropyLoss",
                 f"Optuna Best CV F1: {study.best_value:.4f}",
                 f"Best Params: {json.dumps(best_params, indent=2)}",
@@ -678,12 +697,12 @@ def main():
         )
 
     if selection_config:
-        best_params = dict(selection_config["best_params"])
+        best_params = normalize_cnn_bilstm_classifier_params(selection_config["best_params"])
         study = LoadedStudy(float(selection_config.get("best_cv_f1_macro", selection_config.get("selected_strategy", {}).get("cv_f1_macro_mean", 0.0))), best_params)
         logger.info("Using validation-only selection config and skipping Optuna.")
     else:
         study = load_study(args, train_pool, spec)
-        best_params = dict(study.best_params)
+        best_params = normalize_cnn_bilstm_classifier_params(study.best_params)
 
     selected_strategy = selection_config.get("selected_strategy", {}) if selection_config else {}
     strategy_metadata = resolve_frozen_strategy_metadata(selected_strategy, debug=args.debug)
@@ -705,6 +724,17 @@ def main():
             env_context = environment_lock_context()
             artifact_context = artifact_manifest_context(run_id, args.dataset, args.target_mode, best_params)
             train_config = {
+                "architecture": "cnn_bilstm_classifier",
+                "context_mlp_enabled": False,
+                "sequence_columns": get_sequence_columns(spec.kind),
+                "classifier_head": "linear",
+                "model_selection_protocol": "nested_cv_or_validation_only",
+                "selected_seed_list": selected_seed_list,
+                "oversampling_policy": {
+                    "method": best_params.get("oversample_method", "none"),
+                    "smote_ratio": best_params.get("smote_ratio"),
+                    "resampling_k_neighbors": best_params.get("resampling_k_neighbors"),
+                },
                 "target_mode": args.target_mode,
                 "best_params": best_params,
                 "fixed_seeds": selected_seed_list,
@@ -740,7 +770,7 @@ def main():
                 train_pool=train_pool,
                 locked_test=locked_test,
                 run_id=run_id,
-                model_name="cnn_bilstm_mlp_ensemble",
+                model_name="cnn_bilstm_classifier",
                 train_config=train_config,
                 artifact_uri=artifact_context["artifact_uri"],
                 git_commit=git_context["git_commit"],
@@ -830,7 +860,7 @@ def main():
     else:
         run_id = persist_evaluation_to_postgres(
             dataset_name=args.dataset,
-            model_name="cnn_bilstm_mlp_ensemble",
+            model_name="cnn_bilstm_classifier",
             original_features=locked_test,
             true_labels=true_labels,
             predicted_labels=predictions,

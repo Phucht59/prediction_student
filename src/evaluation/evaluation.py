@@ -1039,7 +1039,7 @@ def create_summary_report(dataset_name: str, target_mode: str) -> Path:
     metrics = json.loads(metrics_path.read_text(encoding="utf-8")) if metrics_path.exists() else {}
     best_params = json.loads(params_path.read_text(encoding="utf-8")) if params_path.exists() else {}
     lines = [
-        "# Bao cao tong ket mo hinh CNN-BiLSTM + MLP",
+        "# Bao cao tong ket mo hinh CNN-BiLSTM classifier",
         "",
         f"- **Dataset**: {dataset_name}",
         f"- **Bai toan**: {target_mode}",

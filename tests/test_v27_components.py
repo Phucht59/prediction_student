@@ -46,6 +46,8 @@ def test_student_dataset_returns_six_elements_with_g3_raw_preserved():
     df_xapi = pd.DataFrame({
         "raisedhands": [50.0, 60.0],
         "VisITedResources": [70.0, 80.0],
+        "AnnouncementsView": [20.0, 30.0],
+        "Discussion": [10.0, 40.0],
         "target": [0, 1]
     })
     dataset_xapi = StudentDataset(

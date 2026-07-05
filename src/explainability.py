@@ -27,6 +27,10 @@ def calculate_permutation_importance(
 ):
     """Measure the F1-Macro drop after shuffling each context feature."""
 
+    if not numerical_feature_names and not categorical_feature_names:
+        logger.info("Skipping context permutation importance because the active model has no context features.")
+        return pd.DataFrame(columns=["Feature", "Importance"])
+
     model.eval()
     sequences = []
     numerical = []
@@ -44,6 +48,10 @@ def calculate_permutation_importance(
     full_seq = torch.cat(sequences, dim=0)
     full_num = torch.cat(numerical, dim=0)
     full_cat = torch.cat(categorical, dim=0)
+
+    if full_num.shape[1] == 0 and full_cat.shape[1] == 0:
+        logger.info("Skipping context permutation importance because context tensors are empty.")
+        return pd.DataFrame(columns=["Feature", "Importance"])
 
     def evaluate(num_values, cat_values):
         predictions = []
