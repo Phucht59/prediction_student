@@ -93,10 +93,13 @@ def insert_or_compare_recommendation(cursor, payload: dict[str, Any]) -> str:
             ),
         )
     except errors.IntegrityConstraintViolation as exc:
-        if "Recommendation can only be inserted while its parent run is running" in str(exc):
+        if (
+            "Recommendation can only be inserted while its parent run is running" in str(exc)
+            or "Recommendation can only be inserted while its parent run is running or completed" in str(exc)
+        ):
             raise RuntimeError(
-                "Database rejected append-only materialization because the parent run is not running. "
-                "The current schema trigger requires recommendations to be inserted before run completion."
+                "Database rejected append-only materialization because the parent run is not materializable. "
+                "The current schema trigger allows recommendation materialization only for running or completed runs."
             ) from exc
         raise
     inserted = cursor.rowcount == 1
