@@ -45,10 +45,12 @@ class StudentHybridModel(nn.Module):
         context_dropout: float | None = None,
         fusion_dropout: float | None = None,
         embedding_dim: int | None = None,
+        ablation_mode: str = "hybrid",
     ):
         super().__init__()
         self.num_numerical = num_numerical
         self.cat_cardinalities = cat_cardinalities
+        self.ablation_mode = ablation_mode
         sequence_dropout = dropout if sequence_dropout is None else sequence_dropout
         context_dropout = dropout if context_dropout is None else context_dropout
         fusion_dropout = dropout if fusion_dropout is None else fusion_dropout
@@ -77,11 +79,12 @@ class StudentHybridModel(nn.Module):
             batch_first=True,
             bidirectional=True,
         )
-        sequence_output_dim = lstm_hidden_dim * 2
-        self.sequence_pool = AttentionPooling1D(sequence_output_dim)
+        self.sequence_output_dim = lstm_hidden_dim * 2
+        self.sequence_pool = AttentionPooling1D(self.sequence_output_dim)
 
         context_input_dim = num_numerical + embedding_total_dim
         self.context_input_dim = max(1, context_input_dim)
+        self.context_hidden_dim = context_hidden_dim
         self.context_mlp = nn.Sequential(
             nn.Linear(self.context_input_dim, context_hidden_dim),
             nn.ReLU(),
@@ -91,7 +94,7 @@ class StudentHybridModel(nn.Module):
         )
 
         self.fusion = nn.Sequential(
-            nn.Linear(sequence_output_dim + context_hidden_dim, fusion_hidden_dim),
+            nn.Linear(self.sequence_output_dim + context_hidden_dim, fusion_hidden_dim),
             nn.ReLU(),
             nn.Dropout(fusion_dropout),
         )
@@ -136,18 +139,24 @@ class StudentHybridModel(nn.Module):
         if seq_x is None:
             raise ValueError("Sequential input is required by the CNN-BiLSTM architecture.")
 
-        sequence = seq_x.float().transpose(1, 2)
-        sequence = self.sequence_cnn(sequence).transpose(1, 2)
-        sequence, _ = self.sequence_bilstm(sequence)
-        sequence_vector, _ = self.sequence_pool(sequence)
+        if self.ablation_mode == "context_only":
+            sequence_vector = torch.zeros(seq_x.shape[0], self.sequence_output_dim, device=seq_x.device)
+        else:
+            sequence = seq_x.float().transpose(1, 2)
+            sequence = self.sequence_cnn(sequence).transpose(1, 2)
+            sequence, _ = self.sequence_bilstm(sequence)
+            sequence_vector, _ = self.sequence_pool(sequence)
 
-        context = self._prepare_context(
-            num_x=num_x,
-            cat_x=cat_x,
-            batch_size=seq_x.shape[0],
-            device=seq_x.device,
-        )
-        context_vector = self.context_mlp(context)
+        if self.ablation_mode == "sequence_only":
+            context_vector = torch.zeros(seq_x.shape[0], self.context_hidden_dim, device=seq_x.device)
+        else:
+            context = self._prepare_context(
+                num_x=num_x,
+                cat_x=cat_x,
+                batch_size=seq_x.shape[0],
+                device=seq_x.device,
+            )
+            context_vector = self.context_mlp(context)
 
         fused = self.fusion(torch.cat([sequence_vector, context_vector], dim=1))
         return self.classifier(fused)
@@ -195,4 +204,5 @@ def create_model(
         context_dropout=config.get("context_dropout", None),
         fusion_dropout=config.get("fusion_dropout", None),
         embedding_dim=embedding_dim,
+        ablation_mode=str(config.get("ablation_mode", "hybrid")),
     )

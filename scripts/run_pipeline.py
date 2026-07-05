@@ -11,15 +11,19 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import numpy as np
+import pandas as pd
 import torch
 import torch.nn as nn
 import torch.optim as optim
 from sklearn.metrics import (
     accuracy_score,
+    average_precision_score,
     classification_report,
+    confusion_matrix,
     f1_score,
     mean_squared_error,
     precision_score,
+    precision_recall_curve,
     r2_score,
     recall_score,
 )
@@ -63,6 +67,7 @@ from src.evaluation import (
 )
 from src.explainability import explain_model
 from src.models import create_model
+from src.model_selection import apply_threshold_policy, combine_seed_probabilities
 from src.postgres_data_source import (
     ingest_dataset_csv_to_postgres,
     load_dataset_version_from_postgres,
@@ -84,6 +89,13 @@ class LoadedStudy:
         self.best_params = params
 
 
+def load_selection_config(path_or_json: str | None) -> dict | None:
+    if not path_or_json:
+        return None
+    path = Path(path_or_json)
+    return json.loads(path.read_text(encoding="utf-8")) if path.exists() else json.loads(path_or_json)
+
+
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--dataset", choices=sorted(DATASETS), required=True)
@@ -91,6 +103,11 @@ def parse_args():
     parser.add_argument("--n-trials", type=int, default=None)
     parser.add_argument("--debug", action="store_true")
     parser.add_argument("--params-json", default=None, help="JSON file or JSON string used to skip Optuna")
+    parser.add_argument(
+        "--selection-config-json",
+        default=None,
+        help="Validation-only model-selection config used to freeze params, seeds, ensemble, and thresholds.",
+    )
     parser.add_argument("--run-id", default=None, help="Existing UUID used to retry the same execution")
     parser.add_argument("--dataset-version-id", type=int, default=None)
     parser.add_argument(
@@ -327,13 +344,18 @@ def train_seed_ensemble(
     train_pool,
     locked_test,
     debug=False,
+    seed_list: list[int] | None = None,
+    ensemble_method: str = "mean_probability",
+    seed_weights: dict[int, float] | None = None,
+    threshold_policy: dict | None = None,
 ):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     batch_size = int(best_params["batch_size"])
     original_train_labels = train_pool[spec.target_col].astype(int).to_numpy()
     class_weights = calculate_class_weights(original_train_labels, num_classes=3).to(device)
-    seeds = FIXED_SEEDS[:1] if debug else FIXED_SEEDS
+    seeds = list(seed_list or (FIXED_SEEDS[:1] if debug else FIXED_SEEDS))
     all_probabilities = []
+    probabilities_by_seed = {}
     last_model = None
     last_test_loader = None
     last_preprocessor = None
@@ -432,6 +454,7 @@ def train_seed_ensemble(
                 seed_probabilities.extend(probabilities.cpu().numpy())
         seed_probabilities = np.asarray(seed_probabilities)
         all_probabilities.append(seed_probabilities)
+        probabilities_by_seed[int(seed)] = seed_probabilities
         last_model = model
         last_test_loader = test_loader
         last_preprocessor = preprocessor
@@ -440,8 +463,16 @@ def train_seed_ensemble(
         model_path = MODELS_DIR / f"{spec.name}_3class_cnn_bilstm_mlp_seed{seed}.pt"
         torch.save(model.state_dict(), model_path)
 
-    mean_probabilities = np.mean(np.asarray(all_probabilities), axis=0)
-    ensemble_predictions = np.argmax(mean_probabilities, axis=1)
+    if probabilities_by_seed:
+        mean_probabilities = combine_seed_probabilities(
+            probabilities_by_seed,
+            method=ensemble_method,
+            seed_list=seeds,
+            weights=seed_weights,
+        )
+    else:
+        mean_probabilities = np.mean(np.asarray(all_probabilities), axis=0)
+    ensemble_predictions = apply_threshold_policy(mean_probabilities, threshold_policy)
     confidences = mean_probabilities[np.arange(len(ensemble_predictions)), ensemble_predictions]
     return (
         np.asarray(ensemble_predictions, dtype=int),
@@ -485,6 +516,46 @@ def save_outputs(
     metrics_path = METRICS_DIR / f"{args.dataset}_{args.target_mode}_locked_test_metrics.json"
     metrics_path.write_text(json.dumps(metrics, indent=4), encoding="utf-8")
 
+    class_labels = list(range(probabilities.shape[1]))
+    confusion_path = METRICS_DIR / f"{args.dataset}_{args.target_mode}_confusion_matrix.csv"
+    pd.DataFrame(
+        confusion_matrix(true_labels, predictions, labels=class_labels),
+        index=[f"true_{label}" for label in class_labels],
+        columns=[f"pred_{label}" for label in class_labels],
+    ).to_csv(confusion_path)
+
+    report_json_path = METRICS_DIR / f"{args.dataset}_{args.target_mode}_classification_report.json"
+    report_json_path.write_text(
+        json.dumps(
+            classification_report(true_labels, predictions, zero_division=0, output_dict=True),
+            indent=4,
+        ),
+        encoding="utf-8",
+    )
+
+    pr_rows = []
+    true_array = np.asarray(true_labels)
+    for class_index in class_labels:
+        binary_true = (true_array == class_index).astype(int)
+        precision_values, recall_values, thresholds = precision_recall_curve(
+            binary_true,
+            probabilities[:, class_index],
+        )
+        average_precision = float(average_precision_score(binary_true, probabilities[:, class_index]))
+        padded_thresholds = list(thresholds) + [None]
+        for precision_value, recall_value, threshold in zip(precision_values, recall_values, padded_thresholds):
+            pr_rows.append(
+                {
+                    "class_label": class_index,
+                    "precision": float(precision_value),
+                    "recall": float(recall_value),
+                    "threshold": None if threshold is None else float(threshold),
+                    "average_precision": average_precision,
+                }
+            )
+    pr_curve_path = METRICS_DIR / f"{args.dataset}_{args.target_mode}_precision_recall_curves.csv"
+    pd.DataFrame(pr_rows).to_csv(pr_curve_path, index=False)
+
     predictions_frame = locked_test.reset_index(drop=True).copy()
     predictions_frame["True_Label"] = true_labels
     predictions_frame["Pred_Label"] = predictions
@@ -522,6 +593,7 @@ def main():
     ensure_dirs()
     set_seed(DEFAULT_SEED)
     spec = DATASETS[args.dataset]
+    selection_config = load_selection_config(getattr(args, "selection_config_json", None))
     logger.info("Starting approved thesis pipeline for %s.", args.dataset)
 
     effective_dataset_version_id = args.dataset_version_id
@@ -577,8 +649,21 @@ def main():
             dataset_version["dataset_version_id"],
         )
 
-    study = load_study(args, train_pool, spec)
-    best_params = dict(study.best_params)
+    if selection_config:
+        best_params = dict(selection_config["best_params"])
+        study = LoadedStudy(float(selection_config.get("best_cv_f1_macro", selection_config.get("selected_strategy", {}).get("cv_f1_macro_mean", 0.0))), best_params)
+        logger.info("Using validation-only selection config and skipping Optuna.")
+    else:
+        study = load_study(args, train_pool, spec)
+        best_params = dict(study.best_params)
+
+    selected_strategy = selection_config.get("selected_strategy", {}) if selection_config else {}
+    selected_seed_list = selected_strategy.get("seed_list")
+    selected_ensemble_method = selected_strategy.get("ensemble_method", "mean_probability")
+    selected_threshold_policy = selected_strategy.get("threshold_policy", {"type": "argmax"})
+    selected_seed_weights = selected_strategy.get("seed_weights")
+    if selected_seed_weights:
+        selected_seed_weights = {int(seed): float(weight) for seed, weight in selected_seed_weights.items()}
 
     storage_context = None
     if not args.skip_postgres:
@@ -592,8 +677,12 @@ def main():
             train_config = {
                 "target_mode": args.target_mode,
                 "best_params": best_params,
-                "fixed_seeds": FIXED_SEEDS[:1] if args.debug else FIXED_SEEDS,
+                "fixed_seeds": selected_seed_list or (FIXED_SEEDS[:1] if args.debug else FIXED_SEEDS),
                 "debug": bool(args.debug),
+                "selected_ensemble_method": selected_ensemble_method,
+                "selected_threshold_policy": selected_threshold_policy,
+                "selected_seed_weights": selected_seed_weights,
+                "validation_only_selection": selection_config,
                 "augmentation": {
                     "method": best_params.get("oversample_method", "none"),
                     "smote_ratio": best_params.get("smote_ratio"),
@@ -647,6 +736,10 @@ def main():
         train_pool,
         locked_test,
         debug=args.debug,
+        seed_list=selected_seed_list,
+        ensemble_method=selected_ensemble_method,
+        seed_weights=selected_seed_weights,
+        threshold_policy=selected_threshold_policy,
     )
     true_labels = locked_test[spec.target_col].astype(int).to_numpy()
     metrics = calculate_metrics(true_labels, predictions)
