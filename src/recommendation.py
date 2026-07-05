@@ -19,6 +19,40 @@ import pandas as pd
 CLASS_NAMES = {0: "Low", 1: "Medium", 2: "High"}
 RISK_BANDS = {0: "High", 1: "Medium", 2: "Low"}
 POLICY_VERSION = "student_mat_rule_policy_v2"
+STUDENT_RECOMMENDATION_FEATURES = {
+    "school",
+    "sex",
+    "age",
+    "address",
+    "famsize",
+    "Pstatus",
+    "Medu",
+    "Fedu",
+    "Mjob",
+    "Fjob",
+    "reason",
+    "guardian",
+    "traveltime",
+    "studytime",
+    "failures",
+    "schoolsup",
+    "famsup",
+    "paid",
+    "activities",
+    "nursery",
+    "higher",
+    "internet",
+    "romantic",
+    "famrel",
+    "freetime",
+    "goout",
+    "Dalc",
+    "Walc",
+    "health",
+    "absences",
+    "G1",
+    "G2",
+}
 DATASET_KIND = {
     "student-mat": "student",
     "student-por": "student",
@@ -71,6 +105,12 @@ def _text(features: dict[str, Any], name: str, default: str = "") -> str:
 def sanitize_features(features: dict[str, Any]) -> dict[str, Any]:
     """Remove target and lineage metadata before policy evaluation."""
     return {key: value for key, value in features.items() if key not in FORBIDDEN_INPUT_COLUMNS}
+
+
+def prepare_recommendation_features(features: dict[str, Any]) -> dict[str, Any]:
+    """Allowlist source features used by the Student-Mat recommendation policy."""
+    sanitized = sanitize_features(features)
+    return {key: sanitized[key] for key in sorted(STUDENT_RECOMMENDATION_FEATURES) if key in sanitized}
 
 
 def extract_features(frame: pd.DataFrame, dataset_name: str) -> np.ndarray:

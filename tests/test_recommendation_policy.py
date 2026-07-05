@@ -11,6 +11,7 @@ from src.recommendation import (
     recommendation_to_legacy_row,
     validate_recommendation_schema,
 )
+from scripts import materialize_recommendation_policy as materializer
 
 
 def _student_features() -> dict:
@@ -147,3 +148,109 @@ def test_generate_learning_path_report_exposes_standardized_policy_rows():
     assert set(report["risk_band"]) == {"High", "Low"}
     for value in report["learning_path"]:
         validate_recommendation_schema(json.loads(value))
+
+
+def test_materializer_query_does_not_select_ground_truth():
+    query = materializer.PREDICTION_CONTEXT_QUERY.lower()
+
+    assert "true_label" not in query
+    assert "target_label" not in query
+    assert "select" in query
+    assert "update" not in query
+    assert "delete" not in query
+
+
+def test_materializer_does_not_pass_target_or_database_metadata(monkeypatch):
+    captured = {}
+
+    def fake_build_recommendation(features, predicted_class, confidence, probability=None):
+        captured["features"] = dict(features)
+        return build_recommendation(features, predicted_class, confidence, probability)
+
+    monkeypatch.setattr(materializer, "build_recommendation", fake_build_recommendation)
+    row = {
+        "prediction_id": 1,
+        "predicted_label": 0,
+        "confidence": 0.8,
+        "probability": {"Low": 0.8, "Medium": 0.1, "High": 0.1},
+        "raw_payload": _student_features(),
+    }
+
+    payload = materializer.build_materialized_payload(row, POLICY_VERSION)
+
+    assert payload["policy_version"] == POLICY_VERSION
+    assert not (set(captured["features"]) & FORBIDDEN_INPUT_COLUMNS)
+    assert "G3" not in captured["features"]
+    assert "record_id" not in captured["features"]
+    assert "dataset_version_id" not in captured["features"]
+
+
+def test_materializer_output_is_independent_of_source_row_order():
+    rows = [
+        {
+            "prediction_id": 1,
+            "source_row_number": 20,
+            "predicted_label": 0,
+            "confidence": 0.8,
+            "probability": {"Low": 0.8, "Medium": 0.1, "High": 0.1},
+            "raw_payload": _student_features(),
+        },
+        {
+            "prediction_id": 2,
+            "source_row_number": 10,
+            "predicted_label": 2,
+            "confidence": 0.7,
+            "probability": {"Low": 0.1, "Medium": 0.2, "High": 0.7},
+            "raw_payload": {**_student_features(), "absences": 0, "studytime": 3, "G2": 14},
+        },
+    ]
+
+    forward = {
+        row["prediction_id"]: materializer.build_materialized_payload(row, POLICY_VERSION)
+        for row in rows
+    }
+    reverse = {
+        row["prediction_id"]: materializer.build_materialized_payload(row, POLICY_VERSION)
+        for row in reversed(rows)
+    }
+
+    assert forward == reverse
+
+
+class _FakeRecommendationCursor:
+    def __init__(self, existing):
+        self.existing = existing
+        self.rowcount = 0
+        self.executed = []
+
+    def execute(self, query, params):
+        self.executed.append(query.strip().lower())
+        if query.strip().lower().startswith("insert"):
+            self.rowcount = 0
+
+    def fetchone(self):
+        return self.existing
+
+
+def test_materializer_retry_identical_row_is_idempotent():
+    row = {
+        "prediction_id": 1,
+        "predicted_label": 0,
+        "confidence": 0.8,
+        "probability": {"Low": 0.8, "Medium": 0.1, "High": 0.1},
+        "raw_payload": _student_features(),
+    }
+    payload = materializer.build_materialized_payload(row, POLICY_VERSION)
+    cursor = _FakeRecommendationCursor(
+        {
+            "risk_band": payload["risk_band"],
+            "learning_path": payload["learning_path"],
+            "explanation": payload["explanation"],
+        }
+    )
+
+    result = materializer.insert_or_compare_recommendation(cursor, payload)
+
+    assert result == "identical"
+    assert any(query.startswith("insert") for query in cursor.executed)
+    assert not any(query.startswith("update") or query.startswith("delete") for query in cursor.executed)
