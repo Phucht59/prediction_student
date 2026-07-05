@@ -67,7 +67,7 @@ from src.evaluation import (
 )
 from src.explainability import explain_model
 from src.models import create_model
-from src.model_selection import apply_threshold_policy, combine_seed_probabilities
+from src.model_selection import apply_probability_calibration, apply_threshold_policy, combine_seed_probabilities
 from src.postgres_data_source import (
     ingest_dataset_csv_to_postgres,
     load_dataset_version_from_postgres,
@@ -347,12 +347,11 @@ def train_seed_ensemble(
     seed_list: list[int] | None = None,
     ensemble_method: str = "mean_probability",
     seed_weights: dict[int, float] | None = None,
+    calibration_policy: dict | None = None,
     threshold_policy: dict | None = None,
 ):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     batch_size = int(best_params["batch_size"])
-    original_train_labels = train_pool[spec.target_col].astype(int).to_numpy()
-    class_weights = calculate_class_weights(original_train_labels, num_classes=3).to(device)
     seeds = list(seed_list or (FIXED_SEEDS[:1] if debug else FIXED_SEEDS))
     all_probabilities = []
     probabilities_by_seed = {}
@@ -376,6 +375,7 @@ def train_seed_ensemble(
         train_sub = apply_feature_engineering(train_pool.iloc[train_indices].copy(), spec.kind)
         val_sub = apply_feature_engineering(train_pool.iloc[val_indices].copy(), spec.kind)
         test_engineered = apply_feature_engineering(locked_test.copy(), spec.kind)
+        class_weights = calculate_class_weights(train_sub[spec.target_col].astype(int).to_numpy(), num_classes=3).to(device)
 
         preprocessor = DataPreprocessor(
             target_col=spec.target_col,
@@ -472,6 +472,7 @@ def train_seed_ensemble(
         )
     else:
         mean_probabilities = np.mean(np.asarray(all_probabilities), axis=0)
+    mean_probabilities = apply_probability_calibration(mean_probabilities, calibration_policy)
     ensemble_predictions = apply_threshold_policy(mean_probabilities, threshold_policy)
     confidences = mean_probabilities[np.arange(len(ensemble_predictions)), ensemble_predictions]
     return (
@@ -660,6 +661,7 @@ def main():
     selected_strategy = selection_config.get("selected_strategy", {}) if selection_config else {}
     selected_seed_list = selected_strategy.get("seed_list")
     selected_ensemble_method = selected_strategy.get("ensemble_method", "mean_probability")
+    selected_calibration_policy = selected_strategy.get("calibration_policy", {"type": "none"})
     selected_threshold_policy = selected_strategy.get("threshold_policy", {"type": "argmax"})
     selected_seed_weights = selected_strategy.get("seed_weights")
     if selected_seed_weights:
@@ -680,6 +682,7 @@ def main():
                 "fixed_seeds": selected_seed_list or (FIXED_SEEDS[:1] if args.debug else FIXED_SEEDS),
                 "debug": bool(args.debug),
                 "selected_ensemble_method": selected_ensemble_method,
+                "selected_calibration_policy": selected_calibration_policy,
                 "selected_threshold_policy": selected_threshold_policy,
                 "selected_seed_weights": selected_seed_weights,
                 "validation_only_selection": selection_config,
@@ -739,6 +742,7 @@ def main():
         seed_list=selected_seed_list,
         ensemble_method=selected_ensemble_method,
         seed_weights=selected_seed_weights,
+        calibration_policy=selected_calibration_policy,
         threshold_policy=selected_threshold_policy,
     )
     true_labels = locked_test[spec.target_col].astype(int).to_numpy()

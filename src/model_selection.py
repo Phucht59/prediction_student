@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import math
 from dataclasses import dataclass
 from datetime import date, datetime
 from pathlib import Path
@@ -14,8 +15,15 @@ import pandas as pd
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from sklearn.metrics import accuracy_score, classification_report, f1_score, precision_recall_fscore_support, recall_score
-from sklearn.model_selection import StratifiedKFold
+from sklearn.metrics import (
+    accuracy_score,
+    brier_score_loss,
+    confusion_matrix,
+    f1_score,
+    precision_recall_fscore_support,
+    recall_score,
+)
+from sklearn.model_selection import StratifiedKFold, train_test_split
 from torch.utils.data import DataLoader
 
 from src.config import DEFAULT_SEED, FIXED_SEEDS, TrainingConfig
@@ -45,6 +53,12 @@ class FoldModelResult:
     selected_features: list[str]
     numerical_cols: list[str]
     categorical_cols: list[str]
+    train_row_positions: list[int]
+    early_stop_row_positions: list[int]
+
+
+def _row_positions(frame: pd.DataFrame) -> list[int]:
+    return list(frame.index.astype(int))
 
 
 def student_search_space(trial: optuna.Trial) -> dict[str, Any]:
@@ -98,6 +112,30 @@ def _criterion(spec, params: dict[str, Any], class_weights: torch.Tensor):
     return nn.CrossEntropyLoss(weight=class_weights)
 
 
+def split_model_train_and_early_stop(
+    train_fold: pd.DataFrame,
+    target_col: str,
+    *,
+    seed: int,
+    validation_fraction: float = 0.15,
+) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Split only the fold-training partition for early stopping.
+
+    The scoring fold passed to ``fit_fold_predict_proba`` must not be used by
+    scheduler, early stopping, preprocessing fit, feature selection fit or class
+    weight computation.
+    """
+    labels = train_fold[target_col].astype(int).to_numpy()
+    positions = np.arange(len(train_fold))
+    train_idx, early_idx = train_test_split(
+        positions,
+        test_size=validation_fraction,
+        stratify=labels,
+        random_state=seed,
+    )
+    return train_fold.iloc[train_idx].copy(), train_fold.iloc[early_idx].copy()
+
+
 def fit_fold_predict_proba(
     *,
     train_fold: pd.DataFrame,
@@ -108,9 +146,20 @@ def fit_fold_predict_proba(
     fold_index: int,
     ablation_mode: str = "hybrid",
 ) -> FoldModelResult:
-    """Fit only on a training fold and predict probabilities for its validation fold."""
+    """Fit on fold-training data and predict probabilities for a held-out scoring fold.
+
+    ``validation_fold`` is the outer/inner scoring fold. It is intentionally not
+    passed to ``train_model`` for early stopping. A smaller early-stop set is
+    carved out of ``train_fold`` before preprocessing is fit.
+    """
     set_seed(seed)
-    train_engineered = apply_feature_engineering(train_fold.copy(), spec.kind)
+    model_train_fold, early_stop_fold = split_model_train_and_early_stop(
+        train_fold,
+        spec.target_col,
+        seed=seed,
+    )
+    train_engineered = apply_feature_engineering(model_train_fold.copy(), spec.kind)
+    early_stop_engineered = apply_feature_engineering(early_stop_fold.copy(), spec.kind)
     validation_engineered = apply_feature_engineering(validation_fold.copy(), spec.kind)
 
     preprocessor = DataPreprocessor(
@@ -120,6 +169,7 @@ def fit_fold_predict_proba(
         resampling_k_neighbors=int(params.get("resampling_k_neighbors", 5)),
     )
     train_prepared = preprocessor.fit_transform(train_engineered, apply_oversampling=True)
+    early_stop_prepared = preprocessor.transform(early_stop_engineered)
     validation_prepared = preprocessor.transform(validation_engineered)
 
     selector = FeatureSelector(
@@ -132,27 +182,30 @@ def fit_fold_predict_proba(
         preprocessor.numerical_cols,
         preprocessor.categorical_cols,
     )
+    early_stop_selected = selector.transform(early_stop_prepared)
     validation_selected = selector.transform(validation_prepared)
 
     model_params = dict(params)
     model_params["ablation_mode"] = ablation_mode
     train_dataset = StudentDataset(train_selected, spec.kind, spec.target_col, preprocessor.numerical_cols, preprocessor.categorical_cols)
+    early_stop_dataset = StudentDataset(early_stop_selected, spec.kind, spec.target_col, preprocessor.numerical_cols, preprocessor.categorical_cols)
     validation_dataset = StudentDataset(validation_selected, spec.kind, spec.target_col, preprocessor.numerical_cols, preprocessor.categorical_cols)
     batch_size = int(params.get("batch_size", 32))
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, drop_last=len(train_dataset) > batch_size)
+    early_stop_loader = DataLoader(early_stop_dataset, batch_size=batch_size, shuffle=False)
     validation_loader = DataLoader(validation_dataset, batch_size=batch_size, shuffle=False)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     cat_cardinalities = [len(preprocessor.label_encoders[column].classes_) for column in train_dataset.cat_cols]
     model = create_model(spec.kind, model_params, len(train_dataset.num_cols), cat_cardinalities).to(device)
-    class_weights = calculate_class_weights(train_fold[spec.target_col].astype(int).to_numpy(), num_classes=3).to(device)
+    class_weights = calculate_class_weights(model_train_fold[spec.target_col].astype(int).to_numpy(), num_classes=3).to(device)
     criterion = _criterion(spec, params, class_weights)
     optimizer = optim.Adam(
         model.parameters(),
         lr=float(params["learning_rate"]),
         weight_decay=float(params["weight_decay"]),
     )
-    model, _, _ = train_model(model, train_loader, validation_loader, criterion, optimizer, build_training_config(params), device)
+    model, _, _ = train_model(model, train_loader, early_stop_loader, criterion, optimizer, build_training_config(params), device)
 
     probabilities = []
     with torch.no_grad():
@@ -166,13 +219,15 @@ def fit_fold_predict_proba(
     return FoldModelResult(
         fold_index=fold_index,
         seed=seed,
-        row_positions=list(validation_fold.index.astype(int)),
+        row_positions=_row_positions(validation_fold),
         probabilities=probability_array,
         predictions=np.asarray(predictions, dtype=int),
         true_labels=validation_fold[spec.target_col].astype(int).to_numpy(),
         selected_features=list(selector.selected_features),
         numerical_cols=list(train_dataset.num_cols),
         categorical_cols=list(train_dataset.cat_cols),
+        train_row_positions=_row_positions(model_train_fold),
+        early_stop_row_positions=_row_positions(early_stop_fold),
     )
 
 
@@ -303,7 +358,7 @@ def optimize_class_thresholds(
     source: str,
     grid: list[float] | None = None,
 ) -> dict[str, Any]:
-    if source != "oof_validation":
+    if source not in {"inner_oof", "oof_validation"}:
         raise ValueError("Threshold optimization must use OOF validation probabilities only.")
     grid = grid or [round(value, 2) for value in np.arange(0.25, 0.76, 0.05)]
     best_score = -1.0
@@ -324,6 +379,45 @@ def optimize_class_thresholds(
         "optimized_metric": "F1-Macro",
         "oof_score": best_score,
     }
+
+
+def fit_temperature_policy(
+    probabilities: np.ndarray,
+    y_true: np.ndarray,
+    *,
+    source: str,
+    grid: list[float] | None = None,
+) -> dict[str, Any]:
+    if source not in {"inner_oof", "oof_validation"}:
+        raise ValueError("Temperature calibration must use inner OOF probabilities only.")
+    grid = grid or [round(value, 2) for value in np.arange(0.7, 2.55, 0.15)]
+    best_temperature = 1.0
+    best_nll = math.inf
+    clipped = np.clip(probabilities, 1e-8, 1.0)
+    for temperature in grid:
+        calibrated = apply_probability_calibration(clipped, {"type": "temperature", "temperature": temperature})
+        row_probabilities = calibrated[np.arange(len(y_true)), y_true.astype(int)]
+        nll = -float(np.mean(np.log(np.clip(row_probabilities, 1e-8, 1.0))))
+        if nll < best_nll:
+            best_nll = nll
+            best_temperature = float(temperature)
+    return {
+        "type": "temperature",
+        "source": source,
+        "temperature": best_temperature,
+        "optimized_metric": "NLL",
+        "nll": best_nll,
+    }
+
+
+def apply_probability_calibration(probabilities: np.ndarray, calibration_policy: dict[str, Any] | None) -> np.ndarray:
+    if not calibration_policy or calibration_policy.get("type") in {None, "none"}:
+        return probabilities
+    if calibration_policy.get("type") != "temperature":
+        raise ValueError(f"Unsupported calibration policy: {calibration_policy}")
+    temperature = max(float(calibration_policy["temperature"]), 1e-6)
+    calibrated = np.power(np.clip(probabilities, 1e-8, 1.0), 1.0 / temperature)
+    return calibrated / calibrated.sum(axis=1, keepdims=True)
 
 
 def combine_seed_probabilities(
@@ -355,8 +449,41 @@ def combine_seed_probabilities(
     raise ValueError(f"Unsupported ensemble method: {method}")
 
 
-def metric_summary(y_true: np.ndarray, probabilities: np.ndarray, threshold_policy: dict[str, Any] | None, fold_ids: np.ndarray) -> dict[str, Any]:
+def multiclass_brier_score(y_true: np.ndarray, probabilities: np.ndarray) -> float:
+    labels = np.eye(probabilities.shape[1])[y_true.astype(int)]
+    return float(np.mean(np.sum((probabilities - labels) ** 2, axis=1)))
+
+
+def expected_calibration_error(y_true: np.ndarray, probabilities: np.ndarray, bins: int = 10) -> float:
+    predictions = np.argmax(probabilities, axis=1)
+    confidences = np.max(probabilities, axis=1)
+    correctness = (predictions == y_true.astype(int)).astype(float)
+    ece = 0.0
+    for lower in np.linspace(0.0, 1.0, bins, endpoint=False):
+        upper = lower + 1.0 / bins
+        mask = (confidences > lower) & (confidences <= upper)
+        if not np.any(mask):
+            continue
+        ece += float(np.mean(mask) * abs(np.mean(correctness[mask]) - np.mean(confidences[mask])))
+    return ece
+
+
+def metric_summary(
+    y_true: np.ndarray,
+    probabilities: np.ndarray,
+    threshold_policy: dict[str, Any] | None,
+    fold_ids: np.ndarray,
+) -> dict[str, Any]:
     predictions = apply_threshold_policy(probabilities, threshold_policy)
+    return metric_summary_from_predictions(y_true, probabilities, predictions, fold_ids)
+
+
+def metric_summary_from_predictions(
+    y_true: np.ndarray,
+    probabilities: np.ndarray,
+    predictions: np.ndarray,
+    fold_ids: np.ndarray,
+) -> dict[str, Any]:
     fold_scores = [
         float(f1_score(y_true[fold_ids == fold], predictions[fold_ids == fold], average="macro", zero_division=0))
         for fold in sorted(set(fold_ids.tolist()))
@@ -366,6 +493,9 @@ def metric_summary(y_true: np.ndarray, probabilities: np.ndarray, threshold_poli
         "accuracy": float(accuracy_score(y_true, predictions)),
         "f1_macro": float(f1_score(y_true, predictions, average="macro", zero_division=0)),
         "recall_macro": float(recall_score(y_true, predictions, average="macro", zero_division=0)),
+        "brier_score": multiclass_brier_score(y_true, probabilities),
+        "ece": expected_calibration_error(y_true, probabilities),
+        "confusion_matrix": confusion_matrix(y_true, predictions, labels=[0, 1, 2]).tolist(),
         "fold_f1_macro": fold_scores,
         "cv_f1_macro_mean": float(np.mean(fold_scores)),
         "cv_f1_macro_std": float(np.std(fold_scores)),
@@ -394,8 +524,16 @@ def evaluate_ensemble_strategies(oof: dict[str, Any], seeds: list[int]) -> tuple
     ranked_seeds = [seed for seed, _ in sorted(seed_scores.items(), key=lambda item: item[1], reverse=True)]
     rows = []
 
-    def append_strategy(name: str, method: str, seed_list: list[int], threshold_policy: dict[str, Any] | None, weights: dict[int, float] | None = None):
+    def append_strategy(
+        name: str,
+        method: str,
+        seed_list: list[int],
+        threshold_policy: dict[str, Any] | None,
+        weights: dict[int, float] | None = None,
+        calibration_policy: dict[str, Any] | None = None,
+    ):
         probabilities = combine_seed_probabilities(seed_probabilities, method=method, seed_list=seed_list, weights=weights)
+        probabilities = apply_probability_calibration(probabilities, calibration_policy)
         summary = metric_summary(y_true, probabilities, threshold_policy, fold_ids)
         rows.append(
             {
@@ -404,6 +542,7 @@ def evaluate_ensemble_strategies(oof: dict[str, Any], seeds: list[int]) -> tuple
                 "seed_list": seed_list,
                 "seed_weights": weights,
                 "seed_count": len(seed_list),
+                "calibration_policy": calibration_policy or {"type": "none"},
                 "threshold_policy": threshold_policy or {"type": "argmax"},
                 **summary,
             }
@@ -420,8 +559,10 @@ def evaluate_ensemble_strategies(oof: dict[str, Any], seeds: list[int]) -> tuple
     append_strategy("all_seed_weighted_probability_argmax", "weighted_probability", seeds, None, weights=weights)
 
     base_probabilities = combine_seed_probabilities(seed_probabilities, method="mean_probability", seed_list=seeds)
-    threshold_policy = optimize_class_thresholds(base_probabilities, y_true, source="oof_validation")
+    threshold_policy = optimize_class_thresholds(base_probabilities, y_true, source="inner_oof")
     append_strategy("all_seed_mean_probability_oof_thresholds", "mean_probability", seeds, threshold_policy)
+    calibration_policy = fit_temperature_policy(base_probabilities, y_true, source="inner_oof")
+    append_strategy("all_seed_mean_temperature_argmax", "mean_probability", seeds, None, calibration_policy=calibration_policy)
 
     rows = sorted(rows, key=lambda row: (-row["cv_f1_macro_mean"], row["cv_f1_macro_std"], row["seed_count"]))
     selected = rows[0]

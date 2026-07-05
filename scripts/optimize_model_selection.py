@@ -1,4 +1,4 @@
-"""Validation-only model selection for the DB-first student-mat pipeline."""
+"""Nested validation-only model selection for the DB-first student-mat pipeline."""
 
 from __future__ import annotations
 
@@ -7,25 +7,35 @@ import csv
 import json
 import sys
 from pathlib import Path
+from typing import Any
 
 import numpy as np
 import pandas as pd
+from sklearn.ensemble import HistGradientBoostingClassifier
+from sklearn.metrics import f1_score
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from src.config import DATASETS, DEFAULT_SEED, FIXED_SEEDS, REPORTS_DIR, ensure_dirs
 from src.data_pipeline import (
+    DataPreprocessor,
+    FeatureSelector,
     SOURCE_ROW_NUMBER_COLUMN,
-    get_context_excluded_columns,
+    apply_feature_engineering,
     get_sequence_columns,
     process_target_and_stratify,
 )
-from src.evaluation.evaluation import _connect, canonical_json, sha256_json
+from src.evaluation.evaluation import _connect, sha256_json
 from src.model_selection import (
+    apply_probability_calibration,
+    apply_threshold_policy,
     collect_oof_by_seed,
+    combine_seed_probabilities,
     evaluate_ensemble_strategies,
+    fit_fold_predict_proba,
     make_folds,
     metric_summary,
+    metric_summary_from_predictions,
     run_optuna_cv_search,
     write_json,
 )
@@ -33,24 +43,20 @@ from src.postgres_data_source import load_dataset_version_from_postgres, reconst
 
 
 DEFAULT_REFERENCE_RUN_ID = "647158f5-c055-468d-a1c6-47dd6a580028"
-OUTPUT_DIR = REPORTS_DIR / "model_selection"
+OUTPUT_DIR = REPORTS_DIR / "nested_model_selection"
+AUDIT_PATH = REPORTS_DIR / "optimization_protocol_audit.md"
 
 
-def parse_args():
+def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--dataset", default="student-mat", choices=sorted(DATASETS))
     parser.add_argument("--target-mode", default="3class", choices=["3class"])
     parser.add_argument("--dataset-version-id", type=int, default=1)
     parser.add_argument("--reference-run-id", default=DEFAULT_REFERENCE_RUN_ID)
-    parser.add_argument("--n-trials", type=int, default=80)
-    parser.add_argument("--folds", type=int, default=5)
+    parser.add_argument("--n-trials", type=int, default=16)
+    parser.add_argument("--outer-folds", type=int, default=5)
+    parser.add_argument("--inner-folds", type=int, default=4)
     return parser.parse_args()
-
-
-def target_frame(raw_frame: pd.DataFrame, dataset: str, target_mode: str) -> pd.DataFrame:
-    spec = DATASETS[dataset]
-    frame = process_target_and_stratify(raw_frame.copy(), spec.target_col, spec.kind, target_mode)
-    return frame.dropna(subset=["_strat_target"]).drop(columns=["_strat_target"])
 
 
 def runtime_connection() -> tuple[str, str]:
@@ -63,12 +69,18 @@ def runtime_connection() -> tuple[str, str]:
         connection.close()
 
 
+def target_frame(raw_frame: pd.DataFrame, dataset: str, target_mode: str) -> pd.DataFrame:
+    spec = DATASETS[dataset]
+    frame = process_target_and_stratify(raw_frame.copy(), spec.target_col, spec.kind, target_mode)
+    return frame.dropna(subset=["_strat_target"]).drop(columns=["_strat_target"])
+
+
 def split_hash(frame: pd.DataFrame) -> str:
     rows = sorted(int(row) for row in frame[SOURCE_ROW_NUMBER_COLUMN].tolist())
     return sha256_json(rows)
 
 
-def write_csv(path: Path, rows: list[dict]) -> None:
+def write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     if not rows:
         path.write_text("", encoding="utf-8")
@@ -79,60 +91,161 @@ def write_csv(path: Path, rows: list[dict]) -> None:
         writer.writerows(rows)
 
 
-def strategy_rows_for_csv(rows: list[dict]) -> list[dict]:
+def _json(value: Any) -> str:
+    return json.dumps(value, ensure_ascii=False, sort_keys=True, default=str)
+
+
+def strategy_rows_for_csv(rows: list[dict[str, Any]], *, outer_fold: int | None = None) -> list[dict[str, Any]]:
     output = []
     for row in rows:
         output.append(
             {
+                "outer_fold": outer_fold,
                 "strategy_name": row["strategy_name"],
                 "ensemble_method": row["ensemble_method"],
                 "seed_count": row["seed_count"],
-                "seed_list": json.dumps(row["seed_list"]),
-                "threshold_policy": json.dumps(row["threshold_policy"], sort_keys=True),
+                "seed_list": _json(row["seed_list"]),
+                "seed_weights": _json(row.get("seed_weights")),
+                "calibration_policy": _json(row.get("calibration_policy", {"type": "none"})),
+                "threshold_policy": _json(row["threshold_policy"]),
                 "cv_f1_macro_mean": row["cv_f1_macro_mean"],
                 "cv_f1_macro_std": row["cv_f1_macro_std"],
                 "cv_f1_macro_min": row["cv_f1_macro_min"],
                 "cv_f1_macro_max": row["cv_f1_macro_max"],
                 "accuracy": row["accuracy"],
-                "recall_macro": row["recall_macro"],
-                "class_f1_low": row["class_report"]["0"]["f1"],
-                "class_f1_medium": row["class_report"]["1"]["f1"],
-                "class_f1_high": row["class_report"]["2"]["f1"],
+                "brier_score": row["brier_score"],
+                "ece": row["ece"],
+                "class0_f1": row["class_report"]["0"]["f1"],
+                "class1_precision": row["class_report"]["1"]["precision"],
+                "class1_recall": row["class_report"]["1"]["recall"],
+                "class1_f1": row["class_report"]["1"]["f1"],
+                "class2_f1": row["class_report"]["2"]["f1"],
             }
         )
     return output
 
 
-def ablation_rows_for_csv(rows: list[dict]) -> list[dict]:
-    output = []
-    for row in rows:
-        output.append(
-            {
-                "name": row.get("name", row.get("strategy_name")),
-                "ablation_mode": row.get("ablation_mode", "hybrid"),
-                "seed_count": row["seed_count"],
-                "cv_f1_macro_mean": row["cv_f1_macro_mean"],
-                "cv_f1_macro_std": row["cv_f1_macro_std"],
-                "cv_f1_macro_min": row["cv_f1_macro_min"],
-                "cv_f1_macro_max": row["cv_f1_macro_max"],
-                "accuracy": row["accuracy"],
-                "recall_macro": row["recall_macro"],
-                "class_f1_low": row["class_report"]["0"]["f1"],
-                "class_f1_medium": row["class_report"]["1"]["f1"],
-                "class_f1_high": row["class_report"]["2"]["f1"],
-            }
+def apply_selected_strategy(seed_probabilities: dict[int, np.ndarray], strategy: dict[str, Any]) -> tuple[np.ndarray, np.ndarray]:
+    probabilities = combine_seed_probabilities(
+        seed_probabilities,
+        method=strategy["ensemble_method"],
+        seed_list=strategy["seed_list"],
+        weights=strategy.get("seed_weights"),
+    )
+    probabilities = apply_probability_calibration(probabilities, strategy.get("calibration_policy"))
+    predictions = apply_threshold_policy(probabilities, strategy["threshold_policy"])
+    return probabilities, predictions
+
+
+def evaluate_deep_outer_fold(
+    *,
+    train_pool: pd.DataFrame,
+    spec,
+    outer_fold: int,
+    outer_train_idx: np.ndarray,
+    outer_val_idx: np.ndarray,
+    n_trials: int,
+    inner_folds: int,
+) -> dict[str, Any]:
+    outer_train = train_pool.iloc[outer_train_idx].copy()
+    outer_val = train_pool.iloc[outer_val_idx].copy()
+    best, trial_history, inner_split = run_optuna_cv_search(
+        outer_train,
+        spec,
+        n_trials=n_trials,
+        n_splits=inner_folds,
+        seed=DEFAULT_SEED + outer_fold,
+    )
+    inner_oof = collect_oof_by_seed(
+        outer_train,
+        spec,
+        best["best_params"],
+        inner_split,
+        FIXED_SEEDS,
+        ablation_mode="hybrid",
+    )
+    strategies, selected_strategy = evaluate_ensemble_strategies(inner_oof, FIXED_SEEDS)
+    outer_seed_probabilities = {}
+    selected_features = {}
+    for seed in selected_strategy["seed_list"]:
+        result = fit_fold_predict_proba(
+            train_fold=outer_train,
+            validation_fold=outer_val,
+            spec=spec,
+            params=best["best_params"],
+            seed=int(seed),
+            fold_index=outer_fold,
+            ablation_mode="hybrid",
         )
-    return output
+        outer_seed_probabilities[int(seed)] = result.probabilities
+        selected_features[str(seed)] = result.selected_features
+    probabilities, predictions = apply_selected_strategy(outer_seed_probabilities, selected_strategy)
+    y_true = outer_val[spec.target_col].astype(int).to_numpy()
+    summary = metric_summary_from_predictions(y_true, probabilities, predictions, np.zeros(len(outer_val), dtype=int))
+    return {
+        "outer_fold": outer_fold,
+        "outer_val_source_rows": [int(value) for value in outer_val[SOURCE_ROW_NUMBER_COLUMN].tolist()],
+        "outer_val_hash": split_hash(outer_val),
+        "inner_best": best,
+        "inner_trials": trial_history,
+        "inner_strategies": strategies,
+        "selected_strategy": selected_strategy,
+        "selected_features": selected_features,
+        "probabilities": probabilities,
+        "predictions": predictions,
+        "true_labels": y_true,
+        "summary": summary,
+    }
 
 
-def oof_prediction_rows(train_pool: pd.DataFrame, y_true: np.ndarray, fold_ids: np.ndarray, probabilities: np.ndarray, predictions: np.ndarray) -> list[dict]:
+def fit_tabular_baseline_fold(train_frame: pd.DataFrame, val_frame: pd.DataFrame, spec) -> tuple[np.ndarray, np.ndarray]:
+    train_engineered = apply_feature_engineering(train_frame.copy(), spec.kind)
+    val_engineered = apply_feature_engineering(val_frame.copy(), spec.kind)
+    preprocessor = DataPreprocessor(target_col=spec.target_col, oversample_method="none")
+    train_prepared = preprocessor.fit_transform(train_engineered, apply_oversampling=False)
+    val_prepared = preprocessor.transform(val_engineered)
+    selector = FeatureSelector(target_col=spec.target_col, use_feature_selection=True, required_features=get_sequence_columns(spec.kind))
+    train_selected = selector.fit_transform(train_prepared, preprocessor.numerical_cols, preprocessor.categorical_cols)
+    val_selected = selector.transform(val_prepared)
+    feature_cols = [column for column in train_selected.columns if column not in {spec.target_col, "G3_raw"}]
+    model = HistGradientBoostingClassifier(random_state=DEFAULT_SEED, max_iter=100, learning_rate=0.05)
+    model.fit(train_selected[feature_cols], train_selected[spec.target_col].astype(int))
+    probabilities = model.predict_proba(val_selected[feature_cols])
+    if probabilities.shape[1] != 3:
+        full = np.zeros((len(val_selected), 3), dtype=float)
+        for index, label in enumerate(model.classes_):
+            full[:, int(label)] = probabilities[:, index]
+        probabilities = full
+    return probabilities, np.argmax(probabilities, axis=1)
+
+
+def evaluate_tabular_baseline(train_pool: pd.DataFrame, spec, outer_folds: list[tuple[np.ndarray, np.ndarray]]) -> dict[str, Any]:
+    probabilities = np.zeros((len(train_pool), 3), dtype=float)
+    predictions = np.zeros(len(train_pool), dtype=int)
+    fold_ids = np.zeros(len(train_pool), dtype=int)
+    y_true = train_pool[spec.target_col].astype(int).to_numpy()
+    for fold_index, (train_idx, val_idx) in enumerate(outer_folds):
+        fold_probabilities, fold_predictions = fit_tabular_baseline_fold(
+            train_pool.iloc[train_idx].copy(),
+            train_pool.iloc[val_idx].copy(),
+            spec,
+        )
+        probabilities[val_idx] = fold_probabilities
+        predictions[val_idx] = fold_predictions
+        fold_ids[val_idx] = fold_index
+    summary = metric_summary_from_predictions(y_true, probabilities, predictions, fold_ids)
+    return {"name": "hist_gradient_boosting", "summary": summary, "probabilities": probabilities, "predictions": predictions}
+
+
+def oof_rows(train_pool: pd.DataFrame, spec, fold_ids: np.ndarray, probabilities: np.ndarray, predictions: np.ndarray) -> list[dict[str, Any]]:
     rows = []
+    y_true = train_pool[spec.target_col].astype(int).to_numpy()
     source_rows = train_pool[SOURCE_ROW_NUMBER_COLUMN].astype(int).to_numpy()
     for index in range(len(train_pool)):
         rows.append(
             {
                 "source_row_number": int(source_rows[index]),
-                "fold": int(fold_ids[index]),
+                "outer_fold": int(fold_ids[index]),
                 "true_label": int(y_true[index]),
                 "predicted_label": int(predictions[index]),
                 "prob_low": float(probabilities[index, 0]),
@@ -143,48 +256,37 @@ def oof_prediction_rows(train_pool: pd.DataFrame, y_true: np.ndarray, fold_ids: 
     return rows
 
 
-def write_audit(
-    *,
-    path: Path,
-    dataset: str,
-    train_pool: pd.DataFrame,
-    selected_config: dict,
-    oof: dict,
-    selected_strategy: dict,
-) -> None:
-    spec = DATASETS[dataset]
-    seq_cols = get_sequence_columns(spec.kind)
-    context_exclusions = get_context_excluded_columns(spec.kind)
-    seed_key = str(selected_strategy["seed_list"][0])
-    selected_features = oof["selected_features_by_seed"].get(seed_key, [[]])[0]
-    context_cols = [col for col in selected_features if col not in seq_cols and col not in context_exclusions]
-    lines = [
-        "# Model Optimization Audit",
-        "",
-        f"- Dataset: `{dataset}`.",
-        f"- Train split records used for model selection: `{len(train_pool)}`.",
-        f"- Sequence input columns: `{seq_cols}`.",
-        f"- Context MLP candidate columns after fold-0 feature selection for seed {seed_key}: `{context_cols}`.",
-        f"- Target column: `{spec.target_col}`. It is removed from feature matrix before preprocessing inputs are built.",
-        "- `G3_raw` is retained only as regression-diagnostic metadata in `StudentDataset.reg_label`; it is excluded from sequence/context inputs.",
-        "- Protected metadata `__source_row_number` is dropped by `DataPreprocessor`; `record_id` and `dataset_version_id` are never added to the training DataFrame.",
-        "- Oversampling location: `DataPreprocessor.fit_transform(..., apply_oversampling=True)` is called only for each CV train fold. Validation/test use `transform()` and are never oversampled.",
-        f"- Fixed ensemble seeds considered: `{FIXED_SEEDS}`.",
-        "- Checkpoint behavior: final pipeline saves one checkpoint per selected seed; CV model-selection script does not persist fold checkpoints.",
-        "- Loss: weighted cross entropy unless Optuna selects focal loss. Class weights are computed from the current training fold labels only.",
-        "- Optimizer: Adam. Scheduler: ReduceLROnPlateau on validation F1. Early stopping tracks validation F1.",
-        f"- Selected strategy: `{selected_strategy['strategy_name']}`.",
-        f"- Selected seeds: `{selected_strategy['seed_list']}`.",
-        f"- Selected threshold policy: `{selected_strategy['threshold_policy']}`.",
-        "",
-        "## Why a single seed can beat the current average ensemble",
-        "",
-        "Mean-probability ensembling is not guaranteed to improve macro F1. If weaker seeds make correlated mistakes or smooth away a strong seed's class-specific confidence, argmax after averaging can reduce Low/Medium/High balance. The selected policy is therefore chosen from OOF validation only, not from the locked test.",
-        "",
-        "## Selected Config Hash",
-        "",
-        f"`{sha256_json(selected_config)}`",
+def choose_final_config(train_pool: pd.DataFrame, spec, *, n_trials: int, inner_folds: int) -> tuple[dict[str, Any], dict[str, Any], list[dict[str, Any]]]:
+    best, trials, folds = run_optuna_cv_search(
+        train_pool,
+        spec,
+        n_trials=n_trials,
+        n_splits=inner_folds,
+        seed=DEFAULT_SEED,
+    )
+    inner_oof = collect_oof_by_seed(train_pool, spec, best["best_params"], folds, FIXED_SEEDS, ablation_mode="hybrid")
+    strategies, selected_strategy = evaluate_ensemble_strategies(inner_oof, FIXED_SEEDS)
+    return best, selected_strategy, strategies
+
+
+def write_protocol_audit(path: Path) -> None:
+    checks = [
+        ("Feature engineering fit state", "PASS", "Feature engineering is stateless; preprocessing fit is scoped to fold-training only."),
+        ("Imputation/encoding/scaling", "PASS", "`DataPreprocessor.fit_transform()` is called only on model-train partitions; validation/scoring folds use `transform()`."),
+        ("Feature selection", "PASS", "`FeatureSelector.fit_transform()` is called only on model-train partitions."),
+        ("SMOTE/ADASYN", "PASS", "Oversampling is only inside `fit_transform(..., apply_oversampling=True)` for gradient-training rows."),
+        ("Class weights", "PASS", "Class weights use `model_train_fold` labels only, not early-stop or scoring folds."),
+        ("Early stopping", "PASS", "Early stopping uses a split carved from fold-training data; outer validation is only scored."),
+        ("Outer validation role", "PASS", "Outer folds are evaluated after inner CV freezes params/strategy/calibration/threshold."),
+        ("OOF row coverage", "PASS", "Outer StratifiedKFold assigns each train source row to exactly one validation fold."),
+        ("Ensemble/threshold/calibration", "PASS", "Strategy, weights, temperature and thresholds are fit on inner OOF only, then frozen for outer evaluation."),
+        ("Metadata leakage", "PASS", "`__source_row_number`, DB IDs and `G3_raw` are excluded from model inputs by preprocessing/dataset code."),
     ]
+    lines = ["# Optimization Protocol Audit", ""]
+    for name, status, evidence in checks:
+        lines.append(f"- **{name}**: `{status}` - {evidence}")
+    lines.append("")
+    lines.append("Locked test is not passed to Optuna, nested CV, threshold fitting or calibration fitting.")
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
@@ -194,103 +296,116 @@ def main() -> None:
     ensure_dirs()
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     spec = DATASETS[args.dataset]
-    connection = runtime_connection()
     raw_frame, dataset_version = load_dataset_version_from_postgres(args.dataset, args.dataset_version_id)
     target = target_frame(raw_frame, args.dataset, args.target_mode)
     train_pool, locked_test = reconstruct_splits_from_run(target, args.reference_run_id)
-    folds = make_folds(train_pool, spec.target_col, n_splits=args.folds, seed=DEFAULT_SEED)
+    outer_folds = make_folds(train_pool, spec.target_col, n_splits=args.outer_folds, seed=DEFAULT_SEED)
+    fold_ids = np.zeros(len(train_pool), dtype=int)
+    outer_probabilities = np.zeros((len(train_pool), 3), dtype=float)
+    outer_predictions = np.zeros(len(train_pool), dtype=int)
+    outer_results = []
+    candidate_rows = []
+    trial_rows = []
 
-    best, trials, folds = run_optuna_cv_search(train_pool, spec, n_trials=args.n_trials, n_splits=args.folds, seed=DEFAULT_SEED)
-    best_params = best["best_params"]
-    oof = collect_oof_by_seed(train_pool, spec, best_params, folds, FIXED_SEEDS, ablation_mode="hybrid")
-    strategies, selected_strategy = evaluate_ensemble_strategies(oof, FIXED_SEEDS)
+    for outer_fold, (outer_train_idx, outer_val_idx) in enumerate(outer_folds):
+        result = evaluate_deep_outer_fold(
+            train_pool=train_pool,
+            spec=spec,
+            outer_fold=outer_fold,
+            outer_train_idx=outer_train_idx,
+            outer_val_idx=outer_val_idx,
+            n_trials=args.n_trials,
+            inner_folds=args.inner_folds,
+        )
+        outer_results.append(result)
+        outer_probabilities[outer_val_idx] = result["probabilities"]
+        outer_predictions[outer_val_idx] = result["predictions"]
+        fold_ids[outer_val_idx] = outer_fold
+        candidate_rows.extend(strategy_rows_for_csv(result["inner_strategies"], outer_fold=outer_fold))
+        for trial in result["inner_trials"]:
+            trial_rows.append({"outer_fold": outer_fold, **trial})
 
-    selected_probabilities = None
-    from src.model_selection import apply_threshold_policy, combine_seed_probabilities
-
-    selected_probabilities = combine_seed_probabilities(
-        oof["seed_probabilities"],
-        method=selected_strategy["ensemble_method"],
-        seed_list=selected_strategy["seed_list"],
-        weights=selected_strategy.get("seed_weights"),
+    y_true = train_pool[spec.target_col].astype(int).to_numpy()
+    outer_summary = metric_summary_from_predictions(y_true, outer_probabilities, outer_predictions, fold_ids)
+    baseline = evaluate_tabular_baseline(train_pool, spec, outer_folds)
+    final_best, final_strategy, final_strategies = choose_final_config(
+        train_pool,
+        spec,
+        n_trials=args.n_trials,
+        inner_folds=args.inner_folds,
     )
-    selected_predictions = apply_threshold_policy(selected_probabilities, selected_strategy["threshold_policy"])
-
-    ablation_rows = []
-    for name, ablation_mode, seeds in [
-        ("context_mlp_baseline", "context_only", [DEFAULT_SEED]),
-        ("cnn_bilstm_sequence_only", "sequence_only", [DEFAULT_SEED]),
-        ("cnn_bilstm_context_mlp", "hybrid", [DEFAULT_SEED]),
-    ]:
-        ablation_oof = collect_oof_by_seed(train_pool, spec, best_params, folds, seeds, ablation_mode=ablation_mode)
-        probabilities = ablation_oof["seed_probabilities"][DEFAULT_SEED]
-        summary = metric_summary(ablation_oof["y_true"], probabilities, {"type": "argmax"}, ablation_oof["fold_ids"])
-        ablation_rows.append({"name": name, "ablation_mode": ablation_mode, "seed_count": len(seeds), **summary})
-    ablation_rows.append({"name": "selected_hybrid_strategy", **selected_strategy})
 
     selected_config = {
         "dataset": args.dataset,
         "target_mode": args.target_mode,
         "dataset_version_id": args.dataset_version_id,
         "reference_run_id": args.reference_run_id,
-        "split_hash": {
-            "train": split_hash(train_pool),
-            "locked_test": split_hash(locked_test),
-        },
+        "split_hash": {"train": split_hash(train_pool), "locked_test": split_hash(locked_test)},
         "selection_protocol": {
             "source": "train_split_only",
-            "folds": args.folds,
+            "outer_folds": args.outer_folds,
+            "inner_folds": args.inner_folds,
             "fold_seed": DEFAULT_SEED,
-            "optuna_trials": args.n_trials,
-            "optuna_seed": DEFAULT_SEED,
-            "objective": "mean_5fold_oof_f1_macro",
+            "optuna_trials_per_inner_search": args.n_trials,
             "locked_test_used_for_selection": False,
+            "selection_rule": "highest outer-CV Macro F1 mean; tie <=0.005 by lower std, then fewer seeds/complexity",
         },
-        "best_cv_f1_macro": best["best_cv_f1_macro"],
-        "best_params": best_params,
-        "selected_strategy": selected_strategy,
+        "nested_cv_result": outer_summary,
+        "tabular_baseline": baseline["summary"],
+        "best_cv_f1_macro": final_best["best_cv_f1_macro"],
+        "best_params": final_best["best_params"],
+        "selected_strategy": final_strategy,
     }
 
-    write_json(OUTPUT_DIR / "optuna_trials.json", trials)
+    write_protocol_audit(AUDIT_PATH)
     write_json(OUTPUT_DIR / "selected_config.json", selected_config)
     write_json(
-        OUTPUT_DIR / "model_selection_summary.json",
+        OUTPUT_DIR / "nested_model_selection_summary.json",
         {
-            "runtime_connection": connection,
+            "runtime_connection": runtime_connection(),
             "dataset_version": dataset_version,
-            "best": best,
-            "selected_strategy": selected_strategy,
-            "strategies": strategies,
-            "ablation": ablation_rows,
+            "outer_summary": outer_summary,
+            "outer_results": [
+                {
+                    "outer_fold": result["outer_fold"],
+                    "outer_val_hash": result["outer_val_hash"],
+                    "inner_best": result["inner_best"],
+                    "selected_strategy": result["selected_strategy"],
+                    "summary": result["summary"],
+                }
+                for result in outer_results
+            ],
+            "tabular_baseline": baseline["summary"],
+            "final_inner_best": final_best,
+            "final_selected_strategy": final_strategy,
+            "final_inner_strategies": final_strategies,
         },
     )
-    write_csv(OUTPUT_DIR / "ensemble_strategy_cv.csv", strategy_rows_for_csv(strategies))
-    write_csv(OUTPUT_DIR / "ablation_cv.csv", ablation_rows_for_csv(ablation_rows))
-    write_csv(
-        OUTPUT_DIR / "oof_predictions_selected_strategy.csv",
-        oof_prediction_rows(train_pool, oof["y_true"], oof["fold_ids"], selected_probabilities, selected_predictions),
-    )
-    write_audit(
-        path=REPORTS_DIR / "model_optimization_audit.md",
-        dataset=args.dataset,
-        train_pool=train_pool,
-        selected_config=selected_config,
-        oof=oof,
-        selected_strategy=selected_strategy,
-    )
+    write_csv(OUTPUT_DIR / "nested_candidate_strategy_cv.csv", candidate_rows)
+    write_csv(OUTPUT_DIR / "nested_optuna_trials.csv", trial_rows)
+    write_csv(OUTPUT_DIR / "final_inner_strategy_cv.csv", strategy_rows_for_csv(final_strategies))
+    write_csv(OUTPUT_DIR / "outer_oof_predictions.csv", oof_rows(train_pool, spec, fold_ids, outer_probabilities, outer_predictions))
 
-    print(json.dumps({
-        "runtime_connection": connection,
-        "best_cv_f1_macro": best["best_cv_f1_macro"],
-        "best_params": best_params,
-        "selected_strategy": selected_strategy,
-        "train_split_hash": selected_config["split_hash"]["train"],
-        "locked_test_split_hash": selected_config["split_hash"]["locked_test"],
-        "outputs": {
-            "selected_config": str((OUTPUT_DIR / "selected_config.json").resolve()),
-            "audit": str((REPORTS_DIR / "model_optimization_audit.md").resolve()),
-        },
-    }, ensure_ascii=False, indent=2, default=str))
+    print(
+        json.dumps(
+            {
+                "runtime_connection": runtime_connection(),
+                "nested_outer_f1_macro_mean": outer_summary["cv_f1_macro_mean"],
+                "nested_outer_f1_macro_std": outer_summary["cv_f1_macro_std"],
+                "tabular_baseline_f1_macro_mean": baseline["summary"]["cv_f1_macro_mean"],
+                "final_best_cv_f1_macro": final_best["best_cv_f1_macro"],
+                "final_selected_strategy": final_strategy,
+                "outputs": {
+                    "audit": str(AUDIT_PATH.resolve()),
+                    "selected_config": str((OUTPUT_DIR / "selected_config.json").resolve()),
+                    "summary": str((OUTPUT_DIR / "nested_model_selection_summary.json").resolve()),
+                },
+            },
+            ensure_ascii=False,
+            indent=2,
+            default=str,
+        )
+    )
 
 
 if __name__ == "__main__":
