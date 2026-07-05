@@ -1,2 +1,0 @@
-dataset,scenario,source,model_variant,prediction_mode,macro_f1,recall_low,f1_low,thesis_usage
-xapi,default,v28_best_deep,gated_fusion_v28,low_f1_tuned,0.7541,0.8846,0.8214,final_xapi_deep_model
