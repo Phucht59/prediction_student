@@ -32,7 +32,7 @@ from src.utils import setup_logger
 logger = setup_logger("evaluation")
 
 HASH_ALGORITHM = "sha256"
-DEFAULT_RECOMMENDATION_POLICY = "mlp_learning_path_v1"
+DEFAULT_RECOMMENDATION_POLICY = "student_mat_rule_policy_v2"
 
 
 def _json_safe(value: Any):
@@ -989,12 +989,18 @@ def persist_evaluation_to_postgres(
             for row_index, recommendation in learning_paths.reset_index(drop=True).iterrows():
                 path_payload = json.loads(recommendation["learning_path"])
                 risk_payload = json.loads(recommendation["risk_factors"])
+                policy_version = str(recommendation.get("policy_version", DEFAULT_RECOMMENDATION_POLICY))
                 explanation = {
                     "headline": recommendation["headline"],
                     "risk_factors": risk_payload,
+                    "policy_version": policy_version,
                 }
+                if "confidence_level" in recommendation:
+                    explanation["confidence_level"] = recommendation["confidence_level"]
                 if "risk_scores" in recommendation:
                     explanation["risk_scores"] = json.loads(recommendation["risk_scores"])
+                if isinstance(path_payload, dict) and "explanation" in path_payload:
+                    explanation["standardized_explanation"] = path_payload["explanation"]
                 _insert_or_compare_recommendation(
                     cursor,
                     allow_insert=allow_insert,
@@ -1002,6 +1008,7 @@ def persist_evaluation_to_postgres(
                     risk_band=str(recommendation["risk_band"]),
                     learning_path=path_payload,
                     explanation=explanation,
+                    policy_version=policy_version,
                 )
 
             if allow_insert:
