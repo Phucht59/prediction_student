@@ -96,6 +96,33 @@ def load_selection_config(path_or_json: str | None) -> dict | None:
     return json.loads(path.read_text(encoding="utf-8")) if path.exists() else json.loads(path_or_json)
 
 
+def resolve_frozen_strategy_metadata(
+    selected_strategy: dict | None,
+    *,
+    debug: bool = False,
+) -> dict:
+    selected_strategy = selected_strategy or {}
+    seed_list = list(selected_strategy.get("seed_list") or (FIXED_SEEDS[:1] if debug else FIXED_SEEDS))
+    probability_combination_method = selected_strategy.get("ensemble_method", "mean_probability")
+    threshold_policy = selected_strategy.get("threshold_policy", {"type": "argmax"})
+    calibration_policy = selected_strategy.get("calibration_policy", {"type": "none"})
+    if len(seed_list) == 1:
+        actual_aggregation_method = "single_model"
+        strategy_name = selected_strategy.get("strategy_name") or f"single_seed_{seed_list[0]}"
+    else:
+        actual_aggregation_method = probability_combination_method
+        strategy_name = selected_strategy.get("strategy_name") or probability_combination_method
+    return {
+        "strategy_name": strategy_name,
+        "actual_seed_list": seed_list,
+        "probability_combination_method": probability_combination_method,
+        "actual_aggregation_method": actual_aggregation_method,
+        "calibration_policy": calibration_policy,
+        "threshold_policy": threshold_policy,
+        "decision_rule": threshold_policy.get("type", "argmax"),
+    }
+
+
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--dataset", choices=sorted(DATASETS), required=True)
@@ -659,10 +686,11 @@ def main():
         best_params = dict(study.best_params)
 
     selected_strategy = selection_config.get("selected_strategy", {}) if selection_config else {}
-    selected_seed_list = selected_strategy.get("seed_list")
-    selected_ensemble_method = selected_strategy.get("ensemble_method", "mean_probability")
-    selected_calibration_policy = selected_strategy.get("calibration_policy", {"type": "none"})
-    selected_threshold_policy = selected_strategy.get("threshold_policy", {"type": "argmax"})
+    strategy_metadata = resolve_frozen_strategy_metadata(selected_strategy, debug=args.debug)
+    selected_seed_list = strategy_metadata["actual_seed_list"]
+    selected_ensemble_method = strategy_metadata["probability_combination_method"]
+    selected_calibration_policy = strategy_metadata["calibration_policy"]
+    selected_threshold_policy = strategy_metadata["threshold_policy"]
     selected_seed_weights = selected_strategy.get("seed_weights")
     if selected_seed_weights:
         selected_seed_weights = {int(seed): float(weight) for seed, weight in selected_seed_weights.items()}
@@ -679,11 +707,16 @@ def main():
             train_config = {
                 "target_mode": args.target_mode,
                 "best_params": best_params,
-                "fixed_seeds": selected_seed_list or (FIXED_SEEDS[:1] if args.debug else FIXED_SEEDS),
+                "fixed_seeds": selected_seed_list,
+                "actual_seed_list": selected_seed_list,
                 "debug": bool(args.debug),
-                "selected_ensemble_method": selected_ensemble_method,
+                "selected_strategy_name": strategy_metadata["strategy_name"],
+                "selected_ensemble_method": strategy_metadata["actual_aggregation_method"],
+                "probability_combination_method": selected_ensemble_method,
+                "actual_aggregation_method": strategy_metadata["actual_aggregation_method"],
                 "selected_calibration_policy": selected_calibration_policy,
                 "selected_threshold_policy": selected_threshold_policy,
+                "decision_rule": strategy_metadata["decision_rule"],
                 "selected_seed_weights": selected_seed_weights,
                 "validation_only_selection": selection_config,
                 "augmentation": {
