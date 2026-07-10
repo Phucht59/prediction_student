@@ -11,6 +11,7 @@ from sklearn.ensemble import RandomForestClassifier
 from imblearn.over_sampling import ADASYN, RandomOverSampler, SMOTE, SMOTENC
 from src.config import DEFAULT_SEED, LOCKED_TEST_SIZE, PROCESSED_DIR, DATASETS, STUDENT_G3_3CLASS_BINS, XAPI_CLASS_MAPPING
 from src.utils import setup_logger
+from src.ingestion.csv_reader import read_csv
 
 logger = setup_logger("data_pipeline")
 
@@ -77,7 +78,7 @@ def build_ingestion_contract(csv_sep: str, columns: list[str]) -> dict:
         "encoding": "utf-8",
         "header_policy": "first_row_header",
         "null_value_policy": "pandas_default",
-        "parser": "pandas.read_csv",
+        "parser": "src.ingestion.csv_reader.read_csv",
         "parser_version": pd.__version__,
         "canonical_columns": list(columns),
         "schema_fingerprint": sha256_json(list(columns)),
@@ -150,7 +151,7 @@ def split_sidecar_matches_current_raw(ds_name: str, target_mode: str, *, raw_pat
     path = split_sidecar_path(ds_name, target_mode)
     if not path.exists():
         return False
-    raw_frame = attach_source_row_numbers(pd.read_csv(raw_path, sep=csv_sep))
+    raw_frame = attach_source_row_numbers(read_csv(raw_path, sep=csv_sep))
     expected = build_split_sidecar(
         ds_name,
         target_mode,
@@ -239,7 +240,7 @@ def load_splits(ds_name: str, target_mode: str = "3class"):
     if not train_path.exists() or not test_path.exists():
         raise FileNotFoundError(f"Missing split files for {ds_name} {target_mode}. Run create_locked_test script first.")
         
-    return pd.read_csv(train_path), pd.read_csv(test_path)
+    return read_csv(train_path), read_csv(test_path)
 
 def check_no_leakage(train_indices, test_indices):
     """Safety check to ensure test indices do not leak into train."""

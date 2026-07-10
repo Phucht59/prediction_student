@@ -20,7 +20,9 @@ def test_final_python_paths_do_not_read_training_csv_directly():
 
 def test_ingestion_is_the_only_production_dataset_csv_reader():
     source = (ROOT / "src" / "postgres_data_source.py").read_text(encoding="utf-8")
-    assert "pd.read_csv" in source
+    reader = (ROOT / "src" / "ingestion" / "csv_reader.py").read_text(encoding="utf-8")
+    assert "read_csv" in source
+    assert "pd.read_csv" in reader
     assert "ingest_dataset_csv_to_postgres" in source
 
 

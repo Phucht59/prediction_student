@@ -10,6 +10,7 @@ import pandas as pd
 
 from src.config import DATASETS, RAW_DIR, ROOT_DIR, STUDENT_G3_3CLASS_BINS, XAPI_CLASS_MAPPING
 from src.data_pipeline import SOURCE_ROW_NUMBER_COLUMN, attach_source_row_numbers, drop_protected_metadata
+from src.ingestion.csv_reader import read_csv
 from src.evaluation.evaluation import (
     HASH_ALGORITHM,
     _connect,
@@ -164,7 +165,7 @@ def ingest_dataset_csv_to_postgres(
     spec = DATASETS[dataset_code]
     resolved_path = raw_path or (RAW_DIR / spec.raw_file)
     resolved_sep = csv_sep or spec.csv_sep
-    raw_frame = attach_source_row_numbers(pd.read_csv(resolved_path, sep=resolved_sep))
+    raw_frame = attach_source_row_numbers(read_csv(resolved_path, sep=resolved_sep))
     dataset_version = build_dataset_version_payload(
         dataset_code=dataset_code,
         raw_path=resolved_path,
