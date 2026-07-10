@@ -214,12 +214,13 @@ def suggest_trial_params(trial, dataset_kind: str) -> dict:
         "learning_rate": trial.suggest_float("learning_rate", 1e-4, 1e-2, log=True),
         "weight_decay": trial.suggest_float("weight_decay", 1e-6, 1e-3, log=True),
         "batch_size": trial.suggest_categorical("batch_size", [16, 32, 64]),
-        "oversample_method": trial.suggest_categorical("oversample_method", ["none", "smote", "adasyn"]),
+        "oversample_method": trial.suggest_categorical("oversample_method", ["none", "smote"]),
+        "class_weight_mode": trial.suggest_categorical("class_weight_mode", ["none", "balanced"]),
         "smote_ratio": trial.suggest_float("smote_ratio", 0.4, 1.0),
         "resampling_k_neighbors": 5,
-        "cnn_channels": trial.suggest_categorical("cnn_channels", [16, 32, 64]),
-        "cnn_kernel_size": 3,
-        "lstm_hidden_dim": trial.suggest_categorical("lstm_hidden_dim", [32, 64]),
+        "cnn_channels": trial.suggest_categorical("cnn_channels", [8, 16, 32]),
+        "cnn_kernel_size": 1,
+        "lstm_hidden_dim": trial.suggest_categorical("lstm_hidden_dim", [8, 16, 32]),
         "dropout": trial.suggest_float("dropout", 0.1, 0.5),
         "sequence_dropout": trial.suggest_float("sequence_dropout", 0.1, 0.5),
     }
@@ -295,6 +296,8 @@ def objective(trial, df_train_pool: pd.DataFrame, spec, target_mode: str, cv_fol
 
         original_train_labels = df_train_pool.iloc[train_index][spec.target_col].astype(int).to_numpy()
         class_weights = calculate_class_weights(original_train_labels, num_classes=3).to(device)
+        if model_config.get("class_weight_mode", "balanced") != "balanced":
+            class_weights = None
         
         if spec.kind == "xapi":
             criterion = nn.BCEWithLogitsLoss()

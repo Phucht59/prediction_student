@@ -32,33 +32,45 @@ class StudentHybridModel(nn.Module):
         dropout: float = 0.3,
         sequence_dropout: float | None = None,
         ablation_mode: str = "sequence_only",
+        architecture_variant: str = "cnn_bilstm",
     ):
         super().__init__()
         self.num_classes = int(num_classes)
         self.num_numerical = 0
         self.cat_cardinalities: list[int] = []
         self.ablation_mode = "sequence_only"
+        if architecture_variant not in {"cnn_bilstm", "cnn_only", "bilstm_only"}:
+            raise ValueError(f"Unsupported architecture variant: {architecture_variant}")
+        self.architecture_variant = architecture_variant
         self.sequence_columns: list[str] = []
+        # ``sequence_dropout`` regularizes the per-timestep CNN representation;
+        # ``dropout`` is the head dropout applied after Bi-LSTM pooling.  Older
+        # artifacts contain both keys, so both must have a real, distinct role.
         sequence_dropout = dropout if sequence_dropout is None else sequence_dropout
 
-        self.sequence_cnn = nn.Sequential(
-            nn.Conv1d(
-                in_channels=seq_in_channels,
-                out_channels=cnn_channels,
-                kernel_size=cnn_kernel_size,
-                padding=cnn_kernel_size // 2,
-            ),
-            nn.BatchNorm1d(cnn_channels),
-            nn.ReLU(),
-        )
-        self.sequence_bilstm = nn.LSTM(
-            input_size=cnn_channels,
-            hidden_size=lstm_hidden_dim,
-            batch_first=True,
-            bidirectional=True,
-        )
+        self.sequence_cnn = None
+        if architecture_variant != "bilstm_only":
+            self.sequence_cnn = nn.Sequential(
+                nn.Conv1d(
+                    in_channels=seq_in_channels,
+                    out_channels=cnn_channels,
+                    kernel_size=cnn_kernel_size,
+                    padding=cnn_kernel_size // 2,
+                ),
+                nn.BatchNorm1d(cnn_channels),
+                nn.ReLU(),
+            )
+        self.sequence_bilstm = None
+        if architecture_variant != "cnn_only":
+            self.sequence_bilstm = nn.LSTM(
+                input_size=cnn_channels if architecture_variant == "cnn_bilstm" else seq_in_channels,
+                hidden_size=lstm_hidden_dim,
+                batch_first=True,
+                bidirectional=True,
+            )
         self.sequence_dropout = nn.Dropout(float(sequence_dropout))
-        self.sequence_output_dim = lstm_hidden_dim * 2
+        self.head_dropout = nn.Dropout(float(dropout))
+        self.sequence_output_dim = cnn_channels if architecture_variant == "cnn_only" else lstm_hidden_dim * 2
         self.classifier = nn.Linear(self.sequence_output_dim, num_classes)
 
     def forward(
@@ -72,11 +84,17 @@ class StudentHybridModel(nn.Module):
         if seq_x.ndim != 3:
             raise ValueError("Sequential input must have shape [batch, timesteps, channels].")
 
-        sequence = seq_x.float().transpose(1, 2)
-        sequence = self.sequence_cnn(sequence).transpose(1, 2)
-        _, (hidden, _) = self.sequence_bilstm(sequence)
-        sequence_vector = torch.cat([hidden[-2], hidden[-1]], dim=1)
-        sequence_vector = self.sequence_dropout(sequence_vector)
+        sequence = seq_x.float()
+        if self.sequence_cnn is not None:
+            sequence = self.sequence_cnn(sequence.transpose(1, 2)).transpose(1, 2)
+            sequence = self.sequence_dropout(sequence)
+        if self.architecture_variant == "cnn_only":
+            sequence_vector = sequence.mean(dim=1)
+        else:
+            assert self.sequence_bilstm is not None
+            _, (hidden, _) = self.sequence_bilstm(sequence)
+            sequence_vector = torch.cat([hidden[-2], hidden[-1]], dim=1)
+        sequence_vector = self.head_dropout(sequence_vector)
         return self.classifier(sequence_vector)
 
     def predict_proba(
@@ -117,4 +135,5 @@ def create_model(
         dropout=float(config.get("dropout", 0.3)),
         sequence_dropout=config.get("sequence_dropout", None),
         ablation_mode="sequence_only",
+        architecture_variant=str(config.get("architecture_variant", "cnn_bilstm")),
     )

@@ -2,6 +2,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+import pytest
 import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader
@@ -56,14 +57,32 @@ def test_model_uses_sequence_dropout_and_linear_classifier_head():
     model = create_model(
         "student",
         {
+            "dropout": 0.1,
             "sequence_dropout": 0.2,
         },
         num_numerical=0,
         cat_cardinalities=[],
     )
     assert model.sequence_dropout.p == 0.2
+    assert model.head_dropout.p == 0.1
     assert model.classifier_head == "linear"
     assert isinstance(model.classifier, nn.Linear)
+
+
+@pytest.mark.parametrize("variant", ["cnn_only", "bilstm_only", "cnn_bilstm"])
+def test_architecture_ablation_variants_produce_three_class_logits(variant):
+    model = create_model(
+        "student",
+        {
+            "architecture_variant": variant,
+            "cnn_channels": 8,
+            "lstm_hidden_dim": 8,
+            "cnn_kernel_size": 1,
+        },
+    )
+    logits = model(torch.randn(4, 2, 1))
+    assert logits.shape == (4, 3)
+    assert model.architecture_variant == variant
 
 
 def test_xapi_optuna_space_excludes_vanilla_smote():
@@ -118,7 +137,9 @@ def test_student_model_selection_space_uses_only_requested_resampling_methods():
     trial = RecordingTrial()
     student_search_space(trial)
 
-    assert trial.calls["oversample_method"] == ("categorical", ["none", "smote", "adasyn"])
+    assert trial.calls["oversample_method"] == ("categorical", ["none", "smote"])
+    assert trial.calls["class_weight_mode"] == ("categorical", ["none", "balanced"])
+    assert trial.calls["cnn_kernel_size"] == ("categorical", [1])
 
 
 def test_sequence_only_oversampling_uses_only_model_input_columns():

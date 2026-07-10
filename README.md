@@ -1,138 +1,79 @@
-# KLTN - Du doan thanh tich hoc tap sinh vien bang CNN-BiLSTM
+# Student performance prediction (CNN-BiLSTM)
 
-Do an xay dung pipeline du doan thanh tich hoc tap sinh vien theo 3 lop
-`Low`, `Medium`, `High` tu bo du lieu Student Performance `student-mat`.
-Pipeline final doc du lieu theo huong database-first tu PostgreSQL, huan luyen
-mo hinh CNN-BiLSTM va sinh khuyen nghi hoc tap rule-based co giai thich.
+This repository contains the frozen technical project for the UCI Student
+Performance `student-mat` dataset (395 Portuguese secondary-school students).
+The task is three-class prediction from `G3`: Low (`<=9`), Medium (`10-14`),
+and High (`>=15`). G1 and G2 are two prior assessments, not a long time series.
 
-## Final scope
+## Scientific scope
 
-- Dataset final: `student-mat`
-- Dataset version: `1`
-- Source records: `395`
-- Split final: `train = 316`, `test = 79`
-- Target: 3 lop suy ra tu `G3`
-- Input model: chi `G1`, `G2`
-- Final model: `cnn_bilstm_classifier`
-- Khong co Context MLP trong kien truc final
-- Recommendation policy: `student_mat_rule_policy_v2`
-- PostgreSQL database: `student_predict`
-- Runtime application role: `student_predict_app`
+- `late_stage` uses G1 and G2; `early_warning` excludes G2; `pre_assessment`
+  excludes both G1 and G2. These scenarios are not directly comparable because
+  they expose different information.
+- The frozen CNN-BiLSTM does not beat the simple G2 rule. The nested-CV result
+  is 0.8781 +/- 0.0448 Macro-F1; locked-test Macro-F1 is 0.9262 versus 0.9365
+  for the G2 rule. HistGradientBoosting has locked-test Macro-F1 0.9463, but
+  it was not selected using the locked test.
+- Recommendations are a deterministic rule-based advisory policy
+  (`student_mat_rule_policy_v3`), not a learned recommender. Expert review is
+  still pending.
 
-## Final model
+## PostgreSQL-first data flow
 
-Kien truc final:
-
-```text
-[G1, G2]
--> Conv1D + BatchNorm + ReLU
--> Bi-LSTM
--> Dropout
--> Linear classification head
--> 3-class probabilities
-```
-
-`G1` va `G2` la hai moc danh gia truoc cua sinh vien. `G3` chi dung de tao
-nhan muc tieu va khong duoc dua vao input model. Cac metadata lineage nhu
-`__source_row_number`, `record_id`, `dataset_version_id`, `run_id` cung khong
-duoc dua vao feature matrix.
-
-## Final run verified
-
-- Run ID: `4ac7c8a9-8f20-4abd-ac80-e414f8dd3eaf`
-- Git commit recorded by run:
-  `99aa80cf157ce709c9aafd4e44702b0c8ab79dd4`
-- Status: `completed`
-- Test predictions: `79`
-- Recommendations v2: `79`
-
-Final holdout confirmation metrics:
-
-| Metric | Value |
-|---|---:|
-| Accuracy | 0.9113924050632911 |
-| F1-Macro | 0.9256122872561229 |
-| Precision-Macro | 0.9234811165845649 |
-| Recall-Macro | 0.9304993252361674 |
-| RMSE | 0.2976702788937936 |
-| R2 | 0.8226427196921103 |
-
-`RMSE` va `R2` chi la diagnostic tren nhan thu bac `0/1/2`, khong phai
-regression output chinh thuc.
-
-## PostgreSQL source/ML lineage
-
-Schema lineage final gom:
+`student-mat.csv` is read only by the explicit ingestion command. All model
+selection, training, final evaluation, inference, recommendation and evidence
+queries use PostgreSQL:
 
 ```text
-source_dataset_versions
-source_records
-ml_experiment_runs
-ml_run_record_splits
-ml_predictions
-ml_run_metrics
-ml_recommendations
+CSV (one-time ingestion)
+  -> source_dataset_versions + source_records + source_record_targets
+  -> DB-native loader(dataset_version_id)
+  -> split ledger -> Optuna/training/evaluation -> DB predictions/metrics/recommendations
 ```
 
-CSV chi dung de seed/import dataset lan dau. Normal training path doc
-`source_records` tu PostgreSQL, khong fallback am tham ve CSV.
+The canonical database is `student_predict`; credentials come from environment
+variables. Targets are stored separately in `source_record_targets` and are
+joined only for evaluation/training, never treated as model features.
 
-Lenh seed dataset khi moi khoi tao DB:
+Apply migrations in order, including
+`database/migrations/003_add_source_record_targets.sql`, then ingest:
 
 ```powershell
-python scripts/ingest_dataset_to_postgres.py --dataset student-mat
+py -3.10 scripts/ingest_dataset_to_postgres.py --dataset student-mat
 ```
 
-Lenh chay pipeline DB-first:
+Run frozen evaluation (no CSV path and no Optuna):
 
 ```powershell
-python scripts/run_pipeline.py --dataset student-mat --target-mode 3class --dataset-version-id 1 --n-trials 50
+py -3.10 scripts/run_pipeline.py --dataset student-mat --target-mode 3class `
+  --dataset-version-id 1 `
+  --selection-config-json artifacts/model_selection/nested-full-20260710/selected_config.json
 ```
 
-## Recommendation
-
-Recommendation final la policy rule-based version
-`student_mat_rule_policy_v2`. Policy nay dung predicted label,
-confidence/probability va cac feature quan sat duoc de sinh learning path.
-
-Khong duoc claim recommender da chung minh lam sinh vien hoc tot hon ngoai
-thuc te. Hieu qua thuc te can human review, feedback nguoi dung hoac du lieu
-intervention theo thoi gian.
-
-## Bao cao final
-
-Chi giu ban bao cao hien tai:
-
-```text
-reports/final/KLTN_CNN_BiLSTM_Du_doan_Thanh_tich_Hoc_tap_Sinh_vien_FINAL_REVIEWED.docx
-```
-
-Cac bao cao cu, diagnostics va generated report artifacts cu da duoc don de
-tranh nham lan voi final result.
-
-## Tests
-
-Chay test:
+Full model selection uses PostgreSQL and a frozen protocol of 5 outer folds,
+3 inner folds, 30 trials per inner search, seed 42:
 
 ```powershell
-python -m pytest -q
+py -3.10 scripts/optimize_model_selection.py --dataset student-mat `
+  --dataset-version-id 1 --n-trials 30 --outer-folds 5 --inner-folds 3 `
+  --selection-seed 42 --selection-run-id nested-full-20260710
 ```
 
-Trong moi truong Codex da xac minh bang bundled Python:
+`--debug` is smoke-only and is never final evidence.
 
-```text
-79 passed, 5 skipped
+## Frozen evidence and verification
+
+- Selection config: `artifacts/model_selection/nested-full-20260710/selected_config.json`
+- Final scientific run: `a2945d79-9845-4979-b148-159f4853eca3`
+- DB-first reproducibility run: `c719439e-bb88-42ff-bb98-d258c21d204e`
+- `artifacts/final/LATEST_RUN.txt` identifies the active evidence bundle.
+
+Verify checksums, predictions, metrics and DB counts:
+
+```powershell
+py -3.10 scripts/verify_final_evidence.py
 ```
 
-## Guardrails
-
-- Khong goi final model la `cnn_bilstm_mlp`.
-- Khong mo ta final architecture la CNN-BiLSTM + Context MLP.
-- Khong dung historical run `748dfafb-acac-4565-b96c-3093b2abb37a` lam final
-  result.
-- Khong dua `student-por` hoac `xAPI` vao ket qua final chinh.
-- Khong noi `G1/G2` la nhieu hoc ky; chi mo ta la hai moc danh gia truoc.
-- Khong dung `G3`, true label hoac metadata DB de sinh operational
-  recommendation.
-- Khong claim causal improvement cho recommender khi chua co du lieu can thiep.
-- Khong sua/xoa legacy tables `paper_*`, `students`, `student_grades`.
+The old report DOCX/PDF and generated report context are intentionally absent.
+The thesis report will be written in the next stage from this frozen evidence;
+no DOCX is edited by the project-cleanup pipeline.

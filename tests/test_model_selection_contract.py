@@ -60,7 +60,8 @@ def test_nested_outer_fold_freezes_inner_selection_before_scoring_outer_fold():
     source = inspect.getsource(optimize_model_selection.evaluate_deep_outer_fold)
     assert "run_optuna_cv_search(" in source
     assert "collect_oof_by_seed(" in source
-    assert "evaluate_ensemble_strategies(inner_oof" in source
+    assert "evaluate_ensemble_strategies(" in source
+    assert "single_seed_only=True" in source
     assert "fit_fold_predict_proba(" in source
     assert "validation_fold=outer_val" in source
     assert "apply_selected_strategy" in source

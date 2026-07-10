@@ -1,0 +1,5 @@
+{
+  "method": "none_frozen_before_locked_test",
+  "brier": 0.16826049583571528,
+  "ece": 0.059050406228199286
+}

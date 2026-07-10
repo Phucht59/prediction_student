@@ -62,6 +62,25 @@ def test_recommender_ignores_true_label_target_and_lineage_metadata():
     assert not any(column in serialized for column in FORBIDDEN_INPUT_COLUMNS)
 
 
+def test_recommender_excludes_sensitive_advisory_inputs():
+    features_a = _student_features()
+    features_b = {
+        **features_a,
+        "school": "MS",
+        "sex": "M",
+        "address": "R",
+        "guardian": "mother",
+        "paid": "yes",
+        "Dalc": 5,
+        "Walc": 5,
+        "goout": 1,
+    }
+
+    assert build_recommendation(features_a, predicted_class=0, confidence=0.81) == build_recommendation(
+        features_b, predicted_class=0, confidence=0.81
+    )
+
+
 def test_low_medium_high_prediction_policies_differ():
     features = _student_features()
 
@@ -95,6 +114,7 @@ def test_recommendation_output_is_deterministic_and_valid_json_schema():
 
     assert first == second
     validate_recommendation_schema(first)
+    assert "advisor" in first["disclaimer"].lower()
     assert json.loads(json.dumps(first, ensure_ascii=False)) == first
 
 

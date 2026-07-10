@@ -1,21 +1,41 @@
-# Project: Rebuilding Recommendation Model with PyTorch MLP
+# Project status - frozen technical release
 
-## Architecture
-- Code base uses CNN-BiLSTM + MLP for student performance prediction (in `src/models.py`).
-- The current recommendation system uses `RuleBasedLearningPathEngine` in `src/explainability.py` to map academic risks to staged roadmaps.
-- We need to replace it with a PyTorch MLP recommendation model.
-- We need to write a new script `src/eval_recommendation.py` for evaluating recommendations (NDCG, Precision, Recall, LLM-Judge).
+## Active architecture
 
-## Milestones
-| # | Name | Scope | Dependencies | Status |
-|---|------|-------|-------------|--------|
-| 1 | Exploration | Explore codebase, examine data, understand current engine and how recommendations are generated and tested | None | DONE |
-| 2 | Rebuild Rec Model | Implement the train-pool-only PyTorch MLP risk ranker in `src/recommendation.py` | M1 | DONE |
-| 3 | Evaluation Pipeline | Compute held-out Precision@K, Recall@K and NDCG@K; leave LLM-Judge unset without independent ratings | M2 | DONE |
-| 4 | Verification & Audit | Run tests, three 11-seed ensembles, fixed 5-fold CV, DOCX render QA and artifact checks | M3 | DONE |
+- Research classifier: sequence-only CNN-BiLSTM (G1,G2 -> CNN -> BiLSTM -> linear head).
+- Selection: nested 5 outer x 3 inner stratified folds, 30 Optuna trials, seed 42.
+- Data source: PostgreSQL `student_predict`; CSV is ingestion-only.
+- Recommender: deterministic rule-based advisory policy `student_mat_rule_policy_v3`.
 
-## Interface Contracts
-### Recommendation Engine interface
-- `MLPLearningPathEngine` is the production recommendation interface.
-- Method `generate(features: dict, predicted_class: int, confidence: float) -> dict` must be preserved or compatible with existing code to avoid breaking existing pipeline integrations.
-- Recommendations must return structured learning path containing phases, goals, actions, and list of risk factors.
+## Status
+
+| Work item | Status |
+| --- | --- |
+| Repository cleanup | DONE |
+| PostgreSQL-first ingestion | DONE |
+| PostgreSQL-native model selection | DONE |
+| PostgreSQL-native final evaluation | DONE |
+| DB-first reproducibility | DONE |
+| Main branch release | DONE |
+| Expert recommendation review | PENDING |
+| Thesis DOCX rewrite | NEXT |
+
+## Frozen scientific conclusion
+
+CNN-BiLSTM is technically reproducible but does not demonstrate added value
+over the G2 rule: final locked Macro-F1 is 0.9262 versus 0.9365 for G2.
+HistGradientBoosting locked Macro-F1 is 0.9463, but its nested outer score is
+0.8690 and the locked score was not used for selection. These results must not
+be replaced by a more favorable split.
+
+## Release references
+
+- Selection run: `nested-full-20260710`
+- Final scientific DB run: `a2945d79-9845-4979-b148-159f4853eca3`
+- DB-first verification run: `c719439e-bb88-42ff-bb98-d258c21d204e`
+- Frozen config: `artifacts/model_selection/nested-full-20260710/selected_config.json`
+- Active evidence: `artifacts/final/LATEST_RUN.txt`
+
+The repository contains source, migrations, tests, technical documentation and
+frozen evidence. Old DOCX/PDF reports are removed; report revision is the next
+stage and is not performed by this pipeline.

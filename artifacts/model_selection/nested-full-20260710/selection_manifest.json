@@ -1,0 +1,79 @@
+{
+  "calibration_policy": "none fixed before locked-test evaluation",
+  "created_at": "2026-07-10T10:46:18.890674+00:00",
+  "dataset_checksum": "e47f9ee225e1ee6e69b7564e6dac7123e80b8486677fe111f351964cef5dec80",
+  "dataset_version_id": 1,
+  "ensemble_used_for_selection": false,
+  "git_commit": "74e43fc276d6abfff3829d415315d30d8240da33",
+  "inner_folds": 3,
+  "is_full_final_selection_protocol": true,
+  "locked_test_used_for_selection": false,
+  "n_trials": 30,
+  "nested_outer_summary": {
+    "accuracy": 0.8734177215189873,
+    "brier_score": 0.21222215909543224,
+    "class_report": {
+      "0": {
+        "f1": 0.8679245283018868,
+        "precision": 0.8518518518518519,
+        "recall": 0.8846153846153846,
+        "support": 104
+      },
+      "1": {
+        "f1": 0.8675496688741722,
+        "precision": 0.8851351351351351,
+        "recall": 0.8506493506493507,
+        "support": 154
+      },
+      "2": {
+        "f1": 0.8983050847457628,
+        "precision": 0.8833333333333333,
+        "recall": 0.9137931034482759,
+        "support": 58
+      }
+    },
+    "confusion_matrix": [
+      [
+        92,
+        12,
+        0
+      ],
+      [
+        16,
+        131,
+        7
+      ],
+      [
+        0,
+        5,
+        53
+      ]
+    ],
+    "cv_f1_macro_max": 0.919047619047619,
+    "cv_f1_macro_mean": 0.8780892327767106,
+    "cv_f1_macro_min": 0.823224043715847,
+    "cv_f1_macro_std": 0.04482875094405285,
+    "ece": 0.07774420101431354,
+    "f1_macro": 0.8779264273072739,
+    "fold_f1_macro": [
+      0.9074850679883086,
+      0.823224043715847,
+      0.8235673930589185,
+      0.9171220400728597,
+      0.919047619047619
+    ],
+    "recall_macro": 0.8830192795710037
+  },
+  "objective": "mean inner-CV Macro-F1",
+  "outer_folds": 5,
+  "scenario": "late_stage_G1_G2",
+  "selected_config_checksum": "cda38460197627ac1d71e764f61d784e4c03cf6f86775339d38787c6890678ad",
+  "selected_config_path": "selected_config.json",
+  "selection_run_id": "nested-full-20260710",
+  "selection_seed": 42,
+  "split_hashes": {
+    "locked_test": "ca2a68b26668f2bee5145eee12e41fef74fe18ab3fb701835fb954af64d6f1f3",
+    "train": "c665addbde4d77a082da3f1512b14a663593f803b4375f69bc3871a62db38372"
+  },
+  "threshold_policy": "argmax fixed before locked-test evaluation"
+}

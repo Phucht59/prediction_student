@@ -19,6 +19,17 @@ reports/results/*
 reports/figures/*
 reports/tables/*
 reports/phase*/
+reports/final/explanations/
+reports/final/manifests/
+reports/final/metrics/
+reports/final/predictions/
+reports/final/recommendations/
+reports/final/student-mat_3class_final_report.txt
+reports/final/optimization_protocol_audit.md
+reports/final/nested_model_selection/*
+!reports/final/nested_model_selection/SMOKE_RUN.md
+artifacts/final/student-mat-*/
+artifacts/model_selection/nested-preflight-*/
 archive/
 logs/
 scratch/

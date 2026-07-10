@@ -178,99 +178,10 @@ class RuleBasedLearningPathEngine:
             raise ValueError(f"Unsupported dataset kind: {dataset_kind}")
         self.dataset_kind = dataset_kind
 
-        from pathlib import Path
-        project_root = Path(__file__).resolve().parents[1]
-
-        if self.dataset_kind == "student":
-            self.input_dim = 8
-            self.weights_path = project_root / "models" / "mlp_rec_student.pt"
-        else:
-            self.input_dim = 7
-            self.weights_path = project_root / "models" / "mlp_rec_xapi.pt"
-
-        self.model = RecommendationMLP(self.input_dim, 6)
-
-        if not self.weights_path.exists():
-            self._auto_train(project_root)
-
-        self.model.load_state_dict(torch.load(self.weights_path, map_location="cpu", weights_only=True))
-        self.model.eval()
-
-    def _auto_train(self, project_root: Path):
-        logger.info(f"Auto-training MLP recommendation model for {self.dataset_kind}...")
-        
-        # Load raw data and compute ground truth
-        X_list = []
-        Y_list = []
-
-        if self.dataset_kind == "student":
-            mat_path = project_root / "data" / "raw" / "student-mat.csv"
-            por_path = project_root / "data" / "raw" / "student-por.csv"
-            df_mat = pd.read_csv(mat_path, sep=";")
-            df_por = pd.read_csv(por_path, sep=";")
-            df = pd.concat([df_mat, df_por], ignore_index=True)
-
-            for _, row in df.iterrows():
-                X_list.append(extract_student_features(row))
-                
-                absences = float(row.get("absences", 0.0))
-                study_time = float(row.get("studytime", 1.0))
-                failures = float(row.get("failures", 0.0))
-                g1 = float(row.get("G1", 0.0))
-                g2 = float(row.get("G2", 0.0))
-                alcohol = float(row.get("Dalc", 1.0)) + float(row.get("Walc", 1.0))
-                goout = float(row.get("goout", 1.0))
-                ratio = absences / max(study_time, 0.5)
-
-                Y_list.append([
-                    float(absences >= 10 or ratio >= 5),
-                    float(failures > 0),
-                    float(g2 < 10 or (g1 > 0 and g2 < g1)),
-                    float(study_time <= 1),
-                    float(alcohol >= 6),
-                    float(goout >= 4)
-                ])
-        else:
-            xapi_path = project_root / "data" / "raw" / "xAPI-Edu-Data.csv"
-            df = pd.read_csv(xapi_path, sep=",")
-
-            for _, row in df.iterrows():
-                X_list.append(extract_xapi_features(row))
-
-                raised_hands = float(row.get("raisedhands", 0.0))
-                resources = float(row.get("VisITedResources", 0.0))
-                announcements = float(row.get("AnnouncementsView", 0.0))
-                discussion = float(row.get("Discussion", 0.0))
-                absence_days = str(row.get("StudentAbsenceDays", "")).strip().lower()
-                survey = str(row.get("ParentAnsweringSurvey", "")).strip().lower()
-                satisfaction = str(row.get("ParentschoolSatisfaction", "")).strip().lower()
-
-                Y_list.append([
-                    float(absence_days == "above-7"),
-                    float(resources < 40),
-                    float(raised_hands < 30 or discussion < 30),
-                    float(announcements < 30),
-                    float(survey == "no"),
-                    float(satisfaction == "bad")
-                ])
-
-        X_train = torch.tensor(X_list, dtype=torch.float32)
-        Y_train = torch.tensor(Y_list, dtype=torch.float32)
-
-        optimizer = torch.optim.Adam(self.model.parameters(), lr=0.003, weight_decay=1e-4)
-        criterion = torch.nn.BCEWithLogitsLoss()
-
-        self.model.train()
-        for epoch in range(150):
-            optimizer.zero_grad()
-            logits = self.model(X_train)
-            loss = criterion(logits, Y_train)
-            loss.backward()
-            optimizer.step()
-
-        self.weights_path.parent.mkdir(parents=True, exist_ok=True)
-        torch.save(self.model.state_dict(), self.weights_path)
-        logger.info(f"Auto-training complete. Weights saved to {self.weights_path}.")
+        # Recommendation is deliberately rule-based in the final release.  A
+        # previous MLP/checkpoint path was removed because it trained itself
+        # from local CSV files at inference time, which violated DB-first
+        # provenance and made recommendations non-reproducible.
 
     @staticmethod
     def _number(features: dict[str, Any], name: str, default: float = 0.0) -> float:
@@ -317,12 +228,43 @@ class RuleBasedLearningPathEngine:
         else:
             x = extract_xapi_features(features)
 
-        x_tensor = torch.tensor([x], dtype=torch.float32)
-        with torch.no_grad():
-            logits = self.model(x_tensor)[0]
-            probs = torch.sigmoid(logits).numpy()
-
-        active_indices = [i for i, p in enumerate(probs) if p > 0.5]
+        if self.dataset_kind == "student":
+            absences = self._number(features, "absences")
+            study_time = self._number(features, "studytime", 1.0)
+            failures = self._number(features, "failures")
+            g1 = self._number(features, "G1")
+            g2 = self._number(features, "G2")
+            alcohol = self._number(features, "Dalc") + self._number(features, "Walc")
+            goout = self._number(features, "goout")
+            ratio = absences / max(study_time, 0.5)
+            active_indices = [
+                i for i, active in enumerate([
+                    absences >= 10 or ratio >= 5,
+                    failures > 0,
+                    g2 < 10 or (g1 > 0 and g2 < g1),
+                    study_time <= 1,
+                    alcohol >= 6,
+                    goout >= 4,
+                ]) if active
+            ]
+        else:
+            raised_hands = self._number(features, "raisedhands")
+            resources = self._number(features, "VisITedResources")
+            announcements = self._number(features, "AnnouncementsView")
+            discussion = self._number(features, "Discussion")
+            absence_days = str(features.get("StudentAbsenceDays", "")).strip().lower()
+            survey = str(features.get("ParentAnsweringSurvey", "")).strip().lower()
+            satisfaction = str(features.get("ParentschoolSatisfaction", "")).strip().lower()
+            active_indices = [
+                i for i, active in enumerate([
+                    absence_days == "above-7",
+                    resources < 40,
+                    raised_hands < 30 or discussion < 30,
+                    announcements < 30,
+                    survey == "no",
+                    satisfaction == "bad",
+                ]) if active
+            ]
 
         risks = []
         if self.dataset_kind == "student":

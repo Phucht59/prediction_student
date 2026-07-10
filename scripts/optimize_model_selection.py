@@ -4,8 +4,11 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 import json
 import sys
+import uuid
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -16,7 +19,7 @@ from sklearn.metrics import f1_score
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from src.config import DATASETS, DEFAULT_SEED, FIXED_SEEDS, REPORTS_DIR, ensure_dirs
+from src.config import DATASETS, DEFAULT_SEED, ROOT_DIR, ensure_dirs
 from src.data_pipeline import (
     DataPreprocessor,
     FeatureSelector,
@@ -39,12 +42,12 @@ from src.model_selection import (
     run_optuna_cv_search,
     write_json,
 )
+from src.models import create_model
 from src.postgres_data_source import load_dataset_version_from_postgres, reconstruct_splits_from_run
 
 
 DEFAULT_REFERENCE_RUN_ID = "647158f5-c055-468d-a1c6-47dd6a580028"
-OUTPUT_DIR = REPORTS_DIR / "nested_model_selection"
-AUDIT_PATH = REPORTS_DIR / "optimization_protocol_audit.md"
+SELECTION_ROOT = ROOT_DIR / "artifacts" / "model_selection"
 
 
 def parse_args() -> argparse.Namespace:
@@ -53,10 +56,28 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--target-mode", default="3class", choices=["3class"])
     parser.add_argument("--dataset-version-id", type=int, default=1)
     parser.add_argument("--reference-run-id", default=DEFAULT_REFERENCE_RUN_ID)
-    parser.add_argument("--n-trials", type=int, default=16)
+    parser.add_argument("--n-trials", type=int, default=30)
     parser.add_argument("--outer-folds", type=int, default=5)
-    parser.add_argument("--inner-folds", type=int, default=4)
+    parser.add_argument("--inner-folds", type=int, default=3)
+    parser.add_argument("--selection-seed", type=int, default=42)
+    parser.add_argument("--selection-run-id", default=None)
     return parser.parse_args()
+
+
+def sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def git_commit() -> str:
+    import subprocess
+
+    return subprocess.run(
+        ["git", "rev-parse", "HEAD"], cwd=ROOT_DIR, check=True, text=True, capture_output=True
+    ).stdout.strip()
 
 
 def runtime_connection() -> tuple[str, str]:
@@ -146,6 +167,7 @@ def evaluate_deep_outer_fold(
     outer_val_idx: np.ndarray,
     n_trials: int,
     inner_folds: int,
+    selection_seed: int,
 ) -> dict[str, Any]:
     outer_train = train_pool.iloc[outer_train_idx].copy()
     outer_val = train_pool.iloc[outer_val_idx].copy()
@@ -161,10 +183,14 @@ def evaluate_deep_outer_fold(
         spec,
         best["best_params"],
         inner_split,
-        FIXED_SEEDS,
+        [selection_seed],
         ablation_mode="sequence_only",
     )
-    strategies, selected_strategy = evaluate_ensemble_strategies(inner_oof, FIXED_SEEDS)
+    strategies, selected_strategy = evaluate_ensemble_strategies(
+        inner_oof,
+        [selection_seed],
+        single_seed_only=True,
+    )
     outer_seed_probabilities = {}
     selected_features = {}
     for seed in selected_strategy["seed_list"]:
@@ -256,7 +282,14 @@ def oof_rows(train_pool: pd.DataFrame, spec, fold_ids: np.ndarray, probabilities
     return rows
 
 
-def choose_final_config(train_pool: pd.DataFrame, spec, *, n_trials: int, inner_folds: int) -> tuple[dict[str, Any], dict[str, Any], list[dict[str, Any]]]:
+def choose_final_config(
+    train_pool: pd.DataFrame,
+    spec,
+    *,
+    n_trials: int,
+    inner_folds: int,
+    selection_seed: int,
+) -> tuple[dict[str, Any], dict[str, Any], list[dict[str, Any]]]:
     best, trials, folds = run_optuna_cv_search(
         train_pool,
         spec,
@@ -264,8 +297,19 @@ def choose_final_config(train_pool: pd.DataFrame, spec, *, n_trials: int, inner_
         n_splits=inner_folds,
         seed=DEFAULT_SEED,
     )
-    inner_oof = collect_oof_by_seed(train_pool, spec, best["best_params"], folds, FIXED_SEEDS, ablation_mode="sequence_only")
-    strategies, selected_strategy = evaluate_ensemble_strategies(inner_oof, FIXED_SEEDS)
+    inner_oof = collect_oof_by_seed(
+        train_pool,
+        spec,
+        best["best_params"],
+        folds,
+        [selection_seed],
+        ablation_mode="sequence_only",
+    )
+    strategies, selected_strategy = evaluate_ensemble_strategies(
+        inner_oof,
+        [selection_seed],
+        single_seed_only=True,
+    )
     return best, selected_strategy, strategies
 
 
@@ -294,11 +338,42 @@ def write_protocol_audit(path: Path) -> None:
 def main() -> None:
     args = parse_args()
     ensure_dirs()
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    selection_run_id = args.selection_run_id or f"nested-{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}-{uuid.uuid4().hex[:8]}"
+    output_dir = SELECTION_ROOT / selection_run_id
+    output_dir.mkdir(parents=True, exist_ok=False)
+    audit_path = output_dir / "optimization_protocol_audit.md"
     spec = DATASETS[args.dataset]
     raw_frame, dataset_version = load_dataset_version_from_postgres(args.dataset, args.dataset_version_id)
     target = target_frame(raw_frame, args.dataset, args.target_mode)
     train_pool, locked_test = reconstruct_splits_from_run(target, args.reference_run_id)
+    protocol_manifest = {
+        "selection_run_id": selection_run_id,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "git_commit": git_commit(),
+        "dataset_version_id": args.dataset_version_id,
+        "dataset_checksum": sha256_file(ROOT_DIR / "data" / "raw" / f"{args.dataset}.csv"),
+        "split_hashes": {"train": split_hash(train_pool), "locked_test": split_hash(locked_test)},
+        "scenario": "late_stage_G1_G2",
+        "outer_folds": args.outer_folds,
+        "inner_folds": args.inner_folds,
+        "n_trials": args.n_trials,
+        "selection_seed": args.selection_seed,
+        "objective": "mean inner-CV Macro-F1",
+        "locked_test_used_for_selection": False,
+        "ensemble_used_for_selection": False,
+        "threshold_policy": "argmax fixed before locked-test evaluation",
+        "calibration_policy": "none fixed before locked-test evaluation",
+        "is_full_final_selection_protocol": bool(
+            args.outer_folds >= 5 and args.inner_folds >= 3 and args.n_trials >= 30
+        ),
+    }
+    write_json(output_dir / "protocol_manifest.json", protocol_manifest)
+    if not protocol_manifest["is_full_final_selection_protocol"]:
+        (output_dir / "SMOKE_RUN.md").write_text(
+            "# Non-final nested selection smoke run\n\n"
+            "This run has fewer than 5 outer folds, 3 inner folds or 30 trials and must not be used for final locked-test evaluation.\n",
+            encoding="utf-8",
+        )
     outer_folds = make_folds(train_pool, spec.target_col, n_splits=args.outer_folds, seed=DEFAULT_SEED)
     fold_ids = np.zeros(len(train_pool), dtype=int)
     outer_probabilities = np.zeros((len(train_pool), 3), dtype=float)
@@ -316,6 +391,7 @@ def main() -> None:
             outer_val_idx=outer_val_idx,
             n_trials=args.n_trials,
             inner_folds=args.inner_folds,
+            selection_seed=args.selection_seed,
         )
         outer_results.append(result)
         outer_probabilities[outer_val_idx] = result["probabilities"]
@@ -333,9 +409,13 @@ def main() -> None:
         spec,
         n_trials=args.n_trials,
         inner_folds=args.inner_folds,
+        selection_seed=args.selection_seed,
     )
 
     selected_config = {
+        "selection_run_id": selection_run_id,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "git_commit": git_commit(),
         "dataset": args.dataset,
         "target_mode": args.target_mode,
         "dataset_version_id": args.dataset_version_id,
@@ -346,9 +426,10 @@ def main() -> None:
             "outer_folds": args.outer_folds,
             "inner_folds": args.inner_folds,
             "fold_seed": DEFAULT_SEED,
+            "model_selection_seed": args.selection_seed,
             "optuna_trials_per_inner_search": args.n_trials,
             "locked_test_used_for_selection": False,
-            "selection_rule": "highest outer-CV Macro F1 mean; tie <=0.005 by lower std, then fewer seeds/complexity",
+            "selection_rule": "mean inner-CV Macro-F1; nested outer CV is performance estimation only; one fixed seed and no ensemble selection",
         },
         "nested_cv_result": outer_summary,
         "tabular_baseline": baseline["summary"],
@@ -359,12 +440,25 @@ def main() -> None:
         "sequence_columns": get_sequence_columns(spec.kind),
         "classifier_head": "linear",
         "selected_strategy": final_strategy,
+        "resampling_mode": final_best["best_params"].get("oversample_method", "none"),
+        "class_weight_mode": final_best["best_params"].get("class_weight_mode", "none"),
+        "model_parameter_count": int(sum(parameter.numel() for parameter in create_model(spec.kind, final_best["best_params"]).parameters())),
+        "expected_input_schema": {"sequence_columns": get_sequence_columns(spec.kind), "num_classes": 3},
     }
 
-    write_protocol_audit(AUDIT_PATH)
-    write_json(OUTPUT_DIR / "selected_config.json", selected_config)
+    write_protocol_audit(audit_path)
+    write_json(output_dir / "selected_config.json", selected_config)
     write_json(
-        OUTPUT_DIR / "nested_model_selection_summary.json",
+        output_dir / "selection_manifest.json",
+        {
+            **protocol_manifest,
+            "selected_config_path": "selected_config.json",
+            "selected_config_checksum": sha256_file(output_dir / "selected_config.json"),
+            "nested_outer_summary": outer_summary,
+        },
+    )
+    write_json(
+        output_dir / "nested_model_selection_summary.json",
         {
             "runtime_connection": runtime_connection(),
             "dataset_version": dataset_version,
@@ -385,10 +479,10 @@ def main() -> None:
             "final_inner_strategies": final_strategies,
         },
     )
-    write_csv(OUTPUT_DIR / "nested_candidate_strategy_cv.csv", candidate_rows)
-    write_csv(OUTPUT_DIR / "nested_optuna_trials.csv", trial_rows)
-    write_csv(OUTPUT_DIR / "final_inner_strategy_cv.csv", strategy_rows_for_csv(final_strategies))
-    write_csv(OUTPUT_DIR / "outer_oof_predictions.csv", oof_rows(train_pool, spec, fold_ids, outer_probabilities, outer_predictions))
+    write_csv(output_dir / "nested_candidate_strategy_cv.csv", candidate_rows)
+    write_csv(output_dir / "nested_optuna_trials.csv", trial_rows)
+    write_csv(output_dir / "final_inner_strategy_cv.csv", strategy_rows_for_csv(final_strategies))
+    write_csv(output_dir / "outer_oof_predictions.csv", oof_rows(train_pool, spec, fold_ids, outer_probabilities, outer_predictions))
 
     print(
         json.dumps(
@@ -400,9 +494,9 @@ def main() -> None:
                 "final_best_cv_f1_macro": final_best["best_cv_f1_macro"],
                 "final_selected_strategy": final_strategy,
                 "outputs": {
-                    "audit": str(AUDIT_PATH.resolve()),
-                    "selected_config": str((OUTPUT_DIR / "selected_config.json").resolve()),
-                    "summary": str((OUTPUT_DIR / "nested_model_selection_summary.json").resolve()),
+                    "audit": str(audit_path.resolve()),
+                    "selected_config": str((output_dir / "selected_config.json").resolve()),
+                    "summary": str((output_dir / "nested_model_selection_summary.json").resolve()),
                 },
             },
             ensure_ascii=False,

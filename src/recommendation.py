@@ -18,37 +18,14 @@ import pandas as pd
 
 CLASS_NAMES = {0: "Low", 1: "Medium", 2: "High"}
 RISK_BANDS = {0: "High", 1: "Medium", 2: "Low"}
-POLICY_VERSION = "student_mat_rule_policy_v2"
+POLICY_VERSION = "student_mat_rule_policy_v3"
 STUDENT_RECOMMENDATION_FEATURES = {
-    "school",
-    "sex",
-    "age",
-    "address",
-    "famsize",
-    "Pstatus",
-    "Medu",
-    "Fedu",
-    "Mjob",
-    "Fjob",
-    "reason",
-    "guardian",
-    "traveltime",
     "studytime",
     "failures",
     "schoolsup",
     "famsup",
-    "paid",
     "activities",
-    "nursery",
-    "higher",
     "internet",
-    "romantic",
-    "famrel",
-    "freetime",
-    "goout",
-    "Dalc",
-    "Walc",
-    "health",
     "absences",
     "G1",
     "G2",
@@ -68,6 +45,16 @@ FORBIDDEN_INPUT_COLUMNS = {
     "dataset_version_id",
     "prediction_id",
     "run_id",
+}
+ADVISORY_EXCLUDED_COLUMNS = {
+    "school",
+    "sex",
+    "address",
+    "guardian",
+    "paid",
+    "Dalc",
+    "Walc",
+    "goout",
 }
 
 
@@ -103,8 +90,9 @@ def _text(features: dict[str, Any], name: str, default: str = "") -> str:
 
 
 def sanitize_features(features: dict[str, Any]) -> dict[str, Any]:
-    """Remove target and lineage metadata before policy evaluation."""
-    return {key: value for key, value in features.items() if key not in FORBIDDEN_INPUT_COLUMNS}
+    """Remove target, lineage and socially sensitive advisory inputs."""
+    excluded = FORBIDDEN_INPUT_COLUMNS | ADVISORY_EXCLUDED_COLUMNS
+    return {key: value for key, value in features.items() if key not in excluded}
 
 
 def prepare_recommendation_features(features: dict[str, Any]) -> dict[str, Any]:
@@ -172,15 +160,10 @@ def identify_student_risks(features: dict[str, Any], predicted_class: int) -> li
     failures = _number(features, "failures")
     g1 = _number(features, "G1")
     g2 = _number(features, "G2")
-    dalc = _number(features, "Dalc", 1.0)
-    walc = _number(features, "Walc", 1.0)
-    goout = _number(features, "goout", 1.0)
     internet = _text(features, "internet").lower()
     schoolsup = _text(features, "schoolsup").lower()
     famsup = _text(features, "famsup").lower()
-    paid = _text(features, "paid").lower()
     activities = _text(features, "activities").lower()
-    guardian = _text(features, "guardian").lower()
 
     absence_ratio = absences / max(studytime, 0.5)
     if absences >= 10 or absence_ratio >= 5:
@@ -243,16 +226,6 @@ def identify_student_risks(features: dict[str, Any], predicted_class: int) -> li
                 "One support channel is absent, so weekly check-ins should be explicit.",
             )
         )
-    if paid == "no" and predicted_class == 0:
-        risks.append(
-            RiskFactor(
-                "no_extra_academic_support",
-                "educational support",
-                2,
-                "paid=no with predicted Low performance",
-                "A predicted Low outcome without extra academic support warrants structured remediation.",
-            )
-        )
     if internet == "no":
         risks.append(
             RiskFactor(
@@ -273,37 +246,6 @@ def identify_student_risks(features: dict[str, Any], predicted_class: int) -> li
                 "Extracurricular workload may need scheduling around minimum study blocks.",
             )
         )
-    if dalc + walc >= 6:
-        risks.append(
-            RiskFactor(
-                "alcohol_weekend_pattern",
-                "alcohol/weekend behavior",
-                3,
-                f"Dalc+Walc={dalc + walc:.0f}",
-                "High alcohol-use indicators can affect study routine and attendance; wording should remain supportive.",
-            )
-        )
-    if goout >= 4 and studytime <= 2:
-        risks.append(
-            RiskFactor(
-                "time_management",
-                "extracurricular/workload",
-                3,
-                f"goout={goout:.0f}/5, studytime={studytime:.0f}/4",
-                "Frequent going out with modest study time suggests a scheduling intervention.",
-            )
-        )
-    if guardian not in {"", "mother", "father"} and predicted_class == 0:
-        risks.append(
-            RiskFactor(
-                "guardian_followup",
-                "family/parent support",
-                3,
-                f"guardian={guardian}",
-                "The support contact may need to be clarified for follow-up planning.",
-            )
-        )
-
     if not risks:
         risks.append(
             RiskFactor(
@@ -440,11 +382,12 @@ def build_recommendation(
             "policy_version": POLICY_VERSION,
             "scope_note": "Rule-based advisory support; not evidence of causal improvement.",
         },
+        "disclaimer": "Advisory support only; a teacher or advisor must review before action.",
     }
 
 
 def validate_recommendation_schema(payload: dict[str, Any]) -> None:
-    required = {"risk_band", "confidence_level", "priority_risks", "weekly_plan", "recommended_actions", "explanation"}
+    required = {"risk_band", "confidence_level", "priority_risks", "weekly_plan", "recommended_actions", "explanation", "disclaimer"}
     missing = required - set(payload)
     if missing:
         raise ValueError(f"Missing recommendation fields: {sorted(missing)}")
@@ -452,6 +395,8 @@ def validate_recommendation_schema(payload: dict[str, Any]) -> None:
         raise ValueError("risk_band must be Low, Medium, or High.")
     if payload["confidence_level"] not in {"high", "medium", "low"}:
         raise ValueError("confidence_level must be high, medium, or low.")
+    if "advisor" not in payload["disclaimer"].lower() and "teacher" not in payload["disclaimer"].lower():
+        raise ValueError("Disclaimer must require human advisory review.")
     if not payload["priority_risks"]:
         raise ValueError("Recommendation must include at least one risk factor or explicit monitoring reason.")
     if not payload["recommended_actions"]:
@@ -467,6 +412,9 @@ def validate_recommendation_schema(payload: dict[str, Any]) -> None:
     for forbidden in FORBIDDEN_INPUT_COLUMNS:
         if forbidden in forbidden_text:
             raise ValueError(f"Forbidden metadata leaked into recommendation: {forbidden}")
+    for forbidden in ADVISORY_EXCLUDED_COLUMNS:
+        if f'"{forbidden}"' in forbidden_text:
+            raise ValueError(f"Excluded advisory input leaked into recommendation: {forbidden}")
 
 
 def recommendation_to_legacy_row(
@@ -651,7 +599,10 @@ def structural_validity_metrics(recommendations: list[dict[str, Any]]) -> dict[s
             text = json.dumps(payload.get("recommended_actions", []), ensure_ascii=False).lower()
             low_conf_cautious += int("verify" in text or "advisor" in text or "monitor" in text)
         serialized = json.dumps(payload, ensure_ascii=False)
-        leaks += int(any(forbidden in serialized for forbidden in FORBIDDEN_INPUT_COLUMNS))
+        leaks += int(
+            any(forbidden in serialized for forbidden in FORBIDDEN_INPUT_COLUMNS)
+            or any(f'"{forbidden}"' in serialized for forbidden in ADVISORY_EXCLUDED_COLUMNS)
+        )
         action_risks = [action.get("risk_code") for action in payload.get("recommended_actions", [])]
         contradictions += int(len(action_risks) != len(set(action_risks)))
     return {
