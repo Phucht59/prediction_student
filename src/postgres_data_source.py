@@ -8,7 +8,7 @@ from urllib.parse import unquote, urlparse
 
 import pandas as pd
 
-from src.config import DATASETS, RAW_DIR, ROOT_DIR
+from src.config import DATASETS, RAW_DIR, ROOT_DIR, STUDENT_G3_3CLASS_BINS, XAPI_CLASS_MAPPING
 from src.data_pipeline import SOURCE_ROW_NUMBER_COLUMN, attach_source_row_numbers, drop_protected_metadata
 from src.evaluation.evaluation import (
     HASH_ALGORITHM,
@@ -48,6 +48,87 @@ def _source_records_from_frame(raw_frame: pd.DataFrame) -> list[dict[str, Any]]:
         }
         for source_row, record in zip(source_rows, raw_without_metadata.to_dict("records"), strict=True)
     ]
+
+
+def _target_rows_from_frame(raw_frame: pd.DataFrame, dataset_code: str) -> list[dict[str, Any]]:
+    """Build immutable DB target rows separately from source feature payloads."""
+    spec = DATASETS[dataset_code]
+    frame = attach_source_row_numbers(raw_frame)
+    rows: list[dict[str, Any]] = []
+    for record in frame.to_dict("records"):
+        raw_value = record.get(spec.target_col)
+        if pd.isna(raw_value):
+            raise ValueError(f"Missing target {spec.target_col} at source row {record[SOURCE_ROW_NUMBER_COLUMN]}")
+        if spec.kind == "student":
+            numeric = float(raw_value)
+            if numeric <= STUDENT_G3_3CLASS_BINS[1]:
+                encoded = 0
+            elif numeric <= STUDENT_G3_3CLASS_BINS[2]:
+                encoded = 1
+            else:
+                encoded = 2
+        else:
+            normalized = str(raw_value).strip().upper()
+            if normalized not in XAPI_CLASS_MAPPING:
+                raise ValueError(f"Unknown xAPI target {raw_value!r}")
+            encoded = int(XAPI_CLASS_MAPPING[normalized])
+        target_contract = {
+            "dataset_code": dataset_code,
+            "target_column": spec.target_col,
+            "target_mode": "3class",
+            "bins": list(STUDENT_G3_3CLASS_BINS) if spec.kind == "student" else None,
+            "mapping": dict(XAPI_CLASS_MAPPING) if spec.kind == "xapi" else None,
+        }
+        rows.append({
+            "source_row_number": int(record[SOURCE_ROW_NUMBER_COLUMN]),
+            "target_name": spec.target_col,
+            "raw_target_value": _json_safe(raw_value),
+            "encoded_target_value": encoded,
+            "target_contract_hash": sha256_json(target_contract),
+        })
+    return rows
+
+
+def _insert_source_record_targets(cursor, dataset_version_id: int, record_ids_by_row: dict[int, int], target_rows: list[dict[str, Any]]) -> None:
+    from psycopg2.extras import Json, execute_values
+
+    values = [
+        (
+            dataset_version_id,
+            record_ids_by_row[row["source_row_number"]],
+            row["target_name"],
+            Json(row["raw_target_value"]),
+            row["encoded_target_value"],
+            row["target_contract_hash"],
+        )
+        for row in target_rows
+    ]
+    execute_values(
+        cursor,
+        """
+        INSERT INTO source_record_targets (
+            dataset_version_id, record_id, target_name,
+            raw_target_value, encoded_target_value, target_contract_hash
+        ) VALUES %s
+        ON CONFLICT (dataset_version_id, record_id, target_name) DO NOTHING
+        """,
+        values,
+    )
+    cursor.execute(
+        """
+        SELECT sr.source_row_number, t.target_name, t.encoded_target_value
+        FROM source_record_targets t
+        JOIN source_records sr
+          ON sr.dataset_version_id = t.dataset_version_id
+         AND sr.record_id = t.record_id
+        WHERE t.dataset_version_id = %s
+        ORDER BY sr.source_row_number
+        """,
+        (dataset_version_id,),
+    )
+    persisted = cursor.fetchall()
+    if len(persisted) != len(target_rows):
+        raise RuntimeError("source_record_targets count does not match dataset row_count after ingest.")
 
 
 def build_dataset_version_payload(
@@ -91,12 +172,14 @@ def ingest_dataset_csv_to_postgres(
         raw_frame=raw_frame,
     )
     source_records = _source_records_from_frame(raw_frame)
+    target_rows = _target_rows_from_frame(raw_frame, dataset_code)
 
     connection = _connect()
     try:
         with _dict_cursor(connection) as cursor:
             dataset_version_id = _insert_dataset_version(cursor, dataset_version)
             record_ids_by_row = _insert_source_records(cursor, dataset_version_id, source_records)
+            _insert_source_record_targets(cursor, dataset_version_id, record_ids_by_row, target_rows)
         connection.commit()
     except Exception:
         connection.rollback()
@@ -118,8 +201,15 @@ def ingest_dataset_csv_to_postgres(
 def load_dataset_version_from_postgres(
     dataset_code: str,
     dataset_version_id: int | None = None,
+    *,
+    include_target: bool = True,
 ) -> tuple[pd.DataFrame, dict[str, Any]]:
-    """Load source_records as the raw training DataFrame for a dataset version."""
+    """Load a dataset version from PostgreSQL, joining labels from target storage.
+
+    ``source_records.raw_payload`` is retained for lineage compatibility.  The
+    target table is authoritative when present; callers that only need model
+    features can pass ``include_target=False`` and receive no target column.
+    """
     connection = _connect()
     try:
         with _dict_cursor(connection) as cursor:
@@ -160,6 +250,32 @@ def load_dataset_version_from_postgres(
                 (version["dataset_version_id"],),
             )
             rows = [dict(row) for row in cursor.fetchall()]
+            target_rows: list[dict[str, Any]] = []
+            try:
+                cursor.execute(
+                    """
+                    SELECT sr.source_row_number, t.target_name,
+                           t.raw_target_value, t.encoded_target_value,
+                           t.target_contract_hash
+                    FROM source_record_targets t
+                    JOIN source_records sr
+                      ON sr.dataset_version_id = t.dataset_version_id
+                     AND sr.record_id = t.record_id
+                    WHERE t.dataset_version_id = %s
+                    ORDER BY sr.source_row_number
+                    """,
+                    (version["dataset_version_id"],),
+                )
+                target_rows = [dict(row) for row in cursor.fetchall()]
+            except Exception as exc:
+                # A legacy database can be loaded before migration 003 is
+                # applied; source payload remains a backwards-compatible
+                # fallback, while final DB-first deployments apply 003.
+                if "source_record_targets" not in str(exc):
+                    raise
+                rollback = getattr(connection, "rollback", None)
+                if rollback is not None:
+                    rollback()
     finally:
         connection.close()
 
@@ -188,6 +304,20 @@ def load_dataset_version_from_postgres(
 
     frame = pd.DataFrame(records, columns=canonical_columns)
     frame.insert(0, SOURCE_ROW_NUMBER_COLUMN, source_row_numbers)
+    if target_rows:
+        by_row = {int(row["source_row_number"]): row for row in target_rows}
+        if len(by_row) != row_count:
+            raise RuntimeError("source_record_targets does not cover every source record.")
+        target_name = str(target_rows[0]["target_name"])
+        if include_target:
+            frame[target_name] = [by_row[row]["raw_target_value"] for row in source_row_numbers]
+        else:
+            frame = frame.drop(columns=[target_name], errors="ignore")
+    elif not include_target:
+        target_name = DATASETS[dataset_code].target_col
+        frame = frame.drop(columns=[target_name, "G3_raw"], errors="ignore")
+    elif DATASETS[dataset_code].target_col not in frame.columns:
+        raise RuntimeError("Target storage is missing and source payload has no target column.")
     metadata = {
         "dataset_version_id": int(version["dataset_version_id"]),
         "dataset_code": version["dataset_code"],
@@ -202,6 +332,32 @@ def load_dataset_version_from_postgres(
         "created_at": version["created_at"],
     }
     return frame, metadata
+
+
+def load_dataset_version(
+    dataset_version_id: int,
+    *,
+    include_target: bool,
+    target_mode: str = "3class",
+) -> tuple[pd.DataFrame, dict[str, Any]]:
+    """Stable DB-native loader API used by selection, training, and inference."""
+    if target_mode != "3class":
+        raise ValueError("Only target_mode='3class' is supported by the frozen project protocol.")
+    connection = _connect()
+    try:
+        with _dict_cursor(connection) as cursor:
+            cursor.execute(
+                "SELECT dataset_code FROM source_dataset_versions WHERE dataset_version_id = %s",
+                (dataset_version_id,),
+            )
+            row = cursor.fetchone()
+    finally:
+        connection.close()
+    if row is None:
+        raise RuntimeError(f"dataset version not found: {dataset_version_id}")
+    return load_dataset_version_from_postgres(
+        str(row["dataset_code"]), dataset_version_id, include_target=include_target
+    )
 
 
 def source_locator_path(dataset_version: dict[str, Any]) -> Path:

@@ -1,111 +1,79 @@
-# KLTN — Dự đoán thành tích học tập bằng CNN–BiLSTM
+# Student performance prediction (CNN-BiLSTM)
 
-Pipeline nghiên cứu cho `student-mat` của UCI Student Performance. Bài toán
-phân loại ba mức từ `G3`: Low (`<= 9`), Medium (`10–14`) và High (`>= 15`).
+This repository contains the frozen technical project for the UCI Student
+Performance `student-mat` dataset (395 Portuguese secondary-school students).
+The task is three-class prediction from `G3`: Low (`<=9`), Medium (`10-14`),
+and High (`>=15`). G1 and G2 are two prior assessments, not a long time series.
 
-## Phạm vi và giới hạn
+## Scientific scope
 
-- `G1` và `G2` là hai mốc điểm trước điểm cuối kỳ; chúng không phải chuỗi thời
-  gian dài hạn. Mô hình CNN–BiLSTM chỉ là một kiến trúc thực nghiệm trên chuỗi
-  dài hai bước.
-- Kịch bản `late_stage` dùng `G1,G2`; `early_warning` loại `G2`; kịch bản
-  `pre_assessment` loại cả `G1,G2`. Không được so sánh trực tiếp các kịch bản
-  như có cùng lượng thông tin.
-- Khuyến nghị là policy rule-based hỗ trợ cố vấn, không phải mô hình học máy và
-  không được dùng để ra quyết định tự động hay kết luận quan hệ nhân quả.
-- Không chỉnh sửa hoặc sử dụng số liệu trong DOCX như artifact thực nghiệm.
+- `late_stage` uses G1 and G2; `early_warning` excludes G2; `pre_assessment`
+  excludes both G1 and G2. These scenarios are not directly comparable because
+  they expose different information.
+- The frozen CNN-BiLSTM does not beat the simple G2 rule. The nested-CV result
+  is 0.8781 +/- 0.0448 Macro-F1; locked-test Macro-F1 is 0.9262 versus 0.9365
+  for the G2 rule. HistGradientBoosting has locked-test Macro-F1 0.9463, but
+  it was not selected using the locked test.
+- Recommendations are a deterministic rule-based advisory policy
+  (`student_mat_rule_policy_v3`), not a learned recommender. Expert review is
+  still pending.
 
-## Final DB-first evidence
+## PostgreSQL-first data flow
 
-Final run: `a2945d79-9845-4979-b148-159f4853eca3` (`completed`), được chọn từ
-full nested CV 5 outer × 3 inner folds × 30 trial và chạy bằng config frozen.
-Selected config: `artifacts/model_selection/nested-full-20260710/selected_config.json`
-(SHA-256 `cda38460197627ac1d71e764f61d784e4c03cf6f86775339d38787c6890678ad`).
-Clean-commit verification run `c719439e-bb88-42ff-bb98-d258c21d204e` reproduced
-the final prediction CSV byte-for-byte; see
-`artifacts/final/final-a2945d79-9845-4979-b148-159f4853eca3/reproducibility_manifest.json`.
-Evidence run mới nhất nằm trong `artifacts/final/` (tên run được lưu trong
-`artifacts/final/LATEST_RUN.txt`). Tất cả metric đều tính từ CSV prediction đã
-lưu, không chép tay vào README.
-
-| Phương pháp late-stage | OOF Macro-F1 | Locked-test Macro-F1 |
-| --- | ---: | ---: |
-| G2 threshold rule | 0.8988 | 0.9365 |
-| HistGradientBoosting, toàn feature | 0.8969 | 0.9463 |
-| CNN–BiLSTM, 1 seed | 0.8422 | 0.9098 |
-| CNN–BiLSTM final frozen single seed | 0.8781 nested outer CV | 0.9262 |
-
-Kết luận bắt buộc: mô hình sâu hiện chưa chứng minh giá trị tăng thêm so với
-quy tắc G2 hoặc baseline đơn giản. HistGradientBoosting có điểm test cao hơn
-nhưng không được chọn theo test vì OOF Macro-F1 thấp hơn G2 rule.
-So sánh HGB `0.8969` và nested HGB `0.8690` dùng protocol/feature pipeline
-khác nhau; xem [MODEL_COMPARISON_PROTOCOL.md](docs/MODEL_COMPARISON_PROTOCOL.md).
-
-## Quy trình tái lập
-
-Chạy test:
-
-```powershell
-py -3.10 -m pytest -q
-```
-
-Tạo baseline, kịch bản early-warning/pre-assessment, calibration, fairness
-slice và evidence bundle:
-
-```powershell
-py -3.10 scripts/run_final_evidence.py
-```
-
-Chạy CNN-only, BiLSTM-only, CNN–BiLSTM, ablation mất cân bằng và ensemble:
-
-```powershell
-py -3.10 scripts/run_deep_ablation.py
-```
-
-Mỗi run sinh `run_manifest.json`, split hashes, OOF/locked predictions,
-metrics, PR data, calibration/reliability data, fairness slices và evaluation
-khuyến nghị trong `artifacts/final/<run_id>/`.
-
-## Final DB-first pipeline
-
-Database mặc định là `student_predict`; credentials phải lấy từ biến môi
-trường, không hard-code mật khẩu. Schema lineage gồm:
+`student-mat.csv` is read only by the explicit ingestion command. All model
+selection, training, final evaluation, inference, recommendation and evidence
+queries use PostgreSQL:
 
 ```text
-source_dataset_versions
-source_records
-ml_experiment_runs
-ml_run_record_splits
-ml_predictions
-ml_run_metrics
-ml_recommendations
+CSV (one-time ingestion)
+  -> source_dataset_versions + source_records + source_record_targets
+  -> DB-native loader(dataset_version_id)
+  -> split ledger -> Optuna/training/evaluation -> DB predictions/metrics/recommendations
 ```
 
-Final pipeline yêu cầu một `selected_config.json` đã đóng băng trước khi mở
-locked test. Nó không tự chạy Optuna trong lệnh final:
+The canonical database is `student_predict`; credentials come from environment
+variables. Targets are stored separately in `source_record_targets` and are
+joined only for evaluation/training, never treated as model features.
+
+Apply migrations in order, including
+`database/migrations/003_add_source_record_targets.sql`, then ingest:
+
+```powershell
+py -3.10 scripts/ingest_dataset_to_postgres.py --dataset student-mat
+```
+
+Run frozen evaluation (no CSV path and no Optuna):
 
 ```powershell
 py -3.10 scripts/run_pipeline.py --dataset student-mat --target-mode 3class `
-  --dataset-version-id 1 --selection-config-json <duong_dan_selected_config.json>
+  --dataset-version-id 1 `
+  --selection-config-json artifacts/model_selection/nested-full-20260710/selected_config.json
 ```
 
-`--debug` chỉ dùng smoke test, không phải kết quả khóa luận. Full model
-selection dùng:
+Full model selection uses PostgreSQL and a frozen protocol of 5 outer folds,
+3 inner folds, 30 trials per inner search, seed 42:
 
 ```powershell
-py -3.10 scripts/optimize_model_selection.py --dataset student-mat --dataset-version-id 1 --n-trials 30 --outer-folds 5 --inner-folds 3 --selection-seed 42 --selection-run-id nested-full-20260710
+py -3.10 scripts/optimize_model_selection.py --dataset student-mat `
+  --dataset-version-id 1 --n-trials 30 --outer-folds 5 --inner-folds 3 `
+  --selection-seed 42 --selection-run-id nested-full-20260710
 ```
 
-## Guardrails
+`--debug` is smoke-only and is never final evidence.
 
-- Không đưa `G3`, `G3_raw`, nhãn thật hoặc metadata lineage vào feature/model
-  input hoặc recommendation.
-- Scaler, encoding, feature selection và SMOTE chỉ fit ở train portion của mỗi
-  fold; locked test không đi vào Optuna, threshold hay calibration fitting.
-- CNN kernel cho chuỗi hai bước là `1`; số tham số và ablation phải được ghi
-  trong artifact, không diễn giải như mô hình chuỗi dài hạn.
-- Class weight và SMOTE là hai lựa chọn độc lập cần ablation; không mặc định
-  dùng đồng thời.
-- Recommendation loại các biến `sex`, `school`, `address`, `guardian`,
-  `paid`, `Dalc`, `Walc`, `goout` khỏi luật khuyến nghị tự động và luôn yêu cầu
-  giảng viên/cố vấn duyệt.
+## Frozen evidence and verification
+
+- Selection config: `artifacts/model_selection/nested-full-20260710/selected_config.json`
+- Final scientific run: `a2945d79-9845-4979-b148-159f4853eca3`
+- DB-first reproducibility run: `c719439e-bb88-42ff-bb98-d258c21d204e`
+- `artifacts/final/LATEST_RUN.txt` identifies the active evidence bundle.
+
+Verify checksums, predictions, metrics and DB counts:
+
+```powershell
+py -3.10 scripts/verify_final_evidence.py
+```
+
+The old report DOCX/PDF and generated report context are intentionally absent.
+The thesis report will be written in the next stage from this frozen evidence;
+no DOCX is edited by the project-cleanup pipeline.

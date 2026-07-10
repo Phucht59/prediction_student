@@ -15,6 +15,9 @@ MIGRATION_SQL = (PROJECT_ROOT / "database" / "migrations" / "001_create_source_m
 MIGRATION_002_SQL = (
     PROJECT_ROOT / "database" / "migrations" / "002_allow_append_only_recommendation_policy_versions.sql"
 ).read_text(encoding="utf-8")
+MIGRATION_003_SQL = (
+    PROJECT_ROOT / "database" / "migrations" / "003_add_source_record_targets.sql"
+).read_text(encoding="utf-8")
 DEFAULT_WINDOWS_PSQL = Path("C:/Program Files/PostgreSQL/17/bin/psql.exe")
 PSQL_PATH = os.getenv("PSQL_PATH") or shutil.which("psql") or (
     str(DEFAULT_WINDOWS_PSQL) if DEFAULT_WINDOWS_PSQL.exists() else None
@@ -91,6 +94,7 @@ def create_schema() -> str:
     run_sql(f'CREATE SCHEMA "{schema}";')
     run_sql_file(MIGRATION_SQL, schema=schema)
     run_sql_file(MIGRATION_002_SQL, schema=schema)
+    run_sql_file(MIGRATION_003_SQL, schema=schema)
     return schema
 
 

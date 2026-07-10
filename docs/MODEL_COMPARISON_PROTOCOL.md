@@ -1,5 +1,8 @@
 # Model Comparison Protocol
 
+All primary model-selection rows are loaded from the PostgreSQL dataset version
+and use the same source-record lineage. CSV is ingestion-only.
+
 Các số HGB dưới đây thuộc các protocol khác nhau và không được trộn lẫn.
 
 | Result name | Model | Scenario | Validation protocol | Feature set | Tuned | Selection basis | Metric |

@@ -1,37 +1,41 @@
-# Project status — final-model evidence
+# Project status - frozen technical release
 
 ## Active architecture
 
-- Production research classifier: sequence-only CNN–BiLSTM (`G1,G2` → CNN →
-  BiLSTM → linear head), without Context MLP.
-- Ablation variants: CNN-only, BiLSTM-only and CNN–BiLSTM.
-- Recommender: deterministic rule-based advisory policy, version
-  `student_mat_rule_policy_v3`; it is not an MLP or a learned recommender.
-- Final selected config: `artifacts/model_selection/nested-full-20260710/selected_config.json`
-  (single seed 42, no resampling/class weight); database run
-  `a2945d79-9845-4979-b148-159f4853eca3` is completed.
-- G2 threshold remains stronger on locked test (Macro-F1 0.9365) than the
-  frozen CNN–BiLSTM final run (0.9262).
+- Research classifier: sequence-only CNN-BiLSTM (G1,G2 -> CNN -> BiLSTM -> linear head).
+- Selection: nested 5 outer x 3 inner stratified folds, 30 Optuna trials, seed 42.
+- Data source: PostgreSQL `student_predict`; CSV is ingestion-only.
+- Recommender: deterministic rule-based advisory policy `student_mat_rule_policy_v3`.
 
-## Completed evidence work
+## Status
 
 | Work item | Status |
 | --- | --- |
-| Deterministic 80/20 split, hashes and dataset manifest | DONE |
-| Leakage guard tests and train-only preprocessing | DONE |
-| G2, Logistic Regression and HistGradientBoosting baselines | DONE |
-| Late-stage, early-warning and pre-assessment scenarios | DONE |
-| CNN-only/BiLSTM-only/CNN–BiLSTM and imbalance ablations | DONE |
-| 11-seed ensemble evaluation | DONE |
-| Calibration, ordinal metrics, PR data and bootstrap CIs | DONE |
-| Recommendation schema, deterministic checks and fairness slices | DONE |
-| PostgreSQL source-record lineage tests | DONE (integration tests skip without DB) |
-| Full nested selection and frozen DB-first final run | DONE |
-| Clean-commit reproducibility verification | DONE (exact prediction checksum match) |
+| Repository cleanup | DONE |
+| PostgreSQL-first ingestion | DONE |
+| PostgreSQL-native model selection | DONE |
+| PostgreSQL-native final evaluation | DONE |
+| DB-first reproducibility | DONE |
+| Main branch release | DONE |
+| Expert recommendation review | PENDING |
+| Thesis DOCX rewrite | NEXT |
 
-## Remaining before thesis report revision
+## Frozen scientific conclusion
 
-1. Obtain human/expert ratings for the supplied recommendation review cases;
-   do not invent these scores.
-2. Rewrite the report from evidence artifacts. The current DOCX remains
-   untouched in this code-completion phase.
+CNN-BiLSTM is technically reproducible but does not demonstrate added value
+over the G2 rule: final locked Macro-F1 is 0.9262 versus 0.9365 for G2.
+HistGradientBoosting locked Macro-F1 is 0.9463, but its nested outer score is
+0.8690 and the locked score was not used for selection. These results must not
+be replaced by a more favorable split.
+
+## Release references
+
+- Selection run: `nested-full-20260710`
+- Final scientific DB run: `a2945d79-9845-4979-b148-159f4853eca3`
+- DB-first verification run: `c719439e-bb88-42ff-bb98-d258c21d204e`
+- Frozen config: `artifacts/model_selection/nested-full-20260710/selected_config.json`
+- Active evidence: `artifacts/final/LATEST_RUN.txt`
+
+The repository contains source, migrations, tests, technical documentation and
+frozen evidence. Old DOCX/PDF reports are removed; report revision is the next
+stage and is not performed by this pipeline.

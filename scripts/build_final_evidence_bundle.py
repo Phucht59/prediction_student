@@ -38,7 +38,11 @@ def parse_args():
     p = argparse.ArgumentParser()
     p.add_argument("--database-run-id", required=True)
     p.add_argument("--selection-dir", required=True)
-    p.add_argument("--reference-evidence-dir", required=True)
+    p.add_argument(
+        "--reference-evidence-dir",
+        default=str(ROOT / "artifacts" / "final" / "final-a2945d79-9845-4979-b148-159f4853eca3"),
+        help="Existing text evidence used for baseline/ablation tables; predictions are always read from PostgreSQL.",
+    )
     p.add_argument("--overwrite", action="store_true")
     return p.parse_args()
 
@@ -53,8 +57,31 @@ def main():
         raise FileExistsError(f"Final evidence directory exists: {out}")
     out.mkdir(parents=True, exist_ok=True)
 
-    predictions_source = ROOT / "reports" / "final" / "predictions" / "student-mat_3class_predictions.csv"
-    predictions = pd.read_csv(predictions_source)
+    connection = _connect()
+    try:
+        cursor = connection.cursor()
+        cursor.execute("""
+            select sr.source_row_number, p.true_label, p.predicted_label, p.confidence, p.probability
+            from ml_predictions p
+            join source_records sr on sr.record_id=p.record_id
+            where p.run_id=%s and p.split_name='test'
+            order by sr.source_row_number
+        """, (run_id,))
+        db_prediction_rows = cursor.fetchall()
+    finally:
+        connection.close()
+    predictions = pd.DataFrame([
+        {
+            "__source_row_number": int(row[0]),
+            "True_Label": int(row[1]),
+            "Pred_Label": int(row[2]),
+            "Confidence": float(row[3]),
+            "Prob_Class_0": float(row[4]["Low"]),
+            "Prob_Class_1": float(row[4]["Medium"]),
+            "Prob_Class_2": float(row[4]["High"]),
+        }
+        for row in db_prediction_rows
+    ])
     y_true = predictions["True_Label"].to_numpy(dtype=int)
     y_pred = predictions["Pred_Label"].to_numpy(dtype=int)
     probabilities = predictions[["Prob_Class_0", "Prob_Class_1", "Prob_Class_2"]].to_numpy(dtype=float)
@@ -70,7 +97,6 @@ def main():
         (selection / "outer_oof_predictions.csv", "oof_predictions.csv"),
         (selection / "nested_optuna_trials.csv", "optuna_trials.csv"),
         (selection / "nested_model_selection_summary.json", "optuna_best_trials.json"),
-        (ROOT / "reports" / "final" / "metrics" / "student-mat_3class_precision_recall_curves.csv", "pr_curve_data.csv"),
     ]:
         shutil.copy2(source, out / target)
     predictions.to_csv(out / "locked_test_predictions.csv", index=False)
@@ -92,7 +118,7 @@ def main():
     for label in range(3):
         prec, rec, th = precision_recall_curve((y_true == label).astype(int), probabilities[:, label])
         pr.extend({"class_label": label, "precision": float(p), "recall": float(r), "threshold": None if i == len(th) else float(th[i])} for i, (p, r) in enumerate(zip(prec, rec)))
-    pd.DataFrame(pr).to_csv(out / "pr_curve_data_recomputed.csv", index=False)
+    pd.DataFrame(pr).to_csv(out / "pr_curve_data.csv", index=False)
 
     c = _connect()
     try:
@@ -132,9 +158,9 @@ def main():
         for row in recommendation_rows[:12]
     ]).to_csv(out / "recommendation_expert_review_cases.csv", index=False)
 
-    raw = ROOT / "data" / "raw" / "student-mat.csv"
     split = json.loads((selection / "protocol_manifest.json").read_text(encoding="utf-8"))["split_hashes"]
-    dataset_manifest = {"dataset": "student-mat", "dataset_checksum": sha(raw), "dataset_version_id": row[1], "row_count": 395}
+    selection_protocol = json.loads((selection / "protocol_manifest.json").read_text(encoding="utf-8"))
+    dataset_manifest = {"dataset": "student-mat", "dataset_checksum": selection_protocol["dataset_checksum"], "dataset_version_id": row[1], "row_count": 395, "data_source": "postgresql"}
     dump(out / "dataset_manifest.json", dataset_manifest)
     dump(out / "split_hashes.json", split)
     dump(out / "split_manifest.json", {"protocol": "stratified_80_20_locked_test", "seed": 42, **split})
