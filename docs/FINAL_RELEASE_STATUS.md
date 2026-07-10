@@ -1,6 +1,6 @@
 # Final release status
 
-- Cleanup/database-first commit: `2e6ae990f295a50b1b4a6c075b8acd21330f6002`.
+- Cleanup/database-first commit: see the commit recorded for this release in `git log`.
 - Main merge commit: pending until merge verification.
 - Branch: `main` after release merge.
 - Selection run: `nested-full-20260710`.
