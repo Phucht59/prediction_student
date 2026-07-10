@@ -27,6 +27,7 @@
 | Recommendation schema, deterministic checks and fairness slices | DONE |
 | PostgreSQL source-record lineage tests | DONE (integration tests skip without DB) |
 | Full nested selection and frozen DB-first final run | DONE |
+| Clean-commit reproducibility verification | DONE (exact prediction checksum match) |
 
 ## Remaining before thesis report revision
 

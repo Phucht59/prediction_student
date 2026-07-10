@@ -33,6 +33,7 @@
     "recommendation_evaluation.json": "fabde2b878fda48dcf360237ea00929a0468844b9a2295ea715e7143031a1fe5",
     "recommendation_expert_review_cases.csv": "6fa1a7276e58758107d22dc0cc6fce37be33ae571e5a73b8d48900c0738f5a7c",
     "reliability_curve_data.csv": "ac39cebaa8b145ea138150224824377a76ce430b3aa2fea6f676064a57acaca7",
+    "reproducibility_manifest.json": "e466c220142fef9e45c8eff092596e2ffa648183095c4eceaabb6f62a22992cd",
     "scenario_results.csv": "f3248494164629bcf6df04cb933a133b592b3667fd97ee9587d656ff715f6b2b",
     "selected_config.json": "cda38460197627ac1d71e764f61d784e4c03cf6f86775339d38787c6890678ad",
     "split_hashes.json": "0a0d88058ba7344857828d07944d6112fea0df1e3b609303f71218f0a802d559",

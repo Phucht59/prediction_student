@@ -50,6 +50,8 @@ The latest machine-generated bundle is identified by
 - Nested outer Macro-F1: `0.8781 ± 0.0448`. Final locked-test Accuracy:
   `0.9114`; Macro-F1: `0.9262`; QWK: `0.9152`; ordinal MAE: `0.0886`.
 - Final evidence: `artifacts/final/final-a2945d79-9845-4979-b148-159f4853eca3/`.
+- Clean-commit verification run `c719439e-bb88-42ff-bb98-d258c21d204e` matches
+  the original prediction CSV byte-for-byte and has zero reported metric delta.
 
 The deep model does not beat the G2 baseline. This is a scientific result, not
 an implementation error to hide. The held-out HistGradientBoosting score is

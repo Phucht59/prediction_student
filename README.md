@@ -21,6 +21,9 @@ Final run: `a2945d79-9845-4979-b148-159f4853eca3` (`completed`), được chọn
 full nested CV 5 outer × 3 inner folds × 30 trial và chạy bằng config frozen.
 Selected config: `artifacts/model_selection/nested-full-20260710/selected_config.json`
 (SHA-256 `cda38460197627ac1d71e764f61d784e4c03cf6f86775339d38787c6890678ad`).
+Clean-commit verification run `c719439e-bb88-42ff-bb98-d258c21d204e` reproduced
+the final prediction CSV byte-for-byte; see
+`artifacts/final/final-a2945d79-9845-4979-b148-159f4853eca3/reproducibility_manifest.json`.
 Evidence run mới nhất nằm trong `artifacts/final/` (tên run được lưu trong
 `artifacts/final/LATEST_RUN.txt`). Tất cả metric đều tính từ CSV prediction đã
 lưu, không chép tay vào README.
