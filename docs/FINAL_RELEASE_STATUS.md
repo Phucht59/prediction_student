@@ -3,6 +3,7 @@
 - Cleanup/database-first commit: `add10010aed0b2e625b74356ee48dbac82ba8f6f`.
 - Main merge commit: `99ce1c89e37047b9c9e7a6ee44432600c11a0a52`.
 - Release metadata/checksum commit: `952f2e37187bebfdf4e776f9c8a06fc9b0b2f7ac`.
+- Post-tag CSV-boundary hardening commit: `6dab4b3aff8ebbc91ad47428567702391d37083e`.
 - Branch: `main` (pushed to `origin/main`).
 - Release tag: `thesis-project-postgresql-final-v2`.
 - Selection run: `nested-full-20260710`.
