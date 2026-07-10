@@ -31,7 +31,7 @@ DATABASE_URL = os.getenv("DATABASE_URL", "").strip()
 POSTGRES_CONFIG = {
     "host": os.getenv("POSTGRES_HOST", "localhost"),
     "port": os.getenv("POSTGRES_PORT", "5432"),
-    "dbname": os.getenv("POSTGRES_DB", "student_performance"),
+    "dbname": os.getenv("POSTGRES_DB", "student_predict"),
     "user": os.getenv("POSTGRES_USER", "postgres"),
     "password": os.getenv("POSTGRES_PASSWORD", "postgres")
 }

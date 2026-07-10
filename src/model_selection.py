@@ -68,18 +68,19 @@ def student_search_space(trial: optuna.Trial) -> dict[str, Any]:
         "learning_rate": trial.suggest_float("learning_rate", 5e-5, 2e-2, log=True),
         "weight_decay": trial.suggest_float("weight_decay", 1e-7, 3e-3, log=True),
         "batch_size": trial.suggest_categorical("batch_size", [16, 32, 64]),
-        "oversample_method": trial.suggest_categorical("oversample_method", ["none", "smote", "adasyn"]),
+        "oversample_method": trial.suggest_categorical("oversample_method", ["none", "smote"]),
+        "class_weight_mode": trial.suggest_categorical("class_weight_mode", ["none", "balanced"]),
         "smote_ratio": trial.suggest_float("smote_ratio", 0.35, 1.0),
         "resampling_k_neighbors": trial.suggest_int("resampling_k_neighbors", 2, 7),
-        "cnn_channels": trial.suggest_categorical("cnn_channels", [16, 32, 64, 96]),
-        "cnn_kernel_size": trial.suggest_categorical("cnn_kernel_size", [2, 3, 5]),
-        "lstm_hidden_dim": trial.suggest_categorical("lstm_hidden_dim", [32, 64, 96]),
+        "cnn_channels": trial.suggest_categorical("cnn_channels", [8, 16, 32]),
+        "cnn_kernel_size": trial.suggest_categorical("cnn_kernel_size", [1]),
+        "lstm_hidden_dim": trial.suggest_categorical("lstm_hidden_dim", [8, 16, 32]),
         "dropout": trial.suggest_float("dropout", 0.1, 0.55),
         "sequence_dropout": trial.suggest_float("sequence_dropout", 0.05, 0.55),
         "loss": loss_name,
-        "max_epochs": trial.suggest_categorical("max_epochs", [60, 80, 100]),
-        "patience": trial.suggest_categorical("patience", [12, 15, 20]),
-        "scheduler_patience": trial.suggest_categorical("scheduler_patience", [4, 5, 7]),
+        "max_epochs": trial.suggest_categorical("max_epochs", [40, 60]),
+        "patience": trial.suggest_categorical("patience", [8, 12]),
+        "scheduler_patience": trial.suggest_categorical("scheduler_patience", [3, 5]),
     }
     if loss_name == "focal":
         params["focal_gamma"] = trial.suggest_float("focal_gamma", 1.0, 3.0)
@@ -103,9 +104,11 @@ def build_training_config(params: dict[str, Any]) -> TrainingConfig:
 def _criterion(spec, params: dict[str, Any], class_weights: torch.Tensor):
     if spec.kind == "xapi":
         return nn.BCEWithLogitsLoss()
+    use_class_weights = params.get("class_weight_mode", "balanced") == "balanced"
+    effective_weights = class_weights if use_class_weights else None
     if params.get("loss") == "focal" or "focal_gamma" in params:
-        return FocalLoss(weight=class_weights, gamma=float(params.get("focal_gamma", 2.0)))
-    return nn.CrossEntropyLoss(weight=class_weights)
+        return FocalLoss(weight=effective_weights, gamma=float(params.get("focal_gamma", 2.0)))
+    return nn.CrossEntropyLoss(weight=effective_weights)
 
 
 def split_model_train_and_early_stop(
@@ -510,7 +513,12 @@ def metric_summary_from_predictions(
     }
 
 
-def evaluate_ensemble_strategies(oof: dict[str, Any], seeds: list[int]) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+def evaluate_ensemble_strategies(
+    oof: dict[str, Any],
+    seeds: list[int],
+    *,
+    single_seed_only: bool = False,
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     y_true = oof["y_true"]
     fold_ids = oof["fold_ids"]
     seed_probabilities = oof["seed_probabilities"]
@@ -518,6 +526,23 @@ def evaluate_ensemble_strategies(oof: dict[str, Any], seeds: list[int]) -> tuple
         seed: f1_score(y_true, np.argmax(seed_probabilities[seed], axis=1), average="macro", zero_division=0)
         for seed in seeds
     }
+    if single_seed_only:
+        if len(seeds) != 1:
+            raise ValueError("single_seed_only requires exactly one predeclared seed.")
+        seed = int(seeds[0])
+        probabilities = seed_probabilities[seed]
+        summary = metric_summary(y_true, probabilities, None, fold_ids)
+        selected = {
+            "strategy_name": f"single_seed_{seed}_argmax",
+            "ensemble_method": "mean_probability",
+            "seed_list": [seed],
+            "seed_weights": None,
+            "seed_count": 1,
+            "calibration_policy": {"type": "none"},
+            "threshold_policy": {"type": "argmax"},
+            **summary,
+        }
+        return [selected], selected
     ranked_seeds = [seed for seed, _ in sorted(seed_scores.items(), key=lambda item: item[1], reverse=True)]
     rows = []
 

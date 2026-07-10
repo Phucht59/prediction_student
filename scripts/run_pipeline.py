@@ -137,6 +137,7 @@ def normalize_cnn_bilstm_classifier_params(params: dict) -> dict:
     normalized["architecture"] = "cnn_bilstm_classifier"
     normalized["context_mlp_enabled"] = False
     normalized["classifier_head"] = "linear"
+    normalized.setdefault("class_weight_mode", "balanced" if normalized.get("loss") == "weighted_ce" else "none")
     return normalized
 
 
@@ -421,6 +422,8 @@ def train_seed_ensemble(
         val_sub = apply_feature_engineering(train_pool.iloc[val_indices].copy(), spec.kind)
         test_engineered = apply_feature_engineering(locked_test.copy(), spec.kind)
         class_weights = calculate_class_weights(train_sub[spec.target_col].astype(int).to_numpy(), num_classes=3).to(device)
+        use_class_weights = best_params.get("class_weight_mode", "balanced") == "balanced"
+        effective_class_weights = class_weights if use_class_weights else None
 
         preprocessor = DataPreprocessor(
             target_col=spec.target_col,
@@ -463,18 +466,21 @@ def train_seed_ensemble(
             criterion = nn.BCEWithLogitsLoss()
         else:
             if "focal_gamma" in best_params:
-                criterion = FocalLoss(weight=class_weights, gamma=best_params["focal_gamma"])
+                criterion = FocalLoss(weight=effective_class_weights, gamma=best_params["focal_gamma"])
             else:
-                criterion = nn.CrossEntropyLoss(weight=class_weights)
+                criterion = nn.CrossEntropyLoss(weight=effective_class_weights)
         optimizer = optim.Adam(
             model.parameters(),
             lr=float(best_params["learning_rate"]),
             weight_decay=float(best_params["weight_decay"]),
         )
         config = TrainingConfig(
-            max_epochs=3 if debug else 100,
-            patience=2 if debug else (25 if spec.kind == "xapi" else 15),
-            scheduler_patience=1 if debug else (8 if spec.kind == "xapi" else 5),
+            max_epochs=3 if debug else int(best_params.get("max_epochs", 100)),
+            batch_size=batch_size,
+            patience=2 if debug else int(best_params.get("patience", 15)),
+            scheduler_patience=1 if debug else int(best_params.get("scheduler_patience", 5)),
+            learning_rate=float(best_params["learning_rate"]),
+            weight_decay=float(best_params["weight_decay"]),
         )
         logger.info("Training ensemble seed %s.", seed)
         model, _, _ = train_model(
@@ -642,6 +648,12 @@ def main():
     spec = DATASETS[args.dataset]
     selection_config = load_selection_config(getattr(args, "selection_config_json", None))
     logger.info("Starting approved thesis pipeline for %s.", args.dataset)
+    if not selection_config and not args.debug:
+        raise ValueError(
+            "A frozen --selection-config-json is required for a non-debug final run. "
+            "Run scripts/optimize_model_selection.py first; the locked test must not be "
+            "opened by a command that is still running Optuna."
+        )
 
     effective_dataset_version_id = args.dataset_version_id
     if args.seed_from_csv:

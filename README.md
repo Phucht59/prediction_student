@@ -1,68 +1,72 @@
-# KLTN - Du doan thanh tich hoc tap sinh vien bang CNN-BiLSTM
+# KLTN — Dự đoán thành tích học tập bằng CNN–BiLSTM
 
-Do an xay dung pipeline du doan thanh tich hoc tap sinh vien theo 3 lop
-`Low`, `Medium`, `High` tu bo du lieu Student Performance `student-mat`.
-Pipeline final doc du lieu theo huong database-first tu PostgreSQL, huan luyen
-mo hinh CNN-BiLSTM va sinh khuyen nghi hoc tap rule-based co giai thich.
+Pipeline nghiên cứu cho `student-mat` của UCI Student Performance. Bài toán
+phân loại ba mức từ `G3`: Low (`<= 9`), Medium (`10–14`) và High (`>= 15`).
 
-## Final scope
+## Phạm vi và giới hạn
 
-- Dataset final: `student-mat`
-- Dataset version: `1`
-- Source records: `395`
-- Split final: `train = 316`, `test = 79`
-- Target: 3 lop suy ra tu `G3`
-- Input model: chi `G1`, `G2`
-- Final model: `cnn_bilstm_classifier`
-- Khong co Context MLP trong kien truc final
-- Recommendation policy: `student_mat_rule_policy_v2`
-- PostgreSQL database: `student_predict`
-- Runtime application role: `student_predict_app`
+- `G1` và `G2` là hai mốc điểm trước điểm cuối kỳ; chúng không phải chuỗi thời
+  gian dài hạn. Mô hình CNN–BiLSTM chỉ là một kiến trúc thực nghiệm trên chuỗi
+  dài hai bước.
+- Kịch bản `late_stage` dùng `G1,G2`; `early_warning` loại `G2`; kịch bản
+  `pre_assessment` loại cả `G1,G2`. Không được so sánh trực tiếp các kịch bản
+  như có cùng lượng thông tin.
+- Khuyến nghị là policy rule-based hỗ trợ cố vấn, không phải mô hình học máy và
+  không được dùng để ra quyết định tự động hay kết luận quan hệ nhân quả.
+- Không chỉnh sửa hoặc sử dụng số liệu trong DOCX như artifact thực nghiệm.
 
-## Final model
+## Final DB-first evidence
 
-Kien truc final:
+Final run: `a2945d79-9845-4979-b148-159f4853eca3` (`completed`), được chọn từ
+full nested CV 5 outer × 3 inner folds × 30 trial và chạy bằng config frozen.
+Selected config: `artifacts/model_selection/nested-full-20260710/selected_config.json`
+(SHA-256 `cda38460197627ac1d71e764f61d784e4c03cf6f86775339d38787c6890678ad`).
+Evidence run mới nhất nằm trong `artifacts/final/` (tên run được lưu trong
+`artifacts/final/LATEST_RUN.txt`). Tất cả metric đều tính từ CSV prediction đã
+lưu, không chép tay vào README.
 
-```text
-[G1, G2]
--> Conv1D + BatchNorm + ReLU
--> Bi-LSTM
--> Dropout
--> Linear classification head
--> 3-class probabilities
+| Phương pháp late-stage | OOF Macro-F1 | Locked-test Macro-F1 |
+| --- | ---: | ---: |
+| G2 threshold rule | 0.8988 | 0.9365 |
+| HistGradientBoosting, toàn feature | 0.8969 | 0.9463 |
+| CNN–BiLSTM, 1 seed | 0.8422 | 0.9098 |
+| CNN–BiLSTM final frozen single seed | 0.8781 nested outer CV | 0.9262 |
+
+Kết luận bắt buộc: mô hình sâu hiện chưa chứng minh giá trị tăng thêm so với
+quy tắc G2 hoặc baseline đơn giản. HistGradientBoosting có điểm test cao hơn
+nhưng không được chọn theo test vì OOF Macro-F1 thấp hơn G2 rule.
+So sánh HGB `0.8969` và nested HGB `0.8690` dùng protocol/feature pipeline
+khác nhau; xem [MODEL_COMPARISON_PROTOCOL.md](docs/MODEL_COMPARISON_PROTOCOL.md).
+
+## Quy trình tái lập
+
+Chạy test:
+
+```powershell
+py -3.10 -m pytest -q
 ```
 
-`G1` va `G2` la hai moc danh gia truoc cua sinh vien. `G3` chi dung de tao
-nhan muc tieu va khong duoc dua vao input model. Cac metadata lineage nhu
-`__source_row_number`, `record_id`, `dataset_version_id`, `run_id` cung khong
-duoc dua vao feature matrix.
+Tạo baseline, kịch bản early-warning/pre-assessment, calibration, fairness
+slice và evidence bundle:
 
-## Final run verified
+```powershell
+py -3.10 scripts/run_final_evidence.py
+```
 
-- Run ID: `4ac7c8a9-8f20-4abd-ac80-e414f8dd3eaf`
-- Git commit recorded by run:
-  `99aa80cf157ce709c9aafd4e44702b0c8ab79dd4`
-- Status: `completed`
-- Test predictions: `79`
-- Recommendations v2: `79`
+Chạy CNN-only, BiLSTM-only, CNN–BiLSTM, ablation mất cân bằng và ensemble:
 
-Final holdout confirmation metrics:
+```powershell
+py -3.10 scripts/run_deep_ablation.py
+```
 
-| Metric | Value |
-|---|---:|
-| Accuracy | 0.9113924050632911 |
-| F1-Macro | 0.9256122872561229 |
-| Precision-Macro | 0.9234811165845649 |
-| Recall-Macro | 0.9304993252361674 |
-| RMSE | 0.2976702788937936 |
-| R2 | 0.8226427196921103 |
+Mỗi run sinh `run_manifest.json`, split hashes, OOF/locked predictions,
+metrics, PR data, calibration/reliability data, fairness slices và evaluation
+khuyến nghị trong `artifacts/final/<run_id>/`.
 
-`RMSE` va `R2` chi la diagnostic tren nhan thu bac `0/1/2`, khong phai
-regression output chinh thuc.
+## Final DB-first pipeline
 
-## PostgreSQL source/ML lineage
-
-Schema lineage final gom:
+Database mặc định là `student_predict`; credentials phải lấy từ biến môi
+trường, không hard-code mật khẩu. Schema lineage gồm:
 
 ```text
 source_dataset_versions
@@ -74,65 +78,31 @@ ml_run_metrics
 ml_recommendations
 ```
 
-CSV chi dung de seed/import dataset lan dau. Normal training path doc
-`source_records` tu PostgreSQL, khong fallback am tham ve CSV.
-
-Lenh seed dataset khi moi khoi tao DB:
+Final pipeline yêu cầu một `selected_config.json` đã đóng băng trước khi mở
+locked test. Nó không tự chạy Optuna trong lệnh final:
 
 ```powershell
-python scripts/ingest_dataset_to_postgres.py --dataset student-mat
+py -3.10 scripts/run_pipeline.py --dataset student-mat --target-mode 3class `
+  --dataset-version-id 1 --selection-config-json <duong_dan_selected_config.json>
 ```
 
-Lenh chay pipeline DB-first:
+`--debug` chỉ dùng smoke test, không phải kết quả khóa luận. Full model
+selection dùng:
 
 ```powershell
-python scripts/run_pipeline.py --dataset student-mat --target-mode 3class --dataset-version-id 1 --n-trials 50
-```
-
-## Recommendation
-
-Recommendation final la policy rule-based version
-`student_mat_rule_policy_v2`. Policy nay dung predicted label,
-confidence/probability va cac feature quan sat duoc de sinh learning path.
-
-Khong duoc claim recommender da chung minh lam sinh vien hoc tot hon ngoai
-thuc te. Hieu qua thuc te can human review, feedback nguoi dung hoac du lieu
-intervention theo thoi gian.
-
-## Bao cao final
-
-Chi giu ban bao cao hien tai:
-
-```text
-reports/final/KLTN_CNN_BiLSTM_Du_doan_Thanh_tich_Hoc_tap_Sinh_vien_FINAL_REVIEWED.docx
-```
-
-Cac bao cao cu, diagnostics va generated report artifacts cu da duoc don de
-tranh nham lan voi final result.
-
-## Tests
-
-Chay test:
-
-```powershell
-python -m pytest -q
-```
-
-Trong moi truong Codex da xac minh bang bundled Python:
-
-```text
-79 passed, 5 skipped
+py -3.10 scripts/optimize_model_selection.py --dataset student-mat --dataset-version-id 1 --n-trials 30 --outer-folds 5 --inner-folds 3 --selection-seed 42 --selection-run-id nested-full-20260710
 ```
 
 ## Guardrails
 
-- Khong goi final model la `cnn_bilstm_mlp`.
-- Khong mo ta final architecture la CNN-BiLSTM + Context MLP.
-- Khong dung historical run `748dfafb-acac-4565-b96c-3093b2abb37a` lam final
-  result.
-- Khong dua `student-por` hoac `xAPI` vao ket qua final chinh.
-- Khong noi `G1/G2` la nhieu hoc ky; chi mo ta la hai moc danh gia truoc.
-- Khong dung `G3`, true label hoac metadata DB de sinh operational
-  recommendation.
-- Khong claim causal improvement cho recommender khi chua co du lieu can thiep.
-- Khong sua/xoa legacy tables `paper_*`, `students`, `student_grades`.
+- Không đưa `G3`, `G3_raw`, nhãn thật hoặc metadata lineage vào feature/model
+  input hoặc recommendation.
+- Scaler, encoding, feature selection và SMOTE chỉ fit ở train portion của mỗi
+  fold; locked test không đi vào Optuna, threshold hay calibration fitting.
+- CNN kernel cho chuỗi hai bước là `1`; số tham số và ablation phải được ghi
+  trong artifact, không diễn giải như mô hình chuỗi dài hạn.
+- Class weight và SMOTE là hai lựa chọn độc lập cần ablation; không mặc định
+  dùng đồng thời.
+- Recommendation loại các biến `sex`, `school`, `address`, `guardian`,
+  `paid`, `Dalc`, `Walc`, `goout` khỏi luật khuyến nghị tự động và luôn yêu cầu
+  giảng viên/cố vấn duyệt.

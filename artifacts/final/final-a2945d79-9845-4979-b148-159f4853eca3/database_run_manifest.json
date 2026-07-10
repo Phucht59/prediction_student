@@ -1,0 +1,23 @@
+{
+  "database_run_id": "a2945d79-9845-4979-b148-159f4853eca3",
+  "dataset_version_id": 1,
+  "status": "completed",
+  "split_counts": {
+    "test": 79,
+    "train": 316
+  },
+  "test_prediction_counts": [
+    79,
+    79
+  ],
+  "recommendation_count": 79,
+  "database_metrics": {
+    "Accuracy": 0.9113924050632911,
+    "F1-Macro": 0.9262004777201218,
+    "Precision-Macro": 0.9253828608667319,
+    "R2": 0.8226427196921103,
+    "Recall-Macro": 0.9345479082321188,
+    "RMSE": 0.2976702788937936
+  },
+  "integrity": "passed"
+}

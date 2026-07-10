@@ -55,12 +55,9 @@ TASKS = [
     BaselineTask("xAPI", "default", RAW_DIR / "xAPI-Edu-Data.csv", ",", "Class", "xapi", "all_non_target"),
 ]
 
-DEEP_FINAL = {
-    ("student-mat", "late"): ("sequence_cnn_bilstm_only", "low_f1_tuned", 0.9365, 0.9615, 0.8929),
-    ("student-por", "late"): ("sequence_cnn_bilstm_only", "low_f1_tuned", 0.8783, 0.9000, 0.8182),
-    ("student-por", "midterm"): ("sequence_cnn_bilstm_only", "argmax", 0.8228, 0.6500, 0.7429),
-    ("xAPI", "default"): ("gated_fusion_v28", "low_f1_tuned", 0.7541, 0.8846, 0.8214),
-}
+# Historical hard-coded deep metrics were removed.  They were not backed by
+# prediction artifacts and must not be compared with rerun baselines.
+DEEP_FINAL: dict[tuple[str, str], tuple[str, str, float, float, float]] = {}
 
 
 def load_task_frame(task: BaselineTask) -> tuple[pd.DataFrame, np.ndarray, list[str]]:
@@ -389,6 +386,14 @@ def write_report(candidate_df: pd.DataFrame, locked_df: pd.DataFrame, comparison
 
 
 def main() -> None:
+    # Keep the old entry point as a safe compatibility shim.  The replacement
+    # writes a complete evidence bundle from actual predictions instead of
+    # mixing rerun baselines with hard-coded deep values.
+    from scripts.run_final_evidence import main as evidence_main
+
+    evidence_main()
+    return
+
     REPORT_DIR.mkdir(parents=True, exist_ok=True)
     cv_rows = []
     candidate_rows = []

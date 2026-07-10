@@ -1,5 +1,7 @@
 {
-  "scope": "Final prediction models under Strict Validation (70/15/15 split) for three datasets.",
+  "scope": "LEGACY ONLY — historic strict-validation artifacts; not the final evidence source.",
+  "legacy": true,
+  "not_for_final_claims": true,
   "protocol_warning": "Strict validation protocol (70/15/15 split). Validation split is used for best epoch/case selection, test split is evaluated exactly once for final metrics.",
   "selected_models": {
     "student-mat": {
