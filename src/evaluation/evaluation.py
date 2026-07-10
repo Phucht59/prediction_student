@@ -70,7 +70,7 @@ def build_ingestion_contract(csv_sep: str, columns: list[str]) -> dict[str, Any]
         "encoding": "utf-8",
         "header_policy": "first_row_header",
         "null_value_policy": "pandas_default",
-        "parser": "pandas.read_csv",
+        "parser": "src.ingestion.csv_reader.read_csv",
         "parser_version": pd.__version__,
         "canonical_columns": list(columns),
         "schema_fingerprint": sha256_json(list(columns)),

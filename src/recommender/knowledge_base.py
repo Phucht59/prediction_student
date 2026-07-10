@@ -1,4 +1,5 @@
 import os
+import csv
 from pathlib import Path
 import pandas as pd
 
@@ -20,7 +21,11 @@ def load_knowledge_base(output_dir: Path | str = "outputs/recommender") -> tuple
         )
         catalog_path.write_text(default_content, encoding="utf-8")
         
-    catalog_df = pd.read_csv(catalog_path)
+    with catalog_path.open(newline="", encoding="utf-8") as handle:
+        catalog_df = pd.DataFrame(list(csv.DictReader(handle)))
+    for column in ("difficulty_level", "estimated_hours_per_week", "expected_effect", "prerequisite_level"):
+        if column in catalog_df:
+            catalog_df[column] = pd.to_numeric(catalog_df[column], errors="coerce")
     
     # Generate mapping_df dynamically from catalog_df target_risks
     mappings = []

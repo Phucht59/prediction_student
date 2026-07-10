@@ -2,13 +2,13 @@
 from __future__ import annotations
 
 import argparse
+import csv
 import hashlib
 import json
 import sys
 from pathlib import Path
 
 import numpy as np
-import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from src.evaluation.evaluation import _connect
@@ -48,11 +48,15 @@ def main() -> None:
     dataset_manifest = json.loads((directory / "dataset_manifest.json").read_text(encoding="utf-8"))
     if dataset_manifest.get("data_source") != "postgresql":
         raise SystemExit("Final evidence is not marked as PostgreSQL-backed.")
-    frame = pd.read_csv(directory / "locked_test_predictions.csv")
-    probs = frame[["Prob_Class_0", "Prob_Class_1", "Prob_Class_2"]].to_numpy(float)
-    if len(frame) != 79 or frame["__source_row_number"].nunique() != 79 or not np.allclose(probs.sum(axis=1), 1.0, atol=1e-6):
+    with (directory / "locked_test_predictions.csv").open(newline="", encoding="utf-8") as handle:
+        rows = list(csv.DictReader(handle))
+    source_rows = [int(row["__source_row_number"]) for row in rows]
+    y_true = np.asarray([int(row["True_Label"]) for row in rows], dtype=int)
+    y_pred = np.asarray([int(row["Pred_Label"]) for row in rows], dtype=int)
+    probs = np.asarray([[float(row[f"Prob_Class_{label}"]) for label in range(3)] for row in rows], dtype=float)
+    if len(rows) != 79 or len(set(source_rows)) != 79 or not np.allclose(probs.sum(axis=1), 1.0, atol=1e-6):
         raise SystemExit("Invalid final prediction rows or probabilities.")
-    metrics = classification_metrics(frame["True_Label"], frame["Pred_Label"], probs)
+    metrics = classification_metrics(y_true, y_pred, probs)
     if abs(metrics["macro_f1"] - manifest["metrics_summary"]["macro_f1"]) > 1e-12:
         raise SystemExit("Metric recomputation mismatch.")
     if args.skip_db:

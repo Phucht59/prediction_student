@@ -1,19 +1,17 @@
 # Final release status
 
-- Cleanup/database-first commit: `add10010aed0b2e625b74356ee48dbac82ba8f6f`.
-- Main merge commit: `99ce1c89e37047b9c9e7a6ee44432600c11a0a52`.
-- Release metadata/checksum commit: `952f2e37187bebfdf4e776f9c8a06fc9b0b2f7ac`.
-- Post-tag CSV-boundary hardening commit: `6dab4b3aff8ebbc91ad47428567702391d37083e`.
-- Branch: `main` (pushed to `origin/main`).
-- Release tag: `thesis-project-postgresql-final-v2`.
-- Selection run: `nested-full-20260710`.
-- Scientific DB run: `a2945d79-9845-4979-b148-159f4853eca3`.
-- DB-first verification run: `c719439e-bb88-42ff-bb98-d258c21d204e`.
+- Branch: `main`; remote branch set: `origin/main` only.
+- Current main: `a5f98bb66fbe4ba5d5ba4929d05f3dba60374129`.
+- Existing release tag: `thesis-project-postgresql-final-v2`.
+- Frozen evidence: `artifacts/final/final-a2945d79-9845-4979-b148-159f4853eca3/`.
 - Selected config SHA-256: `cda38460197627ac1d71e764f61d784e4c03cf6f86775339d38787c6890678ad`.
-- Dataset SHA-256: `e47f9ee225e1ee6e69b7564e6dac7123e80b8486677fe111f351964cef5dec80`.
-- Final evidence: `artifacts/final/final-a2945d79-9845-4979-b148-159f4853eca3/`.
-- Latest-run pointer: `artifacts/final/LATEST_RUN.txt`.
-- Tests: 87 passed, 5 skipped after cleanup; PostgreSQL skips are environment-gated.
-- PostgreSQL integrity: 316 train, 79 test, 79 predictions, 79 recommendations.
+- Frozen prediction checksum: `d5b6f86d50a1a4c90b6a68139ec0eb6f4635e55c572c647d6d9b62d5a31f4a74`.
+- Offline tests: 87 passed, 5 skipped (PostgreSQL credentials pending).
+- Live database: reachable; 1 dataset version and 395 source records.
+- Migration 003: implementation complete, live application pending admin privilege.
+- `source_record_targets`: not yet present on live DB.
+- DB-first live verification: pending.
 - Expert recommendation review: pending.
-- DOCX: untouched; report revision is the next stage.
+- DOCX: untouched; report rewrite is next.
+
+See `MANUAL_POSTGRESQL_MIGRATION.md` for the administrator procedure.

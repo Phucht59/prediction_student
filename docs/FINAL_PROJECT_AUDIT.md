@@ -2,40 +2,40 @@
 
 Audit date: 2026-07-10. DOCX files were not edited.
 
-## Current state
+## Repository and frozen evidence
 
-- Tests after cleanup: 87 passed, 5 skipped (the deleted skips are legacy
-  recommender-output tests; PostgreSQL integration remains environment-gated).
-- Dataset version contains 395 rows with Low/Medium/High counts 130/192/73.
-- Final split ledger contains 316 train and 79 locked-test records.
-- Final DB run `a2945d79-9845-4979-b148-159f4853eca3` is completed and stores
-  79 predictions and 79 recommendations.
-- Reproducibility run `c719439e-bb88-42ff-bb98-d258c21d204e` has an exact
-  prediction checksum match with the scientific run.
+- Main is the only branch on the remote; cleanup is complete.
+- Frozen scientific evidence remains
+  `artifacts/final/final-a2945d79-9845-4979-b148-159f4853eca3/`.
+- Selected-config SHA-256:
+  `cda38460197627ac1d71e764f61d784e4c03cf6f86775339d38787c6890678ad`.
+- Frozen prediction checksum:
+  `d5b6f86d50a1a4c90b6a68139ec0eb6f4635e55c572c647d6d9b62d5a31f4a74`.
+- Offline tests: 87 passed, 5 skipped. The skips are PostgreSQL integration
+  tests because test DSNs/credentials are not configured.
 
-## PostgreSQL-first contract
+## Live PostgreSQL status
 
-CSV is read only by `ingest_dataset_to_postgres.py` and
-`ingest_dataset_csv_to_postgres`. The model-selection and final pipeline load
-rows through `src/data/postgres_dataset_loader.py` / `src/postgres_data_source.py`.
-Migration 003 adds immutable `source_record_targets`; target labels are not
-used as feature columns. Source-record identity, dataset version and split
-ledger remain composite-key lineage constraints.
+The live `student_predict` database is reachable with the application role and
+contains one dataset version and 395 source records. Migration
+`003_add_source_record_targets.sql` has not been applied because that role
+cannot create tables in `public`; `source_record_targets` is therefore absent.
+The lineage backup is outside the repository at
+`C:\Huflit\backups\student_predict_before_003.dump`.
 
-## Scientific results
+The following are intentionally pending:
 
-- CNN-BiLSTM nested outer Macro-F1: 0.8781 +/- 0.0448.
-- CNN-BiLSTM locked-test Macro-F1: 0.9262.
-- G2 rule locked-test Macro-F1: 0.9365.
-- HGB nested outer Macro-F1: 0.8690; HGB locked-test Macro-F1: 0.9463.
+- administrator migration and target backfill (395 rows, expected distribution
+  130/192/73);
+- PostgreSQL integration tests without skips;
+- a new live DB-first verification run and evidence bundle.
 
-HGB 0.8969 is a separate train-pool OOF protocol and is not mixed with the
-nested comparison; see `MODEL_COMPARISON_PROTOCOL.md`. No locked-test result
-was used for model selection.
+These pending items must not be reported as completed. The current scientific
+conclusion and metrics remain those of the frozen pre-migration evidence.
 
-## Cleanup and limitations
+## Technical contract
 
-Legacy checkpoints, report context, old DOCX/PDF outputs and smoke artifacts
-were removed from the working tree. Expert recommendation ratings remain blank.
-Fairness slices are descriptive only because the locked test has small groups.
-The project is ready for thesis report revision from frozen evidence.
+CSV is restricted to the explicit ingestion boundary. Model selection, final
+training, recommendation and inference use the PostgreSQL loader. Target
+storage migration and manual administrator steps are documented in
+`MANUAL_POSTGRESQL_MIGRATION.md`.

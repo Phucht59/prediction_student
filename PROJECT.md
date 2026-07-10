@@ -12,10 +12,12 @@
 | Work item | Status |
 | --- | --- |
 | Repository cleanup | DONE |
-| PostgreSQL-first ingestion | DONE |
-| PostgreSQL-native model selection | DONE |
-| PostgreSQL-native final evaluation | DONE |
-| DB-first reproducibility | DONE |
+| PostgreSQL-first source architecture | DONE |
+| Migration 003 implementation | DONE |
+| Live migration application | MANUAL PENDING |
+| PostgreSQL integration tests | PENDING CREDENTIALS |
+| DB-first live reproducibility | PENDING |
+| Frozen scientific evidence | DONE |
 | Main branch release | DONE |
 | Expert recommendation review | PENDING |
 | Thesis DOCX rewrite | NEXT |
@@ -39,3 +41,8 @@ be replaced by a more favorable split.
 The repository contains source, migrations, tests, technical documentation and
 frozen evidence. Old DOCX/PDF reports are removed; report revision is the next
 stage and is not performed by this pipeline.
+
+The live database currently has one dataset version and 395 source records, but
+`source_record_targets` does not yet exist. No live DB-first verification claim
+is made until an administrator applies migration 003 and the PostgreSQL tests
+run without credential-related skips.

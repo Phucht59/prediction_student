@@ -77,3 +77,12 @@ py -3.10 scripts/verify_final_evidence.py
 The old report DOCX/PDF and generated report context are intentionally absent.
 The thesis report will be written in the next stage from this frozen evidence;
 no DOCX is edited by the project-cleanup pipeline.
+
+## Live PostgreSQL status
+
+The database is reachable and currently contains one dataset version and 395
+source records. Migration 003 has been written but is not applied: the current
+application role lacks `CREATE` privilege on schema `public`. The administrator
+procedure is documented in [MANUAL_POSTGRESQL_MIGRATION.md](docs/MANUAL_POSTGRESQL_MIGRATION.md).
+Live target backfill, PostgreSQL integration tests and a new DB-first run remain
+pending. The evidence above is the frozen pre-migration scientific evidence.

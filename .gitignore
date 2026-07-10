@@ -39,6 +39,16 @@ outputs/v27/
 notebooks/
 backup_git/
 optuna/
+db_backups/
+*.log
+*.tmp
+*.bak
+*.dump
+*.backup
+reports/runtime/
+reports/debug/
+artifacts/smoke/
+artifacts/preflight/
 
 !data/raw/.gitkeep
 !data/processed/.gitkeep
