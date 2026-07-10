@@ -1,8 +1,10 @@
 # Final release status
 
-- Cleanup/database-first commit: see the commit recorded for this release in `git log`.
-- Main merge commit: pending until merge verification.
-- Branch: `main` after release merge.
+- Cleanup/database-first commit: `add10010aed0b2e625b74356ee48dbac82ba8f6f`.
+- Main merge commit: `99ce1c89e37047b9c9e7a6ee44432600c11a0a52`.
+- Release metadata/checksum commit: `952f2e37187bebfdf4e776f9c8a06fc9b0b2f7ac`.
+- Branch: `main` (pushed to `origin/main`).
+- Release tag: `thesis-project-postgresql-final-v2`.
 - Selection run: `nested-full-20260710`.
 - Scientific DB run: `a2945d79-9845-4979-b148-159f4853eca3`.
 - DB-first verification run: `c719439e-bb88-42ff-bb98-d258c21d204e`.
