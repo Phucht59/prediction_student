@@ -12,5 +12,5 @@
 | Methods | long time series | A very short ordered sequence of two assessments | data scope | selected config |
 | Recommender | intelligent recommendation model | Rule-based advisory system | policy is deterministic | recommendation.py |
 | Dataset | Vietnamese university students | Portuguese secondary-school mathematics benchmark | domain limitation | dataset manifest |
-| Reproducibility | immutable checkpoint replay | Deterministic rerun is evidenced; exact immutable checkpoint linkage is not fully frozen | provenance limitation | runtime provenance |
+| Reproducibility | immutable checkpoint replay | Deterministic rerun is evidenced; exact immutable checkpoint linkage is not fully frozen | provenance limitation | `artifacts/supplementary/runtime_artifact_provenance/runtime_artifact_provenance.json` |
 | Database | production-ready inference schema | Current schema supports experiment/evaluation; production inference needs a future extension | true label timing | production extension doc |

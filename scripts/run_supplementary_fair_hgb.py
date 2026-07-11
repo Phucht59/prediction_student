@@ -33,5 +33,5 @@ def main():
  protocol={'label':'supplementary post-hoc analysis','data':'frozen train pool only','feature_set':['G1','G2'],'search_space':GRID,'search_predeclared':True,'locked_test_used':False,'final_model_changed':False}
  (OUT/'summary.json').write_text(json.dumps(summary,indent=2),encoding='utf-8');(OUT/'protocol.json').write_text(json.dumps(protocol,indent=2),encoding='utf-8')
  (OUT/'README.md').write_text('# Fair G1/G2 HGB control\n\nThis is a supplementary post-hoc control experiment using the same G1/G2 information, 5×3 development-only nested CV and a predeclared grid. It does not replace the final model, does not use the locked test, and must not be merged with the HGB full-feature locked score 0.9463.\n',encoding='utf-8')
- checks={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in OUT.iterdir() if p.is_file()};(OUT/'artifact_checksums.json').write_text(json.dumps(checks,indent=2),encoding='utf-8')
+ checks={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in OUT.iterdir() if p.is_file() and p.name != 'artifact_checksums.json'};(OUT/'artifact_checksums.json').write_text(json.dumps(checks,indent=2),encoding='utf-8')
 if __name__=='__main__':main()
