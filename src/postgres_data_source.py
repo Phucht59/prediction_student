@@ -252,7 +252,7 @@ def load_dataset_version_from_postgres(
             )
             rows = [dict(row) for row in cursor.fetchall()]
             target_rows: list[dict[str, Any]] = []
-            try:
+            if include_target:
                 cursor.execute(
                     """
                     SELECT sr.source_row_number, t.target_name,
@@ -268,15 +268,6 @@ def load_dataset_version_from_postgres(
                     (version["dataset_version_id"],),
                 )
                 target_rows = [dict(row) for row in cursor.fetchall()]
-            except Exception as exc:
-                # A legacy database can be loaded before migration 003 is
-                # applied; source payload remains a backwards-compatible
-                # fallback, while final DB-first deployments apply 003.
-                if "source_record_targets" not in str(exc):
-                    raise
-                rollback = getattr(connection, "rollback", None)
-                if rollback is not None:
-                    rollback()
     finally:
         connection.close()
 
@@ -317,8 +308,10 @@ def load_dataset_version_from_postgres(
     elif not include_target:
         target_name = DATASETS[dataset_code].target_col
         frame = frame.drop(columns=[target_name, "G3_raw"], errors="ignore")
-    elif DATASETS[dataset_code].target_col not in frame.columns:
-        raise RuntimeError("Target storage is missing and source payload has no target column.")
+    else:
+        raise RuntimeError(
+            "source_record_targets is required for training/evaluation. Apply migration 003 and backfill targets; final paths do not fall back to raw_payload."
+        )
     metadata = {
         "dataset_version_id": int(version["dataset_version_id"]),
         "dataset_code": version["dataset_code"],

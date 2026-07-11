@@ -8,7 +8,7 @@ from src.recommendation import (
     POLICY_VERSION,
     build_recommendation,
     generate_learning_path_report,
-    recommendation_to_legacy_row,
+    recommendation_to_persistence_row,
     validate_recommendation_schema,
 )
 from scripts import materialize_recommendation_policy as materializer
@@ -136,7 +136,7 @@ def test_every_action_has_rationale_and_no_vague_study_more_text():
 
 def test_policy_version_is_carried_to_persistence_row():
     recommendation = build_recommendation(_student_features(), predicted_class=0, confidence=0.77)
-    row = recommendation_to_legacy_row(
+    row = recommendation_to_persistence_row(
         row_index=0,
         predicted_class=0,
         confidence=0.77,

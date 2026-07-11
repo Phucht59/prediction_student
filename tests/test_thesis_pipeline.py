@@ -12,11 +12,8 @@ from src.data_pipeline import (
     FeatureSelector,
     StudentDataset,
 )
-from src.explainability import (
-    RuleBasedLearningPathEngine,
-    calculate_permutation_importance,
-    generate_learning_path_report,
-)
+from src.explainability import calculate_permutation_importance
+from src.recommendation import build_recommendation, generate_learning_path_report
 from src.models import create_model
 from src.model_selection import student_search_space
 from src.train_pipeline import calculate_class_weights, suggest_trial_params
@@ -31,7 +28,7 @@ def test_model_is_cnn_bilstm_classifier_without_context_branch():
         "student",
         {
             "cnn_channels": 16,
-            "cnn_kernel_size": 3,
+            "cnn_kernel_size": 1,
             "lstm_hidden_dim": 12,
             "dropout": 0.1,
         },
@@ -324,43 +321,14 @@ def test_student_dataset_is_sequence_only_and_excludes_context_features():
     assert cat_x.shape == (0,)
 
 
-def test_learning_path_engine_returns_staged_roadmap_not_variable_tweaks():
-    engine = RuleBasedLearningPathEngine("student")
-    result = engine.generate(
-        {"G1": 8, "G2": 7, "absences": 16, "studytime": 1, "failures": 1},
-        predicted_class=0,
-        confidence=0.82,
-    )
-    assert result["risk_band"] == "high"
-    assert len(result["learning_path"]) >= 3
-    assert all({"phase", "goal", "actions"}.issubset(step) for step in result["learning_path"])
-    assert any(risk["code"] == "attendance" for risk in result["risk_factors"])
+def test_final_rule_policy_generates_advisory_output():
+    result = build_recommendation({"G1": 8, "G2": 7, "absences": 16, "studytime": 1, "failures": 1}, predicted_class=0, confidence=0.82)
+    assert result["risk_band"] == "High"
+    assert result["recommended_actions"]
+    assert "advisor" in result["disclaimer"].lower()
 
 
-def test_learning_path_report_has_one_row_per_student():
-    features = pd.DataFrame(
-        [
-            {"StudentAbsenceDays": "Above-7", "VisITedResources": 20, "raisedhands": 10, "Discussion": 10},
-            {"StudentAbsenceDays": "Under-7", "VisITedResources": 80, "raisedhands": 70, "Discussion": 60},
-        ]
-    )
-    report = generate_learning_path_report(
-        features,
-        predictions=np.array([0, 2]),
-        confidences=np.array([0.8, 0.9]),
-        dataset_kind="xapi",
-    )
-    assert len(report) == 2
-    assert set(report["risk_band"]).issubset({"high", "moderate", "stable"})
-
-
-def test_postgres_schema_stores_features_confidence_and_learning_paths():
-    schema = (PROJECT_ROOT / "database" / "schema.sql").read_text(encoding="utf-8").lower()
-    for required in (
-        "paper_predictions",
-        "confidence real",
-        "original_features jsonb",
-        "paper_learning_recommendations",
-        "recommended_learning_path jsonb",
-    ):
-        assert required in schema
+def test_final_schema_uses_lineage_tables():
+    migration = (PROJECT_ROOT / "database" / "migrations" / "001_create_source_ml_schema.sql").read_text(encoding="utf-8").lower()
+    for required in ("source_dataset_versions", "source_records", "ml_predictions", "ml_recommendations"):
+        assert required in migration

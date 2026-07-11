@@ -25,14 +25,14 @@ from src.config import (
     XAPI_CLASS_MAPPING,
 )
 from src.data_pipeline import SOURCE_ROW_NUMBER_COLUMN, attach_source_row_numbers, drop_protected_metadata
-from src.explainability import CLASS_NAMES
+from src.recommendation import CLASS_NAMES
 from src.reproducibility import sha256_file
 from src.utils import setup_logger
 
 logger = setup_logger("evaluation")
 
 HASH_ALGORITHM = "sha256"
-DEFAULT_RECOMMENDATION_POLICY = "student_mat_rule_policy_v2"
+DEFAULT_RECOMMENDATION_POLICY = "student_mat_rule_policy_v3"
 
 
 def _json_safe(value: Any):

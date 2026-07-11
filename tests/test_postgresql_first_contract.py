@@ -30,3 +30,20 @@ def test_target_storage_migration_is_present():
     migration = (ROOT / "database" / "migrations" / "003_add_source_record_targets.sql").read_text(encoding="utf-8")
     assert "CREATE TABLE IF NOT EXISTS source_record_targets" in migration
     assert "FOREIGN KEY (dataset_version_id, record_id)" in migration
+
+
+def test_legacy_architectures_are_not_active_source():
+    forbidden = [
+        "src/models_v27.py",
+        "src/losses_v27.py",
+        "src/train_v27_pipeline.py",
+        "scripts/run_recommender_pipeline.py",
+        "src/recommender/risk_head.py",
+    ]
+    assert all(not (ROOT / path).exists() for path in forbidden)
+
+
+def test_final_loader_has_no_raw_target_fallback():
+    source = (ROOT / "src" / "postgres_data_source.py").read_text(encoding="utf-8")
+    assert "final paths do not fall back to raw_payload" in source
+    assert "backwards-compatible fallback" not in source

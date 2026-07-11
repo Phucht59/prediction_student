@@ -11,7 +11,7 @@ Audit date: 2026-07-10. DOCX files were not edited.
   `cda38460197627ac1d71e764f61d784e4c03cf6f86775339d38787c6890678ad`.
 - Frozen prediction checksum:
   `d5b6f86d50a1a4c90b6a68139ec0eb6f4635e55c572c647d6d9b62d5a31f4a74`.
-- Offline tests: 87 passed, 5 skipped. The skips are PostgreSQL integration
+- Offline tests: 57 passed, 5 skipped. The skips are PostgreSQL integration
   tests because test DSNs/credentials are not configured.
 
 ## Live PostgreSQL status

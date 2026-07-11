@@ -30,11 +30,6 @@ STUDENT_RECOMMENDATION_FEATURES = {
     "G1",
     "G2",
 }
-DATASET_KIND = {
-    "student-mat": "student",
-    "student-por": "student",
-    "xapi": "xapi",
-}
 FORBIDDEN_INPUT_COLUMNS = {
     "G3",
     "G3_raw",
@@ -99,41 +94,6 @@ def prepare_recommendation_features(features: dict[str, Any]) -> dict[str, Any]:
     """Allowlist source features used by the Student-Mat recommendation policy."""
     sanitized = sanitize_features(features)
     return {key: sanitized[key] for key in sorted(STUDENT_RECOMMENDATION_FEATURES) if key in sanitized}
-
-
-def extract_features(frame: pd.DataFrame, dataset_name: str) -> np.ndarray:
-    """Return observable non-target features for legacy recommender scripts."""
-    if dataset_name not in DATASET_KIND:
-        raise ValueError(f"Unsupported dataset: {dataset_name}")
-    rows: list[list[float]] = []
-    for raw_record in frame.to_dict("records"):
-        record = sanitize_features(raw_record)
-        if DATASET_KIND[dataset_name] == "student":
-            rows.append(
-                [
-                    _number(record, "absences"),
-                    _number(record, "studytime", 1.0),
-                    _number(record, "failures"),
-                    _number(record, "G1"),
-                    _number(record, "G2"),
-                    _number(record, "Dalc", 1.0),
-                    _number(record, "Walc", 1.0),
-                    _number(record, "goout", 1.0),
-                ]
-            )
-        else:
-            rows.append(
-                [
-                    _number(record, "raisedhands"),
-                    _number(record, "VisITedResources"),
-                    _number(record, "AnnouncementsView"),
-                    _number(record, "Discussion"),
-                    float(_text(record, "StudentAbsenceDays").lower() == "above-7"),
-                    float(_text(record, "ParentAnsweringSurvey").lower() == "no"),
-                    float(_text(record, "ParentschoolSatisfaction").lower() == "bad"),
-                ]
-            )
-    return np.asarray(rows, dtype=np.float32)
 
 
 def confidence_level(confidence: float) -> str:
@@ -269,7 +229,7 @@ def _action_for_risk(risk: RiskFactor, band: str, level: str) -> Action:
             reason="Absence-related risk needs fast recovery of missed content before adding new workload.",
             risk_code=risk.code,
         )
-    if risk.code in {"prior_grade_gap", "failure_history", "no_extra_academic_support"}:
+    if risk.code in {"prior_grade_gap", "failure_history"}:
         return Action(
             action=prefix + "Run a topic-level diagnostic, then complete targeted exercises for the two weakest topics.",
             frequency="3 practice sessions per week",
@@ -285,7 +245,7 @@ def _action_for_risk(risk: RiskFactor, band: str, level: str) -> Action:
             reason="The source study-time band is low, so the intervention defines measurable time blocks.",
             risk_code=risk.code,
         )
-    if risk.code in {"support_gap", "partial_support_gap", "guardian_followup"}:
+    if risk.code in {"support_gap", "partial_support_gap"}:
         return Action(
             action=prefix + "Set a short advisor-family progress update and agree on one weekly support task.",
             frequency="1 update per week",
@@ -301,20 +261,12 @@ def _action_for_risk(risk: RiskFactor, band: str, level: str) -> Action:
             reason="The action directly addresses access to learning materials.",
             risk_code=risk.code,
         )
-    if risk.code in {"workload_balance", "time_management"}:
+    if risk.code == "workload_balance":
         return Action(
             action=prefix + "Move one non-urgent activity away from assessment days and protect study blocks.",
             frequency="weekly planning session",
             duration="15 minutes per week for 4 weeks",
             reason="The issue is scheduling pressure, so the intervention changes the calendar rather than adding vague workload.",
-            risk_code=risk.code,
-        )
-    if risk.code == "alcohol_weekend_pattern":
-        return Action(
-            action=prefix + "Review weekend routine with an advisor and keep school-night study/sleep times stable.",
-            frequency="1 reflection and check-in per week",
-            duration="4 weeks",
-            reason="The rule flags a behavior pattern that may disrupt preparation; the recommendation remains supportive.",
             risk_code=risk.code,
         )
     return Action(
@@ -417,7 +369,7 @@ def validate_recommendation_schema(payload: dict[str, Any]) -> None:
             raise ValueError(f"Excluded advisory input leaked into recommendation: {forbidden}")
 
 
-def recommendation_to_legacy_row(
+def recommendation_to_persistence_row(
     *,
     row_index: int,
     predicted_class: int,
@@ -453,7 +405,6 @@ def generate_learning_path_report(
     predictions: np.ndarray,
     confidences: np.ndarray,
     dataset_name: str,
-    train_frame: pd.DataFrame | None = None,
 ) -> pd.DataFrame:
     """Generate one standardized rule-based recommendation per prediction."""
     if dataset_name not in {"student-mat", "student-por"}:
@@ -467,7 +418,7 @@ def generate_learning_path_report(
             float(confidences[row_index]),
         )
         rows.append(
-            recommendation_to_legacy_row(
+            recommendation_to_persistence_row(
                 row_index=source_row_index,
                 predicted_class=int(predictions[row_index]),
                 confidence=float(confidences[row_index]),
@@ -475,99 +426,6 @@ def generate_learning_path_report(
             )
         )
     return pd.DataFrame(rows)
-
-
-def reference_risk_targets(frame: pd.DataFrame, dataset_name: str) -> np.ndarray:
-    """Compatibility helper for offline structural recommender evaluation."""
-    if dataset_name not in {"student-mat", "student-por"}:
-        raise ValueError("The standardized recommendation policy currently supports student datasets.")
-    targets: list[list[float]] = []
-    for record in frame.to_dict("records"):
-        clean = sanitize_features(record)
-        risk_codes = {risk.code for risk in identify_student_risks(clean, predicted_class=1)}
-        targets.append(
-            [
-                float("attendance_absences" in risk_codes),
-                float("failure_history" in risk_codes),
-                float("prior_grade_gap" in risk_codes),
-                float("low_study_time" in risk_codes),
-                float("alcohol_weekend_pattern" in risk_codes),
-                float("time_management" in risk_codes or "workload_balance" in risk_codes),
-            ]
-        )
-    return np.asarray(targets, dtype=np.float32)
-
-
-class MLPLearningPathEngine:
-    """Backward-compatible facade over the deterministic rule policy.
-
-    The name is retained for old offline evaluation scripts; no neural
-    recommender is trained or loaded here.
-    """
-
-    risk_codes = (
-        "attendance_absences",
-        "failure_history",
-        "prior_grade_gap",
-        "low_study_time",
-        "alcohol_weekend_pattern",
-        "time_management",
-    )
-
-    def __init__(self, dataset_name: str, train_frame: pd.DataFrame | None = None):
-        if dataset_name not in {"student-mat", "student-por"}:
-            raise ValueError("The standardized recommendation policy currently supports student datasets.")
-        self.dataset_name = dataset_name
-        self.train_frame = train_frame
-        self.checkpoint = {
-            "schema_version": 3,
-            "policy_version": POLICY_VERSION,
-            "architecture": "deterministic_rule_policy",
-            "epochs_completed": 0,
-            "best_validation_loss": None,
-            "seed": None,
-        }
-
-    def predict_scores(self, frame: pd.DataFrame) -> np.ndarray:
-        return reference_risk_targets(frame, self.dataset_name)
-
-    def generate(self, features: dict[str, Any], predicted_class: int, confidence: float) -> dict[str, Any]:
-        recommendation = build_recommendation(features, predicted_class, confidence)
-        return {
-            "predicted_class": int(predicted_class),
-            "predicted_class_name": CLASS_NAMES[int(predicted_class)],
-            "confidence": round(float(confidence), 6),
-            "risk_band": recommendation["risk_band"],
-            "headline": {
-                "High": "Priority learning support plan",
-                "Medium": "Guided consolidation learning plan",
-                "Low": "Maintenance and enrichment learning plan",
-            }[recommendation["risk_band"]],
-            "risk_factors": recommendation["priority_risks"],
-            "risk_scores": {
-                risk["code"]: {"priority": risk["priority"], "group": risk["group"]}
-                for risk in recommendation["priority_risks"]
-            },
-            "learning_path": [
-                {
-                    "phase": f"Week {index + 1}",
-                    "goal": step,
-                    "actions": recommendation["recommended_actions"][min(index, len(recommendation["recommended_actions"]) - 1)]["action"],
-                }
-                for index, step in enumerate(recommendation["weekly_plan"])
-            ],
-            "standardized_output": recommendation,
-        }
-
-
-def load_or_train_recommendation_model(
-    dataset_name: str,
-    train_frame: pd.DataFrame | None = None,
-    force_retrain: bool = False,
-) -> tuple[MLPLearningPathEngine, dict[str, Any]]:
-    """Compatibility shim; the current policy is deterministic and has no model checkpoint."""
-    engine = MLPLearningPathEngine(dataset_name, train_frame=train_frame)
-    return engine, engine.checkpoint
 
 
 def structural_validity_metrics(recommendations: list[dict[str, Any]]) -> dict[str, Any]:

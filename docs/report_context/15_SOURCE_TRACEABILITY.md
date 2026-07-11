@@ -12,5 +12,5 @@
 | HGB nested/locked | 0.8690 / 0.9463 | config/protocol/baseline CSV | protocol separation |
 | Prediction checksum | d5b6f...1f4a74 | reproducibility manifest | SHA-256 |
 | Recommendation validity | 1.0 | recommendation_evaluation.json | schema metrics |
-| Tests | 87 passed, 5 skipped | final audit | pytest record |
+| Tests | 57 passed, 5 skipped | final audit | pytest record |
 | PostgreSQL status | live migration pending | final audit/manual migration doc | documented live check |

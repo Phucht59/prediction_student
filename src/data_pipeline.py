@@ -1,28 +1,19 @@
 import pandas as pd
 import numpy as np
 import torch
-import hashlib
-import json
-from pathlib import Path
 from torch.utils.data import Dataset
-from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler, LabelEncoder
 from sklearn.ensemble import RandomForestClassifier
 from imblearn.over_sampling import ADASYN, RandomOverSampler, SMOTE, SMOTENC
-from src.config import DEFAULT_SEED, LOCKED_TEST_SIZE, PROCESSED_DIR, DATASETS, STUDENT_G3_3CLASS_BINS, XAPI_CLASS_MAPPING
+from src.config import DATASETS, STUDENT_G3_3CLASS_BINS, XAPI_CLASS_MAPPING
 from src.utils import setup_logger
-from src.ingestion.csv_reader import read_csv
 
 logger = setup_logger("data_pipeline")
-
-from src.config import DEFAULT_SEED, LOCKED_TEST_SIZE, PROCESSED_DIR, DATASETS, STUDENT_G3_3CLASS_BINS, XAPI_CLASS_MAPPING
-
 
 logger = setup_logger("data_split")
 
 SOURCE_ROW_NUMBER_COLUMN = "__source_row_number"
 PROTECTED_METADATA_COLUMNS = frozenset({SOURCE_ROW_NUMBER_COLUMN})
-SPLIT_SIDECAR_SUFFIX = "_split_manifest.json"
 
 
 def _json_safe(value):
@@ -39,22 +30,6 @@ def _json_safe(value):
     return value
 
 
-def canonical_json(value) -> str:
-    return json.dumps(_json_safe(value), ensure_ascii=False, sort_keys=True, separators=(",", ":"))
-
-
-def sha256_json(value) -> str:
-    return hashlib.sha256(canonical_json(value).encode("utf-8")).hexdigest()
-
-
-def sha256_file(path: Path) -> str:
-    digest = hashlib.sha256()
-    with Path(path).open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
-
-
 def attach_source_row_numbers(df: pd.DataFrame) -> pd.DataFrame:
     """Attach zero-based raw CSV row numbers as protected lineage metadata."""
     df = df.copy()
@@ -69,98 +44,6 @@ def drop_protected_metadata(df: pd.DataFrame) -> pd.DataFrame:
 
 def exclude_protected_columns(columns: list[str]) -> list[str]:
     return [column for column in columns if column not in PROTECTED_METADATA_COLUMNS]
-
-
-def build_ingestion_contract(csv_sep: str, columns: list[str]) -> dict:
-    return {
-        "source_format": "csv",
-        "delimiter": csv_sep,
-        "encoding": "utf-8",
-        "header_policy": "first_row_header",
-        "null_value_policy": "pandas_default",
-        "parser": "src.ingestion.csv_reader.read_csv",
-        "parser_version": pd.__version__,
-        "canonical_columns": list(columns),
-        "schema_fingerprint": sha256_json(list(columns)),
-    }
-
-
-def build_split_target_definition(ds_name: str, target_mode: str = "3class") -> dict:
-    spec = DATASETS[ds_name]
-    definition = {
-        "task_type": "classification",
-        "dataset_code": ds_name,
-        "target_column": spec.target_col,
-        "target_mode": target_mode,
-    }
-    if spec.kind == "student":
-        definition["derivation"] = {
-            "type": "pd.cut",
-            "bin_edges": list(STUDENT_G3_3CLASS_BINS),
-            "labels": [0, 1, 2],
-            "include_lowest": True,
-        }
-    elif spec.kind == "xapi":
-        definition["derivation"] = {
-            "type": "categorical_mapping",
-            "mapping": dict(XAPI_CLASS_MAPPING),
-        }
-    return definition
-
-
-def split_sidecar_path(ds_name: str, target_mode: str = "3class") -> Path:
-    return PROCESSED_DIR / f"{ds_name}_{target_mode}{SPLIT_SIDECAR_SUFFIX}"
-
-
-def build_split_sidecar(
-    ds_name: str,
-    target_mode: str,
-    *,
-    raw_path: Path,
-    csv_sep: str,
-    raw_frame: pd.DataFrame,
-) -> dict:
-    raw_without_metadata = drop_protected_metadata(attach_source_row_numbers(raw_frame))
-    ingestion_contract = build_ingestion_contract(csv_sep, list(raw_without_metadata.columns))
-    target_definition = build_split_target_definition(ds_name, target_mode)
-    return {
-        "dataset_code": ds_name,
-        "hash_algorithm": "sha256",
-        "content_hash": sha256_file(raw_path),
-        "ingestion_contract_hash_algorithm": "sha256",
-        "ingestion_contract_hash": sha256_json(ingestion_contract),
-        "row_count": int(len(raw_frame)),
-        "target_definition_hash": sha256_json(target_definition),
-        "split_protocol": {
-            "name": "stratified_locked_test",
-            "test_size": LOCKED_TEST_SIZE,
-            "random_seed": DEFAULT_SEED,
-            "membership_names": ["train", "test"],
-        },
-    }
-
-
-def write_split_sidecar(sidecar: dict, ds_name: str, target_mode: str = "3class") -> Path:
-    path = split_sidecar_path(ds_name, target_mode)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(sidecar, ensure_ascii=False, indent=2, sort_keys=True), encoding="utf-8")
-    return path
-
-
-def split_sidecar_matches_current_raw(ds_name: str, target_mode: str, *, raw_path: Path, csv_sep: str) -> bool:
-    path = split_sidecar_path(ds_name, target_mode)
-    if not path.exists():
-        return False
-    raw_frame = attach_source_row_numbers(read_csv(raw_path, sep=csv_sep))
-    expected = build_split_sidecar(
-        ds_name,
-        target_mode,
-        raw_path=raw_path,
-        csv_sep=csv_sep,
-        raw_frame=raw_frame,
-    )
-    actual = json.loads(path.read_text(encoding="utf-8"))
-    return canonical_json(actual) == canonical_json(expected)
 
 
 def process_target_and_stratify(df: pd.DataFrame, target_col: str, kind: str, target_mode: str = "3class") -> pd.DataFrame:
@@ -184,63 +67,6 @@ def process_target_and_stratify(df: pd.DataFrame, target_col: str, kind: str, ta
         df["_strat_target"] = df[target_col]
         
     return df
-
-def create_and_save_locked_test(
-    df: pd.DataFrame,
-    ds_name: str,
-    target_mode: str = "3class",
-    raw_path: Path | None = None,
-    csv_sep: str | None = None,
-):
-    """Split data into 80% train pool and 20% locked test, and save them."""
-    spec = DATASETS[ds_name]
-    df_strat = process_target_and_stratify(attach_source_row_numbers(df), spec.target_col, spec.kind, target_mode)
-    
-    # Drop rows where strat target is null if any
-    df_strat = df_strat.dropna(subset=["_strat_target"])
-    
-    train_pool, locked_test = train_test_split(
-        df_strat,
-        test_size=LOCKED_TEST_SIZE,
-        stratify=df_strat["_strat_target"],
-        random_state=DEFAULT_SEED
-    )
-    
-    # Remove internal _strat_target
-    train_pool = train_pool.drop(columns=["_strat_target"])
-    locked_test = locked_test.drop(columns=["_strat_target"])
-    
-    train_path = PROCESSED_DIR / f"{ds_name}_{target_mode}_train_pool.csv"
-    test_path = PROCESSED_DIR / f"{ds_name}_{target_mode}_locked_test.csv"
-    
-    train_pool.to_csv(train_path, index=False)
-    locked_test.to_csv(test_path, index=False)
-
-    if raw_path is not None:
-        write_split_sidecar(
-            build_split_sidecar(
-                ds_name,
-                target_mode,
-                raw_path=Path(raw_path),
-                csv_sep=csv_sep or spec.csv_sep,
-                raw_frame=attach_source_row_numbers(df),
-            ),
-            ds_name,
-            target_mode,
-        )
-    
-    logger.info(f"[{ds_name} - {target_mode}] Train pool: {len(train_pool)} rows. Locked test: {len(locked_test)} rows.")
-    return train_path, test_path
-
-def load_splits(ds_name: str, target_mode: str = "3class"):
-    """Load the saved splits. Will raise an error if not found."""
-    train_path = PROCESSED_DIR / f"{ds_name}_{target_mode}_train_pool.csv"
-    test_path = PROCESSED_DIR / f"{ds_name}_{target_mode}_locked_test.csv"
-    
-    if not train_path.exists() or not test_path.exists():
-        raise FileNotFoundError(f"Missing split files for {ds_name} {target_mode}. Run create_locked_test script first.")
-        
-    return read_csv(train_path), read_csv(test_path)
 
 def check_no_leakage(train_indices, test_indices):
     """Safety check to ensure test indices do not leak into train."""

@@ -69,7 +69,6 @@ from src.explainability import explain_model
 from src.models import create_model
 from src.model_selection import apply_probability_calibration, apply_threshold_policy, combine_seed_probabilities
 from src.postgres_data_source import (
-    ingest_dataset_csv_to_postgres,
     load_dataset_version_from_postgres,
     load_experiment_run,
     reconstruct_splits_from_run,
@@ -155,11 +154,6 @@ def parse_args():
     )
     parser.add_argument("--run-id", default=None, help="Existing UUID used to retry the same execution")
     parser.add_argument("--dataset-version-id", type=int, default=None)
-    parser.add_argument(
-        "--seed-from-csv",
-        action="store_true",
-        help="Seed source_records from raw CSV, then reload the dataset from PostgreSQL before training.",
-    )
     parser.add_argument(
         "--skip-postgres",
         action="store_true",
@@ -654,28 +648,12 @@ def main():
             "Run scripts/optimize_model_selection.py first; the locked test must not be "
             "opened by a command that is still running Optuna."
         )
+    if args.skip_postgres and not args.debug:
+        raise ValueError("--skip-postgres is debug-only; final runs must use PostgreSQL lineage persistence.")
 
     effective_dataset_version_id = args.dataset_version_id
-    if args.seed_from_csv:
-        if args.run_id:
-            raise ValueError("--seed-from-csv cannot be combined with --run-id; retry uses the run's dataset version.")
-        seed_result = ingest_dataset_csv_to_postgres(args.dataset)
-        seeded_dataset_version_id = int(seed_result["dataset_version_id"])
-        if (
-            effective_dataset_version_id is not None
-            and int(effective_dataset_version_id) != seeded_dataset_version_id
-        ):
-            raise ValueError(
-                "--seed-from-csv returned dataset_version_id="
-                f"{seeded_dataset_version_id}, but --dataset-version-id={effective_dataset_version_id} was requested."
-            )
-        effective_dataset_version_id = seeded_dataset_version_id
-        logger.info(
-            "Seeded dataset %s into PostgreSQL dataset_version_id=%s row_count=%s.",
-            args.dataset,
-            seed_result["dataset_version_id"],
-            seed_result["row_count"],
-        )
+    if effective_dataset_version_id is None and not args.run_id:
+        raise ValueError("--dataset-version-id is required for a new DB-first run.")
 
     run_id = args.run_id or str(uuid.uuid4())
     existing_run = load_experiment_run(run_id) if args.run_id else None
@@ -830,7 +808,6 @@ def main():
         predictions=predictions,
         confidences=confidences,
         dataset_name=args.dataset,
-        train_frame=train_pool,
     )
     save_outputs(
         args,

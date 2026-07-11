@@ -34,6 +34,12 @@ CSV (one-time ingestion)
 The canonical database is `student_predict`; credentials come from environment
 variables. Targets are stored separately in `source_record_targets` and are
 joined only for evaluation/training, never treated as model features.
+Training/evaluation fail fast if migration 003 or target rows are missing; the
+final path never falls back to G3 in `source_records.raw_payload`.
+
+Install the audited dependency set with `requirements.txt`; use
+`requirements-lock.txt` for the exact Python 3.10 versions verified in the
+current workspace.
 
 Apply migrations in order, including
 `database/migrations/003_add_source_record_targets.sql`, then ingest:

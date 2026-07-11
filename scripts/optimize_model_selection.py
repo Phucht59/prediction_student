@@ -54,7 +54,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--dataset", default="student-mat", choices=sorted(DATASETS))
     parser.add_argument("--target-mode", default="3class", choices=["3class"])
-    parser.add_argument("--dataset-version-id", type=int, default=1)
+    parser.add_argument("--dataset-version-id", type=int, required=True)
     parser.add_argument("--reference-run-id", default=DEFAULT_REFERENCE_RUN_ID)
     parser.add_argument("--n-trials", type=int, default=30)
     parser.add_argument("--outer-folds", type=int, default=5)
@@ -351,7 +351,7 @@ def main() -> None:
         "created_at": datetime.now(timezone.utc).isoformat(),
         "git_commit": git_commit(),
         "dataset_version_id": args.dataset_version_id,
-        "dataset_checksum": sha256_file(ROOT_DIR / "data" / "raw" / f"{args.dataset}.csv"),
+        "dataset_checksum": dataset_version["content_hash"],
         "split_hashes": {"train": split_hash(train_pool), "locked_test": split_hash(locked_test)},
         "scenario": "late_stage_G1_G2",
         "outer_folds": args.outer_folds,

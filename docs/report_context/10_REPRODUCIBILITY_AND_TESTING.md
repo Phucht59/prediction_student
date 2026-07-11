@@ -8,7 +8,7 @@
 - Selected-config SHA-256:
   `cda38460197627ac1d71e764f61d784e4c03cf6f86775339d38787c6890678ad`.
 - Current main source commit before context generation: `50d7696`.
-- Tests: 87 passed, 5 skipped. Skips are PostgreSQL integration tests pending
+- Tests: 57 passed, 5 skipped. Skips are PostgreSQL integration tests pending
   `POSTGRES_TEST_DSN` and `POSTGRES_TEST_APP_DSN`.
 
 Test groups cover unit behavior, leakage/preprocessing, deterministic splits,

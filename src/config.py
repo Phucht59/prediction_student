@@ -32,8 +32,8 @@ POSTGRES_CONFIG = {
     "host": os.getenv("POSTGRES_HOST", "localhost"),
     "port": os.getenv("POSTGRES_PORT", "5432"),
     "dbname": os.getenv("POSTGRES_DB", "student_predict"),
-    "user": os.getenv("POSTGRES_USER", "postgres"),
-    "password": os.getenv("POSTGRES_PASSWORD", "postgres")
+    "user": os.getenv("POSTGRES_USER", "student_predict_app"),
+    "password": os.getenv("POSTGRES_PASSWORD", "")
 }
 
 @dataclass
@@ -54,7 +54,7 @@ DATASETS = {
 # Settings
 LOCKED_TEST_SIZE = 0.2
 CV_FOLDS = 5
-OPTUNA_TRIALS = 50
+OPTUNA_TRIALS = 30
 
 # Thresholds for student-mat/por
 STUDENT_G3_3CLASS_BINS = [0, 9, 14, 20] # Low, Medium, High
@@ -71,5 +71,5 @@ class TrainingConfig:
     learning_rate: float = 0.001
     weight_decay: float = 0.0001
     device: str = "cuda"
-    use_postgres: bool = False
+    use_postgres: bool = True
     use_feature_selection: bool = True
