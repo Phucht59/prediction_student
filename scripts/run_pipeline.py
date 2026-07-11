@@ -78,6 +78,7 @@ from src.recommendation import generate_learning_path_report
 from src.reproducibility import sha256_file
 from src.train_pipeline import calculate_class_weights, objective, train_model
 from src.utils import set_seed, setup_logger
+from src.loss_description import describe_effective_loss
 
 logger = setup_logger("run_pipeline")
 
@@ -622,7 +623,7 @@ def save_outputs(
                 f"Dataset: {args.dataset}",
                 f"Target Mode: {args.target_mode}",
                 "Architecture: CNN-BiLSTM classifier",
-                "Loss: Weighted CrossEntropyLoss",
+                f"Loss: {describe_effective_loss(best_params)}",
                 f"Optuna Best CV F1: {study.best_value:.4f}",
                 f"Best Params: {json.dumps(best_params, indent=2)}",
                 "",

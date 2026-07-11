@@ -12,6 +12,13 @@ mean inner-CV Macro-F1 objective. The selection rule uses one fixed seed and no
 ensemble selection; the locked test is excluded. The frozen final strategy is
 single seed 42, argmax threshold and calibration type `none`.
 
+Locked test is not used in Optuna, hyperparameter tuning, or final CNN–BiLSTM
+configuration selection. Baseline and ablation results on locked test are
+post-hoc comparisons after the protocol and final configuration were frozen.
+
+The legacy selected-config label `weighted_ce` resolves to **CrossEntropyLoss
+without class weighting** because `class_weight_mode` is `none`.
+
 Nested outer performance estimates CNN-BiLSTM at 0.8781 +/- 0.0448 Macro-F1.
 Like-for-like nested HGB is 0.8690. HGB 0.8969 is a different train-pool
 five-fold baseline protocol and must be shown separately. Locked-test results

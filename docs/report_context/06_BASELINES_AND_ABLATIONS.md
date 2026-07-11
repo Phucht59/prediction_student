@@ -23,3 +23,9 @@ The frozen selected model is a separately selected 13,059-parameter single-seed
 configuration, not the fixed-config ablation row. The ensemble is not the final
 deployable model. Early-warning best OOF Macro-F1 is 0.6974; pre-assessment best
 OOF Macro-F1 is 0.4344.
+# Scope correction
+
+HGB full-feature and CNN–BiLSTM G1/G2 use different feature sets and tuning
+levels. Treat their locked-test values as post-hoc system comparisons, not a
+controlled architecture comparison. BiLSTM-only fixed ablation is not evidence
+of causal CNN component importance.

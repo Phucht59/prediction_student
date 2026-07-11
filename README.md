@@ -17,6 +17,9 @@ and High (`>=15`). G1 and G2 are two prior assessments, not a long time series.
 - Recommendations are a deterministic rule-based advisory policy
   (`student_mat_rule_policy_v3`), not a learned recommender. Expert review is
   still pending.
+- ADASYN is implemented for numeric-only inputs, but the final selection search
+  evaluated only `none` and SMOTE/class weighting. The separate ADASYN result,
+  if present under `artifacts/supplementary`, is supplementary post-hoc analysis.
 
 ## PostgreSQL-first data flow
 

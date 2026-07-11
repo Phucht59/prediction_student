@@ -17,3 +17,8 @@
 | Recommendation evaluation | 4 | recommendation evaluation | structural advisory quality |
 | Reproducibility/tests | 4/appendix | manifests/tests | verification |
 | Limitations | 5 | limitations context | claim boundaries |
+# Add to final results table
+
+Include Accuracy 0.9114 (95% CI 0.8481–0.9620) and Macro-F1 0.9262 (95% CI
+0.8704–0.9694), bootstrap 2,000 resamples, seed 42. Label baseline locked-test
+tables as post-hoc comparisons and identify the separate G1/G2 HGB control.

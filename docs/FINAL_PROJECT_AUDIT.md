@@ -31,3 +31,12 @@ CSV is restricted to the explicit ingestion boundary. Model selection, final
 training, recommendation and inference use the PostgreSQL loader. Target
 storage migration and manual administrator steps are documented in
 `MANUAL_POSTGRESQL_MIGRATION.md`.
+
+## Review correction scope
+
+The final loss is CrossEntropyLoss without class weighting: the legacy label
+`weighted_ce` is paired with `class_weight_mode=none`. Final selection did not
+evaluate ADASYN; its numeric G1/G2-only result is supplementary post-hoc
+analysis. `paid` remains in raw data but is excluded from automated advisory
+rules. Locked-test baselines/ablations are post-hoc comparisons, whereas
+Optuna/tuning/final configuration selection excludes locked test.
