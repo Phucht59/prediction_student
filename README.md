@@ -86,11 +86,10 @@ no DOCX is edited by the project-cleanup pipeline.
 
 ## Live PostgreSQL status
 
-The database is reachable and currently contains one dataset version and 395
-source records. Migration 003 has been written but is not applied: the current
-application role lacks `CREATE` privilege on schema `public`. The administrator
-procedure is documented in [MANUAL_POSTGRESQL_MIGRATION.md](docs/MANUAL_POSTGRESQL_MIGRATION.md).
-Migration 003 is applied on `student_predict`: 395 targets cover all 395 source
+Migration 003 is applied on `student_predict`: one dataset version and 395
+targets cover all 395 source
 records (130/192/73). All five PostgreSQL integration tests pass. The DB-first
 run reproduces all 79 predicted classes exactly; maximum probability drift is
 `2.78e-08`, while the principal metrics are unchanged. Expert review remains pending.
+The recovery/new-environment procedure is documented in
+[MANUAL_POSTGRESQL_MIGRATION.md](docs/MANUAL_POSTGRESQL_MIGRATION.md).
