@@ -13,3 +13,8 @@
 
 Use evidence-driven tables and figures; do not create length by repeating the
 same conclusion. Expected total: 75-90 pages.
+# Required correction topics
+
+Include the short ordered two-assessment sequence, Portuguese secondary-school
+benchmark domain, rule-based advisory terminology, ADASYN final-versus-
+supplementary scope, and locked-test post-hoc wording.

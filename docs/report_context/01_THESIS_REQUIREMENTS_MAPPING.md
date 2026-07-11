@@ -5,7 +5,7 @@
 | Python | final scripts and packages | `requirements.txt`, scripts | implemented | implementation environment |
 | PyTorch | CNN-BiLSTM training | `src/models`, `src/train_pipeline.py` | implemented | model chapter |
 | scikit-learn | baselines/metrics/split | baseline and evidence CSV | implemented | experiment chapter |
-| imbalanced-learn | SMOTE/ADASYN ablation | `deep_ablation_results.csv` | implemented as ablation | not selected final policy |
+| imbalanced-learn | SMOTE/class-weight final ablation; ADASYN supplementary numeric-input ablation | `deep_ablation_results.csv`; supplementary artifacts | ADASYN was not in final selection | not selected final policy |
 | CNN and BiLSTM | sequence classifier | selected config/model code | implemented | primary research architecture |
 | Optuna | nested selection | selection manifest/trials | implemented | protocol chapter |
 | Dropout/early stopping | selected config | `selected_config.json` | implemented | regularization section |

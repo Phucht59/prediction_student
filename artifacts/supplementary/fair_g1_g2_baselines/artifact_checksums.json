@@ -1,0 +1,8 @@
+{
+  "artifact_checksums.json": "405dc5058d53ac3943c935e163ea00ce2640010e47e1f522824b0758460ed87e",
+  "inner_trials.csv": "9926a7d0e7a4f4d714db518b8cddcd8550e758e4345e46dc1246f7b38abe0dca",
+  "outer_fold_metrics.csv": "1015f42f4a4cfd0cb3a91a7e22130a034db3a849ae95fb65ddf067f2ecaa683a",
+  "protocol.json": "3dee373746cacb979a59fa593ad7f2eaf87cfb4d2c20dc2e05aad83d8796ad3d",
+  "README.md": "e8ba5ec2b2e086679a2830426600ba2206b4048bad3cafc34ddf87a79d25afd2",
+  "summary.json": "6746692f52dc90f1a1d2e220bdbfbe282226f83bf4ecc42dd92e2d0d871c7448"
+}

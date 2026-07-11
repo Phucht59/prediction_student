@@ -20,3 +20,10 @@ Predictions are not causal claims and must not label, rank or sanction students
 automatically. Use human-in-the-loop review, data minimization, access control,
 privacy safeguards and local institutional validation. Recommendations are
 advisory and must not replace teacher or counselor judgment.
+# Supplementary limitations
+
+Absence, study-time and confidence thresholds are heuristics without expert or
+empirical validation. Schema-valid and no-contradiction outputs establish only
+structural/risk-code consistency, not suitable advice or causal grade gains.
+Advisor-family actions fit this school dataset; university deployment needs a
+new policy. Bootstrap uncertainty is material for 79 test records (High=15).

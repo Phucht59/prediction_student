@@ -30,6 +30,11 @@ HistGradientBoosting locked Macro-F1 is 0.9463, but its nested outer score is
 0.8690 and the locked score was not used for selection. These results must not
 be replaced by a more favorable split.
 
+The historical `weighted_ce` config name is interpreted by its class-weight
+mode: final `none` means CrossEntropyLoss without class weighting. ADASYN is
+code-supported for numeric-only inputs but was not part of final selection;
+supplementary analysis is explicitly separated from frozen evidence.
+
 ## Release references
 
 - Selection run: `nested-full-20260710`

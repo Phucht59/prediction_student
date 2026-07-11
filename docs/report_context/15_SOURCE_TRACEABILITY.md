@@ -14,3 +14,10 @@
 | Recommendation validity | 1.0 | recommendation_evaluation.json | schema metrics |
 | Tests | 62 passed, 0 skipped | final audit | credentialed pytest record |
 | PostgreSQL status | migration applied; 395 source/target rows | final audit and DB-first evidence | live schema/count/integration checks |
+# Claim-correction traceability
+
+Effective loss is resolved from `loss` plus `class_weight_mode`; final is
+unweighted CrossEntropyLoss. ADASYN implementation is `src/data_pipeline.py`,
+while final selection space did not include it. Bootstrap values originate in
+the final evidence bundle. Recommendation exclusions, including `paid`, are in
+`src/recommendation.py`.
