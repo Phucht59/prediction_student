@@ -27,7 +27,7 @@ foreign key, uniqueness constraint, index and immutability trigger.
 ## Restore target lineage
 
 Ingest or backfill targets only from the checksum-verified ingestion source.
-Join each target by `dataset_version_id` and stable `source_record_id`; never
+Join each target by `dataset_version_id` and stable `record_id`; never
 derive targets from predictions or a volatile CSV row index. Keep G3 outside
 the model feature payload.
 
