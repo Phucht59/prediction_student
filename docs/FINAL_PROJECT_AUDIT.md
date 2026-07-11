@@ -1,6 +1,6 @@
 # Final project audit
 
-Audit date: 2026-07-10. DOCX files were not edited.
+Audit date: 2026-07-11. DOCX files were not edited.
 
 ## Repository and frozen evidence
 
@@ -11,27 +11,19 @@ Audit date: 2026-07-10. DOCX files were not edited.
   `cda38460197627ac1d71e764f61d784e4c03cf6f86775339d38787c6890678ad`.
 - Frozen prediction checksum:
   `d5b6f86d50a1a4c90b6a68139ec0eb6f4635e55c572c647d6d9b62d5a31f4a74`.
-- Offline tests: 57 passed, 5 skipped. The skips are PostgreSQL integration
-  tests because test DSNs/credentials are not configured.
+- Tests: 62 passed, 0 skipped, including all five live PostgreSQL integration tests.
 
 ## Live PostgreSQL status
 
-The live `student_predict` database is reachable with the application role and
-contains one dataset version and 395 source records. Migration
-`003_add_source_record_targets.sql` has not been applied because that role
-cannot create tables in `public`; `source_record_targets` is therefore absent.
+The live `student_predict` database contains one dataset version, 395 source
+records and 395 target rows. Migration `003_add_source_record_targets.sql` is
+applied; distribution is 130/192/73 with zero duplicates and zero orphans.
 The lineage backup is outside the repository at
 `C:\Huflit\backups\student_predict_before_003.dump`.
 
-The following are intentionally pending:
-
-- administrator migration and target backfill (395 rows, expected distribution
-  130/192/73);
-- PostgreSQL integration tests without skips;
-- a new live DB-first verification run and evidence bundle.
-
-These pending items must not be reported as completed. The current scientific
-conclusion and metrics remain those of the frozen pre-migration evidence.
+The live DB-first run `5a0b5041-5216-4a48-9e46-b0c16ab14866` reproduces all 79
+predicted classes. Maximum probability drift is `2.78e-08`; principal metric
+deltas are zero. Independent expert recommendation review remains pending.
 
 ## Technical contract
 

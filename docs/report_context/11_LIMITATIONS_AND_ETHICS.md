@@ -12,7 +12,7 @@
 - Fairness slices are descriptive because subgroup support is small.
 - Recommendation evaluation is structural; expert review and intervention
   effectiveness are not established.
-- Live PostgreSQL migration and new DB-first verification remain pending.
+- Expert review and local educational intervention validation remain pending.
 
 ## Ethical and deployment constraints
 

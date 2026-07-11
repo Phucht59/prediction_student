@@ -71,7 +71,7 @@ py -3.10 scripts/optimize_model_selection.py --dataset student-mat `
 
 - Selection config: `artifacts/model_selection/nested-full-20260710/selected_config.json`
 - Final scientific run: `a2945d79-9845-4979-b148-159f4853eca3`
-- DB-first reproducibility run: `c719439e-bb88-42ff-bb98-d258c21d204e`
+- Live PostgreSQL DB-first verification run: `5a0b5041-5216-4a48-9e46-b0c16ab14866`
 - `artifacts/final/LATEST_RUN.txt` identifies the active evidence bundle.
 
 Verify checksums, predictions, metrics and DB counts:
@@ -90,5 +90,7 @@ The database is reachable and currently contains one dataset version and 395
 source records. Migration 003 has been written but is not applied: the current
 application role lacks `CREATE` privilege on schema `public`. The administrator
 procedure is documented in [MANUAL_POSTGRESQL_MIGRATION.md](docs/MANUAL_POSTGRESQL_MIGRATION.md).
-Live target backfill, PostgreSQL integration tests and a new DB-first run remain
-pending. The evidence above is the frozen pre-migration scientific evidence.
+Migration 003 is applied on `student_predict`: 395 targets cover all 395 source
+records (130/192/73). All five PostgreSQL integration tests pass. The DB-first
+run reproduces all 79 predicted classes exactly; maximum probability drift is
+`2.78e-08`, while the principal metrics are unchanged. Expert review remains pending.

@@ -69,16 +69,16 @@ It uses model output and permitted input features, supplies risk factors,
 actions, reasons, priority, confidence, disclaimer and human-review framing.
 Its 79 outputs are schema-valid and contradiction-free; expert review is not
 collected. PostgreSQL is the canonical source architecture. Live migration 003
-for separate target storage is pending administrator execution; do not claim
-live target-table verification is complete.
+is applied and 395 target rows have been verified against source lineage.
 
 ## Reproducibility and limits
 
 Frozen evidence is `final-a2945d79-9845-4979-b148-159f4853eca3`; selection run
 is `nested-full-20260710`. Config SHA-256 is
 `cda38460197627ac1d71e764f61d784e4c03cf6f86775339d38787c6890678ad`.
-The prior reproducibility run has exact prediction checksum match. Tests: 87
-passed, 5 PostgreSQL integration tests pending credentials.
+The live DB-first run reproduces all 79 predicted classes; probability drift is
+at most `2.78e-08`. All 62 tests pass with no skips, including five PostgreSQL
+integration tests.
 
 ## Claims forbidden in the thesis
 
@@ -91,4 +91,4 @@ passed, 5 PostgreSQL integration tests pending credentials.
 - Do not call the 11-seed ensemble the final deployable model.
 - Do not claim calibration was used in the frozen final configuration.
 - Do not use locked-test results as model-selection evidence.
-- Do not claim PostgreSQL migration 003 or live DB-first verification is done.
+- Do not claim educational/expert validation of recommendations is done.

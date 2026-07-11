@@ -14,9 +14,9 @@
 | Repository cleanup | DONE |
 | PostgreSQL-first source architecture | DONE |
 | Migration 003 implementation | DONE |
-| Live migration application | MANUAL PENDING |
-| PostgreSQL integration tests | PENDING CREDENTIALS |
-| DB-first live reproducibility | PENDING |
+| Live migration application | DONE |
+| PostgreSQL integration tests | DONE (5/5) |
+| DB-first live reproducibility | DONE |
 | Frozen scientific evidence | DONE |
 | Main branch release | DONE |
 | Expert recommendation review | PENDING |
@@ -34,7 +34,7 @@ be replaced by a more favorable split.
 
 - Selection run: `nested-full-20260710`
 - Final scientific DB run: `a2945d79-9845-4979-b148-159f4853eca3`
-- DB-first verification run: `c719439e-bb88-42ff-bb98-d258c21d204e`
+- DB-first verification run: `5a0b5041-5216-4a48-9e46-b0c16ab14866`
 - Frozen config: `artifacts/model_selection/nested-full-20260710/selected_config.json`
 - Active evidence: `artifacts/final/LATEST_RUN.txt`
 
@@ -42,7 +42,6 @@ The repository contains source, migrations, tests, technical documentation and
 frozen evidence. Old DOCX/PDF reports are removed; report revision is the next
 stage and is not performed by this pipeline.
 
-The live database currently has one dataset version and 395 source records, but
-`source_record_targets` does not yet exist. No live DB-first verification claim
-is made until an administrator applies migration 003 and the PostgreSQL tests
-run without credential-related skips.
+The live database has one dataset version, 395 source records and 395 immutable
+target rows. Migration 003, credentialed PostgreSQL tests and frozen DB-first
+verification are complete. Expert recommendation review remains pending.

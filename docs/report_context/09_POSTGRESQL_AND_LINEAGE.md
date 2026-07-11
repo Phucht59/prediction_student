@@ -16,4 +16,4 @@ erDiagram
 content and ingestion-contract hashes; record, split, prediction, metric and
 recommendation linkage supplies lineage. Migration 003 defines separate target
 storage keyed by dataset version and record. Source code is complete, but live
-migration, target backfill and credentialed integration tests are pending.
+migration, 395-row target backfill and credentialed integration tests are complete.

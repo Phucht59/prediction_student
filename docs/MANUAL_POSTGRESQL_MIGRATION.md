@@ -1,4 +1,8 @@
-# Manual PostgreSQL migration (pending)
+# PostgreSQL migration 003 operational record
+
+Migration 003 was applied successfully on 2026-07-11. This document retains the
+administrator procedure for recovery or a new environment; it is not a pending
+project task.
 
 The source code is PostgreSQL-first, but migration 003 has not yet been applied
 to the live `student_predict` database. The current application role

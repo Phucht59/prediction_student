@@ -1,0 +1,41 @@
+{
+  "algorithm": "sha256",
+  "excluded": [
+    "artifact_checksums.json",
+    "run_manifest.json"
+  ],
+  "files": {
+    "ablation_results.csv": "8112da500b3bb4b5fa6274766f85a16333ec835d61b385e5b7ff7c5397431c84",
+    "baseline_results.csv": "f3248494164629bcf6df04cb933a133b592b3667fd97ee9587d656ff715f6b2b",
+    "bootstrap_confidence_intervals.json": "526d8287a8a2d7dead00a66efa3a7e6a9d1ccb36dbd340d7c0eb7bf38851ead1",
+    "calibration_metrics.json": "5c63069828f38927237fbc02909a1cbd69caef96a61fce34f78814d85eff0954",
+    "classification_report.json": "512da8af415f765c6fa169dc869305a52b970887132182ce7e832e8215b139bb",
+    "confusion_matrix.csv": "d951d40d5e83e27053678020934eba99e7627f8c4743aa745840d55394a56302",
+    "database_run_manifest.json": "b57d558ffe4d0d805cf6fd4fcec7e73a32b99ab1584f78b323ff80a018cc4c95",
+    "dataset_manifest.json": "594f432dadb75dea1354223f937a4fc669d0beab006e84495df1ff89563a9acd",
+    "deep_ablation_results.csv": "2f9ac688f3c824abec2081706c3a6044de843b64971d086dfc01955bda54f52b",
+    "environment.json": "409419282a2a7256c748634f35d6a6b9d323ffa146c4626632368dd5511a988e",
+    "fairness_slices.csv": "eff005b1f7f2f9a4c7b1531b40a1bd6d2c19fa9c3728f1d70e8ca0103089ef18",
+    "imbalance_ablation_results.csv": "2f9ac688f3c824abec2081706c3a6044de843b64971d086dfc01955bda54f52b",
+    "locked_test_predictions.csv": "caf4e89bf45e51596cc5613f6755a9911223bc778f41eebbaaf99737ec6bb2e3",
+    "model_checksums.json": "aa8a4d364a4f66fc7e548985fe4814a9c8f54074824c794dcc280a15dc2ee58b",
+    "model_selection_manifest.json": "6f8ad91492f02d706590763bc6f91ea6ebbc464c5f8845ea55de49f2435e5c45",
+    "oof_predictions.csv": "b6b3397df2a564607d5f6de89047e40daf84afb665deab9fcde666aa9c284a64",
+    "optuna_best_trials.json": "7e9de32f52d96f8d551e28d03dcd59f8082faaf0d9b08fa44991e4794dc5b10a",
+    "optuna_trials.csv": "fac25f07c66f2778283ca33e5d9aa5812f5901790c425263489fb56fbc44a55b",
+    "ordinal_metrics.json": "8db673db8367043500c3af3f93ded8347bee6c0222fda36c561a2dde1f285682",
+    "outer_fold_metrics.csv": "feb499975587e99b200c2a64e5b8e16be2f0ecf195a255b14864f4e27229049c",
+    "outer_fold_metrics.json": "0656625d79091f4964b6946307044e0464cdc4c876f74bdabadc1ca1f673f7e5",
+    "pr_curve_data.csv": "9d4e30e44e78ae9490d52291fef288668a0a57ed33b4481d9fadb7721243ab92",
+    "protocol_manifest.json": "5e9128ecffe3ba2db1d741231ef881cb0250546e0728fa5dc8760cdeaafec2c0",
+    "README.md": "7db4d4ae4cb74de23528b1f0296cc99650d8f081f7d8145f6a4e901401e0f59e",
+    "recommendation_evaluation.json": "fabde2b878fda48dcf360237ea00929a0468844b9a2295ea715e7143031a1fe5",
+    "recommendation_expert_review_cases.csv": "6fa1a7276e58758107d22dc0cc6fce37be33ae571e5a73b8d48900c0738f5a7c",
+    "reliability_curve_data.csv": "22e68656efd9f0b3c6b9a426ec8314aeb25ab2ff94c1085fbabcff87c604584e",
+    "reproducibility_manifest.json": "54cbe8e4c3f7872bd3b6e43e3a0cfab9f236af3d72c2133d5dc8dbe6900bc663",
+    "scenario_results.csv": "f3248494164629bcf6df04cb933a133b592b3667fd97ee9587d656ff715f6b2b",
+    "selected_config.json": "cda38460197627ac1d71e764f61d784e4c03cf6f86775339d38787c6890678ad",
+    "split_hashes.json": "0a0d88058ba7344857828d07944d6112fea0df1e3b609303f71218f0a802d559",
+    "split_manifest.json": "5da95dc453ad2c72be7ae0c7d4b16dcbec7a20869e5d3b220e35157d2341caba"
+  }
+}

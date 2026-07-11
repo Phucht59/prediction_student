@@ -9,7 +9,7 @@
 | CNN and BiLSTM | sequence classifier | selected config/model code | implemented | primary research architecture |
 | Optuna | nested selection | selection manifest/trials | implemented | protocol chapter |
 | Dropout/early stopping | selected config | `selected_config.json` | implemented | regularization section |
-| PostgreSQL | lineage schema and loader | migrations/loader | source architecture implemented; live migration pending | architecture and limitations |
+| PostgreSQL | lineage schema and loader | migrations/loader and DB-first evidence | migration applied; 395 targets verified | architecture and lineage verification |
 | prediction system | frozen single-seed classifier | final run manifest | implemented | results chapter |
 | recommendation | rule-based advisory policy | recommendation evaluation | implemented structurally | describe as advisory policy |
 | Accuracy/F1/PR | evidence metrics | final run manifest | reported | evaluation tables |
