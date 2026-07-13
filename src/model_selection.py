@@ -36,8 +36,9 @@ from src.data_pipeline import (
     get_sequence_columns,
 )
 from src.models import FocalLoss, create_model
-from src.train_pipeline import calculate_class_weights, train_model
+from src.train_pipeline import calculate_class_weights, train_fixed_epochs, train_model
 from src.utils import set_seed, setup_logger
+from src.evaluation.protocol import validate_scenario_features
 
 logger = setup_logger("model_selection")
 
@@ -55,6 +56,7 @@ class FoldModelResult:
     categorical_cols: list[str]
     train_row_positions: list[int]
     early_stop_row_positions: list[int]
+    refit_state_dict: dict[str, torch.Tensor] | None = None
 
 
 def _row_positions(frame: pd.DataFrame) -> list[int]:
@@ -144,6 +146,7 @@ def fit_fold_predict_proba(
     seed: int,
     fold_index: int,
     ablation_mode: str = "sequence_only",
+    scenario: str = "late_stage",
 ) -> FoldModelResult:
     """Fit on fold-training data and predict probabilities for a held-out scoring fold.
 
@@ -151,6 +154,9 @@ def fit_fold_predict_proba(
     passed to ``train_model`` for early stopping. A smaller early-stop set is
     carved out of ``train_fold`` before preprocessing is fit.
     """
+    # This call is deliberately before preprocessing/training so a scenario
+    # cannot sneak an unavailable feature into a future model runner.
+    validate_scenario_features(get_sequence_columns(spec.kind), scenario)
     set_seed(seed)
     model_train_fold, early_stop_fold = split_model_train_and_early_stop(
         train_fold,
@@ -205,7 +211,48 @@ def fit_fold_predict_proba(
         lr=float(params["learning_rate"]),
         weight_decay=float(params["weight_decay"]),
     )
-    model, _, _ = train_model(model, train_loader, early_stop_loader, criterion, optimizer, build_training_config(params), device)
+    model, early_history, _ = train_model(model, train_loader, early_stop_loader, criterion, optimizer, build_training_config(params), device)
+    selected_epochs = max(1, int(np.argmax(early_history["val_f1"]) + 1))
+
+    # Refit the complete outer/inner training partition after epoch selection.
+    # Scoring-fold rows have not been passed to preprocessing, selection,
+    # resampling, class weights, scheduler, or early stopping.
+    refit_engineered = apply_feature_engineering(train_fold.copy(), spec.kind)
+    refit_preprocessor = DataPreprocessor(
+        target_col=spec.target_col,
+        oversample_method=params.get("oversample_method", "none"),
+        smote_ratio=float(params.get("smote_ratio", 1.0)),
+        resampling_k_neighbors=int(params.get("resampling_k_neighbors", 5)),
+        oversampling_feature_columns=get_sequence_columns(spec.kind),
+    )
+    refit_prepared = refit_preprocessor.fit_transform(refit_engineered, apply_oversampling=True)
+    validation_refit_prepared = refit_preprocessor.transform(validation_engineered)
+    refit_selector = FeatureSelector(
+        target_col=spec.target_col,
+        use_feature_selection=True,
+        required_features=get_sequence_columns(spec.kind),
+    )
+    refit_selected = refit_selector.fit_transform(
+        refit_prepared,
+        refit_preprocessor.numerical_cols,
+        refit_preprocessor.categorical_cols,
+    )
+    validation_refit_selected = refit_selector.transform(validation_refit_prepared)
+    refit_dataset = StudentDataset(refit_selected, spec.kind, spec.target_col, refit_preprocessor.numerical_cols, refit_preprocessor.categorical_cols)
+    validation_dataset = StudentDataset(validation_refit_selected, spec.kind, spec.target_col, refit_preprocessor.numerical_cols, refit_preprocessor.categorical_cols)
+    refit_loader = DataLoader(refit_dataset, batch_size=batch_size, shuffle=True, drop_last=len(refit_dataset) > batch_size)
+    validation_loader = DataLoader(validation_dataset, batch_size=batch_size, shuffle=False)
+    refit_cardinalities = [len(refit_preprocessor.label_encoders[column].classes_) for column in refit_dataset.cat_cols]
+    refit_model = create_model(spec.kind, model_params, len(refit_dataset.num_cols), refit_cardinalities).to(device)
+    refit_labels = refit_engineered[spec.target_col].astype(int).to_numpy()
+    refit_weights = calculate_class_weights(refit_labels, num_classes=3).to(device)
+    refit_criterion = _criterion(spec, params, refit_weights)
+    refit_optimizer = optim.Adam(
+        refit_model.parameters(),
+        lr=float(params["learning_rate"]),
+        weight_decay=float(params["weight_decay"]),
+    )
+    model, _ = train_fixed_epochs(refit_model, refit_loader, refit_criterion, refit_optimizer, device, selected_epochs)
 
     probabilities = []
     with torch.no_grad():
@@ -223,11 +270,12 @@ def fit_fold_predict_proba(
         probabilities=probability_array,
         predictions=np.asarray(predictions, dtype=int),
         true_labels=validation_fold[spec.target_col].astype(int).to_numpy(),
-        selected_features=list(selector.selected_features),
-        numerical_cols=list(train_dataset.num_cols),
-        categorical_cols=list(train_dataset.cat_cols),
-        train_row_positions=_row_positions(model_train_fold),
+        selected_features=list(refit_selector.selected_features),
+        numerical_cols=list(refit_dataset.num_cols),
+        categorical_cols=list(refit_dataset.cat_cols),
+        train_row_positions=_row_positions(train_fold),
         early_stop_row_positions=_row_positions(early_stop_fold),
+        refit_state_dict={key: value.detach().cpu().clone() for key, value in model.state_dict().items()},
     )
 
 

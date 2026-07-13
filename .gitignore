@@ -50,6 +50,18 @@ reports/debug/
 artifacts/smoke/
 artifacts/preflight/
 
+# Benchmark V2 run outputs are immutable runtime evidence, not source files.
+# Protocol definitions and selected audit reports below remain versioned.
+artifacts/benchmark_v2/
+reports/benchmark_v2/*
+!reports/benchmark_v2/compute_estimate.md
+!reports/benchmark_v2/preflight_audit.md
+!reports/benchmark_v2/preflight_probfix_20260713.md
+!reports/benchmark_v2/probability_contract_root_cause.md
+!reports/benchmark_v2/probability_contract_tests.md
+!reports/benchmark_v2/probability_fix_changelog.md
+!reports/benchmark_v2/invalid_runs_registry.json
+
 !data/raw/.gitkeep
 !data/processed/.gitkeep
 !models/saved/.gitkeep

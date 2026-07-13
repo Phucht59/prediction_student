@@ -166,6 +166,21 @@ def train_model(model, train_loader, val_loader, criterion, optimizer, config, d
     return model, history, early_stopping.best_score or 0.0
 
 
+def train_fixed_epochs(model, train_loader, criterion, optimizer, device, epochs: int):
+    """Fit a final fold model without consulting a scoring/validation fold.
+
+    The epoch count must have been chosen beforehand from an internal split of
+    the corresponding outer-training partition.  A scheduler is intentionally
+    absent because its signal would otherwise require a validation set.
+    """
+    if epochs < 1:
+        raise ValueError("epochs must be at least one for final refit.")
+    losses = []
+    for _ in range(int(epochs)):
+        losses.append(train_epoch(model, train_loader, criterion, optimizer, device))
+    return model, {"train_loss": losses, "epochs": int(epochs)}
+
+
 def calculate_class_weights(y, num_classes):
     labels = np.asarray(y, dtype=int)
     counts = np.bincount(labels, minlength=num_classes)

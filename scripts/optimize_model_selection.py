@@ -29,6 +29,14 @@ from src.data_pipeline import (
     process_target_and_stratify,
 )
 from src.evaluation.evaluation import _connect, sha256_json
+from src.evaluation.protocol import (
+    DEFAULT_FOLD_MANIFEST_PATH,
+    assert_no_legacy_records,
+    load_fold_manifest,
+    outer_folds_from_manifest,
+    source_record_identity,
+    validate_scenario_features,
+)
 from src.model_selection import (
     apply_probability_calibration,
     apply_threshold_policy,
@@ -43,10 +51,9 @@ from src.model_selection import (
     write_json,
 )
 from src.models import create_model
-from src.postgres_data_source import load_dataset_version_from_postgres, reconstruct_splits_from_run
+from src.postgres_data_source import load_dataset_version_from_postgres
 
 
-DEFAULT_REFERENCE_RUN_ID = "647158f5-c055-468d-a1c6-47dd6a580028"
 SELECTION_ROOT = ROOT_DIR / "artifacts" / "model_selection"
 
 
@@ -55,7 +62,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--dataset", default="student-mat", choices=sorted(DATASETS))
     parser.add_argument("--target-mode", default="3class", choices=["3class"])
     parser.add_argument("--dataset-version-id", type=int, required=True)
-    parser.add_argument("--reference-run-id", default=DEFAULT_REFERENCE_RUN_ID)
+    parser.add_argument(
+        "--fold-manifest",
+        type=Path,
+        default=DEFAULT_FOLD_MANIFEST_PATH,
+        help="Required shared V2 outer-fold manifest; it excludes legacy_heldout_observed records.",
+    )
     parser.add_argument("--n-trials", type=int, default=30)
     parser.add_argument("--outer-folds", type=int, default=5)
     parser.add_argument("--inner-folds", type=int, default=3)
@@ -99,6 +111,19 @@ def target_frame(raw_frame: pd.DataFrame, dataset: str, target_mode: str) -> pd.
 def split_hash(frame: pd.DataFrame) -> str:
     rows = sorted(int(row) for row in frame[SOURCE_ROW_NUMBER_COLUMN].tolist())
     return sha256_json(rows)
+
+
+def development_frame_from_manifest(frame: pd.DataFrame, manifest: dict[str, Any]) -> pd.DataFrame:
+    """Select exactly the V2 development cohort, never the observed 79 rows."""
+    if int(manifest["dataset_version_id"]) <= 0:
+        raise ValueError("Fold manifest requires a valid dataset_version_id.")
+    allowed_rows = {int(row["source_row_number"]) for row in manifest["development_records"]}
+    development = frame[frame[SOURCE_ROW_NUMBER_COLUMN].astype(int).isin(allowed_rows)].copy()
+    if len(development) != len(allowed_rows):
+        raise ValueError("Dataset does not contain every shared-manifest development record.")
+    identities = [source_record_identity(int(manifest["dataset_version_id"]), row) for row in development[SOURCE_ROW_NUMBER_COLUMN].astype(int)]
+    assert_no_legacy_records(identities)
+    return development.sort_values(SOURCE_ROW_NUMBER_COLUMN).reset_index(drop=True)
 
 
 def write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
@@ -345,21 +370,30 @@ def main() -> None:
     spec = DATASETS[args.dataset]
     raw_frame, dataset_version = load_dataset_version_from_postgres(args.dataset, args.dataset_version_id)
     target = target_frame(raw_frame, args.dataset, args.target_mode)
-    train_pool, locked_test = reconstruct_splits_from_run(target, args.reference_run_id)
+    fold_manifest = load_fold_manifest(args.fold_manifest)
+    if int(fold_manifest["dataset_version_id"]) != int(args.dataset_version_id):
+        raise ValueError("--dataset-version-id must match the shared fold manifest.")
+    if fold_manifest["dataset_checksum"] != dataset_version["content_hash"]:
+        raise ValueError("Dataset checksum does not match the shared fold manifest.")
+    validate_scenario_features(get_sequence_columns(spec.kind), "late_stage")
+    train_pool = development_frame_from_manifest(target, fold_manifest)
     protocol_manifest = {
         "selection_run_id": selection_run_id,
         "created_at": datetime.now(timezone.utc).isoformat(),
         "git_commit": git_commit(),
         "dataset_version_id": args.dataset_version_id,
         "dataset_checksum": dataset_version["content_hash"],
-        "split_hashes": {"train": split_hash(train_pool), "locked_test": split_hash(locked_test)},
+        "split_hashes": {"development": split_hash(train_pool)},
+        "fold_manifest_path": str(args.fold_manifest),
+        "fold_manifest_checksum": fold_manifest["manifest_checksum"],
+        "legacy_heldout_observed_excluded": True,
         "scenario": "late_stage_G1_G2",
         "outer_folds": args.outer_folds,
         "inner_folds": args.inner_folds,
         "n_trials": args.n_trials,
         "selection_seed": args.selection_seed,
         "objective": "mean inner-CV Macro-F1",
-        "locked_test_used_for_selection": False,
+        "legacy_heldout_observed_used_for_selection": False,
         "ensemble_used_for_selection": False,
         "threshold_policy": "argmax fixed before locked-test evaluation",
         "calibration_policy": "none fixed before locked-test evaluation",
@@ -374,7 +408,9 @@ def main() -> None:
             "This run has fewer than 5 outer folds, 3 inner folds or 30 trials and must not be used for final locked-test evaluation.\n",
             encoding="utf-8",
         )
-    outer_folds = make_folds(train_pool, spec.target_col, n_splits=args.outer_folds, seed=DEFAULT_SEED)
+    if args.outer_folds != int(fold_manifest["outer_folds"]):
+        raise ValueError("--outer-folds must match the immutable shared fold manifest.")
+    outer_folds = outer_folds_from_manifest(train_pool, fold_manifest, source_column=SOURCE_ROW_NUMBER_COLUMN)
     fold_ids = np.zeros(len(train_pool), dtype=int)
     outer_probabilities = np.zeros((len(train_pool), 3), dtype=float)
     outer_predictions = np.zeros(len(train_pool), dtype=int)
@@ -419,16 +455,17 @@ def main() -> None:
         "dataset": args.dataset,
         "target_mode": args.target_mode,
         "dataset_version_id": args.dataset_version_id,
-        "reference_run_id": args.reference_run_id,
-        "split_hash": {"train": split_hash(train_pool), "locked_test": split_hash(locked_test)},
+        "split_hash": {"development": split_hash(train_pool)},
+        "fold_manifest_path": str(args.fold_manifest),
+        "fold_manifest_checksum": fold_manifest["manifest_checksum"],
         "selection_protocol": {
-            "source": "train_split_only",
+            "source": "shared_v2_development_manifest_only",
             "outer_folds": args.outer_folds,
             "inner_folds": args.inner_folds,
             "fold_seed": DEFAULT_SEED,
             "model_selection_seed": args.selection_seed,
             "optuna_trials_per_inner_search": args.n_trials,
-            "locked_test_used_for_selection": False,
+            "legacy_heldout_observed_used_for_selection": False,
             "selection_rule": "mean inner-CV Macro-F1; nested outer CV is performance estimation only; one fixed seed and no ensemble selection",
         },
         "nested_cv_result": outer_summary,

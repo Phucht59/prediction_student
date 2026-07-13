@@ -1,0 +1,7 @@
+{
+  "scenario": "late_stage",
+  "feature_set_id": "student_mat_late_stage_strict_v1",
+  "cutoff": "after_G2_before_G3",
+  "allowed_features": ["G1", "G2"],
+  "policy": "Strict: only the documented first- and second-period grades are currently admissible. G3 and G3-derived fields are forbidden; unclocked questionnaire fields remain excluded."
+}

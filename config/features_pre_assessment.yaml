@@ -1,0 +1,7 @@
+{
+  "scenario": "pre_assessment",
+  "feature_set_id": "student_mat_pre_assessment_strict_v1",
+  "cutoff": "before_any_assessment",
+  "allowed_features": [],
+  "policy": "Strict: no student-mat questionnaire field is included until its capture time is evidenced in a data contract. G1, G2, G3 and all G3-derived fields are forbidden."
+}

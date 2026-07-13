@@ -16,6 +16,12 @@ SOURCE_ROW_NUMBER_COLUMN = "__source_row_number"
 PROTECTED_METADATA_COLUMNS = frozenset({SOURCE_ROW_NUMBER_COLUMN})
 
 
+def is_target_or_target_derived(column: str) -> bool:
+    """Return true for G3 and every named G3 derivative used by this project."""
+    normalized = str(column).lower().replace("-", "_")
+    return normalized == "g3" or normalized.startswith("g3_") or "g3" in normalized.split("_")
+
+
 def _json_safe(value):
     if isinstance(value, dict):
         return {str(key): _json_safe(item) for key, item in value.items()}
@@ -232,10 +238,6 @@ class FeatureSelector:
         if self.target_col in df.columns and self.target_col not in cols_to_keep:
             cols_to_keep.append(self.target_col)
             
-        # Keep G3_raw if present so it can be passed to the dataset
-        if "G3_raw" in df.columns and "G3_raw" not in cols_to_keep:
-            cols_to_keep.append("G3_raw")
-            
         return df[cols_to_keep]
 
 
@@ -269,6 +271,7 @@ class DataPreprocessor:
         
         # Identify columns
         X = drop_protected_metadata(df.drop(columns=[self.target_col]))
+        X = X.drop(columns=[column for column in X.columns if is_target_or_target_derived(column)], errors="ignore")
         
         self.numerical_cols = [
             c for c in X.select_dtypes(include=[np.number]).columns.tolist()
@@ -406,6 +409,7 @@ class DataPreprocessor:
         """Transform validation/test sets without fitting or oversampling."""
         df = df.copy()
         X = drop_protected_metadata(df.drop(columns=[self.target_col], errors='ignore'))
+        X = X.drop(columns=[column for column in X.columns if is_target_or_target_derived(column)], errors="ignore")
         
         if self.target_col in df.columns:
             # For target, handle unseen classes by mapping to -1 or known
