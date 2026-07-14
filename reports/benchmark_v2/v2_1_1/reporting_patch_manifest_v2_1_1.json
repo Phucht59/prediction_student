@@ -2,8 +2,8 @@
   "patch_version": "v2.1.1",
   "source_run_id": "benchmark-v2-full-20260713c",
   "source_run_commit": "b4339c35a0197baf81ba9be871f70ff8d3030c81",
-  "patch_source_commit": "adb8a1348c9afad0686a9edcc6c36a11697cf630",
-  "source_tree_clean": false,
+  "patch_source_commit": "135b958f2ccb2fd10367898098a43300748f3d13",
+  "source_tree_clean": true,
   "input_artifact_checksums": {
     "benchmark_manifest.json": "3ee912d0d153960252f328fce68b90318e0fca9104f58e147151e0b3ab29e673",
     "checksums.json": "ee54a4db157afd383576b5fdca68f0b4f78087f4d350b0f26d04b20b01d68a72",
@@ -16,7 +16,7 @@
     "features_early_warning": "c53eeea389d3ca8f0636c69acde0f27921873475fb7bcc2063589a15f953354a",
     "features_late_stage": "11465c6f4ea999634d92c48155ac02172b3f1e1e2b966b6ccaf2e4bb080410b0",
     "expected_job_contract": "592ffed7ee8084451b97ce91752e698f88603f6fcccc6bb7e7aaaaa13159e55b",
-    "test_report": "24793a0c77ddc187578516813131435b08b07c62e749562b458313a39ff891d1"
+    "test_report": "c5f9055c5564a473760f058ced5a05ef76fbbf4edc129547cc490214d84f8c6b"
   },
   "metric_implementation_version": "benchmark_metrics_v2_1_1",
   "ece_contract": {
@@ -43,10 +43,10 @@
     "record_coverage.csv": "31c652e0f627fe0a7c78ec975a3d4d8ef5d3a3ab1064416c7d25d1b2d0a5d9cb",
     "reporting_patch_changelog.md": "8224d3353fa1687a11a6f6b6066bd57b8678ad6b7d7570245b19de1a28fad6c3",
     "structured_metric_mismatches.csv": "1d01d68f0eb5d991e6a3935e0233eff1dd21dac632a434d83ae40699af8e98d0",
-    "test_report.json": "24793a0c77ddc187578516813131435b08b07c62e749562b458313a39ff891d1",
-    "validation_v2_1_1.json": "abbd65fb4d35c991ade1ff877ee8dd7dbbb342fdd1c3bb130643ad25bb31d2b0",
-    "validation_v2_1_1.md": "18586b9961bd134f3fc14558258657a890c920f2500f276790c610dde2dfd343"
+    "test_report.json": "c5f9055c5564a473760f058ced5a05ef76fbbf4edc129547cc490214d84f8c6b",
+    "validation_v2_1_1.json": "3ae9985aef85ae926fca0a4698cfa85c5bb0cfc9ab8d08dc01e2f37e45f02f15",
+    "validation_v2_1_1.md": "cd14473dbd000183f4c81902f70b6cc5cbc70e88819ce679edd4ad3b664792bb"
   },
   "original_artifacts_modified": false,
-  "generated_at": "2026-07-14T03:21:20.033110+00:00"
+  "generated_at": "2026-07-14T03:22:57.906741+00:00"
 }
