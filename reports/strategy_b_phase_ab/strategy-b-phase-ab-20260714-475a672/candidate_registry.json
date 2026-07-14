@@ -1,0 +1,69 @@
+{
+  "activation_gate": "Phase A-B strict_validation PASS and explicit Phase C approval",
+  "conditional_candidates": [
+    {
+      "gate": "pre_registered_ordinal_signal_gate",
+      "id": "C1",
+      "name": "Ordinal CNN-BiLSTM + Huber auxiliary regression"
+    },
+    {
+      "gate": "pre_registered_ordinal_signal_gate",
+      "id": "C2",
+      "name": "Gated residual ordinal CNN-BiLSTM"
+    }
+  ],
+  "official_candidates": [
+    {
+      "family": "rule",
+      "id": "R0",
+      "name": "G2 deterministic rule"
+    },
+    {
+      "family": "machine_learning",
+      "id": "M1",
+      "name": "Random Forest"
+    },
+    {
+      "family": "machine_learning",
+      "id": "M2",
+      "name": "SVM"
+    },
+    {
+      "family": "cnn_bilstm",
+      "id": "N0",
+      "name": "Corrected compact nominal CNN-BiLSTM"
+    },
+    {
+      "family": "cnn_bilstm",
+      "id": "N1",
+      "name": "Corrected compact ordinal CNN-BiLSTM"
+    },
+    {
+      "family": "neural_mlp",
+      "id": "N2",
+      "name": "Tiny nominal MLP"
+    },
+    {
+      "family": "neural_mlp",
+      "id": "N3",
+      "name": "Tiny ordered MLP"
+    },
+    {
+      "family": "ablation",
+      "id": "A1",
+      "name": "Parameter-matched CNN-only"
+    },
+    {
+      "family": "ablation",
+      "id": "A2",
+      "name": "Parameter-matched BiLSTM-only"
+    }
+  ],
+  "phase_ab_training_restriction": "No ordinal, residual, multitask or Phase C candidate is trained in Phase A-B.",
+  "registry_version": "strategy_b_candidate_registry_v2",
+  "reporting_contract": {
+    "best_overall_model": "best model across the complete approved ML and DL pool",
+    "best_thesis_hybrid_model": "best model within the CNN-BiLSTM family",
+    "must_be_same_model": false
+  }
+}

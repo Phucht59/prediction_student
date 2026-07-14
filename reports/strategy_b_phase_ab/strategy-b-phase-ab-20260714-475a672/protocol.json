@@ -1,0 +1,104 @@
+{
+  "budget": {
+    "derivation": "3 policies × 5 outer folds × 3 seeds × 2 stages",
+    "phase_a_model_fits": 30,
+    "phase_b_model_fits": 60,
+    "total_model_fits": 90
+  },
+  "class_weight_policy": "none",
+  "created_at": "2026-07-14T13:14:13.656954+00:00",
+  "dataset_hash": "e47f9ee225e1ee6e69b7564e6dac7123e80b8486677fe111f351964cef5dec80",
+  "dirty_diff_hash": "7138a96fbe58f07acb46bf8eaf701c1dfa5ec118f2a460c905a75e3b95ff64c0",
+  "environment_hash": "574038c3e2482efaf202a504eee4a7ee026f9ad4ee70dfcfee0d3d7eb7e33a3a",
+  "features": [
+    "G1",
+    "G2"
+  ],
+  "git_commit": "475a6727a49d939f847c46e1bdeb11a4a5bc60ec",
+  "legacy_observed_79_fetched": false,
+  "legacy_observed_79_prohibited_uses": [
+    "selection",
+    "architecture",
+    "hyperparameters",
+    "calibration",
+    "threshold_tuning",
+    "final_confirmation"
+  ],
+  "optuna_executed": false,
+  "ordinal_model_executed": false,
+  "outer_fold_manifest_file_hash": "d8e3654b40a82f46d0567fc9a9dfb67ff4963b0f401ad83794cc44f7dbcf6ba0",
+  "outer_fold_manifest_semantic_hash": "bf5e5cbd8d09679f5d34900486ba23cc5ac57c93b28aa38ac3f3ce2578307ce1",
+  "outer_folds": 5,
+  "oversampling_policy": "none",
+  "phase_c_or_later_executed": false,
+  "policies": {
+    "A0_historical_compatible": {
+      "drop_last_train": true,
+      "evidence_role": "phase_a_historical_compatible_control",
+      "resolved_config_hash": "e6f8a2c284c655387e5b96962ebc56f05efbae0d8bdc3c3173d30689d3a3aea5",
+      "scheduler": {
+        "parameters": {
+          "factor": 0.5,
+          "patience": 3
+        },
+        "replayable": false,
+        "type": "legacy_reduce_on_plateau"
+      },
+      "swa": {
+        "batch_norm_statistics_updated": false,
+        "enabled": true,
+        "replayable": false
+      }
+    },
+    "B1_drop_last_true": {
+      "drop_last_train": true,
+      "evidence_role": "phase_b_replayable_fixed_lr_drop_last_true",
+      "resolved_config_hash": "58a71fc28e79cee37f1f3935ea009bfd020a4073e60a61f84d8f5ca186427768",
+      "scheduler": {
+        "parameters": {},
+        "replayable": true,
+        "type": "fixed_lr"
+      },
+      "swa": {
+        "batch_norm_statistics_updated": false,
+        "enabled": false,
+        "replayable": true
+      }
+    },
+    "B2_drop_last_false": {
+      "drop_last_train": false,
+      "evidence_role": "phase_b_replayable_fixed_lr_drop_last_false",
+      "resolved_config_hash": "b76e98b0ad35e1b02475f20bfd242282df1d4ae77e118b78af378877c6a5e944",
+      "scheduler": {
+        "parameters": {},
+        "replayable": true,
+        "type": "fixed_lr"
+      },
+      "swa": {
+        "batch_norm_statistics_updated": false,
+        "enabled": false,
+        "replayable": true
+      }
+    }
+  },
+  "protocol_version": "strategy_b_phase_ab_v1",
+  "recommendation_modified": false,
+  "reporting_contract": {
+    "best_overall_model": "best model across the complete approved ML and DL pool",
+    "best_thesis_hybrid_model": "best model within the CNN-BiLSTM family",
+    "must_be_same_model": false
+  },
+  "resolved_config_schema_version": "strategy_b_resolved_config_v1",
+  "run_id": "strategy-b-phase-ab-20260714-475a672",
+  "scope": [
+    "Phase A",
+    "Phase B"
+  ],
+  "seeds": [
+    42,
+    123,
+    155
+  ],
+  "source_tree_hash": "189a2f47b61e304fc7de3c10c3a1fd78116c368c5058bbe2ba341a7162dfc7dc",
+  "target_contract_hash": "797081e5751784633dbba3ed0e1c53d4c9a6850f338a0be5079e7360bb23689b"
+}
