@@ -1,6 +1,6 @@
 {
-  "run_id": "model-v3-smoke-20260714b",
-  "source_commit": "fd2bcdb870a794c41daaa562488eee589c886c95",
+  "run_id": "model-v3-smoke-20260714c",
+  "source_commit": "c797328aa70716cdfa0a3760c8868e0b23af5989",
   "expected_jobs": 5,
   "actual_jobs": 5,
   "missing_jobs": 0,

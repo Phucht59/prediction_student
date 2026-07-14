@@ -1,6 +1,6 @@
-model_family,trainable_parameters,selected_epoch_smoke
-M0,99,3
-M1,67,2
-M2,84,2
-M3,116,3
-M4,17123,2
+model_family,trainable_parameters,training_seconds,selected_epoch_smoke,implementation_note
+M0,99,0.31848530000024766,100,exact Benchmark V2 sklearn MLP control; n_iter reported
+M1,67,2.3956945999998425,2,PyTorch ordinal smoke path
+M2,84,0.2106856999998854,2,PyTorch ordinal plus regression smoke path
+M3,116,0.22882649999883142,3,PyTorch nominal plus regression smoke path
+M4,17123,0.5131062000000384,2,S3 sequence backbone with ordinal head
