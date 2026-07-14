@@ -137,7 +137,10 @@ def build_expected_jobs(run_id: str, fold_counts: dict[int, int], fold_checksum:
                         "feature_set_id": feature["feature_set_id"], "target_supervision_type": model["target_supervision"],
                         "training_engine": model["training_engine"], "outer_fold": fold, "training_seed": seed,
                         "estimator_group": f"{family}:{track}:outer{fold}", "expected_record_count": count,
-                        "config_checksum": (config_checksums or {}).get(family, checksum(config)),
+                        # Full-run configs do not exist until the inner study completes. A synthetic
+                        # checksum here would make a future refit look provenance-valid when it is not.
+                        "config_checksum": (config_checksums or {}).get(family),
+                        "selected_config_required": family in {"M0", "M1", "M2", "M3", "B0"},
                         "fold_manifest_checksum": fold_checksum, "feature_contract_checksum": feature["semantic_checksum"],
                         "target_contract_checksum": target_contract["semantic_checksum"],
                         "selection_study_contract_checksum": selection_contract_checksum,

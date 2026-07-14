@@ -78,6 +78,7 @@ def test_expected_job_contract_includes_b0_and_is_created_precompute():
     contract = build_expected_jobs("run", {i: 63 for i in range(5)}, "fold", "commit", features, target)
     assert contract["created_before_compute"] and len(contract["jobs"]) == 235
     assert len([x for x in contract["jobs"] if x["model_family"] == "B0"]) == 10
+    assert all(x["config_checksum"] is None and x["selected_config_required"] for x in contract["jobs"] if x["model_family"] in {"M0", "M1", "M2", "M3", "B0"})
 
 
 def test_study_contract_has_one_study_per_m0_m3_track_fold():
