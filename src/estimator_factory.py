@@ -19,7 +19,7 @@ import torch.optim as optim
 
 from src.config import STUDENT_G3_3CLASS_BINS
 from src.data_pipeline import DataPreprocessor, FeatureSelector, get_sequence_columns
-from src.models import FocalLoss, create_model
+from src.models import FocalLoss, create_model, create_phase_c_model
 
 
 RESOLVED_CONFIG_SCHEMA_VERSION = "strategy_b_resolved_config_v1"
@@ -214,6 +214,57 @@ def resolve_student_config(
     return resolved
 
 
+def resolve_phase_c_neural_config(
+    candidate_id: str,
+    parameters: Mapping[str, Any],
+    *,
+    suggested_parameters: Mapping[str, Any] | None = None,
+    evidence_role: str = "phase_c_main_candidate",
+) -> dict[str, Any]:
+    """Resolve the strict, no-BatchNorm Phase C neural estimator contract."""
+
+    candidate_id = str(candidate_id)
+    if candidate_id not in {"N0", "N1", "N2", "N3", "A1", "A2"}:
+        raise ResolvedConfigError(f"Unsupported Phase C neural candidate: {candidate_id}")
+    values = dict(parameters)
+    values.setdefault("cnn_channels", 1 if candidate_id in {"N2", "N3", "A2"} else 8)
+    values.setdefault("cnn_kernel_size", 1)
+    values.setdefault("lstm_hidden_dim", 1 if candidate_id in {"N2", "N3", "A1"} else 8)
+    config = resolve_student_config(
+        values,
+        architecture_variant={
+            "N0": "cnn_bilstm", "N1": "cnn_bilstm", "N2": "mlp", "N3": "mlp",
+            "A1": "cnn_only", "A2": "bilstm_only",
+        }[candidate_id],
+        suggested_parameters=suggested_parameters,
+        scheduler_type="fixed_lr",
+        swa_enabled=False,
+        drop_last_train=False,
+        evidence_role=evidence_role,
+    )
+    config.update({
+        "candidate_id": candidate_id,
+        "head_type": "ordered_cutpoint" if candidate_id in {"N1", "N3"} else "nominal_softmax",
+        "normalization": str(values.get("normalization", "none")),
+        "hidden_dim": int(values.get("hidden_dim", 8)),
+        "num_layers": int(values.get("num_layers", 1)),
+        "parameter_guardrail": {"maximum_trainable_parameters": 5000, "action": "prune_or_fail"},
+    })
+    config["preprocessing"].update({
+        "deterministic_transforms": "none",
+        "feature_selection": "none",
+    })
+    config["fixed_constants"].update({
+        "candidate_id": candidate_id,
+        "head_type": config["head_type"],
+        "normalization_options": ["none", "layer_norm"],
+        "batch_norm_allowed": False,
+        "raw_feature_only": True,
+    })
+    validate_resolved_config(config)
+    return config
+
+
 def with_training_policy(
     config: Mapping[str, Any],
     *,
@@ -287,6 +338,28 @@ def validate_resolved_config(config: Mapping[str, Any]) -> None:
         raise ResolvedConfigError("suggested_parameters and fixed_constants must be objects.")
     if config["loss"] == "focal" and "focal_gamma" not in config:
         raise ResolvedConfigError("Focal loss requires focal_gamma.")
+    if "candidate_id" in config:
+        candidate_id = str(config["candidate_id"])
+        if candidate_id not in {"N0", "N1", "N2", "N3", "A1", "A2"}:
+            raise ResolvedConfigError("Unknown Phase C candidate_id.")
+        required_phase_c = {"head_type", "normalization", "hidden_dim", "num_layers", "parameter_guardrail"}
+        missing_phase_c = sorted(required_phase_c - set(config))
+        if missing_phase_c:
+            raise ResolvedConfigError(f"Phase C config is missing required keys: {missing_phase_c}")
+        if config["normalization"] not in {"none", "layer_norm"}:
+            raise ResolvedConfigError("Phase C normalization must be none or layer_norm.")
+        if bool(config["drop_last_train"]):
+            raise ResolvedConfigError("Phase C main candidates require drop_last_train=False.")
+        if config["scheduler"]["type"] != "fixed_lr" or not config["scheduler"]["replayable"]:
+            raise ResolvedConfigError("Phase C requires a replayable fixed-LR policy.")
+        if bool(config["swa"]["enabled"]):
+            raise ResolvedConfigError("Phase C requires SWA disabled.")
+        if config["loss"] != "cross_entropy" or config["class_weight_mode"] != "none":
+            raise ResolvedConfigError("Phase C main comparison requires unweighted cross-entropy/BCE.")
+        if config["oversample_method"] != "none":
+            raise ResolvedConfigError("Phase C main comparison requires oversampling disabled.")
+        if config["preprocessing"].get("deterministic_transforms") != "none":
+            raise ResolvedConfigError("Phase C primary track uses raw G1/G2 without derived transforms.")
 
 
 class StudentEstimatorFactory:
@@ -318,11 +391,13 @@ class StudentEstimatorFactory:
     def create_selector(self) -> FeatureSelector:
         return FeatureSelector(
             target_col=self.spec.target_col,
-            use_feature_selection=True,
+            use_feature_selection=self.config["preprocessing"].get("feature_selection") != "none",
             required_features=list(self.config["feature_contract"]["sequence_columns"]),
         )
 
     def create_model(self, num_numerical: int, cat_cardinalities: list[int], device: torch.device) -> nn.Module:
+        if "candidate_id" in self.config:
+            return create_phase_c_model(self.config).to(device)
         return create_model(
             self.spec.kind,
             self.config,
@@ -332,6 +407,8 @@ class StudentEstimatorFactory:
 
     def create_criterion(self, labels: np.ndarray, device: torch.device) -> nn.Module:
         if self.spec.kind == "xapi":
+            return nn.BCEWithLogitsLoss().to(device)
+        if self.config.get("head_type") == "ordered_cutpoint":
             return nn.BCEWithLogitsLoss().to(device)
         effective_weights = None
         if self.config["class_weight_mode"] == "balanced":
@@ -352,7 +429,7 @@ class StudentEstimatorFactory:
 
     def criterion_signature(self) -> dict[str, Any]:
         return {
-            "loss": str(self.config["loss"]),
+            "loss": "ordered_binary_cross_entropy" if self.config.get("head_type") == "ordered_cutpoint" else str(self.config["loss"]),
             "class_weight_mode": str(self.config["class_weight_mode"]),
             "focal_gamma": self.config.get("focal_gamma"),
         }

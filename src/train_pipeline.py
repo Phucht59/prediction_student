@@ -97,13 +97,7 @@ def validate_epoch(model, dataloader, criterion, device):
                 ordinal_labels = torch.stack([target_0, target_1], dim=1)
                 loss = criterion(logits, ordinal_labels)
                 
-                probs_gt = torch.sigmoid(logits)
-                p_gt_low = probs_gt[:, 0]
-                p_gt_medium = probs_gt[:, 1]
-                p_low = 1.0 - p_gt_low
-                p_medium = torch.clamp(p_gt_low - p_gt_medium, min=0.0)
-                p_high = p_gt_medium
-                probs = torch.stack([p_low, p_medium, p_high], dim=1)
+                probs = model.predict_proba(seq_x, num_x, cat_x)
                 preds = torch.argmax(probs, dim=1)
             else:
                 loss = criterion(logits, labels)

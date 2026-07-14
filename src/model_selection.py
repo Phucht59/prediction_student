@@ -49,6 +49,13 @@ from src.evaluation.protocol import validate_scenario_features
 logger = setup_logger("model_selection")
 
 
+def _prepare_model_frame(frame: pd.DataFrame, spec, resolved_config: dict[str, Any]) -> pd.DataFrame:
+    if resolved_config.get("preprocessing", {}).get("deterministic_transforms") == "none":
+        allowed = [column for column in ["G1", "G2", spec.target_col, "G3_raw"] if column in frame.columns]
+        return frame[allowed].copy()
+    return apply_feature_engineering(frame.copy(), spec.kind)
+
+
 def loader_statistics(dataset_size: int, batch_size: int, drop_last_train: bool) -> dict[str, int | bool]:
     """Return deterministic DataLoader accounting for training diagnostics."""
     if dataset_size < 1 or batch_size < 1:
@@ -251,8 +258,8 @@ def fit_training_partition_estimator(
         spec.target_col,
         seed=seed,
     )
-    train_engineered = apply_feature_engineering(model_train_partition.copy(), spec.kind)
-    early_stop_engineered = apply_feature_engineering(early_stop_partition.copy(), spec.kind)
+    train_engineered = _prepare_model_frame(model_train_partition, spec, resolved_config)
+    early_stop_engineered = _prepare_model_frame(early_stop_partition, spec, resolved_config)
     preprocessor = factory.create_preprocessor()
     train_prepared = preprocessor.fit_transform(train_engineered, apply_oversampling=True)
     early_stop_prepared = preprocessor.transform(early_stop_engineered)
@@ -320,7 +327,7 @@ def fit_training_partition_estimator(
     # Full-partition refit.  The seed offset makes this stage deterministic and
     # independent of how many epochs were executed by the selection stage.
     set_seed(int(seed) + 100_003)
-    refit_engineered = apply_feature_engineering(train_partition.copy(), spec.kind)
+    refit_engineered = _prepare_model_frame(train_partition, spec, resolved_config)
     refit_preprocessor = factory.create_preprocessor()
     refit_prepared = refit_preprocessor.fit_transform(refit_engineered, apply_oversampling=True)
     refit_selector = factory.create_selector()
@@ -405,11 +412,9 @@ def fit_training_partition_estimator(
         "full_refit_input_records": int(len(train_partition)),
     }
     kernel = int(resolved_config["cnn_kernel_size"])
-    cnn_output_length = (
-        2
-        if resolved_config["architecture_variant"] == "bilstm_only"
-        else 2 + 2 * (kernel // 2) - kernel + 1
-    )
+    cnn_output_length = int(getattr(refit_model, "cnn_output_sequence_length", (
+        2 if resolved_config["architecture_variant"] == "bilstm_only" else 2 + 2 * (kernel // 2) - kernel + 1
+    )))
     shapes = {
         "input_sequence_length": 2,
         "cnn_kernel_size": kernel,
@@ -446,7 +451,7 @@ def predict_with_fitted_estimator(
 
     validate_resolved_config(resolved_config)
     factory = StudentEstimatorFactory(spec, resolved_config)
-    engineered = apply_feature_engineering(frame.copy(), spec.kind)
+    engineered = _prepare_model_frame(frame, spec, resolved_config)
     prepared = preprocessor.transform(engineered)
     selected = selector.transform(prepared)
     dataset = StudentDataset(
