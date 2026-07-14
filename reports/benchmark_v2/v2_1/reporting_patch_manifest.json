@@ -1,0 +1,32 @@
+{
+  "patch_version": "v2.1",
+  "source_run_id": "benchmark-v2-full-20260713c",
+  "source_run_commit": "b4339c35a0197baf81ba9be871f70ff8d3030c81",
+  "metric_implementation_version": "benchmark_metrics_v2_1",
+  "expected_jobs": 215,
+  "actual_jobs": 215,
+  "missing_jobs": 0,
+  "unexpected_jobs": 0,
+  "metric_mismatches": 30,
+  "prediction_artifact_status": "valid",
+  "stored_ece_status": "invalid_for_affected_jobs",
+  "v2_1_recomputed_metrics_status": "valid",
+  "original_artifacts_modified": false,
+  "input_prediction_checksum": "1624d48a67bb349968078c5da0d896531ecf7fc7640b6e36d774873aec4bfc87",
+  "output_checksums": {
+    "checksum_validation.csv": "33ad205a7a95cd2e8cf2f19e467076be68a66778c724b3c53e8858abcbf2c054",
+    "ece_correction_report.csv": "fd2dd51ab143478b598f4313137c3c8f0924c894612ea409c5deea6f1d29deb3",
+    "expected_vs_actual_jobs.csv": "6f60eac7afe6ffdd46291f13880a710dfe1c08122a19159d9b2da1eb9676c392",
+    "feature_contract_validation.csv": "1f402dffd5cc1119c71333a2c7abf6ee344e1b7ff49f57de3dd7e7413ba0e9fe",
+    "metric_mismatches.csv": "fd2dd51ab143478b598f4313137c3c8f0924c894612ea409c5deea6f1d29deb3",
+    "metric_recomputation_by_job.csv": "d297edcb483334ff42313cfddb9554e061852759d1d3723954cda6e25d51a5ad",
+    "paired_comparisons_v2_1.csv": "23d9a2a39c8ee7e11ec224255dc51751986748979fa3e4d84f49b64f1013160b",
+    "paired_comparisons_v2_1.md": "d1198b844aa574acbd4c02576427dbd836c8463fbdf433125e5b313b295dbd44",
+    "ranking_by_scenario_v2_1.csv": "ef1dc7daca89b38a9cf18c179b1e9489d0f5e500090030a6ac26f8159b2a3b22",
+    "ranking_by_scenario_v2_1.md": "46216ceab7da7b6eb1ab8379e7eec882e68d6bc9da88327441a1cf572d217474",
+    "record_coverage.csv": "2bd6378a5286700bfe092f3989149d44c48930cfd99fb9de60ee8931b215cc75",
+    "reporting_patch_changelog.md": "f9dd92511f27f52609734a16da17616370a89084098567060737436eec4ca25b",
+    "validation_v2_1.json": "d0fd0eedba3f155703dbc07f18a97d77fb12437bf17655a69515a830c0bebed0",
+    "validation_v2_1.md": "dea47d7eb2ca9c6ecdcc2b2a3ec5a0c3b41ea52af16dafc8a768c37d30e1d489"
+  }
+}

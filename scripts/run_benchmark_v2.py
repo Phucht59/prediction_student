@@ -17,7 +17,7 @@ import pandas as pd
 import torch
 from sklearn.ensemble import HistGradientBoostingClassifier
 from sklearn.linear_model import LogisticRegression, Ridge
-from sklearn.metrics import average_precision_score, mean_absolute_error, mean_squared_error, r2_score
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from sklearn.model_selection import StratifiedKFold
 from sklearn.neural_network import MLPClassifier
 from sklearn.preprocessing import StandardScaler
@@ -31,6 +31,7 @@ from src.evaluation.protocol import (DEFAULT_FOLD_MANIFEST_PATH, assert_no_legac
     source_record_identity, validate_scenario_features, hard_label_probabilities, validate_probability_matrix)
 from src.model_selection import fit_fold_predict_proba
 from src.postgres_data_source import load_dataset_version_from_postgres
+from src.evaluation.metrics import classification_metrics as canonical_metrics
 
 SEEDS = [42, 52, 62, 72, 82]
 BENCHMARK_ROOT = ROOT_DIR / "artifacts" / "benchmark_v2"
@@ -52,16 +53,8 @@ def ordinal_probs(x, y, xt, c):
         p.append(clf.predict_proba(xt)[:,1])
     greater0,greater1=np.maximum(p[0],p[1]),np.minimum(p[0],p[1])
     return np.column_stack([1-greater0, greater0-greater1, greater1])
-def ece(y,p,bins=10):
-    conf=p.max(1); pred=p.argmax(1); value=0.
-    for lo in np.linspace(0,1,bins,endpoint=False):
-        mask=(conf>=lo)&(conf<lo+1/bins)
-        if mask.any(): value += mask.mean()*abs((pred[mask]==y[mask]).mean()-conf[mask].mean())
-    return float(value)
 def metric(y,p,pred,raw=None):
-    d=classification_metrics(y,pred,p)
-    d["pr_auc_macro"]=float(average_precision_score(np.eye(3)[y],p,average="macro"))
-    d["ece_top_label_equal_width_10"]=ece(y,p)
+    d=canonical_metrics(y,pred,p)
     if raw:
         truth,estimate=raw
         d.update({"rmse":float(mean_squared_error(truth,estimate)**.5),"mae_g3":float(mean_absolute_error(truth,estimate)),"r2":float(r2_score(truth,estimate))})

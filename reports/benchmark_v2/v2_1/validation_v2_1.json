@@ -1,0 +1,15 @@
+{
+  "patch_version": "v2.1",
+  "source_run_id": "benchmark-v2-full-20260713c",
+  "source_run_commit": "b4339c35a0197baf81ba9be871f70ff8d3030c81",
+  "metric_implementation_version": "benchmark_metrics_v2_1",
+  "expected_jobs": 215,
+  "actual_jobs": 215,
+  "missing_jobs": 0,
+  "unexpected_jobs": 0,
+  "metric_mismatches": 30,
+  "prediction_artifact_status": "valid",
+  "stored_ece_status": "invalid_for_affected_jobs",
+  "v2_1_recomputed_metrics_status": "valid",
+  "original_artifacts_modified": false
+}
