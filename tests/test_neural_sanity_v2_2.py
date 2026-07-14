@@ -40,6 +40,12 @@ def test_expected_contract_is_precomputed_and_has_150_jobs():
     assert all(set(["run_id", "experiment_id", "scenario", "model_name", "outer_fold", "training_seed", "expected_record_count", "config_checksum", "feature_contract_checksum", "fold_manifest_checksum"]).issubset(x) for x in contract["jobs"])
 
 
+def test_smoke_contract_is_one_fold_one_seed_six_jobs():
+    manifest = load_fold_manifest()
+    contract = build_expected_job_contract("smoke", {0: _source_configs()[0]}, {0: 64}, manifest["manifest_checksum"], seeds=(42,))
+    assert len(contract["jobs"]) == 6
+
+
 def test_duplicate_contract_jobs_are_detected_without_groupby():
     manifest = load_fold_manifest(); contract = build_expected_job_contract("run", _source_configs(), {i: 1 for i in range(5)}, manifest["manifest_checksum"])
     frame = pd.DataFrame(contract["jobs"] + [contract["jobs"][0]])

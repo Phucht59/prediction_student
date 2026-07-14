@@ -38,7 +38,8 @@ def main():
     source_configs={fold:source_configs_all[f"late_stage/cnn_bilstm_v2_tuned/fold{fold}"]["config"] for fold in range(5)}
     validation_counts={fold:sum(1 for row in manifest["assignments"] if int(row["outer_fold"])==fold and row["outer_role"]=="validation") for fold in range(5)}
     if a.smoke: validation_counts={0:validation_counts[0]}; source_configs={0:source_configs[0]}
-    contract=build_expected_job_contract(run_id,source_configs,validation_counts,manifest["manifest_checksum"])
+    active_seeds=(42,) if a.smoke else SEEDS
+    contract=build_expected_job_contract(run_id,source_configs,validation_counts,manifest["manifest_checksum"],seeds=active_seeds)
     experiment_contract={"contract_version":"neural_sanity_v2_2","experiments":EXPERIMENTS,"seeds":list(SEEDS),"scenario":"late_stage","feature_set":["G1","G2"],"source_selected_config_path":str(SOURCE_RUN/"configs"/"selected_configs.json"),"source_selected_config_checksum":file_checksum(SOURCE_RUN/"configs"/"selected_configs.json"),"source_run_id":"benchmark-v2-full-20260713c","source_run_commit":"b4339c35a0197baf81ba9be871f70ff8d3030c81"}
     write_json(root/"expected_job_contract.json",contract); write_json(root/"experiment_contract.json",experiment_contract); write_json(root/"selected_source_configs.json",source_configs)
     started=datetime.now(timezone.utc).isoformat()
@@ -55,7 +56,7 @@ def main():
     for experiment_id in EXPERIMENTS:
         for fold_index,(train_index,validation_index) in enumerate(folds):
             config=variant_config(source_configs[fold_index],experiment_id)
-            for seed in SEEDS:
+            for seed in active_seeds:
                 result=fit_fold_predict_proba(train_fold=cnn_frame.iloc[train_index].copy(),validation_fold=cnn_frame.iloc[validation_index].copy(),spec=spec,params=config,seed=seed,fold_index=fold_index,drop_last_train=config["drop_last_train"])
                 job={"experiment_id":experiment_id,"scenario":"late_stage","model_name":"cnn_bilstm","outer_fold":fold_index,"training_seed":seed}
                 torch.save(result.refit_state_dict,root/"checkpoints"/f"{experiment_id}_fold{fold_index}_seed{seed}.pt")

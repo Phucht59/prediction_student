@@ -50,7 +50,7 @@ def main():
  ranking=pd.DataFrame(rank).sort_values('macro_f1_mean',ascending=False);ranking.to_csv(out/'ranking_by_variant.csv',index=False)
  pairs=[]
  for x,y in [('S1','S0'),('S2','S0'),('S3','S0'),('S4','S0'),('S5','S0'),('S5','S4'),('S4','S1')]:
-  a=metrics[metrics.experiment_id==x].groupby('outer_fold').macro_f1.mean();b=metrics[metrics.experiment_id==y].groupby('outer_fold').macro_f1.mean();d=(a-b).sort_index();pairs.append({'variant_a':x,'variant_b':y,'metric':'macro_f1','foldwise_difference':json.dumps(d.tolist()),'mean_difference':float(d.mean()),'sd_difference':float(d.std(ddof=1)),'wins':int((d>1e-12).sum()),'ties':int((d.abs()<=1e-12).sum()),'losses':int((d<-1e-12).sum())})
+  scores_a=metrics[metrics.experiment_id==x].groupby('outer_fold').macro_f1.mean();scores_b=metrics[metrics.experiment_id==y].groupby('outer_fold').macro_f1.mean();d=(scores_a-scores_b).sort_index();pairs.append({'variant_a':x,'variant_b':y,'metric':'macro_f1','foldwise_difference':json.dumps(d.tolist()),'mean_difference':float(d.mean()),'sd_difference':float(d.std(ddof=1)),'wins':int((d>1e-12).sum()),'ties':int((d.abs()<=1e-12).sum()),'losses':int((d<-1e-12).sum())})
  paired=pd.DataFrame(pairs);paired.to_csv(out/'paired_variant_comparisons.csv',index=False);(out/'paired_variant_comparisons.md').write_text('# Paired main effects V2.2\n\n'+paired.to_csv(index=False),encoding='utf-8')
  stability=[]
  for e,g in metrics.groupby('experiment_id'):

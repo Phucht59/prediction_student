@@ -48,13 +48,13 @@ def feature_contract(fold_checksum: str, dataset_version: int = 1) -> dict[str, 
     return contract
 
 
-def build_expected_job_contract(run_id: str, source_configs: dict[int, dict[str, Any]], validation_counts: dict[int, int], fold_checksum: str) -> dict[str, Any]:
+def build_expected_job_contract(run_id: str, source_configs: dict[int, dict[str, Any]], validation_counts: dict[int, int], fold_checksum: str, *, seeds: tuple[int, ...] = SEEDS) -> dict[str, Any]:
     feature = feature_contract(fold_checksum)
     jobs=[]
     for experiment_id in EXPERIMENTS:
         for fold, count in sorted(validation_counts.items()):
             config = variant_config(source_configs[int(fold)], experiment_id)
-            for seed in SEEDS:
+            for seed in seeds:
                 jobs.append({"run_id": run_id, "experiment_id": experiment_id, "scenario": "late_stage",
                              "model_name": "cnn_bilstm", "outer_fold": int(fold), "training_seed": int(seed),
                              "expected_record_count": int(count), "config_checksum": checksum(config),
