@@ -39,9 +39,25 @@ from src.models import FocalLoss, create_model
 from src.train_pipeline import calculate_class_weights, train_fixed_epochs, train_model
 from src.utils import set_seed, setup_logger
 from src.evaluation.protocol import validate_scenario_features
-from src.evaluation.neural_sanity_v2_2 import loader_statistics
 
 logger = setup_logger("model_selection")
+
+
+def loader_statistics(dataset_size: int, batch_size: int, drop_last_train: bool) -> dict[str, int | bool]:
+    """Return deterministic DataLoader accounting for training diagnostics."""
+    if dataset_size < 1 or batch_size < 1:
+        raise ValueError("dataset_size and batch_size must be positive.")
+    remainder = dataset_size % batch_size
+    consumed = dataset_size - (remainder if drop_last_train and remainder else 0)
+    return {
+        "dataset_size": dataset_size,
+        "batch_size": batch_size,
+        "n_batches": dataset_size // batch_size if drop_last_train else math.ceil(dataset_size / batch_size),
+        "final_batch_size": remainder if remainder else min(batch_size, dataset_size),
+        "samples_consumed_per_epoch": consumed,
+        "samples_dropped_per_epoch": dataset_size - consumed,
+        "drop_last_train": bool(drop_last_train),
+    }
 
 
 @dataclass(frozen=True)
@@ -66,20 +82,20 @@ def _row_positions(frame: pd.DataFrame) -> list[int]:
     return list(frame.index.astype(int))
 
 
-def student_search_space(trial: optuna.Trial) -> dict[str, Any]:
+def student_search_space(
+    trial: optuna.Trial,
+    *,
+    architecture_variant: str = "cnn_bilstm",
+    fair_comparison: bool = False,
+) -> dict[str, Any]:
     """Optuna space for student performance, evaluated only on CV folds."""
-    loss_name = trial.suggest_categorical("loss", ["weighted_ce", "focal"])
+    loss_name = "weighted_ce" if fair_comparison else trial.suggest_categorical("loss", ["weighted_ce", "focal"])
     params: dict[str, Any] = {
         "learning_rate": trial.suggest_float("learning_rate", 5e-5, 2e-2, log=True),
         "weight_decay": trial.suggest_float("weight_decay", 1e-7, 3e-3, log=True),
         "batch_size": trial.suggest_categorical("batch_size", [16, 32, 64]),
-        "oversample_method": trial.suggest_categorical("oversample_method", ["none", "smote"]),
-        "class_weight_mode": trial.suggest_categorical("class_weight_mode", ["none", "balanced"]),
-        "smote_ratio": trial.suggest_float("smote_ratio", 0.35, 1.0),
-        "resampling_k_neighbors": trial.suggest_int("resampling_k_neighbors", 2, 7),
-        "cnn_channels": trial.suggest_categorical("cnn_channels", [8, 16, 32]),
-        "cnn_kernel_size": trial.suggest_categorical("cnn_kernel_size", [1]),
-        "lstm_hidden_dim": trial.suggest_categorical("lstm_hidden_dim", [8, 16, 32]),
+        "oversample_method": "none" if fair_comparison else trial.suggest_categorical("oversample_method", ["none", "smote"]),
+        "class_weight_mode": "none" if fair_comparison else trial.suggest_categorical("class_weight_mode", ["none", "balanced"]),
         "dropout": trial.suggest_float("dropout", 0.1, 0.55),
         "sequence_dropout": trial.suggest_float("sequence_dropout", 0.05, 0.55),
         "loss": loss_name,
@@ -87,8 +103,22 @@ def student_search_space(trial: optuna.Trial) -> dict[str, Any]:
         "patience": trial.suggest_categorical("patience", [8, 12]),
         "scheduler_patience": trial.suggest_categorical("scheduler_patience", [3, 5]),
     }
+    if not fair_comparison:
+        params["smote_ratio"] = trial.suggest_float("smote_ratio", 0.35, 1.0)
+        params["resampling_k_neighbors"] = trial.suggest_int("resampling_k_neighbors", 2, 7)
+    # Do not spend a candidate's search budget on dimensions its architecture
+    # does not contain.  Shared components retain identical ranges.
+    if architecture_variant != "bilstm_only":
+        params["cnn_channels"] = trial.suggest_categorical("cnn_channels", [8, 16, 32])
+        params["cnn_kernel_size"] = trial.suggest_categorical("cnn_kernel_size", [1])
+    if architecture_variant != "cnn_only":
+        params["lstm_hidden_dim"] = trial.suggest_categorical("lstm_hidden_dim", [8, 16, 32])
     if loss_name == "focal":
         params["focal_gamma"] = trial.suggest_float("focal_gamma", 1.0, 3.0)
+    # The architecture is fixed per candidate before inner-CV.  It is not an
+    # Optuna choice, so comparing candidates cannot select an architecture by
+    # looking at an outer fold or the locked test set.
+    params["architecture_variant"] = architecture_variant
     return params
 
 
@@ -306,8 +336,15 @@ def objective_mean_cv_f1(
     train_pool: pd.DataFrame,
     spec,
     folds: list[tuple[np.ndarray, np.ndarray]],
+    *,
+    architecture_variant: str = "cnn_bilstm",
+    fair_comparison: bool = False,
 ) -> float:
-    params = student_search_space(trial)
+    params = student_search_space(
+        trial,
+        architecture_variant=architecture_variant,
+        fair_comparison=fair_comparison,
+    )
     fold_scores = []
     for fold_index, (train_idx, val_idx) in enumerate(folds):
         result = fit_fold_predict_proba(
@@ -334,6 +371,8 @@ def run_optuna_cv_search(
     n_trials: int,
     n_splits: int = 5,
     seed: int = DEFAULT_SEED,
+    architecture_variant: str = "cnn_bilstm",
+    fair_comparison: bool = False,
 ) -> tuple[dict[str, Any], list[dict[str, Any]], list[tuple[np.ndarray, np.ndarray]]]:
     folds = make_folds(train_pool, spec.target_col, n_splits=n_splits, seed=seed)
     study = optuna.create_study(
@@ -341,7 +380,17 @@ def run_optuna_cv_search(
         sampler=optuna.samplers.TPESampler(seed=seed, multivariate=True),
         pruner=optuna.pruners.MedianPruner(n_startup_trials=10, n_warmup_steps=2),
     )
-    study.optimize(lambda trial: objective_mean_cv_f1(trial, train_pool, spec, folds), n_trials=n_trials)
+    study.optimize(
+        lambda trial: objective_mean_cv_f1(
+            trial,
+            train_pool,
+            spec,
+            folds,
+            architecture_variant=architecture_variant,
+            fair_comparison=fair_comparison,
+        ),
+        n_trials=n_trials,
+    )
     trial_history = [
         {
             "number": trial.number,
@@ -352,7 +401,8 @@ def run_optuna_cv_search(
         }
         for trial in study.trials
     ]
-    return {"best_cv_f1_macro": float(study.best_value), "best_params": dict(study.best_params)}, trial_history, folds
+    best_params = {**dict(study.best_params), "architecture_variant": architecture_variant}
+    return {"best_cv_f1_macro": float(study.best_value), "best_params": best_params}, trial_history, folds
 
 
 def collect_oof_by_seed(

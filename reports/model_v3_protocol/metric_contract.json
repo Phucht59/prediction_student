@@ -1,8 +1,0 @@
-{
-  "contract_version":"v3_metrics_1",
-  "primary":"macro_f1",
-  "secondary":["accuracy","weighted_f1","balanced_accuracy","quadratic_weighted_kappa","ordinal_mae","per_class_f1","one_step_errors","two_step_errors","brier_score","macro_pr_auc","ece_top_label"],
-  "regression_only":["mae_raw","rmse_raw","r2_raw"],
-  "class_order":["Low","Medium","High"],
-  "aggregation":"mean over seeds within outer fold, then mean and SD across five outer-fold means"
-}

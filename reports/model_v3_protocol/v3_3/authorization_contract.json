@@ -1,7 +1,0 @@
-{
-  "protocol_version": "model_v3_3",
-  "execution_mode": "rehearsal",
-  "compute_authorized": true,
-  "scientific_eligibility": "implementation_rehearsal_only",
-  "run_id": "model-v3-execution-rehearsal-v3-3-20260714b"
-}

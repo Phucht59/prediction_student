@@ -66,7 +66,7 @@ def test_model_uses_sequence_dropout_and_linear_classifier_head():
     assert isinstance(model.classifier, nn.Linear)
 
 
-@pytest.mark.parametrize("variant", ["cnn_only", "bilstm_only", "cnn_bilstm"])
+@pytest.mark.parametrize("variant", ["cnn_only", "bilstm_only", "cnn_lstm", "cnn_bilstm", "cnn_bigru"])
 def test_architecture_ablation_variants_produce_three_class_logits(variant):
     model = create_model(
         "student",
@@ -80,6 +80,30 @@ def test_architecture_ablation_variants_produce_three_class_logits(variant):
     logits = model(torch.randn(4, 2, 1))
     assert logits.shape == (4, 3)
     assert model.architecture_variant == variant
+
+
+def test_cnn_bigru_uses_a_bidirectional_gru():
+    model = create_model(
+        "student",
+        {
+            "architecture_variant": "cnn_bigru",
+            "cnn_channels": 8,
+            "lstm_hidden_dim": 8,
+            "cnn_kernel_size": 1,
+        },
+    )
+
+    assert isinstance(model.sequence_bilstm, nn.GRU)
+    assert model.sequence_bilstm.bidirectional
+    assert model.recurrent_cell == "gru"
+
+
+def test_cnn_lstm_uses_a_unidirectional_lstm():
+    model = create_model("student", {"architecture_variant": "cnn_lstm", "cnn_channels": 8, "lstm_hidden_dim": 8})
+
+    assert isinstance(model.sequence_bilstm, nn.LSTM)
+    assert model.sequence_bilstm.bidirectional is False
+    assert model(torch.randn(4, 2, 1)).shape == (4, 3)
 
 
 def test_xapi_optuna_space_excludes_vanilla_smote():
@@ -137,6 +161,26 @@ def test_student_model_selection_space_uses_only_requested_resampling_methods():
     assert trial.calls["oversample_method"] == ("categorical", ["none", "smote"])
     assert trial.calls["class_weight_mode"] == ("categorical", ["none", "balanced"])
     assert trial.calls["cnn_kernel_size"] == ("categorical", [1])
+
+
+def test_baseline_search_excludes_inapplicable_architecture_parameters():
+    class RecordingTrial:
+        def suggest_float(self, name, low, high, log=False):
+            return low
+
+        def suggest_int(self, name, low, high):
+            return low
+
+        def suggest_categorical(self, name, choices):
+            return choices[0]
+
+    cnn_only = student_search_space(RecordingTrial(), architecture_variant="cnn_only")
+    bilstm_only = student_search_space(RecordingTrial(), architecture_variant="bilstm_only")
+
+    assert "lstm_hidden_dim" not in cnn_only
+    assert "cnn_channels" not in bilstm_only
+    assert cnn_only["architecture_variant"] == "cnn_only"
+    assert bilstm_only["architecture_variant"] == "bilstm_only"
 
 
 def test_sequence_only_oversampling_uses_only_model_input_columns():

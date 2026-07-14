@@ -1,8 +1,0 @@
-{
-  "label": "supplementary post-hoc analysis",
-  "completed": false,
-  "required_samples": 10000,
-  "seed": 42,
-  "reason": "Missing prediction-level artifacts for G2 rule and HGB on the locked-test records; aggregate metrics are insufficient for valid paired bootstrap.",
-  "locked_test_used_for_selection": false
-}

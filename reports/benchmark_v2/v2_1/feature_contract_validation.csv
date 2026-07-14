@@ -1,4 +1,0 @@
-scenario,feature_set_id,ordered_features,feature_contract_checksum,valid
-late_stage,G1+G2,"[""G1"", ""G2""]",9a7feba25d04fb3a3a0be6ec9ea52ca51f4766b09018031e101a2f7cd3e5752b,True
-late_stage,G2,"[""G2""]",211dba3e586854d80b2878e502384e0348d153beaff434ff74269bc98e3d50af,True
-early_warning,G1,"[""G1""]",15c26c01ccbb197ecaec715b4eeac10e6f376ac9d505b66d6ba1e2ecf2c58644,True

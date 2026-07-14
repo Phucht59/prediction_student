@@ -1,9 +1,0 @@
-{
-  "total": 152,
-  "passed": 152,
-  "failed": 0,
-  "skipped": 0,
-  "postgresql_integration": {"total": 5, "passed": 5, "failed": 0, "skipped": 0},
-  "command": "DSNs redacted; py -3.10 -m pytest -q",
-  "source_commit_tested": "6ee4aa2db1c7e4021c3d77a895720036c70939f4"
-}

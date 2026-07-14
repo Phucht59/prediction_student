@@ -1,6 +1,0 @@
-run_id,estimator,macro_f1,standard_deviation,fold_values,agreement
-nested-full-20260710,mean_outer_fold_macro_f1,0.878089,0.044829,0.907485|0.823224|0.823567|0.917122|0.919048,exactly matches stored
-nested-full-20260710,pooled_oof_macro_f1,0.877926,,single pooled 316-record calculation,distinct and correctly not used as stored fold mean
-nested-full-20260710,weighted_outer_fold_macro_f1,0.878089,,weights 64|63|63|63|63,equals fold mean to reported precision
-benchmark-v2-full-20260713c,cnn_bilstm_v2_tuned_seed42_fold_mean,0.825383,0.044581,0.875721|0.780556|0.846407|0.848256|0.775973,diagnostic single-seed comparator
-benchmark-v2-full-20260713c,cnn_bilstm_v2_tuned_seed_mean_then_fold_mean,0.798384,0.052624,see benchmark fold_metrics.csv,official V2 neural estimator

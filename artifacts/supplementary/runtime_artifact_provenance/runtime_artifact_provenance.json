@@ -1,8 +1,0 @@
-{
-  "database_run_id": "5a0b5041-5216-4a48-9e46-b0c16ab14866",
-  "status": "exact_checkpoint_not_proven",
-  "checked_artifacts": ["model .pt", "preprocessor/scaler", "feature selector", "label mapping", "selected config", "environment lock"],
-  "available": ["selected_config.json", "environment.json", "model_checksums.json"],
-  "limitation": "Reproducibility currently relies on rerunning the deterministic pipeline; exact immutable checkpoint replay has not been fully frozen.",
-  "frozen_evidence_modified": false
-}

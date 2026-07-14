@@ -1,3 +1,0 @@
-experiment_id,n_jobs,max_epochs,hit_epoch_cap_jobs,hit_epoch_cap_rate
-S0,25,20,12,0.48
-S3,25,40,5,0.20

@@ -39,9 +39,11 @@ class StudentHybridModel(nn.Module):
         self.num_numerical = 0
         self.cat_cardinalities: list[int] = []
         self.ablation_mode = "sequence_only"
-        if architecture_variant not in {"cnn_bilstm", "cnn_only", "bilstm_only"}:
+        if architecture_variant not in {"cnn_bilstm", "cnn_only", "bilstm_only", "cnn_lstm", "cnn_bigru"}:
             raise ValueError(f"Unsupported architecture variant: {architecture_variant}")
         self.architecture_variant = architecture_variant
+        self.recurrent_cell = "gru" if architecture_variant == "cnn_bigru" else "lstm"
+        self.recurrent_bidirectional = architecture_variant != "cnn_lstm"
         self.sequence_columns: list[str] = []
         # ``sequence_dropout`` regularizes the per-timestep CNN representation;
         # ``dropout`` is the head dropout applied after Bi-LSTM pooling.  Older
@@ -62,15 +64,21 @@ class StudentHybridModel(nn.Module):
             )
         self.sequence_bilstm = None
         if architecture_variant != "cnn_only":
-            self.sequence_bilstm = nn.LSTM(
-                input_size=cnn_channels if architecture_variant == "cnn_bilstm" else seq_in_channels,
+            recurrent_layer = nn.GRU if self.recurrent_cell == "gru" else nn.LSTM
+            self.sequence_bilstm = recurrent_layer(
+                input_size=cnn_channels if architecture_variant in {"cnn_bilstm", "cnn_lstm", "cnn_bigru"} else seq_in_channels,
                 hidden_size=lstm_hidden_dim,
                 batch_first=True,
-                bidirectional=True,
+                bidirectional=self.recurrent_bidirectional,
             )
         self.sequence_dropout = nn.Dropout(float(sequence_dropout))
         self.head_dropout = nn.Dropout(float(dropout))
-        self.sequence_output_dim = cnn_channels if architecture_variant == "cnn_only" else lstm_hidden_dim * 2
+        if architecture_variant == "cnn_only":
+            self.sequence_output_dim = cnn_channels
+        elif self.recurrent_bidirectional:
+            self.sequence_output_dim = lstm_hidden_dim * 2
+        else:
+            self.sequence_output_dim = lstm_hidden_dim
         self.classifier = nn.Linear(self.sequence_output_dim, num_classes)
 
     def forward(
@@ -92,8 +100,9 @@ class StudentHybridModel(nn.Module):
             sequence_vector = sequence.mean(dim=1)
         else:
             assert self.sequence_bilstm is not None
-            _, (hidden, _) = self.sequence_bilstm(sequence)
-            sequence_vector = torch.cat([hidden[-2], hidden[-1]], dim=1)
+            recurrent_output = self.sequence_bilstm(sequence)
+            hidden = recurrent_output[1] if self.recurrent_cell == "gru" else recurrent_output[1][0]
+            sequence_vector = torch.cat([hidden[-2], hidden[-1]], dim=1) if self.recurrent_bidirectional else hidden[-1]
         sequence_vector = self.head_dropout(sequence_vector)
         return self.classifier(sequence_vector)
 

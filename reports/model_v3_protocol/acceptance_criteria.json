@@ -1,7 +1,0 @@
-{
-  "contract_version":"v3_acceptance_1",
-  "criterion_A":{"macro_f1_improvement_min":0.010,"non_decreasing_outer_folds_min":4},
-  "criterion_B":{"macro_f1_degradation_max":0.005,"qwk_improvement_min":0.010,"ordinal_mae_reduction_min":0.010,"two_step_errors_must_not_increase":true,"high_f1_degradation_max":0.02},
-  "multitask_additional":{"regression_must_beat_or_inform_simple_regression":true,"seed_variance_must_not_clearly_increase":true},
-  "operational_model_rule":"No candidate is operational-primary while materially below strong same-information baselines."
-}
