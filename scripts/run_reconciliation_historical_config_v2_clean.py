@@ -7,12 +7,15 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
 from sklearn.metrics import f1_score
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from src.config import ROOT_DIR
 from src.data_pipeline import SOURCE_ROW_NUMBER_COLUMN, process_target_and_stratify
