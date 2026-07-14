@@ -388,8 +388,8 @@ def main() -> None:
     report = REPORT_ROOT / args.run_id
     tmp, report_tmp = ARTIFACT_ROOT / f".{args.run_id}.tmp", REPORT_ROOT / f".{args.run_id}.tmp"
     if args.resume_finalize:
-        if final.exists() or report.exists() or report_tmp.exists():
-            raise FileExistsError("Recovery requires only the failed artifact temporary directory.")
+        if final.exists() or report.exists():
+            raise FileExistsError("Recovery refuses to overwrite a completed artifact or report.")
         _resume_finalize(tmp, final, report_tmp, report)
         return
     if any(path.exists() for path in [final, report, tmp, report_tmp]):
