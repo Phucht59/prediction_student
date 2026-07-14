@@ -1,0 +1,1942 @@
+{
+  "contract_version": "v2.1.1",
+  "source": "protocol_model_registry_plus_fold_manifest",
+  "jobs": [
+    {
+      "scenario": "late_stage",
+      "model_name": "majority",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 0,
+      "training_seed": 42,
+      "estimator_group": "deterministic",
+      "expected_record_count": 64
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "majority",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 1,
+      "training_seed": 42,
+      "estimator_group": "deterministic",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "majority",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 2,
+      "training_seed": 42,
+      "estimator_group": "deterministic",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "majority",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 3,
+      "training_seed": 42,
+      "estimator_group": "deterministic",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "majority",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 4,
+      "training_seed": 42,
+      "estimator_group": "deterministic",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "g2_rule",
+      "feature_set_id": "G2",
+      "outer_fold": 0,
+      "training_seed": 42,
+      "estimator_group": "deterministic",
+      "expected_record_count": 64
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "g2_rule",
+      "feature_set_id": "G2",
+      "outer_fold": 1,
+      "training_seed": 42,
+      "estimator_group": "deterministic",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "g2_rule",
+      "feature_set_id": "G2",
+      "outer_fold": 2,
+      "training_seed": 42,
+      "estimator_group": "deterministic",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "g2_rule",
+      "feature_set_id": "G2",
+      "outer_fold": 3,
+      "training_seed": 42,
+      "estimator_group": "deterministic",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "g2_rule",
+      "feature_set_id": "G2",
+      "outer_fold": 4,
+      "training_seed": 42,
+      "estimator_group": "deterministic",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "logistic_g2",
+      "feature_set_id": "G2",
+      "outer_fold": 0,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 64
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "logistic_g2",
+      "feature_set_id": "G2",
+      "outer_fold": 1,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "logistic_g2",
+      "feature_set_id": "G2",
+      "outer_fold": 2,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "logistic_g2",
+      "feature_set_id": "G2",
+      "outer_fold": 3,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "logistic_g2",
+      "feature_set_id": "G2",
+      "outer_fold": 4,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "logistic_g1_g2",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 0,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 64
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "logistic_g1_g2",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 1,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "logistic_g1_g2",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 2,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "logistic_g1_g2",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 3,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "logistic_g1_g2",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 4,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "ordinal_logistic",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 0,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 64
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "ordinal_logistic",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 1,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "ordinal_logistic",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 2,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "ordinal_logistic",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 3,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "ordinal_logistic",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 4,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "ridge_regression",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 0,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 64
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "ridge_regression",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 1,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "ridge_regression",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 2,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "ridge_regression",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 3,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "ridge_regression",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 4,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "hgb_g1_g2",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 0,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 64
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "hgb_g1_g2",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 1,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "hgb_g1_g2",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 2,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "hgb_g1_g2",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 3,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "hgb_g1_g2",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 4,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 0,
+      "training_seed": 42,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 64
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 0,
+      "training_seed": 52,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 64
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 0,
+      "training_seed": 62,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 64
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 0,
+      "training_seed": 72,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 64
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 0,
+      "training_seed": 82,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 64
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 1,
+      "training_seed": 42,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 1,
+      "training_seed": 52,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 1,
+      "training_seed": 62,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 1,
+      "training_seed": 72,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 1,
+      "training_seed": 82,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 2,
+      "training_seed": 42,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 2,
+      "training_seed": 52,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 2,
+      "training_seed": 62,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 2,
+      "training_seed": 72,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 2,
+      "training_seed": 82,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 3,
+      "training_seed": 42,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 3,
+      "training_seed": 52,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 3,
+      "training_seed": 62,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 3,
+      "training_seed": 72,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 3,
+      "training_seed": 82,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 4,
+      "training_seed": 42,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 4,
+      "training_seed": 52,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 4,
+      "training_seed": 62,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 4,
+      "training_seed": 72,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 4,
+      "training_seed": 82,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "majority",
+      "feature_set_id": "G1",
+      "outer_fold": 0,
+      "training_seed": 42,
+      "estimator_group": "deterministic",
+      "expected_record_count": 64
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "majority",
+      "feature_set_id": "G1",
+      "outer_fold": 1,
+      "training_seed": 42,
+      "estimator_group": "deterministic",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "majority",
+      "feature_set_id": "G1",
+      "outer_fold": 2,
+      "training_seed": 42,
+      "estimator_group": "deterministic",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "majority",
+      "feature_set_id": "G1",
+      "outer_fold": 3,
+      "training_seed": 42,
+      "estimator_group": "deterministic",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "majority",
+      "feature_set_id": "G1",
+      "outer_fold": 4,
+      "training_seed": 42,
+      "estimator_group": "deterministic",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "g1_rule",
+      "feature_set_id": "G1",
+      "outer_fold": 0,
+      "training_seed": 42,
+      "estimator_group": "deterministic",
+      "expected_record_count": 64
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "g1_rule",
+      "feature_set_id": "G1",
+      "outer_fold": 1,
+      "training_seed": 42,
+      "estimator_group": "deterministic",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "g1_rule",
+      "feature_set_id": "G1",
+      "outer_fold": 2,
+      "training_seed": 42,
+      "estimator_group": "deterministic",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "g1_rule",
+      "feature_set_id": "G1",
+      "outer_fold": 3,
+      "training_seed": 42,
+      "estimator_group": "deterministic",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "g1_rule",
+      "feature_set_id": "G1",
+      "outer_fold": 4,
+      "training_seed": 42,
+      "estimator_group": "deterministic",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "logistic_g1",
+      "feature_set_id": "G1",
+      "outer_fold": 0,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 64
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "logistic_g1",
+      "feature_set_id": "G1",
+      "outer_fold": 1,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "logistic_g1",
+      "feature_set_id": "G1",
+      "outer_fold": 2,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "logistic_g1",
+      "feature_set_id": "G1",
+      "outer_fold": 3,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "logistic_g1",
+      "feature_set_id": "G1",
+      "outer_fold": 4,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "ordinal_logistic",
+      "feature_set_id": "G1",
+      "outer_fold": 0,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 64
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "ordinal_logistic",
+      "feature_set_id": "G1",
+      "outer_fold": 1,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "ordinal_logistic",
+      "feature_set_id": "G1",
+      "outer_fold": 2,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "ordinal_logistic",
+      "feature_set_id": "G1",
+      "outer_fold": 3,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "ordinal_logistic",
+      "feature_set_id": "G1",
+      "outer_fold": 4,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "ridge_regression",
+      "feature_set_id": "G1",
+      "outer_fold": 0,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 64
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "ridge_regression",
+      "feature_set_id": "G1",
+      "outer_fold": 1,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "ridge_regression",
+      "feature_set_id": "G1",
+      "outer_fold": 2,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "ridge_regression",
+      "feature_set_id": "G1",
+      "outer_fold": 3,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "ridge_regression",
+      "feature_set_id": "G1",
+      "outer_fold": 4,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "hgb_g1",
+      "feature_set_id": "G1",
+      "outer_fold": 0,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 64
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "hgb_g1",
+      "feature_set_id": "G1",
+      "outer_fold": 1,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "hgb_g1",
+      "feature_set_id": "G1",
+      "outer_fold": 2,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "hgb_g1",
+      "feature_set_id": "G1",
+      "outer_fold": 3,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "hgb_g1",
+      "feature_set_id": "G1",
+      "outer_fold": 4,
+      "training_seed": 42,
+      "estimator_group": "single_seed",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1",
+      "outer_fold": 0,
+      "training_seed": 42,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 64
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1",
+      "outer_fold": 0,
+      "training_seed": 52,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 64
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1",
+      "outer_fold": 0,
+      "training_seed": 62,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 64
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1",
+      "outer_fold": 0,
+      "training_seed": 72,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 64
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1",
+      "outer_fold": 0,
+      "training_seed": 82,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 64
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1",
+      "outer_fold": 1,
+      "training_seed": 42,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1",
+      "outer_fold": 1,
+      "training_seed": 52,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1",
+      "outer_fold": 1,
+      "training_seed": 62,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1",
+      "outer_fold": 1,
+      "training_seed": 72,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1",
+      "outer_fold": 1,
+      "training_seed": 82,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1",
+      "outer_fold": 2,
+      "training_seed": 42,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1",
+      "outer_fold": 2,
+      "training_seed": 52,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1",
+      "outer_fold": 2,
+      "training_seed": 62,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1",
+      "outer_fold": 2,
+      "training_seed": 72,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1",
+      "outer_fold": 2,
+      "training_seed": 82,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1",
+      "outer_fold": 3,
+      "training_seed": 42,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1",
+      "outer_fold": 3,
+      "training_seed": 52,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1",
+      "outer_fold": 3,
+      "training_seed": 62,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1",
+      "outer_fold": 3,
+      "training_seed": 72,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1",
+      "outer_fold": 3,
+      "training_seed": 82,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1",
+      "outer_fold": 4,
+      "training_seed": 42,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1",
+      "outer_fold": 4,
+      "training_seed": 52,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1",
+      "outer_fold": 4,
+      "training_seed": 62,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1",
+      "outer_fold": 4,
+      "training_seed": 72,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "early_warning",
+      "model_name": "small_mlp",
+      "feature_set_id": "G1",
+      "outer_fold": 4,
+      "training_seed": 82,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 0,
+      "training_seed": 42,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 64
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 0,
+      "training_seed": 52,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 64
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 0,
+      "training_seed": 62,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 64
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 0,
+      "training_seed": 72,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 64
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 0,
+      "training_seed": 82,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 64
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 1,
+      "training_seed": 42,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 1,
+      "training_seed": 52,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 1,
+      "training_seed": 62,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 1,
+      "training_seed": 72,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 1,
+      "training_seed": 82,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 2,
+      "training_seed": 42,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 2,
+      "training_seed": 52,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 2,
+      "training_seed": 62,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 2,
+      "training_seed": 72,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 2,
+      "training_seed": 82,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 3,
+      "training_seed": 42,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 3,
+      "training_seed": 52,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 3,
+      "training_seed": 62,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 3,
+      "training_seed": 72,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 3,
+      "training_seed": 82,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 4,
+      "training_seed": 42,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 4,
+      "training_seed": 52,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 4,
+      "training_seed": 62,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 4,
+      "training_seed": 72,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 4,
+      "training_seed": 82,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "bilstm_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 0,
+      "training_seed": 42,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 64
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "bilstm_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 0,
+      "training_seed": 52,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 64
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "bilstm_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 0,
+      "training_seed": 62,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 64
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "bilstm_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 0,
+      "training_seed": 72,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 64
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "bilstm_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 0,
+      "training_seed": 82,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 64
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "bilstm_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 1,
+      "training_seed": 42,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "bilstm_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 1,
+      "training_seed": 52,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "bilstm_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 1,
+      "training_seed": 62,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "bilstm_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 1,
+      "training_seed": 72,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "bilstm_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 1,
+      "training_seed": 82,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "bilstm_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 2,
+      "training_seed": 42,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "bilstm_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 2,
+      "training_seed": 52,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "bilstm_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 2,
+      "training_seed": 62,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "bilstm_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 2,
+      "training_seed": 72,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "bilstm_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 2,
+      "training_seed": 82,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "bilstm_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 3,
+      "training_seed": 42,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "bilstm_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 3,
+      "training_seed": 52,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "bilstm_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 3,
+      "training_seed": 62,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "bilstm_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 3,
+      "training_seed": 72,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "bilstm_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 3,
+      "training_seed": 82,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "bilstm_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 4,
+      "training_seed": 42,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "bilstm_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 4,
+      "training_seed": 52,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "bilstm_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 4,
+      "training_seed": 62,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "bilstm_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 4,
+      "training_seed": 72,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "bilstm_only",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 4,
+      "training_seed": 82,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_legacy_config_v2_refit",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 0,
+      "training_seed": 42,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 64
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_legacy_config_v2_refit",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 0,
+      "training_seed": 52,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 64
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_legacy_config_v2_refit",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 0,
+      "training_seed": 62,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 64
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_legacy_config_v2_refit",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 0,
+      "training_seed": 72,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 64
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_legacy_config_v2_refit",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 0,
+      "training_seed": 82,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 64
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_legacy_config_v2_refit",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 1,
+      "training_seed": 42,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_legacy_config_v2_refit",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 1,
+      "training_seed": 52,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_legacy_config_v2_refit",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 1,
+      "training_seed": 62,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_legacy_config_v2_refit",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 1,
+      "training_seed": 72,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_legacy_config_v2_refit",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 1,
+      "training_seed": 82,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_legacy_config_v2_refit",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 2,
+      "training_seed": 42,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_legacy_config_v2_refit",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 2,
+      "training_seed": 52,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_legacy_config_v2_refit",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 2,
+      "training_seed": 62,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_legacy_config_v2_refit",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 2,
+      "training_seed": 72,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_legacy_config_v2_refit",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 2,
+      "training_seed": 82,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_legacy_config_v2_refit",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 3,
+      "training_seed": 42,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_legacy_config_v2_refit",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 3,
+      "training_seed": 52,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_legacy_config_v2_refit",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 3,
+      "training_seed": 62,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_legacy_config_v2_refit",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 3,
+      "training_seed": 72,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_legacy_config_v2_refit",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 3,
+      "training_seed": 82,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_legacy_config_v2_refit",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 4,
+      "training_seed": 42,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_legacy_config_v2_refit",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 4,
+      "training_seed": 52,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_legacy_config_v2_refit",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 4,
+      "training_seed": 62,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_legacy_config_v2_refit",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 4,
+      "training_seed": 72,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_legacy_config_v2_refit",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 4,
+      "training_seed": 82,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_v2_tuned",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 0,
+      "training_seed": 42,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 64
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_v2_tuned",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 0,
+      "training_seed": 52,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 64
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_v2_tuned",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 0,
+      "training_seed": 62,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 64
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_v2_tuned",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 0,
+      "training_seed": 72,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 64
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_v2_tuned",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 0,
+      "training_seed": 82,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 64
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_v2_tuned",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 1,
+      "training_seed": 42,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_v2_tuned",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 1,
+      "training_seed": 52,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_v2_tuned",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 1,
+      "training_seed": 62,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_v2_tuned",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 1,
+      "training_seed": 72,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_v2_tuned",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 1,
+      "training_seed": 82,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_v2_tuned",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 2,
+      "training_seed": 42,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_v2_tuned",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 2,
+      "training_seed": 52,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_v2_tuned",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 2,
+      "training_seed": 62,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_v2_tuned",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 2,
+      "training_seed": 72,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_v2_tuned",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 2,
+      "training_seed": 82,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_v2_tuned",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 3,
+      "training_seed": 42,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_v2_tuned",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 3,
+      "training_seed": 52,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_v2_tuned",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 3,
+      "training_seed": 62,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_v2_tuned",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 3,
+      "training_seed": 72,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_v2_tuned",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 3,
+      "training_seed": 82,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_v2_tuned",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 4,
+      "training_seed": 42,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_v2_tuned",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 4,
+      "training_seed": 52,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_v2_tuned",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 4,
+      "training_seed": 62,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_v2_tuned",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 4,
+      "training_seed": 72,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    },
+    {
+      "scenario": "late_stage",
+      "model_name": "cnn_bilstm_v2_tuned",
+      "feature_set_id": "G1+G2",
+      "outer_fold": 4,
+      "training_seed": 82,
+      "estimator_group": "five_seed_fold_mean",
+      "expected_record_count": 63
+    }
+  ],
+  "semantic_checksum": "92c4eb1a247f4851fcb3ffb36003a550944f4fe198be361dafd7a9d11613a491"
+}

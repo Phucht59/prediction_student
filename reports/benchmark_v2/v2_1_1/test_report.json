@@ -1,0 +1,21 @@
+{
+  "total": 115,
+  "passed": 115,
+  "failed": 0,
+  "skipped": 0,
+  "postgresql_tests": {
+    "total": 5,
+    "passed": 5,
+    "failed": 0,
+    "skipped": 0,
+    "status": "verified",
+    "environment": "disposable test schema; DSN redacted"
+  },
+  "leakage_guards": {
+    "status": "verified",
+    "evidence": "full pytest suite includes protocol, fold, feature allowlist, legacy isolation and training-boundary guards"
+  },
+  "command": "$env:POSTGRES_TEST_DSN=<redacted>; $env:POSTGRES_TEST_APP_DSN=<redacted>; $env:PSQL_PATH=C:\\Program Files\\PostgreSQL\\17\\bin\\psql.exe; py -3.10 -m pytest -q",
+  "source_commit": "2f60581d0cdb41e6b910d3a76d0db4671b98b188",
+  "timestamp": "2026-07-14T03:18:37.6736597Z"
+}
