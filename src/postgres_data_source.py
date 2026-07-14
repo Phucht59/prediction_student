@@ -430,6 +430,55 @@ def load_development_subset_from_postgres(
     return frame, metadata
 
 
+def load_development_feature_subset_from_postgres(
+    dataset_code: str,
+    dataset_version_id: int,
+    source_row_numbers: list[int],
+    feature_columns: list[str],
+) -> tuple[pd.DataFrame, dict[str, Any]]:
+    """Read only approved pre-prediction features for governed recommendations.
+
+    Unlike the training loader this function never joins target storage and
+    never materializes G3.  The SQL allowlist prevents legacy-observed access.
+    """
+    requested = sorted({int(value) for value in source_row_numbers})
+    if not requested or len(requested) != len(source_row_numbers):
+        raise ValueError("Development source-row allowlist must be unique and non-empty.")
+    if set(feature_columns) != {"G1", "G2"}:
+        raise ValueError("Phase D core feature loader permits exactly G1/G2.")
+    connection = _connect()
+    try:
+        connection.set_session(readonly=True, autocommit=False)
+        with _dict_cursor(connection) as cursor:
+            cursor.execute(
+                "SELECT dataset_version_id, dataset_code, content_hash FROM source_dataset_versions WHERE dataset_code=%s AND dataset_version_id=%s",
+                (dataset_code, dataset_version_id),
+            )
+            version = cursor.fetchone()
+            if version is None:
+                raise RuntimeError("Dataset version does not exist.")
+            cursor.execute(
+                "SELECT source_row_number, raw_payload FROM source_records WHERE dataset_version_id=%s AND source_row_number=ANY(%s) ORDER BY source_row_number",
+                (dataset_version_id, requested),
+            )
+            rows = [dict(row) for row in cursor.fetchall()]
+        connection.rollback()
+    finally:
+        connection.close()
+    returned = [int(row["source_row_number"]) for row in rows]
+    if returned != requested:
+        raise RuntimeError("Recommendation feature read does not exactly match the development allowlist.")
+    records = []
+    for row in rows:
+        payload = row["raw_payload"]
+        if not isinstance(payload, dict):
+            raise RuntimeError("Recommendation feature payload is invalid.")
+        records.append({name: payload.get(name) for name in feature_columns})
+    frame = pd.DataFrame(records, columns=feature_columns)
+    frame.insert(0, SOURCE_ROW_NUMBER_COLUMN, returned)
+    return frame, {"dataset_version_id": int(version["dataset_version_id"]), "dataset_code": str(version["dataset_code"]), "content_hash": str(version["content_hash"]), "transaction_read_only": True, "target_joined": False, "legacy_observed_rows_fetched": False}
+
+
 def load_dataset_version(
     dataset_version_id: int,
     *,
