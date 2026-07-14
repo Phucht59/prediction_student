@@ -11,7 +11,7 @@ import pytest
 import torch
 import torch.nn as nn
 
-from scripts import run_strategy_b_phase_c
+from scripts import derive_strategy_b_phase_c_reporting, run_strategy_b_phase_c
 from src.config import DATASETS
 from src.estimator_factory import (
     REQUIRED_RESOLVED_CONFIG_KEYS,
@@ -211,6 +211,16 @@ def test_conclusion_renderer_has_no_optional_tabulate_dependency():
     source = inspect.getsource(run_strategy_b_phase_c._conclusion)
     assert "to_markdown" not in source
     assert "tabulate" not in source
+
+
+def test_reporting_correction_cannot_change_predictions_metrics_or_selections():
+    source = inspect.getsource(derive_strategy_b_phase_c_reporting)
+    assert '"predictions_metrics_selections_changed": False' in source
+    assert "source_checksum_failures" in source
+    assert "len(jobs) == 2805" in source
+    assert "len(trials) == 900" in source
+    assert "len(oof) == 9 * 3 * 316" in source
+    assert "fit_fold_predict_proba" not in source
 
 
 def test_artifact_checksum_detects_mutation(tmp_path):

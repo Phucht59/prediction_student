@@ -792,13 +792,33 @@ def main() -> None:
         pd.DataFrame(tables["training_diagnostics"]).to_csv(artifact_tmp / "training_diagnostics.csv", index=False)
         counts = pd.DataFrame(tables["parameter_counts"])
         counts.to_csv(artifact_tmp / "parameter_counts.csv", index=False)
+        trial_frame = pd.DataFrame(tables["trial_history"])
         runtime_events = pd.DataFrame(tables["runtime_events"])
-        runtime_summary = runtime_events.groupby(["candidate_id", "stage"], as_index=False).agg(
+        if not trial_frame.empty:
+            search_events = trial_frame[["candidate_id", "runtime_seconds"]].copy()
+            search_events["stage"] = "inner_search_trial"
+            runtime_events_for_total = pd.concat(
+                [runtime_events, search_events[["candidate_id", "stage", "runtime_seconds"]]],
+                ignore_index=True,
+            )
+        else:
+            runtime_events_for_total = runtime_events.copy()
+        runtime_summary = runtime_events_for_total.groupby("candidate_id", as_index=False).agg(
             runtime_seconds=("runtime_seconds", "sum"),
             mean_runtime_seconds=("runtime_seconds", "mean"),
             events=("runtime_seconds", "count"),
         )
-        trial_frame = pd.DataFrame(tables["trial_history"])
+        search_totals = (
+            trial_frame.groupby("candidate_id", as_index=False)["runtime_seconds"].sum()
+            .rename(columns={"runtime_seconds": "search_runtime_seconds"})
+            if not trial_frame.empty else pd.DataFrame(columns=["candidate_id", "search_runtime_seconds"])
+        )
+        outer_totals = runtime_events.groupby("candidate_id", as_index=False)["runtime_seconds"].sum().rename(
+            columns={"runtime_seconds": "outer_runtime_seconds"}
+        )
+        runtime_summary = runtime_summary.merge(search_totals, on="candidate_id", how="left").merge(
+            outer_totals, on="candidate_id", how="left"
+        ).fillna({"search_runtime_seconds": 0.0, "outer_runtime_seconds": 0.0})
         if not trial_frame.empty:
             trial_counts = trial_frame.groupby(["candidate_id", "state"]).size().unstack(fill_value=0).reset_index()
             trial_counts = trial_counts.rename(columns={
@@ -813,7 +833,7 @@ def main() -> None:
             trial_counts = trial_counts.merge(fit_counts, on="candidate_id", how="left")
             runtime_summary = runtime_summary.merge(trial_counts, on="candidate_id", how="left")
         runtime_summary.to_csv(artifact_tmp / "runtime_summary.csv", index=False)
-        summary = model_summary(oof, fold_metrics, ordinal, per_class, counts, runtime_events)
+        summary = model_summary(oof, fold_metrics, ordinal, per_class, counts, runtime_events_for_total)
         summary.to_csv(artifact_tmp / "model_summary.csv", index=False)
         fold_metrics[["candidate_id", "seed", "outer_fold", "class_collapse"]].to_csv(artifact_tmp / "class_collapse_report.csv", index=False)
         comparisons = [("N1", "N0"), ("N1", "N3"), ("N0", "N2"), ("N0", "A1"), ("N0", "A2")]
