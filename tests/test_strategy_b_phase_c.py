@@ -200,6 +200,17 @@ def test_phase_c_runner_never_fetches_legacy_observed_and_is_atomic():
     assert "os.replace(artifact_tmp, artifact_final)" in source
     assert "artifact_tmp, \"failed\"" in source
     assert "failure_reason=str(exc)" in source
+    recovery_source = inspect.getsource(run_strategy_b_phase_c._resume_finalize)
+    assert 'len(jobs) == 2805' in recovery_source
+    assert 'len(trials) == 900' in recovery_source
+    assert 'len(oof) == 9 * 3 * 316' in recovery_source
+    assert '"training_or_predictions_changed": False' in recovery_source
+
+
+def test_conclusion_renderer_has_no_optional_tabulate_dependency():
+    source = inspect.getsource(run_strategy_b_phase_c._conclusion)
+    assert "to_markdown" not in source
+    assert "tabulate" not in source
 
 
 def test_artifact_checksum_detects_mutation(tmp_path):

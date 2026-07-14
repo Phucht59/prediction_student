@@ -102,6 +102,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--fold-manifest", type=Path, default=DEFAULT_FOLD_MANIFEST_PATH)
     parser.add_argument("--n-trials", type=int, default=None)
     parser.add_argument("--skip-tests", action="store_true", help="Diagnostic only; official full runs reject this.")
+    parser.add_argument(
+        "--resume-finalize", action="store_true",
+        help="Finalize a fully trained failed partial run after validating every persisted evidence table.",
+    )
     return parser.parse_args()
 
 
@@ -528,7 +532,18 @@ def _conclusion(summary: pd.DataFrame, paired: pd.DataFrame, strict: dict[str, A
         ]) + "\n"
     overall = strict["provisional_best_overall_model"]
     hybrid = strict["provisional_best_thesis_hybrid_model"]
-    table = summary[["candidate_id", "oof_macro_f1", "outer_sd", "seed_sd", "worst_seed", "parameter_count"]].to_markdown(index=False)
+    columns = ["candidate_id", "oof_macro_f1", "outer_sd", "seed_sd", "worst_seed", "parameter_count"]
+    header = "| " + " | ".join(columns) + " |"
+    separator = "|" + "|".join(["---"] * len(columns)) + "|"
+    body = []
+    for _, row in summary[columns].iterrows():
+        body.append("| " + " | ".join(
+            str(int(row[column])) if column == "parameter_count" else (
+                f"{float(row[column]):.6f}" if column != "candidate_id" else str(row[column])
+            )
+            for column in columns
+        ) + " |")
+    table = "\n".join([header, separator, *body])
     return "\n".join([
         "# Strategy B Phase C conclusion", "", "## Main candidate results", "", table, "",
         f"- `provisional_best_overall_model`: **{overall}**.",
@@ -539,6 +554,97 @@ def _conclusion(summary: pd.DataFrame, paired: pd.DataFrame, strict: dict[str, A
         f"- Imbalance request gate: **{gates['imbalance']['recommendation']}**.",
         "", "No conditional branch was executed. Phase D/E remain unauthorized. README/PROJECT were not modified.",
     ]) + "\n"
+
+
+def _resume_finalize(
+    *,
+    stage: str,
+    run_id: str,
+    artifact_tmp: Path,
+    artifact_final: Path,
+    report_tmp: Path,
+    report_final: Path,
+) -> None:
+    """Finalize a fully trained run that failed only during report rendering."""
+
+    if stage != "full":
+        raise ValueError("resume-finalize is supported only for the official full run.")
+    if not artifact_tmp.is_dir() or artifact_final.exists() or report_final.exists():
+        raise FileNotFoundError("Expected one failed partial artifact directory and no completed destination.")
+    state = json.loads((artifact_tmp / "run_state.json").read_text(encoding="utf-8"))
+    if state.get("status") != "failed" or state.get("failure_type") != "ImportError" or "tabulate" not in state.get("failure_reason", ""):
+        raise RuntimeError("Partial run is not eligible for safe finalization-only recovery.")
+    strict = json.loads((artifact_tmp / "strict_validation.json").read_text(encoding="utf-8"))
+    if strict.get("status") != "PASS":
+        raise RuntimeError("Cannot finalize a partial run whose strict validation did not pass.")
+    jobs = pd.read_csv(artifact_tmp / "job_ledger.csv")
+    trials = pd.read_csv(artifact_tmp / "trial_history.csv")
+    oof = pd.read_csv(artifact_tmp / "outer_oof_predictions.csv")
+    checkpoints = json.loads((artifact_tmp / "checkpoint_checksums.json").read_text(encoding="utf-8"))
+    recovery_checks = {
+        "job_rows": len(jobs) == 2805,
+        "all_jobs_completed": bool((jobs["status"] == "completed").all()),
+        "trial_rows": len(trials) == 900,
+        "all_trials_terminal": bool(trials["state"].isin(["COMPLETE", "PRUNED", "FAIL"]).all()),
+        "oof_rows": len(oof) == 9 * 3 * 316,
+        "oof_candidate_seed_coverage": bool(
+            all(len(group) == 316 for _, group in oof.groupby(["candidate_id", "seed"]))
+        ),
+        "checkpoint_count": int(checkpoints.get("checkpoint_count", -1)) == 100,
+        "all_checkpoints_reproduced": bool(checkpoints.get("all_reproduced")),
+        "metric_recomputation": float(strict.get("metric_recomputation_max_abs_difference", 1.0)) <= 1e-12,
+    }
+    if not all(recovery_checks.values()):
+        raise RuntimeError(f"Finalization recovery checks failed: {recovery_checks}")
+    summary = pd.read_csv(artifact_tmp / "model_summary.csv")
+    paired = pd.read_csv(artifact_tmp / "paired_model_deltas.csv")
+    gates = json.loads((artifact_tmp / "conditional_gate_assessment.json").read_text(encoding="utf-8"))
+    (artifact_tmp / "phase_c_conclusion.md").write_text(
+        _conclusion(summary, paired, strict, gates, stage), encoding="utf-8"
+    )
+    finalization_provenance = _source_provenance()
+    provenance_path = artifact_tmp / "source_provenance.json"
+    provenance = json.loads(provenance_path.read_text(encoding="utf-8"))
+    provenance["finalization_recovery"] = {
+        "training_source_git_commit": provenance["git_commit"],
+        "finalization_git_commit": finalization_provenance["git_commit"],
+        "finalization_source_tree_hash": finalization_provenance["source_tree_hash"],
+        "reason": "report_rendering_only_missing_optional_tabulate_dependency",
+        "training_or_predictions_changed": False,
+        "recovery_checks": recovery_checks,
+    }
+    write_json(provenance_path, provenance)
+    protocol_path = artifact_tmp / "protocol.json"
+    protocol = json.loads(protocol_path.read_text(encoding="utf-8"))
+    protocol["finalization_recovery"] = provenance["finalization_recovery"]
+    write_json(protocol_path, protocol)
+    strict["finalization_recovery_pass"] = True
+    strict["finalization_recovery_checks"] = recovery_checks
+    write_json(artifact_tmp / "strict_validation.json", strict)
+    checksums = {
+        path.relative_to(artifact_tmp).as_posix(): sha256_file(path)
+        for path in sorted(artifact_tmp.rglob("*"))
+        if path.is_file() and path.name not in {"artifact_checksums.json", "run_state.json"}
+    }
+    write_json(artifact_tmp / "artifact_checksums.json", checksums)
+    _write_state(
+        artifact_tmp, "completed", stage=stage, strict_status="PASS",
+        recovery_from={"status": "failed", "failure_type": state["failure_type"], "failure_reason": state["failure_reason"]},
+        recovery_checks=recovery_checks,
+    )
+    missing = [filename for filename in MINIMUM_OUTPUTS if not (artifact_tmp / filename).is_file()]
+    if missing:
+        raise RuntimeError(f"Missing required artifacts after recovery: {missing}")
+    report_tmp.mkdir(parents=True, exist_ok=True)
+    for path in artifact_tmp.iterdir():
+        if path.is_file():
+            shutil.copy2(path, report_tmp / path.name)
+    os.replace(artifact_tmp, artifact_final)
+    os.replace(report_tmp, report_final)
+    print(json.dumps({
+        "artifact_path": str(artifact_final), "report_path": str(report_final),
+        "status": "PASS", "finalization_recovery": True,
+    }))
 
 
 def main() -> None:
@@ -553,6 +659,12 @@ def main() -> None:
     report_final = report_root / args.run_id
     artifact_tmp = root / f".{args.run_id}.tmp"
     report_tmp = report_root / f".{args.run_id}.tmp"
+    if args.resume_finalize:
+        _resume_finalize(
+            stage=stage, run_id=args.run_id, artifact_tmp=artifact_tmp, artifact_final=artifact_final,
+            report_tmp=report_tmp, report_final=report_final,
+        )
+        return
     if artifact_final.exists() or report_final.exists() or artifact_tmp.exists() or report_tmp.exists():
         raise FileExistsError(f"Run id already exists or has partial state: {args.run_id}")
     artifact_tmp.mkdir(parents=True)
