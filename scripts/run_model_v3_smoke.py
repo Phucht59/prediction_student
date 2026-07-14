@@ -1,85 +1,342 @@
-"""One-fold/one-seed smoke for the frozen Model V3 protocol; never a full benchmark."""
+"""Hardened V3.1 smoke: one outer fold, one seed, never a scientific benchmark."""
 from __future__ import annotations
-import argparse,copy,json,subprocess,sys,time
-from datetime import datetime,timezone
-from pathlib import Path
-import numpy as np,pandas as pd,torch
-from torch.utils.data import DataLoader,TensorDataset
-from sklearn.metrics import mean_squared_error,r2_score
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
-sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
-from src.config import ROOT_DIR
-from src.data_pipeline import SOURCE_ROW_NUMBER_COLUMN,process_target_and_stratify
-from src.evaluation.metrics import classification_metrics
-from src.evaluation.model_v3_protocol import MODEL_REGISTRY,build_expected_jobs,checksum,duplicate_jobs,legacy_intersection,validate_loader_rows,validate_shape_rows
-from src.evaluation.neural_sanity_v2_2 import loader_statistics
-from src.evaluation.protocol import DEFAULT_FOLD_MANIFEST_PATH,file_checksum,load_fold_manifest,outer_folds_from_manifest,source_record_identity,validate_probability_matrix
-from src.models.ordinal_v3 import SequenceOrdinalV3,TabularV3Model,TrainOnlyTargetScaler,multitask_loss,ordinal_bce_loss
-from src.postgres_data_source import load_dataset_version_from_postgres
-from scripts.run_benchmark_v2 import predict_sklearn
 
-AROOT=ROOT_DIR/'artifacts/model_v3_smoke';LEGACY=ROOT_DIR/'artifacts/legacy_v1/legacy_manifest.json'
-def git(*args):return subprocess.check_output(['git',*args],cwd=ROOT_DIR,text=True).strip()
-def dump(path,obj):path.write_text(json.dumps(obj,indent=2,default=str),encoding='utf-8')
-def feature_contract(track,fold_checksum):
- features=['G1','G2'] if track=='late_stage' else ['G1'];c={"contract_version":"v3_feature_1","scenario":track,"feature_set_id":"+".join(features),"ordered_features":features,"preprocessing":"standard_scaler_train_only","target_excluded":True,"class_order":["Low","Medium","High"],"fold_manifest_checksum":fold_checksum};c['semantic_checksum']=checksum(c);return c
-def make_model(model_id,input_dim,config):
- if model_id=='M4':return SequenceOrdinalV3(config['cnn_channels'],config['cnn_kernel_size'],config['lstm_hidden_dim'],config['dropout'],config['sequence_dropout'])
- m=MODEL_REGISTRY[model_id];return TabularV3Model(input_dim,int(config.get('hidden_width',16)),int(config.get('hidden_layers',1)),float(config.get('dropout',0.0)),m['ordinal'],m['regression'])
-def loss_for(model_id,logits,regression,y,raw_scaled,lamb=.3):
- ordinal=MODEL_REGISTRY[model_id]['ordinal'];base=ordinal_bce_loss(logits,y) if ordinal else torch.nn.functional.cross_entropy(logits,y)
- return multitask_loss(base,regression,raw_scaled,lamb) if regression is not None else base
-def train_epochs(model,x,y,raw_scaled,epochs,lr=.002,weight_decay=1e-4,batch_size=16,drop_last=False):
- opt=torch.optim.Adam(model.parameters(),lr=lr,weight_decay=weight_decay);model.train()
- for _ in range(epochs):
-  loader=DataLoader(TensorDataset(x,y,raw_scaled),batch_size=batch_size,shuffle=True,drop_last=drop_last)
-  for xb,yb,rb in loader:
-   opt.zero_grad();logits,reg=model(xb);loss=loss_for(model._model_id,logits,reg,yb,rb);loss.backward();opt.step()
- return model
-def probabilities(model,x):model.eval();return model.predict_proba(x).detach().cpu().numpy()
-def main():
- p=argparse.ArgumentParser();p.add_argument('--run-id',required=True);a=p.parse_args();root=AROOT/a.run_id
- if root.exists():raise FileExistsError(root)
- if git('status','--porcelain','--untracked-files=no'):raise RuntimeError('Tracked source tree must be clean.')
- root.mkdir(parents=True);manifest=load_fold_manifest();raw,meta=load_dataset_version_from_postgres('student-mat',1);raw_g3=raw.G3.astype(float).to_numpy();frame=process_target_and_stratify(raw.copy(),'G3','student','3class').drop(columns=['_strat_target']);wanted={r['source_row_number'] for r in manifest['development_records']};frame=frame[frame[SOURCE_ROW_NUMBER_COLUMN].isin(wanted)].sort_values(SOURCE_ROW_NUMBER_COLUMN).reset_index(drop=True);frame['_raw_g3']=raw_g3[frame[SOURCE_ROW_NUMBER_COLUMN].astype(int)]
- development={r['source_record_identity'] for r in manifest['development_records']};legacy=set(json.loads(LEGACY.read_text())['current_79_record_ids']);intersection=legacy_intersection(development,legacy)
- if intersection:raise RuntimeError('Development/legacy-79 intersection is not empty.')
- folds=outer_folds_from_manifest(frame,manifest);tr,va=folds[0];source_commit=git('rev-parse','HEAD');features={t:feature_contract(t,manifest['manifest_checksum']) for t in ['late_stage','early_warning']};target={"contract_version":"v3_target_1","class_mapping":{"Low":"G3<=9","Medium":"10<=G3<=14","High":"G3>=15"},"continuous_g3":{"scale":"standardized_with_training_partition_statistics","primary_metrics_raw_scale":True,"clip_before_primary_metrics":False},"class_order":["Low","Medium","High"]};target['semantic_checksum']=checksum(target)
- source_cfg=json.loads((ROOT_DIR/'artifacts/benchmark_v2/benchmark-v2-full-20260713c/configs/selected_configs.json').read_text())['late_stage/cnn_bilstm_v2_tuned/fold0']['config'];source_cfg={**source_cfg,'max_epochs':40,'patience':8,'scheduler_patience':3}
- tabular_config={"hidden_width":16,"hidden_layers":1,"dropout":.15,"learning_rate":.002,"weight_decay":1e-4,"batch_size":16,"max_epochs":60,"patience":10,"drop_last":False}
- exact_mlp=json.loads((ROOT_DIR/'artifacts/benchmark_v2/benchmark-v2-full-20260713c/configs/selected_configs.json').read_text())['late_stage/small_mlp/fold0']['config']
- configs={m:(source_cfg if m=='M4' else exact_mlp if m=='M0' else {**tabular_config,"dropout":0.0 if m=='M1' else .15,"lambda":.3 if MODEL_REGISTRY[m]['regression'] else None}) for m in MODEL_REGISTRY}
- expected=build_expected_jobs(a.run_id,{0:len(va)},manifest['manifest_checksum'],source_commit,features,target,smoke=True,config_checksums={m:checksum(c) for m,c in configs.items()});dump(root/'expected_job_contract.json',expected);dump(root/'feature_contracts.json',features);dump(root/'target_supervision_contract.json',target)
- run={"run_id":a.run_id,"status":"running","created_at":datetime.now(timezone.utc).isoformat(),"source_commit":source_commit,"expected_jobs":5,"expected_predictions":len(va)*5,"fold_manifest_checksum":manifest['manifest_checksum'],"dataset_checksum":meta['content_hash'],"legacy_intersection_count":len(intersection),"full_benchmark":False};dump(root/'run_manifest.json',run)
- rows=[];metrics=[];parameters=[];diagnostics=[];loader_rows=[];shape_rows=[];ordinal_order_checks=[]
- for model_id in MODEL_REGISTRY:
-  start=time.perf_counter();features_list=['G1','G2'];train=frame.iloc[tr];test=frame.iloc[va];positions=np.arange(len(train));it,iv=train_test_split(positions,test_size=.2,stratify=train.G3,random_state=42);scaler=StandardScaler().fit(train.iloc[it][features_list]);xtr=scaler.transform(train.iloc[it][features_list]);xiv=scaler.transform(train.iloc[iv][features_list]);xva=scaler.transform(test[features_list]);target_scaler=TrainOnlyTargetScaler().fit(train.iloc[it]._raw_g3);rtr=target_scaler.transform(train.iloc[it]._raw_g3);ytr=train.iloc[it].G3.to_numpy(int);yiv=train.iloc[iv].G3.to_numpy(int)
-  config=configs[model_id]
-  if model_id=='M0':
-   pout,pred,_,trained=predict_sklearn('mlp',train[features_list].to_numpy(float),train.G3.to_numpy(int),train._raw_g3.to_numpy(float),test[features_list].to_numpy(float),config,42);validate_probability_matrix(pout,pred);m=classification_metrics(test.G3.to_numpy(int),pred,pout);clf=trained[1];parameters.append({'model_family':model_id,'trainable_parameters':sum(x.size for x in clf.coefs_)+sum(x.size for x in clf.intercepts_),'training_seconds':time.perf_counter()-start,'selected_epoch_smoke':int(clf.n_iter_)});diagnostics.append({'model_family':model_id,'target_scaler_fit_records':0,'outer_validation_target_scaler_fit_records':0,'regression_inverse_transform_verified':True,'control_implementation':'benchmark_v2_sklearn_mlp'});loader_rows.append({'model_family':model_id,'phase':'outer_fit',**loader_statistics(len(train),int(config['batch']),False)});metrics.append({'model_family':model_id,'track':'late_stage','outer_fold':0,'training_seed':42,**{k:v for k,v in m.items() if k not in ['confusion_matrix','per_class']},'confusion_matrix':json.dumps(m['confusion_matrix']),'per_class':json.dumps(m['per_class'])});
-   for i,(_,r) in enumerate(test.iterrows()):rows.append({'run_id':a.run_id,'model_family':model_id,'track':'late_stage','feature_set_id':'G1+G2','target_supervision_type':MODEL_REGISTRY[model_id]['target_supervision'],'outer_fold':0,'training_seed':42,'record_id':source_record_identity(1,r[SOURCE_ROW_NUMBER_COLUMN]),'true_label':int(r.G3),'predicted_label':int(pred[i]),'probability_low':float(pout[i,0]),'probability_medium':float(pout[i,1]),'probability_high':float(pout[i,2]),'predicted_g3_raw':None,'fold_manifest_checksum':manifest['manifest_checksum'],'feature_contract_checksum':features['late_stage']['semantic_checksum'],'target_contract_checksum':target['semantic_checksum'],'config_checksum':checksum(config),'source_commit':source_commit})
-   continue
-  def tensor_x(values):
-   t=torch.tensor(values,dtype=torch.float32);return t.unsqueeze(2) if model_id=='M4' else t
-  torch.manual_seed(42);model=make_model(model_id,2,config);model._model_id=model_id;best_state=None;best=-1.;selected=1
-  for epoch in range(1,4):
-   train_epochs(model,tensor_x(xtr),torch.tensor(ytr),torch.tensor(rtr,dtype=torch.float32),1,float(config.get('learning_rate',.002)),float(config.get('weight_decay',1e-4)),int(config.get('batch_size',16)),False);piv=probabilities(model,tensor_x(xiv));score=classification_metrics(yiv,piv.argmax(1),piv)['macro_f1']
-   if score>best:best=score;selected=epoch;best_state=copy.deepcopy(model.state_dict())
-  final_scaler=StandardScaler().fit(train[features_list]);xfinal=final_scaler.transform(train[features_list]);xout=final_scaler.transform(test[features_list]);final_target=TrainOnlyTargetScaler().fit(train._raw_g3);rfinal=final_target.transform(train._raw_g3);torch.manual_seed(42);final=make_model(model_id,2,config);final._model_id=model_id;train_epochs(final,tensor_x(xfinal),torch.tensor(train.G3.to_numpy(int)),torch.tensor(rfinal,dtype=torch.float32),selected,float(config.get('learning_rate',.002)),float(config.get('weight_decay',1e-4)),int(config.get('batch_size',16)),False);pout=probabilities(final,tensor_x(xout));pred=pout.argmax(1);validate_probability_matrix(pout,pred);m=classification_metrics(test.G3.to_numpy(int),pred,pout);reg_raw=None
-  for phase,n in [('internal_train',len(it)),('outer_refit',len(train))]:loader_rows.append({'model_family':model_id,'phase':phase,**loader_statistics(int(n),int(config.get('batch_size',16)),False)})
-  if model_id=='M4':
-   kernel=int(config['cnn_kernel_size']);output=2+2*(kernel//2)-kernel+1;shape_rows.append({'model_family':model_id,'cnn_kernel_size':kernel,'input_sequence_length':2,'cnn_output_sequence_length':output,'bilstm_input_sequence_length':output})
-  if MODEL_REGISTRY[model_id]['ordinal']:
-   final.eval();logits,_=final(tensor_x(xout));cum=torch.sigmoid(logits);ordinal_order_checks.append(bool(torch.all(cum[:,1]<=cum[:,0]+1e-7)))
-  if MODEL_REGISTRY[model_id]['regression']:
-   final.eval();_,reg=final(tensor_x(xout));reg_raw=final_target.inverse_transform(reg.detach().numpy());m.update({'rmse_raw':float(mean_squared_error(test._raw_g3,reg_raw)**.5),'r2_raw':float(r2_score(test._raw_g3,reg_raw))})
-  metrics.append({'model_family':model_id,'track':'late_stage','outer_fold':0,'training_seed':42,**{k:v for k,v in m.items() if k not in ['confusion_matrix','per_class']},'confusion_matrix':json.dumps(m['confusion_matrix']),'per_class':json.dumps(m['per_class'])});parameters.append({'model_family':model_id,'trainable_parameters':sum(p.numel() for p in final.parameters() if p.requires_grad),'training_seconds':time.perf_counter()-start,'selected_epoch_smoke':selected});diagnostics.append({'model_family':model_id,'target_scaler_fit_records':len(train),'outer_validation_target_scaler_fit_records':0,'regression_inverse_transform_verified':bool(not MODEL_REGISTRY[model_id]['regression'] or np.isfinite(reg_raw).all())})
-  for i,(_,r) in enumerate(test.iterrows()):rows.append({'run_id':a.run_id,'model_family':model_id,'track':'late_stage','feature_set_id':'G1+G2','target_supervision_type':MODEL_REGISTRY[model_id]['target_supervision'],'outer_fold':0,'training_seed':42,'record_id':source_record_identity(1,r[SOURCE_ROW_NUMBER_COLUMN]),'true_label':int(r.G3),'predicted_label':int(pred[i]),'probability_low':float(pout[i,0]),'probability_medium':float(pout[i,1]),'probability_high':float(pout[i,2]),'predicted_g3_raw':None if reg_raw is None else float(reg_raw[i]),'fold_manifest_checksum':manifest['manifest_checksum'],'feature_contract_checksum':features['late_stage']['semantic_checksum'],'target_contract_checksum':target['semantic_checksum'],'config_checksum':checksum(config),'source_commit':source_commit})
- pred_frame=pd.DataFrame(rows);metric_frame=pd.DataFrame(metrics);loader_frame=pd.DataFrame(loader_rows);shape_frame=pd.DataFrame(shape_rows);pred_frame.to_csv(root/'smoke_predictions.csv',index=False);metric_frame.to_csv(root/'smoke_metrics.csv',index=False);pd.DataFrame(parameters).to_csv(root/'parameter_count_comparison.csv',index=False);pd.DataFrame(diagnostics).to_csv(root/'training_diagnostics.csv',index=False);loader_frame.to_csv(root/'loader_diagnostics.csv',index=False);shape_frame.to_csv(root/'shape_diagnostics.csv',index=False)
- duplicate_status={'expected_job_duplicates':duplicate_jobs(pd.DataFrame(expected['jobs'])),'metric_duplicates':duplicate_jobs(metric_frame),'prediction_duplicates':int(pred_frame.duplicated(['model_family','track','outer_fold','training_seed','record_id']).sum())};actual=set(tuple(x) for x in pred_frame[['model_family','track','outer_fold','training_seed']].drop_duplicates().itertuples(index=False,name=None));expected_keys=set(tuple(x[c] for c in ['model_family','track','outer_fold','training_seed']) for x in expected['jobs']);all_prob=pred_frame[['probability_low','probability_medium','probability_high']].to_numpy();recomputed=[]
- for key,g in pred_frame.groupby(['model_family','track','outer_fold','training_seed']):recomputed.append(classification_metrics(g.true_label,g.predicted_label,g[['probability_low','probability_medium','probability_high']].to_numpy())['macro_f1'])
- contract_config={x['model_family']:x['config_checksum'] for x in expected['jobs']};config_valid=all(g.config_checksum.eq(contract_config[m]).all() for m,g in pred_frame.groupby('model_family'))
- loader_valid=validate_loader_rows(loader_frame);shape_valid=validate_shape_rows(shape_frame)
- validation={"run_id":a.run_id,"expected_jobs":5,"actual_jobs":len(actual),"missing_jobs":len(expected_keys-actual),"unexpected_jobs":len(actual-expected_keys),**duplicate_status,"expected_predictions":len(va)*5,"actual_predictions":len(pred_frame),"record_coverage_valid":all(set(g.record_id)==set(source_record_identity(1,x) for x in test[SOURCE_ROW_NUMBER_COLUMN]) for _,g in pred_frame.groupby('model_family')),"probability_contract_valid":bool(np.isfinite(all_prob).all() and np.max(np.abs(all_prob.sum(1)-1))<=1e-6 and (all_prob>=0).all()),"cumulative_ordering_valid":all(ordinal_order_checks),"regression_inverse_transform_valid":bool(pd.DataFrame(diagnostics).regression_inverse_transform_verified.all()),"target_scaler_train_only":bool((pd.DataFrame(diagnostics).outer_validation_target_scaler_fit_records==0).all()),"loader_diagnostics_content_valid":loader_valid,"shape_diagnostics_content_valid":shape_valid,"legacy_intersection_count":len(intersection),"config_contract_valid":config_valid,"metric_recomputation_valid":bool(np.allclose(recomputed,metric_frame.macro_f1)),"overall_validation_status":"valid" if len(actual)==5 and not any(duplicate_status.values()) and len(pred_frame)==len(va)*5 and not intersection and config_valid and loader_valid and shape_valid and all(ordinal_order_checks) else "invalid"};dump(root/'smoke_validation.json',validation);run.update({'status':'completed','completed_at':datetime.now(timezone.utc).isoformat()});dump(root/'run_manifest.json',run);checks={str(x.relative_to(root)):file_checksum(x) for x in root.rglob('*') if x.is_file()};dump(root/'checksums.json',checks);print(json.dumps(validation,indent=2))
-if __name__=='__main__':main()
+import argparse
+import copy
+import json
+import subprocess
+import sys
+import time
+from datetime import datetime, timezone
+from pathlib import Path
+
+import numpy as np
+import pandas as pd
+import torch
+from sklearn.linear_model import Ridge
+from sklearn.model_selection import StratifiedKFold
+from sklearn.preprocessing import StandardScaler
+from torch.utils.data import DataLoader, TensorDataset
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from src.config import ROOT_DIR
+from src.data_pipeline import SOURCE_ROW_NUMBER_COLUMN, process_target_and_stratify
+from src.evaluation.metrics import classification_metrics
+from src.evaluation.model_v3_protocol import (
+    MODEL_REGISTRY, build_expected_jobs, build_selection_study_contract, checksum,
+    duplicate_jobs, legacy_intersection, map_g3_to_class, regression_metric_summary,
+    validate_loader_rows, validate_selection_results, validate_shape_rows,
+)
+from src.evaluation.neural_sanity_v2_2 import loader_statistics
+from src.evaluation.protocol import (
+    file_checksum, load_fold_manifest, outer_folds_from_manifest, source_record_identity,
+    validate_probability_matrix,
+)
+from src.models.ordinal_v3 import (
+    SequenceOrdinalV3, TabularV3Model, TrainOnlyTargetScaler, multitask_loss, ordinal_bce_loss,
+)
+from src.postgres_data_source import load_dataset_version_from_postgres
+
+AROOT = ROOT_DIR / "artifacts/model_v3_smoke"
+LEGACY = ROOT_DIR / "artifacts/legacy_v1/legacy_manifest.json"
+
+
+def git(*args: str) -> str:
+    return subprocess.check_output(["git", *args], cwd=ROOT_DIR, text=True).strip()
+
+
+def dump(path: Path, value: object) -> None:
+    path.write_text(json.dumps(value, indent=2, default=str), encoding="utf-8")
+
+
+def feature_contract(track: str, fold_checksum: str) -> dict:
+    features = ["G1", "G2"] if track == "late_stage" else ["G1"]
+    contract = {
+        "contract_version": "v3_1_feature_1", "scenario": track,
+        "cutoff": "after_G2" if track == "late_stage" else "after_G1",
+        "feature_set_id": "+".join(features), "ordered_features": features,
+        "preprocessing_contract": "StandardScaler fit on the current training partition only",
+        "scaler_contract": "train_only_standard_scaler", "target_excluded": True,
+        "temporal_availability_status": "allowed_by_frozen_feature_allowlist",
+        "class_order": ["Low", "Medium", "High"], "dataset_version": 1,
+        "fold_manifest_checksum": fold_checksum,
+    }
+    contract["semantic_checksum"] = checksum(contract)
+    return contract
+
+
+def make_model(family: str, input_dim: int, config: dict) -> torch.nn.Module:
+    if family == "M4":
+        return SequenceOrdinalV3(config["cnn_channels"], config["cnn_kernel_size"],
+                                 config["lstm_hidden_dim"], config["dropout"], config["sequence_dropout"])
+    model = MODEL_REGISTRY[family]
+    return TabularV3Model(input_dim, int(config["hidden_width"]), int(config["hidden_layers"]),
+                          float(config["dropout"]), model["ordinal"], model["regression"])
+
+
+def tensor_x(values: np.ndarray, family: str) -> torch.Tensor:
+    tensor = torch.tensor(values, dtype=torch.float32)
+    return tensor.unsqueeze(2) if family == "M4" else tensor
+
+
+def loss_for(family: str, logits: torch.Tensor, regression: torch.Tensor | None,
+             labels: torch.Tensor, scaled_g3: torch.Tensor, lam: float) -> torch.Tensor:
+    classification = ordinal_bce_loss(logits, labels) if MODEL_REGISTRY[family]["ordinal"] else torch.nn.functional.cross_entropy(logits, labels)
+    return multitask_loss(classification, regression, scaled_g3, lam) if regression is not None else classification
+
+
+def fit_torch(family: str, config: dict, x: np.ndarray, labels: np.ndarray, scaled_g3: np.ndarray,
+              *, seed: int, epochs: int) -> torch.nn.Module:
+    torch.manual_seed(seed)
+    model = make_model(family, x.shape[1], config)
+    model._model_id = family
+    optimizer = torch.optim.Adam(model.parameters(), lr=float(config["learning_rate"]),
+                                 weight_decay=float(config["weight_decay"]))
+    dataset = TensorDataset(tensor_x(x, family), torch.tensor(labels, dtype=torch.long),
+                            torch.tensor(scaled_g3, dtype=torch.float32))
+    model.train()
+    for epoch in range(epochs):
+        loader = DataLoader(dataset, batch_size=int(config["batch_size"]), shuffle=True, drop_last=False,
+                            generator=torch.Generator().manual_seed(seed + epoch))
+        for xb, yb, rb in loader:
+            optimizer.zero_grad()
+            logits, reg = model(xb)
+            loss_for(family, logits, reg, yb, rb, float(config.get("lambda", 0.0))).backward()
+            optimizer.step()
+    return model
+
+
+def predict_torch(model: torch.nn.Module, family: str, values: np.ndarray) -> tuple[np.ndarray, np.ndarray | None, np.ndarray | None]:
+    model.eval()
+    with torch.no_grad():
+        logits, reg = model(tensor_x(values, family))
+        probability = model.predict_proba(tensor_x(values, family)).cpu().numpy()
+        cumulative = torch.sigmoid(logits).cpu().numpy() if MODEL_REGISTRY[family]["ordinal"] else None
+        regression = None if reg is None else reg.cpu().numpy()
+    return probability, cumulative, regression
+
+
+def select_torch_config(family: str, train: pd.DataFrame, features: list[str], config: dict,
+                        study: dict, trial_rows: list[dict]) -> dict:
+    """Smoke uses one predeclared candidate but executes all three inner folds."""
+    split = StratifiedKFold(n_splits=3, shuffle=True, random_state=study["study_seed"])
+    values = train[features].to_numpy(float)
+    labels = train.G3.to_numpy(int)
+    raw_g3 = train._raw_g3.to_numpy(float)
+    scores = []
+    for inner_fold, (idx_train, idx_valid) in enumerate(split.split(values, labels)):
+        x_scaler = StandardScaler().fit(values[idx_train])
+        g3_scaler = TrainOnlyTargetScaler().fit(raw_g3[idx_train])
+        model = fit_torch(family, config, x_scaler.transform(values[idx_train]), labels[idx_train],
+                          g3_scaler.transform(raw_g3[idx_train]), seed=study["study_seed"] + inner_fold, epochs=2)
+        probability, _, _ = predict_torch(model, family, x_scaler.transform(values[idx_valid]))
+        score = classification_metrics(labels[idx_valid], probability.argmax(1), probability)["macro_f1"]
+        scores.append(score)
+        trial_rows.append({"study_id": study["study_id"], "trial_id": 0, "inner_fold": inner_fold,
+                           "config_checksum": checksum(config), "inner_macro_f1": score})
+    return {"study_id": study["study_id"], "model_family": family, "track": study["track"],
+            "outer_fold": study["outer_fold"], "selected_trial_id": 0,
+            "config": config, "config_checksum": checksum(config), "inner_macro_f1_mean": float(np.mean(scores))}
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--run-id", required=True)
+    args = parser.parse_args()
+    root = AROOT / args.run_id
+    if root.exists():
+        raise FileExistsError(root)
+    if git("status", "--porcelain", "--untracked-files=no"):
+        raise RuntimeError("Tracked source tree must be clean.")
+
+    root.mkdir(parents=True)
+    source_commit = git("rev-parse", "HEAD")
+    manifest = load_fold_manifest()
+    raw, metadata = load_dataset_version_from_postgres("student-mat", 1)
+    frame = process_target_and_stratify(raw.copy(), "G3", "student", "3class").drop(columns=["_strat_target"])
+    wanted = {row["source_row_number"] for row in manifest["development_records"]}
+    frame = frame[frame[SOURCE_ROW_NUMBER_COLUMN].isin(wanted)].sort_values(SOURCE_ROW_NUMBER_COLUMN).reset_index(drop=True)
+    frame["_raw_g3"] = raw.loc[frame[SOURCE_ROW_NUMBER_COLUMN].astype(int), "G3"].to_numpy(float)
+    development = {row["source_record_identity"] for row in manifest["development_records"]}
+    legacy = set(json.loads(LEGACY.read_text(encoding="utf-8"))["current_79_record_ids"])
+    intersection = legacy_intersection(development, legacy)
+    if intersection:
+        raise RuntimeError("Development/legacy-79 intersection is not empty.")
+
+    folds = outer_folds_from_manifest(frame, manifest)
+    train_idx, valid_idx = folds[0]
+    train, valid = frame.iloc[train_idx], frame.iloc[valid_idx]
+    contracts = {track: feature_contract(track, manifest["manifest_checksum"]) for track in ("late_stage", "early_warning")}
+    target_contract = {
+        "contract_version": "v3_1_target_1", "class_order": ["Low", "Medium", "High"],
+        "class_mapping": {"Low": "G3<=9", "Medium": "10<=G3<=14", "High": "G3>=15"},
+        "continuous_g3": {"description": "finer-grained supervision from the same underlying outcome",
+                            "scaler": "fit on current training partition only", "primary_scale": "raw_0_20",
+                            "clip_before_primary_rmse_r2": False},
+    }
+    target_contract["semantic_checksum"] = checksum(target_contract)
+    search_contract = {"contract_version": "v3_1_search_1", "hidden_width": [8, 16, 32],
+                       "hidden_layers": [1, 2], "dropout": [0.0, 0.15, 0.30],
+                       "learning_rate": {"low": 0.0005, "high": 0.005, "distribution": "log_uniform"},
+                       "weight_decay": {"low": 1e-6, "high": 1e-3, "distribution": "log_uniform"},
+                       "batch_size": [16, 32], "max_epochs": 60, "patience": 10, "drop_last": False,
+                       "multitask_lambda": [0.1, 0.3, 1.0], "trials_per_study": 20}
+    search_contract["semantic_checksum"] = checksum(search_contract)
+    selection_contract = build_selection_study_contract(args.run_id, manifest["manifest_checksum"], source_commit,
+                                                        search_contract["semantic_checksum"], target_contract, smoke=True)
+    dump(root / "selection_study_contract.json", selection_contract)
+    source_s3 = json.loads((ROOT_DIR / "artifacts/benchmark_v2/benchmark-v2-full-20260713c/configs/selected_configs.json").read_text())["late_stage/cnn_bilstm_v2_tuned/fold0"]["config"]
+    source_s3 = {**source_s3, "max_epochs": 40, "patience": 8, "scheduler_patience": 3}
+    common = {"hidden_width": 16, "hidden_layers": 1, "dropout": 0.15, "learning_rate": 0.002,
+              "weight_decay": 1e-4, "batch_size": 16, "max_epochs": 60, "patience": 10, "drop_last": False}
+    configs = {"M0": dict(common), "M1": dict(common), "M2": {**common, "lambda": 0.3},
+               "M3": {**common, "lambda": 0.3}, "M4": source_s3, "B0": {"alpha": 1.0, "alpha_grid": [0.01, 0.1, 1.0, 10.0]}}
+    expected = build_expected_jobs(args.run_id, {0: len(valid)}, manifest["manifest_checksum"], source_commit,
+                                   contracts, target_contract, smoke=True,
+                                   config_checksums={key: checksum(value) for key, value in configs.items()},
+                                   selection_contract_checksum=selection_contract["semantic_checksum"])
+    dump(root / "expected_job_contract.json", expected)
+    dump(root / "feature_contracts.json", contracts)
+    dump(root / "target_supervision_contract.json", target_contract)
+    dump(root / "search_space_contract.json", search_contract)
+    run = {"run_id": args.run_id, "status": "running", "created_at": datetime.now(timezone.utc).isoformat(),
+           "source_commit": source_commit, "expected_jobs": len(expected["jobs"]),
+           "expected_predictions": sum(x["expected_record_count"] for x in expected["jobs"]),
+           "fold_manifest_checksum": manifest["manifest_checksum"], "dataset_checksum": metadata["content_hash"],
+           "legacy_intersection_count": len(intersection), "full_benchmark": False,
+           "scientific_eligibility": "smoke_only_not_for_model_ranking"}
+    dump(root / "run_manifest.json", run)
+
+    trial_rows: list[dict] = []
+    selected_rows: list[dict] = []
+    study_by_family = {study["model_family"]: study for study in selection_contract["studies"]}
+    for family in ("M0", "M1", "M2", "M3"):
+        selected_rows.append(select_torch_config(family, train, ["G1", "G2"], configs[family], study_by_family[family], trial_rows))
+    trials = pd.DataFrame(trial_rows)
+    selected = pd.DataFrame(selected_rows)
+    trials.to_csv(root / "selection_trials.csv", index=False)
+    selected.to_json(root / "selected_configs.json", orient="records", indent=2)
+    selection_status = validate_selection_results(selection_contract, trials, selected)
+    if any(selection_status.values()):
+        raise RuntimeError(f"Invalid smoke selection evidence: {selection_status}")
+
+    rows: list[dict] = []
+    metric_rows: list[dict] = []
+    diagnostics: list[dict] = []
+    parameters: list[dict] = []
+    loader_rows: list[dict] = []
+    shape_rows: list[dict] = []
+    ordinal_checks: list[bool] = []
+    selected_by_family = {row.model_family: row for row in selected.itertuples(index=False)}
+    for family in MODEL_REGISTRY:
+        started = time.perf_counter()
+        features = ["G1", "G2"]
+        config = configs[family] if family not in selected_by_family else selected_by_family[family].config
+        x_scaler = StandardScaler().fit(train[features])
+        x_train, x_valid = x_scaler.transform(train[features]), x_scaler.transform(valid[features])
+        target_scaler = TrainOnlyTargetScaler().fit(train._raw_g3)
+        raw_prediction = None
+        cumulative = None
+        if family == "B0":
+            ridge = Ridge(alpha=float(config["alpha"])).fit(x_train, train._raw_g3)
+            raw_prediction = ridge.predict(x_valid)
+            predicted = map_g3_to_class(raw_prediction)
+            probability = np.eye(3, dtype=float)[predicted]
+            parameter_count = int(ridge.coef_.size + 1)
+            selected_epoch = None
+        else:
+            model = fit_torch(family, config, x_train, train.G3.to_numpy(int), target_scaler.transform(train._raw_g3),
+                              seed=42, epochs=3)
+            probability, cumulative, scaled_prediction = predict_torch(model, family, x_valid)
+            predicted = probability.argmax(1)
+            raw_prediction = None if scaled_prediction is None else target_scaler.inverse_transform(scaled_prediction)
+            parameter_count = sum(p.numel() for p in model.parameters() if p.requires_grad)
+            selected_epoch = 3
+            if family == "M4":
+                kernel = int(config["cnn_kernel_size"])
+                length = 2 + 2 * (kernel // 2) - kernel + 1
+                shape_rows.append({"model_family": family, "cnn_kernel_size": kernel, "input_sequence_length": 2,
+                                   "cnn_output_sequence_length": length, "bilstm_input_sequence_length": length})
+        validate_probability_matrix(probability, predicted)
+        metric = classification_metrics(valid.G3.to_numpy(int), predicted, probability)
+        if raw_prediction is not None:
+            metric.update(regression_metric_summary(valid._raw_g3.to_numpy(float), raw_prediction))
+        metric_rows.append({"model_family": family, "track": "late_stage", "outer_fold": 0,
+                            "training_seed": 0 if family == "B0" else 42,
+                            **{k: v for k, v in metric.items() if k not in ["confusion_matrix", "per_class"]},
+                            "confusion_matrix": json.dumps(metric["confusion_matrix"]), "per_class": json.dumps(metric["per_class"])})
+        parameters.append({"model_family": family, "trainable_parameters": parameter_count,
+                           "training_seconds": time.perf_counter() - started, "selected_epoch_smoke": selected_epoch,
+                           "training_engine": MODEL_REGISTRY[family]["training_engine"]})
+        diagnostics.append({"model_family": family, "target_scaler_fit_records": len(train),
+                            "target_scaler_fit_record_ids_checksum": checksum(sorted(source_record_identity(1, x) for x in train[SOURCE_ROW_NUMBER_COLUMN])),
+                            "outer_validation_target_scaler_fit_records": 0,
+                            "regression_inverse_transform_verified": bool(raw_prediction is None or np.isfinite(raw_prediction).all()),
+                            "outer_refit_selected_config_checksum": checksum(config),
+                            "training_engine": MODEL_REGISTRY[family]["training_engine"]})
+        loader_rows.append({"model_family": family, "phase": "outer_refit", **loader_statistics(len(train), int(config.get("batch_size", len(train))), False)})
+        if cumulative is not None:
+            ordinal_checks.append(bool(np.all(cumulative[:, 0] >= cumulative[:, 1] - 1e-7)))
+        for position, (_, record) in enumerate(valid.iterrows()):
+            rows.append({"run_id": args.run_id, "model_family": family, "track": "late_stage", "feature_set_id": "G1+G2",
+                         "target_supervision_type": MODEL_REGISTRY[family]["target_supervision"], "training_engine": MODEL_REGISTRY[family]["training_engine"],
+                         "outer_fold": 0, "training_seed": 0 if family == "B0" else 42,
+                         "record_id": source_record_identity(1, record[SOURCE_ROW_NUMBER_COLUMN]), "true_label": int(record.G3),
+                         "raw_g3": float(record._raw_g3), "predicted_label": int(predicted[position]),
+                         "probability_low": float(probability[position, 0]), "probability_medium": float(probability[position, 1]),
+                         "probability_high": float(probability[position, 2]), "predicted_g3_raw": None if raw_prediction is None else float(raw_prediction[position]),
+                         "fold_manifest_checksum": manifest["manifest_checksum"], "feature_contract_checksum": contracts["late_stage"]["semantic_checksum"],
+                         "target_contract_checksum": target_contract["semantic_checksum"], "config_checksum": checksum(config),
+                         "source_commit": source_commit})
+
+    predictions = pd.DataFrame(rows)
+    metrics = pd.DataFrame(metric_rows)
+    loader_frame, shape_frame = pd.DataFrame(loader_rows), pd.DataFrame(shape_rows)
+    predictions.to_csv(root / "smoke_predictions.csv", index=False)
+    metrics.to_csv(root / "smoke_metrics.csv", index=False)
+    pd.DataFrame(parameters).to_csv(root / "parameter_count_comparison.csv", index=False)
+    pd.DataFrame(diagnostics).to_csv(root / "training_diagnostics.csv", index=False)
+    loader_frame.to_csv(root / "loader_diagnostics.csv", index=False)
+    shape_frame.to_csv(root / "shape_diagnostics.csv", index=False)
+    expected_keys = {tuple(job[key] for key in ["model_family", "track", "outer_fold", "training_seed"]) for job in expected["jobs"]}
+    actual_keys = set(tuple(row) for row in predictions[["model_family", "track", "outer_fold", "training_seed"]].drop_duplicates().itertuples(index=False, name=None))
+    duplicate_status = {"expected_job_duplicates": duplicate_jobs(pd.DataFrame(expected["jobs"])),
+                        "metric_duplicates": duplicate_jobs(metrics),
+                        "prediction_duplicates": int(predictions.duplicated(["model_family", "track", "outer_fold", "training_seed", "record_id"]).sum())}
+    probability = predictions[["probability_low", "probability_medium", "probability_high"]].to_numpy(float)
+    recomputed = []
+    for _, group in predictions.groupby(["model_family", "track", "outer_fold", "training_seed"]):
+        recomputed.append(classification_metrics(group.true_label, group.predicted_label, group[["probability_low", "probability_medium", "probability_high"]].to_numpy())["macro_f1"])
+    config_valid = all(group.config_checksum.nunique() == 1 for _, group in predictions.groupby("model_family"))
+    selection_config_valid = all(row.config_checksum == checksum(row.config) for row in selected.itertuples(index=False))
+    validation = {"run_id": args.run_id, "expected_jobs": len(expected_keys), "actual_jobs": len(actual_keys),
+                  "missing_jobs": len(expected_keys - actual_keys), "unexpected_jobs": len(actual_keys - expected_keys),
+                  **duplicate_status, "expected_predictions": sum(j["expected_record_count"] for j in expected["jobs"]),
+                  "actual_predictions": len(predictions),
+                  "record_coverage_valid": all(set(group.record_id) == set(source_record_identity(1, x) for x in valid[SOURCE_ROW_NUMBER_COLUMN]) for _, group in predictions.groupby("model_family")),
+                  "probability_contract_valid": bool(np.isfinite(probability).all() and (probability >= 0).all() and np.max(np.abs(probability.sum(1) - 1.0)) <= 1e-6),
+                  "cumulative_ordering_valid": all(ordinal_checks), "regression_inverse_transform_valid": bool(pd.DataFrame(diagnostics).regression_inverse_transform_verified.all()),
+                  "target_scaler_train_only": bool((pd.DataFrame(diagnostics).outer_validation_target_scaler_fit_records == 0).all()),
+                  "loader_diagnostics_content_valid": validate_loader_rows(loader_frame), "shape_diagnostics_content_valid": validate_shape_rows(shape_frame),
+                  "legacy_intersection_count": len(intersection), "selection_study_validation": selection_status,
+                  "selected_config_propagation_valid": bool(config_valid and selection_config_valid),
+                  "metric_recomputation_valid": bool(np.allclose(recomputed, metrics.macro_f1)),
+                  "overall_validation_status": "invalid"}
+    required = [validation["missing_jobs"] == 0, validation["unexpected_jobs"] == 0,
+                not any(duplicate_status.values()), validation["actual_predictions"] == validation["expected_predictions"],
+                validation["record_coverage_valid"], validation["probability_contract_valid"], validation["cumulative_ordering_valid"],
+                validation["regression_inverse_transform_valid"], validation["target_scaler_train_only"],
+                validation["loader_diagnostics_content_valid"], validation["shape_diagnostics_content_valid"],
+                validation["legacy_intersection_count"] == 0, not any(selection_status.values()),
+                validation["selected_config_propagation_valid"], validation["metric_recomputation_valid"]]
+    validation["overall_validation_status"] = "valid" if all(required) else "invalid"
+    dump(root / "smoke_validation.json", validation)
+    run.update({"status": "completed", "completed_at": datetime.now(timezone.utc).isoformat()})
+    dump(root / "run_manifest.json", run)
+    checksums = {str(path.relative_to(root)): file_checksum(path) for path in root.rglob("*") if path.is_file()}
+    dump(root / "checksums.json", checksums)
+    print(json.dumps(validation, indent=2))
+
+
+if __name__ == "__main__":
+    main()
