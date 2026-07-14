@@ -178,7 +178,8 @@ def recompute_metrics(predictions: pd.DataFrame, stored: pd.DataFrame) -> tuple[
                    "stored_support": old.get("support"), "recomputed_support": new["support"], "support_match": support_ok}
             per_class.append(row)
             if not (f1_ok and support_ok): structured_bad.append({**job, "metric": f"per_class_{label}", "status": "mismatch"})
-    return tuple(pd.DataFrame(x) for x in (scalar, confusion, per_class, scalar_bad, structured_bad))
+    structured_frame = pd.DataFrame(structured_bad, columns=[*JOB_COLUMNS, "metric", "status"])
+    return pd.DataFrame(scalar), pd.DataFrame(confusion), pd.DataFrame(per_class), pd.DataFrame(scalar_bad), structured_frame
 
 
 def feature_contracts(fold_manifest: dict[str, Any], dataset_version: int) -> list[dict[str, Any]]:
