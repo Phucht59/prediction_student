@@ -304,9 +304,11 @@ def main() -> None:
                         "metric_duplicates": duplicate_jobs(metrics),
                         "prediction_duplicates": int(predictions.duplicated(["model_family", "track", "outer_fold", "training_seed", "record_id"]).sum())}
     probability = predictions[["probability_low", "probability_medium", "probability_high"]].to_numpy(float)
-    recomputed = []
-    for _, group in predictions.groupby(["model_family", "track", "outer_fold", "training_seed"]):
-        recomputed.append(classification_metrics(group.true_label, group.predicted_label, group[["probability_low", "probability_medium", "probability_high"]].to_numpy())["macro_f1"])
+    recomputed = {}
+    job_columns = ["model_family", "track", "outer_fold", "training_seed"]
+    for key, group in predictions.groupby(job_columns):
+        recomputed[key] = classification_metrics(group.true_label, group.predicted_label, group[["probability_low", "probability_medium", "probability_high"]].to_numpy())["macro_f1"]
+    stored_by_job = {tuple(row[column] for column in job_columns): row.macro_f1 for row in metrics.itertuples(index=False)}
     config_valid = all(group.config_checksum.nunique() == 1 for _, group in predictions.groupby("model_family"))
     selection_config_valid = all(row.config_checksum == checksum(row.config) for row in selected.itertuples(index=False))
     validation = {"run_id": args.run_id, "expected_jobs": len(expected_keys), "actual_jobs": len(actual_keys),
@@ -320,7 +322,7 @@ def main() -> None:
                   "loader_diagnostics_content_valid": validate_loader_rows(loader_frame), "shape_diagnostics_content_valid": validate_shape_rows(shape_frame),
                   "legacy_intersection_count": len(intersection), "selection_study_validation": selection_status,
                   "selected_config_propagation_valid": bool(config_valid and selection_config_valid),
-                  "metric_recomputation_valid": bool(np.allclose(recomputed, metrics.macro_f1)),
+                  "metric_recomputation_valid": bool(set(recomputed) == set(stored_by_job) and all(np.isclose(value, stored_by_job[key]) for key, value in recomputed.items())),
                   "overall_validation_status": "invalid"}
     required = [validation["missing_jobs"] == 0, validation["unexpected_jobs"] == 0,
                 not any(duplicate_status.values()), validation["actual_predictions"] == validation["expected_predictions"],

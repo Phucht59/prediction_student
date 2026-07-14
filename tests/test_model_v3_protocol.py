@@ -171,3 +171,9 @@ def test_old_or_stale_contract_is_rejected_before_full_run():
     stale = dict(contract); stale["jobs"] = [dict(contract["jobs"][0], source_commit="old")]
     with pytest.raises(ValueError):
         validate_full_preflight(stale, studies, "commit")
+
+
+def test_metric_recomputation_must_be_joined_by_job_key_not_dataframe_order():
+    recomputed = {("B0", "late_stage", 0, 0): .8, ("M0", "late_stage", 0, 42): .7}
+    stored = {("M0", "late_stage", 0, 42): .7, ("B0", "late_stage", 0, 0): .8}
+    assert set(recomputed) == set(stored) and all(np.isclose(value, stored[key]) for key, value in recomputed.items())
