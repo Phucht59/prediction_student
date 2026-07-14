@@ -5,11 +5,13 @@ import argparse
 import hashlib
 import json
 import subprocess
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
 import pandas as pd
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from src.config import ROOT_DIR
 from src.evaluation.model_v3_protocol import (
     FIXED_REFERENCE_REGISTRY, MODEL_REGISTRY, SEEDS, V3_1_PROTOCOL_VERSION,
