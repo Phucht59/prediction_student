@@ -17,6 +17,7 @@ from src.evaluation.neural_sanity_v2_2 import loader_statistics
 from src.evaluation.protocol import DEFAULT_FOLD_MANIFEST_PATH,file_checksum,load_fold_manifest,outer_folds_from_manifest,source_record_identity,validate_probability_matrix
 from src.models.ordinal_v3 import SequenceOrdinalV3,TabularV3Model,TrainOnlyTargetScaler,multitask_loss,ordinal_bce_loss
 from src.postgres_data_source import load_dataset_version_from_postgres
+from scripts.run_benchmark_v2 import predict_sklearn
 
 AROOT=ROOT_DIR/'artifacts/model_v3_smoke';LEGACY=ROOT_DIR/'artifacts/legacy_v1/legacy_manifest.json'
 def git(*args):return subprocess.check_output(['git',*args],cwd=ROOT_DIR,text=True).strip()
@@ -25,7 +26,7 @@ def feature_contract(track,fold_checksum):
  features=['G1','G2'] if track=='late_stage' else ['G1'];c={"contract_version":"v3_feature_1","scenario":track,"feature_set_id":"+".join(features),"ordered_features":features,"preprocessing":"standard_scaler_train_only","target_excluded":True,"class_order":["Low","Medium","High"],"fold_manifest_checksum":fold_checksum};c['semantic_checksum']=checksum(c);return c
 def make_model(model_id,input_dim,config):
  if model_id=='M4':return SequenceOrdinalV3(config['cnn_channels'],config['cnn_kernel_size'],config['lstm_hidden_dim'],config['dropout'],config['sequence_dropout'])
- m=MODEL_REGISTRY[model_id];return TabularV3Model(input_dim,16,1,.15,m['ordinal'],m['regression'])
+ m=MODEL_REGISTRY[model_id];return TabularV3Model(input_dim,int(config.get('hidden_width',16)),int(config.get('hidden_layers',1)),float(config.get('dropout',0.0)),m['ordinal'],m['regression'])
 def loss_for(model_id,logits,regression,y,raw_scaled,lamb=.3):
  ordinal=MODEL_REGISTRY[model_id]['ordinal'];base=ordinal_bce_loss(logits,y) if ordinal else torch.nn.functional.cross_entropy(logits,y)
  return multitask_loss(base,regression,raw_scaled,lamb) if regression is not None else base
@@ -47,13 +48,18 @@ def main():
  folds=outer_folds_from_manifest(frame,manifest);tr,va=folds[0];source_commit=git('rev-parse','HEAD');features={t:feature_contract(t,manifest['manifest_checksum']) for t in ['late_stage','early_warning']};target={"contract_version":"v3_target_1","class_mapping":{"Low":"G3<=9","Medium":"10<=G3<=14","High":"G3>=15"},"continuous_g3":{"scale":"standardized_with_training_partition_statistics","primary_metrics_raw_scale":True,"clip_before_primary_metrics":False},"class_order":["Low","Medium","High"]};target['semantic_checksum']=checksum(target)
  source_cfg=json.loads((ROOT_DIR/'artifacts/benchmark_v2/benchmark-v2-full-20260713c/configs/selected_configs.json').read_text())['late_stage/cnn_bilstm_v2_tuned/fold0']['config'];source_cfg={**source_cfg,'max_epochs':40,'patience':8,'scheduler_patience':3}
  tabular_config={"hidden_width":16,"hidden_layers":1,"dropout":.15,"learning_rate":.002,"weight_decay":1e-4,"batch_size":16,"max_epochs":60,"patience":10,"drop_last":False}
- configs={m:(source_cfg if m=='M4' else {**tabular_config,"lambda":.3 if MODEL_REGISTRY[m]['regression'] else None}) for m in MODEL_REGISTRY}
+ exact_mlp=json.loads((ROOT_DIR/'artifacts/benchmark_v2/benchmark-v2-full-20260713c/configs/selected_configs.json').read_text())['late_stage/small_mlp/fold0']['config']
+ configs={m:(source_cfg if m=='M4' else exact_mlp if m=='M0' else {**tabular_config,"dropout":0.0 if m=='M1' else .15,"lambda":.3 if MODEL_REGISTRY[m]['regression'] else None}) for m in MODEL_REGISTRY}
  expected=build_expected_jobs(a.run_id,{0:len(va)},manifest['manifest_checksum'],source_commit,features,target,smoke=True,config_checksums={m:checksum(c) for m,c in configs.items()});dump(root/'expected_job_contract.json',expected);dump(root/'feature_contracts.json',features);dump(root/'target_supervision_contract.json',target)
  run={"run_id":a.run_id,"status":"running","created_at":datetime.now(timezone.utc).isoformat(),"source_commit":source_commit,"expected_jobs":5,"expected_predictions":len(va)*5,"fold_manifest_checksum":manifest['manifest_checksum'],"dataset_checksum":meta['content_hash'],"legacy_intersection_count":len(intersection),"full_benchmark":False};dump(root/'run_manifest.json',run)
  rows=[];metrics=[];parameters=[];diagnostics=[];loader_rows=[];shape_rows=[];ordinal_order_checks=[]
  for model_id in MODEL_REGISTRY:
   start=time.perf_counter();features_list=['G1','G2'];train=frame.iloc[tr];test=frame.iloc[va];positions=np.arange(len(train));it,iv=train_test_split(positions,test_size=.2,stratify=train.G3,random_state=42);scaler=StandardScaler().fit(train.iloc[it][features_list]);xtr=scaler.transform(train.iloc[it][features_list]);xiv=scaler.transform(train.iloc[iv][features_list]);xva=scaler.transform(test[features_list]);target_scaler=TrainOnlyTargetScaler().fit(train.iloc[it]._raw_g3);rtr=target_scaler.transform(train.iloc[it]._raw_g3);ytr=train.iloc[it].G3.to_numpy(int);yiv=train.iloc[iv].G3.to_numpy(int)
   config=configs[model_id]
+  if model_id=='M0':
+   pout,pred,_,trained=predict_sklearn('mlp',train[features_list].to_numpy(float),train.G3.to_numpy(int),train._raw_g3.to_numpy(float),test[features_list].to_numpy(float),config,42);validate_probability_matrix(pout,pred);m=classification_metrics(test.G3.to_numpy(int),pred,pout);clf=trained[1];parameters.append({'model_family':model_id,'trainable_parameters':sum(x.size for x in clf.coefs_)+sum(x.size for x in clf.intercepts_),'training_seconds':time.perf_counter()-start,'selected_epoch_smoke':int(clf.n_iter_)});diagnostics.append({'model_family':model_id,'target_scaler_fit_records':0,'outer_validation_target_scaler_fit_records':0,'regression_inverse_transform_verified':True,'control_implementation':'benchmark_v2_sklearn_mlp'});loader_rows.append({'model_family':model_id,'phase':'outer_fit',**loader_statistics(len(train),int(config['batch']),False)});metrics.append({'model_family':model_id,'track':'late_stage','outer_fold':0,'training_seed':42,**{k:v for k,v in m.items() if k not in ['confusion_matrix','per_class']},'confusion_matrix':json.dumps(m['confusion_matrix']),'per_class':json.dumps(m['per_class'])});
+   for i,(_,r) in enumerate(test.iterrows()):rows.append({'run_id':a.run_id,'model_family':model_id,'track':'late_stage','feature_set_id':'G1+G2','target_supervision_type':MODEL_REGISTRY[model_id]['target_supervision'],'outer_fold':0,'training_seed':42,'record_id':source_record_identity(1,r[SOURCE_ROW_NUMBER_COLUMN]),'true_label':int(r.G3),'predicted_label':int(pred[i]),'probability_low':float(pout[i,0]),'probability_medium':float(pout[i,1]),'probability_high':float(pout[i,2]),'predicted_g3_raw':None,'fold_manifest_checksum':manifest['manifest_checksum'],'feature_contract_checksum':features['late_stage']['semantic_checksum'],'target_contract_checksum':target['semantic_checksum'],'config_checksum':checksum(config),'source_commit':source_commit})
+   continue
   def tensor_x(values):
    t=torch.tensor(values,dtype=torch.float32);return t.unsqueeze(2) if model_id=='M4' else t
   torch.manual_seed(42);model=make_model(model_id,2,config);model._model_id=model_id;best_state=None;best=-1.;selected=1
