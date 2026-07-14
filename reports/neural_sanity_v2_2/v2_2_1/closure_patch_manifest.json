@@ -1,0 +1,16 @@
+{
+  "patch_version": "v2.2.1",
+  "source_run": "neural-sanity-v2-2-20260714",
+  "original_artifacts_modified": false,
+  "patch_source_commit": "e96d4923610f4a4c016165bbb42a7053ea975fad",
+  "input_training_diagnostics_checksum": "1c3f76dc4217853723e740f9ead3e05c48c577513ad449da809968d1c968c20f",
+  "input_control_predictions_checksum": "af8e8c7db8381ac453f2313ba13adc13f923b09a1dc70f7011549bc85f82b2e5",
+  "input_v2_predictions_checksum": "1624d48a67bb349968078c5da0d896531ecf7fc7640b6e36d774873aec4bfc87",
+  "output_checksums": {
+    "budget_cap_summary.csv": "5c885578d91748f45e3cf67bcd4c10aa6e6307936627e2fb60859e5333cf509d",
+    "closure_patch_changelog.md": "b7510510a85d1430ba00e65971f814840f40c0250e564cf612349d5334b5e2a9",
+    "control_probability_reproduction.json": "43465fa1916b97cfff544acf0e3be5b4dba5bb0b1634616f602f35aefce3e03a",
+    "corrected_conclusion.md": "8f13c8ac98ac6aca1ae37e7f103d44f3d2270027ce3fc420accfea2f48b4b115",
+    "selected_epoch_summary.csv": "6eae9a0766d96836d5ee55b2b0173d0e1749e5469fa135c4418e7ee86e5cd101"
+  }
+}
