@@ -2,7 +2,7 @@
   "patch_version": "v2.1.1",
   "source_run_id": "benchmark-v2-full-20260713c",
   "source_run_commit": "b4339c35a0197baf81ba9be871f70ff8d3030c81",
-  "patch_source_commit": "2f60581d0cdb41e6b910d3a76d0db4671b98b188",
+  "patch_source_commit": "adb8a1348c9afad0686a9edcc6c36a11697cf630",
   "expected_jobs": 215,
   "actual_jobs": 215,
   "missing_jobs": 0,
