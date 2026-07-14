@@ -144,7 +144,8 @@ def main() -> None:
         "expected_job_contract":out/"expected_job_contract.json","test_report":test_report_path}
     output_checksums={p.name:file_checksum(p) for p in out.iterdir() if p.is_file() and p.name not in {"reporting_patch_manifest_v2_1_1.json","reporting_patch_manifest_v2_1_1.sha256"}}
     patch_manifest={"patch_version":PATCH_VERSION,"source_run_id":args.run_id,"source_run_commit":manifest["source_commit"],
-        "patch_source_commit":args.patch_source_commit,"source_tree_clean":not bool(git("status","--short","--untracked-files=no")),
+        "patch_source_commit":args.patch_source_commit,
+        "source_tree_clean":not bool(git("status","--short","--untracked-files=no","--","src","scripts","config","tests")),
         "input_artifact_checksums":{name:file_checksum(path) for name,path in input_paths.items()},"metric_implementation_version":METRIC_VERSION,
         "ece_contract":{"type":"top_label","bins":10,"edges":"equal_width","terminal_bin":"closed_at_1.0","empty_bins":"ignored"},
         "output_checksums":output_checksums,"original_artifacts_modified":False,"generated_at":datetime.now(timezone.utc).isoformat()}
