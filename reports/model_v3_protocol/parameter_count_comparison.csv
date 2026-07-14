@@ -1,0 +1,6 @@
+model_family,trainable_parameters,selected_epoch_smoke
+M0,99,3
+M1,67,2
+M2,84,2
+M3,116,3
+M4,17123,2
