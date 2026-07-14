@@ -59,7 +59,7 @@ def main() -> None:
               "trials_per_study": 20, "shared_pytorch_m0_m3": {"hidden_width": [8, 16, 32], "hidden_layers": [1, 2], "dropout": [0.0, 0.15, 0.30], "learning_rate": {"distribution": "log_uniform", "low": 0.0005, "high": 0.005}, "weight_decay": {"distribution": "log_uniform", "low": 1e-6, "high": 1e-3}, "batch_size": [16, 32], "max_epochs": 60, "patience": 10, "drop_last": False}, "multitask_lambda": [0.1, 0.3, 1.0], "lambda_scale_rationale": "G3 MSE uses a target standardized on the current train partition; its pre-weight scale is approximately unit-scale.", "M4": "fixed selected per-fold S3 configuration; no Optuna", "B0_ridge_alpha_grid": [0.01, 0.1, 1.0, 10.0]}
     search["semantic_checksum"] = checksum(search)
     study = build_selection_study_contract(args.full_run_id, manifest["manifest_checksum"], source, search["semantic_checksum"], target)
-    counts = {fold: sum(1 for row in manifest["records"] if row["outer_fold"] == fold and row["outer_role"] == "validation") for fold in range(5)}
+    counts = {fold: sum(1 for row in manifest["assignments"] if row["outer_fold"] == fold and row["outer_role"] == "validation") for fold in range(5)}
     expected = build_expected_jobs(args.full_run_id, counts, manifest["manifest_checksum"], source, feature_contracts, target, selection_contract_checksum=study["semantic_checksum"])
     registry = {"contract_version": V3_1_PROTOCOL_VERSION, "candidate_models": MODEL_REGISTRY,
                 "fixed_references_excluded_from_candidate_registry": FIXED_REFERENCE_REGISTRY,
