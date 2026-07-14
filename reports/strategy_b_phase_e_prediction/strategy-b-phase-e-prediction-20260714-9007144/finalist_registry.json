@@ -1,0 +1,33 @@
+{
+  "excluded_phase_c_candidates": [
+    "N2",
+    "N3",
+    "A1",
+    "A2"
+  ],
+  "frozen_phase_c_interpretation": {
+    "phase_c_cnn_incremental_value_not_established": true,
+    "phase_c_n0_higher_point_macro_f1_and_better_calibration": true,
+    "phase_c_n0_n1_no_clear_superiority": true,
+    "phase_c_ordinal_incremental_value_not_established": true,
+    "phase_c_protocol_selected_hybrid": "N1",
+    "phase_c_provisional_overall": "M1"
+  },
+  "overall_finalists": [
+    "R0",
+    "M1",
+    "M2"
+  ],
+  "prohibited_branches": [
+    "C1_huber",
+    "C2_residual",
+    "imbalance",
+    "context",
+    "recommendation_phase_d"
+  ],
+  "registry_version": "strategy_b_phase_e_finalists_v1",
+  "thesis_hybrid_finalists": [
+    "N0",
+    "N1"
+  ]
+}
