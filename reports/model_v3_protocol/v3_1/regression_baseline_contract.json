@@ -1,0 +1,36 @@
+{
+  "B0": {
+    "family": "Ridge G3 regression",
+    "tracks": {
+      "late_stage": [
+        "G1",
+        "G2"
+      ],
+      "early_warning": [
+        "G1"
+      ]
+    },
+    "alpha_grid": [
+      0.01,
+      0.1,
+      1.0,
+      10.0
+    ],
+    "preprocessing": "StandardScaler fit on current training partition only",
+    "mapped_class_rule": "raw prediction <10 Low; 10<=raw prediction<15 Medium; raw prediction>=15 High; no rounding",
+    "deterministic_training_seed": 0
+  },
+  "aggregation": {
+    "fold_level": [
+      "mae_raw",
+      "rmse_raw",
+      "r2_raw secondary only"
+    ],
+    "paired_metric": [
+      "mae_raw",
+      "rmse_raw"
+    ],
+    "primary_r2": "pooled OOF R2 over all 316 records per model/track/training seed",
+    "no_clipping_before_primary": true
+  }
+}

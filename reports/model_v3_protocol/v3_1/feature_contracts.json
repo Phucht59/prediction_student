@@ -1,0 +1,45 @@
+{
+  "late_stage": {
+    "contract_version": "v3_1_feature_1",
+    "scenario": "late_stage",
+    "cutoff": "after_G2",
+    "feature_set_id": "G1+G2",
+    "ordered_features": [
+      "G1",
+      "G2"
+    ],
+    "preprocessing_contract": "StandardScaler fit on current train partition only",
+    "scaler_contract": "train_only_standard_scaler",
+    "target_excluded": true,
+    "temporal_availability_status": "allowed_by_frozen_feature_allowlist",
+    "class_order": [
+      "Low",
+      "Medium",
+      "High"
+    ],
+    "dataset_version": 1,
+    "fold_manifest_checksum": "bf5e5cbd8d09679f5d34900486ba23cc5ac57c93b28aa38ac3f3ce2578307ce1",
+    "semantic_checksum": "3513da5bf7b2e47f588deda72f7e64f81b2cbcaa7dd9e78111c26a5523cf893c"
+  },
+  "early_warning": {
+    "contract_version": "v3_1_feature_1",
+    "scenario": "early_warning",
+    "cutoff": "after_G1",
+    "feature_set_id": "G1",
+    "ordered_features": [
+      "G1"
+    ],
+    "preprocessing_contract": "StandardScaler fit on current train partition only",
+    "scaler_contract": "train_only_standard_scaler",
+    "target_excluded": true,
+    "temporal_availability_status": "allowed_by_frozen_feature_allowlist",
+    "class_order": [
+      "Low",
+      "Medium",
+      "High"
+    ],
+    "dataset_version": 1,
+    "fold_manifest_checksum": "bf5e5cbd8d09679f5d34900486ba23cc5ac57c93b28aa38ac3f3ce2578307ce1",
+    "semantic_checksum": "b6d785fed1cd9ee78fd1e832534ec20e0f78be86587297e990050a0ce81aa2c6"
+  }
+}

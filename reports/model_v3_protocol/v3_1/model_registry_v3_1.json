@@ -1,0 +1,86 @@
+{
+  "contract_version": "model_v3_1",
+  "candidate_models": {
+    "M0": {
+      "name": "pytorch_nominal_mlp",
+      "ordinal": false,
+      "regression": false,
+      "target_supervision": "classification_only",
+      "tracks": [
+        "late_stage",
+        "early_warning"
+      ],
+      "training_engine": "pytorch_tabular_v3_1"
+    },
+    "M1": {
+      "name": "pytorch_ordinal_mlp",
+      "ordinal": true,
+      "regression": false,
+      "target_supervision": "classification_only",
+      "tracks": [
+        "late_stage",
+        "early_warning"
+      ],
+      "training_engine": "pytorch_tabular_v3_1"
+    },
+    "M2": {
+      "name": "pytorch_multitask_ordinal_mlp",
+      "ordinal": true,
+      "regression": true,
+      "target_supervision": "continuous_g3_enriched",
+      "tracks": [
+        "late_stage",
+        "early_warning"
+      ],
+      "training_engine": "pytorch_tabular_v3_1"
+    },
+    "M3": {
+      "name": "pytorch_multitask_nominal_mlp",
+      "ordinal": false,
+      "regression": true,
+      "target_supervision": "continuous_g3_enriched",
+      "tracks": [
+        "late_stage",
+        "early_warning"
+      ],
+      "training_engine": "pytorch_tabular_v3_1"
+    },
+    "M4": {
+      "name": "fixed_sequence_backbone_ordinal_head_diagnostic",
+      "ordinal": true,
+      "regression": false,
+      "target_supervision": "classification_only",
+      "tracks": [
+        "late_stage"
+      ],
+      "training_engine": "pytorch_sequence_s3_fixed"
+    },
+    "B0": {
+      "name": "ridge_g3_regression_baseline",
+      "ordinal": false,
+      "regression": true,
+      "target_supervision": "continuous_g3_enriched",
+      "tracks": [
+        "late_stage",
+        "early_warning"
+      ],
+      "training_engine": "sklearn_ridge_deterministic"
+    }
+  },
+  "fixed_references_excluded_from_candidate_registry": {
+    "REF_G2_RULE": "fixed late-stage G2 threshold reference",
+    "REF_LOGISTIC_G2": "fixed late-stage logistic G2 reference",
+    "REF_HGB": "fixed same-information HGB reference",
+    "REF_SK_MLP": "exact Benchmark V2 scikit-learn Small MLP historical/source continuity reference; not a matched control",
+    "REF_BILSTM_ONLY": "Benchmark V2 BiLSTM-only reference",
+    "REF_CNN_S3_NOMINAL": "Neural Sanity V2.2 S3 nominal sequence reference"
+  },
+  "training_seeds": [
+    42,
+    52,
+    62,
+    72,
+    82
+  ],
+  "M4_role": "fixed sequence-backbone ordinal-head diagnostic; not a fully tuned ordinal CNN-BiLSTM"
+}

@@ -1,0 +1,21 @@
+{
+  "contract_version": "v3_1_target_1",
+  "class_order": [
+    "Low",
+    "Medium",
+    "High"
+  ],
+  "class_mapping": {
+    "Low": "G3<=9",
+    "Medium": "10<=G3<=14",
+    "High": "G3>=15"
+  },
+  "continuous_g3": {
+    "description": "finer-grained training supervision derived from the same underlying outcome",
+    "scaler": "fit on current training partition only",
+    "primary_metrics_raw_scale": true,
+    "clip_before_primary_rmse_r2": false,
+    "class_from_regression_head": false
+  },
+  "semantic_checksum": "aa3692bc060ddc600d356e74b9e33e3c2bfbb395bc263aae4cd2f8088bfb4ecb"
+}

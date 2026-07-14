@@ -1,0 +1,23 @@
+{
+  "ordinal_M1_vs_M0": {
+    "A": {
+      "macro_f1_increase_min": 0.01,
+      "non_decreasing_folds_min": 4,
+      "paired_non_decreasing_tolerance": -1e-12
+    },
+    "B": {
+      "macro_f1_decrease_max": 0.005,
+      "qwk_increase_min": 0.01,
+      "ordinal_mae_decrease_min": 0.01,
+      "two_step_errors_must_not_increase": true,
+      "high_f1_decrease_max": 0.02
+    }
+  },
+  "multitask": "Apply A or B to the declared comparator only; additionally report raw regression performance against B0.",
+  "seed_variance": {
+    "mean_within_fold_seed_sd_relative_increase_max": 0.25,
+    "mean_within_fold_seed_sd_absolute_increase_max": 0.01
+  },
+  "strong_baseline_gap_material": 0.03,
+  "no_posthoc_comparator_selection": true
+}

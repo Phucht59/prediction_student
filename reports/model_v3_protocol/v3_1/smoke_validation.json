@@ -1,0 +1,32 @@
+{
+  "run_id": "model-v3-smoke-v3-1-20260714d",
+  "expected_jobs": 6,
+  "actual_jobs": 6,
+  "missing_jobs": 0,
+  "unexpected_jobs": 0,
+  "expected_job_duplicates": 0,
+  "metric_duplicates": 0,
+  "prediction_duplicates": 0,
+  "expected_predictions": 384,
+  "actual_predictions": 384,
+  "record_coverage_valid": true,
+  "probability_contract_valid": true,
+  "cumulative_ordering_valid": true,
+  "regression_inverse_transform_valid": true,
+  "target_scaler_train_only": true,
+  "loader_diagnostics_content_valid": true,
+  "shape_diagnostics_content_valid": true,
+  "legacy_intersection_count": 0,
+  "selection_study_validation": {
+    "missing_studies": 0,
+    "unexpected_studies": 0,
+    "duplicate_study_trial_rows": 0,
+    "missing_trials": 0,
+    "unexpected_trials": 0,
+    "trials_missing_complete_inner_folds": 0,
+    "selected_config_not_completed": 0
+  },
+  "selected_config_propagation_valid": true,
+  "metric_recomputation_valid": true,
+  "overall_validation_status": "valid"
+}

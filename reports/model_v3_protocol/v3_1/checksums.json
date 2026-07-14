@@ -1,0 +1,22 @@
+{
+  "acceptance_criteria.json": "c74f0f821b579410f75a717f9ab52ce64f2c68d8ca7acf5cc3a20039e933ac52",
+  "comparison_pairs.json": "30b833ded5cf9fe0eda75ad9367bf2d7b4c08fc6545243a5ca27571c3a108b14",
+  "compute_estimate.md": "12b1239620f5524a97a577203f36778670ac79def92b23150e2f43c1942ba66c",
+  "expected_job_contract.json": "0a99b15fd3c86dfc21047314a0f61705941f9f9ae1cc15d027e96eb56056b594",
+  "fairness_resolution.md": "58a2b441a03ec46d987820eba940748e73ce563e7e64ed59a155bd44b66d989f",
+  "feature_contracts.json": "870b6bac98e27c3a38c846ebdfba386df931c53773a1c35ec31b226208f73da5",
+  "fixed_reference_registry.json": "8ca679d3f924ac95238813b6abd5a1b50313dbcbdd73013d9658e58b68a23135",
+  "implementation_numerical_audit.json": "b993b95cd8f2b41f6425f0129b8698b0155d739c84266b954551a76cdb4045bd",
+  "metric_contract.json": "a39a2ef0ab4520e4c10ffe8eb16226de8f1d06d2ca84681f6609c68d65a814c9",
+  "model_registry_v3_1.json": "e06677507f4c66b2e0f449126dd0e68d7a457e99f1bb80dcd413f42ee78f99c8",
+  "pre_full_run_decision.md": "b8c1d7a7c5efb9eae00aa1308f8074566ab7f7ee18476b1335715c61544cafe4",
+  "protocol_manifest.json": "0c36f37c27cddacb33e89e4ffd800c9c2879be7445f23b420853fcbd8eabbd0c",
+  "regression_baseline_contract.json": "32c37090e65bcbd4496bb389f88728cc7a8e36f2a57d7f487d04464f20e9d70a",
+  "regression_metric_aggregation.md": "dad58be50148a096d3eccc169952c099c2e4db4a2bcbc7bcce0350f5ef14caa3",
+  "search_space_contract.json": "24f6bd02a2c63430fd316ec7bfabca5f5f25ee32a2ac1c290dc3c5dd3607df67",
+  "selection_study_contract.json": "551542e74abeecde8fa695765e6fb6da74efaf42c7e8095bb684888fa1159aa9",
+  "smoke_metrics.csv": "efc0474f36adbc444a4f38bfb1224ed75ae8910019117f727251f981cc661291",
+  "smoke_validation.json": "0c7d9ead8cf150cee91f2f37159c3e22c388cbb8d82cede0a28fa129c4406081",
+  "target_supervision_contract.json": "91cd3b48d3eb56196192c2789c598f95e491ac73938ec51691e832a0f4d798f7",
+  "test_report.json": "caa2cfd1489e304f47581937ee5312f77cf34fa3ff8b7a375852ebdcce7b0fbf"
+}

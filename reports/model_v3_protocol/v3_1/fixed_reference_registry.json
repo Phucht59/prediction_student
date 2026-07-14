@@ -1,0 +1,8 @@
+{
+  "REF_G2_RULE": "fixed late-stage G2 threshold reference",
+  "REF_LOGISTIC_G2": "fixed late-stage logistic G2 reference",
+  "REF_HGB": "fixed same-information HGB reference",
+  "REF_SK_MLP": "exact Benchmark V2 scikit-learn Small MLP historical/source continuity reference; not a matched control",
+  "REF_BILSTM_ONLY": "Benchmark V2 BiLSTM-only reference",
+  "REF_CNN_S3_NOMINAL": "Neural Sanity V2.2 S3 nominal sequence reference"
+}

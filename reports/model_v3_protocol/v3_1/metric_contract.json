@@ -1,0 +1,22 @@
+{
+  "primary_classification": "outer-fold Macro-F1: seed mean inside fold then mean/SD across five folds",
+  "seed_reporting": [
+    "within-fold seed SD",
+    "pooled OOF metrics per seed",
+    "prediction agreement across seeds"
+  ],
+  "regression": {
+    "fold_level": [
+      "mae_raw",
+      "rmse_raw",
+      "r2_raw secondary only"
+    ],
+    "paired_metric": [
+      "mae_raw",
+      "rmse_raw"
+    ],
+    "primary_r2": "pooled OOF R2 over all 316 records per model/track/training seed",
+    "no_clipping_before_primary": true
+  },
+  "probability_ensemble": "not part of V3"
+}
