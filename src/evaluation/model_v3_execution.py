@@ -50,6 +50,9 @@ def strict_prediction_validation(predictions:pd.DataFrame, metrics:pd.DataFrame,
 def report_rehearsal(predictions:pd.DataFrame, metrics:pd.DataFrame, out:Path)->None:
     out.mkdir(parents=True,exist_ok=True)
     metrics.to_csv(out/'ranking_by_track.csv',index=False)
-    metrics.groupby(['track','model_family']).macro_f1.mean().reset_index().to_markdown(out/'ranking_by_track.md',index=False)
+    summary=metrics.groupby(['track','model_family']).macro_f1.mean().reset_index()
+    lines=['# Rehearsal ranking (non-scientific)','', '| track | model_family | macro_f1 |','|---|---|---:|']
+    lines += [f'| {r.track} | {r.model_family} | {r.macro_f1:.6f} |' for r in summary.itertuples(index=False)]
+    (out/'ranking_by_track.md').write_text('\n'.join(lines)+'\n',encoding='utf-8')
     regression=metrics[[c for c in metrics.columns if c in {'model_family','track','outer_fold','training_seed','mae_raw','rmse_raw','r2_raw'}]].copy();regression.to_csv(out/'regression_metrics_fold_seed.csv',index=False)
     (out/'model_v3_scientific_decision.md').write_text('# Rehearsal only\n\nNo model ranking or scientific decision is permitted from this execution rehearsal.\n',encoding='utf-8')
