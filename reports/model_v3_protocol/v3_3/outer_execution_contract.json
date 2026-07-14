@@ -1,0 +1,120 @@
+{
+  "contract_version": "model_v3_3",
+  "run_id": "model-v3-execution-rehearsal-v3-3-20260714b",
+  "created_after_selection_before_outer_refit": true,
+  "selection_evidence_checksum": "0ad27728b5a0d6c026d91b0b2b73032c93047205073105e6b199a9fa5c580b71",
+  "source_commit": "rehearsal_source",
+  "jobs": [
+    {
+      "model_family": "B0",
+      "track": "early_warning",
+      "outer_fold": 0,
+      "training_seed": 0,
+      "expected_record_ids_checksum": "12bd030752b5180f934c6285e46e8e75b7637b962ef1575667a43951d57991e2",
+      "expected_record_count": 64,
+      "config_checksum": "selected_or_fixed",
+      "refit_epoch": "selected_internal"
+    },
+    {
+      "model_family": "B0",
+      "track": "late_stage",
+      "outer_fold": 0,
+      "training_seed": 0,
+      "expected_record_ids_checksum": "12bd030752b5180f934c6285e46e8e75b7637b962ef1575667a43951d57991e2",
+      "expected_record_count": 64,
+      "config_checksum": "selected_or_fixed",
+      "refit_epoch": "selected_internal"
+    },
+    {
+      "model_family": "M0",
+      "track": "early_warning",
+      "outer_fold": 0,
+      "training_seed": 42,
+      "expected_record_ids_checksum": "12bd030752b5180f934c6285e46e8e75b7637b962ef1575667a43951d57991e2",
+      "expected_record_count": 64,
+      "config_checksum": "selected_or_fixed",
+      "refit_epoch": "selected_internal"
+    },
+    {
+      "model_family": "M0",
+      "track": "late_stage",
+      "outer_fold": 0,
+      "training_seed": 42,
+      "expected_record_ids_checksum": "12bd030752b5180f934c6285e46e8e75b7637b962ef1575667a43951d57991e2",
+      "expected_record_count": 64,
+      "config_checksum": "selected_or_fixed",
+      "refit_epoch": "selected_internal"
+    },
+    {
+      "model_family": "M1",
+      "track": "early_warning",
+      "outer_fold": 0,
+      "training_seed": 42,
+      "expected_record_ids_checksum": "12bd030752b5180f934c6285e46e8e75b7637b962ef1575667a43951d57991e2",
+      "expected_record_count": 64,
+      "config_checksum": "selected_or_fixed",
+      "refit_epoch": "selected_internal"
+    },
+    {
+      "model_family": "M1",
+      "track": "late_stage",
+      "outer_fold": 0,
+      "training_seed": 42,
+      "expected_record_ids_checksum": "12bd030752b5180f934c6285e46e8e75b7637b962ef1575667a43951d57991e2",
+      "expected_record_count": 64,
+      "config_checksum": "selected_or_fixed",
+      "refit_epoch": "selected_internal"
+    },
+    {
+      "model_family": "M2",
+      "track": "early_warning",
+      "outer_fold": 0,
+      "training_seed": 42,
+      "expected_record_ids_checksum": "12bd030752b5180f934c6285e46e8e75b7637b962ef1575667a43951d57991e2",
+      "expected_record_count": 64,
+      "config_checksum": "selected_or_fixed",
+      "refit_epoch": "selected_internal"
+    },
+    {
+      "model_family": "M2",
+      "track": "late_stage",
+      "outer_fold": 0,
+      "training_seed": 42,
+      "expected_record_ids_checksum": "12bd030752b5180f934c6285e46e8e75b7637b962ef1575667a43951d57991e2",
+      "expected_record_count": 64,
+      "config_checksum": "selected_or_fixed",
+      "refit_epoch": "selected_internal"
+    },
+    {
+      "model_family": "M3",
+      "track": "early_warning",
+      "outer_fold": 0,
+      "training_seed": 42,
+      "expected_record_ids_checksum": "12bd030752b5180f934c6285e46e8e75b7637b962ef1575667a43951d57991e2",
+      "expected_record_count": 64,
+      "config_checksum": "selected_or_fixed",
+      "refit_epoch": "selected_internal"
+    },
+    {
+      "model_family": "M3",
+      "track": "late_stage",
+      "outer_fold": 0,
+      "training_seed": 42,
+      "expected_record_ids_checksum": "12bd030752b5180f934c6285e46e8e75b7637b962ef1575667a43951d57991e2",
+      "expected_record_count": 64,
+      "config_checksum": "selected_or_fixed",
+      "refit_epoch": "selected_internal"
+    },
+    {
+      "model_family": "M4",
+      "track": "late_stage",
+      "outer_fold": 0,
+      "training_seed": 42,
+      "expected_record_ids_checksum": "12bd030752b5180f934c6285e46e8e75b7637b962ef1575667a43951d57991e2",
+      "expected_record_count": 64,
+      "config_checksum": "selected_or_fixed",
+      "refit_epoch": "selected_internal"
+    }
+  ],
+  "semantic_checksum": "de0b5553ec305841f306a79dafa6a4371284d68297a7ac48784cc439976f0321"
+}
