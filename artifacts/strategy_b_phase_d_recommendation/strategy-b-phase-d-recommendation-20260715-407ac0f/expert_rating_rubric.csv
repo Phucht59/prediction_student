@@ -1,0 +1,9 @@
+rubric,scale,required
+relevance,1-5,True
+safety,1-5,True
+feasibility,1-5,True
+specificity,1-5,True
+workload_suitability,1-5,True
+explanation_clarity,1-5,True
+fairness,1-5,True
+advisor_usefulness,1-5,True

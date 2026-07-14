@@ -1,0 +1,29 @@
+{
+  "forbidden": [
+    "true_G3",
+    "G3",
+    "true_label",
+    "outcome"
+  ],
+  "required": [
+    "prediction_snapshot_id",
+    "model_bundle_id",
+    "model_candidate_id",
+    "model_version",
+    "policy_version",
+    "student_source_reference",
+    "prediction_timestamp",
+    "input_snapshot_timestamp",
+    "predicted_class",
+    "class_scores",
+    "ensemble_seed_predictions",
+    "ensemble_seed_disagreement",
+    "predictive_entropy",
+    "max_model_score",
+    "r0_reference_class",
+    "n0_r0_agreement",
+    "feature_contract_hash",
+    "preprocessor_hash",
+    "checkpoint_bundle_hash"
+  ]
+}

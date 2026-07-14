@@ -1,0 +1,8 @@
+{
+  "decision_values": [
+    "approve",
+    "modify",
+    "reject",
+    "request_more_information"
+  ]
+}

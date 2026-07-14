@@ -1,0 +1,7 @@
+{
+  "append_only_tables": true,
+  "executed": false,
+  "migration": "database\\migrations\\004_governed_recommendation_phase_d.sql",
+  "reason": "No disposable PostgreSQL test DSN available; production database was not used for destructive migration testing.",
+  "sha256": "24aacda0c109bfbcf4ab9eb38dc002a5cb93cf6634435621d3ca259ecfb0cecc"
+}
