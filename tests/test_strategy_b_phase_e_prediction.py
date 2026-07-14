@@ -8,7 +8,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from scripts import run_strategy_b_phase_e_prediction as runner
+from scripts import derive_strategy_b_phase_e_reporting, run_strategy_b_phase_e_prediction as runner
 from src.strategy_b_phase_e_prediction import (
     DETERMINISTIC_SEED,
     PHASE_E_SEEDS,
@@ -22,6 +22,7 @@ from src.strategy_b_phase_e_prediction import (
     phase_e_registry,
     precision_recall_rows,
     regression_rows,
+    seed_stability,
     seed_registry,
 )
 
@@ -149,6 +150,21 @@ def test_paired_metric_comparisons_include_required_metrics_without_fake_determi
     assert "-1" not in paired.iloc[0]["seed_deltas_json"]
 
 
+def test_seed_stability_uses_complete_seed_oof_not_mean_fold_macro_f1():
+    oof = _oof()
+    # Make one 3-record fold deliberately hard: complete-OOF Macro-F1 and an
+    # unweighted mean of fold Macro-F1 then differ, exposing the aggregation.
+    oof.loc[(oof.candidate_id == "M1") & (oof.outer_fold == 1), "predicted_label"] = 0
+    rows = seed_stability(oof, classification_rows(oof))
+    observed = rows.set_index("candidate_id").loc["M1", "oof_macro_f1_mean"]
+    expected = __import__("sklearn.metrics", fromlist=["f1_score"]).f1_score(
+        oof[oof.candidate_id == "M1"].true_label,
+        oof[oof.candidate_id == "M1"].predicted_label,
+        average="macro", zero_division=0,
+    )
+    assert observed == expected
+
+
 def test_final_tie_break_does_not_treat_deterministic_seed_absence_as_zero_sd():
     summary = pd.DataFrame([
         {"candidate_id": "M1", "oof_macro_f1": 0.90, "class_collapse_count": 0, "seed_sd": 0.02, "seed_sd_not_applicable": False, "worst_seed": 0.88, "two_step_error": 0.0, "ece": 0.1, "parameter_count": 10, "simplicity_rank": 2},
@@ -184,3 +200,11 @@ def test_recovery_is_evidence_only_and_corrects_deterministic_oof_counting():
     assert "fit_final_development_estimator" not in source
     main = inspect.getsource(runner.main)
     assert "expected_oof = 2 * 316 + 3 * 5 * 316" in main
+
+
+def test_seed_stability_reporting_derivation_cannot_retrain_or_change_selection():
+    source = inspect.getsource(derive_strategy_b_phase_e_reporting)
+    assert "raw_predictions_training_final_models_or_calibration_changed" in source
+    assert '"final_selections_changed": False' in source
+    assert "fit_fold_predict_proba" not in source
+    assert "fit_final_development_estimator" not in source

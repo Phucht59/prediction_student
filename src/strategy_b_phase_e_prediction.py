@@ -239,7 +239,12 @@ def regression_rows(continuous: pd.DataFrame) -> pd.DataFrame:
 def seed_stability(oof: pd.DataFrame, classification: pd.DataFrame) -> pd.DataFrame:
     rows: list[dict[str, Any]] = []
     for candidate, frame in oof.groupby("candidate_id", sort=True):
-        seed_values = classification[classification["candidate_id"] == candidate].groupby("seed")["macro_f1"].mean()
+        # Stability is defined on each seed's complete 316-record OOF vector,
+        # not as an unweighted average of fold-level Macro-F1 values.
+        seed_values = frame.groupby("seed").apply(
+            lambda value: f1_score(value["true_label"], value["predicted_label"], average="macro", zero_division=0),
+            include_groups=False,
+        )
         stochastic = len(seed_values) > 1
         prediction_table = frame.pivot(index="source_row_number", columns="seed", values="predicted_label")
         prob_columns = ["prob_0", "prob_1", "prob_2"]
