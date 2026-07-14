@@ -14,7 +14,7 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from src.evaluation.metrics import METRIC_VERSION
-from src.evaluation.protocol import DEFAULT_FOLD_MANIFEST_PATH, file_checksum, load_fold_manifest
+from src.evaluation.protocol import DEFAULT_FOLD_MANIFEST_PATH, SCENARIO_CONFIG_PATHS, file_checksum, load_fold_manifest, load_json_yaml
 from src.evaluation.reporting_v2_1_1 import (
     JOB_COLUMNS, MODEL_REGISTRY, PATCH_VERSION, SCALAR_METRICS,
     aggregate_ece_corrections, build_expected_job_contract, checksum_validation,
@@ -64,7 +64,14 @@ def main() -> None:
     source_checksums = json.loads((artifact / "checksums.json").read_text(encoding="utf-8"))
     check_frame = checksum_validation(artifact, source_checksums); check_frame.to_csv(out / "checksum_validation.csv", index=False)
     feature_rows = feature_contracts(fold_manifest, int(predictions.dataset_version_id.iloc[0]))
-    feature_validation = pd.DataFrame([{**row, "ordered_features": json.dumps(row["ordered_features"]), "valid": True} for row in feature_rows])
+    validated_features=[]
+    for row in feature_rows:
+        allowed=set(load_json_yaml(SCENARIO_CONFIG_PATHS[row["scenario"]])["allowed_features"])
+        checks={"features_allowed":set(row["ordered_features"]).issubset(allowed),"target_excluded":bool(row["target_excluded"]),
+                "fold_checksum_matches":row["fold_manifest_checksum"]==fold_manifest["manifest_checksum"],
+                "class_order_valid":row["class_order"]==["Low","Medium","High"]}
+        validated_features.append({**row,"ordered_features":json.dumps(row["ordered_features"]),**checks,"valid":all(checks.values())})
+    feature_validation = pd.DataFrame(validated_features)
     feature_validation.to_csv(out / "feature_contract_validation.csv", index=False)
 
     # Ranking uses the same estimator as paired comparison: seed mean in fold, then five-fold summary.
