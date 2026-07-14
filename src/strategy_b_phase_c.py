@@ -308,6 +308,7 @@ def model_summary(
         candidate_oof = oof[oof["candidate_id"] == candidate]
         candidate_folds = fold_metrics[fold_metrics["candidate_id"] == candidate]
         candidate_extra = extra_metrics[extra_metrics["candidate_id"] == candidate]
+        outer_fold_means = candidate_folds.groupby("outer_fold")["macro_f1"].mean()
         seed_scores = []
         for _, frame in candidate_oof.groupby("seed"):
             seed_scores.append(f1_score(frame["true_label"], frame["predicted_label"], average="macro", zero_division=0))
@@ -319,7 +320,7 @@ def model_summary(
             "parameter_count": int(round(counts.mean())) if len(counts) else 0,
             "oof_macro_f1": float(np.mean(seed_scores)),
             "outer_mean_macro_f1": float(candidate_folds["macro_f1"].mean()),
-            "outer_sd": float(candidate_folds["macro_f1"].std(ddof=1)) if len(candidate_folds) > 1 else 0.0,
+            "outer_sd": float(outer_fold_means.std(ddof=1)) if len(outer_fold_means) > 1 else 0.0,
             "seed_mean": float(np.mean(seed_scores)), "seed_sd": float(np.std(seed_scores, ddof=1)) if len(seed_scores) > 1 else 0.0,
             "seed_median": float(np.median(seed_scores)), "worst_seed": float(np.min(seed_scores)), "best_seed": float(np.max(seed_scores)),
             "accuracy": float(candidate_folds["accuracy"].mean()),
@@ -349,6 +350,7 @@ def paired_deltas(oof: pd.DataFrame, comparisons: Iterable[tuple[str, str]], boo
             common_seeds = [seed for seed in neural_seeds if seed in PHASE_C_SEEDS] or [42]
         seed_deltas: list[float] = []
         fold_deltas: list[float] = []
+        fold_deltas_by_outer: dict[int, list[float]] = {}
         bootstrap_by_seed: list[np.ndarray] = []
         for seed in common_seeds:
             lf = left_frame[left_frame["seed"] == seed]
@@ -366,10 +368,12 @@ def paired_deltas(oof: pd.DataFrame, comparisons: Iterable[tuple[str, str]], boo
             seed_deltas.append(f1_score(y, lp, average="macro", zero_division=0) - f1_score(y, rp, average="macro", zero_division=0))
             for fold, fold_frame in merged.groupby("outer_fold_l"):
                 fy = fold_frame["true_label_l"].to_numpy(int)
-                fold_deltas.append(
+                fold_delta = (
                     f1_score(fy, fold_frame["predicted_label_l"], average="macro", zero_division=0)
                     - f1_score(fy, fold_frame["predicted_label_r"], average="macro", zero_division=0)
                 )
+                fold_deltas.append(fold_delta)
+                fold_deltas_by_outer.setdefault(int(fold), []).append(float(fold_delta))
             seed_bootstrap: list[float] = []
             for _ in range(bootstrap_samples):
                 idx = rng.integers(0, len(merged), len(merged))
@@ -382,10 +386,12 @@ def paired_deltas(oof: pd.DataFrame, comparisons: Iterable[tuple[str, str]], boo
         bootstrap = np.mean(np.stack(bootstrap_by_seed, axis=0), axis=0)
         low, high = np.quantile(bootstrap, [0.025, 0.975])
         delta = float(np.mean(seed_deltas))
+        outer_fold_deltas = [float(np.mean(values)) for _, values in sorted(fold_deltas_by_outer.items())]
         rows.append({
             "left": left, "right": right, "macro_f1_delta_left_minus_right": delta,
-            "paired_outer_fold_delta_mean": float(np.mean(fold_deltas)),
-            "paired_outer_fold_delta_sd": float(np.std(fold_deltas, ddof=1)) if len(fold_deltas) > 1 else 0.0,
+            "paired_outer_fold_delta_mean": float(np.mean(outer_fold_deltas)),
+            "paired_outer_fold_delta_sd": float(np.std(outer_fold_deltas, ddof=1)) if len(outer_fold_deltas) > 1 else 0.0,
+            "paired_outer_fold_deltas": json.dumps(outer_fold_deltas),
             "record_bootstrap_ci_low": float(low), "record_bootstrap_ci_high": float(high),
             "practical_tie": abs(delta) < PRACTICAL_MARGIN or (low <= 0 <= high),
             "bootstrap_interpretation": "descriptive_not_absolute_significance",

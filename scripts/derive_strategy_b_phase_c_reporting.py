@@ -29,6 +29,7 @@ from scripts.run_strategy_b_phase_c import (
     _source_provenance,
 )
 from src.strategy_b_phase_ab import sha256_file, write_json
+from src.strategy_b_phase_c import paired_deltas
 
 
 def parse_args() -> argparse.Namespace:
@@ -82,6 +83,7 @@ def main() -> None:
         trial_history = pd.read_csv(temporary / "trial_history.csv")
         jobs = pd.read_csv(temporary / "job_ledger.csv")
         summary = pd.read_csv(temporary / "model_summary.csv")
+        fold_metrics = pd.read_csv(temporary / "fold_seed_metrics.csv")
         search = trial_history.groupby("candidate_id", as_index=False)["runtime_seconds"].sum().rename(
             columns={"runtime_seconds": "search_runtime_seconds"}
         )
@@ -107,7 +109,19 @@ def main() -> None:
         runtime.to_csv(temporary / "runtime_summary.csv", index=False)
         runtime_lookup = runtime.set_index("candidate_id")["runtime_seconds"]
         summary["runtime_seconds"] = summary["candidate_id"].map(runtime_lookup)
+        outer_sd = (
+            fold_metrics.groupby(["candidate_id", "outer_fold"], as_index=False)["macro_f1"].mean()
+            .groupby("candidate_id")["macro_f1"].std(ddof=1)
+        )
+        summary["outer_sd"] = summary["candidate_id"].map(outer_sd)
         summary.to_csv(temporary / "model_summary.csv", index=False)
+
+        previous_paired = pd.read_csv(temporary / "paired_model_deltas.csv")
+        comparisons = list(previous_paired[["left", "right"]].itertuples(index=False, name=None))
+        corrected_paired = paired_deltas(
+            pd.read_csv(temporary / "outer_oof_predictions.csv"), comparisons, bootstrap_samples=2000
+        )
+        corrected_paired.to_csv(temporary / "paired_model_deltas.csv", index=False)
 
         original_test = json.loads((temporary / "test_report.json").read_text(encoding="utf-8"))
         write_json(temporary / "training_test_report.json", original_test)
@@ -129,8 +143,8 @@ def main() -> None:
         strict["run_id"] = args.run_id
         strict["reporting_correction"] = {
             "derived_from_run_id": args.source_run_id,
-            "scope": "runtime aggregation includes inner search plus outer evaluation",
-            "predictions_metrics_selections_changed": False,
+            "scope": "runtime aggregation plus outer-fold SD over five seed-averaged outer folds",
+            "predictions_raw_fold_metrics_selections_changed": False,
             "source_validation": source_checks,
         }
         write_json(strict_path, strict)
@@ -146,7 +160,7 @@ def main() -> None:
             "derived_from_run_id": args.source_run_id,
             "git_commit": correction_provenance["git_commit"],
             "source_tree_hash": correction_provenance["source_tree_hash"],
-            "predictions_metrics_selections_changed": False,
+            "predictions_raw_fold_metrics_selections_changed": False,
         }
         write_json(provenance_path, provenance)
         gates = json.loads((temporary / "conditional_gate_assessment.json").read_text(encoding="utf-8"))

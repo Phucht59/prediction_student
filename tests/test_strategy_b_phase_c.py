@@ -215,12 +215,20 @@ def test_conclusion_renderer_has_no_optional_tabulate_dependency():
 
 def test_reporting_correction_cannot_change_predictions_metrics_or_selections():
     source = inspect.getsource(derive_strategy_b_phase_c_reporting)
-    assert '"predictions_metrics_selections_changed": False' in source
+    assert '"predictions_raw_fold_metrics_selections_changed": False' in source
     assert "source_checksum_failures" in source
     assert "len(jobs) == 2805" in source
     assert "len(trials) == 900" in source
     assert "len(oof) == 9 * 3 * 316" in source
     assert "fit_fold_predict_proba" not in source
+
+
+def test_outer_sd_uses_five_seed_averaged_outer_folds():
+    source = inspect.getsource(__import__("src.strategy_b_phase_c", fromlist=["model_summary"]).model_summary)
+    assert 'groupby("outer_fold")["macro_f1"].mean()' in source
+    paired_source = inspect.getsource(__import__("src.strategy_b_phase_c", fromlist=["paired_deltas"]).paired_deltas)
+    assert "fold_deltas_by_outer" in paired_source
+    assert "paired_outer_fold_deltas" in paired_source
 
 
 def test_artifact_checksum_detects_mutation(tmp_path):
