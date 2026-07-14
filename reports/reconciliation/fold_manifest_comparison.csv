@@ -1,0 +1,2 @@
+comparison,historical_records,v2_records,same_record_set,same_outer_fold_assignment,different_fold_records,historical_manifest_checksum,v2_manifest_checksum,comment
+historical_nested_vs_v2,316,316,true,true,0,not_stored,bf5e5cbd8d09679f5d34900486ba23cc5ac57c93b28aa38ac3f3ce2578307ce1,Historical OOF source_row_number maps exactly to V2 stable source-record identity.
