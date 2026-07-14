@@ -1,0 +1,57 @@
+{
+  "calibration_decisions": {
+    "M1": {
+      "brier_not_worse_within_tolerance": true,
+      "brier_tolerance": 0.005,
+      "decision_predictions_unchanged_by_positive_temperature": true,
+      "ece_not_worse_within_tolerance": false,
+      "ece_tolerance": 0.005,
+      "nll_improved_majority_outer_folds": true,
+      "selected_variant": "uncalibrated"
+    },
+    "M2": {
+      "brier_not_worse_within_tolerance": false,
+      "brier_tolerance": 0.005,
+      "decision_predictions_unchanged_by_positive_temperature": true,
+      "ece_not_worse_within_tolerance": false,
+      "ece_tolerance": 0.005,
+      "nll_improved_majority_outer_folds": true,
+      "selected_variant": "uncalibrated"
+    },
+    "N0": {
+      "brier_not_worse_within_tolerance": false,
+      "brier_tolerance": 0.005,
+      "decision_predictions_unchanged_by_positive_temperature": true,
+      "ece_not_worse_within_tolerance": false,
+      "ece_tolerance": 0.005,
+      "nll_improved_majority_outer_folds": true,
+      "selected_variant": "uncalibrated"
+    },
+    "N1": {
+      "brier_not_worse_within_tolerance": true,
+      "brier_tolerance": 0.005,
+      "decision_predictions_unchanged_by_positive_temperature": true,
+      "ece_not_worse_within_tolerance": true,
+      "ece_tolerance": 0.005,
+      "nll_improved_majority_outer_folds": true,
+      "selected_variant": "temperature"
+    },
+    "R0": {
+      "reason": "no_probabilistic_temperature_basis",
+      "selected_variant": "uncalibrated"
+    }
+  },
+  "final_overall_model": "R0",
+  "final_thesis_hybrid_model": "N0",
+  "hybrid_reason": "practical_tie_resolved_by_preregistered_tiebreak",
+  "overall_reason": "practical_tie_resolved_by_preregistered_tiebreak",
+  "phase_c_interpretation_preserved": {
+    "phase_c_cnn_incremental_value_not_established": true,
+    "phase_c_n0_higher_point_macro_f1_and_better_calibration": true,
+    "phase_c_n0_n1_no_clear_superiority": true,
+    "phase_c_ordinal_incremental_value_not_established": true,
+    "phase_c_protocol_selected_hybrid": "N1",
+    "phase_c_provisional_overall": "M1"
+  },
+  "selection_evidence": "Phase C frozen rule reapplied to expanded Phase E stability evidence"
+}

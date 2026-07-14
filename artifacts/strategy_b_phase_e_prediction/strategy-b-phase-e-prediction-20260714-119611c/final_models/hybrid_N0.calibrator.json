@@ -1,0 +1,7 @@
+{
+  "inner_oof_nll_after": 0.3393087735756907,
+  "inner_oof_nll_before": 0.35156907304560353,
+  "method": "scalar_temperature_on_clipped_log_probabilities",
+  "optimizer_success": true,
+  "temperature": 0.7524132041788966
+}

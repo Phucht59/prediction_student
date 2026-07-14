@@ -1,0 +1,124 @@
+{
+  "overall": {
+    "candidate_id": "R0",
+    "resolved_config": null,
+    "resolved_config_hash": null
+  },
+  "thesis_hybrid": {
+    "candidate_id": "N0",
+    "resolved_config": {
+      "architecture": "cnn_bilstm_classifier",
+      "architecture_variant": "cnn_bilstm",
+      "batch_size": 16,
+      "candidate_id": "N0",
+      "class_weight_mode": "none",
+      "classifier_head": "linear",
+      "cnn_channels": 4,
+      "cnn_kernel_size": 2,
+      "context_mlp_enabled": false,
+      "drop_last_train": false,
+      "dropout": 0.17137301343669412,
+      "evidence_role": "phase_c_main_candidate",
+      "feature_contract": {
+        "context_columns": [],
+        "scenario": "late_stage",
+        "sequence_columns": [
+          "G1",
+          "G2"
+        ],
+        "target_or_derived_features_forbidden": true
+      },
+      "fixed_constants": {
+        "architecture_variant": "cnn_bilstm",
+        "batch_norm_allowed": false,
+        "candidate_id": "N0",
+        "drop_last_train": false,
+        "feature_contract": "late_stage_g1_g2",
+        "head_type": "nominal_softmax",
+        "normalization_options": [
+          "none",
+          "layer_norm"
+        ],
+        "preprocessing": "fold_train_only",
+        "raw_feature_only": true,
+        "scheduler": {
+          "parameters": {},
+          "replayable": true,
+          "type": "fixed_lr"
+        },
+        "swa": {
+          "batch_norm_statistics_updated": false,
+          "enabled": false,
+          "replayable": true
+        },
+        "target_contract": "student_g3_3class_v1"
+      },
+      "head_type": "nominal_softmax",
+      "hidden_dim": 8,
+      "learning_rate": 0.005557520865337866,
+      "loss": "cross_entropy",
+      "lstm_hidden_dim": 16,
+      "max_epochs": 60,
+      "normalization": "none",
+      "num_layers": 1,
+      "oversample_method": "none",
+      "parameter_count": 2927,
+      "parameter_guardrail": {
+        "action": "prune_or_fail",
+        "maximum_trainable_parameters": 5000
+      },
+      "patience": 10,
+      "preprocessing": {
+        "deterministic_transforms": "none",
+        "feature_selection": "none",
+        "fit_scope": "gradient_training_partition_then_full_refit_partition",
+        "oversampling_scope": "gradient_training_partition_only",
+        "scaler": "minmax",
+        "unknown_category_policy": "map_to_zero"
+      },
+      "resampling_k_neighbors": 5,
+      "scheduler": {
+        "parameters": {},
+        "replayable": true,
+        "type": "fixed_lr"
+      },
+      "schema_version": "strategy_b_resolved_config_v1",
+      "sequence_dropout": 0.1790913961269949,
+      "smote_ratio": 1.0,
+      "suggested_parameters": {
+        "batch_size": 16,
+        "cnn_channels": 4,
+        "cnn_kernel_size": 2,
+        "dropout": 0.17137301343669412,
+        "learning_rate": 0.005557520865337866,
+        "lstm_hidden_dim": 16,
+        "max_epochs": 60,
+        "normalization": "none",
+        "sequence_dropout": 0.1790913961269949,
+        "weight_decay": 4.736415553942112e-06
+      },
+      "swa": {
+        "batch_norm_statistics_updated": false,
+        "enabled": false,
+        "replayable": true
+      },
+      "target_contract": {
+        "bins": [
+          0,
+          9,
+          14,
+          20
+        ],
+        "labels": [
+          "Low",
+          "Medium",
+          "High"
+        ],
+        "target_column": "G3",
+        "target_mode": "3class"
+      },
+      "weight_decay": 4.736415553942112e-06
+    },
+    "resolved_config_hash": "9a4641b6e635978d4d17ed64dc10d43e835d5981bdfe8d7394ebdd6949b13262"
+  }
+}
