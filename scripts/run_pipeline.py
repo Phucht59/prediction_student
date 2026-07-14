@@ -13,8 +13,6 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 import torch
-import torch.nn as nn
-import torch.optim as optim
 from sklearn.metrics import (
     accuracy_score,
     average_precision_score,
@@ -28,7 +26,7 @@ from sklearn.metrics import (
     recall_score,
 )
 from sklearn.model_selection import train_test_split
-from torch.utils.data import DataLoader, Subset
+from torch.utils.data import DataLoader
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
@@ -45,7 +43,6 @@ from src.config import (
     ROOT_DIR,
     RECOMMENDATIONS_DIR,
     REPORTS_DIR,
-    TrainingConfig,
     ensure_dirs,
 )
 from src.data_pipeline import (
@@ -67,7 +64,14 @@ from src.evaluation import (
 )
 from src.explainability import explain_model
 from src.models import create_model
-from src.model_selection import apply_probability_calibration, apply_threshold_policy, combine_seed_probabilities
+from src.estimator_factory import resolve_student_config, validate_resolved_config
+from src.model_selection import (
+    apply_probability_calibration,
+    apply_threshold_policy,
+    combine_seed_probabilities,
+    fit_final_development_estimator,
+    predict_with_fitted_estimator,
+)
 from src.postgres_data_source import (
     load_dataset_version_from_postgres,
     load_experiment_run,
@@ -76,7 +80,7 @@ from src.postgres_data_source import (
 )
 from src.recommendation import generate_learning_path_report
 from src.reproducibility import sha256_file
-from src.train_pipeline import calculate_class_weights, objective, train_model
+from src.train_pipeline import objective
 from src.utils import set_seed, setup_logger
 from src.loss_description import describe_effective_loss
 
@@ -124,7 +128,12 @@ def resolve_frozen_strategy_metadata(
 
 
 def normalize_cnn_bilstm_classifier_params(params: dict) -> dict:
-    """Drop inactive Context-MLP/fusion keys from historical configs."""
+    """Upgrade a historical flat config to the canonical Strategy B contract."""
+    try:
+        validate_resolved_config(params)
+        return dict(params)
+    except (KeyError, TypeError, ValueError):
+        pass
     forbidden = {
         "context_hidden_dim",
         "fusion_hidden_dim",
@@ -134,11 +143,35 @@ def normalize_cnn_bilstm_classifier_params(params: dict) -> dict:
         "ablation_mode",
     }
     normalized = {key: value for key, value in dict(params).items() if key not in forbidden}
-    normalized["architecture"] = "cnn_bilstm_classifier"
-    normalized["context_mlp_enabled"] = False
-    normalized["classifier_head"] = "linear"
-    normalized.setdefault("class_weight_mode", "balanced" if normalized.get("loss") == "weighted_ce" else "none")
-    return normalized
+    normalized.setdefault("architecture_variant", "cnn_bilstm")
+    normalized.setdefault("class_weight_mode", "none")
+    # Historical files may contain only architecture dimensions.  Upgrade them
+    # once here; all estimator consumers below still receive a complete config.
+    historical_defaults = {
+        "learning_rate": 0.001,
+        "weight_decay": 0.0001,
+        "batch_size": 32,
+        "oversample_method": "none",
+        "loss": "cross_entropy",
+        "smote_ratio": 1.0,
+        "resampling_k_neighbors": 5,
+        "cnn_kernel_size": 1,
+        "dropout": 0.2,
+        "sequence_dropout": 0.1,
+        "max_epochs": 100,
+        "patience": 15,
+    }
+    for key, value in historical_defaults.items():
+        normalized.setdefault(key, value)
+    return resolve_student_config(
+        normalized,
+        architecture_variant="cnn_bilstm",
+        suggested_parameters={},
+        scheduler_type="fixed_lr",
+        swa_enabled=False,
+        drop_last_train=False,
+        evidence_role="final_corrected_full_development_estimator",
+    )
 
 
 def parse_args():
@@ -159,6 +192,14 @@ def parse_args():
         "--skip-postgres",
         action="store_true",
         help="Development-only opt-out. Production thesis runs persist to PostgreSQL by default.",
+    )
+    parser.add_argument(
+        "--allow-legacy-observed-evaluation",
+        action="store_true",
+        help=(
+            "Explicitly authorize the historical 79-record evaluation path. "
+            "It is disabled by default and forbidden for model selection, calibration or final confirmation."
+        ),
     )
     return parser.parse_args()
 
@@ -391,8 +432,10 @@ def train_seed_ensemble(
     calibration_policy: dict | None = None,
     threshold_policy: dict | None = None,
 ):
+    """Fit every seed through the shared full-development estimator factory."""
+
+    validate_resolved_config(best_params)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    batch_size = int(best_params["batch_size"])
     seeds = list(seed_list or (FIXED_SEEDS[:1] if debug else FIXED_SEEDS))
     all_probabilities = []
     probabilities_by_seed = {}
@@ -402,113 +445,47 @@ def train_seed_ensemble(
     last_train_selected = None
 
     for seed in seeds:
-        set_seed(seed)
-        # 1. Tách validation trước khi resampling
-        labels = train_pool[spec.target_col].astype(int).to_numpy()
-        indices = np.arange(len(train_pool))
-        train_indices, val_indices = train_test_split(
-            indices,
-            test_size=0.15,
-            stratify=labels,
-            random_state=seed,
-        )
-        
-        train_sub = apply_feature_engineering(train_pool.iloc[train_indices].copy(), spec.kind)
-        val_sub = apply_feature_engineering(train_pool.iloc[val_indices].copy(), spec.kind)
-        test_engineered = apply_feature_engineering(locked_test.copy(), spec.kind)
-        class_weights = calculate_class_weights(train_sub[spec.target_col].astype(int).to_numpy(), num_classes=3).to(device)
-        use_class_weights = best_params.get("class_weight_mode", "balanced") == "balanced"
-        effective_class_weights = class_weights if use_class_weights else None
-
-        preprocessor = DataPreprocessor(
-            target_col=spec.target_col,
-            oversample_method=best_params["oversample_method"],
-            smote_ratio=best_params.get("smote_ratio", 1.0),
-            resampling_k_neighbors=best_params.get("resampling_k_neighbors", 5),
-            oversampling_feature_columns=get_sequence_columns(spec.kind),
-        )
-        train_prep = preprocessor.fit_transform(train_sub)
-        val_prep = preprocessor.transform(val_sub)
-        test_prep = preprocessor.transform(test_engineered)
-
-        selector = FeatureSelector(
-            target_col=spec.target_col,
-            use_feature_selection=True,
-            required_features=get_sequence_columns(spec.kind),
-        )
-        train_selected = selector.fit_transform(
-            train_prep,
-            preprocessor.numerical_cols,
-            preprocessor.categorical_cols,
-        )
-        val_selected = selector.transform(val_prep)
-        test_selected = selector.transform(test_prep)
-
-        train_ds = StudentDataset(train_selected, spec.kind, spec.target_col, preprocessor.numerical_cols, preprocessor.categorical_cols)
-        val_ds = StudentDataset(val_selected, spec.kind, spec.target_col, preprocessor.numerical_cols, preprocessor.categorical_cols)
-        test_ds = StudentDataset(test_selected, spec.kind, spec.target_col, preprocessor.numerical_cols, preprocessor.categorical_cols)
-
-        train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True, drop_last=len(train_indices) > batch_size)
-        val_loader = DataLoader(val_ds, batch_size=batch_size, shuffle=False)
-        test_loader = DataLoader(test_ds, batch_size=batch_size, shuffle=False)
-
-        cat_cardinalities = [len(preprocessor.label_encoders[col].classes_) for col in train_ds.cat_cols]
-        num_numerical = len(train_ds.num_cols)
-
-        from src.models import FocalLoss, create_model
-        model = create_model(spec.kind, best_params, num_numerical, cat_cardinalities).to(device)
-        if spec.kind == "xapi":
-            criterion = nn.BCEWithLogitsLoss()
-        else:
-            if "focal_gamma" in best_params:
-                criterion = FocalLoss(weight=effective_class_weights, gamma=best_params["focal_gamma"])
-            else:
-                criterion = nn.CrossEntropyLoss(weight=effective_class_weights)
-        optimizer = optim.Adam(
-            model.parameters(),
-            lr=float(best_params["learning_rate"]),
-            weight_decay=float(best_params["weight_decay"]),
-        )
-        config = TrainingConfig(
-            max_epochs=3 if debug else int(best_params.get("max_epochs", 100)),
-            batch_size=batch_size,
-            patience=2 if debug else int(best_params.get("patience", 15)),
-            scheduler_patience=1 if debug else int(best_params.get("scheduler_patience", 5)),
-            learning_rate=float(best_params["learning_rate"]),
-            weight_decay=float(best_params["weight_decay"]),
-        )
         logger.info("Training ensemble seed %s.", seed)
-        model, _, _ = train_model(
-            model,
-            train_loader,
-            val_loader,
-            criterion,
-            optimizer,
-            config,
-            device,
+        fitted = fit_final_development_estimator(
+            development_frame=train_pool,
+            spec=spec,
+            resolved_config=best_params,
+            seed=int(seed),
         )
-
-        model.eval()
-        seed_probabilities = []
-        with torch.no_grad():
-            for batch in test_loader:
-                seq_x, num_x, cat_x, _, _ = batch[:5]
-                probabilities = model.predict_proba(
-                    seq_x.to(device),
-                    num_x.to(device),
-                    cat_x.to(device),
-                )
-                seed_probabilities.extend(probabilities.cpu().numpy())
-        seed_probabilities = np.asarray(seed_probabilities)
+        seed_probabilities = predict_with_fitted_estimator(
+            frame=locked_test,
+            spec=spec,
+            resolved_config=best_params,
+            state_dict=fitted.refit_state_dict,
+            preprocessor=fitted.preprocessor,
+            selector=fitted.selector,
+        )
         all_probabilities.append(seed_probabilities)
         probabilities_by_seed[int(seed)] = seed_probabilities
-        last_model = model
-        last_test_loader = test_loader
-        last_preprocessor = preprocessor
+        test_engineered = apply_feature_engineering(locked_test.copy(), spec.kind)
+        test_prepared = fitted.preprocessor.transform(test_engineered)
+        test_selected = fitted.selector.transform(test_prepared)
+        test_dataset = StudentDataset(
+            test_selected,
+            spec.kind,
+            spec.target_col,
+            fitted.preprocessor.numerical_cols,
+            fitted.preprocessor.categorical_cols,
+        )
+        train_engineered = apply_feature_engineering(train_pool.copy(), spec.kind)
+        train_prepared = fitted.preprocessor.transform(train_engineered)
+        train_selected = fitted.selector.transform(train_prepared)
+        last_model = fitted.model
+        last_test_loader = DataLoader(
+            test_dataset,
+            batch_size=int(best_params["batch_size"]),
+            shuffle=False,
+        )
+        last_preprocessor = fitted.preprocessor
         last_train_selected = train_selected
 
         model_path = MODELS_DIR / f"{spec.name}_3class_cnn_bilstm_classifier_seed{seed}.pt"
-        torch.save(model.state_dict(), model_path)
+        torch.save(fitted.refit_state_dict, model_path)
 
     if probabilities_by_seed:
         mean_probabilities = combine_seed_probabilities(
@@ -655,6 +632,11 @@ def main():
     effective_dataset_version_id = args.dataset_version_id
     if effective_dataset_version_id is None and not args.run_id:
         raise ValueError("--dataset-version-id is required for a new DB-first run.")
+    if not getattr(args, "allow_legacy_observed_evaluation", False):
+        raise PermissionError(
+            "The 79-record legacy_heldout_observed evaluation path is disabled. "
+            "Phase A-B and all future model selection/calibration paths must use development records only."
+        )
 
     run_id = args.run_id or str(uuid.uuid4())
     existing_run = load_experiment_run(run_id) if args.run_id else None

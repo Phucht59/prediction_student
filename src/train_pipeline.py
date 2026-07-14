@@ -175,19 +175,79 @@ def train_model(model, train_loader, val_loader, criterion, optimizer, config, d
     return model, history, early_stopping.best_score or 0.0
 
 
-def train_fixed_epochs(model, train_loader, criterion, optimizer, device, epochs: int):
+def train_model_fixed_lr(model, train_loader, val_loader, criterion, optimizer, config, device):
+    """Select an epoch under the replayable Strategy B fixed-LR policy.
+
+    Unlike the historical trainer, this function has no validation-driven
+    scheduler and no SWA side estimator.  The exact learning-rate trajectory
+    can therefore be replayed during a full-partition refit without consulting
+    a scoring fold.
+    """
+
+    early_stopping = EarlyStopping(patience=config.patience)
+    history = {
+        "train_loss": [],
+        "val_loss": [],
+        "val_f1": [],
+        "val_acc": [],
+        "learning_rate": [],
+        "scheduler_reductions": 0,
+        "scheduler_state": {"type": "fixed_lr", "replayable": True},
+        "swa_state": {"enabled": False, "replayable": True},
+    }
+    for epoch in range(int(config.max_epochs)):
+        train_loss = train_epoch(model, train_loader, criterion, optimizer, device)
+        val_loss, val_f1, val_acc = validate_epoch(model, val_loader, criterion, device)
+        history["train_loss"].append(float(train_loss))
+        history["val_loss"].append(float(val_loss))
+        history["val_f1"].append(float(val_f1))
+        history["val_acc"].append(float(val_acc))
+        history["learning_rate"].append(float(optimizer.param_groups[0]["lr"]))
+        early_stopping(float(val_f1), model)
+        if early_stopping.early_stop:
+            logger.info("Replayable fixed-LR early stopping triggered at epoch %s", epoch + 1)
+            break
+    if early_stopping.best_state is not None:
+        model.load_state_dict(early_stopping.best_state)
+    history["epochs_ran"] = len(history["val_f1"])
+    history["final_learning_rate"] = float(optimizer.param_groups[0]["lr"])
+    return model, history, early_stopping.best_score or 0.0
+
+
+def train_fixed_epochs(
+    model,
+    train_loader,
+    criterion,
+    optimizer,
+    device,
+    epochs: int,
+    *,
+    scheduler_policy: dict | None = None,
+):
     """Fit a final fold model without consulting a scoring/validation fold.
 
     The epoch count must have been chosen beforehand from an internal split of
     the corresponding outer-training partition.  A scheduler is intentionally
     absent because its signal would otherwise require a validation set.
     """
+    scheduler_policy = scheduler_policy or {"type": "fixed_lr", "parameters": {}, "replayable": True}
+    if scheduler_policy.get("type") != "fixed_lr" or not bool(scheduler_policy.get("replayable")):
+        raise ValueError("Full-partition refit requires a replayable fixed_lr scheduler policy.")
     if epochs < 1:
         raise ValueError("epochs must be at least one for final refit.")
     losses = []
     for _ in range(int(epochs)):
         losses.append(train_epoch(model, train_loader, criterion, optimizer, device))
-    return model, {"train_loss": losses, "epochs": int(epochs)}
+    return model, {
+        "train_loss": losses,
+        "epochs": int(epochs),
+        "scheduler_state": {
+            "type": "fixed_lr",
+            "replayable": True,
+            "learning_rate": float(optimizer.param_groups[0]["lr"]),
+        },
+        "swa_state": {"enabled": False, "replayable": True},
+    }
 
 
 def calculate_class_weights(y, num_classes):

@@ -31,20 +31,22 @@ def test_threshold_optimizer_returns_frozen_policy_from_oof():
 
 
 def test_fold_training_oversamples_only_training_fold_by_contract():
-    source = inspect.getsource(model_selection.fit_fold_predict_proba)
-    assert "split_model_train_and_early_stop" in source
-    assert "fit_transform(train_engineered, apply_oversampling=True)" in source
-    assert "early_stop_prepared = preprocessor.transform(early_stop_engineered)" in source
-    assert "validation_prepared = preprocessor.transform(validation_engineered)" in source
-    assert "fit_transform(validation" not in source
+    training_source = inspect.getsource(model_selection.fit_training_partition_estimator)
+    scoring_source = inspect.getsource(model_selection.fit_fold_predict_proba)
+    assert "split_model_train_and_early_stop" in training_source
+    assert "fit_transform(train_engineered, apply_oversampling=True)" in training_source
+    assert "early_stop_prepared = preprocessor.transform(early_stop_engineered)" in training_source
+    assert "validation_fold" not in training_source
+    assert "fit_training_partition_estimator" in scoring_source
+    assert "predict_with_fitted_estimator" in scoring_source
 
 
 def test_outer_validation_is_not_used_for_early_stopping_or_class_weights():
-    source = inspect.getsource(model_selection.fit_fold_predict_proba)
-    assert "train_model(model, train_loader, early_stop_loader" in source
-    assert "calculate_class_weights(model_train_fold" in source
-    assert "calculate_class_weights(train_fold" not in source
-    assert "train_model(model, train_loader, validation_loader" not in source
+    source = inspect.getsource(model_selection.fit_training_partition_estimator)
+    assert "early_stop_loader" in source
+    assert "model_train_partition[spec.target_col]" in source
+    assert "validation_fold" not in source
+    assert "factory.create_criterion" in source
 
 
 def test_threshold_and_calibration_reject_locked_test_source():

@@ -177,8 +177,8 @@ def test_baseline_search_excludes_inapplicable_architecture_parameters():
     cnn_only = student_search_space(RecordingTrial(), architecture_variant="cnn_only")
     bilstm_only = student_search_space(RecordingTrial(), architecture_variant="bilstm_only")
 
-    assert "lstm_hidden_dim" not in cnn_only
-    assert "cnn_channels" not in bilstm_only
+    assert "lstm_hidden_dim" not in cnn_only["suggested_parameters"]
+    assert "cnn_channels" not in bilstm_only["suggested_parameters"]
     assert cnn_only["architecture_variant"] == "cnn_only"
     assert bilstm_only["architecture_variant"] == "bilstm_only"
 

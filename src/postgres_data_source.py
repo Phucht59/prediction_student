@@ -328,6 +328,108 @@ def load_dataset_version_from_postgres(
     return frame, metadata
 
 
+def load_development_subset_from_postgres(
+    dataset_code: str,
+    dataset_version_id: int,
+    source_row_numbers: list[int],
+) -> tuple[pd.DataFrame, dict[str, Any]]:
+    """Load only pre-approved development rows in a read-only transaction.
+
+    Phase A-B must not fetch the observed legacy holdout and filter it later in
+    memory.  This loader places the immutable development allowlist directly in
+    the SQL predicate and verifies exact record coverage before returning.
+    """
+
+    requested = sorted({int(value) for value in source_row_numbers})
+    if not requested or len(requested) != len(source_row_numbers):
+        raise ValueError("Development source_row_numbers must be non-empty and unique.")
+    connection = _connect()
+    try:
+        connection.set_session(readonly=True, autocommit=False)
+        with _dict_cursor(connection) as cursor:
+            cursor.execute(
+                """
+                SELECT *
+                FROM source_dataset_versions
+                WHERE dataset_code = %s
+                  AND dataset_version_id = %s
+                """,
+                (dataset_code, dataset_version_id),
+            )
+            version_row = cursor.fetchone()
+            if version_row is None:
+                raise RuntimeError(
+                    f"dataset version not found for dataset_code={dataset_code} id={dataset_version_id}"
+                )
+            version = dict(version_row)
+            cursor.execute(
+                """
+                SELECT sr.source_row_number,
+                       sr.raw_payload,
+                       t.target_name,
+                       t.raw_target_value,
+                       t.encoded_target_value,
+                       t.target_contract_hash
+                FROM source_records sr
+                JOIN source_record_targets t
+                  ON t.dataset_version_id = sr.dataset_version_id
+                 AND t.record_id = sr.record_id
+                WHERE sr.dataset_version_id = %s
+                  AND sr.source_row_number = ANY(%s)
+                ORDER BY sr.source_row_number
+                """,
+                (dataset_version_id, requested),
+            )
+            rows = [dict(row) for row in cursor.fetchall()]
+        connection.rollback()
+    finally:
+        connection.close()
+
+    returned = [int(row["source_row_number"]) for row in rows]
+    if returned != requested:
+        missing = sorted(set(requested) - set(returned))
+        unexpected = sorted(set(returned) - set(requested))
+        raise RuntimeError(
+            f"Development-only DB load does not match the immutable allowlist; missing={missing}, unexpected={unexpected}"
+        )
+    canonical_columns = list(version["ingestion_contract"].get("canonical_columns", []))
+    if not canonical_columns:
+        raise RuntimeError("ingestion_contract.canonical_columns is missing.")
+    target_name = str(rows[0]["target_name"])
+    feature_columns = [column for column in canonical_columns if column != target_name]
+    records: list[dict[str, Any]] = []
+    for row in rows:
+        payload = row["raw_payload"]
+        if not isinstance(payload, dict):
+            raise RuntimeError(f"raw_payload for source row {row['source_row_number']} is not an object.")
+        record = {column: payload.get(column) for column in feature_columns}
+        # The authoritative target comes from source_record_targets, never from
+        # the raw feature payload retained for historical lineage compatibility.
+        record[target_name] = row["raw_target_value"]
+        records.append(record)
+    frame = pd.DataFrame(records, columns=feature_columns + [target_name])
+    frame.insert(0, SOURCE_ROW_NUMBER_COLUMN, returned)
+    target_hashes = sorted({str(row["target_contract_hash"]) for row in rows})
+    if len(target_hashes) != 1:
+        raise RuntimeError("Development records do not share one immutable target contract hash.")
+    metadata = {
+        "dataset_version_id": int(version["dataset_version_id"]),
+        "dataset_code": str(version["dataset_code"]),
+        "source_locator": version["source_locator"],
+        "hash_algorithm": str(version["hash_algorithm"]),
+        "content_hash": str(version["content_hash"]),
+        "ingestion_contract": version["ingestion_contract"],
+        "ingestion_contract_hash_algorithm": str(version["ingestion_contract_hash_algorithm"]),
+        "ingestion_contract_hash": str(version["ingestion_contract_hash"]),
+        "dataset_row_count": int(version["row_count"]),
+        "loaded_development_row_count": len(frame),
+        "loaded_source_row_numbers": returned,
+        "target_contract_hash": target_hashes[0],
+        "transaction_read_only": True,
+    }
+    return frame, metadata
+
+
 def load_dataset_version(
     dataset_version_id: int,
     *,
