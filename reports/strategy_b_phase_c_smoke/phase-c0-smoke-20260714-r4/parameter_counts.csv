@@ -1,0 +1,10 @@
+candidate_id,outer_fold,seed,parameter_count,guardrail
+R0,0,42,0,not_applicable
+M1,0,42,6410,not_applicable
+M2,0,42,931,not_applicable
+N0,0,42,3443,5000
+N1,0,42,2859,5000
+N2,0,42,63,5000
+N3,0,42,403,5000
+A1,0,42,43,5000
+A2,0,42,2531,5000

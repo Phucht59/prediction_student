@@ -1,0 +1,10 @@
+candidate_id,stage,runtime_seconds,mean_runtime_seconds,events,actual_completed_trials,actual_pruned_trials,actual_failed_trials,actual_inner_fit_stages
+A1,outer_evaluation,49.86186010000529,3.3241240066670192,15,,,,
+A2,outer_evaluation,66.81134299999758,4.454089533333172,15,,,,
+M1,outer_evaluation,1.3054386999974668,0.26108773999949336,5,150.0,0.0,0.0,450.0
+M2,outer_evaluation,0.19863420000001497,0.039726840000003,5,150.0,0.0,0.0,450.0
+N0,outer_evaluation,62.26895509999849,4.151263673333233,15,150.0,0.0,0.0,900.0
+N1,outer_evaluation,80.24912289999884,5.349941526666589,15,150.0,0.0,0.0,900.0
+N2,outer_evaluation,34.01692859999821,2.2677952399998804,15,150.0,0.0,0.0,900.0
+N3,outer_evaluation,50.35002959999656,3.3566686399997705,15,150.0,0.0,0.0,900.0
+R0,outer_evaluation,0.0,0.0,5,,,,

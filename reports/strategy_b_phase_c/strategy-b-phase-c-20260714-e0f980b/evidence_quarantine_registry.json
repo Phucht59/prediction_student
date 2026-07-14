@@ -1,0 +1,56 @@
+{
+  "entries": [
+    {
+      "allowed_use": "historical context and checksum-only inventory",
+      "id": "legacy_79",
+      "paths": [
+        "artifacts/final/*/locked_test_predictions.csv"
+      ],
+      "payload_accessed_in_phase_ab": false,
+      "prohibited_use": [
+        "model_selection",
+        "architecture_selection",
+        "hyperparameter_selection",
+        "calibration",
+        "threshold_tuning",
+        "final_confirmation"
+      ],
+      "status": "legacy_heldout_observed"
+    },
+    {
+      "affected_rows": [
+        "cnn_lstm",
+        "cnn_bilstm"
+      ],
+      "id": "fair_cnn_rows",
+      "paths": [
+        "artifacts/baseline_comparison/fair-model-comparison-full/*"
+      ],
+      "reason": "fixed loss/class-weight/resampling constants were absent from outer resolved params",
+      "status": "invalid_protocol_config_resolution"
+    },
+    {
+      "id": "nested_full_20260710",
+      "paths": [
+        "artifacts/model_selection/nested-full-20260710/*"
+      ],
+      "reason": "run predates the corrected full-partition refit estimator and exact source provenance",
+      "status": "historical_old_estimator"
+    },
+    {
+      "allowed_use": "bug confirmation and hypothesis prioritization only",
+      "id": "small_diagnostics",
+      "paths": [
+        "reports/project_strategy_v1/*",
+        "historical smoke and sanity outputs"
+      ],
+      "prohibited_use": [
+        "official_ranking",
+        "final_model_selection",
+        "superiority_claim"
+      ],
+      "status": "diagnostic_or_feasibility_evidence"
+    }
+  ],
+  "registry_version": "strategy_b_evidence_quarantine_v1"
+}
