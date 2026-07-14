@@ -53,6 +53,7 @@ artifacts/preflight/
 # Benchmark V2 run outputs are immutable runtime evidence, not source files.
 # Protocol definitions and selected audit reports below remain versioned.
 artifacts/benchmark_v2/
+artifacts/reconciliation/
 reports/benchmark_v2/*
 !reports/benchmark_v2/compute_estimate.md
 !reports/benchmark_v2/preflight_audit.md
