@@ -39,6 +39,7 @@ from src.models import FocalLoss, create_model
 from src.train_pipeline import calculate_class_weights, train_fixed_epochs, train_model
 from src.utils import set_seed, setup_logger
 from src.evaluation.protocol import validate_scenario_features
+from src.evaluation.neural_sanity_v2_2 import loader_statistics
 
 logger = setup_logger("model_selection")
 
@@ -57,6 +58,8 @@ class FoldModelResult:
     train_row_positions: list[int]
     early_stop_row_positions: list[int]
     refit_state_dict: dict[str, torch.Tensor] | None = None
+    training_diagnostics: dict[str, Any] | None = None
+    shape_diagnostics: dict[str, Any] | None = None
 
 
 def _row_positions(frame: pd.DataFrame) -> list[int]:
@@ -147,6 +150,7 @@ def fit_fold_predict_proba(
     fold_index: int,
     ablation_mode: str = "sequence_only",
     scenario: str = "late_stage",
+    drop_last_train: bool = True,
 ) -> FoldModelResult:
     """Fit on fold-training data and predict probabilities for a held-out scoring fold.
 
@@ -197,7 +201,7 @@ def fit_fold_predict_proba(
     early_stop_dataset = StudentDataset(early_stop_selected, spec.kind, spec.target_col, preprocessor.numerical_cols, preprocessor.categorical_cols)
     validation_dataset = StudentDataset(validation_selected, spec.kind, spec.target_col, preprocessor.numerical_cols, preprocessor.categorical_cols)
     batch_size = int(params.get("batch_size", 32))
-    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, drop_last=len(train_dataset) > batch_size)
+    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, drop_last=bool(drop_last_train))
     early_stop_loader = DataLoader(early_stop_dataset, batch_size=batch_size, shuffle=False)
     validation_loader = DataLoader(validation_dataset, batch_size=batch_size, shuffle=False)
 
@@ -240,7 +244,7 @@ def fit_fold_predict_proba(
     validation_refit_selected = refit_selector.transform(validation_refit_prepared)
     refit_dataset = StudentDataset(refit_selected, spec.kind, spec.target_col, refit_preprocessor.numerical_cols, refit_preprocessor.categorical_cols)
     validation_dataset = StudentDataset(validation_refit_selected, spec.kind, spec.target_col, refit_preprocessor.numerical_cols, refit_preprocessor.categorical_cols)
-    refit_loader = DataLoader(refit_dataset, batch_size=batch_size, shuffle=True, drop_last=len(refit_dataset) > batch_size)
+    refit_loader = DataLoader(refit_dataset, batch_size=batch_size, shuffle=True, drop_last=bool(drop_last_train))
     validation_loader = DataLoader(validation_dataset, batch_size=batch_size, shuffle=False)
     refit_cardinalities = [len(refit_preprocessor.label_encoders[column].classes_) for column in refit_dataset.cat_cols]
     refit_model = create_model(spec.kind, model_params, len(refit_dataset.num_cols), refit_cardinalities).to(device)
@@ -252,7 +256,7 @@ def fit_fold_predict_proba(
         lr=float(params["learning_rate"]),
         weight_decay=float(params["weight_decay"]),
     )
-    model, _ = train_fixed_epochs(refit_model, refit_loader, refit_criterion, refit_optimizer, device, selected_epochs)
+    model, refit_history = train_fixed_epochs(refit_model, refit_loader, refit_criterion, refit_optimizer, device, selected_epochs)
 
     probabilities = []
     with torch.no_grad():
@@ -263,6 +267,22 @@ def fit_fold_predict_proba(
             probabilities.extend(batch_probabilities.cpu().numpy())
     probability_array = np.asarray(probabilities)
     predictions = np.argmax(probability_array, axis=1)
+    kernel = int(model_params.get("cnn_kernel_size", 1))
+    cnn_output_length = 2 if model_params.get("architecture_variant", "cnn_bilstm") == "bilstm_only" else 2 + 2 * (kernel // 2) - kernel + 1
+    diagnostics = {
+        "selected_epoch": int(selected_epochs), "max_epochs": int(params.get("max_epochs", 100)),
+        "patience": int(params.get("patience", 15)), "scheduler_patience": int(params.get("scheduler_patience", 5)),
+        "hit_epoch_cap": bool(int(early_history["epochs_ran"]) >= int(params.get("max_epochs", 100))),
+        "best_internal_validation_macro_f1": float(max(early_history["val_f1"])),
+        "best_internal_validation_loss": float(min(early_history["val_loss"])),
+        "final_internal_validation_loss": float(early_history["val_loss"][-1]),
+        "scheduler_reductions": int(early_history["scheduler_reductions"]),
+        "final_learning_rate": float(early_history["final_learning_rate"]),
+        "final_train_loss": float(refit_history["train_loss"][-1]), "refit_epochs": int(refit_history["epochs"]),
+        "early_stop_loader": loader_statistics(len(train_dataset), batch_size, bool(drop_last_train)), "refit_loader": loader_statistics(len(refit_dataset), batch_size, bool(drop_last_train)),
+    }
+    shapes = {"input_sequence_length": 2, "cnn_kernel_size": kernel,
+              "cnn_output_sequence_length": int(cnn_output_length), "bilstm_input_sequence_length": int(cnn_output_length)}
     return FoldModelResult(
         fold_index=fold_index,
         seed=seed,
@@ -276,6 +296,8 @@ def fit_fold_predict_proba(
         train_row_positions=_row_positions(train_fold),
         early_stop_row_positions=_row_positions(early_stop_fold),
         refit_state_dict={key: value.detach().cpu().clone() for key, value in model.state_dict().items()},
+        training_diagnostics=diagnostics,
+        shape_diagnostics=shapes,
     )
 
 

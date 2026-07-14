@@ -128,7 +128,7 @@ def train_model(model, train_loader, val_loader, criterion, optimizer, config, d
         factor=config.scheduler_factor,
         patience=config.scheduler_patience,
     )
-    history = {"train_loss": [], "val_loss": [], "val_f1": [], "val_acc": []}
+    history = {"train_loss": [], "val_loss": [], "val_f1": [], "val_acc": [], "learning_rate": [], "scheduler_reductions": 0}
 
     swa_model = AveragedModel(model)
     swa_start = int(config.max_epochs * 0.6)
@@ -144,7 +144,12 @@ def train_model(model, train_loader, val_loader, criterion, optimizer, config, d
         if epoch >= swa_start:
             swa_model.update_parameters(model)
 
+        lr_before = float(optimizer.param_groups[0]["lr"])
         scheduler.step(val_f1)
+        lr_after = float(optimizer.param_groups[0]["lr"])
+        history["learning_rate"].append(lr_after)
+        if lr_after < lr_before:
+            history["scheduler_reductions"] += 1
         early_stopping(val_f1, model)
         if early_stopping.early_stop:
             logger.info("Early stopping triggered at epoch %s", epoch + 1)
@@ -161,8 +166,12 @@ def train_model(model, train_loader, val_loader, criterion, optimizer, config, d
     if val_f1_swa > early_stopping.best_score:
         logger.info(f"SWA model is better ({val_f1_swa:.4f} > {early_stopping.best_score:.4f}). Adopting SWA parameters.")
         model.load_state_dict(swa_model.module.state_dict())
+        history["epochs_ran"] = len(history["val_f1"])
+        history["final_learning_rate"] = float(optimizer.param_groups[0]["lr"])
         return model, history, val_f1_swa
 
+    history["epochs_ran"] = len(history["val_f1"])
+    history["final_learning_rate"] = float(optimizer.param_groups[0]["lr"])
     return model, history, early_stopping.best_score or 0.0
 
 
