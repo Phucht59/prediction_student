@@ -174,3 +174,13 @@ def test_runner_never_fetches_legacy_or_runs_recommendation_and_is_atomic():
     assert '"recommendation_phase_d_executed": False' in source
     assert "os.replace(tmp, final)" in source
     assert '_write_state(tmp, "failed"' in source
+
+
+def test_recovery_is_evidence_only_and_corrects_deterministic_oof_counting():
+    source = inspect.getsource(runner._resume_finalize)
+    assert "corrected_candidate_seed_row_counts" in source
+    assert "no_training_or_predictions_changed" in source
+    assert "fit_fold_predict_proba" not in source
+    assert "fit_final_development_estimator" not in source
+    main = inspect.getsource(runner.main)
+    assert "expected_oof = 2 * 316 + 3 * 5 * 316" in main

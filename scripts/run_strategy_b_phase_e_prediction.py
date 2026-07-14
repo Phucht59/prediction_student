@@ -76,6 +76,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--run-id", required=True)
     parser.add_argument("--dataset-version-id", type=int, default=1)
     parser.add_argument("--fold-manifest", type=Path, default=DEFAULT_FOLD_MANIFEST_PATH)
+    parser.add_argument("--resume-finalize", action="store_true", help="Validate and atomically finalize an evidence-only strict-check correction; never retrains.")
     return parser.parse_args()
 
 
@@ -314,11 +315,83 @@ def _conclusion(summary: pd.DataFrame, final: dict[str, Any], strict: dict[str, 
     return "\n".join(lines) + "\n"
 
 
+def _resume_finalize(tmp: Path, final: Path, report_tmp: Path, report: Path) -> None:
+    """Recover only the known count-expression validation defect without refitting.
+
+    The original run has already persisted all training, predictions, final
+    checkpoints and final-family decision.  This path is deliberately unable
+    to call a fitting function.
+    """
+    state = json.loads((tmp / "run_state.json").read_text(encoding="utf-8"))
+    strict = json.loads((tmp / "strict_validation.json").read_text(encoding="utf-8"))
+    if state.get("status") != "failed" or state.get("failure_reason") != "Phase E strict validation failed.":
+        raise RuntimeError("Only the known Phase E strict-validation partial run may be finalized.")
+    failed = [row["id"] for row in strict.get("checks", []) if not row["pass"]]
+    if failed != ["oof_coverage"]:
+        raise RuntimeError(f"Recovery refused: unexpected failed checks: {failed}")
+    oof = pd.read_csv(tmp / "outer_oof_predictions.csv")
+    expected = {"R0": 316, "M2": 316, "M1": 5 * 316, "N0": 5 * 316, "N1": 5 * 316}
+    actual = oof.groupby("candidate_id").size().to_dict()
+    coverage_pass = actual == expected and len(oof) == sum(expected.values())
+    coverage_pass &= set(oof[oof["candidate_id"] == "R0"]["seed"]) == {DETERMINISTIC_SEED}
+    coverage_pass &= set(oof[oof["candidate_id"] == "M2"]["seed"]) == {DETERMINISTIC_SEED}
+    coverage_pass &= all(set(oof[oof["candidate_id"] == candidate]["seed"]) == set(PHASE_E_SEEDS) for candidate in ["M1", "N0", "N1"])
+    stability_checks = json.loads((tmp / "stability_checkpoint_checksums.json").read_text(encoding="utf-8"))
+    final_checks = json.loads((tmp / "final_checkpoint_checksums.json").read_text(encoding="utf-8"))
+    recomputed = classification_rows(oof)
+    stored = pd.read_csv(tmp / "classification_metrics.csv")
+    metric_diff = float(np.max(np.abs(stored.sort_values(["candidate_id", "seed", "outer_fold"])["macro_f1"].to_numpy() - recomputed.sort_values(["candidate_id", "seed", "outer_fold"])["macro_f1"].to_numpy())))
+    recovery_checks = {
+        "corrected_candidate_seed_row_counts": coverage_pass,
+        "stability_checkpoints_reproduced": bool(stability_checks["all_reproduced"]),
+        "final_checkpoints_reproduced": bool(final_checks["all_reproduced"]),
+        "metric_recomputation": metric_diff <= 1e-12,
+        "five_final_hybrid_checkpoints": len(final_checks["entries"]) == 5,
+        "no_training_or_predictions_changed": True,
+    }
+    if not all(recovery_checks.values()):
+        raise RuntimeError(f"Recovery checks failed: {recovery_checks}")
+    for row in strict["checks"]:
+        if row["id"] == "oof_coverage":
+            row["pass"] = True
+            row["corrected_expected_rows"] = sum(expected.values())
+            row["actual_rows"] = len(oof)
+    strict.update({"status": "PASS", "metric_recomputation_max_abs_difference": metric_diff, "finalization_recovery": recovery_checks})
+    write_json(tmp / "strict_validation.json", strict)
+    source = _provenance()
+    provenance = json.loads((tmp / "source_provenance.json").read_text(encoding="utf-8"))
+    provenance["finalization_recovery"] = {"recovery_source_git_commit": source["git_commit"], "reason": "corrected_expected_oof_row_count_expression; original expected multiplied deterministic rows by seed count", "training_or_predictions_changed": False, "recovery_checks": recovery_checks}
+    write_json(tmp / "source_provenance.json", provenance)
+    protocol = json.loads((tmp / "protocol.json").read_text(encoding="utf-8"))
+    protocol["finalization_recovery"] = provenance["finalization_recovery"]
+    write_json(tmp / "protocol.json", protocol)
+    summary = pd.read_csv(tmp / "stability_summary.csv")
+    decision = json.loads((tmp / "final_family_decision.json").read_text(encoding="utf-8"))
+    (tmp / "phase_e_prediction_conclusion.md").write_text(_conclusion(summary, decision, strict), encoding="utf-8")
+    checksums = {p.relative_to(tmp).as_posix(): sha256_file(p) for p in sorted(tmp.rglob("*")) if p.is_file() and p.name not in {"artifact_checksums.json", "run_state.json"}}
+    write_json(tmp / "artifact_checksums.json", checksums)
+    missing = [name for name in MINIMUM_OUTPUTS if not (tmp / name).is_file()]
+    if missing:
+        raise RuntimeError(f"Recovery missing required artifacts: {missing}")
+    _write_state(tmp, "completed", strict_status="PASS", recovery_from=state, recovery_checks=recovery_checks)
+    report_tmp.mkdir(parents=True, exist_ok=True)
+    for path in tmp.iterdir():
+        if path.is_file():
+            shutil.copy2(path, report_tmp / path.name)
+    os.replace(tmp, final); os.replace(report_tmp, report)
+    print(json.dumps({"status": "PASS", "artifact_path": str(final), "report_path": str(report), "finalization_recovery": True}))
+
+
 def main() -> None:
     args = parse_args()
     final = ARTIFACT_ROOT / args.run_id
     report = REPORT_ROOT / args.run_id
     tmp, report_tmp = ARTIFACT_ROOT / f".{args.run_id}.tmp", REPORT_ROOT / f".{args.run_id}.tmp"
+    if args.resume_finalize:
+        if final.exists() or report.exists() or report_tmp.exists():
+            raise FileExistsError("Recovery requires only the failed artifact temporary directory.")
+        _resume_finalize(tmp, final, report_tmp, report)
+        return
     if any(path.exists() for path in [final, report, tmp, report_tmp]):
         raise FileExistsError("Run ID exists or has partial state.")
     tmp.mkdir(parents=True); report_tmp.mkdir(parents=True)
@@ -475,7 +548,9 @@ def main() -> None:
 
         recomputed = classification_rows(pd.read_csv(tmp / "outer_oof_predictions.csv"))
         metric_diff = float(np.max(np.abs(classification.sort_values(["candidate_id", "seed", "outer_fold"])["macro_f1"].to_numpy() - recomputed.sort_values(["candidate_id", "seed", "outer_fold"])["macro_f1"].to_numpy())))
-        expected_oof = 5 * 316 + 5 * 316 + 5 * 5 * 316 + 5 * 5 * 316  # R0, M2, M1, N0, N1
+        # R0 and deterministic M2 each have one 316-row OOF set.  Only M1,
+        # N0 and N1 contribute five genuine seed-specific OOF sets.
+        expected_oof = 2 * 316 + 3 * 5 * 316
         checks = [
             {"id": "new_seeds_only", "pass": set(PHASE_E_SEEDS).isdisjoint({42, 123, 155})},
             {"id": "phase_c_source_checksums", "pass": not phase_c_manifest["checksum_failures"]},
