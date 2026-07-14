@@ -1,0 +1,19 @@
+{
+  "protocol_version": "model_v3_2",
+  "execution_mode": "full",
+  "run_id": "model-v3-full-v3-2-20260714",
+  "source_commit": "6ee4aa2db1c7e4021c3d77a895720036c70939f4",
+  "source_tree_clean": true,
+  "expected_job_contract_checksum": "50a0668da9ebb9a8e06e94125dd394e92c3457d7b3ea377cfa1a4a6fc7230d30",
+  "selection_study_contract_checksum": "2a3b97190add587ff17aa55c62a922ee8c39ffea334476fcf818bd43f3e70f04",
+  "b0_selection_contract_checksum": "84f45c33e6ea2b99d498d971151360938b857305756e77ce4b55d54480c8fa3c",
+  "inner_split_manifest_checksum": "b706978b65a5bb36fe736b851ae09f68ff24e25ae65dfb4b8a9fe2de01cb737d",
+  "feature_contract_checksum": "d68941561bc06e37f83af37f3fd423b4be96db810fdd193ea0bbed0644841ecb",
+  "target_contract_checksum": "87c7070b22c273d347fed5381305a494fb6404e2c35772da6e226352895517e8",
+  "search_contract_checksum": "3ca898e31b8ddef881a09a99997e0b1e99e54617d88bfb6b950805e09d75c998",
+  "acceptance_contract_checksum": "9f3cee6da5ba6c236ed99afb0c70a53862512e346884380302855bb2cde24b8b",
+  "fixed_m4_config_contract_checksum": "01a8605ce5141ab730170b584602c2bd3a7d1b9e06123bdfa542bcf18928f6ea",
+  "compute_authorized": false,
+  "authorized_at": null,
+  "authorization_reason": "Awaiting scientific review; materialization does not grant compute authority."
+}

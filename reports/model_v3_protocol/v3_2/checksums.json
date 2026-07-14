@@ -1,0 +1,22 @@
+{
+  "acceptance_criteria.json": "3860c0b03017500bc06af60d568a9dd6c8735fe249da68723fc6c65166418c79",
+  "b0_selection_contract.json": "a3b6a9eb1519965c14b15815b4017c7c3d13c6916257f57712c0bd775bde3385",
+  "compute_estimate.md": "10d955a70b57c11de18bd96d6e3e22d4de07c3b70ad74c9152d72a3b432fa113",
+  "dual_track_smoke_metrics.csv": "23cf2ec2599cb3ba604702feae1da9ba04f90f7524514fc2417514310c17dc9e",
+  "dual_track_smoke_validation.json": "b21b953ef789552a90cd4747f1fe7cf654783b9c28b92adecaf2206706583a26",
+  "expected_job_contract.json": "e40a40e88fcf40ba0fa4d662be02f58f4a4c0d05f2ce72cdca726a7b72e63ef4",
+  "feature_contracts.json": "3305a5056e71b101b04d85eaba2f75f94ec98d5b7232dfd8d37b728d9dc81402",
+  "final_refit_epoch_contract.json": "1db30ae2f5617bf3f18739d5b59022ac3acd0256680e21e19751d2aee15eb82f",
+  "fixed_m4_config_contract.json": "e495a8821d218d69d4902958b1ec0ce9f3f763c0481d37abb77d3f873c0b123e",
+  "full_execution_authorization.json": "793f6ac85670b400c34f072d4f12076b58f1a82a88679a55b912641d5bb7135a",
+  "full_validator_contract.json": "fdb56907b0895986e66d3f6308a72e5d2c31be5ce4124811379d54f79e2f9070",
+  "outer_execution_contract_schema.json": "3b47d5c0c0f310ef16e705c455e5604b78601c5875e2cb35845c25ff4b78c3fc",
+  "pre_full_run_decision.md": "63fecdc8a65ae69ee693b0262868f25ff0c2f135533eb0a4e5bcb030668aee38",
+  "protocol_manifest.json": "426b2be55c5cc87b005907ed798eefd3baddd183602d9a8f15cdd3b6edb73a81",
+  "readiness_audit.md": "c8f64a82a1e311d733bee0c74a57fc09e8d302457932c5563f4b067beb9ddd3c",
+  "search_contract.json": "325aea5a97bd3ea04d3c1cd80a75ff58752345351cb42ef8b6934dbd8c59df8d",
+  "selection_study_contract.json": "dafc4b89f6d25e8146087bba45269cbfe57b4650094aa11c21009a143bc0492c",
+  "shared_inner_split_manifest.json": "253733d5d1b3b20bea75135dfd9e62ab03ec43446269637eb3445fd9bb043a6d",
+  "target_contract.json": "349a99e0e9ed359029da05c7967e96b06c7a44688047a50d0373c1a51109f3a9",
+  "test_report.json": "6d850e086f6399a8b0ed67c51eba2cacefbc14a59409ee63a30e8475ee8ab962"
+}

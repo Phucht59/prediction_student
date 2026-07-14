@@ -1,0 +1,21 @@
+{
+  "outer_execution_contract": "created after validated selection and before outer refits",
+  "required_job_fields": [
+    "selected_config_checksum_or_fixed_config_checksum",
+    "refit_epochs",
+    "feature_contract_checksum",
+    "target_contract_checksum",
+    "fold_manifest_checksum",
+    "inner_split_manifest_checksum",
+    "selection_study_checksum",
+    "source_commit"
+  ],
+  "five_seeds": [
+    42,
+    52,
+    62,
+    72,
+    82
+  ],
+  "b0_seed": 0
+}

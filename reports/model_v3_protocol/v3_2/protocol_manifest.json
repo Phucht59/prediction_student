@@ -1,0 +1,10 @@
+{
+  "protocol_version": "model_v3_2",
+  "source_commit": "6ee4aa2db1c7e4021c3d77a895720036c70939f4",
+  "source_tree_clean_verified_by_git": true,
+  "run_id": "model-v3-full-v3-2-20260714",
+  "compute_authorized": false,
+  "expected_jobs": 235,
+  "expected_predictions": 14852,
+  "created_at": "2026-07-14T05:11:20.724553+00:00"
+}

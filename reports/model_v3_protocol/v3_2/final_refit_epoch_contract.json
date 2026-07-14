@@ -1,0 +1,5 @@
+{
+  "rule": "round_half_up(median(best_epoch_inner_fold_0,best_epoch_inner_fold_1,best_epoch_inner_fold_2))",
+  "bounds": "1 <= refit_epochs <= max_epochs",
+  "m4": "internal outer-train epoch selection; no nominal-S3 epoch reuse"
+}

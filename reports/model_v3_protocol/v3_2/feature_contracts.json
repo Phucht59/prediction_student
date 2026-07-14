@@ -1,0 +1,45 @@
+{
+  "late_stage": {
+    "contract_version": "v3_2_feature_1",
+    "scenario": "late_stage",
+    "cutoff": "after_G2",
+    "feature_set_id": "G1+G2",
+    "ordered_features": [
+      "G1",
+      "G2"
+    ],
+    "preprocessing_contract": "StandardScaler fit on current training partition only",
+    "scaler_contract": "train_only_standard_scaler",
+    "target_excluded": true,
+    "temporal_availability_status": "allowed_by_frozen_feature_allowlist",
+    "class_order": [
+      "Low",
+      "Medium",
+      "High"
+    ],
+    "dataset_version": 1,
+    "fold_manifest_checksum": "bf5e5cbd8d09679f5d34900486ba23cc5ac57c93b28aa38ac3f3ce2578307ce1",
+    "semantic_checksum": "93890628f521da628330a2e54ab4456b9dacb9d4dd33c56fcaf9f79658879ad9"
+  },
+  "early_warning": {
+    "contract_version": "v3_2_feature_1",
+    "scenario": "early_warning",
+    "cutoff": "after_G1",
+    "feature_set_id": "G1",
+    "ordered_features": [
+      "G1"
+    ],
+    "preprocessing_contract": "StandardScaler fit on current training partition only",
+    "scaler_contract": "train_only_standard_scaler",
+    "target_excluded": true,
+    "temporal_availability_status": "allowed_by_frozen_feature_allowlist",
+    "class_order": [
+      "Low",
+      "Medium",
+      "High"
+    ],
+    "dataset_version": 1,
+    "fold_manifest_checksum": "bf5e5cbd8d09679f5d34900486ba23cc5ac57c93b28aa38ac3f3ce2578307ce1",
+    "semantic_checksum": "13293547a0ce3f2ceeab1034dd390b601345c71ac986d655f7d49ff91a1fa79c"
+  }
+}

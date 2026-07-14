@@ -1,0 +1,6 @@
+{
+  "reject_partial_run_for_ranking": true,
+  "require_pooled_oof_exact_316_ids": true,
+  "require_m4_fixed_config_binding": true,
+  "require_authorization_manifest": true
+}
