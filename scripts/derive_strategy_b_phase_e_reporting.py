@@ -69,12 +69,17 @@ def main() -> None:
             "final_selections_changed": False,
             "corrected_seed_stability_recomputed": True,
         }
+        strict["run_id"] = args.run_id
         strict["status"] = "PASS"
         write_json(target_tmp / "strict_validation.json", strict)
         (target_tmp / "phase_e_prediction_conclusion.md").write_text(_conclusion(summary, decision, strict), encoding="utf-8")
         provenance = json.loads((target_tmp / "source_provenance.json").read_text(encoding="utf-8"))
         provenance["reporting_correction"] = {**strict["reporting_correction"], "correction_source_git_commit": _provenance()["git_commit"]}
         write_json(target_tmp / "source_provenance.json", provenance)
+        protocol = json.loads((target_tmp / "protocol.json").read_text(encoding="utf-8"))
+        protocol["run_id"] = args.run_id
+        protocol["reporting_correction"] = strict["reporting_correction"]
+        write_json(target_tmp / "protocol.json", protocol)
         checks = {path.relative_to(target_tmp).as_posix(): sha256_file(path) for path in sorted(target_tmp.rglob("*")) if path.is_file() and path.name not in {"artifact_checksums.json", "run_state.json"}}
         write_json(target_tmp / "artifact_checksums.json", checks)
         state = json.loads((target_tmp / "run_state.json").read_text(encoding="utf-8"))
