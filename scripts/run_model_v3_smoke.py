@@ -308,7 +308,7 @@ def main() -> None:
     job_columns = ["model_family", "track", "outer_fold", "training_seed"]
     for key, group in predictions.groupby(job_columns):
         recomputed[key] = classification_metrics(group.true_label, group.predicted_label, group[["probability_low", "probability_medium", "probability_high"]].to_numpy())["macro_f1"]
-    stored_by_job = {tuple(row[column] for column in job_columns): row.macro_f1 for row in metrics.itertuples(index=False)}
+    stored_by_job = {tuple(getattr(row, column) for column in job_columns): row.macro_f1 for row in metrics.itertuples(index=False)}
     config_valid = all(group.config_checksum.nunique() == 1 for _, group in predictions.groupby("model_family"))
     selection_config_valid = all(row.config_checksum == checksum(row.config) for row in selected.itertuples(index=False))
     validation = {"run_id": args.run_id, "expected_jobs": len(expected_keys), "actual_jobs": len(actual_keys),
