@@ -1,0 +1,6 @@
+{
+  "contract_version":"v3_feature_1",
+  "late_stage":{"feature_set_id":"G1+G2","ordered_features":["G1","G2"],"availability":"verified","target_excluded":true,"preprocessing":"train-only standard scaler"},
+  "early_warning":{"feature_set_id":"G1","ordered_features":["G1"],"availability":"verified","target_excluded":true,"preprocessing":"train-only standard scaler"},
+  "pre_assessment":{"status":"NOT_EVALUABLE_UNDER_STRICT_FEATURE_AVAILABILITY_CONTRACT"}
+}
