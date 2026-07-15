@@ -505,7 +505,14 @@ def make_figures(
 
 
 def artifact_checksums(root: Path) -> dict[str, str]:
-    return {str(path.relative_to(root)).replace("\\", "/"): sha256(path) for path in sorted(root.rglob("*")) if path.is_file() and path.name != "artifact_checksums.json"}
+    runtime_only = {"checkpoints", "preprocessors", "job_cache", "search_cache"}
+    return {
+        str(path.relative_to(root)).replace("\\", "/"): sha256(path)
+        for path in sorted(root.rglob("*"))
+        if path.is_file()
+        and path.name != "artifact_checksums.json"
+        and not runtime_only.intersection(path.relative_to(root).parts)
+    }
 
 
 def main() -> int:
