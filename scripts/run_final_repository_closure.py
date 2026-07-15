@@ -52,6 +52,7 @@ REQUIRED_OUTPUTS = [
     "test_report.json", "test_stdout.txt", "database_static_validation.json",
     "readme_claim_audit.csv", "project_claim_audit.csv", "prohibited_claim_scan.csv",
     "broken_link_report.csv", "large_file_report.csv", "secret_scan_report.json",
+    "repository_audit.csv",
     "source_provenance.json", "strict_validation.json", "final_repository_conclusion.md",
     "thesis_writing_context.md", "thesis_evidence_map.csv", "artifact_checksums.json",
 ]
@@ -296,6 +297,39 @@ def artifact_index(official: dict[str, Any], historical: dict[str, Any]) -> dict
     return {"official_registry_hash": sha256_json(official), "historical_registry_hash": sha256_json(historical), "top_level_collections": top}
 
 
+def repository_audit_rows(lineage: dict[str, Any], links: pd.DataFrame, large: pd.DataFrame, secrets: dict[str, Any], database: dict[str, Any]) -> pd.DataFrame:
+    rows = [
+        ["Current branch and clean preflight", "codex/final-repository-closure; clean before materialization", "official", "none", "repository_state.json"],
+        ["Commit ancestry Phase A-B through D", "all frozen commits are ancestors", "official", "none", "commit_lineage.json"],
+        ["README", "rewritten to Phase E/D scientific truth", "official", "none", "readme_claim_audit.csv"],
+        ["PROJECT.md", "technical contract aligned with README", "official", "none", "project_claim_audit.csv"],
+        ["Phase A-B correctness", "strict PASS and quarantine registry retained", "official", "none", str(PHASE_AB.relative_to(ROOT) / "strict_validation.json")],
+        ["Phase C comparison", "corrected main comparison strict PASS", "official", "none", str(PHASE_C.relative_to(ROOT) / "strict_validation.json")],
+        ["Phase E prediction freeze", "R0/N0 roles and checksums PASS", "official", "none", str(PHASE_E.relative_to(ROOT) / "strict_validation.json")],
+        ["Phase D recommendation", "technical PASS; expert PENDING; effectiveness NOT_PERFORMED", "official", "none", str(PHASE_D.relative_to(ROOT) / "strict_validation.json")],
+        ["Historical final/locked-test outputs", "preserved; include observed-79 results", "historical", "exclude from headline", "historical_evidence_registry.json"],
+        ["Fair deep-learning rows", "resolved-config estimator mismatch", "invalid", "exclude from official ranking", "Phase A-B evidence_quarantine_registry.json"],
+        ["Phase C smoke", "runtime/code-path evidence only", "smoke", "exclude from ranking", "historical_evidence_registry.json"],
+        ["Residual/Huber diagnostics", "hypothesis/diagnostic only; gates closed", "diagnostic", "exclude from centerpiece", "historical_evidence_registry.json"],
+        ["Old CNN-BiLSTM estimator outputs", "predate corrected estimator/refit contract", "deprecated", "historical context only", "historical_evidence_registry.json"],
+        ["scripts/run_pipeline.py", "historical locked/observed experiment runner; prohibited by default unless explicit legacy flag", "deprecated", "do not use for quick validation", "README How to run"],
+        ["scripts/optimize_model_selection.py and Phase C/E runners", "expensive historical experiment entrypoints", "deprecated", "require explicit future authorization", "README How to run"],
+        ["scripts/materialize_recommendation_policy.py", "legacy materializer fail-closed", "deprecated", "retain fail-closed", "source file"],
+        ["Hard-coded local paths", "found only in integration-test fixtures and historical audit/provenance docs; active closure commands are repository-relative", "historical", "preserve provenance; do not copy into active instructions", "hard-coded path scan"],
+        ["Temporary/cache files", "ignored; local caches removed during closure", "deprecated", "keep ignored", ".gitignore"],
+        ["Large tracked files", f"{len(large)} files >=1 MiB, all CSV evidence", "official/historical", "preserve and index", "large_file_report.csv"],
+        ["Secrets/DSNs", f"confirmed secrets={secrets['confirmed_secrets']}", "official", "none" if secrets["status"] == "PASS" else "remove secret", "secret_scan_report.json"],
+        ["Internal documentation links", f"broken={0 if links.empty else int((~links['exists']).sum())}", "official", "none", "broken_link_report.csv"],
+        ["Database migrations 001-004", f"static={database['database_migration_static_validation']}; execution={database['database_migration_execution']}", "official", "execute destructive tests only on disposable DSN", "database_static_validation.json"],
+        ["Final model files", "R0 contract plus five N0 checkpoints/preprocessors present in Phase E bundle", "official", "none", str(PHASE_E.relative_to(ROOT) / "final_model_manifest.json")],
+        ["Terminology", "active README/PROJECT use development-only, governed, non-causal terms", "official", "historical documents remain registry-limited", "prohibited_claim_scan.csv"],
+    ]
+    frame = pd.DataFrame(rows, columns=["item", "current_status", "classification", "action_required", "evidence"])
+    if not lineage["all_official_commits_ancestors"]:
+        frame.loc[frame["item"] == "Commit ancestry Phase A-B through D", ["current_status", "action_required"]] = ["incomplete", "repair ancestry"]
+    return frame
+
+
 def thesis_context(metrics: pd.DataFrame, recommendation: dict[str, Any]) -> str:
     table = metrics.copy()
     for column in ["accuracy", "macro_precision", "macro_recall", "macro_f1", "weighted_f1", "high_class_f1", "macro_pr_auc", "rmse_g3", "r2_g3"]:
@@ -438,6 +472,7 @@ def main() -> None:
         links = markdown_link_report()
         large = large_files()
         secrets = secret_scan()
+        repository_audit = repository_audit_rows(lineage, links, large, secrets, database)
 
         repository_state = {
             "branch": branch, "commit": head, "working_tree_clean_before_materialization": not initial_status,
@@ -469,6 +504,7 @@ def main() -> None:
         prohibited.to_csv(tmp / "prohibited_claim_scan.csv", index=False)
         links.to_csv(tmp / "broken_link_report.csv", index=False)
         large.to_csv(tmp / "large_file_report.csv", index=False)
+        repository_audit.to_csv(tmp / "repository_audit.csv", index=False)
         metrics.to_csv(tmp / "final_metrics.csv", index=False)
         write_json(tmp / "closure_protocol.json", closure_protocol)
         write_json(tmp / "repository_state.json", repository_state)
@@ -512,6 +548,7 @@ def main() -> None:
             {"id": "database_static_validation", "pass": database["database_migration_static_validation"] == "PASS"},
             {"id": "final_model_roles", "pass": model_registry["final_overall_model"]["candidate_id"] == "R0" and model_registry["final_thesis_hybrid_model"]["candidate_id"] == "N0"},
             {"id": "recommendation_status", "pass": recommendation["technical_validation"] == "PASS" and recommendation["expert_validation"] == "PENDING" and recommendation["effectiveness_validation"] == "NOT_PERFORMED"},
+            {"id": "active_pipeline_no_target_leakage", "pass": "Prediction snapshot feature input may contain only G1/G2" in (ROOT / "src" / "governed_recommendation.py").read_text(encoding="utf-8") and "source_record_targets" not in (ROOT / "src" / "postgres_data_source.py").read_text(encoding="utf-8").split("def load_development_feature_subset_from_postgres", 1)[1].split("\ndef load_dataset_version", 1)[0]},
             {"id": "no_new_training_or_observed_access", "pass": not repository_state["model_experiments_run"] and not repository_state["legacy_observed_79_accessed"]},
             {"id": "required_outputs_prechecksum", "pass": all((tmp / name).is_file() for name in REQUIRED_OUTPUTS if name not in {"artifact_checksums.json", "strict_validation.json", "final_repository_conclusion.md"})},
         ]

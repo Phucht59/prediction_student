@@ -13,6 +13,7 @@ from scripts.run_final_repository_closure import (
     historical_registry,
     markdown_link_report,
     recommendation_summary,
+    repository_audit_rows,
 )
 
 
@@ -68,3 +69,17 @@ def test_closure_runner_contains_no_training_entrypoint_or_observed_fetch():
     assert "fit_final_development_estimator(" not in source
     assert "run_strategy_b_phase_c.py" not in source
     assert "legacy_heldout_observed" in (ROOT / "README.md").read_text(encoding="utf-8")
+
+
+def test_repository_audit_covers_dead_entrypoints_paths_caches_and_evidence():
+    audit = repository_audit_rows(
+        {"all_official_commits_ancestors": True},
+        pd.DataFrame(columns=["exists"]),
+        pd.DataFrame(columns=["path"]),
+        {"confirmed_secrets": 0, "status": "PASS"},
+        {"database_migration_static_validation": "PASS", "database_migration_execution": "NOT_PERFORMED"},
+    )
+    text = " ".join(audit["item"].tolist()).lower()
+    for term in ["hard-coded", "temporary", "large", "secrets", "materialize", "run_pipeline", "terminology"]:
+        assert term in text
+    assert set(audit.columns) == {"item", "current_status", "classification", "action_required", "evidence"}
