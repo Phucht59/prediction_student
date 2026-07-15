@@ -50,6 +50,20 @@ reports/debug/
 artifacts/smoke/
 artifacts/preflight/
 
+# Scientific extension: keep raw/large derived data ignored, version only compact evidence.
+!reports/extension_execution/
+!reports/extension_execution/**
+!artifacts/study_b_student_por/
+!artifacts/study_b_student_por/**
+!artifacts/study_c_oulad/
+!artifacts/study_c_oulad/**
+artifacts/study_b_student_por/**/*.pt
+artifacts/study_b_student_por/**/*.pth
+artifacts/study_b_student_por/**/*.parquet
+artifacts/study_c_oulad/**/*.pt
+artifacts/study_c_oulad/**/*.pth
+artifacts/study_c_oulad/**/*.parquet
+
 # Benchmark V2 run outputs are immutable runtime evidence, not source files.
 # Protocol definitions and selected audit reports below remain versioned.
 artifacts/benchmark_v2/
@@ -67,6 +81,8 @@ reports/benchmark_v2/v2_1/
 
 !data/raw/.gitkeep
 !data/processed/.gitkeep
+!data/manifests/
+!data/manifests/extension_raw_manifest.json
 !models/saved/.gitkeep
 !reports/results/.gitkeep
 !reports/figures/.gitkeep
