@@ -1,229 +1,219 @@
-# Dự đoán thành tích học tập sinh viên
+# Student Performance Prediction and Governed Learning-Path Recommendation
 
-Dự án xây dựng và đánh giá hệ thống dự đoán kết quả học tập ba mức trên bộ dữ
-liệu UCI Student Performance (`student-mat`). Mô hình nghiên cứu cuối cùng là
-CNN–BiLSTM nhận chuỗi hai điểm đánh giá trước đó `[G1, G2]`; hệ thống đồng thời
-cung cấp benchmark Machine Learning, lưu vết dữ liệu bằng PostgreSQL và sinh
-khuyến nghị hỗ trợ học tập theo luật xác định.
+## 1. Project overview
 
-> Phạm vi khoa học: dữ liệu gồm 395 học sinh trung học tại Bồ Đào Nha trong môn
-> Toán. Đây không phải dữ liệu sinh viên đại học Việt Nam. Kết quả chỉ chứng minh
-> tính khả thi trên bộ dữ liệu nghiên cứu và cần được thẩm định lại trước khi áp
-> dụng trong bối cảnh khác.
+Repository này nghiên cứu dự đoán mức kết quả cuối kỳ từ điểm `G1`, `G2` và xây dựng hệ thống khuyến nghị lộ trình học có quản trị. Hệ thống gồm hai lớp độc lập: prediction được freeze từ development evidence và recommendation dựa trên luật chuyên gia, luôn cần advisor review.
 
-## Bài toán
+Trạng thái cuối:
 
-Điểm cuối kỳ `G3` được chuyển thành ba lớp có thứ tự:
+- `final_overall_model`: **R0 — G2 deterministic rule**.
+- `final_thesis_hybrid_model`: **N0 — nominal CNN–BiLSTM five-seed ensemble**.
+- Recommendation: `technical_validation = PASS`, `expert_validation = PENDING`, `effectiveness_validation = NOT_PERFORMED`.
 
-| Lớp | Điều kiện | Số mẫu toàn bộ |
-| --- | ---: | ---: |
-| Low | `G3 <= 9` | 130 |
-| Medium | `10 <= G3 <= 14` | 192 |
-| High | `G3 >= 15` | 73 |
+## 2. Thesis objectives
 
-Tập dữ liệu được chia cố định và phân tầng thành 316 mẫu development và 79 mẫu
-locked test. `G3` chỉ được dùng làm nhãn, không bao giờ được đưa vào đặc trưng.
+1. So sánh minh bạch các baseline ML và kiến trúc CNN–BiLSTM trên cùng hợp đồng G1/G2.
+2. Đánh giá classification, ordinal error, calibration, stability và continuous-G3 analysis mà không tạo composite score hậu nghiệm.
+3. Giữ CNN–BiLSTM như kiến trúc nghiên cứu của khóa luận, không ép kiến trúc này thành overall champion.
+4. Sinh draft lộ trình bốn tuần có mục tiêu, hành động, giải thích, advisor decision, follow-up và immutable revision.
 
-Ba thời điểm dự báo được định nghĩa riêng:
+## 3. Scientific scope
 
-- `late_stage`: dùng G1 và G2;
-- `early_warning`: loại G2;
-- `pre_assessment`: loại cả G1 và G2.
+Đây là nghiên cứu **development-selected and development-frozen**. Không có tập xác nhận ngoài hoàn toàn chưa từng quan sát. Hệ thống recommendation là **expert-guided, rule-based, human-in-the-loop và non-causal**; nó không phải learned recommender, causal recommender hay reinforcement-learning recommender.
 
-Các thời điểm này không được so sánh trực tiếp như cùng một bài toán vì lượng
-thông tin đầu vào khác nhau.
+Không được dùng repository để tuyên bố CNN–BiLSTM vượt trội ML, mô hình đã chứng minh khả năng tổng quát hóa thực tế, hoặc khuyến nghị đã làm tăng điểm.
 
-## Mô hình cuối cùng
+## 4. Dataset and target definition
 
-Mô hình nghiên cứu được đóng băng là CNN–BiLSTM một seed (`42`):
+- Nguồn: UCI Student Performance, bảng `student-mat`.
+- Tổng số: 395 records.
+- Development protocol: 316 records.
+- 79 records còn lại có trạng thái `legacy_heldout_observed`; chúng đã bị quan sát trong lịch sử và không còn là locked test hợp lệ.
+- Input prediction: `G1`, `G2`.
+- Target: raw `G3`, chỉ nằm trong target storage/evaluation contract.
+- Bins: Low = G3 0–9, Medium = 10–14, High = 15–20; class order 0/1/2.
+
+`G2-G1` chỉ là deterministic trajectory dùng cho explanation/planning, không đi vào frozen prediction model.
+
+## 5. Data lineage and PostgreSQL architecture
+
+PostgreSQL tách source records, target records, split membership, predictions và governed recommendation lineage. Migrations nằm trong [`database/migrations`](database/migrations):
+
+- `001`: source/ML schema;
+- `002`: append-only recommendation policy versions;
+- `003`: tách target khỏi source payload;
+- `004`: policy, feature/action registries, prediction snapshots, immutable revisions, advisor decisions, follow-ups, outcomes và expert review.
+
+Official Phase D chỉ đọc G1/G2 bằng development source-row allowlist trong read-only transaction; không join target table và không fetch 79 observed.
+
+## 6. Validation protocol
+
+- 5 immutable outer folds × 3 inner folds trên 316 development records.
+- Phase C: tối đa 30 Optuna trials/family, cùng fold/feature/training contracts.
+- Phase E stability seeds: `202601`, `202602`, `202603`, `202604`, `202605`; không chọn best seed.
+- Macro-F1 là primary classification metric.
+- Accuracy, Precision, Recall, F1 và PR-AUC là classification metrics.
+- RMSE/R² là continuous-G3 secondary analysis; R0 dùng `predicted_G3 = G2`, còn classification-only models dùng class-conditional training-partition means.
+- Không trộn classification và regression metrics thành composite score.
+- Calibration chỉ được đánh giá từ inner-OOF; N0 calibration bị reject và giữ uncalibrated.
+
+## 7. Final model roles
+
+| Model | Role | Final status |
+| --- | --- | --- |
+| R0 — G2 deterministic rule | Overall development-selected model, sanity/reference guardrail | Frozen |
+| M1 — Random Forest | Practical-tie ML comparator; highest point-estimate Macro-F1 | Comparator |
+| M2 — SVM RBF | Practical-tie ML comparator | Comparator |
+| N0 — nominal CNN–BiLSTM | Thesis hybrid five-seed ensemble and recommendation score source | Frozen |
+| N1 — ordinal CNN–BiLSTM | Ordinal research comparator | Comparator |
+
+R0 không có probabilistic uncertainty. N0 outputs được gọi là `model_score`/`ensemble_score`, không phải xác suất đúng tuyệt đối.
+
+## 8. Official development results
+
+| Model | Role | Accuracy | Macro Precision | Macro Recall | Macro-F1 | Weighted-F1 | High-class F1 | Macro PR-AUC | RMSE G3 | R² G3 | Validation scope |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| R0 | final overall model | 0.8924 | 0.9078 | 0.8935 | 0.8988 | 0.8925 | 0.9246 | 0.8461 | 2.0086 | 0.8050 | Nested development OOF |
+| M1 | practical-tie ML comparator | 0.8924 | 0.9079 | 0.8924 | **0.9000** | 0.8920 | 0.9332 | 0.9526 | 2.4609 | 0.7065 | Nested development OOF/new-seed stability |
+| M2 | practical-tie ML comparator | 0.8829 | 0.9035 | 0.8798 | 0.8901 | 0.8829 | 0.9246 | **0.9602** | 2.3605 | 0.7305 | Nested development OOF/deterministic replay |
+| N0 | final thesis hybrid model | 0.8462 | 0.8606 | 0.8535 | 0.8504 | 0.8450 | 0.8694 | 0.9510 | 2.4632 | 0.7067 | Nested development OOF/five new seeds |
+| N1 | ordinal research comparator | 0.8315 | 0.8435 | 0.8621 | 0.8383 | 0.8289 | 0.8701 | 0.9457 | 2.4329 | 0.7128 | Nested development OOF/five new seeds |
+
+Random Forest có point-estimate Macro-F1 cao nhất. Tuy nhiên R0, M1 và M2 nằm trong practical tie theo rule đã đăng ký; R0 được chọn bởi tie-break và simplicity, không phải vì superiority thống kê. N0 là thesis hybrid; N0/N1 không có superiority rõ.
+
+## 9. CNN–BiLSTM architecture
+
+N0 dùng `[G1,G2] → compact Conv1D → activation → optional LayerNorm → dropout → compact BiLSTM → nominal three-class logits`. Main contract không dùng BatchNorm, `drop_last=False`, full-record coverage, fixed/replayable LR policy, không SWA và full-fold refit. Final bundle là arithmetic mean của năm checkpoints Phase E.
+
+## 10. Ablation findings
+
+- CNN–BiLSTM đã cải thiện so với estimator CNN–BiLSTM lịch sử đã quarantine, nhưng vẫn thấp hơn các ML baselines chính.
+- A2 BiLSTM-only practical-tie với N0 trong Phase C.
+- CNN chưa chứng minh incremental value rõ trên chuỗi chỉ hai timestep.
+- Ordinal learning chưa chứng minh cải thiện; N1 không vượt N0 rõ ràng.
+- Residual, multitask và imbalance branches không được mở vì gates không đạt.
+
+## 11. Recommendation architecture
 
 ```text
-[G1, G2]
-   -> Conv1D(1 -> 16, kernel=1)
-   -> BatchNorm + ReLU + sequence dropout
-   -> BiLSTM(hidden=32, 1 layer)
-   -> concatenated bidirectional hidden state
-   -> head dropout
-   -> Linear(64 -> 3)
-   -> Softmax / argmax
+Frozen N0 five-seed ensemble + R0 agreement guardrail
+→ prediction evidence snapshot
+→ uncertainty/agreement and feature-governance assessment
+→ governed rule-based four-week learning plan
+→ advisor approve/modify/reject/request-more-information
+→ follow-up and immutable revision
 ```
 
-Mô hình có 13.059 tham số học được. Cấu hình cuối dùng batch size 32, learning
-rate `0.0046677`, weight decay `0.0003541`, tối đa 40 epoch và early stopping
-patience 12. Nhãn lịch sử `weighted_ce` trong cấu hình được diễn giải là
-`CrossEntropyLoss` không class weighting vì `class_weight_mode=none`.
+Tên mô tả chính thức: **Hệ thống khuyến nghị lộ trình học dựa trên luật chuyên gia, có quản trị, giải thích, advisor review, follow-up và revision.** Không recommendation nào tự động active.
 
-## Kết quả CNN–BiLSTM đã đóng băng
+## 12. Recommendation technical validation
 
-| Chỉ số | Kết quả |
+| Item | Result |
 | --- | ---: |
-| Nested outer Macro-F1 | `0.8781 ± 0.0448` |
-| Locked-test accuracy | `0.9114` |
-| Locked-test Macro-F1 | `0.9262` |
-| Locked-test weighted F1 | `0.9122` |
-| Balanced accuracy | `0.9345` |
-| Quadratic weighted kappa | `0.9152` |
-| Macro PR-AUC | `0.9699` |
-| Brier / ECE | `0.1683 / 0.0591` |
-| Ordinal MAE | `0.0886` |
+| Development recommendation cases | 316 |
+| Eligible for normal draft gate | 245 |
+| Uncertainty/agreement review cases | 71 |
+| Gate review rate | 22.47% |
+| Drafts requiring advisor approval | 100% |
+| Generated actions | 1,313 |
+| Action conflicts / duplicates / workload violations | 0 / 0 / 0 |
+| Goal / action / explanation completeness | 100% / 100% / 100% |
+| Expert casebook | 60 cases / 23 strata |
 
-Khoảng tin cậy bootstrap 95% trên 79 mẫu locked test là `0.8481–0.9620` cho
-accuracy và `0.8704–0.9694` cho Macro-F1. Có 7 lỗi lệch một mức và không có lỗi
-lệch hai mức.
+`technical_validation = PASS`; `expert_validation = PENDING`; `effectiveness_validation = NOT PERFORMED`. Structural correctness không phải bằng chứng recommendation effectiveness.
 
-## Benchmark mô hình công bằng
+## 13. Reproducibility
 
-Runner `scripts/run_fair_model_comparison.py` so sánh các mô hình sau bằng cùng
-G1/G2, cùng 316 mẫu development, cùng 5 outer folds, 3 inner folds, 30 Optuna
-trials cho mỗi mô hình/fold, seed 42, không resampling, không class weighting và
-không sử dụng locked test:
+Official evidence roots:
 
-- Decision Tree;
-- Random Forest;
-- SVM-RBF;
-- XGBoost;
-- Gradient Boosting;
-- CNN+LSTM;
-- CNN+BiLSTM.
+- Phase A–B: [`artifacts/strategy_b_phase_ab/strategy-b-phase-ab-20260714-475a672`](artifacts/strategy_b_phase_ab/strategy-b-phase-ab-20260714-475a672)
+- Phase C: [`artifacts/strategy_b_phase_c/strategy-b-phase-c-20260714-5d34a66`](artifacts/strategy_b_phase_c/strategy-b-phase-c-20260714-5d34a66)
+- Phase E: [`artifacts/strategy_b_phase_e_prediction/strategy-b-phase-e-prediction-20260714-9007144`](artifacts/strategy_b_phase_e_prediction/strategy-b-phase-e-prediction-20260714-9007144)
+- Phase D: [`artifacts/strategy_b_phase_d_recommendation/strategy-b-phase-d-recommendation-20260715-407ac0f`](artifacts/strategy_b_phase_d_recommendation/strategy-b-phase-d-recommendation-20260715-407ac0f)
 
-| Mô hình | Outer Macro-F1 | OOF accuracy |
-| --- | ---: | ---: |
-| Random Forest | **`0.8915 ± 0.0240`** | `0.8861` |
-| Decision Tree | `0.8906 ± 0.0248` | `0.8861` |
-| SVM-RBF | `0.8894 ± 0.0290` | `0.8829` |
-| Gradient Boosting | `0.8872 ± 0.0290` | `0.8829` |
-| XGBoost | `0.8739 ± 0.0341` | `0.8703` |
-| CNN+BiLSTM | `0.8380 ± 0.0475` | `0.8354` |
-| CNN+LSTM | `0.7970 ± 0.1253` | `0.8133` |
+Artifact checksum manifests và source provenance là nguồn kiểm tra; không cần retrain để xác minh repository.
 
-Đây là benchmark kiến trúc riêng, không thay thế kết quả của cấu hình CNN–BiLSTM
-final. CNN–BiLSTM trong benchmark được tuning lại dưới chính sách chung không
-xử lý mất cân bằng; vì vậy giá trị `0.8380` không được trộn với kết quả nested CV
-`0.8781` của mô hình final.
-
-Kết luận đúng là các baseline ML cổ điển mạnh hơn CNN–BiLSTM trong benchmark
-G1/G2 chuẩn hóa này. Dự án không tuyên bố CNN–BiLSTM vượt mọi baseline.
-
-## Kiến trúc dữ liệu PostgreSQL-first
+## 14. Repository structure
 
 ```text
-CSV --(ingestion một lần)--> PostgreSQL dataset version
-                              |-- source_records
-                              |-- source_record_targets
-                              |-- split ledger
-                              |-- experiment runs
-                              |-- predictions / metrics / recommendations
-                                      |
-                                      +--> final evidence bundle
+config/       feature availability contracts
+database/     PostgreSQL migrations
+src/          estimator, models, metrics, lineage and governed policy
+scripts/      ingestion, historical experiment runners and validators
+tests/        unit/contract/integration tests
+artifacts/    immutable machine-readable evidence
+reports/      human-readable evidence mirrors and thesis context
+docs/         historical design/audit documents; registry controls headline use
 ```
 
-CSV chỉ được đọc tại biên ingestion. Model selection, training, evaluation và
-inference chính thức tải dữ liệu từ PostgreSQL theo `dataset_version_id`. Nhãn
-được lưu riêng trong `source_record_targets`; pipeline dừng ngay nếu migration
-003 hoặc target rows chưa đầy đủ.
+## 15. How to run
 
-## Cài đặt
-
-Yêu cầu Python 3.10 và PostgreSQL. Cài dependency:
+Environment:
 
 ```powershell
-py -3.10 -m pip install -r requirements-lock.txt
+python -m pip install -r requirements-lock.txt
+Copy-Item .env.example .env
 ```
 
-Tạo `.env` từ `.env.example` và điền thông tin kết nối. `DATABASE_URL` được ưu
-tiên nếu có; nếu không, hệ thống dùng `POSTGRES_HOST`, `POSTGRES_PORT`,
-`POSTGRES_DB`, `POSTGRES_USER` và `POSTGRES_PASSWORD`. File `.env` đã được
-Git ignore và không được commit.
-
-Áp dụng migrations theo thứ tự:
-
-```text
-database/migrations/001_create_source_ml_schema.sql
-database/migrations/002_allow_append_only_recommendation_policy_versions.sql
-database/migrations/003_add_source_record_targets.sql
-```
-
-Ingest dữ liệu một lần:
+PostgreSQL ingestion (mutating; only on an authorized database):
 
 ```powershell
-py -3.10 scripts/ingest_dataset_to_postgres.py --dataset student-mat
+python scripts/ingest_dataset_to_postgres.py --dataset student-mat
 ```
 
-## Chạy thực nghiệm
+Database migrations must be applied in numeric order with `psql -v ON_ERROR_STOP=1 -f <migration>`. Migration 004 destructive tests require disposable `POSTGRES_TEST_DSN`; do not use production.
 
-Chọn cấu hình CNN–BiLSTM bằng nested CV:
+Quick portable validation:
 
 ```powershell
-py -3.10 scripts/optimize_model_selection.py --dataset student-mat `
-  --dataset-version-id 1 --n-trials 30 --outer-folds 5 --inner-folds 3 `
-  --selection-seed 42 --selection-run-id nested-full-20260710
+python scripts/verify_final_evidence.py --skip-db
+python -m pytest -q
 ```
 
-Chạy mô hình final bằng cấu hình đã đóng băng:
+Official Phase validators are checksum/strict artifacts: inspect `strict_validation.json` and verify `artifact_checksums.json` under the Phase A–B/C/E/D roots above. Phase C/E runners and Optuna commands are expensive historical reproduction entrypoints, not quick validation commands.
+
+## 16. Tests
+
+Run the exact current suite with:
 
 ```powershell
-py -3.10 scripts/run_pipeline.py --dataset student-mat --target-mode 3class `
-  --dataset-version-id 1 `
-  --selection-config-json artifacts/model_selection/nested-full-20260710/selected_config.json
+python -m pytest -q -rs
 ```
 
-Chạy benchmark công bằng 7 mô hình:
+Five PostgreSQL destructive integration tests may skip when disposable DSNs/`psql` are unavailable. A skip is not a pass and production DB must not be used to satisfy them. The authoritative closure count is stored in the newest `artifacts/final_repository_closure/<run_id>/test_report.json`, never hard-coded here.
 
-```powershell
-py -3.10 scripts/run_fair_model_comparison.py --dataset-version-id 1 `
-  --run-id fair-model-comparison-full
-```
+## 17. Evidence registry
 
-Kết quả runtime của benchmark được tạo tại
-`artifacts/baseline_comparison/<run-id>/` và được Git ignore để tránh commit các
-file thực nghiệm lớn. Các con số chính đã được cố định trong README và
-`PROJECT.md`.
+The closure bundle provides `official_evidence_registry.json`, `historical_evidence_registry.json` and `artifact_index.json`. Headline-eligible evidence is limited to Phase C main comparison, Phase E final development freeze and Phase D technical validation.
 
-Xác minh evidence cuối:
+Historical locked-test results, the 79 observed records, old fair-DL rows with resolved-config mismatch, smoke runs, residual diagnostics and old-estimator CNN–BiLSTM results are not headline evidence. They remain preserved for auditability.
 
-```powershell
-py -3.10 scripts/verify_final_evidence.py
-```
+## 18. Limitations
 
-Chạy test:
+- Small dataset (395 total; 316 usable development records).
+- Sequence length is two, limiting claims about temporal modeling.
+- No untouched external confirmation dataset.
+- The 79 historical held-out records were observed and are contaminated for confirmation.
+- N0 is uncalibrated; R0 has no uncertainty estimate.
+- Context features are not activated in the governed recommendation policy.
+- Expert review and prospective effectiveness evaluation remain outstanding.
 
-```powershell
-py -3.10 -m pytest -q
-```
+## 19. Ethical and scientific boundaries
 
-Trạng thái gần nhất: 87 passed, 5 skipped. Các test bị skip là test tích hợp phụ
-thuộc thông tin kết nối PostgreSQL tại runtime.
+- No automatic educational decision, ranking, discipline or denial of support.
+- No causal interpretation of feature associations or recommendation actions.
+- No fake confidence for deterministic R0.
+- Every recommendation remains a draft until advisor review.
+- Sensitive/non-actionable attributes are excluded from active recommendation rules.
+- Future deployment requires data minimization, access control, audit logs, monitoring and local validation.
 
-## Hệ thống khuyến nghị
+## 20. Thesis-writing sources
 
-Khuyến nghị được tạo bởi policy luật xác định `student_mat_rule_policy_v3`,
-không phải recommender học máy. Policy kết hợp dự đoán, độ tin cậy và ngữ cảnh
-được phép để sinh yếu tố rủi ro, hành động ưu tiên, lý do và cảnh báo cần người
-phụ trách xem xét. Đánh giá trên 79 đầu ra cho thấy schema hợp lệ, có giải thích,
-có hành động cụ thể, không mâu thuẫn và không rò metadata nhạy cảm đều đạt 100%.
-Đánh giá chuyên gia và hiệu quả can thiệp vẫn chưa được thu thập.
+Use the newest closure files:
 
-## Cấu trúc repository
+- `reports/final_repository_closure/<run_id>/thesis_writing_context.md`
+- `reports/final_repository_closure/<run_id>/thesis_evidence_map.csv`
+- Phase E `stability_summary.csv`, `confusion_matrices.csv`, `precision_recall_curve_points.csv`, `paired_stability_deltas.csv` and `final_model_manifest.json`.
+- Phase D `technical_safety_metrics.json`, `coverage_and_abstention.csv`, `expert_casebook.csv` and `strict_validation.json`.
 
-```text
-config/                 hợp đồng đặc trưng theo thời điểm dự báo
-database/migrations/    schema và migrations PostgreSQL
-src/                    pipeline dữ liệu, mô hình, đánh giá, khuyến nghị
-scripts/                ingestion, selection, final run, benchmark, verification
-tests/                  unit, protocol và PostgreSQL integration tests
-artifacts/model_selection/  evidence lựa chọn cấu hình
-artifacts/final/        evidence final đã đóng băng
-docs/report_context/    dữ kiện và dàn ý hỗ trợ viết báo cáo
-reports/scientific_audit/ kiểm toán leakage và nested CV
-```
-
-## Giới hạn sử dụng
-
-- G2 là tín hiệu late-stage rất mạnh; hiệu năng cao không đồng nghĩa cảnh báo sớm.
-- Chuỗi chỉ dài hai bước nên không được diễn giải là phụ thuộc thời gian dài hạn.
-- Dữ liệu nhỏ, một môn học và một bối cảnh lịch sử; chưa đủ cho triển khai rộng.
-- Điểm High hoàn hảo trên 15 mẫu test không phải bảo đảm tổng quát hóa.
-- Dự đoán và khuyến nghị không phải kết luận nhân quả.
-- Không dùng hệ thống để tự động xếp hạng, kỷ luật hoặc loại bỏ người học.
-
-Xem [PROJECT.md](PROJECT.md) để có context học thuật đầy đủ phục vụ viết báo cáo.
+These sources support thesis writing; no DOCX is generated or edited by repository closure.
