@@ -536,7 +536,6 @@ def main() -> None:
         if checksum_failures:
             raise RuntimeError(f"Closure checksum verification failed: {checksum_failures}")
 
-        report_tmp.mkdir(parents=True)
         for path in tmp.iterdir():
             if path.is_file():
                 shutil.copy2(path, report_tmp / path.name)
