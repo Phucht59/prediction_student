@@ -63,6 +63,7 @@ artifacts/study_b_student_por/**/*.parquet
 artifacts/study_c_oulad/**/*.pt
 artifacts/study_c_oulad/**/*.pth
 artifacts/study_c_oulad/**/*.parquet
+artifacts/study_c_oulad/**/*.pkl
 
 # Benchmark V2 run outputs are immutable runtime evidence, not source files.
 # Protocol definitions and selected audit reports below remain versioned.

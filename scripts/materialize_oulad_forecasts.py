@@ -11,7 +11,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from src.studies.common.hashing import sha256_file
-from src.studies.oulad.materialize import materialize_all
+from src.studies.oulad.materialize import materialize_all, rebuild_derived_from_sequences
 
 
 def main() -> int:
@@ -19,12 +19,17 @@ def main() -> int:
     parser.add_argument("--protocol", type=Path, default=ROOT / "configs" / "extension_protocol_v1.yaml")
     parser.add_argument("--output", type=Path, default=ROOT / "data" / "processed" / "study_c_oulad")
     parser.add_argument("--resume", action="store_true")
+    parser.add_argument("--rebuild-derived", action="store_true")
     args = parser.parse_args()
     protocol = json.loads(args.protocol.read_text(encoding="utf-8"))
     for source_id, source in protocol["sources"].items():
         if source_id.startswith("oulad") and sha256_file(ROOT / source["path"]) != source["sha256"]:
             raise RuntimeError(f"Frozen source hash mismatch: {source_id}")
     completion = args.output / "manifests" / "materialization_complete.json"
+    if args.rebuild_derived:
+        result = rebuild_derived_from_sequences(args.output)
+        print(json.dumps(result, indent=2))
+        return 0
     if args.resume and completion.exists():
         existing = json.loads(completion.read_text(encoding="utf-8"))
         if existing.get("status") == "PASS":

@@ -130,14 +130,24 @@ def main() -> int:
     started = time.perf_counter(); stop_new = args.max_wall_clock_hours * 3600 - 45 * 60
     data_by_forecast = {forecast: load_forecast(args.processed, forecast) for forecast in FORECASTS}
     oof_path = artifact / "oof_predictions.parquet"; future_path = artifact / "future_predictions.parquet"
+    def existing_csv(name: str) -> list[dict]:
+        path = artifact / name
+        return pd.read_csv(path).to_dict("records") if args.resume and path.exists() and path.stat().st_size else []
     oof_rows = [] if not (args.resume and oof_path.exists()) else pd.read_parquet(oof_path).to_dict("records")
     completed = {(row["candidate_id"], row["forecast_id"], int(row["outer_fold"]), int(row["seed"])) for row in oof_rows}
-    search_rows = []
-    selected_rows = []
-    runtime_rows = []
-    checkpoint_rows = []
-    learning_rows = []
+    search_rows = existing_csv("search_trials.csv")
+    selected_rows = existing_csv("selected_configs.csv")
+    runtime_rows = existing_csv("runtime_resources.csv")
+    checkpoint_path = artifact / "checkpoint_validation.json"
+    checkpoint_rows = json.loads(checkpoint_path.read_text(encoding="utf-8")) if args.resume and checkpoint_path.exists() else []
+    learning_rows = existing_csv("learning_curves.csv")
     pending = []
+    def flush_ledgers() -> None:
+        pd.DataFrame(search_rows).to_csv(artifact / "search_trials.csv", index=False)
+        pd.DataFrame(selected_rows).to_csv(artifact / "selected_configs.csv", index=False)
+        pd.DataFrame(runtime_rows).to_csv(artifact / "runtime_resources.csv", index=False)
+        pd.DataFrame(learning_rows).to_csv(artifact / "learning_curves.csv", index=False)
+        write_json(checkpoint_path, checkpoint_rows)
     for forecast_id, data in data_by_forecast.items():
         for fold in range(3):
             validation_indices = role_indices(data, "historical_development", fold)
@@ -164,8 +174,10 @@ def main() -> int:
                     selected_rows.append({**context, "candidate_id": candidate, "threshold": result["threshold"], "inner_macro_f1": result["inner_macro_f1"], "selected_epoch": result["selected_epoch"], "parameter_count": result["parameter_count"], "config": json.dumps(result["config"], sort_keys=True)})
                     runtime_rows.append({**context, "candidate_id": candidate, "seed": 42, "seconds": time.perf_counter() - job_started, "status": "PASS"})
                     pd.DataFrame(oof_rows).to_parquet(oof_path, index=False)
+                    flush_ledgers()
                 except Exception as exc:
                     runtime_rows.append({**context, "candidate_id": candidate, "seed": 42, "seconds": time.perf_counter() - job_started, "status": "FAIL", "reason": f"{type(exc).__name__}:{exc}"})
+                    flush_ledgers()
 
     oof = pd.DataFrame(oof_rows)
     development_metrics = recompute_metrics(oof) if not oof.empty else pd.DataFrame()
@@ -189,8 +201,10 @@ def main() -> int:
                 future_rows.extend(prediction_rows(data, validation_indices, candidate, -1, 42, result["probabilities"], result["threshold"], "future_presentation"))
                 runtime_rows.append({**context, "candidate_id": candidate, "seed": 42, "seconds": time.perf_counter() - job_started, "status": "PASS"})
                 pd.DataFrame(future_rows).to_parquet(future_path, index=False)
+                flush_ledgers()
             except Exception as exc:
                 runtime_rows.append({**context, "candidate_id": candidate, "seed": 42, "seconds": time.perf_counter() - job_started, "status": "FAIL", "reason": f"{type(exc).__name__}:{exc}"})
+                flush_ledgers()
 
     future = pd.DataFrame(future_rows)
     future_metrics = recompute_metrics(future) if not future.empty else pd.DataFrame()
