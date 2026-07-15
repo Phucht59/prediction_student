@@ -1,0 +1,26 @@
+{
+  "checks": {
+    "append_only_trigger": true,
+    "foreign_keys": true,
+    "migration_order": true,
+    "old_migrations_preserved": true,
+    "policy_status_constraint": true,
+    "required_tables": true,
+    "review_status_constraint": true
+  },
+  "database_migration_execution": "NOT_PERFORMED",
+  "database_migration_static_validation": "PASS",
+  "migration_files": [
+    "database/migrations/001_create_source_ml_schema.sql",
+    "database/migrations/002_allow_append_only_recommendation_policy_versions.sql",
+    "database/migrations/003_add_source_record_targets.sql",
+    "database/migrations/004_governed_recommendation_phase_d.sql"
+  ],
+  "migration_hashes": {
+    "001_create_source_ml_schema.sql": "67f9cc776adce47a0fbdbf90a71f29694cd9ca796f702192c37f22bd0de00175",
+    "002_allow_append_only_recommendation_policy_versions.sql": "3172cc8b8a57809ad6c7f2d9f0bc8203f6aa3235527cd06f7884663c5105cb2b",
+    "003_add_source_record_targets.sql": "854c756106929110900d7a1d49d324cfbb96548fbf984949b3d8041706c4e2a7",
+    "004_governed_recommendation_phase_d.sql": "70f7a0ac70a95c5753e67ecffb813bbc7a5546bcad4af0c7aa6b67dacebe66b4"
+  },
+  "reason": "disposable test DSN unavailable; production database was not used destructively"
+}

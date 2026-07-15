@@ -1,0 +1,17 @@
+{
+  "branch": "codex/final-repository-closure",
+  "commit": "6ab785dabcaf3df824e2ed1bedf7e8810b646460",
+  "docx_modified": false,
+  "integration_base": "test@e1c3a678fe0dd69b938e92140219b20bdafc33a4",
+  "legacy_observed_79_accessed": false,
+  "metadata_correction": {
+    "corrected_from_run_id": "final-repository-closure-20260715-8425384",
+    "scientific_outputs_changed": false,
+    "scope": "closure artifact/report collection indexing only"
+  },
+  "model_experiments_run": false,
+  "project_exists": true,
+  "readme_exists": true,
+  "tracked_files": 1759,
+  "working_tree_clean_before_materialization": true
+}

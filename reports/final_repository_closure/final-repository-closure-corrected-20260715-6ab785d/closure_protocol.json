@@ -1,0 +1,29 @@
+{
+  "actions_executed": [
+    "repository_audit",
+    "documentation_claim_validation",
+    "artifact_checksum_validation",
+    "full_test_suite",
+    "static_database_validation",
+    "closure_index_generation"
+  ],
+  "metadata_correction": {
+    "corrected_from_run_id": "final-repository-closure-20260715-8425384",
+    "old_run_preserved": true,
+    "report_mirror_staged_before_index_finalization": true
+  },
+  "prohibited_actions": [
+    "model_training",
+    "optuna",
+    "nested_cv",
+    "multi_seed_training",
+    "calibration_fit",
+    "recommendation_regeneration",
+    "external_validation",
+    "legacy_observed_access"
+  ],
+  "run_id": "final-repository-closure-corrected-20260715-6ab785d",
+  "source_branch": "codex/final-repository-closure",
+  "source_commit": "6ab785dabcaf3df824e2ed1bedf7e8810b646460",
+  "type": "validation_only_repository_closure"
+}
