@@ -1,0 +1,113 @@
+[
+  {
+    "action_id": "diagnose_topics",
+    "category": "diagnostic",
+    "contraindications": [],
+    "description_template": "Complete an advisor-reviewed topic diagnostic and identify two priority topics.",
+    "eligible_evidence_codes": [
+      "trajectory_downward",
+      "low_predicted_achievement"
+    ],
+    "expert_approval_status": "expert_review_pending",
+    "maximum_frequency": 1,
+    "maximum_weekly_minutes": 45,
+    "minimum_frequency": 1,
+    "prerequisites": [
+      "advisor_review"
+    ],
+    "required_resource": "advisor_or_topic_diagnostic"
+  },
+  {
+    "action_id": "targeted_practice",
+    "category": "practice",
+    "contraindications": [],
+    "description_template": "Complete targeted practice for the advisor-confirmed priority topics and record completion.",
+    "eligible_evidence_codes": [
+      "trajectory_downward",
+      "trajectory_stable",
+      "medium_predicted_achievement"
+    ],
+    "expert_approval_status": "expert_review_pending",
+    "maximum_frequency": 3,
+    "maximum_weekly_minutes": 90,
+    "minimum_frequency": 2,
+    "prerequisites": [
+      "advisor_review"
+    ],
+    "required_resource": "practice_materials"
+  },
+  {
+    "action_id": "retrieval_quiz",
+    "category": "retrieval",
+    "contraindications": [],
+    "description_template": "Complete one short retrieval quiz and record common errors for advisor discussion.",
+    "eligible_evidence_codes": [
+      "trajectory_downward",
+      "trajectory_stable"
+    ],
+    "expert_approval_status": "expert_review_pending",
+    "maximum_frequency": 1,
+    "maximum_weekly_minutes": 30,
+    "minimum_frequency": 1,
+    "prerequisites": [
+      "targeted_practice"
+    ],
+    "required_resource": "quiz_material"
+  },
+  {
+    "action_id": "schedule_review",
+    "category": "planning",
+    "contraindications": [],
+    "description_template": "Create a realistic weekly study schedule with the advisor and revise it when commitments conflict.",
+    "eligible_evidence_codes": [
+      "trajectory_downward",
+      "trajectory_stable",
+      "trajectory_upward"
+    ],
+    "expert_approval_status": "expert_review_pending",
+    "maximum_frequency": 1,
+    "maximum_weekly_minutes": 20,
+    "minimum_frequency": 1,
+    "prerequisites": [
+      "advisor_review"
+    ],
+    "required_resource": "schedule_template"
+  },
+  {
+    "action_id": "consolidation",
+    "category": "consolidation",
+    "contraindications": [],
+    "description_template": "Consolidate completed topics with an advanced or mixed practice set; avoid unnecessary overload.",
+    "eligible_evidence_codes": [
+      "trajectory_upward",
+      "high_predicted_achievement"
+    ],
+    "expert_approval_status": "expert_review_pending",
+    "maximum_frequency": 2,
+    "maximum_weekly_minutes": 60,
+    "minimum_frequency": 1,
+    "prerequisites": [
+      "advisor_review"
+    ],
+    "required_resource": "advanced_practice_material"
+  },
+  {
+    "action_id": "progress_review",
+    "category": "review",
+    "contraindications": [],
+    "description_template": "Review completion, difficulty and current measurement with the advisor; continue, revise or close the plan.",
+    "eligible_evidence_codes": [
+      "trajectory_downward",
+      "trajectory_stable",
+      "trajectory_upward"
+    ],
+    "expert_approval_status": "expert_review_pending",
+    "maximum_frequency": 1,
+    "maximum_weekly_minutes": 20,
+    "minimum_frequency": 1,
+    "prerequisites": [
+      "advisor_review"
+    ],
+    "required_resource": "advisor"
+  }
+]

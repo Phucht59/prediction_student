@@ -1,0 +1,90 @@
+{
+  "entries": [
+    {
+      "category": "legacy_observed_evidence",
+      "headline_eligible": false,
+      "paths": [
+        "artifacts/final/*",
+        "reports/final/*"
+      ],
+      "reason": "79 records were observed and are not an untouched test",
+      "status": "legacy_heldout_observed"
+    },
+    {
+      "category": "invalid_protocol_evidence",
+      "headline_eligible": false,
+      "paths": [
+        "artifacts/baseline_comparison/fair-model-comparison-full/*"
+      ],
+      "reason": "resolved fixed loss/class-weight/resampling constants were absent",
+      "status": "invalid_protocol_config_resolution_for_fair_deep_rows"
+    },
+    {
+      "category": "historical_evidence",
+      "headline_eligible": false,
+      "paths": [
+        "artifacts/model_selection/nested-full-20260710/*"
+      ],
+      "reason": "predates corrected full-partition refit/source provenance",
+      "status": "historical_old_estimator"
+    },
+    {
+      "category": "diagnostic_evidence",
+      "headline_eligible": false,
+      "paths": [
+        "reports/project_strategy_v1/*",
+        "reports/scientific_audit/*"
+      ],
+      "reason": "hypothesis and audit context only",
+      "status": "diagnostic_or_feasibility"
+    },
+    {
+      "category": "smoke_evidence",
+      "headline_eligible": false,
+      "paths": [
+        "artifacts/strategy_b_phase_c_smoke/*",
+        "reports/strategy_b_phase_c_smoke/*"
+      ],
+      "reason": "code-path/runtime feasibility only",
+      "status": "smoke"
+    },
+    {
+      "category": "diagnostic_evidence",
+      "headline_eligible": false,
+      "paths": [
+        "diagnostic residual and Huber outputs referenced by project audit"
+      ],
+      "reason": "conditional gates stayed closed",
+      "status": "diagnostic_only"
+    },
+    {
+      "category": "historical_evidence",
+      "headline_eligible": false,
+      "paths": [
+        "artifacts/strategy_b_phase_c/strategy-b-phase-c-20260714-9e4928d",
+        "artifacts/strategy_b_phase_c/strategy-b-phase-c-20260714-e0f980b"
+      ],
+      "reason": "superseded by corrected Phase C bundle",
+      "status": "intermediate_or_recovery_runs"
+    },
+    {
+      "category": "historical_evidence",
+      "headline_eligible": false,
+      "paths": [
+        "artifacts/strategy_b_phase_e_prediction/strategy-b-phase-e-prediction-20260714-119611c"
+      ],
+      "reason": "superseded by corrected Phase E reporting bundle; raw evidence retained",
+      "status": "reporting_predecessor"
+    },
+    {
+      "category": "historical_evidence",
+      "headline_eligible": false,
+      "paths": [
+        "historical CNN-BiLSTM outputs under artifacts/final and model_selection"
+      ],
+      "reason": "not the corrected estimator contract",
+      "status": "historical_old_estimator"
+    }
+  ],
+  "preservation_policy": "preserve immutable or historical evidence; classify rather than rewrite"
+}

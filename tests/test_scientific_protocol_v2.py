@@ -82,11 +82,12 @@ def test_fold_manifest_rejects_attempt_to_tune_with_observed_legacy_row():
 
 
 def test_outer_validation_is_not_used_for_training_or_early_stopping():
-    source = inspect.getsource(model_selection.fit_fold_predict_proba)
-    assert "train_model(model, train_loader, early_stop_loader" in source
-    assert "train_model(model, train_loader, validation_loader" not in source
-    assert "train_fixed_epochs" in source
-    assert "refit_engineered = apply_feature_engineering(train_fold.copy()" in source
+    training_source = inspect.getsource(model_selection.fit_training_partition_estimator)
+    scoring_source = inspect.getsource(model_selection.fit_fold_predict_proba)
+    assert "early_stop_loader" in training_source
+    assert "validation_fold" not in training_source
+    assert "train_fixed_epochs" in training_source
+    assert "fit_training_partition_estimator" in scoring_source
     assert "validation_fold=outer_val" in inspect.getsource(optimize_model_selection.evaluate_deep_outer_fold)
 
 

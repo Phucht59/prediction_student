@@ -1,0 +1,35 @@
+{
+  "composite_score": null,
+  "eligible_overall": [
+    "R0",
+    "M1",
+    "M2",
+    "N0",
+    "N1",
+    "N2",
+    "N3"
+  ],
+  "eligible_thesis_hybrid": [
+    "N0",
+    "N1"
+  ],
+  "frozen_before_full_outer_aggregation": true,
+  "no_clear_superiority_if": [
+    "absolute_delta_below_0.01",
+    "paired_bootstrap_interval_includes_zero"
+  ],
+  "practical_margin_absolute_macro_f1": 0.01,
+  "primary_metric": "mean declared-seed outer OOF macro_f1 (single OOF for deterministic/ML)",
+  "seed_selection_prohibited": true,
+  "tie_break_order": [
+    "fewer_class_collapses",
+    "lower_seed_sd",
+    "higher_worst_seed",
+    "lower_two_step_error",
+    "lower_ece",
+    "fewer_parameters",
+    "simpler_training"
+  ],
+  "uncertainty": "paired record bootstrap is descriptive only",
+  "weighted_f1_primary": false
+}

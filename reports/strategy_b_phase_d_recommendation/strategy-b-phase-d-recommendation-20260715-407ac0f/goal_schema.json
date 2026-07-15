@@ -1,0 +1,17 @@
+{
+  "required": [
+    "goal_id",
+    "goal_type",
+    "title",
+    "description",
+    "baseline",
+    "target",
+    "measurement_method",
+    "start_date",
+    "target_date",
+    "priority",
+    "status",
+    "evidence_codes",
+    "policy_version"
+  ]
+}

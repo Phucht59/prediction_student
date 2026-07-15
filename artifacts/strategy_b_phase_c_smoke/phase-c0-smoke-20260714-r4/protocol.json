@@ -1,0 +1,40 @@
+{
+  "batch_norm_allowed": false,
+  "class_weight": "none",
+  "conditional_candidates_executed": false,
+  "created_at": "2026-07-14T14:53:22.994886+00:00",
+  "declared_outer_seeds": [
+    42
+  ],
+  "drop_last": false,
+  "early_stop_ledger_hash": "67d2c800f151411ac486171f33ec069ea7a35d8e9760f7ec9c5565dad78c6e9b",
+  "environment_hash": "9e77c4652a22e5bbea973cef4ab1933e0ee0c699083a429a3c230ee2fba68a4b",
+  "features": [
+    "G1",
+    "G2"
+  ],
+  "git_commit": "02e228b31c5ea096c8305a3caa906cc14315832a",
+  "high_class_recall_guardrail": 0.6,
+  "inner_fold_ledger_hash": "16b589c15056ff3bba5100e35def35cde538a3d393d2e3818b9c95fc150e46b4",
+  "inner_folds_per_trial": 1,
+  "legacy_observed_79_fetched": false,
+  "normalization": [
+    "none",
+    "layer_norm"
+  ],
+  "outer_fold_manifest_file_hash": "d8e3654b40a82f46d0567fc9a9dfb67ff4963b0f401ad83794cc44f7dbcf6ba0",
+  "outer_fold_manifest_semantic_hash": "bf5e5cbd8d09679f5d34900486ba23cc5ac57c93b28aa38ac3f3ce2578307ce1",
+  "outer_folds": 1,
+  "oversampling": "none",
+  "phase_d_or_e_executed": false,
+  "postgres_integration_policy": "disposable_test_DSN_only; waiver if unavailable; official data read-only",
+  "protocol_version": "strategy_b_phase_c_v1",
+  "raw_feature_transforms": "none",
+  "readme_headline_modified": false,
+  "run_id": "phase-c0-smoke-20260714-r4",
+  "scheduler": "fixed_lr",
+  "source_tree_hash": "1e2db2c1b78d98ced92a36ef701e9e5c93ac3872b4ce16678e62f5743bb63288",
+  "stage": "smoke",
+  "swa": false,
+  "trials_per_searched_family_per_outer_fold": 1
+}

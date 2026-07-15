@@ -1,0 +1,10 @@
+{
+  "required": [
+    "recommendation_revision_id",
+    "supersedes_revision_id",
+    "revision_reason",
+    "created_at",
+    "created_by",
+    "policy_version"
+  ]
+}

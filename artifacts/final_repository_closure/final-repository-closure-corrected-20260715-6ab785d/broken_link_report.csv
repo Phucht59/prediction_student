@@ -1,0 +1,6 @@
+source,target,exists,resolved
+README.md,database/migrations,True,C:\Huflit\kltn\database\migrations
+README.md,artifacts/strategy_b_phase_ab/strategy-b-phase-ab-20260714-475a672,True,C:\Huflit\kltn\artifacts\strategy_b_phase_ab\strategy-b-phase-ab-20260714-475a672
+README.md,artifacts/strategy_b_phase_c/strategy-b-phase-c-20260714-5d34a66,True,C:\Huflit\kltn\artifacts\strategy_b_phase_c\strategy-b-phase-c-20260714-5d34a66
+README.md,artifacts/strategy_b_phase_e_prediction/strategy-b-phase-e-prediction-20260714-9007144,True,C:\Huflit\kltn\artifacts\strategy_b_phase_e_prediction\strategy-b-phase-e-prediction-20260714-9007144
+README.md,artifacts/strategy_b_phase_d_recommendation/strategy-b-phase-d-recommendation-20260715-407ac0f,True,C:\Huflit\kltn\artifacts\strategy_b_phase_d_recommendation\strategy-b-phase-d-recommendation-20260715-407ac0f

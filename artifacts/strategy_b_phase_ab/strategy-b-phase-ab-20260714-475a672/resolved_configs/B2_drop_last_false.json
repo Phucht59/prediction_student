@@ -1,0 +1,83 @@
+{
+  "architecture": "cnn_bilstm_classifier",
+  "architecture_variant": "cnn_bilstm",
+  "batch_size": 32,
+  "class_weight_mode": "none",
+  "classifier_head": "linear",
+  "cnn_channels": 16,
+  "cnn_kernel_size": 1,
+  "context_mlp_enabled": false,
+  "drop_last_train": false,
+  "dropout": 0.45698396628035975,
+  "evidence_role": "phase_b_replayable_fixed_lr_drop_last_false",
+  "feature_contract": {
+    "context_columns": [],
+    "scenario": "late_stage",
+    "sequence_columns": [
+      "G1",
+      "G2"
+    ],
+    "target_or_derived_features_forbidden": true
+  },
+  "fixed_constants": {
+    "architecture_variant": "cnn_bilstm",
+    "drop_last_train": false,
+    "feature_contract": "late_stage_g1_g2",
+    "preprocessing": "fold_train_only",
+    "scheduler": {
+      "parameters": {},
+      "replayable": true,
+      "type": "fixed_lr"
+    },
+    "swa": {
+      "batch_norm_statistics_updated": false,
+      "enabled": false,
+      "replayable": true
+    },
+    "target_contract": "student_g3_3class_v1"
+  },
+  "learning_rate": 0.004667713933202516,
+  "loss": "cross_entropy",
+  "lstm_hidden_dim": 32,
+  "max_epochs": 40,
+  "oversample_method": "none",
+  "patience": 12,
+  "preprocessing": {
+    "feature_selection": "train_partition_only",
+    "fit_scope": "gradient_training_partition_then_full_refit_partition",
+    "oversampling_scope": "gradient_training_partition_only",
+    "scaler": "minmax",
+    "unknown_category_policy": "map_to_zero"
+  },
+  "resampling_k_neighbors": 2,
+  "scheduler": {
+    "parameters": {},
+    "replayable": true,
+    "type": "fixed_lr"
+  },
+  "schema_version": "strategy_b_resolved_config_v1",
+  "sequence_dropout": 0.19724839346206724,
+  "smote_ratio": 0.46627526402453817,
+  "suggested_parameters": {},
+  "swa": {
+    "batch_norm_statistics_updated": false,
+    "enabled": false,
+    "replayable": true
+  },
+  "target_contract": {
+    "bins": [
+      0,
+      9,
+      14,
+      20
+    ],
+    "labels": [
+      "Low",
+      "Medium",
+      "High"
+    ],
+    "target_column": "G3",
+    "target_mode": "3class"
+  },
+  "weight_decay": 0.00035412436419752304
+}

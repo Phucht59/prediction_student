@@ -1,0 +1,6 @@
+claim_id,pass,evidence
+final_roles,True,Phase E final_family_decision.json
+observed_79,True,Phase A-B quarantine registry
+metrics,True,Phase E stability_summary.csv
+recommendation_status,True,Phase D strict_validation.json
+no_external,True,Phase E protocol

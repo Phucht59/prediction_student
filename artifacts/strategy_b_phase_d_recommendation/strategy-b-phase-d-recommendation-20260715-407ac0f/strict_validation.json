@@ -1,0 +1,50 @@
+{
+  "checks": [
+    {
+      "id": "phase_e_unchanged",
+      "pass": true
+    },
+    {
+      "id": "development_feature_read_only_no_target",
+      "pass": true
+    },
+    {
+      "id": "no_legacy_observed",
+      "pass": true
+    },
+    {
+      "id": "test_suite",
+      "pass": true
+    },
+    {
+      "id": "all_r0_no_fake_probability",
+      "pass": true
+    },
+    {
+      "id": "n0_five_seed_arithmetic_mean",
+      "pass": true
+    },
+    {
+      "id": "actions_safe",
+      "pass": true
+    },
+    {
+      "id": "advisor_review_default",
+      "pass": true
+    },
+    {
+      "id": "expert_ratings_pending_not_faked",
+      "pass": true
+    },
+    {
+      "id": "artifacts_complete",
+      "pass": true
+    }
+  ],
+  "effectiveness_validation": "NOT_PERFORMED",
+  "expert_validation": "PENDING",
+  "legacy_observed_79_accessed": false,
+  "model_retrained": false,
+  "phase_e_artifacts_mutated": false,
+  "technical_validation": "PASS"
+}

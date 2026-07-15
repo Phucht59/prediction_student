@@ -1,0 +1,14 @@
+{
+  "command": [
+    "C:\\Users\\THPhu\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+    "-m",
+    "pytest",
+    "-q"
+  ],
+  "duration_seconds": 9.411372200000187,
+  "official": true,
+  "return_code": 0,
+  "status": "PASS",
+  "stderr": "",
+  "stdout": "....................sssss............................................... [ 70%]\n..............................                                           [100%]\n97 passed, 5 skipped in 7.95s\n"
+}

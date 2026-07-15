@@ -1,8 +1,8 @@
 """Nested-CV comparison of the approved ML and deep-learning candidates.
 
-This runner evaluates only the immutable development cohort.  The locked test
-split is excluded from model selection and from this comparison; it may be
-used later once, only for a pre-specified final model.
+This runner evaluates only the immutable development cohort.  The observed
+legacy 79-record split is never fetched, selected on, calibrated on or used as
+final confirmation.
 """
 
 from __future__ import annotations
@@ -35,7 +35,7 @@ from src.data_pipeline import SOURCE_ROW_NUMBER_COLUMN, process_target_and_strat
 from src.evaluation.protocol import DEFAULT_FOLD_MANIFEST_PATH, load_fold_manifest, outer_folds_from_manifest, source_record_identity
 from src.model_selection import fit_fold_predict_proba, metric_summary_from_predictions, run_optuna_cv_search, write_json
 from src.models import create_model
-from src.postgres_data_source import load_dataset_version_from_postgres
+from src.postgres_data_source import load_development_subset_from_postgres
 
 
 CLASSICAL_MODELS = ("decision_tree", "random_forest", "svm_rbf", "xgboost", "gradient_boosting")
@@ -196,10 +196,15 @@ def _select_classical(
 def run(args: argparse.Namespace) -> Path:
     outer_count, n_trials = _settings(args)
     spec = DATASETS[args.dataset]
-    raw, dataset_version = load_dataset_version_from_postgres(args.dataset, args.dataset_version_id)
     manifest = load_fold_manifest(args.fold_manifest)
     if int(manifest["dataset_version_id"]) != args.dataset_version_id:
         raise ValueError("Dataset version must match the shared fold manifest.")
+    source_rows = [int(row["source_row_number"]) for row in manifest["development_records"]]
+    raw, dataset_version = load_development_subset_from_postgres(
+        args.dataset,
+        args.dataset_version_id,
+        source_rows,
+    )
     processed = process_target_and_stratify(raw.copy(), spec.target_col, spec.kind, "3class")
     development = _development_frame(processed.dropna(subset=["_strat_target"]).drop(columns=["_strat_target"]), manifest)
     outer_folds = outer_folds_from_manifest(development, manifest, source_column=SOURCE_ROW_NUMBER_COLUMN)
@@ -217,8 +222,9 @@ def run(args: argparse.Namespace) -> Path:
         "dataset_checksum": dataset_version["content_hash"],
         "dataset_version_id": args.dataset_version_id,
         "development_records": len(development),
-        "locked_test_used_for_selection": False,
-        "locked_test_used_for_evaluation": False,
+        "legacy_observed_79_fetched": False,
+        "legacy_observed_79_used_for_selection": False,
+        "legacy_observed_79_used_for_evaluation": False,
         "features": ["G1", "G2"],
         "models": list(ALL_MODELS),
         "reference_model": REFERENCE_MODEL,

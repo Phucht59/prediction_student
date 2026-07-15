@@ -1,0 +1,42 @@
+{
+  "M1": {
+    "brier_not_worse_within_tolerance": true,
+    "brier_tolerance": 0.005,
+    "decision_predictions_unchanged_by_positive_temperature": true,
+    "ece_not_worse_within_tolerance": false,
+    "ece_tolerance": 0.005,
+    "nll_improved_majority_outer_folds": true,
+    "selected_variant": "uncalibrated"
+  },
+  "M2": {
+    "brier_not_worse_within_tolerance": false,
+    "brier_tolerance": 0.005,
+    "decision_predictions_unchanged_by_positive_temperature": true,
+    "ece_not_worse_within_tolerance": false,
+    "ece_tolerance": 0.005,
+    "nll_improved_majority_outer_folds": true,
+    "selected_variant": "uncalibrated"
+  },
+  "N0": {
+    "brier_not_worse_within_tolerance": false,
+    "brier_tolerance": 0.005,
+    "decision_predictions_unchanged_by_positive_temperature": true,
+    "ece_not_worse_within_tolerance": false,
+    "ece_tolerance": 0.005,
+    "nll_improved_majority_outer_folds": true,
+    "selected_variant": "uncalibrated"
+  },
+  "N1": {
+    "brier_not_worse_within_tolerance": true,
+    "brier_tolerance": 0.005,
+    "decision_predictions_unchanged_by_positive_temperature": true,
+    "ece_not_worse_within_tolerance": true,
+    "ece_tolerance": 0.005,
+    "nll_improved_majority_outer_folds": true,
+    "selected_variant": "temperature"
+  },
+  "R0": {
+    "reason": "no_probabilistic_temperature_basis",
+    "selected_variant": "uncalibrated"
+  }
+}

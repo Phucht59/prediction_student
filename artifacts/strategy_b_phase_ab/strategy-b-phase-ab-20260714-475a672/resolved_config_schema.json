@@ -1,0 +1,108 @@
+{
+  "$id": "strategy_b_resolved_config_v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": true,
+  "properties": {
+    "architecture_variant": {
+      "type": "string"
+    },
+    "batch_size": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "class_weight_mode": {
+      "enum": [
+        "balanced",
+        "none"
+      ]
+    },
+    "drop_last_train": {
+      "type": "boolean"
+    },
+    "feature_contract": {
+      "type": "object"
+    },
+    "fixed_constants": {
+      "type": "object"
+    },
+    "learning_rate": {
+      "exclusiveMinimum": 0,
+      "type": "number"
+    },
+    "loss": {
+      "enum": [
+        "cross_entropy",
+        "focal"
+      ]
+    },
+    "oversample_method": {
+      "enum": [
+        "none",
+        "random",
+        "smote",
+        "smotenc"
+      ]
+    },
+    "preprocessing": {
+      "type": "object"
+    },
+    "scheduler": {
+      "required": [
+        "type",
+        "parameters",
+        "replayable"
+      ],
+      "type": "object"
+    },
+    "schema_version": {
+      "const": "strategy_b_resolved_config_v1"
+    },
+    "suggested_parameters": {
+      "type": "object"
+    },
+    "swa": {
+      "required": [
+        "enabled",
+        "batch_norm_statistics_updated",
+        "replayable"
+      ],
+      "type": "object"
+    },
+    "target_contract": {
+      "type": "object"
+    },
+    "weight_decay": {
+      "minimum": 0,
+      "type": "number"
+    }
+  },
+  "required": [
+    "architecture_variant",
+    "batch_size",
+    "class_weight_mode",
+    "cnn_channels",
+    "cnn_kernel_size",
+    "drop_last_train",
+    "dropout",
+    "feature_contract",
+    "fixed_constants",
+    "learning_rate",
+    "loss",
+    "lstm_hidden_dim",
+    "max_epochs",
+    "oversample_method",
+    "patience",
+    "preprocessing",
+    "resampling_k_neighbors",
+    "scheduler",
+    "schema_version",
+    "sequence_dropout",
+    "smote_ratio",
+    "suggested_parameters",
+    "swa",
+    "target_contract",
+    "weight_decay"
+  ],
+  "title": "Strategy B canonical resolved estimator configuration",
+  "type": "object"
+}

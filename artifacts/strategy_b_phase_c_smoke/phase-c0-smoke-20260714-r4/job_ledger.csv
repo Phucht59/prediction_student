@@ -1,0 +1,16 @@
+stage,candidate_id,outer_fold,inner_fold,seed,trial_number,status,fit_stages_completed,runtime_seconds
+outer_evaluation,R0,0,,42,,completed,0,0.0
+inner_search,M1,0,0,42,0,completed,1,0.23869849999937287
+outer_evaluation,M1,0,,42,,completed,1,0.26101050000033865
+inner_search,M2,0,0,42,0,completed,1,0.01313289999961853
+outer_evaluation,M2,0,,42,,completed,1,0.036479400001553586
+inner_search,N0,0,0,42,0,completed,2,2.9041705999989063
+outer_evaluation,N0,0,,42,,completed,2,1.0796064999994996
+inner_search,N1,0,0,42,0,completed,2,5.619295799999236
+outer_evaluation,N1,0,,42,,completed,2,9.973867800001244
+inner_search,N2,0,0,42,0,completed,2,2.3597672000014427
+outer_evaluation,N2,0,,42,,completed,2,3.226196499999787
+inner_search,N3,0,0,42,0,completed,2,0.8656210999997711
+outer_evaluation,N3,0,,42,,completed,2,0.8657881999988604
+outer_evaluation,A1,0,,42,,completed,2,2.0082103999993706
+outer_evaluation,A2,0,,42,,completed,2,4.948505500000465

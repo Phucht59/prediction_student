@@ -1,0 +1,76 @@
+{
+  "authorization_note": "Explicit user approval is still required; this runner never launches Phase C.",
+  "checkpoint_reproduction_pass": true,
+  "checks": [
+    {
+      "id": "resolved_config_constants",
+      "pass": true
+    },
+    {
+      "id": "development_only_db_access",
+      "pass": true
+    },
+    {
+      "id": "outer_fold_manifest",
+      "pass": true
+    },
+    {
+      "id": "inner_fold_ledger",
+      "pass": true
+    },
+    {
+      "id": "early_stop_ledger",
+      "pass": true
+    },
+    {
+      "id": "no_target_model_input",
+      "pass": true
+    },
+    {
+      "id": "criterion_parity",
+      "pass": true
+    },
+    {
+      "id": "resampling_parity",
+      "pass": true
+    },
+    {
+      "id": "estimator_factory_and_training_parity",
+      "pass": true
+    },
+    {
+      "id": "scheduler_refit_replayable",
+      "pass": true
+    },
+    {
+      "id": "swa_disabled_phase_b",
+      "pass": true
+    },
+    {
+      "id": "drop_last_false_no_records_dropped",
+      "pass": true
+    },
+    {
+      "id": "checkpoint_reproduction",
+      "pass": true
+    },
+    {
+      "id": "exact_source_provenance",
+      "pass": true
+    },
+    {
+      "id": "metrics_recomputed_from_saved_oof",
+      "pass": true
+    },
+    {
+      "id": "full_test_suite",
+      "pass": true
+    }
+  ],
+  "estimator_parity_pass": true,
+  "metric_recomputation_max_abs_difference": 0.0,
+  "phase_c_authorized": false,
+  "phase_c_technical_gate_pass": true,
+  "run_id": "strategy-b-phase-ab-20260714-475a672",
+  "status": "PASS"
+}

@@ -1,0 +1,51 @@
+{
+  "entries": [
+    {
+      "category": "official_development_evidence",
+      "checksum_validation": true,
+      "headline_use": "protocol and estimator correctness only",
+      "path": "artifacts/strategy_b_phase_ab/strategy-b-phase-ab-20260714-475a672",
+      "phase": "A-B",
+      "status": "official_protocol_correctness"
+    },
+    {
+      "category": "official_development_evidence",
+      "checksum_validation": true,
+      "headline_use": "development model comparison and ablations",
+      "path": "artifacts/strategy_b_phase_c/strategy-b-phase-c-20260714-5d34a66",
+      "phase": "C",
+      "status": "official_main_candidate_comparison"
+    },
+    {
+      "category": "official_final_development_freeze",
+      "checksum_validation": true,
+      "headline_use": "final model roles, metrics, stability and continuous-G3 analysis",
+      "path": "artifacts/strategy_b_phase_e_prediction/strategy-b-phase-e-prediction-20260714-9007144",
+      "phase": "E-Prediction",
+      "status": "official_final_development_freeze"
+    },
+    {
+      "category": "official_technical_recommendation_evidence",
+      "checksum_validation": true,
+      "headline_use": "technical structure and safety only",
+      "path": "artifacts/strategy_b_phase_d_recommendation/strategy-b-phase-d-recommendation-20260715-407ac0f",
+      "phase": "D",
+      "status": "technical_validation_pass"
+    },
+    {
+      "category": "expert_validation_pending",
+      "headline_use": "limitation only",
+      "path": "artifacts/strategy_b_phase_d_recommendation/strategy-b-phase-d-recommendation-20260715-407ac0f/expert_validation_status.json",
+      "phase": "D",
+      "status": "PENDING"
+    },
+    {
+      "category": "effectiveness_not_performed",
+      "headline_use": "limitation only",
+      "path": "artifacts/strategy_b_phase_d_recommendation/strategy-b-phase-d-recommendation-20260715-407ac0f/strict_validation.json",
+      "phase": "D",
+      "status": "NOT_PERFORMED"
+    }
+  ],
+  "registry_version": "final_repository_closure_v1"
+}

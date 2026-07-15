@@ -35,12 +35,25 @@ from src.data_pipeline import (
     get_context_excluded_columns,
     get_sequence_columns,
 )
+from src.estimator_factory import (
+    ResolvedConfigError,
+    StudentEstimatorFactory,
+    resolve_student_config,
+    validate_resolved_config,
+)
 from src.models import FocalLoss, create_model
-from src.train_pipeline import calculate_class_weights, train_fixed_epochs, train_model
+from src.train_pipeline import train_fixed_epochs, train_model, train_model_fixed_lr
 from src.utils import set_seed, setup_logger
 from src.evaluation.protocol import validate_scenario_features
 
 logger = setup_logger("model_selection")
+
+
+def _prepare_model_frame(frame: pd.DataFrame, spec, resolved_config: dict[str, Any]) -> pd.DataFrame:
+    if resolved_config.get("preprocessing", {}).get("deterministic_transforms") == "none":
+        allowed = [column for column in ["G1", "G2", spec.target_col, "G3_raw"] if column in frame.columns]
+        return frame[allowed].copy()
+    return apply_feature_engineering(frame.copy(), spec.kind)
 
 
 def loader_statistics(dataset_size: int, batch_size: int, drop_last_train: bool) -> dict[str, int | bool]:
@@ -76,6 +89,27 @@ class FoldModelResult:
     refit_state_dict: dict[str, torch.Tensor] | None = None
     training_diagnostics: dict[str, Any] | None = None
     shape_diagnostics: dict[str, Any] | None = None
+    resolved_config: dict[str, Any] | None = None
+    refit_preprocessor: Any | None = None
+    refit_selector: Any | None = None
+
+
+@dataclass
+class FittedEstimatorResult:
+    """A full-training-partition refit produced by the shared estimator factory."""
+
+    model: nn.Module
+    preprocessor: Any
+    selector: Any
+    selected_features: list[str]
+    numerical_cols: list[str]
+    categorical_cols: list[str]
+    train_row_positions: list[int]
+    early_stop_row_positions: list[int]
+    refit_state_dict: dict[str, torch.Tensor]
+    training_diagnostics: dict[str, Any]
+    shape_diagnostics: dict[str, Any]
+    resolved_config: dict[str, Any]
 
 
 def _row_positions(frame: pd.DataFrame) -> list[int]:
@@ -87,9 +121,10 @@ def student_search_space(
     *,
     architecture_variant: str = "cnn_bilstm",
     fair_comparison: bool = False,
+    drop_last_train: bool = False,
 ) -> dict[str, Any]:
     """Optuna space for student performance, evaluated only on CV folds."""
-    loss_name = "weighted_ce" if fair_comparison else trial.suggest_categorical("loss", ["weighted_ce", "focal"])
+    loss_name = "cross_entropy" if fair_comparison else trial.suggest_categorical("loss", ["cross_entropy", "focal"])
     params: dict[str, Any] = {
         "learning_rate": trial.suggest_float("learning_rate", 5e-5, 2e-2, log=True),
         "weight_decay": trial.suggest_float("weight_decay", 1e-7, 3e-3, log=True),
@@ -101,7 +136,6 @@ def student_search_space(
         "loss": loss_name,
         "max_epochs": trial.suggest_categorical("max_epochs", [40, 60]),
         "patience": trial.suggest_categorical("patience", [8, 12]),
-        "scheduler_patience": trial.suggest_categorical("scheduler_patience", [3, 5]),
     }
     if not fair_comparison:
         params["smote_ratio"] = trial.suggest_float("smote_ratio", 0.35, 1.0)
@@ -119,7 +153,31 @@ def student_search_space(
     # Optuna choice, so comparing candidates cannot select an architecture by
     # looking at an outer fold or the locked test set.
     params["architecture_variant"] = architecture_variant
-    return params
+    # Canonical configs retain every constructor constant, including dimensions
+    # that are inactive for a parameter-matched ablation architecture.
+    params.setdefault("cnn_channels", 1)
+    params.setdefault("cnn_kernel_size", 1)
+    params.setdefault("lstm_hidden_dim", 1)
+    trial_suggestions = dict(getattr(trial, "params", {}))
+    if not trial_suggestions:
+        # Lightweight contract-test trial doubles do not expose Optuna's
+        # ``params`` property.  Real Optuna trials always take the first path.
+        trial_suggestions = {
+            key: value
+            for key, value in params.items()
+            if key != "architecture_variant"
+            and not (architecture_variant == "cnn_only" and key == "lstm_hidden_dim")
+            and not (architecture_variant == "bilstm_only" and key in {"cnn_channels", "cnn_kernel_size"})
+        }
+    return resolve_student_config(
+        params,
+        architecture_variant=architecture_variant,
+        suggested_parameters=trial_suggestions,
+        scheduler_type="fixed_lr",
+        swa_enabled=False,
+        drop_last_train=drop_last_train,
+        evidence_role="optuna_candidate_corrected_estimator",
+    )
 
 
 def make_folds(train_pool: pd.DataFrame, target_col: str, n_splits: int = 5, seed: int = DEFAULT_SEED) -> list[tuple[np.ndarray, np.ndarray]]:
@@ -129,20 +187,24 @@ def make_folds(train_pool: pd.DataFrame, target_col: str, n_splits: int = 5, see
 
 
 def build_training_config(params: dict[str, Any]) -> TrainingConfig:
+    validate_resolved_config(params)
     return TrainingConfig(
-        max_epochs=int(params.get("max_epochs", 100)),
-        patience=int(params.get("patience", 15)),
-        scheduler_patience=int(params.get("scheduler_patience", 5)),
+        max_epochs=int(params["max_epochs"]),
+        patience=int(params["patience"]),
+        scheduler_patience=int(params["scheduler"].get("parameters", {}).get("patience", 1)),
+        learning_rate=float(params["learning_rate"]),
+        weight_decay=float(params["weight_decay"]),
     )
 
 
 def _criterion(spec, params: dict[str, Any], class_weights: torch.Tensor):
+    validate_resolved_config(params)
     if spec.kind == "xapi":
         return nn.BCEWithLogitsLoss()
-    use_class_weights = params.get("class_weight_mode", "balanced") == "balanced"
+    use_class_weights = params["class_weight_mode"] == "balanced"
     effective_weights = class_weights if use_class_weights else None
-    if params.get("loss") == "focal" or "focal_gamma" in params:
-        return FocalLoss(weight=effective_weights, gamma=float(params.get("focal_gamma", 2.0)))
+    if params["loss"] == "focal":
+        return FocalLoss(weight=effective_weights, gamma=float(params["focal_gamma"]))
     return nn.CrossEntropyLoss(weight=effective_weights)
 
 
@@ -170,6 +232,268 @@ def split_model_train_and_early_stop(
     return train_fold.iloc[train_idx].copy(), train_fold.iloc[early_idx].copy()
 
 
+def fit_training_partition_estimator(
+    *,
+    train_partition: pd.DataFrame,
+    spec,
+    resolved_config: dict[str, Any],
+    seed: int,
+    fold_index: int,
+) -> FittedEstimatorResult:
+    """Select an epoch internally and refit the exact estimator on all rows.
+
+    This is the single estimator factory path used by inner search, outer
+    evaluation and final full-development training.  A scoring frame is never
+    accepted by this function, making accidental scheduler/early-stop leakage
+    structurally impossible.
+    """
+
+    validate_resolved_config(resolved_config)
+    factory = StudentEstimatorFactory(spec, resolved_config)
+    scenario = str(resolved_config["feature_contract"]["scenario"])
+    validate_scenario_features(resolved_config["feature_contract"]["sequence_columns"], scenario)
+    set_seed(seed)
+    model_train_partition, early_stop_partition = split_model_train_and_early_stop(
+        train_partition,
+        spec.target_col,
+        seed=seed,
+    )
+    train_engineered = _prepare_model_frame(model_train_partition, spec, resolved_config)
+    early_stop_engineered = _prepare_model_frame(early_stop_partition, spec, resolved_config)
+    preprocessor = factory.create_preprocessor()
+    train_prepared = preprocessor.fit_transform(train_engineered, apply_oversampling=True)
+    early_stop_prepared = preprocessor.transform(early_stop_engineered)
+    selector = factory.create_selector()
+    train_selected = selector.fit_transform(
+        train_prepared,
+        preprocessor.numerical_cols,
+        preprocessor.categorical_cols,
+    )
+    early_stop_selected = selector.transform(early_stop_prepared)
+    train_dataset = StudentDataset(
+        train_selected, spec.kind, spec.target_col,
+        preprocessor.numerical_cols, preprocessor.categorical_cols,
+    )
+    early_stop_dataset = StudentDataset(
+        early_stop_selected, spec.kind, spec.target_col,
+        preprocessor.numerical_cols, preprocessor.categorical_cols,
+    )
+    batch_size = int(resolved_config["batch_size"])
+    drop_last_train = bool(resolved_config["drop_last_train"])
+    train_generator = torch.Generator().manual_seed(int(seed))
+    train_loader = DataLoader(
+        train_dataset,
+        batch_size=batch_size,
+        shuffle=True,
+        drop_last=drop_last_train,
+        generator=train_generator,
+    )
+    early_stop_loader = DataLoader(early_stop_dataset, batch_size=batch_size, shuffle=False)
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    cat_cardinalities = [len(preprocessor.label_encoders[column].classes_) for column in train_dataset.cat_cols]
+    model = factory.create_model(len(train_dataset.num_cols), cat_cardinalities, device)
+    criterion = factory.create_criterion(
+        model_train_partition[spec.target_col].astype(int).to_numpy(),
+        device,
+    )
+    optimizer = factory.create_optimizer(model)
+    scheduler_type = str(resolved_config["scheduler"]["type"])
+    if scheduler_type == "fixed_lr":
+        if bool(resolved_config["swa"]["enabled"]):
+            raise ResolvedConfigError("SWA must be disabled for the fixed-LR Strategy B estimator.")
+        model, early_history, _ = train_model_fixed_lr(
+            model,
+            train_loader,
+            early_stop_loader,
+            criterion,
+            optimizer,
+            build_training_config(resolved_config),
+            device,
+        )
+    elif scheduler_type == "legacy_reduce_on_plateau":
+        model, early_history, _ = train_model(
+            model,
+            train_loader,
+            early_stop_loader,
+            criterion,
+            optimizer,
+            build_training_config(resolved_config),
+            device,
+        )
+    else:  # validation already rejects this, retained as defense in depth.
+        raise ResolvedConfigError(f"Unsupported training policy: {scheduler_type}")
+    selected_epochs = max(1, int(np.argmax(early_history["val_f1"]) + 1))
+
+    # Full-partition refit.  The seed offset makes this stage deterministic and
+    # independent of how many epochs were executed by the selection stage.
+    set_seed(int(seed) + 100_003)
+    refit_engineered = _prepare_model_frame(train_partition, spec, resolved_config)
+    refit_preprocessor = factory.create_preprocessor()
+    refit_prepared = refit_preprocessor.fit_transform(refit_engineered, apply_oversampling=True)
+    refit_selector = factory.create_selector()
+    refit_selected = refit_selector.fit_transform(
+        refit_prepared,
+        refit_preprocessor.numerical_cols,
+        refit_preprocessor.categorical_cols,
+    )
+    refit_dataset = StudentDataset(
+        refit_selected, spec.kind, spec.target_col,
+        refit_preprocessor.numerical_cols, refit_preprocessor.categorical_cols,
+    )
+    refit_generator = torch.Generator().manual_seed(int(seed) + 100_003)
+    refit_loader = DataLoader(
+        refit_dataset,
+        batch_size=batch_size,
+        shuffle=True,
+        drop_last=drop_last_train,
+        generator=refit_generator,
+    )
+    refit_cardinalities = [
+        len(refit_preprocessor.label_encoders[column].classes_)
+        for column in refit_dataset.cat_cols
+    ]
+    refit_model = factory.create_model(len(refit_dataset.num_cols), refit_cardinalities, device)
+    refit_criterion = factory.create_criterion(
+        train_partition[spec.target_col].astype(int).to_numpy(),
+        device,
+    )
+    refit_optimizer = factory.create_optimizer(refit_model)
+    refit_model, refit_history = train_fixed_epochs(
+        refit_model,
+        refit_loader,
+        refit_criterion,
+        refit_optimizer,
+        device,
+        selected_epochs,
+        scheduler_policy={"type": "fixed_lr", "parameters": {}, "replayable": True},
+    )
+
+    early_scheduler_state = early_history.get("scheduler_state") or {
+        "type": "legacy_reduce_on_plateau",
+        "replayable": False,
+        "reductions": int(early_history.get("scheduler_reductions", 0)),
+        "learning_rates": [float(value) for value in early_history.get("learning_rate", [])],
+    }
+    early_swa_state = early_history.get("swa_state") or {
+        "enabled": bool(resolved_config["swa"]["enabled"]),
+        "replayable": False,
+        "batch_norm_statistics_updated": False,
+    }
+    estimator_parity = bool(
+        early_scheduler_state.get("type") == "fixed_lr"
+        and early_scheduler_state.get("replayable")
+        and not early_swa_state.get("enabled")
+        and refit_history["scheduler_state"]["type"] == "fixed_lr"
+    )
+    diagnostics = {
+        "fold": int(fold_index),
+        "seed": int(seed),
+        "epochs_ran": int(early_history["epochs_ran"]),
+        "selected_epoch": int(selected_epochs),
+        "refit_epochs": int(refit_history["epochs"]),
+        "max_epochs": int(resolved_config["max_epochs"]),
+        "patience": int(resolved_config["patience"]),
+        "hit_epoch_cap": bool(int(early_history["epochs_ran"]) >= int(resolved_config["max_epochs"])),
+        "best_internal_validation_macro_f1": float(max(early_history["val_f1"])),
+        "best_internal_validation_loss": float(min(early_history["val_loss"])),
+        "final_internal_validation_loss": float(early_history["val_loss"][-1]),
+        "final_train_loss": float(refit_history["train_loss"][-1]),
+        "scheduler_state_selection": early_scheduler_state,
+        "scheduler_state_refit": refit_history["scheduler_state"],
+        "swa_state_selection": early_swa_state,
+        "swa_state_refit": refit_history["swa_state"],
+        "estimator_parity": estimator_parity,
+        "factory_signature_selection": factory.estimator_signature(),
+        "factory_signature_refit": factory.estimator_signature(),
+        "criterion_parity": factory.criterion_signature() == factory.criterion_signature(),
+        "resampling_parity": factory.resampling_signature() == factory.resampling_signature(),
+        "sample_utilization_selection": loader_statistics(len(train_dataset), batch_size, drop_last_train),
+        "sample_utilization_refit": loader_statistics(len(refit_dataset), batch_size, drop_last_train),
+        "full_refit_input_records": int(len(train_partition)),
+    }
+    kernel = int(resolved_config["cnn_kernel_size"])
+    cnn_output_length = int(getattr(refit_model, "cnn_output_sequence_length", (
+        2 if resolved_config["architecture_variant"] == "bilstm_only" else 2 + 2 * (kernel // 2) - kernel + 1
+    )))
+    shapes = {
+        "input_sequence_length": 2,
+        "cnn_kernel_size": kernel,
+        "cnn_output_sequence_length": int(cnn_output_length),
+        "bilstm_input_sequence_length": int(cnn_output_length),
+    }
+    state = {key: value.detach().cpu().clone() for key, value in refit_model.state_dict().items()}
+    return FittedEstimatorResult(
+        model=refit_model,
+        preprocessor=refit_preprocessor,
+        selector=refit_selector,
+        selected_features=list(refit_selector.selected_features),
+        numerical_cols=list(refit_dataset.num_cols),
+        categorical_cols=list(refit_dataset.cat_cols),
+        train_row_positions=_row_positions(train_partition),
+        early_stop_row_positions=_row_positions(early_stop_partition),
+        refit_state_dict=state,
+        training_diagnostics=diagnostics,
+        shape_diagnostics=shapes,
+        resolved_config=dict(resolved_config),
+    )
+
+
+def predict_with_fitted_estimator(
+    *,
+    frame: pd.DataFrame,
+    spec,
+    resolved_config: dict[str, Any],
+    state_dict: dict[str, torch.Tensor],
+    preprocessor: Any,
+    selector: Any,
+) -> np.ndarray:
+    """Rebuild a saved estimator and return probabilities for ``frame``."""
+
+    validate_resolved_config(resolved_config)
+    factory = StudentEstimatorFactory(spec, resolved_config)
+    engineered = _prepare_model_frame(frame, spec, resolved_config)
+    prepared = preprocessor.transform(engineered)
+    selected = selector.transform(prepared)
+    dataset = StudentDataset(
+        selected, spec.kind, spec.target_col,
+        preprocessor.numerical_cols, preprocessor.categorical_cols,
+    )
+    loader = DataLoader(dataset, batch_size=int(resolved_config["batch_size"]), shuffle=False)
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    cardinalities = [len(preprocessor.label_encoders[column].classes_) for column in dataset.cat_cols]
+    model = factory.create_model(len(dataset.num_cols), cardinalities, device)
+    model.load_state_dict(state_dict)
+    model.eval()
+    probabilities: list[np.ndarray] = []
+    with torch.no_grad():
+        for batch in loader:
+            seq_x, num_x, cat_x, _, _ = batch[:5]
+            output = model.predict_proba(seq_x.to(device), num_x.to(device), cat_x.to(device))
+            probabilities.extend(output.detach().cpu().numpy())
+    return np.asarray(probabilities, dtype=float)
+
+
+def fit_final_development_estimator(
+    *,
+    development_frame: pd.DataFrame,
+    spec,
+    resolved_config: dict[str, Any],
+    seed: int,
+) -> FittedEstimatorResult:
+    """Final estimator path: epoch selection then refit on every development row."""
+
+    result = fit_training_partition_estimator(
+        train_partition=development_frame,
+        spec=spec,
+        resolved_config=resolved_config,
+        seed=seed,
+        fold_index=-1,
+    )
+    if result.training_diagnostics["full_refit_input_records"] != len(development_frame):
+        raise RuntimeError("Final estimator did not refit on the full development frame.")
+    return result
+
+
 def fit_fold_predict_proba(
     *,
     train_fold: pd.DataFrame,
@@ -180,139 +504,29 @@ def fit_fold_predict_proba(
     fold_index: int,
     ablation_mode: str = "sequence_only",
     scenario: str = "late_stage",
-    drop_last_train: bool = True,
 ) -> FoldModelResult:
-    """Fit on fold-training data and predict probabilities for a held-out scoring fold.
+    """Fit through the shared factory and score a never-trained-on fold."""
 
-    ``validation_fold`` is the outer/inner scoring fold. It is intentionally not
-    passed to ``train_model`` for early stopping. A smaller early-stop set is
-    carved out of ``train_fold`` before preprocessing is fit.
-    """
-    # This call is deliberately before preprocessing/training so a scenario
-    # cannot sneak an unavailable feature into a future model runner.
-    validate_scenario_features(get_sequence_columns(spec.kind), scenario)
-    set_seed(seed)
-    model_train_fold, early_stop_fold = split_model_train_and_early_stop(
-        train_fold,
-        spec.target_col,
+    del ablation_mode  # The approved Phase A-B estimator is sequence-only.
+    validate_resolved_config(params)
+    if scenario != params["feature_contract"]["scenario"]:
+        raise ResolvedConfigError("Scenario argument disagrees with the resolved feature contract.")
+    fitted = fit_training_partition_estimator(
+        train_partition=train_fold,
+        spec=spec,
+        resolved_config=params,
         seed=seed,
+        fold_index=fold_index,
     )
-    train_engineered = apply_feature_engineering(model_train_fold.copy(), spec.kind)
-    early_stop_engineered = apply_feature_engineering(early_stop_fold.copy(), spec.kind)
-    validation_engineered = apply_feature_engineering(validation_fold.copy(), spec.kind)
-
-    preprocessor = DataPreprocessor(
-        target_col=spec.target_col,
-        oversample_method=params.get("oversample_method", "none"),
-        smote_ratio=float(params.get("smote_ratio", 1.0)),
-        resampling_k_neighbors=int(params.get("resampling_k_neighbors", 5)),
-        oversampling_feature_columns=get_sequence_columns(spec.kind),
+    probability_array = predict_with_fitted_estimator(
+        frame=validation_fold,
+        spec=spec,
+        resolved_config=params,
+        state_dict=fitted.refit_state_dict,
+        preprocessor=fitted.preprocessor,
+        selector=fitted.selector,
     )
-    train_prepared = preprocessor.fit_transform(train_engineered, apply_oversampling=True)
-    early_stop_prepared = preprocessor.transform(early_stop_engineered)
-    validation_prepared = preprocessor.transform(validation_engineered)
-
-    selector = FeatureSelector(
-        target_col=spec.target_col,
-        use_feature_selection=True,
-        required_features=get_sequence_columns(spec.kind),
-    )
-    train_selected = selector.fit_transform(
-        train_prepared,
-        preprocessor.numerical_cols,
-        preprocessor.categorical_cols,
-    )
-    early_stop_selected = selector.transform(early_stop_prepared)
-    validation_selected = selector.transform(validation_prepared)
-
-    model_params = dict(params)
-    model_params["ablation_mode"] = "sequence_only"
-    train_dataset = StudentDataset(train_selected, spec.kind, spec.target_col, preprocessor.numerical_cols, preprocessor.categorical_cols)
-    early_stop_dataset = StudentDataset(early_stop_selected, spec.kind, spec.target_col, preprocessor.numerical_cols, preprocessor.categorical_cols)
-    validation_dataset = StudentDataset(validation_selected, spec.kind, spec.target_col, preprocessor.numerical_cols, preprocessor.categorical_cols)
-    batch_size = int(params.get("batch_size", 32))
-    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, drop_last=bool(drop_last_train))
-    early_stop_loader = DataLoader(early_stop_dataset, batch_size=batch_size, shuffle=False)
-    validation_loader = DataLoader(validation_dataset, batch_size=batch_size, shuffle=False)
-
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    cat_cardinalities = [len(preprocessor.label_encoders[column].classes_) for column in train_dataset.cat_cols]
-    model = create_model(spec.kind, model_params, len(train_dataset.num_cols), cat_cardinalities).to(device)
-    class_weights = calculate_class_weights(model_train_fold[spec.target_col].astype(int).to_numpy(), num_classes=3).to(device)
-    criterion = _criterion(spec, params, class_weights)
-    optimizer = optim.Adam(
-        model.parameters(),
-        lr=float(params["learning_rate"]),
-        weight_decay=float(params["weight_decay"]),
-    )
-    model, early_history, _ = train_model(model, train_loader, early_stop_loader, criterion, optimizer, build_training_config(params), device)
-    selected_epochs = max(1, int(np.argmax(early_history["val_f1"]) + 1))
-
-    # Refit the complete outer/inner training partition after epoch selection.
-    # Scoring-fold rows have not been passed to preprocessing, selection,
-    # resampling, class weights, scheduler, or early stopping.
-    refit_engineered = apply_feature_engineering(train_fold.copy(), spec.kind)
-    refit_preprocessor = DataPreprocessor(
-        target_col=spec.target_col,
-        oversample_method=params.get("oversample_method", "none"),
-        smote_ratio=float(params.get("smote_ratio", 1.0)),
-        resampling_k_neighbors=int(params.get("resampling_k_neighbors", 5)),
-        oversampling_feature_columns=get_sequence_columns(spec.kind),
-    )
-    refit_prepared = refit_preprocessor.fit_transform(refit_engineered, apply_oversampling=True)
-    validation_refit_prepared = refit_preprocessor.transform(validation_engineered)
-    refit_selector = FeatureSelector(
-        target_col=spec.target_col,
-        use_feature_selection=True,
-        required_features=get_sequence_columns(spec.kind),
-    )
-    refit_selected = refit_selector.fit_transform(
-        refit_prepared,
-        refit_preprocessor.numerical_cols,
-        refit_preprocessor.categorical_cols,
-    )
-    validation_refit_selected = refit_selector.transform(validation_refit_prepared)
-    refit_dataset = StudentDataset(refit_selected, spec.kind, spec.target_col, refit_preprocessor.numerical_cols, refit_preprocessor.categorical_cols)
-    validation_dataset = StudentDataset(validation_refit_selected, spec.kind, spec.target_col, refit_preprocessor.numerical_cols, refit_preprocessor.categorical_cols)
-    refit_loader = DataLoader(refit_dataset, batch_size=batch_size, shuffle=True, drop_last=bool(drop_last_train))
-    validation_loader = DataLoader(validation_dataset, batch_size=batch_size, shuffle=False)
-    refit_cardinalities = [len(refit_preprocessor.label_encoders[column].classes_) for column in refit_dataset.cat_cols]
-    refit_model = create_model(spec.kind, model_params, len(refit_dataset.num_cols), refit_cardinalities).to(device)
-    refit_labels = refit_engineered[spec.target_col].astype(int).to_numpy()
-    refit_weights = calculate_class_weights(refit_labels, num_classes=3).to(device)
-    refit_criterion = _criterion(spec, params, refit_weights)
-    refit_optimizer = optim.Adam(
-        refit_model.parameters(),
-        lr=float(params["learning_rate"]),
-        weight_decay=float(params["weight_decay"]),
-    )
-    model, refit_history = train_fixed_epochs(refit_model, refit_loader, refit_criterion, refit_optimizer, device, selected_epochs)
-
-    probabilities = []
-    with torch.no_grad():
-        model.eval()
-        for batch in validation_loader:
-            seq_x, num_x, cat_x, _, _ = batch[:5]
-            batch_probabilities = model.predict_proba(seq_x.to(device), num_x.to(device), cat_x.to(device))
-            probabilities.extend(batch_probabilities.cpu().numpy())
-    probability_array = np.asarray(probabilities)
     predictions = np.argmax(probability_array, axis=1)
-    kernel = int(model_params.get("cnn_kernel_size", 1))
-    cnn_output_length = 2 if model_params.get("architecture_variant", "cnn_bilstm") == "bilstm_only" else 2 + 2 * (kernel // 2) - kernel + 1
-    diagnostics = {
-        "selected_epoch": int(selected_epochs), "max_epochs": int(params.get("max_epochs", 100)),
-        "patience": int(params.get("patience", 15)), "scheduler_patience": int(params.get("scheduler_patience", 5)),
-        "hit_epoch_cap": bool(int(early_history["epochs_ran"]) >= int(params.get("max_epochs", 100))),
-        "best_internal_validation_macro_f1": float(max(early_history["val_f1"])),
-        "best_internal_validation_loss": float(min(early_history["val_loss"])),
-        "final_internal_validation_loss": float(early_history["val_loss"][-1]),
-        "scheduler_reductions": int(early_history["scheduler_reductions"]),
-        "final_learning_rate": float(early_history["final_learning_rate"]),
-        "final_train_loss": float(refit_history["train_loss"][-1]), "refit_epochs": int(refit_history["epochs"]),
-        "early_stop_loader": loader_statistics(len(train_dataset), batch_size, bool(drop_last_train)), "refit_loader": loader_statistics(len(refit_dataset), batch_size, bool(drop_last_train)),
-    }
-    shapes = {"input_sequence_length": 2, "cnn_kernel_size": kernel,
-              "cnn_output_sequence_length": int(cnn_output_length), "bilstm_input_sequence_length": int(cnn_output_length)}
     return FoldModelResult(
         fold_index=fold_index,
         seed=seed,
@@ -320,14 +534,17 @@ def fit_fold_predict_proba(
         probabilities=probability_array,
         predictions=np.asarray(predictions, dtype=int),
         true_labels=validation_fold[spec.target_col].astype(int).to_numpy(),
-        selected_features=list(refit_selector.selected_features),
-        numerical_cols=list(refit_dataset.num_cols),
-        categorical_cols=list(refit_dataset.cat_cols),
-        train_row_positions=_row_positions(train_fold),
-        early_stop_row_positions=_row_positions(early_stop_fold),
-        refit_state_dict={key: value.detach().cpu().clone() for key, value in model.state_dict().items()},
-        training_diagnostics=diagnostics,
-        shape_diagnostics=shapes,
+        selected_features=fitted.selected_features,
+        numerical_cols=fitted.numerical_cols,
+        categorical_cols=fitted.categorical_cols,
+        train_row_positions=fitted.train_row_positions,
+        early_stop_row_positions=fitted.early_stop_row_positions,
+        refit_state_dict=fitted.refit_state_dict,
+        training_diagnostics=fitted.training_diagnostics,
+        shape_diagnostics=fitted.shape_diagnostics,
+        resolved_config=fitted.resolved_config,
+        refit_preprocessor=fitted.preprocessor,
+        refit_selector=fitted.selector,
     )
 
 
@@ -339,12 +556,15 @@ def objective_mean_cv_f1(
     *,
     architecture_variant: str = "cnn_bilstm",
     fair_comparison: bool = False,
+    drop_last_train: bool = False,
 ) -> float:
     params = student_search_space(
         trial,
         architecture_variant=architecture_variant,
         fair_comparison=fair_comparison,
+        drop_last_train=drop_last_train,
     )
+    trial.set_user_attr("resolved_config", params)
     fold_scores = []
     for fold_index, (train_idx, val_idx) in enumerate(folds):
         result = fit_fold_predict_proba(
@@ -373,6 +593,7 @@ def run_optuna_cv_search(
     seed: int = DEFAULT_SEED,
     architecture_variant: str = "cnn_bilstm",
     fair_comparison: bool = False,
+    drop_last_train: bool = False,
 ) -> tuple[dict[str, Any], list[dict[str, Any]], list[tuple[np.ndarray, np.ndarray]]]:
     folds = make_folds(train_pool, spec.target_col, n_splits=n_splits, seed=seed)
     study = optuna.create_study(
@@ -388,6 +609,7 @@ def run_optuna_cv_search(
             folds,
             architecture_variant=architecture_variant,
             fair_comparison=fair_comparison,
+            drop_last_train=drop_last_train,
         ),
         n_trials=n_trials,
     )
@@ -397,12 +619,28 @@ def run_optuna_cv_search(
             "state": str(trial.state),
             "value": None if trial.value is None else float(trial.value),
             "params": dict(trial.params),
+            "resolved_config": trial.user_attrs.get("resolved_config"),
             "fold_f1_macro": trial.user_attrs.get("fold_f1_macro"),
         }
         for trial in study.trials
     ]
-    best_params = {**dict(study.best_params), "architecture_variant": architecture_variant}
-    return {"best_cv_f1_macro": float(study.best_value), "best_params": best_params}, trial_history, folds
+    best_params = study.best_trial.user_attrs.get("resolved_config")
+    if best_params is None:
+        best_params = resolve_student_config(
+            study.best_params,
+            architecture_variant=architecture_variant,
+            suggested_parameters=dict(study.best_params),
+            scheduler_type="fixed_lr",
+            swa_enabled=False,
+            drop_last_train=drop_last_train,
+            evidence_role="optuna_candidate_corrected_estimator",
+        )
+    validate_resolved_config(best_params)
+    return {
+        "best_cv_f1_macro": float(study.best_value),
+        "best_params": best_params,
+        "resolved_config": best_params,
+    }, trial_history, folds
 
 
 def collect_oof_by_seed(

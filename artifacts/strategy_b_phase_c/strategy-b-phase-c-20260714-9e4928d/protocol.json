@@ -1,0 +1,60 @@
+{
+  "batch_norm_allowed": false,
+  "class_weight": "none",
+  "conditional_candidates_executed": false,
+  "created_at": "2026-07-14T14:55:02.394395+00:00",
+  "declared_outer_seeds": [
+    42,
+    123,
+    155
+  ],
+  "drop_last": false,
+  "early_stop_ledger_hash": "67d2c800f151411ac486171f33ec069ea7a35d8e9760f7ec9c5565dad78c6e9b",
+  "environment_hash": "9e77c4652a22e5bbea973cef4ab1933e0ee0c699083a429a3c230ee2fba68a4b",
+  "features": [
+    "G1",
+    "G2"
+  ],
+  "finalization_recovery": {
+    "finalization_git_commit": "b01bdc113001341f05a966897ebd2d94dc606c98",
+    "finalization_source_tree_hash": "4ddbdebf84826e230171a1661bc72cc7a2a8c0760a993881c129fffeffb207d5",
+    "reason": "report_rendering_only_missing_optional_tabulate_dependency",
+    "recovery_checks": {
+      "all_checkpoints_reproduced": true,
+      "all_jobs_completed": true,
+      "all_trials_terminal": true,
+      "checkpoint_count": true,
+      "job_rows": true,
+      "metric_recomputation": true,
+      "oof_candidate_seed_coverage": true,
+      "oof_rows": true,
+      "trial_rows": true
+    },
+    "training_or_predictions_changed": false,
+    "training_source_git_commit": "9e4928d0ee0cfd13a4d51f665dd01626c7e21e01"
+  },
+  "git_commit": "9e4928d0ee0cfd13a4d51f665dd01626c7e21e01",
+  "high_class_recall_guardrail": 0.6,
+  "inner_fold_ledger_hash": "16b589c15056ff3bba5100e35def35cde538a3d393d2e3818b9c95fc150e46b4",
+  "inner_folds_per_trial": 3,
+  "legacy_observed_79_fetched": false,
+  "normalization": [
+    "none",
+    "layer_norm"
+  ],
+  "outer_fold_manifest_file_hash": "d8e3654b40a82f46d0567fc9a9dfb67ff4963b0f401ad83794cc44f7dbcf6ba0",
+  "outer_fold_manifest_semantic_hash": "bf5e5cbd8d09679f5d34900486ba23cc5ac57c93b28aa38ac3f3ce2578307ce1",
+  "outer_folds": 5,
+  "oversampling": "none",
+  "phase_d_or_e_executed": false,
+  "postgres_integration_policy": "disposable_test_DSN_only; waiver if unavailable; official data read-only",
+  "protocol_version": "strategy_b_phase_c_v1",
+  "raw_feature_transforms": "none",
+  "readme_headline_modified": false,
+  "run_id": "strategy-b-phase-c-20260714-9e4928d",
+  "scheduler": "fixed_lr",
+  "source_tree_hash": "ce408771ed58b29e89f0982ba58d343e1d4ce8bda882236868533f397316b43f",
+  "stage": "full",
+  "swa": false,
+  "trials_per_searched_family_per_outer_fold": 30
+}

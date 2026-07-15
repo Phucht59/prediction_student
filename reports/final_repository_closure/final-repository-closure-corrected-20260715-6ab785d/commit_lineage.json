@@ -1,0 +1,58 @@
+{
+  "all_official_commits_ancestors": true,
+  "ancestry": [
+    {
+      "commit": "475a6727a49d939f847c46e1bdeb11a4a5bc60ec",
+      "is_ancestor": true,
+      "name": "phase_ab_code"
+    },
+    {
+      "commit": "02e228b31c5ea096c8305a3caa906cc14315832a",
+      "is_ancestor": true,
+      "name": "phase_ab_evidence"
+    },
+    {
+      "commit": "5d34a6641036be454c115747718b16669590f0be",
+      "is_ancestor": true,
+      "name": "phase_c_code"
+    },
+    {
+      "commit": "e20ff43c7a7c95b638e82b84d40c7cf10b6e0d49",
+      "is_ancestor": true,
+      "name": "phase_c_evidence"
+    },
+    {
+      "commit": "119611cf16d78dc8ea2b563981a9d7a9ba540225",
+      "is_ancestor": true,
+      "name": "phase_e_implementation"
+    },
+    {
+      "commit": "900714494a9d4fa75bf3f57c48b481f0db90d447",
+      "is_ancestor": true,
+      "name": "phase_e_code_tip"
+    },
+    {
+      "commit": "af60729ed8e1ea671bc7a6e07374cf32b8f197e7",
+      "is_ancestor": true,
+      "name": "phase_e_evidence"
+    },
+    {
+      "commit": "4915a122c6a21a77841e0b5f6f3977b4bd2b7a93",
+      "is_ancestor": true,
+      "name": "phase_d_code_1"
+    },
+    {
+      "commit": "407ac0f0fce7a3b61a6540f18bf0e11a559cca81",
+      "is_ancestor": true,
+      "name": "phase_d_code_2"
+    },
+    {
+      "commit": "063288fdbd01aee1221e8c8108f84fec0d1209c0",
+      "is_ancestor": true,
+      "name": "phase_d_evidence"
+    }
+  ],
+  "base_integration_commit": "e1c3a678fe0dd69b938e92140219b20bdafc33a4",
+  "closure_head": "6ab785dabcaf3df824e2ed1bedf7e8810b646460",
+  "graph": "* 6ab785d (HEAD -> codex/final-repository-closure) fix: index closure report mirror after staging\n* 37c41b2 (origin/codex/final-repository-closure) chore: record final repository closure evidence\n* 8425384 chore: complete final repository audit coverage\n* 6e3b54c fix: atomically promote final closure report\n* 923472f chore: add final repository closure validator\n* 8acf2ea docs: finalize scientific repository documentation\n*   e1c3a67 (origin/test, test) merge: add Phase D governed recommendation evidence\n|\\  \n| * 063288f (codex/strategy-b-phase-d-recommendation) evidence: record phase d governed recommendation run\n| * 407ac0f fix: record phase e test discrepancy provenance\n| * 4915a12 feat: add governed phase d recommendation pipeline\n* |   b6a81a3 (codex/strategy-b-phase-e-prediction) Merge remote-tracking branch 'origin/test' into codex/strategy-b-phase-e-prediction\n|\\ \\  \n| |/  \n|/|   \n| * 289f87b chore: publish Strategy B phase AB updates\n* | af60729 chore: record corrected Phase E stability evidence\n* | 9007144 fix: preserve derived Phase E run identity\n* | 1f5e520 fix: compute Phase E seed stability from full OOF\n* | 5eca679 chore: record Strategy B Phase E prediction evidence\n* | 2e7a4da fix: allow Phase E evidence recovery report temp\n* | 5de0105 fix: validate deterministic Phase E OOF coverage\n* | 119611c feat: add Strategy B Phase E prediction freeze\n* | e20ff43 (origin/codex/strategy-b-phase-c, codex/strategy-b-phase-c) chore: record corrected Phase C stability evidence\n* | 5d34a66 fix: compute phase C outer-fold stability correctly\n* | ef652c4 chore: record Strategy B phase C evidence\n* | e0f980b fix: report complete phase C compute runtime\n* | b01bdc1 fix: recover validated phase C finalization atomically\n* | 9e4928d feat: implement Strategy B phase C comparison\n|/"
+}

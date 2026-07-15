@@ -1,0 +1,10 @@
+{
+  "classes": [
+    "Low",
+    "Medium",
+    "High"
+  ],
+  "macro_micro_weighted_reported": true,
+  "method": "one_vs_rest_probability_precision_recall",
+  "thresholds_selected_on_outer_labels": false
+}

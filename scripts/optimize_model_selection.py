@@ -51,7 +51,7 @@ from src.model_selection import (
     write_json,
 )
 from src.models import create_model
-from src.postgres_data_source import load_dataset_version_from_postgres
+from src.postgres_data_source import load_development_subset_from_postgres
 
 
 SELECTION_ROOT = ROOT_DIR / "artifacts" / "model_selection"
@@ -368,11 +368,16 @@ def main() -> None:
     output_dir.mkdir(parents=True, exist_ok=False)
     audit_path = output_dir / "optimization_protocol_audit.md"
     spec = DATASETS[args.dataset]
-    raw_frame, dataset_version = load_dataset_version_from_postgres(args.dataset, args.dataset_version_id)
-    target = target_frame(raw_frame, args.dataset, args.target_mode)
     fold_manifest = load_fold_manifest(args.fold_manifest)
     if int(fold_manifest["dataset_version_id"]) != int(args.dataset_version_id):
         raise ValueError("--dataset-version-id must match the shared fold manifest.")
+    source_rows = [int(row["source_row_number"]) for row in fold_manifest["development_records"]]
+    raw_frame, dataset_version = load_development_subset_from_postgres(
+        args.dataset,
+        args.dataset_version_id,
+        source_rows,
+    )
+    target = target_frame(raw_frame, args.dataset, args.target_mode)
     if fold_manifest["dataset_checksum"] != dataset_version["content_hash"]:
         raise ValueError("Dataset checksum does not match the shared fold manifest.")
     validate_scenario_features(get_sequence_columns(spec.kind), "late_stage")

@@ -1,0 +1,16 @@
+{
+  "action_catalog_hash": "e4fb6103faa282b2cfeeffb993d965248a5841a04d4ec532fa0a2832558f306e",
+  "approved_at": null,
+  "approved_by": null,
+  "created_at": "2026-07-14T17:56:07.790870+00:00",
+  "evidence_reference": "C:\\Huflit\\kltn\\artifacts\\strategy_b_phase_e_prediction\\strategy-b-phase-e-prediction-20260714-9007144",
+  "expert_validation_status": "pending",
+  "feature_registry_hash": "f93cf222a4ca9632e3d88c9f997ef135fe3c1f1b9723e0e41688eb65865266b5",
+  "model_bundle_hash": "fdc442cac680efaab9c9242bf34e5c38b3b62fcc9a77387a71cf8e5a65610ea7",
+  "policy_id": "strategy_b_governed_learning_path",
+  "policy_version": "strategy_b_governed_learning_path_v1",
+  "schema_version": "phase_d_recommendation_v1",
+  "source_commit": "407ac0f0fce7a3b61a6540f18bf0e11a559cca81",
+  "status": "technical_validated",
+  "uncertainty_policy_hash": "d965ccb95d4ed8fb5e1f8ac10657a0fe97550f39406db014ca3f0a420c7e4df9"
+}
