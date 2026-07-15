@@ -1,0 +1,52 @@
+{
+  "conditional_priority": [
+    "V2-H2P",
+    "V2-H3P",
+    "V2-ENS",
+    "calibration",
+    "V2-H3G",
+    "V2-H4",
+    "V2-H5P",
+    "V2-H3M"
+  ],
+  "mandatory": {
+    "V2-A0": {
+      "inputs": [
+        "aggregate_161",
+        "static"
+      ],
+      "role": "aggregate_static_control"
+    },
+    "V2-H2F": {
+      "role": "frozen_v1_h2",
+      "trainable": false,
+      "v1_candidate": "C-H2"
+    },
+    "V2-H2T": {
+      "inputs": [
+        "sequence",
+        "static"
+      ],
+      "role": "tuned_h2"
+    },
+    "V2-H3C": {
+      "inputs": [
+        "sequence",
+        "aggregate_161",
+        "static"
+      ],
+      "role": "concat_aggregate_fusion"
+    },
+    "V2-MLF": {
+      "role": "frozen_v1_strongest_ml",
+      "trainable": false,
+      "v1_candidate": "C-L0"
+    },
+    "V2-T0": {
+      "inputs": [
+        "sequence"
+      ],
+      "role": "sequence_only_control"
+    }
+  }
+}
