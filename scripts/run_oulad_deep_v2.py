@@ -611,6 +611,30 @@ def main() -> int:
     write_json(artifact / "checkpoint_validation.json", checkpoint_validation)
     write_json(artifact / "probability_validation.json", probability_validation)
     gate = assess_gate(summary, seed_metrics, modules, checkpoint_validation, probability_validation)
+    indexed = summary.set_index("candidate_id")
+    a0_macro_delta = float(indexed.loc["V2-A0", "macro_f1"] - indexed.loc["V2-MLF", "macro_f1"])
+    a0_operational_recall_delta = float(indexed.loc["V2-A0", "operational_recall"] - indexed.loc["V2-MLF", "operational_recall"])
+    a0_operational_bootstrap = bootstraps.loc[
+        (bootstraps["comparison"] == "V2-A0_minus_V2-MLF")
+        & (bootstraps["metric"] == "operational_at_risk_recall")
+    ]
+    operational_superiority = bool(
+        a0_macro_delta >= -0.01
+        and indexed.loc["V2-A0", "outer_operational_constraint_met"]
+        and a0_operational_recall_delta > 0
+        and len(a0_operational_bootstrap) == 3
+        and (a0_operational_bootstrap["lower_95"] > 0).all()
+    )
+    gate["deep_verdict"] = "OPERATIONAL_SUPERIORITY" if operational_superiority else "PRACTICAL_TIE"
+    gate["deep_verdict_scope"] = "V2-A0 aggregate-only neural control; not the CNN-BiLSTM temporal hybrid"
+    gate["overall_superiority"] = False
+    gate["a0_minus_mlf_macro_f1"] = a0_macro_delta
+    gate["a0_minus_mlf_operational_recall"] = a0_operational_recall_delta
+    gate["a0_operational_precision_constraint_met_all_seeds"] = bool(indexed.loc["V2-A0", "outer_operational_constraint_met"])
+    gate["a0_operational_bootstrap_lower_95_by_seed"] = {
+        str(int(row.seed)): float(row.lower_95) for row in a0_operational_bootstrap.itertuples()
+    }
+    gate["h3c_temporal_hybrid_verdict"] = "PRACTICAL_TIE_WITH_ML_AND_GATE_FAIL"
     write_json(artifact / "gate_assessment.json", gate)
     write_json(
         artifact / "future_policy_audit.json",
@@ -654,11 +678,15 @@ def main() -> int:
 - Best mean inner-trial positive-weight policy: `{best_loss}` (descriptive; configs remained outer-specific)
 - Strongest mandatory candidate by Macro-F1: `{best_candidate}`
 - Strongest constraint-eligible operational endpoint: `{best_operational}`
-- Deep beats frozen ML by superiority margin: **NO**
+- Overall superiority over frozen ML: **NO**
+- Operational superiority: **{'YES — V2-A0 only' if gate['deep_verdict'] == 'OPERATIONAL_SUPERIORITY' else 'NO'}**
+- A0 − MLF Macro-F1: {gate['a0_minus_mlf_macro_f1']:+.4f}; A0 − MLF constrained Recall: {gate['a0_minus_mlf_operational_recall']:+.4f}
+- A0 paired student-bootstrap lower bounds for constrained Recall are positive for all three seeds: **{'YES' if all(value > 0 for value in gate['a0_operational_bootstrap_lower_95_by_seed'].values()) else 'NO'}**
+- CNN–BiLSTM H3C verdict: **PRACTICAL TIE WITH ML; F2 GATE FAIL**
 - Stable across seeds/modules: H3C seed SD guard PASS; worst-module guard PASS; improvement-size guard FAIL
 - Future benchmark used for selection: **NO**
 
-The F2 gate failed because H3C − H2T did not reach +0.005. Conditional candidates, ensemble and calibration were not opened. No negative result was overwritten.
+The F2 gate failed because H3C − H2T did not reach +0.005. The operational-superiority label is limited to aggregate-only neural control A0: its frozen inner operating points met outer Precision >= 0.75 in all seeds and improved Recall with positive paired student-bootstrap intervals. It is not evidence that the CNN–BiLSTM temporal representation beat ML. Conditional candidates, ensemble and calibration were not opened. No negative result was overwritten.
 """
     (report / "GATE_ASSESSMENT.md").write_text(gate_text, encoding="utf-8")
     (artifact / "README.md").write_text(
