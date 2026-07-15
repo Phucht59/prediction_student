@@ -1,0 +1,20 @@
+{
+  "action_completeness_rate": 1.0,
+  "action_conflict_rate": 0.0,
+  "action_duplication_rate": 0.0,
+  "advisor_approval_required_rate": 1.0,
+  "claim_boundary": "technical structure only; no scientific effectiveness claim",
+  "development_cases": 316,
+  "effectiveness_validation": "NOT_PERFORMED",
+  "eligible_for_normal_draft_gate": 245,
+  "expert_casebook_cases": 60,
+  "expert_casebook_strata": 23,
+  "expert_validation": "PENDING",
+  "explanation_completeness_rate": 1.0,
+  "gate_review_rate": 0.22468354430379747,
+  "generated_actions": 1313,
+  "goal_completeness_rate": 1.0,
+  "technical_validation": "PASS",
+  "uncertainty_agreement_review_cases": 71,
+  "workload_violation_rate": 0.0
+}

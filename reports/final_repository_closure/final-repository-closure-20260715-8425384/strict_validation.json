@@ -1,0 +1,70 @@
+{
+  "checks": [
+    {
+      "id": "working_tree_clean_at_start",
+      "pass": true
+    },
+    {
+      "id": "readme_project_exist",
+      "pass": true
+    },
+    {
+      "id": "commit_ancestry",
+      "pass": true
+    },
+    {
+      "id": "official_artifact_checksums",
+      "pass": true
+    },
+    {
+      "id": "documentation_claims",
+      "pass": true
+    },
+    {
+      "id": "no_positive_prohibited_claim",
+      "pass": true
+    },
+    {
+      "id": "internal_links",
+      "pass": true
+    },
+    {
+      "id": "secret_scan",
+      "pass": true
+    },
+    {
+      "id": "full_test_suite",
+      "pass": true
+    },
+    {
+      "id": "database_static_validation",
+      "pass": true
+    },
+    {
+      "id": "final_model_roles",
+      "pass": true
+    },
+    {
+      "id": "recommendation_status",
+      "pass": true
+    },
+    {
+      "id": "active_pipeline_no_target_leakage",
+      "pass": true
+    },
+    {
+      "id": "no_new_training_or_observed_access",
+      "pass": true
+    },
+    {
+      "id": "required_outputs_prechecksum",
+      "pass": true
+    }
+  ],
+  "closure_bundle_checksums": "generated_and_verified_before_atomic_promotion",
+  "effectiveness_validation": "NOT_PERFORMED",
+  "expert_validation": "PENDING",
+  "prediction_evidence_validation": "PASS",
+  "recommendation_technical_validation": "PASS",
+  "repository_closure_validation": "PASS"
+}
