@@ -1,0 +1,11 @@
+....................sssss............................................... [ 48%]
+........................................................................ [ 97%]
+....                                                                     [100%]
+=========================== short test summary info ===========================
+SKIPPED [1] tests\test_postgres_source_ml_integration.py:202: Set POSTGRES_TEST_DSN, POSTGRES_TEST_APP_DSN, and provide psql to run PostgreSQL lineage integration tests.
+SKIPPED [1] tests\test_postgres_source_ml_integration.py:312: Set POSTGRES_TEST_DSN, POSTGRES_TEST_APP_DSN, and provide psql to run PostgreSQL lineage integration tests.
+SKIPPED [1] tests\test_postgres_source_ml_integration.py:403: Set POSTGRES_TEST_DSN, POSTGRES_TEST_APP_DSN, and provide psql to run PostgreSQL lineage integration tests.
+SKIPPED [1] tests\test_postgres_source_ml_integration.py:502: Set POSTGRES_TEST_DSN, POSTGRES_TEST_APP_DSN, and provide psql to run PostgreSQL lineage integration tests.
+SKIPPED [1] tests\test_postgres_source_ml_integration.py:628: Set POSTGRES_TEST_DSN, POSTGRES_TEST_APP_DSN, and provide psql to run PostgreSQL lineage integration tests.
+143 passed, 5 skipped in 7.80s
+

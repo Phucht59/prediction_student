@@ -1,0 +1,10 @@
+{
+  "freshness_seconds": 2592000,
+  "max_seed_disagreement": 0.0,
+  "maximum_entropy": 0.613111130914319,
+  "minimum_max_model_score": 0.7241541630190671,
+  "no_legacy_observed_used": true,
+  "policy_version": "strategy_b_governed_learning_path_v1",
+  "registration": "quantile_method_fixed_before_phase_d_case_generation",
+  "source": "phase_e_development_oof_only"
+}

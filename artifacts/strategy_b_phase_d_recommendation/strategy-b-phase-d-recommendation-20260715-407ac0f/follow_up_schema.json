@@ -1,0 +1,14 @@
+{
+  "required": [
+    "follow_up_id",
+    "action_id",
+    "scheduled_date",
+    "completion_status",
+    "adherence_value",
+    "student_feedback",
+    "advisor_feedback",
+    "difficulty",
+    "adverse_event",
+    "recorded_at"
+  ]
+}

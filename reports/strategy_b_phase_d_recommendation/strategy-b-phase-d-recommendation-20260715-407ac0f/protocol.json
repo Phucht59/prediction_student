@@ -1,0 +1,27 @@
+{
+  "architecture": "expert_guided_rule_based_human_in_the_loop_non_causal",
+  "context_features_disabled": true,
+  "db_access": {
+    "content_hash": "e47f9ee225e1ee6e69b7564e6dac7123e80b8486677fe111f351964cef5dec80",
+    "dataset_code": "student-mat",
+    "dataset_version_id": 1,
+    "legacy_observed_rows_fetched": false,
+    "target_joined": false,
+    "transaction_read_only": true
+  },
+  "feature_core": [
+    "G1",
+    "G2",
+    "G2_minus_G1"
+  ],
+  "no_external_confirmation": true,
+  "no_legacy_observed_79_access": true,
+  "no_model_retraining": true,
+  "no_recommendation_auto_activation": true,
+  "phase": "D",
+  "phase_e_artifacts_unchanged": true,
+  "phase_e_source": "C:\\Huflit\\kltn\\artifacts\\strategy_b_phase_e_prediction\\strategy-b-phase-e-prediction-20260714-9007144",
+  "policy_status": "technical_validated_expert_review_pending",
+  "run_id": "strategy-b-phase-d-recommendation-20260715-407ac0f",
+  "uncertainty_policy_hash": "d965ccb95d4ed8fb5e1f8ac10657a0fe97550f39406db014ca3f0a420c7e4df9"
+}

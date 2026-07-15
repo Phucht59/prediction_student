@@ -13,7 +13,7 @@ from src.data_pipeline import (
     StudentDataset,
 )
 from src.explainability import calculate_permutation_importance
-from src.recommendation import build_recommendation, generate_learning_path_report
+from src.governed_recommendation import assess_snapshot, build_governed_recommendation, prediction_snapshot
 from src.models import create_model
 from src.model_selection import student_search_space
 from src.train_pipeline import calculate_class_weights, suggest_trial_params
@@ -366,10 +366,16 @@ def test_student_dataset_is_sequence_only_and_excludes_context_features():
 
 
 def test_final_rule_policy_generates_advisory_output():
-    result = build_recommendation({"G1": 8, "G2": 7, "absences": 16, "studytime": 1, "failures": 1}, predicted_class=0, confidence=0.82)
-    assert result["risk_band"] == "High"
-    assert result["recommended_actions"]
-    assert "advisor" in result["disclaimer"].lower()
+    snapshot = prediction_snapshot(
+        student_source_reference="development:1", features={"G1": 8, "G2": 7},
+        seed_scores=[[0.82, 0.12, 0.06]] * 5, r0_reference_class=0,
+        model_bundle={"model_bundle_id": "test", "model_version": "frozen", "feature_contract_hash": "x", "preprocessor_hash": "x", "checkpoint_bundle_hash": "x"},
+        policy_version="strategy_b_governed_learning_path_v1", input_snapshot_timestamp="2026-07-15T00:00:00+00:00", prediction_timestamp="2026-07-15T00:00:00+00:00",
+    )
+    result = build_governed_recommendation(snapshot, assess_snapshot(snapshot, {"minimum_max_model_score": 0.5, "maximum_entropy": 1.1, "max_seed_disagreement": 0.5, "freshness_seconds": 10**9}))
+    assert result["recommendation_review_status"] == "advisor_review_required"
+    assert result["actions"]
+    assert result["explanation"]["advisor_approval_remains_required"]
 
 
 def test_final_schema_uses_lineage_tables():

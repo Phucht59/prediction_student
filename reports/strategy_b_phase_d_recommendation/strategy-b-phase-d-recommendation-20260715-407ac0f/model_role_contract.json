@@ -1,0 +1,18 @@
+{
+  "N0": {
+    "calibration": "rejected_keep_uncalibrated",
+    "five_seed_arithmetic_mean": true,
+    "role": "thesis_hybrid_prediction_source",
+    "terminology": "model_score_not_absolute_probability"
+  },
+  "R0": {
+    "automatic_recommendation_trigger": false,
+    "probability_available": false,
+    "role": [
+      "overall_development_selected_reference",
+      "sanity_check",
+      "agreement_guardrail"
+    ],
+    "uncertainty_available": false
+  }
+}
