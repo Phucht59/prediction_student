@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "forbidden_feature_scan": true,
+  "event_cutoff_applied_before_weekly_aggregation": true,
+  "future_student_overlap": 0,
+  "target_table_separate": true,
+  "legacy_observed_accessed": false
+}

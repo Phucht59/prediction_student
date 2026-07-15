@@ -1,0 +1,47 @@
+[
+  {
+    "stage": "raw_audit",
+    "status": "SKIPPED_ALREADY_PASS",
+    "marker": "data\\manifests\\extension_raw_manifest.json"
+  },
+  {
+    "stage": "oulad_audit",
+    "status": "SKIPPED_ALREADY_PASS",
+    "marker": "data\\manifests\\oulad_release_audit.json"
+  },
+  {
+    "stage": "study_b",
+    "status": "SKIPPED_ALREADY_PASS",
+    "marker": "artifacts\\study_b_student_por\\study-b-student-por-20260715-v1\\validation_report.json"
+  },
+  {
+    "stage": "oulad_materialize",
+    "status": "SKIPPED_ALREADY_PASS",
+    "marker": "data\\processed\\study_c_oulad\\manifests\\F3_LATE.json"
+  },
+  {
+    "stage": "oulad_splits",
+    "status": "DRY_RUN",
+    "command": "C:\\Users\\THPhu\\AppData\\Local\\Programs\\Python\\Python310\\python.exe scripts/materialize_oulad_splits.py --protocol configs\\extension_protocol_v1.yaml"
+  },
+  {
+    "stage": "study_c",
+    "status": "SKIPPED_ALREADY_PASS",
+    "marker": "artifacts\\study_c_oulad\\study-c-oulad-20260715-v1\\validation_report.json"
+  },
+  {
+    "stage": "study_b_seed_stability",
+    "status": "SKIPPED_ALREADY_PASS",
+    "marker": "artifacts\\study_b_student_por\\study-b-student-por-20260715-v1\\seed_stability.csv"
+  },
+  {
+    "stage": "study_c_seed_stability",
+    "status": "SKIPPED_ALREADY_PASS",
+    "marker": "artifacts\\study_c_oulad\\study-c-oulad-20260715-v1\\seed_stability.csv"
+  },
+  {
+    "stage": "build_evidence",
+    "status": "SKIPPED_ALREADY_PASS",
+    "marker": "artifacts\\study_c_oulad\\study-c-oulad-20260715-v1\\artifact_checksums.json"
+  }
+]

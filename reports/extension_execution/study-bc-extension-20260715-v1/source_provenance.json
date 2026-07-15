@@ -1,0 +1,8 @@
+{
+  "source_commit": "6d897310224fd70bfd01b9cf2305ccc2678e01bc",
+  "study_b_run": "study-b-student-por-20260715-v1",
+  "study_c_run": "study-c-oulad-20260715-v1",
+  "verdict": "NOT_SUPPORTED",
+  "study_a_mutated": false,
+  "legacy_observed_accessed": false
+}

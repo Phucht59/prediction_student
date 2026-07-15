@@ -1,0 +1,16 @@
+{
+  "executed": [
+    "C-O0",
+    "C-L0",
+    "C-R0",
+    "C-H0",
+    "C-M0",
+    "C-C0",
+    "C-L1",
+    "C-H1",
+    "C-H2"
+  ],
+  "C-S0": "SKIPPED_COMPUTE_GATE_CPU_ONLY_RBF_ON_15K_PLUS_ROWS",
+  "flagship": "C-H2",
+  "champion_not_forced": true
+}
