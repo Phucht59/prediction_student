@@ -17,7 +17,7 @@ REQUIRED = {
     "adaptive_decision_log.jsonl", "oof_predictions.parquet", "metrics_summary.csv", "metrics_by_seed.csv",
     "class_metrics.csv", "module_metrics.csv", "paired_deltas.csv", "parameter_counts.csv", "runtime_resources.csv",
     "learning_curves.csv", "grouped_bootstrap.csv", "checkpoint_validation.json", "probability_validation.json", "gate_assessment.json",
-    "future_policy_audit.json", "validation_report.json", "README.md", "artifact_checksums.json",
+    "future_policy_audit.json", "test_report.json", "validation_report.json", "README.md", "artifact_checksums.json",
 }
 
 
@@ -62,9 +62,11 @@ def main() -> int:
         checkpoint = json.loads((root / "checkpoint_validation.json").read_text(encoding="utf-8"))
         probability = json.loads((root / "probability_validation.json").read_text(encoding="utf-8"))
         future = json.loads((root / "future_policy_audit.json").read_text(encoding="utf-8"))
+        tests = json.loads((root / "test_report.json").read_text(encoding="utf-8"))
         if checkpoint["status"] != "PASS": failures.append("checkpoint_validation")
         if probability["status"] != "PASS": failures.append("probability_validation")
         if future["future_benchmark_accessed_during_selection"]: failures.append("future_access")
+        if tests["status"] != "PASS" or tests["failed"] != 0: failures.append("test_suite")
         checksums = json.loads((root / "artifact_checksums.json").read_text(encoding="utf-8"))
         for relative, expected in checksums.items():
             if not (root / relative).exists() or sha256(root / relative) != expected: failures.append(f"checksum_{relative}")

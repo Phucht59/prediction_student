@@ -640,7 +640,16 @@ The F2 gate failed because H3C − H2T did not reach +0.005. Conditional candida
         "probability_validation": probability_validation["status"],
         "gate_status": gate["status"],
     }
+    test_report_path = artifact / "test_report.json"
+    if test_report_path.exists():
+        test_report = json.loads(test_report_path.read_text(encoding="utf-8"))
+        validation["test_suite"] = test_report["status"]
+        validation["tests_passed"] = test_report["passed"]
+        validation["tests_skipped"] = test_report["skipped"]
+        validation["tests_failed"] = test_report["failed"]
     if not validation["mandatory_candidates_complete"] or len(metadata) != 36:
+        validation["status"] = "FAIL"
+    if validation.get("test_suite") not in {None, "PASS"}:
         validation["status"] = "FAIL"
     write_json(artifact / "validation_report.json", validation)
     write_json(artifact / "artifact_checksums.json", artifact_checksums(artifact))
