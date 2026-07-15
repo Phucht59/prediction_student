@@ -187,3 +187,61 @@ def grouped_bootstrap_delta(
         "upper_95": float(np.quantile(deltas, 0.975)),
         "probability_delta_gt_zero": float(np.mean(np.asarray(deltas) > 0)),
     }
+
+
+def grouped_bootstrap_prediction_delta(
+    left: pd.DataFrame,
+    right: pd.DataFrame,
+    *,
+    resamples: int = 2000,
+    seed: int = 3407,
+) -> dict[str, float | int]:
+    """Paired student bootstrap using sufficient confusion-count statistics."""
+    keys = ["record_id"]
+    merged = left[keys + ["id_student", "target_at_risk", "predicted_label"]].merge(
+        right[keys + ["target_at_risk", "predicted_label"]],
+        on=keys,
+        suffixes=("_left", "_right"),
+        validate="one_to_one",
+    )
+    if not np.array_equal(merged["target_at_risk_left"], merged["target_at_risk_right"]):
+        raise RuntimeError("Paired bootstrap target alignment failed")
+
+    def counts(frame: pd.DataFrame, suffix: str) -> np.ndarray:
+        y = frame["target_at_risk_left"].to_numpy(dtype=int)
+        prediction = frame[f"predicted_label_{suffix}"].to_numpy(dtype=int)
+        values = pd.DataFrame(
+            {
+                "id_student": frame["id_student"],
+                "tn": ((y == 0) & (prediction == 0)).astype(int),
+                "fp": ((y == 0) & (prediction == 1)).astype(int),
+                "fn": ((y == 1) & (prediction == 0)).astype(int),
+                "tp": ((y == 1) & (prediction == 1)).astype(int),
+            }
+        )
+        return values.groupby("id_student")[["tn", "fp", "fn", "tp"]].sum().to_numpy(dtype=float)
+
+    left_counts = counts(merged, "left")
+    right_counts = counts(merged, "right")
+    if left_counts.shape != right_counts.shape:
+        raise RuntimeError("Paired bootstrap student alignment failed")
+
+    def macro_f1_from_counts(value: np.ndarray) -> float:
+        tn, fp, fn, tp = value
+        positive_f1 = 2 * tp / max(1.0, 2 * tp + fp + fn)
+        negative_f1 = 2 * tn / max(1.0, 2 * tn + fp + fn)
+        return float((positive_f1 + negative_f1) / 2)
+
+    groups = left_counts.shape[0]
+    rng = np.random.default_rng(seed)
+    deltas = np.empty(resamples, dtype=float)
+    for index in range(resamples):
+        weights = rng.multinomial(groups, np.full(groups, 1.0 / groups))
+        deltas[index] = macro_f1_from_counts(weights @ left_counts) - macro_f1_from_counts(weights @ right_counts)
+    return {
+        "resamples": resamples,
+        "mean_delta": float(deltas.mean()),
+        "lower_95": float(np.quantile(deltas, 0.025)),
+        "upper_95": float(np.quantile(deltas, 0.975)),
+        "probability_delta_gt_zero": float(np.mean(deltas > 0)),
+    }

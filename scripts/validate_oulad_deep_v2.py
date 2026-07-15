@@ -16,7 +16,7 @@ REQUIRED = {
     "outer_fold_manifest.csv", "inner_fold_manifest.csv", "optuna_trials.csv", "selected_configs.json",
     "adaptive_decision_log.jsonl", "oof_predictions.parquet", "metrics_summary.csv", "metrics_by_seed.csv",
     "class_metrics.csv", "module_metrics.csv", "paired_deltas.csv", "parameter_counts.csv", "runtime_resources.csv",
-    "learning_curves.csv", "checkpoint_validation.json", "probability_validation.json", "gate_assessment.json",
+    "learning_curves.csv", "grouped_bootstrap.csv", "checkpoint_validation.json", "probability_validation.json", "gate_assessment.json",
     "future_policy_audit.json", "validation_report.json", "README.md", "artifact_checksums.json",
 }
 

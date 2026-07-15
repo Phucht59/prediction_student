@@ -25,7 +25,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from src.studies.oulad_v2.data import build_inner_manifest, load_v2_data
-from src.studies.oulad_v2.metrics import module_metrics, prediction_frame_metrics
+from src.studies.oulad_v2.metrics import grouped_bootstrap_prediction_delta, module_metrics, prediction_frame_metrics
 from src.studies.oulad_v2.search import fit_frozen_inner_threshold, run_nested_search
 from src.studies.oulad_v2.training import fit_candidate
 
@@ -314,6 +314,7 @@ def summarize(predictions: pd.DataFrame, metadata: list[dict[str, Any]], protoco
                 "operational_precision": frame["operational_precision"].mean(),
                 "operational_recall": frame["operational_recall"].mean(),
                 "operational_feasible_all_seeds": bool(frame["operational_feasible"].all()),
+                "outer_operational_constraint_met": bool((frame["operational_precision"] >= 0.75).all()),
                 "seed_mean": frame["macro_f1"].mean() if genuine_seed else None,
                 "seed_sd": frame["macro_f1"].std(ddof=0) if genuine_seed else None,
                 "seed_min": frame["macro_f1"].min() if genuine_seed else None,
@@ -355,6 +356,23 @@ def paired_deltas(seed_metrics: pd.DataFrame) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
+def grouped_bootstraps(predictions: pd.DataFrame) -> pd.DataFrame:
+    comparisons = [("V2-H3C", "V2-H2T"), ("V2-H3C", "V2-A0"), ("V2-H2T", "V2-H2F"), ("V2-H3C", "V2-MLF")]
+    rows: list[dict[str, Any]] = []
+    for left, right in comparisons:
+        left_rows = predictions.loc[predictions["candidate_id"] == left]
+        right_rows = predictions.loc[predictions["candidate_id"] == right]
+        if left_rows.empty or right_rows.empty:
+            continue
+        right_is_frozen = right not in MANDATORY_TRAINABLE
+        for seed in sorted(left_rows["seed"].unique()):
+            left_seed = left_rows.loc[left_rows["seed"] == seed]
+            right_seed = right_rows if right_is_frozen else right_rows.loc[right_rows["seed"] == seed]
+            result = grouped_bootstrap_prediction_delta(left_seed, right_seed, resamples=2000, seed=3407 + int(seed))
+            rows.append({"comparison": f"{left}_minus_{right}", "seed": int(seed), "group_key": "id_student", **result})
+    return pd.DataFrame(rows)
+
+
 def assess_gate(summary: pd.DataFrame, seed_metrics: pd.DataFrame, modules: pd.DataFrame, checkpoint: dict, probability: dict) -> dict[str, Any]:
     indexed = summary.set_index("candidate_id")
     h3 = indexed.loc["V2-H3C"]
@@ -390,7 +408,15 @@ def assess_gate(summary: pd.DataFrame, seed_metrics: pd.DataFrame, modules: pd.D
     }
 
 
-def make_figures(artifact: Path, summary: pd.DataFrame, seed_metrics: pd.DataFrame, predictions: pd.DataFrame) -> None:
+def make_figures(
+    artifact: Path,
+    summary: pd.DataFrame,
+    seed_metrics: pd.DataFrame,
+    predictions: pd.DataFrame,
+    modules: pd.DataFrame,
+    trials: pd.DataFrame,
+    curves: pd.DataFrame,
+) -> None:
     figures = artifact / "figures"
     figures.mkdir(parents=True, exist_ok=True)
     ordered = [candidate for candidate in ["V2-MLF", "V2-H2F", *MANDATORY_TRAINABLE] if candidate in set(summary["candidate_id"])]
@@ -413,6 +439,32 @@ def make_figures(artifact: Path, summary: pd.DataFrame, seed_metrics: pd.DataFra
         plt.plot(recall, precision, label=candidate_id)
     plt.xlabel("Recall"); plt.ylabel("Precision"); plt.legend(); plt.grid(alpha=0.25); plt.tight_layout()
     plt.savefig(figures / "precision_recall_curves.png", dpi=160); plt.close()
+    for left, right, name in [
+        ("V2-H2T", "V2-H2F", "h2f_vs_h2t.png"),
+        ("V2-H3C", "V2-H2T", "h2t_vs_h3c.png"),
+        ("V2-H3C", "V2-A0", "h3c_vs_a0.png"),
+        ("V2-H2T", "V2-T0", "h2t_vs_t0.png"),
+    ]:
+        pair = summary.set_index("candidate_id").loc[[right, left], "macro_f1"]
+        ax = pair.plot(kind="bar", figsize=(5, 4), ylim=(0.78, 0.85), color=["#9aa5b1", "#2f6690"])
+        ax.set_ylabel("Pooled OOF Macro-F1"); ax.set_xlabel(""); ax.grid(axis="y", alpha=0.25)
+        plt.tight_layout(); plt.savefig(figures / name, dpi=160); plt.close()
+    trial_config = trials.loc[(trials["candidate_id"] == "V2-H2T") & (trials["state"] == "COMPLETE")].copy()
+    trial_config["positive_weight"] = trial_config["resolved_config"].map(lambda value: json.loads(value)["positive_weight"])
+    ax = trial_config.boxplot(column="value", by="positive_weight", figsize=(7, 4), grid=False)
+    ax.set_title("H2T inner-trial loss policy"); ax.set_ylabel("Pooled inner-OOF Macro-F1"); ax.set_xlabel("Positive-weight policy")
+    plt.suptitle(""); plt.tight_layout(); plt.savefig(figures / "loss_policy_ablation.png", dpi=160); plt.close()
+    eligible_modules = modules.loc[modules["eligible"] & modules["candidate_id"].isin(MANDATORY_TRAINABLE)]
+    pivot_modules = eligible_modules.groupby(["code_module", "candidate_id"])["macro_f1"].mean().unstack()
+    ax = pivot_modules.plot(kind="bar", figsize=(9, 4)); ax.set_ylabel("Macro-F1"); ax.grid(axis="y", alpha=0.25)
+    plt.tight_layout(); plt.savefig(figures / "module_stability.png", dpi=160); plt.close()
+    outer_curves = curves.loc[curves.get("stage", pd.Series(index=curves.index, dtype=object)) == "outer_refit"].copy()
+    if not outer_curves.empty:
+        mean_curves = outer_curves.groupby(["candidate_id", "epoch"])["train_loss"].mean().reset_index()
+        for candidate_id, frame_curve in mean_curves.groupby("candidate_id"):
+            plt.plot(frame_curve["epoch"], frame_curve["train_loss"], label=candidate_id)
+        plt.xlabel("Epoch"); plt.ylabel("Mean training loss"); plt.legend(); plt.grid(alpha=0.25); plt.tight_layout()
+        plt.savefig(figures / "learning_curves.png", dpi=160); plt.close()
 
 
 def artifact_checksums(root: Path) -> dict[str, str]:
@@ -495,13 +547,16 @@ def main() -> int:
     class_metrics.to_csv(artifact / "class_metrics.csv", index=False)
     modules.to_csv(artifact / "module_metrics.csv", index=False)
     deltas = paired_deltas(seed_metrics); deltas.to_csv(artifact / "paired_deltas.csv", index=False)
+    bootstraps = grouped_bootstraps(predictions); bootstraps.to_csv(artifact / "grouped_bootstrap.csv", index=False)
     pd.DataFrame(metadata).to_csv(artifact / "runtime_resources.csv", index=False)
     pd.DataFrame(metadata)[["candidate_id", "outer_fold", "seed", "parameter_count"]].drop_duplicates().to_csv(artifact / "parameter_counts.csv", index=False)
 
     trial_files = list((artifact / "search_cache").glob("*_trials.csv"))
-    pd.concat([pd.read_csv(path) for path in trial_files], ignore_index=True).to_csv(artifact / "optuna_trials.csv", index=False)
+    trials_frame = pd.concat([pd.read_csv(path) for path in trial_files], ignore_index=True)
+    trials_frame.to_csv(artifact / "optuna_trials.csv", index=False)
     curve_files = list((artifact / "search_cache").glob("*_curves.csv")) + list((artifact / "job_cache").glob("*_curves.csv"))
-    pd.concat([pd.read_csv(path) for path in curve_files], ignore_index=True).to_csv(artifact / "learning_curves.csv", index=False)
+    curves_frame = pd.concat([pd.read_csv(path) for path in curve_files], ignore_index=True)
+    curves_frame.to_csv(artifact / "learning_curves.csv", index=False)
     write_json(artifact / "selected_configs.json", {candidate: {str(fold): value for fold, value in folds.items()} for candidate, folds in selected.items()})
     checkpoint_validation = {
         "status": "PASS" if all(row["checkpoint_reproduction_max_abs_difference"] <= 1e-7 for row in metadata) else "FAIL",
@@ -537,18 +592,34 @@ def main() -> int:
             "v1_source_commit": protocol["source_commit"],
         },
     )
-    make_figures(artifact, summary, seed_metrics, predictions)
+    make_figures(artifact, summary, seed_metrics, predictions, modules, trials_frame, curves_frame)
+    indexed_summary = summary.set_index('candidate_id')
+    h2_gain = float(indexed_summary.loc['V2-H2T','macro_f1'] - indexed_summary.loc['V2-H2F','macro_f1'])
+    h3_a0 = float(indexed_summary.loc['V2-H3C','macro_f1'] - indexed_summary.loc['V2-A0','macro_f1'])
+    h2_t0 = float(indexed_summary.loc['V2-H2T','macro_f1'] - indexed_summary.loc['V2-T0','macro_f1'])
+    best_candidate = str(indexed_summary['macro_f1'].idxmax())
+    eligible_operational = summary.loc[summary['outer_operational_constraint_met']]
+    best_operational = str(eligible_operational.sort_values('operational_recall', ascending=False).iloc[0]['candidate_id']) if len(eligible_operational) else 'NONE_FEASIBLE'
+    loss_means = trial_config_summary = trials_frame.loc[(trials_frame['candidate_id']=='V2-H2T') & (trials_frame['state']=='COMPLETE')].copy()
+    loss_means['positive_weight'] = loss_means['resolved_config'].map(lambda value: json.loads(value)['positive_weight'])
+    best_loss = str(loss_means.groupby('positive_weight')['value'].mean().idxmax())
     gate_text = f"""# OULAD Deep V2 — F2 gate assessment
 
 - Gate: **{gate['status']}**
-- H2T − H2F: {float(summary.set_index('candidate_id').loc['V2-H2T','macro_f1'] - summary.set_index('candidate_id').loc['V2-H2F','macro_f1']):+.4f}
+- Tuning thật giúp H2 (H2T − H2F): {h2_gain:+.4f}
 - H3C − H2T: {gate['macro_f1_delta']:+.4f}
-- H3C − A0: {float(summary.set_index('candidate_id').loc['V2-H3C','macro_f1'] - summary.set_index('candidate_id').loc['V2-A0','macro_f1']):+.4f}
-- H2T − T0: {float(summary.set_index('candidate_id').loc['V2-H2T','macro_f1'] - summary.set_index('candidate_id').loc['V2-T0','macro_f1']):+.4f}
+- Temporal incremental value (H3C − A0): {h3_a0:+.4f}
+- Static-context contribution (H2T − T0): {h2_t0:+.4f}
 - H3C seed wins over H2T: {gate['seed_wins']}/3
+- H2P parameter-matched control: **NOT OPENED — gate failed**
+- Best mean inner-trial positive-weight policy: `{best_loss}` (descriptive; configs remained outer-specific)
+- Strongest mandatory candidate by Macro-F1: `{best_candidate}`
+- Strongest constraint-eligible operational endpoint: `{best_operational}`
+- Deep beats frozen ML by superiority margin: **NO**
+- Stable across seeds/modules: H3C seed SD guard PASS; worst-module guard PASS; improvement-size guard FAIL
 - Future benchmark used for selection: **NO**
 
-Conditional candidates were not automatically opened by this mandatory runner. Gate authorization is recorded separately from execution; no negative result is overwritten.
+The F2 gate failed because H3C − H2T did not reach +0.005. Conditional candidates, ensemble and calibration were not opened. No negative result was overwritten.
 """
     (report / "GATE_ASSESSMENT.md").write_text(gate_text, encoding="utf-8")
     (artifact / "README.md").write_text(

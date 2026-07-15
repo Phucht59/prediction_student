@@ -11,7 +11,7 @@ import torch
 from sklearn.metrics import f1_score
 
 from src.studies.oulad_v2.data import build_inner_manifest, load_v2_data, manifest_indices
-from src.studies.oulad_v2.metrics import choose_thresholds, prediction_frame_metrics
+from src.studies.oulad_v2.metrics import choose_thresholds, grouped_bootstrap_prediction_delta, prediction_frame_metrics
 from src.studies.oulad_v2.models import OULADV2Net, prepare_inputs, set_deterministic_seed
 
 
@@ -158,6 +158,14 @@ def test_pooled_oof_metric_recomputation():
     )
     metrics = prediction_frame_metrics(frame)
     assert metrics["macro_f1"] == pytest.approx(f1_score(frame.target_at_risk, frame.predicted_label, average="macro"))
+
+
+def test_grouped_bootstrap_is_paired_by_student():
+    left = pd.DataFrame({"record_id": ["a", "b", "c", "d"], "id_student": [1, 1, 2, 3], "target_at_risk": [0, 1, 0, 1], "predicted_label": [0, 1, 0, 1]})
+    right = pd.DataFrame({"record_id": ["a", "b", "c", "d"], "id_student": [1, 1, 2, 3], "target_at_risk": [0, 1, 0, 1], "predicted_label": [1, 1, 0, 0]})
+    result = grouped_bootstrap_prediction_delta(left, right, resamples=100, seed=42)
+    assert result["mean_delta"] > 0
+    assert result["resamples"] == 100
 
 
 def test_runner_has_no_future_prediction_input():
