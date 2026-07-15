@@ -270,6 +270,33 @@ def frozen_predictions(protocol: dict) -> tuple[pd.DataFrame, pd.DataFrame]:
     ], metrics
 
 
+def frozen_resources(protocol: dict) -> list[dict[str, Any]]:
+    root = ROOT / protocol["v1_immutable"]["artifact_path"]
+    parameters = pd.read_csv(root / "parameter_counts.csv").set_index("candidate_id")
+    runtime = pd.read_csv(root / "runtime_resources.csv")
+    rows: list[dict[str, Any]] = []
+    for v1_candidate, candidate_id in FROZEN_MAP.items():
+        candidate_runtime = runtime.loc[
+            (runtime["candidate_id"] == v1_candidate)
+            & (runtime["forecast_id"] == "F2_MIDDLE")
+            & (runtime["scope"] == "development_oof"),
+            "seconds",
+        ].sum()
+        rows.append(
+            {
+                "candidate_id": candidate_id,
+                "outer_fold": None,
+                "seed": 42,
+                "parameter_count": float(parameters.loc[v1_candidate, "median"]),
+                "parameter_count_min": int(parameters.loc[v1_candidate, "min"]),
+                "parameter_count_max": int(parameters.loc[v1_candidate, "max"]),
+                "runtime_seconds": float(candidate_runtime),
+                "frozen_v1_resource": True,
+            }
+        )
+    return rows
+
+
 def summarize(predictions: pd.DataFrame, metadata: list[dict[str, Any]], protocol: dict) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     seed_rows: list[dict[str, Any]] = []
     class_rows: list[dict[str, Any]] = []
@@ -357,7 +384,7 @@ def paired_deltas(seed_metrics: pd.DataFrame) -> pd.DataFrame:
 
 
 def grouped_bootstraps(predictions: pd.DataFrame) -> pd.DataFrame:
-    comparisons = [("V2-H3C", "V2-H2T"), ("V2-H3C", "V2-A0"), ("V2-H2T", "V2-H2F"), ("V2-H3C", "V2-MLF")]
+    comparisons = [("V2-H3C", "V2-H2T"), ("V2-H3C", "V2-A0"), ("V2-H2T", "V2-H2F"), ("V2-H3C", "V2-MLF"), ("V2-A0", "V2-MLF")]
     rows: list[dict[str, Any]] = []
     for left, right in comparisons:
         left_rows = predictions.loc[predictions["candidate_id"] == left]
@@ -369,7 +396,17 @@ def grouped_bootstraps(predictions: pd.DataFrame) -> pd.DataFrame:
             left_seed = left_rows.loc[left_rows["seed"] == seed]
             right_seed = right_rows if right_is_frozen else right_rows.loc[right_rows["seed"] == seed]
             result = grouped_bootstrap_prediction_delta(left_seed, right_seed, resamples=2000, seed=3407 + int(seed))
-            rows.append({"comparison": f"{left}_minus_{right}", "seed": int(seed), "group_key": "id_student", **result})
+            rows.append({"comparison": f"{left}_minus_{right}", "seed": int(seed), "metric": "macro_f1", "group_key": "id_student", **result})
+            if right == "V2-MLF":
+                operational = grouped_bootstrap_prediction_delta(
+                    left_seed,
+                    right_seed,
+                    resamples=2000,
+                    seed=13407 + int(seed),
+                    prediction_column="operational_prediction",
+                    metric="at_risk_recall",
+                )
+                rows.append({"comparison": f"{left}_minus_{right}", "seed": int(seed), "metric": "operational_at_risk_recall", "group_key": "id_student", **operational})
     return pd.DataFrame(rows)
 
 
@@ -541,7 +578,9 @@ def main() -> int:
     frozen, frozen_metrics = frozen_predictions(protocol)
     predictions = pd.concat([frozen, trained_predictions], ignore_index=True)
     predictions.to_parquet(artifact / "oof_predictions.parquet", index=False)
-    summary, seed_metrics, class_metrics, modules = summarize(predictions, metadata, protocol)
+    frozen_metadata = frozen_resources(protocol)
+    summary_metadata = metadata + frozen_metadata
+    summary, seed_metrics, class_metrics, modules = summarize(predictions, summary_metadata, protocol)
     summary.to_csv(artifact / "metrics_summary.csv", index=False)
     seed_metrics.to_csv(artifact / "metrics_by_seed.csv", index=False)
     class_metrics.to_csv(artifact / "class_metrics.csv", index=False)
@@ -549,7 +588,7 @@ def main() -> int:
     deltas = paired_deltas(seed_metrics); deltas.to_csv(artifact / "paired_deltas.csv", index=False)
     bootstraps = grouped_bootstraps(predictions); bootstraps.to_csv(artifact / "grouped_bootstrap.csv", index=False)
     pd.DataFrame(metadata).to_csv(artifact / "runtime_resources.csv", index=False)
-    pd.DataFrame(metadata)[["candidate_id", "outer_fold", "seed", "parameter_count"]].drop_duplicates().to_csv(artifact / "parameter_counts.csv", index=False)
+    pd.DataFrame(summary_metadata).reindex(columns=["candidate_id", "outer_fold", "seed", "parameter_count", "parameter_count_min", "parameter_count_max", "frozen_v1_resource"]).drop_duplicates().to_csv(artifact / "parameter_counts.csv", index=False)
 
     trial_files = list((artifact / "search_cache").glob("*_trials.csv"))
     trials_frame = pd.concat([pd.read_csv(path) for path in trial_files], ignore_index=True)

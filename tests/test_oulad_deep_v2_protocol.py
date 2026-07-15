@@ -161,11 +161,13 @@ def test_pooled_oof_metric_recomputation():
 
 
 def test_grouped_bootstrap_is_paired_by_student():
-    left = pd.DataFrame({"record_id": ["a", "b", "c", "d"], "id_student": [1, 1, 2, 3], "target_at_risk": [0, 1, 0, 1], "predicted_label": [0, 1, 0, 1]})
-    right = pd.DataFrame({"record_id": ["a", "b", "c", "d"], "id_student": [1, 1, 2, 3], "target_at_risk": [0, 1, 0, 1], "predicted_label": [1, 1, 0, 0]})
+    left = pd.DataFrame({"record_id": ["a", "b", "c", "d"], "id_student": [1, 1, 2, 3], "target_at_risk": [0, 1, 0, 1], "predicted_label": [0, 1, 0, 1], "operational_prediction": [0, 1, 0, 1]})
+    right = pd.DataFrame({"record_id": ["a", "b", "c", "d"], "id_student": [1, 1, 2, 3], "target_at_risk": [0, 1, 0, 1], "predicted_label": [1, 1, 0, 0], "operational_prediction": [1, 1, 0, 0]})
     result = grouped_bootstrap_prediction_delta(left, right, resamples=100, seed=42)
     assert result["mean_delta"] > 0
     assert result["resamples"] == 100
+    recall = grouped_bootstrap_prediction_delta(left, right, resamples=100, seed=42, prediction_column="operational_prediction", metric="at_risk_recall")
+    assert recall["mean_delta"] > 0
 
 
 def test_runner_has_no_future_prediction_input():

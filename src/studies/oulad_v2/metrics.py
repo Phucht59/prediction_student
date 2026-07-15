@@ -195,11 +195,13 @@ def grouped_bootstrap_prediction_delta(
     *,
     resamples: int = 2000,
     seed: int = 3407,
+    prediction_column: str = "predicted_label",
+    metric: str = "macro_f1",
 ) -> dict[str, float | int]:
     """Paired student bootstrap using sufficient confusion-count statistics."""
     keys = ["record_id"]
-    merged = left[keys + ["id_student", "target_at_risk", "predicted_label"]].merge(
-        right[keys + ["target_at_risk", "predicted_label"]],
+    merged = left[keys + ["id_student", "target_at_risk", prediction_column]].merge(
+        right[keys + ["target_at_risk", prediction_column]],
         on=keys,
         suffixes=("_left", "_right"),
         validate="one_to_one",
@@ -209,7 +211,7 @@ def grouped_bootstrap_prediction_delta(
 
     def counts(frame: pd.DataFrame, suffix: str) -> np.ndarray:
         y = frame["target_at_risk_left"].to_numpy(dtype=int)
-        prediction = frame[f"predicted_label_{suffix}"].to_numpy(dtype=int)
+        prediction = frame[f"{prediction_column}_{suffix}"].to_numpy(dtype=int)
         values = pd.DataFrame(
             {
                 "id_student": frame["id_student"],
@@ -232,12 +234,23 @@ def grouped_bootstrap_prediction_delta(
         negative_f1 = 2 * tn / max(1.0, 2 * tn + fp + fn)
         return float((positive_f1 + negative_f1) / 2)
 
+    def recall_from_counts(value: np.ndarray) -> float:
+        _, _, fn, tp = value
+        return float(tp / max(1.0, tp + fn))
+
+    if metric == "macro_f1":
+        score = macro_f1_from_counts
+    elif metric == "at_risk_recall":
+        score = recall_from_counts
+    else:
+        raise KeyError(metric)
+
     groups = left_counts.shape[0]
     rng = np.random.default_rng(seed)
     deltas = np.empty(resamples, dtype=float)
     for index in range(resamples):
         weights = rng.multinomial(groups, np.full(groups, 1.0 / groups))
-        deltas[index] = macro_f1_from_counts(weights @ left_counts) - macro_f1_from_counts(weights @ right_counts)
+        deltas[index] = score(weights @ left_counts) - score(weights @ right_counts)
     return {
         "resamples": resamples,
         "mean_delta": float(deltas.mean()),
