@@ -183,13 +183,14 @@ def main() -> int:
     development_metrics = recompute_metrics(oof) if not oof.empty else pd.DataFrame()
     # Future evaluation only starts after all development jobs for a candidate/forecast are complete.
     future_rows = [] if not (args.resume and future_path.exists()) else pd.read_parquet(future_path).to_dict("records")
+    completed_future = {(row["candidate_id"], row["forecast_id"], int(row["seed"])) for row in future_rows}
     for forecast_id, data in data_by_forecast.items():
         train_indices = role_indices(data, "historical_development")
         validation_indices = role_indices(data, "future_candidate")
         for candidate in ALL_EXECUTED:
             if len(oof[(oof["candidate_id"] == candidate) & (oof["forecast_id"] == forecast_id)]) != len(train_indices):
                 pending.append({"candidate_id": candidate, "forecast_id": forecast_id, "outer_fold": -1, "status": "PENDING_DEVELOPMENT_INCOMPLETE"}); continue
-            if any(row["candidate_id"] == candidate and row["forecast_id"] == forecast_id for row in future_rows): continue
+            if (candidate, forecast_id, 42) in completed_future: continue
             if time.perf_counter() - started > stop_new:
                 pending.append({"candidate_id": candidate, "forecast_id": forecast_id, "outer_fold": -1, "status": "PENDING_RESUME"}); continue
             job_started = time.perf_counter(); context = {"forecast_id": forecast_id, "outer_fold": -1, "scope": "future_presentation"}
@@ -224,7 +225,7 @@ def main() -> int:
     source_manifest = json.loads((ROOT / "data" / "manifests" / "oulad_release_audit.json").read_text(encoding="utf-8")); write_json(artifact / "source_manifest.json", source_manifest)
     write_json(artifact / "resolved_config.yaml", protocol["study_c"])
     completeness = {candidate: {forecast: len(oof[(oof["candidate_id"] == candidate) & (oof["forecast_id"] == forecast)]) == len(role_indices(data_by_forecast[forecast], "historical_development")) for forecast in FORECASTS} for candidate in ALL_EXECUTED}
-    checks = {"leakage_contract": True, "student_overlap_zero": not bool(set(pd.concat([data.split[data.split.role == "historical_development"] for data in data_by_forecast.values()]).id_student) & set(pd.concat([data.split[data.split.role == "future_candidate"] for data in data_by_forecast.values()]).id_student)), "all_development_jobs_complete": all(all(value.values()) for value in completeness.values()), "checkpoint_reproduction": all(row["pass"] for row in checkpoint_rows), "probabilities_valid": True, "svm_status_honest": SVM_STATUS.startswith("SKIPPED"), "legacy_79_accessed": False}
+    checks = {"leakage_contract": True, "student_overlap_zero": not bool(set(pd.concat([data.split[data.split.role == "historical_development"] for data in data_by_forecast.values()]).id_student) & set(pd.concat([data.split[data.split.role == "future_candidate"] for data in data_by_forecast.values()]).id_student)), "all_development_jobs_complete": all(all(value.values()) for value in completeness.values()), "checkpoint_reproduction": all(row["pass"] for row in checkpoint_rows), "probabilities_valid": True, "svm_status_honest": SVM_STATUS.startswith("SKIPPED"), "no_legacy_79_access": True}
     status = "PASS" if all(checks.values()) and not pending else "PARTIAL"
     validation = {"status": status, "checks": checks, "candidate_forecast_completeness": completeness, "pending_jobs": pending, "future_complete": not future.empty and all(len(future[(future.candidate_id == candidate) & (future.forecast_id == forecast)]) == len(role_indices(data_by_forecast[forecast], "future_candidate")) for candidate in ALL_EXECUTED for forecast in FORECASTS), "wall_clock_seconds": time.perf_counter() - started}
     write_json(artifact / "validation_report.json", validation)

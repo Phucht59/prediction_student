@@ -56,6 +56,18 @@ CREATE TABLE IF NOT EXISTS split_manifest_registry (
     UNIQUE (prediction_cohort_id, split_role, manifest_sha256)
 );
 
+CREATE TABLE IF NOT EXISTS study_extension_runs (
+    extension_run_id TEXT PRIMARY KEY,
+    dataset_version_id BIGINT NOT NULL REFERENCES source_dataset_versions(dataset_version_id),
+    study_id TEXT NOT NULL CHECK (study_id IN ('study_b_student_por', 'study_c_oulad')),
+    protocol_sha256 CHAR(64) NOT NULL CHECK (protocol_sha256 ~ '^[0-9a-f]{64}$'),
+    artifact_relative_path TEXT NOT NULL,
+    source_commit TEXT NOT NULL,
+    status TEXT NOT NULL CHECK (status IN ('running', 'completed', 'failed', 'partial')),
+    metadata JSONB NOT NULL DEFAULT '{}'::jsonb,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
 DO $$
 DECLARE
     table_name TEXT;
@@ -65,7 +77,8 @@ BEGIN
         'prediction_cohorts',
         'cutoff_feature_snapshots',
         'snapshot_record_index',
-        'split_manifest_registry'
+        'split_manifest_registry',
+        'study_extension_runs'
     ]
     LOOP
         EXECUTE format('DROP TRIGGER IF EXISTS trg_%I_append_only ON %I', table_name, table_name);

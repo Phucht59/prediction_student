@@ -64,6 +64,11 @@ artifacts/study_c_oulad/**/*.pt
 artifacts/study_c_oulad/**/*.pth
 artifacts/study_c_oulad/**/*.parquet
 artifacts/study_c_oulad/**/*.pkl
+artifacts/study_c_oulad/**/split_manifest.csv
+artifacts/study_c_oulad/**/future_test_manifest.csv
+reports/study_c_oulad/**/*.parquet
+reports/study_c_oulad/**/split_manifest.csv
+reports/study_c_oulad/**/future_test_manifest.csv
 
 # Benchmark V2 run outputs are immutable runtime evidence, not source files.
 # Protocol definitions and selected audit reports below remain versioned.
