@@ -32,42 +32,41 @@ def _weekly_vle(raw_root: Path, courses: pd.DataFrame, vle: pd.DataFrame, chunks
     activity = vle[["code_module", "code_presentation", "id_site", "activity_type"]].drop_duplicates()
     if activity.duplicated(["code_module", "code_presentation", "id_site"]).any():
         raise ValueError("VLE site key is not unique on module/presentation/site")
-    outputs: dict[str, list[pd.DataFrame]] = {forecast_id: [] for forecast_id in FORECASTS}
-    carry = pd.DataFrame()
+    totals: dict[str, list[pd.DataFrame]] = {forecast_id: [] for forecast_id in FORECASTS}
+    days: dict[str, list[pd.DataFrame]] = {forecast_id: [] for forecast_id in FORECASTS}
+    sites: dict[str, list[pd.DataFrame]] = {forecast_id: [] for forecast_id in FORECASTS}
+    activities: dict[str, list[pd.DataFrame]] = {forecast_id: [] for forecast_id in FORECASTS}
     usecols = ["code_module", "code_presentation", "id_student", "id_site", "date", "sum_click"]
     for chunk in pd.read_csv(raw_root / "studentVle.csv", usecols=usecols, chunksize=chunksize):
-        if not carry.empty:
-            chunk = pd.concat([carry, chunk], ignore_index=True)
-        last = tuple(chunk.iloc[-1][["code_module", "code_presentation", "id_student"]])
-        last_mask = (chunk["code_module"] == last[0]) & (chunk["code_presentation"] == last[1]) & (chunk["id_student"] == last[2])
-        carry = chunk.loc[last_mask].copy()
-        chunk = chunk.loc[~last_mask].copy()
-        if chunk.empty:
-            continue
         for forecast_id in FORECASTS:
-            outputs[forecast_id].append(_weekly_vle_single(chunk, cutoffs, activity, forecast_id))
-    if not carry.empty:
-        for forecast_id in FORECASTS:
-            outputs[forecast_id].append(_weekly_vle_single(carry, cutoffs, activity, forecast_id))
+            prepared = _prepare_vle_chunk(chunk, cutoffs, activity, forecast_id)
+            keys = ["code_module", "code_presentation", "id_student", "week"]
+            totals[forecast_id].append(prepared.groupby(keys, as_index=False).agg(total_clicks=("sum_click", "sum"), content_clicks=("content_clicks", "sum"), forum_clicks=("forum_clicks", "sum"), quiz_clicks=("quiz_clicks", "sum"), assessment_related_clicks=("assessment_related_clicks", "sum"), last_vle_date=("date", "max")))
+            days[forecast_id].append(prepared[keys + ["date"]].drop_duplicates())
+            sites[forecast_id].append(prepared[keys + ["id_site"]].drop_duplicates())
+            activities[forecast_id].append(prepared[keys + ["activity_type"]].drop_duplicates())
     result = {}
     keys = ["code_module", "code_presentation", "id_student", "week"]
-    for forecast_id, frames in outputs.items():
-        weekly = pd.concat(frames, ignore_index=True)
+    for forecast_id in FORECASTS:
+        weekly = pd.concat(totals[forecast_id], ignore_index=True).groupby(keys, as_index=False).agg(total_clicks=("total_clicks", "sum"), content_clicks=("content_clicks", "sum"), forum_clicks=("forum_clicks", "sum"), quiz_clicks=("quiz_clicks", "sum"), assessment_related_clicks=("assessment_related_clicks", "sum"), last_vle_date=("last_vle_date", "max"))
+        active_days = pd.concat(days[forecast_id], ignore_index=True).drop_duplicates().groupby(keys, as_index=False).size().rename(columns={"size": "active_days"})
+        unique_sites = pd.concat(sites[forecast_id], ignore_index=True).drop_duplicates().groupby(keys, as_index=False).size().rename(columns={"size": "unique_sites"})
+        unique_activities = pd.concat(activities[forecast_id], ignore_index=True).drop_duplicates().groupby(keys, as_index=False).size().rename(columns={"size": "unique_activity_types"})
+        weekly = weekly.merge(active_days, on=keys, validate="one_to_one").merge(unique_sites, on=keys, validate="one_to_one").merge(unique_activities, on=keys, validate="one_to_one")
         if weekly.duplicated(keys).any():
-            raise RuntimeError("Chunk carry algorithm produced duplicate student-week keys")
+            raise RuntimeError("Weekly VLE aggregation is not unique")
         result[forecast_id] = weekly
     return result
 
 
-def _weekly_vle_single(chunk: pd.DataFrame, cutoffs: pd.DataFrame, activity: pd.DataFrame, forecast_id: str) -> pd.DataFrame:
+def _prepare_vle_chunk(chunk: pd.DataFrame, cutoffs: pd.DataFrame, activity: pd.DataFrame, forecast_id: str) -> pd.DataFrame:
     chunk = chunk.merge(cutoffs[["code_module", "code_presentation", forecast_id]], on=["code_module", "code_presentation"], how="left", validate="many_to_one")
     chunk = chunk[(chunk["date"] >= 0) & (chunk["date"] < chunk[forecast_id])]
     chunk = chunk.merge(activity, on=["code_module", "code_presentation", "id_site"], how="left", validate="many_to_one")
     chunk["week"] = (chunk["date"] // 7).astype(int)
     for name, types in [("content_clicks", CONTENT_TYPES), ("forum_clicks", FORUM_TYPES), ("quiz_clicks", QUIZ_TYPES), ("assessment_related_clicks", ASSESSMENT_TYPES)]:
         chunk[name] = np.where(chunk["activity_type"].isin(types), chunk["sum_click"], 0)
-    keys = ["code_module", "code_presentation", "id_student", "week"]
-    return chunk.groupby(keys, as_index=False).agg(total_clicks=("sum_click", "sum"), active_days=("date", "nunique"), unique_sites=("id_site", "nunique"), unique_activity_types=("activity_type", "nunique"), content_clicks=("content_clicks", "sum"), forum_clicks=("forum_clicks", "sum"), quiz_clicks=("quiz_clicks", "sum"), assessment_related_clicks=("assessment_related_clicks", "sum"), last_vle_date=("date", "max"))
+    return chunk
 
 
 def _assessment_events(raw_root: Path, courses: pd.DataFrame) -> dict[str, tuple[pd.DataFrame, pd.DataFrame]]:
@@ -119,10 +118,34 @@ def _aggregate_features(sequence: np.ndarray, valid_lengths: np.ndarray) -> tupl
             })
             for week in range(sequence.shape[1]):
                 flattened[f"week_{week + 1:02d}__{channel}"] = float(sequence[row_index, week, channel_index])
+        for week in range(sequence.shape[1]):
+            flattened[f"week_{week + 1:02d}__valid"] = float(week < length)
         aggregate["inactive_week_count"] = float((values[:, CHANNELS.index("total_clicks")] == 0).sum())
         flat_rows.append(flattened)
         aggregate_rows.append(aggregate)
     return pd.DataFrame(aggregate_rows), pd.DataFrame(flat_rows)
+
+
+def rebuild_derived_from_sequences(processed_root: Path) -> dict[str, object]:
+    rebuilt = {}
+    for forecast_id in FORECASTS:
+        archive = np.load(processed_root / "sequences" / f"{forecast_id}.npz", allow_pickle=True)
+        sequence = archive["sequence"]
+        record_ids = archive["record_ids"]
+        valid_lengths = archive["valid_lengths"]
+        aggregate, flat = _aggregate_features(sequence, valid_lengths)
+        aggregate.insert(0, "record_id", record_ids); flat.insert(0, "record_id", record_ids)
+        aggregate_path = processed_root / "aggregated" / f"{forecast_id}.parquet"
+        flat_path = processed_root / "flat" / f"{forecast_id}.parquet"
+        aggregate.to_parquet(aggregate_path, index=False); flat.to_parquet(flat_path, index=False)
+        manifest_path = processed_root / "manifests" / f"{forecast_id}.json"
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        manifest["checksums"]["aggregated"] = sha256_file(aggregate_path)
+        manifest["checksums"]["flat"] = sha256_file(flat_path)
+        manifest["flat_padding_indicator"] = True
+        manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+        rebuilt[forecast_id] = {"aggregated_columns": len(aggregate.columns), "flat_columns": len(flat.columns), "flat_sha256": manifest["checksums"]["flat"]}
+    return {"status": "PASS", "rebuilt": rebuilt}
 
 
 def materialize_all(raw_root: Path, processed_root: Path, protocol: dict) -> dict[str, object]:
@@ -200,7 +223,7 @@ def materialize_all(raw_root: Path, processed_root: Path, protocol: dict) -> dic
         aggregate_path = processed_root / "aggregated" / f"{forecast_id}.parquet"
         flat_path = processed_root / "flat" / f"{forecast_id}.parquet"
         cohort.to_parquet(cohort_path, index=False); targets.to_parquet(target_path, index=False)
-        np.savez_compressed(sequence_path, record_ids=cohort["record_id"].to_numpy(), sequence=sequence, valid_lengths=cohort["valid_sequence_length"].to_numpy(int), padding_mask=np.arange(max_weeks)[None, :] < cohort["valid_sequence_length"].to_numpy(int)[:, None], channel_order=np.array(CHANNELS))
+        np.savez_compressed(sequence_path, record_ids=cohort["record_id"].astype(str).to_numpy(dtype="U64"), sequence=sequence, valid_lengths=cohort["valid_sequence_length"].to_numpy(int), padding_mask=np.arange(max_weeks)[None, :] < cohort["valid_sequence_length"].to_numpy(int)[:, None], channel_order=np.array(CHANNELS))
         aggregate.to_parquet(aggregate_path, index=False); flat.to_parquet(flat_path, index=False)
         target_hash = semantic_sha256(targets.sort_values("record_id").to_dict("records"))
         feature_contract_hash = semantic_sha256({"channels": CHANNELS, "forecast": forecast_id, "cutoff": "date < cutoff_day", "static": protocol["study_c"]["static_features"]})
