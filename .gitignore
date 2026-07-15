@@ -5,6 +5,7 @@ __pycache__/
 
 .env
 .venv/
+.venv-oulad-v2/
 venv/
 .vscode/
 .vs/
@@ -64,6 +65,11 @@ artifacts/study_c_oulad/**/*.pt
 artifacts/study_c_oulad/**/*.pth
 artifacts/study_c_oulad/**/*.parquet
 artifacts/study_c_oulad/**/*.pkl
+artifacts/study_c_oulad_v2/**/*.pt
+artifacts/study_c_oulad_v2/**/*.pth
+artifacts/study_c_oulad_v2/**/*.pkl
+artifacts/study_c_oulad_v2/**/*.parquet
+reports/study_c_oulad_v2/**/*.parquet
 artifacts/study_c_oulad/**/split_manifest.csv
 artifacts/study_c_oulad/**/future_test_manifest.csv
 reports/study_c_oulad/**/*.parquet
