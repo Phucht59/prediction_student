@@ -285,16 +285,118 @@ def database_validation() -> dict[str, Any]:
     return {"database_migration_execution": "NOT_PERFORMED", "database_migration_static_validation": "PASS" if all(checks.values()) else "FAIL", "reason": "disposable test DSN unavailable; production database was not used destructively", "migration_files": [path.relative_to(ROOT).as_posix() for path in migrations], "migration_hashes": {path.name: sha256_file(path) for path in migrations}, "checks": checks}
 
 
-def artifact_index(official: dict[str, Any], historical: dict[str, Any]) -> dict[str, Any]:
+def directory_stats(path: Path) -> dict[str, int]:
+    files = [item for item in path.rglob("*") if item.is_file()] if path.exists() else []
+    return {"files": len(files), "bytes": sum(item.stat().st_size for item in files)}
+
+
+def artifact_index(
+    official: dict[str, Any],
+    historical: dict[str, Any],
+    *,
+    run_id: str,
+    artifact_stage: Path,
+    report_stage: Path,
+) -> dict[str, Any]:
     top = []
     for parent_name in ["artifacts", "reports"]:
         parent = ROOT / parent_name
         for path in sorted(parent.iterdir()):
             if path.is_dir():
-                files = sum(1 for item in path.rglob("*") if item.is_file())
-                size = sum(item.stat().st_size for item in path.rglob("*") if item.is_file())
-                top.append({"path": path.relative_to(ROOT).as_posix(), "files": files, "bytes": size})
-    return {"official_registry_hash": sha256_json(official), "historical_registry_hash": sha256_json(historical), "top_level_collections": top}
+                stats = directory_stats(path)
+                top.append({"path": path.relative_to(ROOT).as_posix(), **stats})
+    return {
+        "official_registry_hash": sha256_json(official),
+        "historical_registry_hash": sha256_json(historical),
+        "index_generation_order": "artifact_and_report_mirrors_staged_before_index_finalization",
+        "closure_collections": [
+            {"kind": "artifact", "path": f"artifacts/final_repository_closure/{run_id}", **directory_stats(artifact_stage)},
+            {"kind": "report", "path": f"reports/final_repository_closure/{run_id}", **directory_stats(report_stage)},
+        ],
+        "top_level_collections": top,
+    }
+
+
+def mirror_validation(artifact_stage: Path, report_stage: Path) -> dict[str, Any]:
+    artifact_files = sorted(path.relative_to(artifact_stage).as_posix() for path in artifact_stage.rglob("*") if path.is_file())
+    report_files = sorted(path.relative_to(report_stage).as_posix() for path in report_stage.rglob("*") if path.is_file())
+    missing_from_report = sorted(set(artifact_files) - set(report_files))
+    extra_in_report = sorted(set(report_files) - set(artifact_files))
+    checksum_mismatches = [
+        name for name in sorted(set(artifact_files) & set(report_files))
+        if sha256_file(artifact_stage / name) != sha256_file(report_stage / name)
+    ]
+    required = ["thesis_writing_context.md", "thesis_evidence_map.csv"]
+    return {
+        "artifact_files": len(artifact_files), "report_files": len(report_files),
+        "missing_from_report": missing_from_report, "extra_in_report": extra_in_report,
+        "checksum_mismatches": checksum_mismatches,
+        "required_thesis_files_present": all((artifact_stage / name).is_file() and (report_stage / name).is_file() for name in required),
+        "pass": not missing_from_report and not extra_in_report and not checksum_mismatches and all((artifact_stage / name).is_file() and (report_stage / name).is_file() for name in required),
+    }
+
+
+def validate_closure_index(index: dict[str, Any], artifact_stage: Path, report_stage: Path) -> dict[str, Any]:
+    records = {item["kind"]: item for item in index.get("closure_collections", [])}
+    actual = {"artifact": directory_stats(artifact_stage), "report": directory_stats(report_stage)}
+    failures = []
+    for kind in ["artifact", "report"]:
+        record = records.get(kind, {})
+        if record.get("files", 0) <= 0 or record.get("bytes", 0) <= 0:
+            failures.append(f"{kind}_collection_zero")
+        if record.get("files") != actual[kind]["files"] or record.get("bytes") != actual[kind]["bytes"]:
+            failures.append(f"{kind}_collection_mismatch")
+    top_records = {item["path"]: item for item in index.get("top_level_collections", [])}
+    for path, root in [
+        ("artifacts/final_repository_closure", ARTIFACT_PARENT),
+        ("reports/final_repository_closure", REPORT_PARENT),
+    ]:
+        record = top_records.get(path, {})
+        stats = directory_stats(root)
+        if record.get("files", 0) <= 0 or record.get("bytes", 0) <= 0:
+            failures.append(f"{path}_zero")
+        if record.get("files") != stats["files"] or record.get("bytes") != stats["bytes"]:
+            failures.append(f"{path}_mismatch")
+    mirror = mirror_validation(artifact_stage, report_stage)
+    if not mirror["pass"]:
+        failures.append("artifact_report_mirror_mismatch")
+    return {"pass": not failures, "failures": failures, "actual": actual, "mirror": mirror}
+
+
+def sync_mirror(artifact_stage: Path, report_stage: Path) -> None:
+    for path in artifact_stage.iterdir():
+        if path.is_file():
+            shutil.copy2(path, report_stage / path.name)
+
+
+def finalize_collection_metadata(
+    *,
+    tmp: Path,
+    report_tmp: Path,
+    run_id: str,
+    official: dict[str, Any],
+    historical: dict[str, Any],
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Converge self-referential byte counts before atomic promotion."""
+    validation: dict[str, Any] = {"pass": False, "failures": ["not_finalized"]}
+    index: dict[str, Any] = {}
+    for _ in range(10):
+        index = artifact_index(official, historical, run_id=run_id, artifact_stage=tmp, report_stage=report_tmp)
+        write_json(tmp / "artifact_index.json", index)
+        checksums = {
+            path.relative_to(tmp).as_posix(): sha256_file(path)
+            for path in sorted(tmp.iterdir())
+            if path.is_file() and path.name != "artifact_checksums.json"
+        }
+        write_json(tmp / "artifact_checksums.json", checksums)
+        sync_mirror(tmp, report_tmp)
+        validation = validate_closure_index(index, tmp, report_tmp)
+        checksum_failures = [name for name, expected in checksums.items() if sha256_file(tmp / name) != expected]
+        if validation["pass"] and not checksum_failures:
+            validation["artifact_checksum_failures"] = []
+            return index, validation
+    validation["artifact_checksum_failures"] = checksum_failures
+    raise RuntimeError(f"Closure collection metadata did not converge: {validation}")
 
 
 def repository_audit_rows(lineage: dict[str, Any], links: pd.DataFrame, large: pd.DataFrame, secrets: dict[str, Any], database: dict[str, Any]) -> pd.DataFrame:
@@ -479,6 +581,7 @@ def main() -> None:
             "integration_base": "test@e1c3a678fe0dd69b938e92140219b20bdafc33a4", "tracked_files": len(tracked_files()),
             "readme_exists": (ROOT / "README.md").is_file(), "project_exists": (ROOT / "PROJECT.md").is_file(),
             "docx_modified": False, "model_experiments_run": False, "legacy_observed_79_accessed": False,
+            "metadata_correction": {"corrected_from_run_id": "final-repository-closure-20260715-8425384", "scope": "closure artifact/report collection indexing only", "scientific_outputs_changed": False},
         }
         model_registry = {
             "validation_scope": "development-selected and development-frozen; no external confirmation",
@@ -490,6 +593,7 @@ def main() -> None:
             "run_id": args.run_id, "type": "validation_only_repository_closure", "source_branch": branch, "source_commit": head,
             "prohibited_actions": ["model_training", "optuna", "nested_cv", "multi_seed_training", "calibration_fit", "recommendation_regeneration", "external_validation", "legacy_observed_access"],
             "actions_executed": ["repository_audit", "documentation_claim_validation", "artifact_checksum_validation", "full_test_suite", "static_database_validation", "closure_index_generation"],
+            "metadata_correction": {"old_run_preserved": True, "corrected_from_run_id": "final-repository-closure-20260715-8425384", "report_mirror_staged_before_index_finalization": True},
         }
         provenance_files = [ROOT / "README.md", ROOT / "PROJECT.md", Path(__file__), ROOT / "database" / "migrations" / "004_governed_recommendation_phase_d.sql"]
         source_provenance = {
@@ -497,6 +601,7 @@ def main() -> None:
             "created_at": datetime.now(timezone.utc).isoformat(), "python": sys.version,
             "source_hashes": {path.relative_to(ROOT).as_posix(): sha256_file(path) for path in provenance_files},
             "phase_artifact_hashes": {key: sha256_file(path / "artifact_checksums.json") for key, path in {"phase_ab": PHASE_AB, "phase_c": PHASE_C, "phase_e": PHASE_E, "phase_d": PHASE_D}.items()},
+            "metadata_correction": {"corrected_from_run_id": "final-repository-closure-20260715-8425384", "reason": "report collection was indexed before report mirror staging in the original closure runner", "predictions_or_recommendations_regenerated": False},
         }
 
         readme_audit.to_csv(tmp / "readme_claim_audit.csv", index=False)
@@ -511,7 +616,6 @@ def main() -> None:
         write_json(tmp / "commit_lineage.json", lineage)
         write_json(tmp / "official_evidence_registry.json", official)
         write_json(tmp / "historical_evidence_registry.json", historical)
-        write_json(tmp / "artifact_index.json", artifact_index(official, historical))
         write_json(tmp / "final_model_registry.json", model_registry)
         write_json(tmp / "final_recommendation_summary.json", recommendation)
         write_json(tmp / "test_report.json", test_report)
@@ -535,6 +639,11 @@ def main() -> None:
             writer = csv.writer(handle); writer.writerow(["thesis_content", "evidence_path", "classification"]); writer.writerows(evidence_rows)
         (tmp / "thesis_writing_context.md").write_text(thesis_context(metrics, recommendation), encoding="utf-8")
 
+        # Stage the report mirror before evaluating the collection-index check.
+        sync_mirror(tmp, report_tmp)
+        staged_report_stats = directory_stats(report_tmp)
+        staged_mirror = mirror_validation(tmp, report_tmp)
+
         checks = [
             {"id": "working_tree_clean_at_start", "pass": not initial_status},
             {"id": "readme_project_exist", "pass": repository_state["readme_exists"] and repository_state["project_exists"]},
@@ -550,7 +659,9 @@ def main() -> None:
             {"id": "recommendation_status", "pass": recommendation["technical_validation"] == "PASS" and recommendation["expert_validation"] == "PENDING" and recommendation["effectiveness_validation"] == "NOT_PERFORMED"},
             {"id": "active_pipeline_no_target_leakage", "pass": "Prediction snapshot feature input may contain only G1/G2" in (ROOT / "src" / "governed_recommendation.py").read_text(encoding="utf-8") and "source_record_targets" not in (ROOT / "src" / "postgres_data_source.py").read_text(encoding="utf-8").split("def load_development_feature_subset_from_postgres", 1)[1].split("\ndef load_dataset_version", 1)[0]},
             {"id": "no_new_training_or_observed_access", "pass": not repository_state["model_experiments_run"] and not repository_state["legacy_observed_79_accessed"]},
-            {"id": "required_outputs_prechecksum", "pass": all((tmp / name).is_file() for name in REQUIRED_OUTPUTS if name not in {"artifact_checksums.json", "strict_validation.json", "final_repository_conclusion.md"})},
+            {"id": "closure_report_collection_indexed", "pass": staged_report_stats["files"] > 0 and staged_report_stats["bytes"] > 0, "rule": "final artifact_index report collection must have nonzero exact files/bytes"},
+            {"id": "artifact_report_mirror", "pass": staged_mirror["pass"]},
+            {"id": "required_outputs_prechecksum", "pass": all((tmp / name).is_file() for name in REQUIRED_OUTPUTS if name not in {"artifact_index.json", "artifact_checksums.json", "strict_validation.json", "final_repository_conclusion.md"})},
         ]
         strict = {
             "prediction_evidence_validation": "PASS" if all(official_checks[key]["pass"] for key in ["phase_ab", "phase_c", "phase_e"]) else "FAIL",
@@ -559,23 +670,23 @@ def main() -> None:
             "repository_closure_validation": "PASS" if all(item["pass"] for item in checks) else "FAIL",
             "checks": checks, "closure_bundle_checksums": "generated_and_verified_before_atomic_promotion",
         }
+        strict["metadata_correction"] = {"corrected_from_run_id": "final-repository-closure-20260715-8425384", "closure_report_collection_indexed": True, "scientific_claims_changed": False}
         write_json(tmp / "strict_validation.json", strict)
-        (tmp / "final_repository_conclusion.md").write_text(conclusion(strict, test_report), encoding="utf-8")
+        corrected_conclusion = conclusion(strict, test_report) + "\nMetadata correction: artifact/report collection indexing is finalized after mirror staging; the original immutable closure bundle remains preserved. No scientific result changed.\n"
+        (tmp / "final_repository_conclusion.md").write_text(corrected_conclusion, encoding="utf-8")
         if strict["repository_closure_validation"] != "PASS":
             raise RuntimeError(f"Closure strict validation failed: {[item for item in checks if not item['pass']]}")
 
-        missing = [name for name in REQUIRED_OUTPUTS if name != "artifact_checksums.json" and not (tmp / name).is_file()]
+        missing = [name for name in REQUIRED_OUTPUTS if name not in {"artifact_index.json", "artifact_checksums.json"} and not (tmp / name).is_file()]
         if missing:
             raise RuntimeError(f"Missing closure outputs: {missing}")
-        checksums = {path.relative_to(tmp).as_posix(): sha256_file(path) for path in sorted(tmp.iterdir()) if path.is_file() and path.name != "artifact_checksums.json"}
-        write_json(tmp / "artifact_checksums.json", checksums)
-        checksum_failures = [name for name, expected in checksums.items() if sha256_file(tmp / name) != expected]
-        if checksum_failures:
-            raise RuntimeError(f"Closure checksum verification failed: {checksum_failures}")
-
-        for path in tmp.iterdir():
-            if path.is_file():
-                shutil.copy2(path, report_tmp / path.name)
+        final_index, collection_validation = finalize_collection_metadata(
+            tmp=tmp, report_tmp=report_tmp, run_id=args.run_id, official=official, historical=historical
+        )
+        if not collection_validation["pass"]:
+            raise RuntimeError(f"Closure report collection index validation failed: {collection_validation}")
+        if not any(item["kind"] == "report" and item["files"] > 0 and item["bytes"] > 0 for item in final_index["closure_collections"]):
+            raise RuntimeError("closure_report_collection_indexed failed")
         ARTIFACT_PARENT.mkdir(parents=True, exist_ok=True)
         REPORT_PARENT.mkdir(parents=True, exist_ok=True)
         os.replace(tmp, final)

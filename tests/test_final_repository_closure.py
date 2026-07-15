@@ -9,11 +9,13 @@ from scripts.run_final_repository_closure import (
     PHASE_E,
     REQUIRED_OUTPUTS,
     database_validation,
+    directory_stats,
     final_metrics,
     historical_registry,
     markdown_link_report,
     recommendation_summary,
     repository_audit_rows,
+    validate_closure_index,
 )
 
 
@@ -83,3 +85,21 @@ def test_repository_audit_covers_dead_entrypoints_paths_caches_and_evidence():
     for term in ["hard-coded", "temporary", "large", "secrets", "materialize", "run_pipeline", "terminology"]:
         assert term in text
     assert set(audit.columns) == {"item", "current_status", "classification", "action_required", "evidence"}
+
+
+def test_closure_report_collection_index_rejects_zero_or_mismatched_mirror(tmp_path):
+    artifact = tmp_path / "artifact"
+    report = tmp_path / "report"
+    artifact.mkdir(); report.mkdir()
+    (artifact / "thesis_writing_context.md").write_text("context", encoding="utf-8")
+    (artifact / "thesis_evidence_map.csv").write_text("map", encoding="utf-8")
+    (report / "thesis_writing_context.md").write_text("context", encoding="utf-8")
+    (report / "thesis_evidence_map.csv").write_text("map", encoding="utf-8")
+    top = [
+        {"path": "artifacts/final_repository_closure", **directory_stats(PHASE_AB.parents[1] / "final_repository_closure")},
+        {"path": "reports/final_repository_closure", **directory_stats(ROOT / "reports" / "final_repository_closure")},
+    ]
+    invalid = {"closure_collections": [{"kind": "artifact", "files": 0, "bytes": 0}, {"kind": "report", "files": 0, "bytes": 0}], "top_level_collections": top}
+    assert not validate_closure_index(invalid, artifact, report)["pass"]
+    valid = {"closure_collections": [{"kind": "artifact", **directory_stats(artifact)}, {"kind": "report", **directory_stats(report)}], "top_level_collections": top}
+    assert validate_closure_index(valid, artifact, report)["pass"]
