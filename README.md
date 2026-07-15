@@ -217,3 +217,23 @@ Use the newest closure files:
 - Phase D `technical_safety_metrics.json`, `coverage_and_abstention.csv`, `expert_casebook.csv` and `strict_validation.json`.
 
 These sources support thesis writing; no DOCX is generated or edited by repository closure.
+
+## Scientific extension: Study B and Study C
+
+Study A and its frozen conclusions remain unchanged. A separate extension branch adds:
+
+- **Study B (`student-por`, 649 rows):** independent 5×3 nested evaluation on G1/G2 and frozen mathematics-to-Portuguese transfer. Random Forest is the strongest in-domain model (Macro-F1 0.8698); CNN–BiLSTM reaches 0.8470. The transfer analysis is not called independent external validation because quasi-identity overlap exists between the UCI mathematics and Portuguese cohorts.
+- **Study C (OULAD):** at-risk prediction at three preregistered landmarks (20%, 50%, 80%) using cutoff-valid weekly activity. Historical development uses grouped nested folds; future-presentation evaluation excludes every learner appearing in the future test from historical training.
+- **Scientific result:** the flagship CNN–BiLSTM + static fusion model did not satisfy the preregistered deep-learning advantage rule. Its development Macro-F1 delta against the strongest ML model is −0.0009 at F1, −0.0108 at F2, and −0.0089 at F3. This negative result is retained without changing target, split, horizon, or metric.
+
+Compact evidence and allowed-claim guidance are in:
+
+- `reports/study_b_student_por/study-b-student-por-20260715-v1/`
+- `reports/study_c_oulad/study-c-oulad-20260715-v1/`
+- `reports/extension_execution/study-bc-extension-20260715-v1/`
+
+Quick inspection does not retrain models:
+
+```powershell
+py -3.10 scripts/validate_extension_evidence.py --study-b-run study-b-student-por-20260715-v1 --study-c-run study-c-oulad-20260715-v1 --execution-run study-bc-extension-20260715-v1
+```
