@@ -1,0 +1,21 @@
+{
+  "closure_validation_commit": "2e7525753ebbc4b4f03244eb4b5780bbe602aeb4",
+  "database_cleanup_rows": 0,
+  "database_migrations": [
+    "005_oulad_lineage_and_snapshot_registry.sql",
+    "006_oulad_v3_fair_evidence_registry.sql",
+    "007_optimize_bulk_lineage_integrity_triggers.sql"
+  ],
+  "future_access": false,
+  "legacy_observed_79_access": false,
+  "model_training": false,
+  "prediction_regeneration": false,
+  "protocol_sha256": "76b7c61decedc7352ce6a7e7a74d7206828090f2f997a2dfbceb67d69c3978ab",
+  "recommendation_regeneration": false,
+  "runtime_seconds": 1891.6795033999988,
+  "source_commit": "f7ce7b1c53fc494a9a252014e973d77317f902e6",
+  "threshold_reconstruction_replays": 54,
+  "threshold_retraining": false,
+  "v3_evidence_commit": "dbd5c2f27e914da2b252bffe176e7c93a6c2c237",
+  "v3_oof_sha256": "d373c6c644424a42aafa5ad57174436138dd1302512e20062bf14f9535086e0d"
+}

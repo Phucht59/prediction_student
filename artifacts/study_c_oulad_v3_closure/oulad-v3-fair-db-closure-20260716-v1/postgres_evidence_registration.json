@@ -1,0 +1,44 @@
+{
+  "candidate_runs": {
+    "V3-A0F-ENS": "313c40d0-31a9-5f63-97a5-8ad88a7a4210",
+    "V3-A1-ENS": "b3faf138-42a7-5816-babb-103d26c43086",
+    "V3-D0-ENS": "a75cd704-a43e-5339-92d6-cdaebcb02c99",
+    "V3-H2TF-ENS": "c55ed8ec-24f2-5f30-ab40-8a2993856067",
+    "V3-H3CF-ENS": "eb94a38a-6650-5943-b54c-ced7c685b3f5",
+    "V3-MLD": "2a0561bd-2ac9-5a7d-a688-e414eea5a7e0",
+    "V3-MLF": "79dd6e9e-503e-5ffb-9495-d7507163f068",
+    "V3-P0-ENS": "a0f1f258-7ff8-57a2-9275-0a94ec7031d6"
+  },
+  "completed_runs_registered": 8,
+  "dataset_version_id": 20,
+  "evidence_bundles": [
+    {
+      "artifact_manifest_sha256": "3e2e79345be6d66d82c3c3c787ec00b18a47d24c9388a2f3c4f5252224c6b9ab",
+      "run_id": "oulad-deep-v2-f2-20260716-v1",
+      "source_commit": "07217a184b9a5dcc6402e3f117a5af2e84c7596f",
+      "study_version": "v2"
+    },
+    {
+      "artifact_manifest_sha256": "db698bb48ad70a5431da9d57736dd5fa948286c9015406e9f28d16387753d382",
+      "run_id": "oulad-deep-v3-f2-20260716-v1",
+      "source_commit": "dbd5c2f27e914da2b252bffe176e7c93a6c2c237",
+      "study_version": "v3"
+    },
+    {
+      "artifact_manifest_sha256": "b383eed4b533f9986ba0791557e52d57a40d43bfacfe4517d97adc7615a24d88",
+      "run_id": "oulad-v3-fair-db-closure-20260716-v1",
+      "source_commit": "f49aa20cdab647d224135fadd9149fa945bcda3e",
+      "study_version": "v3_fair_db_closure"
+    }
+  ],
+  "future_benchmark": "NOT_EXECUTED",
+  "prediction_contracts": [
+    "deterministic",
+    "probability_ensemble"
+  ],
+  "prediction_rows": 123024,
+  "source_records": 15378,
+  "split_rows": 123024,
+  "status": "PASS",
+  "target_rows": 15378
+}

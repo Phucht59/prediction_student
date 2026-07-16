@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "created_at": "2026-07-16T12:02:40+07:00",
+  "backup_root": "C:/Huflit/kltn_postgres_backups/20260716-120240",
+  "database": "student_predict",
+  "credential_exposure": false,
+  "files": [
+    {"name":"student_predict_before_v3_closure.dump","bytes":359115,"sha256":"7b442ecaf117b549833cc60621cc3489007edbd13a4a0d7fa7c612e9969fcd67"},
+    {"name":"student_predict_before_v3_closure_schema.sql","bytes":53708,"sha256":"d8681dff1ff58b6eec49d0d3c6b01f79290246c5428ee8ad134870ef98a3c48e"},
+    {"name":"student_predict_before_v3_closure_predata.sql","bytes":36720,"sha256":"41f7e32707e58d44b5818fb9d5e04a7b105566324e76452324da5f5dff205915"},
+    {"name":"student_predict_before_v3_closure_restore_list.txt","bytes":13243,"sha256":"fac59d4b5b0385c2f57fb9c9b54568621cafe9ba4d215c55ae9b502e89f3b971"}
+  ],
+  "pg_restore_list": "PASS",
+  "non_empty_custom_dump": true,
+  "database_write_authorized_after_gate": true
+}

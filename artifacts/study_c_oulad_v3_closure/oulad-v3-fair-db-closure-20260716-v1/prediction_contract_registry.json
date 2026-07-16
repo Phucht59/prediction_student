@@ -1,0 +1,6 @@
+{
+  "deterministic": "one genuine deterministic prediction set; no fabricated seed replication",
+  "mean_of_seed_metrics": "arithmetic mean of three separately computed pooled-OOF seed metrics; never an ensemble",
+  "probability_ensemble": "record-aligned arithmetic mean of probabilities for seeds 42,2026,3407 with fold-specific pooled-inner-OOF ensemble threshold",
+  "single_seed": "same candidate seed compared only with the identical seed"
+}

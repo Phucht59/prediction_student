@@ -1,0 +1,18 @@
+[
+  {
+    "rolcanlogin": true,
+    "rolcreatedb": true,
+    "rolcreaterole": true,
+    "rolinherit": true,
+    "rolname": "postgres",
+    "rolsuper": true
+  },
+  {
+    "rolcanlogin": true,
+    "rolcreatedb": false,
+    "rolcreaterole": false,
+    "rolinherit": true,
+    "rolname": "student_predict_app",
+    "rolsuper": false
+  }
+]

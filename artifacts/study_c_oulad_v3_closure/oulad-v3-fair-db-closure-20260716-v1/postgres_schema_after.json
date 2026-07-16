@@ -1,0 +1,3645 @@
+{
+  "columns": [
+    {
+      "column_default": "nextval('cutoff_feature_snapshots_cutoff_feature_snapshot_id_seq'::regclass)",
+      "column_name": "cutoff_feature_snapshot_id",
+      "data_type": "bigint",
+      "is_nullable": "NO",
+      "ordinal_position": 1,
+      "table_name": "cutoff_feature_snapshots",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "prediction_cohort_id",
+      "data_type": "bigint",
+      "is_nullable": "NO",
+      "ordinal_position": 2,
+      "table_name": "cutoff_feature_snapshots",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "feature_contract_hash",
+      "data_type": "character",
+      "is_nullable": "NO",
+      "ordinal_position": 3,
+      "table_name": "cutoff_feature_snapshots",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "target_hash",
+      "data_type": "character",
+      "is_nullable": "NO",
+      "ordinal_position": 4,
+      "table_name": "cutoff_feature_snapshots",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "parquet_relative_path",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "ordinal_position": 5,
+      "table_name": "cutoff_feature_snapshots",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "parquet_sha256",
+      "data_type": "character",
+      "is_nullable": "NO",
+      "ordinal_position": 6,
+      "table_name": "cutoff_feature_snapshots",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "sequence_length",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "ordinal_position": 7,
+      "table_name": "cutoff_feature_snapshots",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "channel_order",
+      "data_type": "jsonb",
+      "is_nullable": "NO",
+      "ordinal_position": 8,
+      "table_name": "cutoff_feature_snapshots",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "channel_order_hash",
+      "data_type": "character",
+      "is_nullable": "NO",
+      "ordinal_position": 9,
+      "table_name": "cutoff_feature_snapshots",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "row_count",
+      "data_type": "bigint",
+      "is_nullable": "NO",
+      "ordinal_position": 10,
+      "table_name": "cutoff_feature_snapshots",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "status",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "ordinal_position": 11,
+      "table_name": "cutoff_feature_snapshots",
+      "table_schema": "public"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "ordinal_position": 12,
+      "table_name": "cutoff_feature_snapshots",
+      "table_schema": "public"
+    },
+    {
+      "column_default": "nextval('ml_evidence_bundles_evidence_bundle_id_seq'::regclass)",
+      "column_name": "evidence_bundle_id",
+      "data_type": "bigint",
+      "is_nullable": "NO",
+      "ordinal_position": 1,
+      "table_name": "ml_evidence_bundles",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "study_id",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "ordinal_position": 2,
+      "table_name": "ml_evidence_bundles",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "study_version",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "ordinal_position": 3,
+      "table_name": "ml_evidence_bundles",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "run_id",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "ordinal_position": 4,
+      "table_name": "ml_evidence_bundles",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "parent_run_id",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "ordinal_position": 5,
+      "table_name": "ml_evidence_bundles",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "source_commit",
+      "data_type": "character",
+      "is_nullable": "NO",
+      "ordinal_position": 6,
+      "table_name": "ml_evidence_bundles",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "protocol_path",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "ordinal_position": 7,
+      "table_name": "ml_evidence_bundles",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "protocol_sha256",
+      "data_type": "character",
+      "is_nullable": "NO",
+      "ordinal_position": 8,
+      "table_name": "ml_evidence_bundles",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "artifact_root",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "ordinal_position": 9,
+      "table_name": "ml_evidence_bundles",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "artifact_manifest_sha256",
+      "data_type": "character",
+      "is_nullable": "NO",
+      "ordinal_position": 10,
+      "table_name": "ml_evidence_bundles",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "dataset_version_id",
+      "data_type": "bigint",
+      "is_nullable": "YES",
+      "ordinal_position": 11,
+      "table_name": "ml_evidence_bundles",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "forecast_id",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "ordinal_position": 12,
+      "table_name": "ml_evidence_bundles",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "target_contract",
+      "data_type": "jsonb",
+      "is_nullable": "NO",
+      "ordinal_position": 13,
+      "table_name": "ml_evidence_bundles",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "split_contract",
+      "data_type": "jsonb",
+      "is_nullable": "NO",
+      "ordinal_position": 14,
+      "table_name": "ml_evidence_bundles",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "seed_registry",
+      "data_type": "jsonb",
+      "is_nullable": "NO",
+      "ordinal_position": 15,
+      "table_name": "ml_evidence_bundles",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "candidate_registry",
+      "data_type": "jsonb",
+      "is_nullable": "NO",
+      "ordinal_position": 16,
+      "table_name": "ml_evidence_bundles",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "benchmark_status",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "ordinal_position": 17,
+      "table_name": "ml_evidence_bundles",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "future_benchmark_status",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "ordinal_position": 18,
+      "table_name": "ml_evidence_bundles",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "scientific_verdict",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "ordinal_position": 19,
+      "table_name": "ml_evidence_bundles",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "validation_status",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "ordinal_position": 20,
+      "table_name": "ml_evidence_bundles",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "runtime_seconds",
+      "data_type": "double precision",
+      "is_nullable": "YES",
+      "ordinal_position": 21,
+      "table_name": "ml_evidence_bundles",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "environment",
+      "data_type": "jsonb",
+      "is_nullable": "NO",
+      "ordinal_position": 22,
+      "table_name": "ml_evidence_bundles",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "ordinal_position": 23,
+      "table_name": "ml_evidence_bundles",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "completed_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "ordinal_position": 24,
+      "table_name": "ml_evidence_bundles",
+      "table_schema": "public"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "registered_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "ordinal_position": 25,
+      "table_name": "ml_evidence_bundles",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "run_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "ordinal_position": 1,
+      "table_name": "ml_experiment_runs",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "dataset_version_id",
+      "data_type": "bigint",
+      "is_nullable": "NO",
+      "ordinal_position": 2,
+      "table_name": "ml_experiment_runs",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "model_name",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "ordinal_position": 3,
+      "table_name": "ml_experiment_runs",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "task_type",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "ordinal_position": 4,
+      "table_name": "ml_experiment_runs",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "target_definition",
+      "data_type": "jsonb",
+      "is_nullable": "NO",
+      "ordinal_position": 5,
+      "table_name": "ml_experiment_runs",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "target_definition_hash",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "ordinal_position": 6,
+      "table_name": "ml_experiment_runs",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "split_manifest_uri",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "ordinal_position": 7,
+      "table_name": "ml_experiment_runs",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "split_manifest_hash",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "ordinal_position": 8,
+      "table_name": "ml_experiment_runs",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "git_commit",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "ordinal_position": 9,
+      "table_name": "ml_experiment_runs",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "working_tree_state",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "ordinal_position": 10,
+      "table_name": "ml_experiment_runs",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "source_diff_uri",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "ordinal_position": 11,
+      "table_name": "ml_experiment_runs",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "source_diff_hash",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "ordinal_position": 12,
+      "table_name": "ml_experiment_runs",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "environment_lock_uri",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "ordinal_position": 13,
+      "table_name": "ml_experiment_runs",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "environment_lock_hash",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "ordinal_position": 14,
+      "table_name": "ml_experiment_runs",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "train_config",
+      "data_type": "jsonb",
+      "is_nullable": "NO",
+      "ordinal_position": 15,
+      "table_name": "ml_experiment_runs",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "artifact_uri",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "ordinal_position": 16,
+      "table_name": "ml_experiment_runs",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "status",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "ordinal_position": 17,
+      "table_name": "ml_experiment_runs",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "started_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "ordinal_position": 18,
+      "table_name": "ml_experiment_runs",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "completed_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "ordinal_position": 19,
+      "table_name": "ml_experiment_runs",
+      "table_schema": "public"
+    },
+    {
+      "column_default": "'{}'::jsonb",
+      "column_name": "metadata",
+      "data_type": "jsonb",
+      "is_nullable": "NO",
+      "ordinal_position": 20,
+      "table_name": "ml_experiment_runs",
+      "table_schema": "public"
+    },
+    {
+      "column_default": "nextval('ml_predictions_prediction_id_seq'::regclass)",
+      "column_name": "prediction_id",
+      "data_type": "bigint",
+      "is_nullable": "NO",
+      "ordinal_position": 1,
+      "table_name": "ml_predictions",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "run_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "ordinal_position": 2,
+      "table_name": "ml_predictions",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "record_id",
+      "data_type": "bigint",
+      "is_nullable": "NO",
+      "ordinal_position": 3,
+      "table_name": "ml_predictions",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "split_name",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "ordinal_position": 4,
+      "table_name": "ml_predictions",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "true_label",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "ordinal_position": 5,
+      "table_name": "ml_predictions",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "predicted_label",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "ordinal_position": 6,
+      "table_name": "ml_predictions",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "confidence",
+      "data_type": "real",
+      "is_nullable": "NO",
+      "ordinal_position": 7,
+      "table_name": "ml_predictions",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "probability",
+      "data_type": "jsonb",
+      "is_nullable": "NO",
+      "ordinal_position": 8,
+      "table_name": "ml_predictions",
+      "table_schema": "public"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "ordinal_position": 9,
+      "table_name": "ml_predictions",
+      "table_schema": "public"
+    },
+    {
+      "column_default": "nextval('ml_recommendations_recommendation_id_seq'::regclass)",
+      "column_name": "recommendation_id",
+      "data_type": "bigint",
+      "is_nullable": "NO",
+      "ordinal_position": 1,
+      "table_name": "ml_recommendations",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "prediction_id",
+      "data_type": "bigint",
+      "is_nullable": "NO",
+      "ordinal_position": 2,
+      "table_name": "ml_recommendations",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "policy_version",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "ordinal_position": 3,
+      "table_name": "ml_recommendations",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "risk_band",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "ordinal_position": 4,
+      "table_name": "ml_recommendations",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "learning_path",
+      "data_type": "jsonb",
+      "is_nullable": "NO",
+      "ordinal_position": 5,
+      "table_name": "ml_recommendations",
+      "table_schema": "public"
+    },
+    {
+      "column_default": "'{}'::jsonb",
+      "column_name": "explanation",
+      "data_type": "jsonb",
+      "is_nullable": "NO",
+      "ordinal_position": 6,
+      "table_name": "ml_recommendations",
+      "table_schema": "public"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "ordinal_position": 7,
+      "table_name": "ml_recommendations",
+      "table_schema": "public"
+    },
+    {
+      "column_default": "nextval('ml_run_metrics_metric_id_seq'::regclass)",
+      "column_name": "metric_id",
+      "data_type": "bigint",
+      "is_nullable": "NO",
+      "ordinal_position": 1,
+      "table_name": "ml_run_metrics",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "run_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "ordinal_position": 2,
+      "table_name": "ml_run_metrics",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "split_name",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "ordinal_position": 3,
+      "table_name": "ml_run_metrics",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "metric_name",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "ordinal_position": 4,
+      "table_name": "ml_run_metrics",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "metric_value",
+      "data_type": "double precision",
+      "is_nullable": "NO",
+      "ordinal_position": 5,
+      "table_name": "ml_run_metrics",
+      "table_schema": "public"
+    },
+    {
+      "column_default": "'__all__'::character varying",
+      "column_name": "label_scope",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "ordinal_position": 6,
+      "table_name": "ml_run_metrics",
+      "table_schema": "public"
+    },
+    {
+      "column_default": "'{}'::jsonb",
+      "column_name": "metric_context",
+      "data_type": "jsonb",
+      "is_nullable": "NO",
+      "ordinal_position": 7,
+      "table_name": "ml_run_metrics",
+      "table_schema": "public"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "ordinal_position": 8,
+      "table_name": "ml_run_metrics",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "run_id",
+      "data_type": "uuid",
+      "is_nullable": "NO",
+      "ordinal_position": 1,
+      "table_name": "ml_run_record_splits",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "dataset_version_id",
+      "data_type": "bigint",
+      "is_nullable": "NO",
+      "ordinal_position": 2,
+      "table_name": "ml_run_record_splits",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "record_id",
+      "data_type": "bigint",
+      "is_nullable": "NO",
+      "ordinal_position": 3,
+      "table_name": "ml_run_record_splits",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "split_name",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "ordinal_position": 4,
+      "table_name": "ml_run_record_splits",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "exclusion_reason",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "ordinal_position": 5,
+      "table_name": "ml_run_record_splits",
+      "table_schema": "public"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "ordinal_position": 6,
+      "table_name": "ml_run_record_splits",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "migration_id",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "ordinal_position": 1,
+      "table_name": "ml_schema_migrations",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "migration_sha256",
+      "data_type": "character",
+      "is_nullable": "NO",
+      "ordinal_position": 2,
+      "table_name": "ml_schema_migrations",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "source_commit",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "ordinal_position": 3,
+      "table_name": "ml_schema_migrations",
+      "table_schema": "public"
+    },
+    {
+      "column_default": "CURRENT_USER",
+      "column_name": "applied_by",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "ordinal_position": 4,
+      "table_name": "ml_schema_migrations",
+      "table_schema": "public"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "applied_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "ordinal_position": 5,
+      "table_name": "ml_schema_migrations",
+      "table_schema": "public"
+    },
+    {
+      "column_default": "nextval('paper_evaluation_metrics_metric_id_seq'::regclass)",
+      "column_name": "metric_id",
+      "data_type": "bigint",
+      "is_nullable": "NO",
+      "ordinal_position": 1,
+      "table_name": "paper_evaluation_metrics",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "run_id",
+      "data_type": "bigint",
+      "is_nullable": "YES",
+      "ordinal_position": 2,
+      "table_name": "paper_evaluation_metrics",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "dataset",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "ordinal_position": 3,
+      "table_name": "paper_evaluation_metrics",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "model_name",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "ordinal_position": 4,
+      "table_name": "paper_evaluation_metrics",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "protocol_class",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "ordinal_position": 5,
+      "table_name": "paper_evaluation_metrics",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "accuracy",
+      "data_type": "real",
+      "is_nullable": "YES",
+      "ordinal_position": 6,
+      "table_name": "paper_evaluation_metrics",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "precision_macro",
+      "data_type": "real",
+      "is_nullable": "YES",
+      "ordinal_position": 7,
+      "table_name": "paper_evaluation_metrics",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "recall_macro",
+      "data_type": "real",
+      "is_nullable": "YES",
+      "ordinal_position": 8,
+      "table_name": "paper_evaluation_metrics",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "f1_macro",
+      "data_type": "real",
+      "is_nullable": "YES",
+      "ordinal_position": 9,
+      "table_name": "paper_evaluation_metrics",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "rmse",
+      "data_type": "real",
+      "is_nullable": "YES",
+      "ordinal_position": 10,
+      "table_name": "paper_evaluation_metrics",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "r2",
+      "data_type": "real",
+      "is_nullable": "YES",
+      "ordinal_position": 11,
+      "table_name": "paper_evaluation_metrics",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "precision_recall_payload",
+      "data_type": "jsonb",
+      "is_nullable": "YES",
+      "ordinal_position": 12,
+      "table_name": "paper_evaluation_metrics",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "metric_payload",
+      "data_type": "jsonb",
+      "is_nullable": "YES",
+      "ordinal_position": 13,
+      "table_name": "paper_evaluation_metrics",
+      "table_schema": "public"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "ordinal_position": 14,
+      "table_name": "paper_evaluation_metrics",
+      "table_schema": "public"
+    },
+    {
+      "column_default": "nextval('paper_learning_recommendations_recommendation_id_seq'::regclass)",
+      "column_name": "recommendation_id",
+      "data_type": "bigint",
+      "is_nullable": "NO",
+      "ordinal_position": 1,
+      "table_name": "paper_learning_recommendations",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "run_id",
+      "data_type": "bigint",
+      "is_nullable": "YES",
+      "ordinal_position": 2,
+      "table_name": "paper_learning_recommendations",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "dataset",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "ordinal_position": 3,
+      "table_name": "paper_learning_recommendations",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "model_name",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "ordinal_position": 4,
+      "table_name": "paper_learning_recommendations",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "row_index",
+      "data_type": "integer",
+      "is_nullable": "YES",
+      "ordinal_position": 5,
+      "table_name": "paper_learning_recommendations",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "true_label",
+      "data_type": "integer",
+      "is_nullable": "YES",
+      "ordinal_position": 6,
+      "table_name": "paper_learning_recommendations",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "predicted_label",
+      "data_type": "integer",
+      "is_nullable": "YES",
+      "ordinal_position": 7,
+      "table_name": "paper_learning_recommendations",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "confidence",
+      "data_type": "real",
+      "is_nullable": "YES",
+      "ordinal_position": 8,
+      "table_name": "paper_learning_recommendations",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "risk_band",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "ordinal_position": 9,
+      "table_name": "paper_learning_recommendations",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "feature_snapshot",
+      "data_type": "jsonb",
+      "is_nullable": "YES",
+      "ordinal_position": 10,
+      "table_name": "paper_learning_recommendations",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "recommended_learning_path",
+      "data_type": "jsonb",
+      "is_nullable": "YES",
+      "ordinal_position": 11,
+      "table_name": "paper_learning_recommendations",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "recommendation_payload",
+      "data_type": "jsonb",
+      "is_nullable": "YES",
+      "ordinal_position": 12,
+      "table_name": "paper_learning_recommendations",
+      "table_schema": "public"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "ordinal_position": 13,
+      "table_name": "paper_learning_recommendations",
+      "table_schema": "public"
+    },
+    {
+      "column_default": "nextval('paper_predictions_paper_prediction_id_seq'::regclass)",
+      "column_name": "paper_prediction_id",
+      "data_type": "bigint",
+      "is_nullable": "NO",
+      "ordinal_position": 1,
+      "table_name": "paper_predictions",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "run_id",
+      "data_type": "bigint",
+      "is_nullable": "YES",
+      "ordinal_position": 2,
+      "table_name": "paper_predictions",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "model_name",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "ordinal_position": 3,
+      "table_name": "paper_predictions",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "dataset",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "ordinal_position": 4,
+      "table_name": "paper_predictions",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "split",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "ordinal_position": 5,
+      "table_name": "paper_predictions",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "row_index",
+      "data_type": "integer",
+      "is_nullable": "YES",
+      "ordinal_position": 6,
+      "table_name": "paper_predictions",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "true_label",
+      "data_type": "integer",
+      "is_nullable": "YES",
+      "ordinal_position": 7,
+      "table_name": "paper_predictions",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "predicted_label",
+      "data_type": "integer",
+      "is_nullable": "YES",
+      "ordinal_position": 8,
+      "table_name": "paper_predictions",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "true_label_name",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "ordinal_position": 9,
+      "table_name": "paper_predictions",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "predicted_label_name",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "ordinal_position": 10,
+      "table_name": "paper_predictions",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "probability",
+      "data_type": "jsonb",
+      "is_nullable": "YES",
+      "ordinal_position": 11,
+      "table_name": "paper_predictions",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "confidence",
+      "data_type": "real",
+      "is_nullable": "YES",
+      "ordinal_position": 12,
+      "table_name": "paper_predictions",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "original_features",
+      "data_type": "jsonb",
+      "is_nullable": "YES",
+      "ordinal_position": 13,
+      "table_name": "paper_predictions",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "seed",
+      "data_type": "integer",
+      "is_nullable": "YES",
+      "ordinal_position": 14,
+      "table_name": "paper_predictions",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "run_label",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "ordinal_position": 15,
+      "table_name": "paper_predictions",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "g1",
+      "data_type": "real",
+      "is_nullable": "YES",
+      "ordinal_position": 16,
+      "table_name": "paper_predictions",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "g2",
+      "data_type": "real",
+      "is_nullable": "YES",
+      "ordinal_position": 17,
+      "table_name": "paper_predictions",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "g3",
+      "data_type": "real",
+      "is_nullable": "YES",
+      "ordinal_position": 18,
+      "table_name": "paper_predictions",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "xapi_class",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "ordinal_position": 19,
+      "table_name": "paper_predictions",
+      "table_schema": "public"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "ordinal_position": 20,
+      "table_name": "paper_predictions",
+      "table_schema": "public"
+    },
+    {
+      "column_default": "nextval('paper_runs_paper_run_id_seq'::regclass)",
+      "column_name": "paper_run_id",
+      "data_type": "bigint",
+      "is_nullable": "NO",
+      "ordinal_position": 1,
+      "table_name": "paper_runs",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "generated_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "YES",
+      "ordinal_position": 2,
+      "table_name": "paper_runs",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "result_rows",
+      "data_type": "integer",
+      "is_nullable": "YES",
+      "ordinal_position": 3,
+      "table_name": "paper_runs",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "summary_rows",
+      "data_type": "integer",
+      "is_nullable": "YES",
+      "ordinal_position": 4,
+      "table_name": "paper_runs",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "postgres_status",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "ordinal_position": 5,
+      "table_name": "paper_runs",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "postgres_message",
+      "data_type": "text",
+      "is_nullable": "YES",
+      "ordinal_position": 6,
+      "table_name": "paper_runs",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "run_payload",
+      "data_type": "jsonb",
+      "is_nullable": "YES",
+      "ordinal_position": 7,
+      "table_name": "paper_runs",
+      "table_schema": "public"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "ordinal_position": 8,
+      "table_name": "paper_runs",
+      "table_schema": "public"
+    },
+    {
+      "column_default": "nextval('prediction_cohorts_prediction_cohort_id_seq'::regclass)",
+      "column_name": "prediction_cohort_id",
+      "data_type": "bigint",
+      "is_nullable": "NO",
+      "ordinal_position": 1,
+      "table_name": "prediction_cohorts",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "dataset_version_id",
+      "data_type": "bigint",
+      "is_nullable": "NO",
+      "ordinal_position": 2,
+      "table_name": "prediction_cohorts",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "cohort_id",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "ordinal_position": 3,
+      "table_name": "prediction_cohorts",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "forecast_id",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "ordinal_position": 4,
+      "table_name": "prediction_cohorts",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "cutoff_contract",
+      "data_type": "jsonb",
+      "is_nullable": "NO",
+      "ordinal_position": 5,
+      "table_name": "prediction_cohorts",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "cohort_hash",
+      "data_type": "character",
+      "is_nullable": "NO",
+      "ordinal_position": 6,
+      "table_name": "prediction_cohorts",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "record_count",
+      "data_type": "bigint",
+      "is_nullable": "NO",
+      "ordinal_position": 7,
+      "table_name": "prediction_cohorts",
+      "table_schema": "public"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "ordinal_position": 8,
+      "table_name": "prediction_cohorts",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "cutoff_feature_snapshot_id",
+      "data_type": "bigint",
+      "is_nullable": "NO",
+      "ordinal_position": 1,
+      "table_name": "snapshot_record_index",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "record_id",
+      "data_type": "character",
+      "is_nullable": "NO",
+      "ordinal_position": 2,
+      "table_name": "snapshot_record_index",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "row_index",
+      "data_type": "bigint",
+      "is_nullable": "NO",
+      "ordinal_position": 3,
+      "table_name": "snapshot_record_index",
+      "table_schema": "public"
+    },
+    {
+      "column_default": "nextval('source_dataset_files_source_dataset_file_id_seq'::regclass)",
+      "column_name": "source_dataset_file_id",
+      "data_type": "bigint",
+      "is_nullable": "NO",
+      "ordinal_position": 1,
+      "table_name": "source_dataset_files",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "dataset_version_id",
+      "data_type": "bigint",
+      "is_nullable": "NO",
+      "ordinal_position": 2,
+      "table_name": "source_dataset_files",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "logical_name",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "ordinal_position": 3,
+      "table_name": "source_dataset_files",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "relative_path",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "ordinal_position": 4,
+      "table_name": "source_dataset_files",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "sha256",
+      "data_type": "character",
+      "is_nullable": "NO",
+      "ordinal_position": 5,
+      "table_name": "source_dataset_files",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "row_count",
+      "data_type": "bigint",
+      "is_nullable": "NO",
+      "ordinal_position": 6,
+      "table_name": "source_dataset_files",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "schema_json",
+      "data_type": "jsonb",
+      "is_nullable": "NO",
+      "ordinal_position": 7,
+      "table_name": "source_dataset_files",
+      "table_schema": "public"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "ordinal_position": 8,
+      "table_name": "source_dataset_files",
+      "table_schema": "public"
+    },
+    {
+      "column_default": "nextval('source_dataset_versions_dataset_version_id_seq'::regclass)",
+      "column_name": "dataset_version_id",
+      "data_type": "bigint",
+      "is_nullable": "NO",
+      "ordinal_position": 1,
+      "table_name": "source_dataset_versions",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "dataset_code",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "ordinal_position": 2,
+      "table_name": "source_dataset_versions",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "source_locator",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "ordinal_position": 3,
+      "table_name": "source_dataset_versions",
+      "table_schema": "public"
+    },
+    {
+      "column_default": "'sha256'::character varying",
+      "column_name": "hash_algorithm",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "ordinal_position": 4,
+      "table_name": "source_dataset_versions",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "content_hash",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "ordinal_position": 5,
+      "table_name": "source_dataset_versions",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "ingestion_contract",
+      "data_type": "jsonb",
+      "is_nullable": "NO",
+      "ordinal_position": 6,
+      "table_name": "source_dataset_versions",
+      "table_schema": "public"
+    },
+    {
+      "column_default": "'sha256'::character varying",
+      "column_name": "ingestion_contract_hash_algorithm",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "ordinal_position": 7,
+      "table_name": "source_dataset_versions",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "ingestion_contract_hash",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "ordinal_position": 8,
+      "table_name": "source_dataset_versions",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "row_count",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "ordinal_position": 9,
+      "table_name": "source_dataset_versions",
+      "table_schema": "public"
+    },
+    {
+      "column_default": "'{}'::jsonb",
+      "column_name": "metadata",
+      "data_type": "jsonb",
+      "is_nullable": "NO",
+      "ordinal_position": 10,
+      "table_name": "source_dataset_versions",
+      "table_schema": "public"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "ordinal_position": 11,
+      "table_name": "source_dataset_versions",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "dataset_version_id",
+      "data_type": "bigint",
+      "is_nullable": "NO",
+      "ordinal_position": 1,
+      "table_name": "source_record_targets",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "record_id",
+      "data_type": "bigint",
+      "is_nullable": "NO",
+      "ordinal_position": 2,
+      "table_name": "source_record_targets",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "target_name",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "ordinal_position": 3,
+      "table_name": "source_record_targets",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "raw_target_value",
+      "data_type": "jsonb",
+      "is_nullable": "NO",
+      "ordinal_position": 4,
+      "table_name": "source_record_targets",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "encoded_target_value",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "ordinal_position": 5,
+      "table_name": "source_record_targets",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "target_contract_hash",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "ordinal_position": 6,
+      "table_name": "source_record_targets",
+      "table_schema": "public"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "ordinal_position": 7,
+      "table_name": "source_record_targets",
+      "table_schema": "public"
+    },
+    {
+      "column_default": "nextval('source_records_record_id_seq'::regclass)",
+      "column_name": "record_id",
+      "data_type": "bigint",
+      "is_nullable": "NO",
+      "ordinal_position": 1,
+      "table_name": "source_records",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "dataset_version_id",
+      "data_type": "bigint",
+      "is_nullable": "NO",
+      "ordinal_position": 2,
+      "table_name": "source_records",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "source_row_number",
+      "data_type": "integer",
+      "is_nullable": "NO",
+      "ordinal_position": 3,
+      "table_name": "source_records",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "raw_payload",
+      "data_type": "jsonb",
+      "is_nullable": "NO",
+      "ordinal_position": 4,
+      "table_name": "source_records",
+      "table_schema": "public"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "ordinal_position": 5,
+      "table_name": "source_records",
+      "table_schema": "public"
+    },
+    {
+      "column_default": "nextval('split_manifest_registry_split_manifest_registry_id_seq'::regclass)",
+      "column_name": "split_manifest_registry_id",
+      "data_type": "bigint",
+      "is_nullable": "NO",
+      "ordinal_position": 1,
+      "table_name": "split_manifest_registry",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "prediction_cohort_id",
+      "data_type": "bigint",
+      "is_nullable": "NO",
+      "ordinal_position": 2,
+      "table_name": "split_manifest_registry",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "split_role",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "ordinal_position": 3,
+      "table_name": "split_manifest_registry",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "manifest_relative_path",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "ordinal_position": 4,
+      "table_name": "split_manifest_registry",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "manifest_sha256",
+      "data_type": "character",
+      "is_nullable": "NO",
+      "ordinal_position": 5,
+      "table_name": "split_manifest_registry",
+      "table_schema": "public"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "ordinal_position": 6,
+      "table_name": "split_manifest_registry",
+      "table_schema": "public"
+    },
+    {
+      "column_default": "nextval('student_grades_grade_id_seq'::regclass)",
+      "column_name": "grade_id",
+      "data_type": "bigint",
+      "is_nullable": "NO",
+      "ordinal_position": 1,
+      "table_name": "student_grades",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "student_id",
+      "data_type": "bigint",
+      "is_nullable": "YES",
+      "ordinal_position": 2,
+      "table_name": "student_grades",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "dataset_name",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "ordinal_position": 3,
+      "table_name": "student_grades",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "source_row_index",
+      "data_type": "integer",
+      "is_nullable": "YES",
+      "ordinal_position": 4,
+      "table_name": "student_grades",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "g1",
+      "data_type": "real",
+      "is_nullable": "YES",
+      "ordinal_position": 5,
+      "table_name": "student_grades",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "g2",
+      "data_type": "real",
+      "is_nullable": "YES",
+      "ordinal_position": 6,
+      "table_name": "student_grades",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "g3",
+      "data_type": "real",
+      "is_nullable": "YES",
+      "ordinal_position": 7,
+      "table_name": "student_grades",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "xapi_class",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "ordinal_position": 8,
+      "table_name": "student_grades",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "target_class",
+      "data_type": "integer",
+      "is_nullable": "YES",
+      "ordinal_position": 9,
+      "table_name": "student_grades",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "target_class_name",
+      "data_type": "character varying",
+      "is_nullable": "YES",
+      "ordinal_position": 10,
+      "table_name": "student_grades",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "raw_grade_payload",
+      "data_type": "jsonb",
+      "is_nullable": "YES",
+      "ordinal_position": 11,
+      "table_name": "student_grades",
+      "table_schema": "public"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "ordinal_position": 12,
+      "table_name": "student_grades",
+      "table_schema": "public"
+    },
+    {
+      "column_default": "nextval('students_student_id_seq'::regclass)",
+      "column_name": "student_id",
+      "data_type": "bigint",
+      "is_nullable": "NO",
+      "ordinal_position": 1,
+      "table_name": "students",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "dataset_name",
+      "data_type": "character varying",
+      "is_nullable": "NO",
+      "ordinal_position": 2,
+      "table_name": "students",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "source_row_index",
+      "data_type": "integer",
+      "is_nullable": "YES",
+      "ordinal_position": 3,
+      "table_name": "students",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "raw_profile",
+      "data_type": "jsonb",
+      "is_nullable": "YES",
+      "ordinal_position": 4,
+      "table_name": "students",
+      "table_schema": "public"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "ordinal_position": 5,
+      "table_name": "students",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "extension_run_id",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "ordinal_position": 1,
+      "table_name": "study_extension_runs",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "dataset_version_id",
+      "data_type": "bigint",
+      "is_nullable": "NO",
+      "ordinal_position": 2,
+      "table_name": "study_extension_runs",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "study_id",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "ordinal_position": 3,
+      "table_name": "study_extension_runs",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "protocol_sha256",
+      "data_type": "character",
+      "is_nullable": "NO",
+      "ordinal_position": 4,
+      "table_name": "study_extension_runs",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "artifact_relative_path",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "ordinal_position": 5,
+      "table_name": "study_extension_runs",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "source_commit",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "ordinal_position": 6,
+      "table_name": "study_extension_runs",
+      "table_schema": "public"
+    },
+    {
+      "column_default": null,
+      "column_name": "status",
+      "data_type": "text",
+      "is_nullable": "NO",
+      "ordinal_position": 7,
+      "table_name": "study_extension_runs",
+      "table_schema": "public"
+    },
+    {
+      "column_default": "'{}'::jsonb",
+      "column_name": "metadata",
+      "data_type": "jsonb",
+      "is_nullable": "NO",
+      "ordinal_position": 8,
+      "table_name": "study_extension_runs",
+      "table_schema": "public"
+    },
+    {
+      "column_default": "now()",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone",
+      "is_nullable": "NO",
+      "ordinal_position": 9,
+      "table_name": "study_extension_runs",
+      "table_schema": "public"
+    }
+  ],
+  "grants": [
+    {
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "cutoff_feature_snapshots",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "cutoff_feature_snapshots",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "cutoff_feature_snapshots",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "cutoff_feature_snapshots",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "cutoff_feature_snapshots",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "cutoff_feature_snapshots",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "cutoff_feature_snapshots",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "student_predict_app",
+      "privilege_type": "SELECT",
+      "table_name": "cutoff_feature_snapshots",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "ml_evidence_bundles",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "ml_evidence_bundles",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "ml_evidence_bundles",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "ml_evidence_bundles",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "ml_evidence_bundles",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "ml_evidence_bundles",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "ml_evidence_bundles",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "student_predict_app",
+      "privilege_type": "SELECT",
+      "table_name": "ml_evidence_bundles",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "ml_experiment_runs",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "ml_experiment_runs",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "ml_experiment_runs",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "ml_experiment_runs",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "ml_experiment_runs",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "ml_experiment_runs",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "ml_experiment_runs",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "student_predict_app",
+      "privilege_type": "INSERT",
+      "table_name": "ml_experiment_runs",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "student_predict_app",
+      "privilege_type": "SELECT",
+      "table_name": "ml_experiment_runs",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "ml_predictions",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "ml_predictions",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "ml_predictions",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "ml_predictions",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "ml_predictions",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "ml_predictions",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "ml_predictions",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "student_predict_app",
+      "privilege_type": "INSERT",
+      "table_name": "ml_predictions",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "student_predict_app",
+      "privilege_type": "SELECT",
+      "table_name": "ml_predictions",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "ml_recommendations",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "ml_recommendations",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "ml_recommendations",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "ml_recommendations",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "ml_recommendations",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "ml_recommendations",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "ml_recommendations",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "student_predict_app",
+      "privilege_type": "INSERT",
+      "table_name": "ml_recommendations",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "student_predict_app",
+      "privilege_type": "SELECT",
+      "table_name": "ml_recommendations",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "ml_run_metrics",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "ml_run_metrics",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "ml_run_metrics",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "ml_run_metrics",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "ml_run_metrics",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "ml_run_metrics",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "ml_run_metrics",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "student_predict_app",
+      "privilege_type": "INSERT",
+      "table_name": "ml_run_metrics",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "student_predict_app",
+      "privilege_type": "SELECT",
+      "table_name": "ml_run_metrics",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "ml_run_record_splits",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "ml_run_record_splits",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "ml_run_record_splits",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "ml_run_record_splits",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "ml_run_record_splits",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "ml_run_record_splits",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "ml_run_record_splits",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "student_predict_app",
+      "privilege_type": "INSERT",
+      "table_name": "ml_run_record_splits",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "student_predict_app",
+      "privilege_type": "SELECT",
+      "table_name": "ml_run_record_splits",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "ml_schema_migrations",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "ml_schema_migrations",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "ml_schema_migrations",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "ml_schema_migrations",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "ml_schema_migrations",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "ml_schema_migrations",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "ml_schema_migrations",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "student_predict_app",
+      "privilege_type": "SELECT",
+      "table_name": "ml_schema_migrations",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "paper_evaluation_metrics",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "paper_evaluation_metrics",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "paper_evaluation_metrics",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "paper_evaluation_metrics",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "paper_evaluation_metrics",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "paper_evaluation_metrics",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "paper_evaluation_metrics",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "paper_learning_recommendations",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "paper_learning_recommendations",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "paper_learning_recommendations",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "paper_learning_recommendations",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "paper_learning_recommendations",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "paper_learning_recommendations",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "paper_learning_recommendations",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "paper_predictions",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "paper_predictions",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "paper_predictions",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "paper_predictions",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "paper_predictions",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "paper_predictions",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "paper_predictions",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "paper_runs",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "paper_runs",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "paper_runs",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "paper_runs",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "paper_runs",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "paper_runs",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "paper_runs",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "prediction_cohorts",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "prediction_cohorts",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "prediction_cohorts",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "prediction_cohorts",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "prediction_cohorts",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "prediction_cohorts",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "prediction_cohorts",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "student_predict_app",
+      "privilege_type": "SELECT",
+      "table_name": "prediction_cohorts",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "snapshot_record_index",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "snapshot_record_index",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "snapshot_record_index",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "snapshot_record_index",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "snapshot_record_index",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "snapshot_record_index",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "snapshot_record_index",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "student_predict_app",
+      "privilege_type": "SELECT",
+      "table_name": "snapshot_record_index",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "source_dataset_files",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "source_dataset_files",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "source_dataset_files",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "source_dataset_files",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "source_dataset_files",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "source_dataset_files",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "source_dataset_files",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "student_predict_app",
+      "privilege_type": "SELECT",
+      "table_name": "source_dataset_files",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "source_dataset_versions",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "source_dataset_versions",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "source_dataset_versions",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "source_dataset_versions",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "source_dataset_versions",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "source_dataset_versions",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "source_dataset_versions",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "student_predict_app",
+      "privilege_type": "INSERT",
+      "table_name": "source_dataset_versions",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "student_predict_app",
+      "privilege_type": "SELECT",
+      "table_name": "source_dataset_versions",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "source_record_targets",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "source_record_targets",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "source_record_targets",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "source_record_targets",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "source_record_targets",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "source_record_targets",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "source_record_targets",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "student_predict_app",
+      "privilege_type": "INSERT",
+      "table_name": "source_record_targets",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "student_predict_app",
+      "privilege_type": "SELECT",
+      "table_name": "source_record_targets",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "source_records",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "source_records",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "source_records",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "source_records",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "source_records",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "source_records",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "source_records",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "student_predict_app",
+      "privilege_type": "INSERT",
+      "table_name": "source_records",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "student_predict_app",
+      "privilege_type": "SELECT",
+      "table_name": "source_records",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "split_manifest_registry",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "split_manifest_registry",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "split_manifest_registry",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "split_manifest_registry",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "split_manifest_registry",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "split_manifest_registry",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "split_manifest_registry",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "student_predict_app",
+      "privilege_type": "SELECT",
+      "table_name": "split_manifest_registry",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "student_grades",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "student_grades",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "student_grades",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "student_grades",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "student_grades",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "student_grades",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "student_grades",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "students",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "students",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "students",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "students",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "students",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "students",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "students",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "table_name": "study_extension_runs",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "table_name": "study_extension_runs",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "table_name": "study_extension_runs",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "table_name": "study_extension_runs",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "table_name": "study_extension_runs",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "table_name": "study_extension_runs",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "table_name": "study_extension_runs",
+      "table_schema": "public"
+    },
+    {
+      "grantee": "student_predict_app",
+      "privilege_type": "SELECT",
+      "table_name": "study_extension_runs",
+      "table_schema": "public"
+    }
+  ],
+  "integrity": {
+    "duplicate_prediction_keys": 0,
+    "invalid_run_statuses": 0,
+    "orphan_predictions": 0,
+    "orphan_splits": 0
+  },
+  "schemas": [
+    {
+      "schema_name": "public"
+    }
+  ],
+  "sequences": [
+    {
+      "data_type": "bigint",
+      "increment": "1",
+      "maximum_value": "9223372036854775807",
+      "minimum_value": "1",
+      "sequence_name": "cutoff_feature_snapshots_cutoff_feature_snapshot_id_seq",
+      "sequence_schema": "public",
+      "start_value": "1"
+    },
+    {
+      "data_type": "bigint",
+      "increment": "1",
+      "maximum_value": "9223372036854775807",
+      "minimum_value": "1",
+      "sequence_name": "ml_evidence_bundles_evidence_bundle_id_seq",
+      "sequence_schema": "public",
+      "start_value": "1"
+    },
+    {
+      "data_type": "bigint",
+      "increment": "1",
+      "maximum_value": "9223372036854775807",
+      "minimum_value": "1",
+      "sequence_name": "ml_predictions_prediction_id_seq",
+      "sequence_schema": "public",
+      "start_value": "1"
+    },
+    {
+      "data_type": "bigint",
+      "increment": "1",
+      "maximum_value": "9223372036854775807",
+      "minimum_value": "1",
+      "sequence_name": "ml_recommendations_recommendation_id_seq",
+      "sequence_schema": "public",
+      "start_value": "1"
+    },
+    {
+      "data_type": "bigint",
+      "increment": "1",
+      "maximum_value": "9223372036854775807",
+      "minimum_value": "1",
+      "sequence_name": "ml_run_metrics_metric_id_seq",
+      "sequence_schema": "public",
+      "start_value": "1"
+    },
+    {
+      "data_type": "bigint",
+      "increment": "1",
+      "maximum_value": "9223372036854775807",
+      "minimum_value": "1",
+      "sequence_name": "paper_evaluation_metrics_metric_id_seq",
+      "sequence_schema": "public",
+      "start_value": "1"
+    },
+    {
+      "data_type": "bigint",
+      "increment": "1",
+      "maximum_value": "9223372036854775807",
+      "minimum_value": "1",
+      "sequence_name": "paper_learning_recommendations_recommendation_id_seq",
+      "sequence_schema": "public",
+      "start_value": "1"
+    },
+    {
+      "data_type": "bigint",
+      "increment": "1",
+      "maximum_value": "9223372036854775807",
+      "minimum_value": "1",
+      "sequence_name": "paper_predictions_paper_prediction_id_seq",
+      "sequence_schema": "public",
+      "start_value": "1"
+    },
+    {
+      "data_type": "bigint",
+      "increment": "1",
+      "maximum_value": "9223372036854775807",
+      "minimum_value": "1",
+      "sequence_name": "paper_runs_paper_run_id_seq",
+      "sequence_schema": "public",
+      "start_value": "1"
+    },
+    {
+      "data_type": "bigint",
+      "increment": "1",
+      "maximum_value": "9223372036854775807",
+      "minimum_value": "1",
+      "sequence_name": "prediction_cohorts_prediction_cohort_id_seq",
+      "sequence_schema": "public",
+      "start_value": "1"
+    },
+    {
+      "data_type": "bigint",
+      "increment": "1",
+      "maximum_value": "9223372036854775807",
+      "minimum_value": "1",
+      "sequence_name": "source_dataset_files_source_dataset_file_id_seq",
+      "sequence_schema": "public",
+      "start_value": "1"
+    },
+    {
+      "data_type": "bigint",
+      "increment": "1",
+      "maximum_value": "9223372036854775807",
+      "minimum_value": "1",
+      "sequence_name": "source_dataset_versions_dataset_version_id_seq",
+      "sequence_schema": "public",
+      "start_value": "1"
+    },
+    {
+      "data_type": "bigint",
+      "increment": "1",
+      "maximum_value": "9223372036854775807",
+      "minimum_value": "1",
+      "sequence_name": "source_records_record_id_seq",
+      "sequence_schema": "public",
+      "start_value": "1"
+    },
+    {
+      "data_type": "bigint",
+      "increment": "1",
+      "maximum_value": "9223372036854775807",
+      "minimum_value": "1",
+      "sequence_name": "split_manifest_registry_split_manifest_registry_id_seq",
+      "sequence_schema": "public",
+      "start_value": "1"
+    },
+    {
+      "data_type": "bigint",
+      "increment": "1",
+      "maximum_value": "9223372036854775807",
+      "minimum_value": "1",
+      "sequence_name": "student_grades_grade_id_seq",
+      "sequence_schema": "public",
+      "start_value": "1"
+    },
+    {
+      "data_type": "bigint",
+      "increment": "1",
+      "maximum_value": "9223372036854775807",
+      "minimum_value": "1",
+      "sequence_name": "students_student_id_seq",
+      "sequence_schema": "public",
+      "start_value": "1"
+    }
+  ],
+  "tables": [
+    {
+      "comment": null,
+      "owner": "postgres",
+      "relkind": "r",
+      "schema_name": "public",
+      "table_name": "cutoff_feature_snapshots",
+      "total_bytes": 16384
+    },
+    {
+      "comment": "Immutable registry of scientific evidence bundles; prediction rows remain in canonical ml_predictions.",
+      "owner": "postgres",
+      "relkind": "r",
+      "schema_name": "public",
+      "table_name": "ml_evidence_bundles",
+      "total_bytes": 81920
+    },
+    {
+      "comment": null,
+      "owner": "postgres",
+      "relkind": "r",
+      "schema_name": "public",
+      "table_name": "ml_experiment_runs",
+      "total_bytes": 262144
+    },
+    {
+      "comment": null,
+      "owner": "postgres",
+      "relkind": "r",
+      "schema_name": "public",
+      "table_name": "ml_predictions",
+      "total_bytes": 91561984
+    },
+    {
+      "comment": null,
+      "owner": "postgres",
+      "relkind": "r",
+      "schema_name": "public",
+      "table_name": "ml_recommendations",
+      "total_bytes": 2490368
+    },
+    {
+      "comment": null,
+      "owner": "postgres",
+      "relkind": "r",
+      "schema_name": "public",
+      "table_name": "ml_run_metrics",
+      "total_bytes": 450560
+    },
+    {
+      "comment": null,
+      "owner": "postgres",
+      "relkind": "r",
+      "schema_name": "public",
+      "table_name": "ml_run_record_splits",
+      "total_bytes": 43581440
+    },
+    {
+      "comment": "Append-only checksummed ledger for repository-owned canonical PostgreSQL migrations.",
+      "owner": "postgres",
+      "relkind": "r",
+      "schema_name": "public",
+      "table_name": "ml_schema_migrations",
+      "total_bytes": 32768
+    },
+    {
+      "comment": null,
+      "owner": "postgres",
+      "relkind": "r",
+      "schema_name": "public",
+      "table_name": "paper_evaluation_metrics",
+      "total_bytes": 32768
+    },
+    {
+      "comment": null,
+      "owner": "postgres",
+      "relkind": "r",
+      "schema_name": "public",
+      "table_name": "paper_learning_recommendations",
+      "total_bytes": 262144
+    },
+    {
+      "comment": null,
+      "owner": "postgres",
+      "relkind": "r",
+      "schema_name": "public",
+      "table_name": "paper_predictions",
+      "total_bytes": 114688
+    },
+    {
+      "comment": null,
+      "owner": "postgres",
+      "relkind": "r",
+      "schema_name": "public",
+      "table_name": "paper_runs",
+      "total_bytes": 32768
+    },
+    {
+      "comment": null,
+      "owner": "postgres",
+      "relkind": "r",
+      "schema_name": "public",
+      "table_name": "prediction_cohorts",
+      "total_bytes": 24576
+    },
+    {
+      "comment": null,
+      "owner": "postgres",
+      "relkind": "r",
+      "schema_name": "public",
+      "table_name": "snapshot_record_index",
+      "total_bytes": 16384
+    },
+    {
+      "comment": null,
+      "owner": "postgres",
+      "relkind": "r",
+      "schema_name": "public",
+      "table_name": "source_dataset_files",
+      "total_bytes": 24576
+    },
+    {
+      "comment": null,
+      "owner": "postgres",
+      "relkind": "r",
+      "schema_name": "public",
+      "table_name": "source_dataset_versions",
+      "total_bytes": 81920
+    },
+    {
+      "comment": null,
+      "owner": "postgres",
+      "relkind": "r",
+      "schema_name": "public",
+      "table_name": "source_record_targets",
+      "total_bytes": 4227072
+    },
+    {
+      "comment": null,
+      "owner": "postgres",
+      "relkind": "r",
+      "schema_name": "public",
+      "table_name": "source_records",
+      "total_bytes": 10682368
+    },
+    {
+      "comment": null,
+      "owner": "postgres",
+      "relkind": "r",
+      "schema_name": "public",
+      "table_name": "split_manifest_registry",
+      "total_bytes": 24576
+    },
+    {
+      "comment": null,
+      "owner": "postgres",
+      "relkind": "r",
+      "schema_name": "public",
+      "table_name": "student_grades",
+      "total_bytes": 1253376
+    },
+    {
+      "comment": null,
+      "owner": "postgres",
+      "relkind": "r",
+      "schema_name": "public",
+      "table_name": "students",
+      "total_bytes": 1187840
+    },
+    {
+      "comment": null,
+      "owner": "postgres",
+      "relkind": "r",
+      "schema_name": "public",
+      "table_name": "study_extension_runs",
+      "total_bytes": 16384
+    }
+  ],
+  "triggers": [
+    {
+      "action_statement": "EXECUTE FUNCTION reject_append_only_update_delete()",
+      "event_manipulation": "UPDATE",
+      "schema_name": "public",
+      "table_name": "cutoff_feature_snapshots",
+      "trigger_name": "trg_cutoff_feature_snapshots_append_only"
+    },
+    {
+      "action_statement": "EXECUTE FUNCTION reject_append_only_update_delete()",
+      "event_manipulation": "DELETE",
+      "schema_name": "public",
+      "table_name": "cutoff_feature_snapshots",
+      "trigger_name": "trg_cutoff_feature_snapshots_append_only"
+    },
+    {
+      "action_statement": "EXECUTE FUNCTION reject_append_only_update_delete()",
+      "event_manipulation": "UPDATE",
+      "schema_name": "public",
+      "table_name": "ml_evidence_bundles",
+      "trigger_name": "trg_ml_evidence_bundles_append_only"
+    },
+    {
+      "action_statement": "EXECUTE FUNCTION reject_append_only_update_delete()",
+      "event_manipulation": "DELETE",
+      "schema_name": "public",
+      "table_name": "ml_evidence_bundles",
+      "trigger_name": "trg_ml_evidence_bundles_append_only"
+    },
+    {
+      "action_statement": "EXECUTE FUNCTION validate_ml_experiment_run_insert()",
+      "event_manipulation": "INSERT",
+      "schema_name": "public",
+      "table_name": "ml_experiment_runs",
+      "trigger_name": "trg_ml_runs_insert_lifecycle"
+    },
+    {
+      "action_statement": "EXECUTE FUNCTION validate_ml_experiment_run_update()",
+      "event_manipulation": "UPDATE",
+      "schema_name": "public",
+      "table_name": "ml_experiment_runs",
+      "trigger_name": "trg_ml_runs_update_lifecycle"
+    },
+    {
+      "action_statement": "EXECUTE FUNCTION reject_append_only_update_delete()",
+      "event_manipulation": "UPDATE",
+      "schema_name": "public",
+      "table_name": "ml_predictions",
+      "trigger_name": "trg_ml_predictions_append_only"
+    },
+    {
+      "action_statement": "EXECUTE FUNCTION reject_append_only_update_delete()",
+      "event_manipulation": "DELETE",
+      "schema_name": "public",
+      "table_name": "ml_predictions",
+      "trigger_name": "trg_ml_predictions_append_only"
+    },
+    {
+      "action_statement": "EXECUTE FUNCTION require_running_run_for_insert_batch()",
+      "event_manipulation": "INSERT",
+      "schema_name": "public",
+      "table_name": "ml_predictions",
+      "trigger_name": "trg_ml_predictions_running_run"
+    },
+    {
+      "action_statement": "EXECUTE FUNCTION reject_append_only_update_delete()",
+      "event_manipulation": "DELETE",
+      "schema_name": "public",
+      "table_name": "ml_recommendations",
+      "trigger_name": "trg_ml_recommendations_append_only"
+    },
+    {
+      "action_statement": "EXECUTE FUNCTION reject_append_only_update_delete()",
+      "event_manipulation": "UPDATE",
+      "schema_name": "public",
+      "table_name": "ml_recommendations",
+      "trigger_name": "trg_ml_recommendations_append_only"
+    },
+    {
+      "action_statement": "EXECUTE FUNCTION require_materializable_recommendation_parent_run()",
+      "event_manipulation": "INSERT",
+      "schema_name": "public",
+      "table_name": "ml_recommendations",
+      "trigger_name": "trg_ml_recommendations_running_run"
+    },
+    {
+      "action_statement": "EXECUTE FUNCTION reject_append_only_update_delete()",
+      "event_manipulation": "UPDATE",
+      "schema_name": "public",
+      "table_name": "ml_run_metrics",
+      "trigger_name": "trg_ml_run_metrics_append_only"
+    },
+    {
+      "action_statement": "EXECUTE FUNCTION reject_append_only_update_delete()",
+      "event_manipulation": "DELETE",
+      "schema_name": "public",
+      "table_name": "ml_run_metrics",
+      "trigger_name": "trg_ml_run_metrics_append_only"
+    },
+    {
+      "action_statement": "EXECUTE FUNCTION require_running_run_for_insert_batch()",
+      "event_manipulation": "INSERT",
+      "schema_name": "public",
+      "table_name": "ml_run_metrics",
+      "trigger_name": "trg_ml_run_metrics_running_run"
+    },
+    {
+      "action_statement": "EXECUTE FUNCTION reject_append_only_update_delete()",
+      "event_manipulation": "DELETE",
+      "schema_name": "public",
+      "table_name": "ml_run_record_splits",
+      "trigger_name": "trg_ml_run_record_splits_append_only"
+    },
+    {
+      "action_statement": "EXECUTE FUNCTION reject_append_only_update_delete()",
+      "event_manipulation": "UPDATE",
+      "schema_name": "public",
+      "table_name": "ml_run_record_splits",
+      "trigger_name": "trg_ml_run_record_splits_append_only"
+    },
+    {
+      "action_statement": "EXECUTE FUNCTION require_running_run_for_insert_batch()",
+      "event_manipulation": "INSERT",
+      "schema_name": "public",
+      "table_name": "ml_run_record_splits",
+      "trigger_name": "trg_ml_run_record_splits_running_run"
+    },
+    {
+      "action_statement": "EXECUTE FUNCTION reject_append_only_update_delete()",
+      "event_manipulation": "DELETE",
+      "schema_name": "public",
+      "table_name": "prediction_cohorts",
+      "trigger_name": "trg_prediction_cohorts_append_only"
+    },
+    {
+      "action_statement": "EXECUTE FUNCTION reject_append_only_update_delete()",
+      "event_manipulation": "UPDATE",
+      "schema_name": "public",
+      "table_name": "prediction_cohorts",
+      "trigger_name": "trg_prediction_cohorts_append_only"
+    },
+    {
+      "action_statement": "EXECUTE FUNCTION reject_append_only_update_delete()",
+      "event_manipulation": "UPDATE",
+      "schema_name": "public",
+      "table_name": "snapshot_record_index",
+      "trigger_name": "trg_snapshot_record_index_append_only"
+    },
+    {
+      "action_statement": "EXECUTE FUNCTION reject_append_only_update_delete()",
+      "event_manipulation": "DELETE",
+      "schema_name": "public",
+      "table_name": "snapshot_record_index",
+      "trigger_name": "trg_snapshot_record_index_append_only"
+    },
+    {
+      "action_statement": "EXECUTE FUNCTION reject_append_only_update_delete()",
+      "event_manipulation": "DELETE",
+      "schema_name": "public",
+      "table_name": "source_dataset_files",
+      "trigger_name": "trg_source_dataset_files_append_only"
+    },
+    {
+      "action_statement": "EXECUTE FUNCTION reject_append_only_update_delete()",
+      "event_manipulation": "UPDATE",
+      "schema_name": "public",
+      "table_name": "source_dataset_files",
+      "trigger_name": "trg_source_dataset_files_append_only"
+    },
+    {
+      "action_statement": "EXECUTE FUNCTION reject_append_only_update_delete()",
+      "event_manipulation": "DELETE",
+      "schema_name": "public",
+      "table_name": "source_dataset_versions",
+      "trigger_name": "trg_source_dataset_versions_append_only"
+    },
+    {
+      "action_statement": "EXECUTE FUNCTION reject_append_only_update_delete()",
+      "event_manipulation": "UPDATE",
+      "schema_name": "public",
+      "table_name": "source_dataset_versions",
+      "trigger_name": "trg_source_dataset_versions_append_only"
+    },
+    {
+      "action_statement": "EXECUTE FUNCTION reject_append_only_update_delete()",
+      "event_manipulation": "UPDATE",
+      "schema_name": "public",
+      "table_name": "source_record_targets",
+      "trigger_name": "trg_source_record_targets_append_only"
+    },
+    {
+      "action_statement": "EXECUTE FUNCTION reject_append_only_update_delete()",
+      "event_manipulation": "DELETE",
+      "schema_name": "public",
+      "table_name": "source_record_targets",
+      "trigger_name": "trg_source_record_targets_append_only"
+    },
+    {
+      "action_statement": "EXECUTE FUNCTION reject_append_only_update_delete()",
+      "event_manipulation": "DELETE",
+      "schema_name": "public",
+      "table_name": "source_records",
+      "trigger_name": "trg_source_records_append_only"
+    },
+    {
+      "action_statement": "EXECUTE FUNCTION reject_append_only_update_delete()",
+      "event_manipulation": "UPDATE",
+      "schema_name": "public",
+      "table_name": "source_records",
+      "trigger_name": "trg_source_records_append_only"
+    },
+    {
+      "action_statement": "EXECUTE FUNCTION reject_source_record_batch_after_run()",
+      "event_manipulation": "INSERT",
+      "schema_name": "public",
+      "table_name": "source_records",
+      "trigger_name": "trg_source_records_sealed_dataset"
+    },
+    {
+      "action_statement": "EXECUTE FUNCTION reject_append_only_update_delete()",
+      "event_manipulation": "DELETE",
+      "schema_name": "public",
+      "table_name": "split_manifest_registry",
+      "trigger_name": "trg_split_manifest_registry_append_only"
+    },
+    {
+      "action_statement": "EXECUTE FUNCTION reject_append_only_update_delete()",
+      "event_manipulation": "UPDATE",
+      "schema_name": "public",
+      "table_name": "split_manifest_registry",
+      "trigger_name": "trg_split_manifest_registry_append_only"
+    },
+    {
+      "action_statement": "EXECUTE FUNCTION reject_append_only_update_delete()",
+      "event_manipulation": "DELETE",
+      "schema_name": "public",
+      "table_name": "study_extension_runs",
+      "trigger_name": "trg_study_extension_runs_append_only"
+    },
+    {
+      "action_statement": "EXECUTE FUNCTION reject_append_only_update_delete()",
+      "event_manipulation": "UPDATE",
+      "schema_name": "public",
+      "table_name": "study_extension_runs",
+      "trigger_name": "trg_study_extension_runs_append_only"
+    }
+  ]
+}

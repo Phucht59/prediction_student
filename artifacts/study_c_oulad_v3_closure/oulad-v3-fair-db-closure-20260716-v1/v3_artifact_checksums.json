@@ -1,0 +1,22 @@
+{
+  "artifact_manifest": {
+    "sha256": "9d4b9fc581acc6bc85cfa1cd8b0edeecdc3d7e289615e54c57711a83e5a4176c",
+    "status": "PASS"
+  },
+  "metrics": {
+    "sha256": "b6c5f5afff2d837c85baff45a3c4b26fb96ae89a32d5230db560579602ee1247",
+    "status": "PASS"
+  },
+  "oof": {
+    "sha256": "d373c6c644424a42aafa5ad57174436138dd1302512e20062bf14f9535086e0d",
+    "status": "PASS"
+  },
+  "protocol": {
+    "sha256": "e87dfaaa1bc869000f0493c9a4d52f167bfc03ce7f7496129ec8ce632b735959",
+    "status": "PASS"
+  },
+  "selected_configs": {
+    "sha256": "9a9ac78a134bd0c027f8834f31a2424efc2feb87a68a267130d0289181c879fc",
+    "status": "PASS"
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "administrator_not_used_as_app_evidence": true,
+  "application_profile": {
+    "current_user": "student_predict_app_local",
+    "rolcreatedb": false,
+    "rolcreaterole": false,
+    "rolsuper": false
+  },
+  "status": "PASS",
+  "tests": [
+    {
+      "expected": "allow",
+      "observed": "allowed",
+      "sqlstate": null,
+      "status": "PASS",
+      "test": "allowed_select"
+    },
+    {
+      "expected": "allow",
+      "observed": "allowed",
+      "sqlstate": null,
+      "status": "PASS",
+      "test": "allowed_insert_operational_source"
+    },
+    {
+      "expected": "deny",
+      "observed": "denied",
+      "sqlstate": "42501",
+      "status": "PASS",
+      "test": "forbidden_drop"
+    },
+    {
+      "expected": "deny",
+      "observed": "denied",
+      "sqlstate": "42501",
+      "status": "PASS",
+      "test": "forbidden_alter"
+    },
+    {
+      "expected": "deny",
+      "observed": "denied",
+      "sqlstate": "23000",
+      "status": "PASS",
+      "test": "immutable_completed_run_update"
+    },
+    {
+      "expected": "deny",
+      "observed": "denied",
+      "sqlstate": "23000",
+      "status": "PASS",
+      "test": "invalid_status"
+    },
+    {
+      "expected": "deny",
+      "observed": "denied",
+      "sqlstate": "42501",
+      "status": "PASS",
+      "test": "duplicate_evidence_key"
+    },
+    {
+      "expected": "deny",
+      "observed": "denied",
+      "sqlstate": "23503",
+      "status": "PASS",
+      "test": "orphan_prediction"
+    },
+    {
+      "expected": "deny",
+      "observed": "denied",
+      "sqlstate": null,
+      "status": "PASS",
+      "test": "duplicate_evidence_unique_constraint_admin_transaction"
+    }
+  ]
+}

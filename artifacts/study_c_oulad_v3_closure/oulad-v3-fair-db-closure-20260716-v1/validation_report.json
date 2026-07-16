@@ -1,0 +1,490 @@
+{
+  "artifact_checksums_sha256": "40df86ee0337f3af4aa945d497789f7f3539c13dbbe16e30a1319c18ed90368f",
+  "checks": [
+    {
+      "check": "v3_commit_ancestry",
+      "evidence": "dbd5c2f27e914da2b252bffe176e7c93a6c2c237",
+      "status": "PASS"
+    },
+    {
+      "check": "required_artifacts",
+      "evidence": [
+        "README.md",
+        "resolved_protocol.yaml",
+        "source_provenance.json",
+        "v3_artifact_checksums.json",
+        "candidate_registry.json",
+        "prediction_contract_registry.json",
+        "single_seed_metrics.csv",
+        "mean_seed_metrics.csv",
+        "ensemble_metrics.csv",
+        "fair_comparison_summary.csv",
+        "ensemble_thresholds.csv",
+        "ensemble_prediction_coverage.csv",
+        "ensemble_oof_predictions.parquet",
+        "grouped_bootstrap_fair.csv",
+        "paired_deltas_fair.csv",
+        "superseded_v3_comparisons.json",
+        "fairness_audit.json",
+        "verdict.json",
+        "postgres_connectivity_audit.json",
+        "postgres_backup_manifest.json",
+        "postgres_schema_before.json",
+        "postgres_schema_after.json",
+        "postgres_counts_before.csv",
+        "postgres_counts_after.csv",
+        "postgres_cleanup_plan.json",
+        "postgres_cleanup_execution.json",
+        "postgres_migration_report.json",
+        "postgres_permission_audit.json",
+        "postgres_evidence_registration.json",
+        "postgres_reproduction_validation.json",
+        "adaptive_decision_log.jsonl",
+        "test_report.json"
+      ],
+      "status": "PASS"
+    },
+    {
+      "check": "required_reports",
+      "evidence": [
+        "FAIR_ENSEMBLE_ASSESSMENT.md",
+        "POSTGRES_AUDIT_BEFORE.md",
+        "POSTGRES_CLEANUP_PLAN.md",
+        "POSTGRES_CLOSURE_REPORT.md",
+        "THESIS_CLAIMS_AFTER_FAIRNESS_CLOSURE.md",
+        "postgres_query_plans.md",
+        "test_stdout.txt"
+      ],
+      "status": "PASS"
+    },
+    {
+      "check": "required_fair_figures",
+      "evidence": [
+        "calibration_fair.png",
+        "d0_ensemble_vs_a0f_ensemble.png",
+        "d0_ensemble_vs_h3cf_ensemble.png",
+        "d0_ensemble_vs_p0_ensemble.png",
+        "database_before_after_counts.png",
+        "database_schema_relationships.png",
+        "fair_ensemble_macro_f1.png",
+        "fair_ensemble_operational_recall.png",
+        "fair_ensemble_pr_auc.png",
+        "grouped_bootstrap_intervals.png",
+        "module_stability_fair.png",
+        "single_seed_vs_mean_metric_vs_ensemble.png"
+      ],
+      "status": "PASS"
+    },
+    {
+      "check": "candidate_registry_complete",
+      "evidence": [
+        "V3-A0F-ENS",
+        "V3-A1-ENS",
+        "V3-D0-ENS",
+        "V3-H2TF-ENS",
+        "V3-H3CF-ENS",
+        "V3-MLD",
+        "V3-MLF",
+        "V3-P0-ENS"
+      ],
+      "status": "PASS"
+    },
+    {
+      "check": "fairness_audit",
+      "evidence": {
+        "failed_replays": 0,
+        "future_access": false,
+        "inner_threshold_coverage": "PASS",
+        "outer_labels_used_for_threshold": false,
+        "parity": [
+          {
+            "candidate_id": "V3-A0F",
+            "records_per_seed": 15378,
+            "seeds": [
+              42,
+              2026,
+              3407
+            ],
+            "status": "PASS",
+            "target_prevalence": 0.39784107166081417,
+            "unique_records": 15378
+          },
+          {
+            "candidate_id": "V3-H2TF",
+            "records_per_seed": 15378,
+            "seeds": [
+              42,
+              2026,
+              3407
+            ],
+            "status": "PASS",
+            "target_prevalence": 0.39784107166081417,
+            "unique_records": 15378
+          },
+          {
+            "candidate_id": "V3-H3CF",
+            "records_per_seed": 15378,
+            "seeds": [
+              42,
+              2026,
+              3407
+            ],
+            "status": "PASS",
+            "target_prevalence": 0.39784107166081417,
+            "unique_records": 15378
+          },
+          {
+            "candidate_id": "V3-P0",
+            "records_per_seed": 15378,
+            "seeds": [
+              42,
+              2026,
+              3407
+            ],
+            "status": "PASS",
+            "target_prevalence": 0.39784107166081417,
+            "unique_records": 15378
+          },
+          {
+            "candidate_id": "V3-D0",
+            "records_per_seed": 15378,
+            "seeds": [
+              42,
+              2026,
+              3407
+            ],
+            "status": "PASS",
+            "target_prevalence": 0.39784107166081417,
+            "unique_records": 15378
+          },
+          {
+            "candidate_id": "V3-A1",
+            "records_per_seed": 15378,
+            "seeds": [
+              42,
+              2026,
+              3407
+            ],
+            "status": "PASS",
+            "target_prevalence": 0.39784107166081417,
+            "unique_records": 15378
+          }
+        ],
+        "replay_jobs": 54,
+        "replay_label": "threshold-reconstruction replay",
+        "runtime_seconds": 1891.6336895999993,
+        "status": "PASS"
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "grouped_bootstrap_contract",
+      "evidence": {
+        "rows": 45
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "corrected_verdict",
+      "evidence": {
+        "comparator_macro_f1": 0.8286716600730241,
+        "d0_ensemble_macro_f1": 0.8311261008483025,
+        "delta": 0.0024544407752784547,
+        "future_benchmark": "NOT_EXECUTED",
+        "old_v3_verdict": "PRACTICAL_TIE",
+        "strongest_fair_comparator": "V3-A0F-ENS",
+        "superiority_margin": 0.005,
+        "verdict": "PRACTICAL_TIE"
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "backup_gate",
+      "evidence": {
+        "files": 4,
+        "status": "PASS"
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "migration_dry_run_and_commit",
+      "evidence": {
+        "applied": {
+          "migrations": [
+            {
+              "migration_id": "005_oulad_lineage_and_snapshot_registry.sql",
+              "path": "C:/Huflit/kltn/database/migrations/005_oulad_lineage_and_snapshot_registry.sql",
+              "sha256": "1b8a937eb0d6b98938d8190a4002cf37fb92604f42f22b21346342b3bacd3a45"
+            },
+            {
+              "migration_id": "006_oulad_v3_fair_evidence_registry.sql",
+              "path": "C:/Huflit/kltn/database/migrations/006_oulad_v3_fair_evidence_registry.sql",
+              "sha256": "bac09dc29f1b4ddc3c440b937ba42834a3bf0f83037fe0bb8d042dffb2c534f3"
+            },
+            {
+              "migration_id": "007_optimize_bulk_lineage_integrity_triggers.sql",
+              "path": "C:/Huflit/kltn/database/migrations/007_optimize_bulk_lineage_integrity_triggers.sql",
+              "sha256": "9c1bcf68a5f76cabb4e75a704b965845015eca8d371f25d84d50c874dea9e3cf"
+            }
+          ],
+          "status": "PASS",
+          "transaction": "COMMIT"
+        },
+        "backup_gate": "PASS",
+        "destructive_cascade": false,
+        "dry_run": {
+          "migrations": [
+            {
+              "migration_id": "005_oulad_lineage_and_snapshot_registry.sql",
+              "path": "C:/Huflit/kltn/database/migrations/005_oulad_lineage_and_snapshot_registry.sql",
+              "sha256": "1b8a937eb0d6b98938d8190a4002cf37fb92604f42f22b21346342b3bacd3a45"
+            },
+            {
+              "migration_id": "006_oulad_v3_fair_evidence_registry.sql",
+              "path": "C:/Huflit/kltn/database/migrations/006_oulad_v3_fair_evidence_registry.sql",
+              "sha256": "bac09dc29f1b4ddc3c440b937ba42834a3bf0f83037fe0bb8d042dffb2c534f3"
+            },
+            {
+              "migration_id": "007_optimize_bulk_lineage_integrity_triggers.sql",
+              "path": "C:/Huflit/kltn/database/migrations/007_optimize_bulk_lineage_integrity_triggers.sql",
+              "sha256": "9c1bcf68a5f76cabb4e75a704b965845015eca8d371f25d84d50c874dea9e3cf"
+            }
+          ],
+          "status": "PASS",
+          "transaction": "ROLLBACK"
+        },
+        "role": {
+          "existed_before": true,
+          "membership": "student_predict_app",
+          "password_recorded": false,
+          "role": "student_predict_app_local",
+          "status": "PASS"
+        },
+        "rollback": "restore validated custom dump or apply compensating migration",
+        "status": "PASS"
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "cleanup_allowlist",
+      "evidence": {
+        "authorized_deletion_count": 0,
+        "predicates_executed": [],
+        "rows_removed": 0,
+        "status": "PASS",
+        "transaction": "ROLLBACK",
+        "valid_scientific_lineage_preserved": true
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "database_registration",
+      "evidence": {
+        "candidate_runs": {
+          "V3-A0F-ENS": "313c40d0-31a9-5f63-97a5-8ad88a7a4210",
+          "V3-A1-ENS": "b3faf138-42a7-5816-babb-103d26c43086",
+          "V3-D0-ENS": "a75cd704-a43e-5339-92d6-cdaebcb02c99",
+          "V3-H2TF-ENS": "c55ed8ec-24f2-5f30-ab40-8a2993856067",
+          "V3-H3CF-ENS": "eb94a38a-6650-5943-b54c-ced7c685b3f5",
+          "V3-MLD": "2a0561bd-2ac9-5a7d-a688-e414eea5a7e0",
+          "V3-MLF": "79dd6e9e-503e-5ffb-9495-d7507163f068",
+          "V3-P0-ENS": "a0f1f258-7ff8-57a2-9275-0a94ec7031d6"
+        },
+        "completed_runs_registered": 8,
+        "dataset_version_id": 20,
+        "evidence_bundles": [
+          {
+            "artifact_manifest_sha256": "3e2e79345be6d66d82c3c3c787ec00b18a47d24c9388a2f3c4f5252224c6b9ab",
+            "run_id": "oulad-deep-v2-f2-20260716-v1",
+            "source_commit": "07217a184b9a5dcc6402e3f117a5af2e84c7596f",
+            "study_version": "v2"
+          },
+          {
+            "artifact_manifest_sha256": "db698bb48ad70a5431da9d57736dd5fa948286c9015406e9f28d16387753d382",
+            "run_id": "oulad-deep-v3-f2-20260716-v1",
+            "source_commit": "dbd5c2f27e914da2b252bffe176e7c93a6c2c237",
+            "study_version": "v3"
+          },
+          {
+            "artifact_manifest_sha256": "b383eed4b533f9986ba0791557e52d57a40d43bfacfe4517d97adc7615a24d88",
+            "run_id": "oulad-v3-fair-db-closure-20260716-v1",
+            "source_commit": "f49aa20cdab647d224135fadd9149fa945bcda3e",
+            "study_version": "v3_fair_db_closure"
+          }
+        ],
+        "future_benchmark": "NOT_EXECUTED",
+        "prediction_contracts": [
+          "deterministic",
+          "probability_ensemble"
+        ],
+        "prediction_rows": 123024,
+        "source_records": 15378,
+        "split_rows": 123024,
+        "status": "PASS",
+        "target_rows": 15378
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "database_reproduction",
+      "evidence": {
+        "artifact_rows": 123024,
+        "database_rows": 123024,
+        "label_equality": true,
+        "max_metric_absolute_difference": 1.1102230246251565e-16,
+        "max_probability_absolute_difference": 0.0,
+        "record_candidate_key_equality": true,
+        "status": "PASS",
+        "threshold_equality": true
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "least_privileged_permissions",
+      "evidence": {
+        "administrator_not_used_as_app_evidence": true,
+        "application_profile": {
+          "current_user": "student_predict_app_local",
+          "rolcreatedb": false,
+          "rolcreaterole": false,
+          "rolsuper": false
+        },
+        "status": "PASS",
+        "tests": [
+          {
+            "expected": "allow",
+            "observed": "allowed",
+            "sqlstate": null,
+            "status": "PASS",
+            "test": "allowed_select"
+          },
+          {
+            "expected": "allow",
+            "observed": "allowed",
+            "sqlstate": null,
+            "status": "PASS",
+            "test": "allowed_insert_operational_source"
+          },
+          {
+            "expected": "deny",
+            "observed": "denied",
+            "sqlstate": "42501",
+            "status": "PASS",
+            "test": "forbidden_drop"
+          },
+          {
+            "expected": "deny",
+            "observed": "denied",
+            "sqlstate": "42501",
+            "status": "PASS",
+            "test": "forbidden_alter"
+          },
+          {
+            "expected": "deny",
+            "observed": "denied",
+            "sqlstate": "23000",
+            "status": "PASS",
+            "test": "immutable_completed_run_update"
+          },
+          {
+            "expected": "deny",
+            "observed": "denied",
+            "sqlstate": "23000",
+            "status": "PASS",
+            "test": "invalid_status"
+          },
+          {
+            "expected": "deny",
+            "observed": "denied",
+            "sqlstate": "42501",
+            "status": "PASS",
+            "test": "duplicate_evidence_key"
+          },
+          {
+            "expected": "deny",
+            "observed": "denied",
+            "sqlstate": "23503",
+            "status": "PASS",
+            "test": "orphan_prediction"
+          },
+          {
+            "expected": "deny",
+            "observed": "denied",
+            "sqlstate": null,
+            "status": "PASS",
+            "test": "duplicate_evidence_unique_constraint_admin_transaction"
+          }
+        ]
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "database_integrity_after",
+      "evidence": {
+        "duplicate_prediction_keys": 0,
+        "invalid_run_statuses": 0,
+        "orphan_predictions": 0,
+        "orphan_splits": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "full_test_suite",
+      "evidence": {
+        "collected": 223,
+        "command": "python.exe -m pytest -q ",
+        "deselected": 0,
+        "errors": 0,
+        "failed": 0,
+        "name": "full_suite",
+        "passed": 223,
+        "return_code": 0,
+        "skipped": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "credential_redaction",
+      "evidence": [],
+      "status": "PASS"
+    },
+    {
+      "check": "no_training_or_future",
+      "evidence": {
+        "closure_validation_commit": "2e7525753ebbc4b4f03244eb4b5780bbe602aeb4",
+        "database_cleanup_rows": 0,
+        "database_migrations": [
+          "005_oulad_lineage_and_snapshot_registry.sql",
+          "006_oulad_v3_fair_evidence_registry.sql",
+          "007_optimize_bulk_lineage_integrity_triggers.sql"
+        ],
+        "future_access": false,
+        "legacy_observed_79_access": false,
+        "model_training": false,
+        "prediction_regeneration": false,
+        "protocol_sha256": "76b7c61decedc7352ce6a7e7a74d7206828090f2f997a2dfbceb67d69c3978ab",
+        "recommendation_regeneration": false,
+        "runtime_seconds": 1891.6795033999988,
+        "source_commit": "f7ce7b1c53fc494a9a252014e973d77317f902e6",
+        "threshold_reconstruction_replays": 54,
+        "threshold_retraining": false,
+        "v3_evidence_commit": "dbd5c2f27e914da2b252bffe176e7c93a6c2c237",
+        "v3_oof_sha256": "d373c6c644424a42aafa5ad57174436138dd1302512e20062bf14f9535086e0d"
+      },
+      "status": "PASS"
+    },
+    {
+      "check": "artifact_checksums",
+      "evidence": {
+        "files": 38
+      },
+      "status": "PASS"
+    }
+  ],
+  "closure_commit": "2e7525753ebbc4b4f03244eb4b5780bbe602aeb4",
+  "future_benchmark": "NOT_EXECUTED",
+  "run_id": "oulad-v3-fair-db-closure-20260716-v1",
+  "scientific_verdict": "PRACTICAL_TIE",
+  "source_v3_commit": "dbd5c2f27e914da2b252bffe176e7c93a6c2c237",
+  "status": "PASS"
+}
