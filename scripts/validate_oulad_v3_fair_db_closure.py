@@ -5,6 +5,7 @@ import hashlib
 import json
 import re
 import subprocess
+import sys
 from pathlib import Path
 
 import matplotlib
@@ -13,8 +14,13 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from src.common.model_display_names import get_display_name
+
+
 V3_COMMIT = "dbd5c2f27e914da2b252bffe176e7c93a6c2c237"
 ENSEMBLES = ["V3-A0F-ENS", "V3-H2TF-ENS", "V3-H3CF-ENS", "V3-P0-ENS", "V3-D0-ENS", "V3-A1-ENS"]
 ALL_CANDIDATES = ENSEMBLES + ["V3-MLF", "V3-MLD"]
@@ -50,7 +56,8 @@ def bar_chart(frame: pd.DataFrame, metric: str, title: str, path: Path, *, lower
     ordered = frame.sort_values(metric, ascending=lower_is_better)
     figure, axis = plt.subplots(figsize=(10, 5.5))
     colors = ["#d97706" if value == "V3-D0-ENS" else "#2563eb" for value in ordered.candidate_id]
-    bars = axis.bar(ordered.candidate_id, ordered[metric], color=colors)
+    labels = ordered.candidate_id.map(get_display_name)
+    bars = axis.bar(labels, ordered[metric], color=colors)
     axis.set_title(title); axis.set_ylabel(metric.replace("_", " ")); axis.tick_params(axis="x", rotation=35)
     axis.grid(axis="y", alpha=.25)
     for bar, value in zip(bars, ordered[metric]):
@@ -60,6 +67,7 @@ def bar_chart(frame: pd.DataFrame, metric: str, title: str, path: Path, *, lower
 
 def paired_chart(metrics: pd.DataFrame, right: str, title: str, path: Path) -> None:
     selected = metrics.set_index("candidate_id").loc[[right, "V3-D0-ENS"], ["macro_f1", "pr_auc", "operational_recall"]]
+    selected.index = [get_display_name(candidate_id) for candidate_id in selected.index]
     figure, axis = plt.subplots(figsize=(7, 4.5)); selected.T.plot(kind="bar", ax=axis, color=["#64748b", "#d97706"])
     axis.set_title(title); axis.set_ylim(.7, .91); axis.grid(axis="y", alpha=.25); axis.tick_params(axis="x", rotation=0)
     figure.tight_layout(); figure.savefig(path, dpi=180); plt.close(figure)
@@ -82,20 +90,20 @@ def generate_figures(artifact: Path, report: Path) -> list[str]:
     figure, axis = plt.subplots(figsize=(8, 4.5)); labels = [str(seed) for seed in d0_seed.seed] + ["seed mean", "probability ensemble"]
     values = d0_seed.macro_f1.tolist() + [d0_mean, d0_ens]
     axis.bar(labels, values, color=["#94a3b8"] * 3 + ["#2563eb", "#d97706"]); axis.set_ylim(.81, .84)
-    axis.set_title("V3-D0: single seed vs mean-of-metrics vs probability ensemble"); axis.grid(axis="y", alpha=.25)
+    axis.set_title("CNN–BiLSTM: single seed, metric mean and probability ensemble"); axis.grid(axis="y", alpha=.25)
     figure.tight_layout(); figure.savefig(figures / "single_seed_vs_mean_metric_vs_ensemble.png", dpi=180); plt.close(figure)
 
-    paired_chart(metrics, "V3-A0F-ENS", "D0 ensemble vs A0F ensemble", figures / "d0_ensemble_vs_a0f_ensemble.png")
-    paired_chart(metrics, "V3-P0-ENS", "D0 ensemble vs P0 ensemble", figures / "d0_ensemble_vs_p0_ensemble.png")
-    paired_chart(metrics, "V3-H3CF-ENS", "D0 ensemble vs H3CF ensemble", figures / "d0_ensemble_vs_h3cf_ensemble.png")
+    paired_chart(metrics, "V3-A0F-ENS", "CNN–BiLSTM Ensemble vs MLP", figures / "d0_ensemble_vs_a0f_ensemble.png")
+    paired_chart(metrics, "V3-P0-ENS", "CNN–BiLSTM ensemble comparison", figures / "d0_ensemble_vs_p0_ensemble.png")
+    paired_chart(metrics, "V3-H3CF-ENS", "CNN–BiLSTM ensemble comparison", figures / "d0_ensemble_vs_h3cf_ensemble.png")
 
     bootstrap = pd.read_csv(artifact / "grouped_bootstrap_fair.csv")
     macro = bootstrap.loc[(bootstrap.left_candidate == "V3-D0-ENS") & (bootstrap.metric == "macro_f1")].copy()
-    labels = macro.right_candidate.tolist(); y = np.arange(len(labels)); means = macro.mean_delta.to_numpy()
+    labels = [get_display_name(candidate_id) for candidate_id in macro.right_candidate]; y = np.arange(len(labels)); means = macro.mean_delta.to_numpy()
     errors = np.vstack([means - macro.lower_95.to_numpy(), macro.upper_95.to_numpy() - means])
     figure, axis = plt.subplots(figsize=(9, 5)); axis.errorbar(means, y, xerr=errors, fmt="o", color="#d97706", capsize=4)
     axis.axvline(0, color="black", lw=1); axis.axvline(.005, color="#2563eb", lw=1, linestyle="--")
-    axis.set_yticks(y, labels); axis.set_xlabel("Paired grouped-bootstrap Macro-F1 delta"); axis.set_title("D0 fair ensemble uncertainty intervals")
+    axis.set_yticks(y, labels); axis.set_xlabel("Paired grouped-bootstrap Macro-F1 delta"); axis.set_title("CNN–BiLSTM Ensemble uncertainty intervals")
     axis.grid(axis="x", alpha=.25); figure.tight_layout(); figure.savefig(figures / "grouped_bootstrap_intervals.png", dpi=180); plt.close(figure)
 
     before = pd.read_csv(artifact / "postgres_counts_before.csv").set_index("table_name").row_count
@@ -120,14 +128,15 @@ def generate_figures(artifact: Path, report: Path) -> list[str]:
 
 def write_reports(artifact: Path, report: Path, commit: str) -> None:
     metrics = pd.read_csv(artifact / "ensemble_metrics.csv")
+    metrics.insert(1, "display_name", metrics.candidate_id.map(get_display_name))
     verdict = read_json(artifact / "verdict.json"); fairness = read_json(artifact / "fairness_audit.json")
-    columns = ["candidate_id", "macro_f1", "at_risk_precision", "at_risk_recall", "at_risk_f1", "pr_auc", "operational_recall", "brier", "nll", "ece", "worst_eligible_module_macro_f1"]
+    columns = ["display_name", "macro_f1", "at_risk_precision", "at_risk_recall", "at_risk_f1", "pr_auc", "operational_recall", "brier", "nll", "ece", "worst_eligible_module_macro_f1"]
     fair_text = "\n".join([
         "# Fair Ensemble Assessment", "",
         "This closure permanently separates single-seed metrics, mean-of-seed metrics, and record-aligned probability ensembles.", "",
         markdown_table(metrics, columns), "",
         f"- Corrected verdict: **{verdict['verdict']}**.",
-        f"- D0-ENS minus strongest fair comparator ({verdict['strongest_fair_comparator']}): `{verdict['delta']:.9f}` Macro-F1; registered superiority margin: `{verdict['superiority_margin']:.3f}`.",
+        f"- CNN–BiLSTM Ensemble minus strongest fair comparator ({get_display_name(verdict['strongest_fair_comparator'])}): `{verdict['delta']:.9f}` Macro-F1; registered superiority margin: `{verdict['superiority_margin']:.3f}`.",
         f"- Threshold reconstruction: {fairness['replay_jobs']} frozen-config replay jobs; outer labels used: `{str(fairness['outer_labels_used_for_threshold']).lower()}`.",
         "- Future benchmark: `NOT EXECUTED`.",
         "- The earlier mixed-contract bootstrap is preserved as `historical_v3_mixed_contract_result` and is ineligible for this verdict.", "",
@@ -162,9 +171,9 @@ def write_reports(artifact: Path, report: Path, commit: str) -> None:
 
 ## Allowed
 
-- V3-D0-ENS has the highest fair point-estimate Macro-F1 (0.831126), but its advantage over the strongest fair comparator A0F-ENS is 0.002454, below the registered 0.005 margin.
+- CNN–BiLSTM Ensemble has the highest fair point-estimate Macro-F1 (0.831126), but its advantage over the strongest fair comparator MLP is 0.002454, below the registered 0.005 margin.
 - The corrected temporal-family verdict is **PRACTICAL_TIE**; it is unchanged from the old V3 headline verdict.
-- D0-ENS shows a positive exploratory paired-bootstrap lead over H3CF-ENS, A1-ENS, MLD and MLF for Macro-F1, while uncertainty versus A0F-ENS and P0-ENS includes zero.
+- CNN–BiLSTM Ensemble shows a positive exploratory paired-bootstrap lead over several comparators, while uncertainty versus the strongest MLP and CNN–BiLSTM comparators includes zero.
 - Probability ensembles use exactly seeds 42, 2026 and 3407 with fold-specific thresholds reconstructed from pooled inner-OOF predictions.
 - PostgreSQL technical lineage, reproduction, append-only constraints and least-privileged permission checks passed.
 
@@ -201,13 +210,23 @@ def check(name: str, condition: bool, evidence: object) -> dict[str, object]:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(); parser.add_argument("--artifact-root", required=True); parser.add_argument("--report-root", required=True); args = parser.parse_args()
-    artifact = Path(args.artifact_root).resolve(); report = Path(args.report_root).resolve(); report.mkdir(parents=True, exist_ok=True)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--artifact-root", required=True)
+    parser.add_argument("--report-root", required=True)
+    parser.add_argument("--check-only", action="store_true", help="Validate the frozen closure without rewriting artifacts or reports.")
+    args = parser.parse_args()
+    artifact = Path(args.artifact_root).resolve(); report = Path(args.report_root).resolve()
+    if not args.check_only:
+        report.mkdir(parents=True, exist_ok=True)
     commit = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
-    figures = generate_figures(artifact, report); write_reports(artifact, report, commit)
+    if args.check_only:
+        figures = sorted(path.name for path in (report / "figures").glob("*.png"))
+    else:
+        figures = generate_figures(artifact, report); write_reports(artifact, report, commit)
     provenance = read_json(artifact / "source_provenance.json")
-    provenance.update({"closure_validation_commit": commit, "database_migrations": ["005_oulad_lineage_and_snapshot_registry.sql", "006_oulad_v3_fair_evidence_registry.sql", "007_optimize_bulk_lineage_integrity_triggers.sql"], "database_cleanup_rows": 0, "model_training": False, "prediction_regeneration": False, "recommendation_regeneration": False, "legacy_observed_79_access": False})
-    write_json(artifact / "source_provenance.json", provenance)
+    if not args.check_only:
+        provenance.update({"closure_validation_commit": commit, "database_migrations": ["005_oulad_lineage_and_snapshot_registry.sql", "006_oulad_v3_fair_evidence_registry.sql", "007_optimize_bulk_lineage_integrity_triggers.sql"], "database_cleanup_rows": 0, "model_training": False, "prediction_regeneration": False, "recommendation_regeneration": False, "legacy_observed_79_access": False})
+        write_json(artifact / "source_provenance.json", provenance)
 
     required_artifacts = [
         "README.md", "resolved_protocol.yaml", "source_provenance.json", "v3_artifact_checksums.json", "candidate_registry.json", "prediction_contract_registry.json",
@@ -258,15 +277,19 @@ def main() -> None:
         check("credential_redaction", not secret_hits, secret_hits),
         check("no_training_or_future", provenance["model_training"] is False and provenance["prediction_regeneration"] is False and provenance["recommendation_regeneration"] is False and provenance["future_access"] is False, provenance),
     ]
-    checksum_entries = []
-    for path in sorted(item for item in artifact.rglob("*") if item.is_file() and "threshold_replay_cache" not in item.parts and item.name not in {"artifact_checksums.json", "validation_report.json"}):
-        checksum_entries.append({"path": path.relative_to(artifact).as_posix(), "bytes": path.stat().st_size, "sha256": sha256(path)})
-    write_json(artifact / "artifact_checksums.json", {"algorithm": "sha256", "excluded_self_referential_files": ["artifact_checksums.json", "validation_report.json"], "files": checksum_entries})
+    if args.check_only:
+        checksum_entries = read_json(artifact / "artifact_checksums.json")["files"]
+    else:
+        checksum_entries = []
+        for path in sorted(item for item in artifact.rglob("*") if item.is_file() and "threshold_replay_cache" not in item.parts and item.name not in {"artifact_checksums.json", "validation_report.json"}):
+            checksum_entries.append({"path": path.relative_to(artifact).as_posix(), "bytes": path.stat().st_size, "sha256": sha256(path)})
+        write_json(artifact / "artifact_checksums.json", {"algorithm": "sha256", "excluded_self_referential_files": ["artifact_checksums.json", "validation_report.json"], "files": checksum_entries})
     checks.append(check("artifact_checksums", all(sha256(artifact / item["path"]) == item["sha256"] for item in checksum_entries), {"files": len(checksum_entries)}))
     status = "PASS" if all(item["status"] == "PASS" for item in checks) else "FAIL"
     validation = {"status": status, "run_id": artifact.name, "source_v3_commit": V3_COMMIT, "closure_commit": commit, "scientific_verdict": verdict["verdict"], "future_benchmark": "NOT_EXECUTED", "checks": checks, "artifact_checksums_sha256": sha256(artifact / "artifact_checksums.json")}
-    write_json(artifact / "validation_report.json", validation)
-    print(json.dumps({"status": status, "checks": len(checks), "passed": sum(item["status"] == "PASS" for item in checks), "figures": len(figures)}, indent=2))
+    if not args.check_only:
+        write_json(artifact / "validation_report.json", validation)
+    print(json.dumps({"status": status, "mode": "check-only" if args.check_only else "write", "checks": len(checks), "passed": sum(item["status"] == "PASS" for item in checks), "figures": len(figures)}, indent=2))
     if status != "PASS":
         raise SystemExit(1)
 
