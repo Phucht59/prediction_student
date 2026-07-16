@@ -241,10 +241,11 @@ def ensure_dataset(connection, records: pd.DataFrame, artifact_root: Path) -> tu
 def register_evidence_bundles(connection, dataset_version_id: int, artifact_root: Path, source_commit: str) -> list[dict[str, object]]:
     now = datetime.now(timezone.utc)
     closure_protocol = ROOT / "configs/oulad_v3_fair_db_closure_protocol.yaml"
+    closure_run_id = json.loads(closure_protocol.read_text(encoding="utf-8"))["run_id"]
     definitions = [
-        ("v2", "oulad-deep-v2-f2-20260716-v1", None, V2_COMMIT, ROOT / "configs/oulad_deep_v2_protocol.yaml", ROOT / "artifacts/study_c_oulad_v2/oulad-deep-v2-f2-20260716-v1", "NOT_SUPPORTED"),
-        ("v3", "oulad-deep-v3-f2-20260716-v1", "oulad-deep-v2-f2-20260716-v1", V3_COMMIT, ROOT / "configs/oulad_deep_v3_protocol.yaml", ROOT / "artifacts/study_c_oulad_v3/oulad-deep-v3-f2-20260716-v1", "PRACTICAL_TIE"),
-        ("v3_fair_db_closure", artifact_root.name, "oulad-deep-v3-f2-20260716-v1", source_commit, closure_protocol, artifact_root, "PRACTICAL_TIE"),
+        ("v2", "oulad-deep-v2-f2-20260716-v1", None, V2_COMMIT, ROOT / "configs/oulad_deep_v2_protocol.yaml", ROOT / "artifacts/oulad/tuning", "NOT_SUPPORTED"),
+        ("v3", "oulad-deep-v3-f2-20260716-v1", "oulad-deep-v2-f2-20260716-v1", V3_COMMIT, ROOT / "configs/oulad_deep_v3_protocol.yaml", ROOT / "artifacts/oulad/temporal", "PRACTICAL_TIE"),
+        ("v3_fair_db_closure", closure_run_id, "oulad-deep-v3-f2-20260716-v1", source_commit, closure_protocol, artifact_root, "PRACTICAL_TIE"),
     ]
     registered = []
     with connection.cursor() as cursor:

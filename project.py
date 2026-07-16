@@ -22,8 +22,8 @@ DEFAULT_OULAD_OUTPUT = ROOT / "data" / "processed" / "study_c_oulad"
 DEFAULT_FIGURE_SOURCE = (
     ROOT
     / "artifacts"
-    / "study_c_oulad_v3_closure"
-    / "oulad-v3-fair-db-closure-20260716-v1"
+    / "oulad"
+    / "final"
     / "ensemble_metrics.csv"
 )
 DEFAULT_FIGURE_OUTPUT = ROOT / "reports" / "thesis_figures"
@@ -45,18 +45,9 @@ def command_status(_args: argparse.Namespace) -> int:
     """Show the three official evidence bundles without recomputing results."""
 
     bundles = {
-        "student_mat": ROOT
-        / "artifacts"
-        / "final_repository_closure"
-        / "final-repository-closure-corrected-20260715-6ab785d",
-        "student_por": ROOT
-        / "artifacts"
-        / "study_b_student_por"
-        / "study-b-student-por-20260715-v1",
-        "oulad": ROOT
-        / "artifacts"
-        / "study_c_oulad_v3_closure"
-        / "oulad-v3-fair-db-closure-20260716-v1",
+        "student_mat": ROOT / "artifacts" / "student_mat" / "final",
+        "student_por": ROOT / "artifacts" / "student_por" / "final",
+        "oulad": ROOT / "artifacts" / "oulad" / "final",
     }
     result = {
         name: {

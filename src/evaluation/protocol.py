@@ -26,9 +26,9 @@ from sklearn.metrics import (
 from src.config import ROOT_DIR
 
 
-PROTOCOL_ROOT = ROOT_DIR / "artifacts" / "protocol_v2"
+PROTOCOL_ROOT = ROOT_DIR / "artifacts" / "student_mat" / "development_splits"
 DEFAULT_FOLD_MANIFEST_PATH = PROTOCOL_ROOT / "student_mat_development_outer_folds.json"
-LEGACY_MANIFEST_PATH = ROOT_DIR / "artifacts" / "legacy_v1" / "legacy_manifest.json"
+LEGACY_MANIFEST_PATH = ROOT_DIR / "artifacts" / "archive" / "student_mat" / "legacy_dataset" / "legacy_manifest.json"
 SCENARIO_CONFIG_PATHS = {
     "pre_assessment": ROOT_DIR / "config" / "features_pre_assessment.yaml",
     "early_warning": ROOT_DIR / "config" / "features_early_warning.yaml",

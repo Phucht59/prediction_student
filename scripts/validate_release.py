@@ -11,11 +11,10 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-STUDY_A = ROOT / "artifacts" / "final_repository_closure" / "final-repository-closure-corrected-20260715-6ab785d"
-STUDY_B = ROOT / "artifacts" / "study_b_student_por" / "study-b-student-por-20260715-v1"
-STUDY_C_RUN = "oulad-v3-fair-db-closure-20260716-v1"
-STUDY_C = ROOT / "artifacts" / "study_c_oulad_v3_closure" / STUDY_C_RUN
-STUDY_C_REPORT = ROOT / "reports" / "study_c_oulad_v3_closure" / STUDY_C_RUN
+STUDY_A = ROOT / "artifacts" / "student_mat" / "final"
+STUDY_B = ROOT / "artifacts" / "student_por" / "final"
+STUDY_C = ROOT / "artifacts" / "oulad" / "final"
+STUDY_C_REPORT = ROOT / "reports" / "oulad" / "final"
 
 
 def sha256(path: Path) -> str:

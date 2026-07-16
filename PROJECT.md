@@ -419,25 +419,26 @@ Hướng dẫn migration/recovery: `docs/MANUAL_POSTGRESQL_MIGRATION.md`.
 
 ### Official Study A
 
-- Final development metrics/roles: `artifacts/final_repository_closure/final-repository-closure-corrected-20260715-6ab785d/`.
-- Main comparison: `artifacts/strategy_b_phase_c/strategy-b-phase-c-20260714-5d34a66/`.
-- Final stability/freeze: `artifacts/strategy_b_phase_e_prediction/strategy-b-phase-e-prediction-20260714-9007144/`.
-- Recommendation technical validation: `artifacts/strategy_b_phase_d_recommendation/strategy-b-phase-d-recommendation-20260715-407ac0f/`.
+- Final development metrics/roles: `artifacts/student_mat/final/`.
+- Main comparison: `artifacts/student_mat/model_comparison/`.
+- Final stability/freeze: `artifacts/student_mat/prediction/`.
+- Recommendation technical validation: `artifacts/student_mat/recommendation/`.
 
 ### Official Study B
 
-- `artifacts/study_b_student_por/study-b-student-por-20260715-v1/`.
-- Mirrored report: `reports/study_b_student_por/study-b-student-por-20260715-v1/`.
+- `artifacts/student_por/final/`.
+- Mirrored report: `reports/student_por/final/`.
 
 ### Official Study C
 
-- Baseline multi-horizon evidence: `artifacts/study_c_oulad/study-c-oulad-20260715-v1/`.
-- Exploratory temporal evidence: `artifacts/study_c_oulad_v3/oulad-deep-v3-f2-20260716-v1/`.
-- Final fair ensemble/PostgreSQL closure: `artifacts/study_c_oulad_v3_closure/oulad-v3-fair-db-closure-20260716-v1/`.
+- Baseline multi-horizon evidence: `artifacts/oulad/baseline/`.
+- Tuning evidence: `artifacts/oulad/tuning/`.
+- Exploratory temporal evidence: `artifacts/oulad/temporal/`.
+- Final fair ensemble/PostgreSQL closure: `artifacts/oulad/final/`.
 
 ### Historical/non-headline categories
 
-- 79 observed rows and old `artifacts/final/*` outputs.
+- 79 observed rows and old `artifacts/archive/student_mat/legacy_final/*` outputs.
 - Invalid fair-DL rows thiếu resolved fixed constants.
 - Old estimator results trước corrected full-partition refit.
 - Smoke runs, residual diagnostics và incomplete/recovery runs.

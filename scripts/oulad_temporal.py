@@ -11,6 +11,7 @@ from sklearn.metrics import f1_score
 
 ROOT=Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path: sys.path.insert(0,str(ROOT))
+from src.common.evidence_paths import resolve_evidence_path
 from src.studies.oulad_v3.data import build_inner_manifest,load_v3_data,manifest_indices
 from src.studies.oulad_v3.models import prepare_inputs
 from src.studies.oulad_v3.search import run_search
@@ -18,7 +19,7 @@ from src.studies.oulad_v3.training import fit_candidate
 from src.studies.oulad_v2.metrics import choose_thresholds,module_metrics,prediction_frame_metrics
 
 RUN_ID="oulad-deep-v3-f2-20260716-v1"
-V2_ROOT=ROOT/"artifacts/study_c_oulad_v2/oulad-deep-v2-f2-20260716-v1"
+V2_ROOT=ROOT/"artifacts/oulad/tuning"
 
 def sha256(path):
     h=hashlib.sha256()
@@ -120,7 +121,7 @@ def grouped_bootstrap(left,right,resamples=2000,seed=3407):
 
 def main():
     parser=argparse.ArgumentParser(); parser.add_argument("--protocol",default="configs/oulad_deep_v3_protocol.yaml"); parser.add_argument("--device",default="cuda"); args=parser.parse_args()
-    p=protocol(ROOT/args.protocol); artifact=ROOT/p["artifacts"]["artifact_root"]; report=ROOT/p["artifacts"]["report_root"]; artifact.mkdir(parents=True,exist_ok=True); report.mkdir(parents=True,exist_ok=True)
+    p=protocol(ROOT/args.protocol); artifact=resolve_evidence_path(ROOT,p["artifacts"]["artifact_root"]); report=resolve_evidence_path(ROOT,p["artifacts"]["report_root"]); artifact.mkdir(parents=True,exist_ok=True); report.mkdir(parents=True,exist_ok=True)
     started=time.perf_counter(); write_json(artifact/"v2_comparator_checksums.json",verify_sources(p)); data=load_v3_data(ROOT/"data/processed/study_c_oulad",p)
     selected_v2=json.loads((V2_ROOT/"selected_configs.json").read_text()); inner_frames=[]; outer_rows=[]
     for fold in range(3):

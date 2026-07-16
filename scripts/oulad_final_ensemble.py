@@ -9,6 +9,7 @@ import pandas as pd
 
 ROOT=Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path: sys.path.insert(0,str(ROOT))
+from src.common.evidence_paths import resolve_evidence_path
 from src.studies.oulad_v2.data import load_v2_data, manifest_indices
 from src.studies.oulad_v2.metrics import choose_thresholds
 from src.studies.oulad_v2.training import fit_candidate as fit_v2
@@ -16,8 +17,8 @@ from src.studies.oulad_v3.data import load_v3_data
 from src.studies.oulad_v3.training import fit_candidate as fit_v3
 from src.studies.oulad_v3_closure.fairness import DECLARED_SEEDS, ensemble_outer_predictions, grouped_bootstrap_pair, metrics_with_modules, sha256, validate_seed_coverage
 
-V3_ROOT=ROOT/"artifacts/study_c_oulad_v3/oulad-deep-v3-f2-20260716-v1"
-V2_ROOT=ROOT/"artifacts/study_c_oulad_v2/oulad-deep-v2-f2-20260716-v1"
+V3_ROOT=ROOT/"artifacts/oulad/temporal"
+V2_ROOT=ROOT/"artifacts/oulad/tuning"
 SOURCE_MAP={"V3-A0F-ENS":"V3-A0F","V3-H2TF-ENS":"V3-H2TF","V3-H3CF-ENS":"V3-H3CF","V3-P0-ENS":"V3-P0","V3-D0-ENS":"V3-D0","V3-A1-ENS":"V3-A1"}
 
 def write_json(path,payload):
@@ -77,7 +78,7 @@ def metric_row(candidate,contract,frame): return {"candidate_id":candidate,"pred
 
 def main():
     parser=argparse.ArgumentParser(); parser.add_argument("--protocol",default="configs/oulad_v3_fair_db_closure_protocol.yaml"); parser.add_argument("--device",default="cuda"); args=parser.parse_args()
-    p=load_protocol(ROOT/args.protocol); artifact=ROOT/p["artifacts"]["artifact_root"]; report=ROOT/p["artifacts"]["report_root"]; artifact.mkdir(parents=True,exist_ok=True); report.mkdir(parents=True,exist_ok=True); started=time.perf_counter()
+    p=load_protocol(ROOT/args.protocol); artifact=resolve_evidence_path(ROOT,p["artifacts"]["artifact_root"]); report=resolve_evidence_path(ROOT,p["artifacts"]["report_root"]); artifact.mkdir(parents=True,exist_ok=True); report.mkdir(parents=True,exist_ok=True); started=time.perf_counter()
     write_json(artifact/"v3_artifact_checksums.json",verify_v3(p)); shutil.copy2(ROOT/args.protocol,artifact/"resolved_protocol.yaml")
     v2_protocol=json.loads((ROOT/"configs/oulad_deep_v2_protocol.yaml").read_text()); v3_protocol=json.loads((ROOT/"configs/oulad_deep_v3_protocol.yaml").read_text())
     data_v2=load_v2_data(ROOT/"data/processed/study_c_oulad",v2_protocol); data_v3=load_v3_data(ROOT/"data/processed/study_c_oulad",v3_protocol)
@@ -120,7 +121,7 @@ def main():
     elif abs(delta)<.005: verdict="PRACTICAL_TIE"
     else: verdict="NOT_SUPPORTED"
     verdict_payload={"verdict":verdict,"old_v3_verdict":"PRACTICAL_TIE","strongest_fair_comparator":strongest,"d0_ensemble_macro_f1":d0,"comparator_macro_f1":float(summary.loc[strongest,"macro_f1"]),"delta":delta,"superiority_margin":.005,"future_benchmark":"NOT_EXECUTED"}; write_json(artifact/"verdict.json",verdict_payload)
-    write_json(artifact/"superseded_v3_comparisons.json",{"status":"historical_v3_mixed_contract_result","source":"artifacts/study_c_oulad_v3/oulad-deep-v3-f2-20260716-v1/grouped_bootstrap.csv","reason":"some old rows compared probability ensemble against single-seed or mean-of-metric evidence","eligible_for_closure_verdict":False})
+    write_json(artifact/"superseded_v3_comparisons.json",{"status":"historical_v3_mixed_contract_result","source":"artifacts/oulad/temporal/grouped_bootstrap.csv","reason":"some old rows compared probability ensemble against single-seed or mean-of-metric evidence","eligible_for_closure_verdict":False})
     write_json(artifact/"candidate_registry.json",p["candidate_registry"]); write_json(artifact/"prediction_contract_registry.json",p["prediction_contracts"])
     write_json(artifact/"fairness_audit.json",{"status":"PASS","parity":parity,"inner_threshold_coverage":"PASS","outer_labels_used_for_threshold":False,"future_access":False,"replay_label":"threshold-reconstruction replay","replay_jobs":len(replays),"failed_replays":0,"runtime_seconds":time.perf_counter()-started})
     write_json(artifact/"source_provenance.json",{"source_commit":subprocess.check_output(["git","rev-parse","HEAD"],cwd=ROOT,text=True).strip(),"v3_evidence_commit":p["source"]["v3_evidence_commit"],"protocol_sha256":sha256(ROOT/args.protocol),"v3_oof_sha256":sha256(V3_ROOT/"oof_predictions.parquet"),"future_access":False,"threshold_retraining":False,"threshold_reconstruction_replays":len(replays),"runtime_seconds":time.perf_counter()-started})

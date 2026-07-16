@@ -3,14 +3,18 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import sys
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
 from sklearn.metrics import f1_score
 
-
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from src.common.evidence_paths import resolve_evidence_path
 REQUIRED = {
     "resolved_protocol.yaml", "source_provenance.json", "v1_comparators.json", "candidate_registry.json",
     "outer_fold_manifest.csv", "inner_fold_manifest.csv", "optuna_trials.csv", "selected_configs.json",
@@ -29,7 +33,7 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--run-id", default="oulad-deep-v2-f2-20260716-v1")
     args = parser.parse_args()
-    root = ROOT / "artifacts/study_c_oulad_v2" / args.run_id
+    root = ROOT / "artifacts" / "oulad" / "tuning"
     failures: list[str] = []
     missing = sorted(REQUIRED - {path.name for path in root.iterdir() if path.is_file()}) if root.exists() else sorted(REQUIRED)
     if missing:
@@ -37,9 +41,9 @@ def main() -> int:
     if not failures:
         protocol = json.loads((root / "resolved_protocol.yaml").read_text(encoding="utf-8"))
         v1 = protocol["v1_immutable"]
-        if sha256(ROOT / v1["artifact_path"] / "metrics_by_model_forecast.csv") != v1["metrics_sha256"]:
+        if sha256(resolve_evidence_path(ROOT, v1["artifact_path"]) / "metrics_by_model_forecast.csv") != v1["metrics_sha256"]:
             failures.append("v1_metrics_mutated")
-        if sha256(ROOT / v1["artifact_path"] / "oof_predictions.parquet") != v1["oof_predictions_sha256"]:
+        if sha256(resolve_evidence_path(ROOT, v1["artifact_path"]) / "oof_predictions.parquet") != v1["oof_predictions_sha256"]:
             failures.append("v1_oof_mutated")
         outer = pd.read_csv(root / "outer_fold_manifest.csv")
         for fold in range(3):

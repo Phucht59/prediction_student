@@ -12,9 +12,8 @@ import pytest
 
 
 ROOT = Path(__file__).resolve().parents[1]
-RUN_ID = "oulad-v3-fair-db-closure-20260716-v1"
-ARTIFACT = ROOT / "artifacts/study_c_oulad_v3_closure" / RUN_ID
-V3 = ROOT / "artifacts/study_c_oulad_v3/oulad-deep-v3-f2-20260716-v1"
+ARTIFACT = ROOT / "artifacts" / "oulad" / "final"
+V3 = ROOT / "artifacts" / "oulad" / "temporal"
 PROTOCOL = ROOT / "configs/oulad_v3_fair_db_closure_protocol.yaml"
 DECLARED_SEEDS = {42, 2026, 3407}
 ENSEMBLE_MAP = {

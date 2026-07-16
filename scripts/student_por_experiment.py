@@ -108,7 +108,7 @@ def nested_neural(candidate_id: str, frame: pd.DataFrame, outer_splits, trials: 
 
 
 def aggregate_frozen_student_mat_config(candidate_id: str) -> dict:
-    path = ROOT / "artifacts" / "strategy_b_phase_c" / "strategy-b-phase-c-20260714-5d34a66" / "resolved_configs.csv"
+    path = ROOT / "artifacts" / "student_mat" / "model_comparison" / "resolved_configs.csv"
     rows = pd.read_csv(path)
     configs = [json.loads(value)["parameters"] for value in rows.loc[rows["candidate_id"] == candidate_id, "resolved_config"]]
     result = {}
@@ -123,7 +123,7 @@ def aggregate_frozen_student_mat_config(candidate_id: str) -> dict:
 
 
 def transfer_predictions(mat: pd.DataFrame, por: pd.DataFrame, overlap: pd.Series) -> pd.DataFrame:
-    manifest = json.loads((ROOT / "artifacts" / "protocol_v2" / "student_mat_development_outer_folds.json").read_text(encoding="utf-8"))
+    manifest = json.loads((ROOT / "artifacts" / "student_mat" / "development_splits" / "student_mat_development_outer_folds.json").read_text(encoding="utf-8"))
     allowed = [int(item["source_row_number"]) for item in manifest["development_records"]]
     development = mat.loc[mat["source_row_number"].isin(allowed)].copy()
     if len(development) != 316:
@@ -145,7 +145,7 @@ def transfer_predictions(mat: pd.DataFrame, por: pd.DataFrame, overlap: pd.Serie
         probabilities = align_probabilities(model, model.predict_proba(x_por))
         append(study_a_id, probabilities, probabilities.argmax(axis=1))
 
-    source = ROOT / "artifacts" / "strategy_b_phase_e_prediction" / "strategy-b-phase-e-prediction-20260714-9007144"
+    source = ROOT / "artifacts" / "student_mat" / "prediction"
     final_config = json.loads((source / "final_resolved_configs.json").read_text(encoding="utf-8"))["thesis_hybrid"]["resolved_config"]
     probabilities_by_seed = []
     for seed in [202601, 202602, 202603, 202604, 202605]:
@@ -161,8 +161,8 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--run-id", default=f"study-b-student-por-{datetime.now(timezone.utc).strftime('%Y%m%d-%H%M%S')}")
     args = parser.parse_args()
-    artifact = ROOT / "artifacts" / "study_b_student_por" / args.run_id
-    report = ROOT / "reports" / "study_b_student_por" / args.run_id
+    artifact = ROOT / "artifacts" / "student_por" / "runs" / args.run_id
+    report = ROOT / "reports" / "student_por" / "runs" / args.run_id
     if artifact.exists() or report.exists():
         raise FileExistsError("Immutable Study B run already exists")
     artifact.mkdir(parents=True)

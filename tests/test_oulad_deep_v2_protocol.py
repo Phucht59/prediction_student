@@ -10,6 +10,7 @@ import pytest
 import torch
 from sklearn.metrics import f1_score
 
+from src.common.evidence_paths import resolve_evidence_path
 from src.studies.oulad_v2.data import build_inner_manifest, load_v2_data, manifest_indices
 from src.studies.oulad_v2.metrics import choose_thresholds, grouped_bootstrap_prediction_delta, prediction_frame_metrics
 from src.studies.oulad_v2.models import OULADV2Net, prepare_inputs, set_deterministic_seed
@@ -31,8 +32,9 @@ def data():
 def test_v1_artifacts_are_immutable():
     v1 = PROTOCOL["v1_immutable"]
     assert _sha256(ROOT / v1["protocol_path"]) == v1["protocol_sha256"]
-    assert _sha256(ROOT / v1["artifact_path"] / "metrics_by_model_forecast.csv") == v1["metrics_sha256"]
-    assert _sha256(ROOT / v1["artifact_path"] / "oof_predictions.parquet") == v1["oof_predictions_sha256"]
+    root = resolve_evidence_path(ROOT, v1["artifact_path"])
+    assert _sha256(root / "metrics_by_model_forecast.csv") == v1["metrics_sha256"]
+    assert _sha256(root / "oof_predictions.parquet") == v1["oof_predictions_sha256"]
 
 
 def test_f2_only_pilot_and_future_inaccessible():

@@ -12,9 +12,8 @@ from src.common.model_display_names import add_display_name, get_display_name, l
 
 
 ROOT = Path(__file__).resolve().parents[1]
-RUN_ID = "oulad-v3-fair-db-closure-20260716-v1"
-ARTIFACT = ROOT / "artifacts" / "study_c_oulad_v3_closure" / RUN_ID
-REPORT = ROOT / "reports" / "study_c_oulad_v3_closure" / RUN_ID
+ARTIFACT = ROOT / "artifacts" / "oulad" / "final"
+REPORT = ROOT / "reports" / "oulad" / "final"
 FIGURES = ROOT / "reports" / "thesis_figures"
 BANNED_READER_IDS = ["V3-D0-ENS", "V3-A0F-ENS", "H2TF", "H3CF", "P0-ENS", "D0-ENS"]
 

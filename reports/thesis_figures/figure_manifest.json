@@ -1,5 +1,5 @@
 {
-  "source": "artifacts/study_c_oulad_v3_closure/oulad-v3-fair-db-closure-20260716-v1/ensemble_metrics.csv",
+  "source": "artifacts/oulad/final/ensemble_metrics.csv",
   "source_sha256": "357742348ce7f931a022741128531fac006536957bfb49ecc6e15274f4fe48c4",
   "display_labels": [
     "Logistic Regression",

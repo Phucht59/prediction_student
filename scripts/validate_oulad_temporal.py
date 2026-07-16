@@ -9,6 +9,8 @@ from sklearn.calibration import calibration_curve
 from sklearn.metrics import precision_recall_curve, precision_recall_fscore_support
 
 ROOT=Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path: sys.path.insert(0,str(ROOT))
+from src.common.evidence_paths import resolve_evidence_path
 RUN_ID="oulad-deep-v3-f2-20260716-v1"
 
 def sha256(path): return hashlib.sha256(Path(path).read_bytes()).hexdigest()
@@ -93,7 +95,7 @@ Prohibited: confirmatory superiority, untouched/external validation, independent
 
 def main():
     parser=argparse.ArgumentParser(); parser.add_argument("--protocol",default="configs/oulad_deep_v3_protocol.yaml"); args=parser.parse_args()
-    p=json.loads((ROOT/args.protocol).read_text()); artifact=ROOT/p["artifacts"]["artifact_root"]; report=ROOT/p["artifacts"]["report_root"]; report.mkdir(parents=True,exist_ok=True)
+    p=json.loads((ROOT/args.protocol).read_text()); artifact=resolve_evidence_path(ROOT,p["artifacts"]["artifact_root"]); report=resolve_evidence_path(ROOT,p["artifacts"]["report_root"]); report.mkdir(parents=True,exist_ok=True)
     required=["v2_comparator_checksums.json","outer_fold_manifest.csv","inner_fold_manifest.csv","selected_configs.json","optuna_trials.csv","oof_predictions.parquet","metrics_summary.csv","metrics_by_seed.csv","module_metrics.csv","paired_deltas.csv","grouped_bootstrap.csv","parameter_counts.csv","runtime_resources.csv","learning_curves.csv","attention_diagnostics.csv","checkpoint_validation.json","probability_validation.json","gate_assessment.json","future_policy_audit.json","source_provenance.json"]
     checks=[check(all((artifact/name).exists() for name in required),"artifact_completeness")]
     v2_checks=json.loads((artifact/"v2_comparator_checksums.json").read_text()); checks.append(check(all(v["status"]=="PASS" for v in v2_checks.values()),"v2_artifacts_immutable"))

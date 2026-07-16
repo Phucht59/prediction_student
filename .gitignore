@@ -102,6 +102,39 @@ reports/study_c_oulad/**/*.parquet
 reports/study_c_oulad/**/split_manifest.csv
 reports/study_c_oulad/**/future_test_manifest.csv
 
+# Thesis-friendly evidence namespace. Preserve the same runtime exclusions after
+# moving tracked evidence out of the historical Study/V2/V3 folder names.
+artifacts/oulad/baseline/**/*.pt
+artifacts/oulad/baseline/**/*.pth
+artifacts/oulad/baseline/**/*.parquet
+artifacts/oulad/baseline/**/*.pkl
+artifacts/oulad/baseline/**/split_manifest.csv
+artifacts/oulad/baseline/**/future_test_manifest.csv
+reports/oulad/baseline/**/*.parquet
+reports/oulad/baseline/**/split_manifest.csv
+reports/oulad/baseline/**/future_test_manifest.csv
+
+artifacts/oulad/tuning/**/*.pt
+artifacts/oulad/tuning/**/*.pth
+artifacts/oulad/tuning/**/*.pkl
+artifacts/oulad/tuning/**/*.parquet
+artifacts/oulad/tuning/**/job_cache/
+artifacts/oulad/tuning/**/search_cache/
+artifacts/oulad/tuning/**/preprocessors/
+reports/oulad/tuning/**/*.parquet
+
+artifacts/oulad/temporal/**/*.pt
+artifacts/oulad/temporal/**/*.pth
+artifacts/oulad/temporal/**/*.joblib
+artifacts/oulad/temporal/**/job_cache/
+artifacts/oulad/temporal/**/search_cache/
+artifacts/oulad/temporal/**/preprocessors/
+reports/oulad/temporal/**/*.pt
+reports/oulad/temporal/**/*.pth
+reports/oulad/temporal/**/*.joblib
+
+artifacts/oulad/final/**/threshold_replay_cache/
+
 # Benchmark V2 run outputs are immutable runtime evidence, not source files.
 # Protocol definitions and selected audit reports below remain versioned.
 artifacts/benchmark_v2/

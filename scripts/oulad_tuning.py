@@ -24,6 +24,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from src.common.evidence_paths import resolve_evidence_path
 from src.studies.oulad_v2.data import build_inner_manifest, load_v2_data
 from src.studies.oulad_v2.metrics import grouped_bootstrap_prediction_delta, module_metrics, prediction_frame_metrics
 from src.studies.oulad_v2.search import fit_frozen_inner_threshold, run_nested_search
@@ -243,7 +244,7 @@ def evaluate_job(
 
 
 def frozen_predictions(protocol: dict) -> tuple[pd.DataFrame, pd.DataFrame]:
-    root = ROOT / protocol["v1_immutable"]["artifact_path"]
+    root = resolve_evidence_path(ROOT, protocol["v1_immutable"]["artifact_path"])
     metrics = pd.read_csv(root / "metrics_by_model_forecast.csv")
     metrics = metrics.loc[
         metrics["candidate_id"].isin(FROZEN_MAP) & (metrics["forecast_id"] == "F2_MIDDLE") & (metrics["scope"] == "development_oof")
@@ -271,7 +272,7 @@ def frozen_predictions(protocol: dict) -> tuple[pd.DataFrame, pd.DataFrame]:
 
 
 def frozen_resources(protocol: dict) -> list[dict[str, Any]]:
-    root = ROOT / protocol["v1_immutable"]["artifact_path"]
+    root = resolve_evidence_path(ROOT, protocol["v1_immutable"]["artifact_path"])
     parameters = pd.read_csv(root / "parameter_counts.csv").set_index("candidate_id")
     runtime = pd.read_csv(root / "runtime_resources.csv")
     rows: list[dict[str, Any]] = []
@@ -524,8 +525,8 @@ def main() -> int:
     args = parser.parse_args()
     protocol_path = ROOT / args.protocol
     protocol = load_protocol(protocol_path)
-    artifact = ROOT / protocol["artifacts"]["artifact_root"]
-    report = ROOT / protocol["artifacts"]["report_root"]
+    artifact = resolve_evidence_path(ROOT, protocol["artifacts"]["artifact_root"])
+    report = resolve_evidence_path(ROOT, protocol["artifacts"]["report_root"])
     artifact.mkdir(parents=True, exist_ok=True); report.mkdir(parents=True, exist_ok=True)
     shutil.copy2(protocol_path, artifact / "resolved_protocol.yaml")
     if args.device == "cuda" and not torch.cuda.is_available():

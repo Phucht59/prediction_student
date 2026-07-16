@@ -22,6 +22,7 @@ from src.common.model_display_names import get_display_name
 
 
 V3_COMMIT = "dbd5c2f27e914da2b252bffe176e7c93a6c2c237"
+CLOSURE_RUN_ID = "oulad-v3-fair-db-closure-20260716-v1"
 ENSEMBLES = ["V3-A0F-ENS", "V3-H2TF-ENS", "V3-H3CF-ENS", "V3-P0-ENS", "V3-D0-ENS", "V3-A1-ENS"]
 ALL_CANDIDATES = ENSEMBLES + ["V3-MLF", "V3-MLD"]
 
@@ -191,7 +192,7 @@ def write_reports(artifact: Path, report: Path, commit: str) -> None:
 
     readme = f"""# OULAD V3 Fairness + PostgreSQL Closure
 
-- Run: `{artifact.name}`
+- Internal run ID: `{CLOSURE_RUN_ID}`
 - Source V3 evidence: `{V3_COMMIT}`
 - Closure code state: `{commit}`
 - Scientific verdict: `PRACTICAL_TIE`
@@ -200,7 +201,7 @@ def write_reports(artifact: Path, report: Path, commit: str) -> None:
 - Least-privileged permission audit: `PASS`
 - Cleanup rows removed: `0`
 
-Primary reports are under `reports/study_c_oulad_v3_closure/{artifact.name}/`. This bundle is additive and does not replace V1/V2/V3 evidence.
+Primary reports are under `reports/oulad/final/`. This bundle is additive and does not replace the baseline, tuning or temporal evidence.
 """
     (artifact / "README.md").write_text(readme, encoding="utf-8")
 
@@ -286,7 +287,7 @@ def main() -> None:
         write_json(artifact / "artifact_checksums.json", {"algorithm": "sha256", "excluded_self_referential_files": ["artifact_checksums.json", "validation_report.json"], "files": checksum_entries})
     checks.append(check("artifact_checksums", all(sha256(artifact / item["path"]) == item["sha256"] for item in checksum_entries), {"files": len(checksum_entries)}))
     status = "PASS" if all(item["status"] == "PASS" for item in checks) else "FAIL"
-    validation = {"status": status, "run_id": artifact.name, "source_v3_commit": V3_COMMIT, "closure_commit": commit, "scientific_verdict": verdict["verdict"], "future_benchmark": "NOT_EXECUTED", "checks": checks, "artifact_checksums_sha256": sha256(artifact / "artifact_checksums.json")}
+    validation = {"status": status, "run_id": CLOSURE_RUN_ID, "source_v3_commit": V3_COMMIT, "closure_commit": commit, "scientific_verdict": verdict["verdict"], "future_benchmark": "NOT_EXECUTED", "checks": checks, "artifact_checksums_sha256": sha256(artifact / "artifact_checksums.json")}
     if not args.check_only:
         write_json(artifact / "validation_report.json", validation)
     print(json.dumps({"status": status, "mode": "check-only" if args.check_only else "write", "checks": len(checks), "passed": sum(item["status"] == "PASS" for item in checks), "figures": len(figures)}, indent=2))

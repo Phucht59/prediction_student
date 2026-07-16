@@ -4,6 +4,7 @@ from pathlib import Path
 import numpy as np
 import pytest
 import torch
+from src.common.evidence_paths import resolve_evidence_path
 from src.studies.oulad_v3.data import BASE_CHANNELS,DYNAMIC_CHANNELS,aggregate_dynamic_channels,build_dynamic_representation,build_inner_manifest,load_v3_data,manifest_indices,semantic_hash
 from src.studies.oulad_v3.models import TemporalPoolingEncoder,prepare_inputs,set_deterministic_seed
 
@@ -15,7 +16,7 @@ def digest(path): return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 def data(): return load_v3_data(ROOT/"data/processed/study_c_oulad",PROTOCOL)
 
 def test_v2_evidence_is_immutable():
-    source=PROTOCOL["source"]; root=ROOT/source["v2_artifact_root"]
+    source=PROTOCOL["source"]; root=resolve_evidence_path(ROOT,source["v2_artifact_root"])
     assert digest(ROOT/source["v2_protocol"])==source["v2_protocol_sha256"]
     assert digest(root/"oof_predictions.parquet")==source["v2_oof_sha256"]
     assert digest(root/"selected_configs.json")==source["v2_selected_configs_sha256"]

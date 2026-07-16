@@ -129,7 +129,7 @@ reports/    report mirrors, figures và scientific assessments
 docs/       thuật ngữ và hướng dẫn vận hành cần thiết
 ```
 
-Các runner Strategy A–E, locked-test materializer, wrapper chạy một lần và tài liệu kế hoạch V2/V3 đã được loại khỏi source tree cuối. Các runner nghiên cứu còn lại trong `scripts/` chỉ phục vụ tái lập evidence, không phải lệnh thường dùng. Immutable evidence cũ vẫn được giữ nguyên để audit; source trước lượt tinh gọn có thể khôi phục từ tag `archive/pre-structure-simplification-20260716`.
+Evidence trên GitHub được nhóm theo `student_mat`, `student_por`, `oulad` và `archive`, không trình bày theo mã phase nội bộ. Các runner Strategy A–E, locked-test materializer, wrapper chạy một lần và tài liệu kế hoạch V2/V3 đã được loại khỏi source tree cuối. Các runner nghiên cứu còn lại trong `scripts/` chỉ phục vụ tái lập evidence, không phải lệnh thường dùng. Immutable evidence cũ vẫn được giữ nguyên để audit; source trước khi đổi namespace có thể khôi phục từ tag `archive/pre-evidence-namespace-cleanup-20260716`.
 
 ## 11. Cách kiểm tra dự án
 
@@ -182,10 +182,11 @@ Không chạy trực tiếp các experiment file trong `scripts/` khi chỉ mu�
 
 ## 12. Evidence chính
 
-- `student-mat`: [corrected final repository closure](artifacts/final_repository_closure/final-repository-closure-corrected-20260715-6ab785d)
-- `student-por`: [independent and transfer evidence](artifacts/study_b_student_por/study-b-student-por-20260715-v1)
-- OULAD: [fair ensemble and PostgreSQL closure](artifacts/study_c_oulad_v3_closure/oulad-v3-fair-db-closure-20260716-v1)
-- Recommendation: [technical recommendation evidence](artifacts/strategy_b_phase_d_recommendation/strategy-b-phase-d-recommendation-20260715-407ac0f)
+- `student-mat`: [final prediction evidence](artifacts/student_mat/final)
+- `student-por`: [independent and transfer evidence](artifacts/student_por/final)
+- OULAD: [final ensemble and PostgreSQL evidence](artifacts/oulad/final)
+- Recommendation: [technical recommendation evidence](artifacts/student_mat/recommendation)
+- Historical/smoke evidence: [archive index](artifacts/archive)
 
 ## 13. Hạn chế
 

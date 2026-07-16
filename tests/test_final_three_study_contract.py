@@ -13,6 +13,7 @@ from scripts.validate_release import (
     validate_metrics,
     verify_checksum_manifest,
 )
+from src.common.evidence_paths import official_evidence_paths, resolve_evidence_path
 from src.estimator_factory import resolve_student_grade_neural_config
 from src.models import create_student_grade_model
 
@@ -65,6 +66,26 @@ def test_project_cli_is_the_single_routine_entrypoint_and_status_is_read_only():
     assert "fit_candidate" not in source
     assert "Optuna" not in source
     assert len(list((ROOT / "scripts").glob("*.py"))) <= 11
+
+
+def test_tracked_evidence_tree_uses_thesis_friendly_dataset_names():
+    artifact_paths = subprocess.check_output(
+        ["git", "ls-files", "--cached", "--others", "--exclude-standard", "artifacts"], cwd=ROOT, text=True
+    ).splitlines()
+    report_paths = subprocess.check_output(
+        ["git", "ls-files", "--cached", "--others", "--exclude-standard", "reports"], cwd=ROOT, text=True
+    ).splitlines()
+    artifact_top = {path.split("/", 2)[1] for path in artifact_paths if "/" in path}
+    report_top = {path.split("/", 2)[1] for path in report_paths if "/" in path}
+    assert artifact_top == {"README.md", "student_mat", "student_por", "oulad", "archive"}
+    assert report_top == {"README.md", "student_mat", "student_por", "oulad", "thesis_figures", "archive"}
+
+    official = official_evidence_paths(ROOT)
+    assert all(path.is_dir() for path in official.values())
+    assert resolve_evidence_path(
+        ROOT,
+        "artifacts/study_c_oulad_v3_closure/oulad-v3-fair-db-closure-20260716-v1",
+    ) == ROOT / "artifacts" / "oulad" / "final"
 
 
 def test_student_grade_model_has_generic_active_module_and_same_contract():

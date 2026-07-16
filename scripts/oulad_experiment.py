@@ -122,8 +122,8 @@ def main() -> int:
     parser.add_argument("--resume", action="store_true")
     args = parser.parse_args()
     protocol = json.loads(args.protocol.read_text(encoding="utf-8"))
-    artifact = ROOT / "artifacts" / "study_c_oulad" / args.run_id
-    report = ROOT / "reports" / "study_c_oulad" / args.run_id
+    artifact = ROOT / "artifacts" / "oulad" / "baseline_runs" / args.run_id
+    report = ROOT / "reports" / "oulad" / "baseline_runs" / args.run_id
     if artifact.exists() and not args.resume: raise FileExistsError("Immutable run exists; use --resume for partial run")
     artifact.mkdir(parents=True, exist_ok=True); report.mkdir(parents=True, exist_ok=True)
     checkpoint_dir = artifact / "checkpoints"; checkpoint_dir.mkdir(exist_ok=True)
