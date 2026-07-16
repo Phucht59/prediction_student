@@ -5,7 +5,8 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from sklearn.metrics import precision_recall_fscore_support
+from sklearn.calibration import calibration_curve
+from sklearn.metrics import precision_recall_curve, precision_recall_fscore_support
 
 ROOT=Path(__file__).resolve().parents[1]
 RUN_ID="oulad-deep-v3-f2-20260716-v1"
@@ -23,6 +24,21 @@ def figures(artifact,report):
         fig,ax=plt.subplots(figsize=(9,4.8)); summary.loc[order,column].plot.bar(ax=ax,color="#376b9b"); ax.set_title(title); ax.set_ylabel(column); ax.grid(axis="y",alpha=.25); fig.tight_layout(); fig.savefig(figures_root/f"{name}.png",dpi=160); plt.close(fig)
     bar("macro_f1","macro_f1_comparison","Pooled grouped-OOF Macro-F1")
     bar("operational_recall","operational_recall_comparison","At-risk recall at inner-frozen precision constraint")
+    # Probability-level figures are descriptive only; they never select a threshold.
+    oof=pd.read_parquet(artifact/"oof_predictions.parquet")
+    fig,ax=plt.subplots(figsize=(7,5))
+    for candidate in ["V3-A0F","V3-D0","V3-A1","V3-MLD","V3-ENS"]:
+        frame=oof[oof.candidate_id==candidate]
+        if candidate in {"V3-D0","V3-A1","V3-A0F"}: frame=frame[frame.seed==42]
+        precision,recall,_=precision_recall_curve(frame.target_at_risk,frame.probability); ax.plot(recall,precision,label=candidate)
+    ax.legend(); ax.set_title("Precision-recall curves (descriptive OOF)"); ax.set_xlabel("Recall"); ax.set_ylabel("Precision"); ax.grid(alpha=.25); fig.tight_layout(); fig.savefig(figures_root/"precision_recall_curves.png",dpi=160); plt.close(fig)
+    fig,ax=plt.subplots(figsize=(6,5)); ax.plot([0,1],[0,1],"--",color="grey")
+    for candidate in ["V3-D0","V3-A1","V3-MLD","V3-ENS"]:
+        frame=oof[oof.candidate_id==candidate]
+        if candidate in {"V3-D0","V3-A1"}: frame=frame[frame.seed==42]
+        observed,predicted=calibration_curve(frame.target_at_risk,frame.probability,n_bins=10,strategy="quantile"); ax.plot(predicted,observed,marker="o",label=candidate)
+    ax.legend(); ax.set_title("Uncalibrated OOF reliability"); ax.set_xlabel("Mean model score"); ax.set_ylabel("Observed at-risk rate"); ax.grid(alpha=.25); fig.tight_layout(); fig.savefig(figures_root/"calibration.png",dpi=160); plt.close(fig)
+    fig,ax=plt.subplots(figsize=(6,4)); summary.loc[["V3-P0","V3-D0","V3-A1"],"macro_f1"].plot.bar(ax=ax,color=["#777777","#2a8f6a","#9e9ac8"]); ax.set_title("Dynamics/ordering attribution controls"); ax.set_ylabel("Macro-F1"); ax.grid(axis="y",alpha=.25); fig.tight_layout(); fig.savefig(figures_root/"dynamic_feature_ablation.png",dpi=160); plt.close(fig)
     for left,right,name in [("V3-P0","V3-H3CF","h3cf_vs_p0"),("V3-D0","V3-P0","p0_vs_d0"),("V3-D0","V3-A1","d0_vs_a1"),("V3-D0","V3-MLD","d0_vs_mld")]:
         fig,ax=plt.subplots(figsize=(5,4)); summary.loc[[right,left],"macro_f1"].plot.bar(ax=ax,color=["#777777","#2a8f6a"]); ax.set_title(f"{left} versus {right}"); ax.set_ylabel("Macro-F1"); ax.grid(axis="y",alpha=.25); fig.tight_layout(); fig.savefig(figures_root/f"{name}.png",dpi=160); plt.close(fig)
     by_seed=pd.read_csv(artifact/"metrics_by_seed.csv"); deep=by_seed[by_seed.candidate_id.isin(["V3-P0","V3-D0","V3-A1"])]
