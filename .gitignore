@@ -73,6 +73,18 @@ reports/study_c_oulad_v2/**/*.parquet
 artifacts/study_c_oulad_v2/**/job_cache/
 artifacts/study_c_oulad_v2/**/search_cache/
 artifacts/study_c_oulad_v2/**/preprocessors/
+
+# OULAD Deep V3 runtime caches and large checkpoint bundles remain local.
+.venv-oulad-v3/
+artifacts/study_c_oulad_v3/**/*.pt
+artifacts/study_c_oulad_v3/**/*.pth
+artifacts/study_c_oulad_v3/**/*.joblib
+artifacts/study_c_oulad_v3/**/job_cache/
+artifacts/study_c_oulad_v3/**/search_cache/
+artifacts/study_c_oulad_v3/**/preprocessors/
+reports/study_c_oulad_v3/**/*.pt
+reports/study_c_oulad_v3/**/*.pth
+reports/study_c_oulad_v3/**/*.joblib
 artifacts/study_c_oulad/**/split_manifest.csv
 artifacts/study_c_oulad/**/future_test_manifest.csv
 reports/study_c_oulad/**/*.parquet
