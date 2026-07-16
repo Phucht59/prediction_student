@@ -183,7 +183,7 @@ def main():
     pd.concat(trials,ignore_index=True).to_csv(artifact/"optuna_trials.csv",index=False); (pd.concat(curves,ignore_index=True) if curves else pd.DataFrame()).to_csv(artifact/"learning_curves.csv",index=False)
     pd.DataFrame([j for j in jobs if "attention_entropy_mean" in j]).to_csv(artifact/"attention_diagnostics.csv",index=False)
     # Paired deltas use equal-seed evidence where available; MLD/ENS use their declared deterministic/ensemble row.
-    comparisons=[("V3-P0","V3-H3CF"),("V3-D0","V3-P0"),("V3-D0","V3-A1"),("V3-D0","V3-MLD"),("V3-D0","V3-MLF"),("V3-ENS","V3-MLD")]; delta_rows=[]; bootstrap_rows=[]
+    comparisons=[("V3-P0","V3-H3CF"),("V3-D0","V3-P0"),("V3-D0","V3-A1"),("V3-D0","V3-MLD"),("V3-D0","V3-MLF"),("V3-ENS","V3-A0F"),("V3-ENS","V3-MLD")]; delta_rows=[]; bootstrap_rows=[]
     for left,right in comparisons:
         lf=oof[oof.candidate_id==left]; rf=oof[oof.candidate_id==right]
         common=sorted(set(lf.seed)&set(rf.seed)); pairs=common if common else [None]
