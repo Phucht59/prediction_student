@@ -18,10 +18,13 @@ import psycopg2
 from psycopg2 import sql
 from psycopg2.extras import Json, RealDictCursor, execute_values
 
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
 from src.studies.oulad_v3_closure.fairness import metrics_with_modules
 
 
-ROOT = Path(__file__).resolve().parents[1]
 MIGRATIONS = (
     ROOT / "database/migrations/005_oulad_lineage_and_snapshot_registry.sql",
     ROOT / "database/migrations/006_oulad_v3_fair_evidence_registry.sql",
