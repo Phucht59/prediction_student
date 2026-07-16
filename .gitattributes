@@ -1,0 +1,3 @@
+# Immutable scientific evidence must retain byte-for-byte checksums on every platform.
+artifacts/study_c_oulad_v3_closure/** -text
+reports/study_c_oulad_v3_closure/** -text
