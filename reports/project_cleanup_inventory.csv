@@ -1,0 +1,22 @@
+﻿path,category,tracked,size_bytes,reason,action
+.pytest_cache,runtime_cache,False,23927,Generated Python/test cache outside immutable evidence,delete
+scripts/__pycache__,runtime_cache,False,236118,Generated Python/test cache outside immutable evidence,delete
+src/__pycache__,runtime_cache,False,165909,Generated Python/test cache outside immutable evidence,delete
+src/common/__pycache__,runtime_cache,False,2649,Generated Python/test cache outside immutable evidence,delete
+src/evaluation/__pycache__,runtime_cache,False,54202,Generated Python/test cache outside immutable evidence,delete
+src/ingestion/__pycache__,runtime_cache,False,793,Generated Python/test cache outside immutable evidence,delete
+src/models/__pycache__,runtime_cache,False,13649,Generated Python/test cache outside immutable evidence,delete
+src/studies/__pycache__,runtime_cache,False,204,Generated Python/test cache outside immutable evidence,delete
+src/studies/common/__pycache__,runtime_cache,False,1632,Generated Python/test cache outside immutable evidence,delete
+src/studies/oulad/__pycache__,runtime_cache,False,38030,Generated Python/test cache outside immutable evidence,delete
+src/studies/oulad_v2/__pycache__,runtime_cache,False,24049,Generated Python/test cache outside immutable evidence,delete
+src/studies/oulad_v3/__pycache__,runtime_cache,False,18613,Generated Python/test cache outside immutable evidence,delete
+src/studies/student_por/__pycache__,runtime_cache,False,11035,Generated Python/test cache outside immutable evidence,delete
+tests/__pycache__,runtime_cache,False,284047,Generated Python/test cache outside immutable evidence,delete
+artifacts/,scientific_evidence,True,253221671,Immutable scientific artifacts and checksum manifests,preserve
+reports/study_c_oulad_v3_closure/,scientific_evidence,True,715985,Immutable scientific report mirror,preserve
+artifacts/study_c_oulad_v3_closure/oulad-v3-fair-db-closure-20260716-v1/threshold_replay_cache/,scientific_evidence_cache,False,41737778,Replay cache belongs to immutable closure evidence,preserve
+.venv-oulad-v2/,environment,False,5565719824,Working CUDA/Python environment is not runtime clutter,preserve
+.env,local_configuration,False,287,Ignored local configuration; never printed or committed,preserve
+MODEL_IMPROVEMENT_PLAN_V3.md,historical_document,True,1420,Referenced by historical audit; preserve in place,preserve
+SCIENTIFIC_PROTOCOL_V2.md,frozen_protocol,True,3668,Referenced by immutable source provenance; preserve in place,preserve

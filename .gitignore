@@ -1,7 +1,12 @@
 __pycache__/
 *.pyc
 .pytest_cache/
+.mypy_cache/
+.ruff_cache/
 .ipynb_checkpoints/
+.coverage
+coverage.xml
+htmlcov/
 
 .env
 .venv/
@@ -12,6 +17,11 @@ venv/
 .agents/
 .DS_Store
 tmp/
+temp/
+wandb/
+lightning_logs/
+*.pid
+*.lock
 
 data/raw/*
 data/processed/*
