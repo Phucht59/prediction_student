@@ -52,7 +52,7 @@ Không dùng `DROP DATABASE`, `DROP SCHEMA public CASCADE`, `TRUNCATE CASCADE` h
 Validation portable, không training:
 
 ```powershell
-py -3.10 scripts/validate_thesis_release.py
+py -3.10 project.py validate
 ```
 
 Full tests:

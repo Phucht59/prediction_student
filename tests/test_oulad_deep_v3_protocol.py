@@ -81,11 +81,11 @@ def test_train_only_preprocessing_and_information_shapes(data):
 def test_threshold_is_inner_only_and_future_inaccessible():
     assert PROTOCOL["metrics"]["threshold_fit_scope"]=="pooled_inner_oof_only"
     assert PROTOCOL["future_policy"]["available_during_selection"] is False
-    source=(ROOT/"scripts/run_oulad_deep_v3.py").read_text(); assert "future_predictions.parquet" not in source
+    source=(ROOT/"scripts/oulad_temporal.py").read_text(); assert "future_predictions.parquet" not in source
 
 def test_three_seed_and_ensemble_contract():
     assert PROTOCOL["seeds"]==[42,2026,3407] and PROTOCOL["ensemble"]["members"]==[42,2026,3407]
-    source=(ROOT/"scripts/run_oulad_deep_v3.py").read_text(); assert '.agg(probability=("probability","mean")' in source
+    source=(ROOT/"scripts/oulad_temporal.py").read_text(); assert '.agg(probability=("probability","mean")' in source
 
 def test_seed_initialization_is_deterministic():
     set_deterministic_seed(42); a=torch.rand(4); set_deterministic_seed(42); torch.testing.assert_close(a,torch.rand(4))

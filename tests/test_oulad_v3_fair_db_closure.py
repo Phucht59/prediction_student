@@ -141,7 +141,7 @@ def test_migrations_are_transactional_non_cascade_and_set_based():
 def test_no_credential_is_present_in_closure_artifacts_or_source_diff():
     forbidden_dsn = re.compile(r"postgresql://(?!<redacted>)[^\s/@:]+:[^\s/@]+@", re.I)
     paths = [path for path in ARTIFACT.rglob("*") if path.is_file() and path.suffix.lower() not in {".parquet", ".png"}]
-    paths += [PROTOCOL, ROOT / "scripts/register_oulad_v3_evidence_postgres.py"]
+    paths += [PROTOCOL, ROOT / "scripts/database_register_evidence.py"]
     for path in paths:
         text = path.read_text(encoding="utf-8", errors="ignore")
         assert not forbidden_dsn.search(text), path

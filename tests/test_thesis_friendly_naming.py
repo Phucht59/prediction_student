@@ -112,7 +112,7 @@ def test_no_plaintext_postgres_secret_or_runtime_log_is_added():
 
 
 def test_check_only_validator_entrypoint_and_report_mirror_exist():
-    source = (ROOT / "scripts" / "validate_oulad_v3_fair_db_closure.py").read_text(encoding="utf-8")
+    source = (ROOT / "scripts" / "validate_oulad_final.py").read_text(encoding="utf-8")
     assert "--check-only" in source
     assert (REPORT / "figures").is_dir()
-    assert (ROOT / "scripts" / "validate_thesis_release.py").is_file()
+    assert (ROOT / "scripts" / "validate_release.py").is_file()

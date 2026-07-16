@@ -81,6 +81,11 @@ def validate_documents_and_source_scope() -> None:
         "scripts/run_strategy_b_phase_d_recommendation.py",
         "scripts/run_strategy_b_phase_e_prediction.py",
         "scripts/run_final_repository_closure.py",
+        "scripts/run_extension_end_to_end.py",
+        "scripts/build_extension_evidence.py",
+        "scripts/finalize_extension_execution.py",
+        "scripts/run_study_b_seed_stability.py",
+        "scripts/run_study_c_seed_stability.py",
         "MODEL_IMPROVEMENT_PLAN_V3.md",
         "SCIENTIFIC_PROTOCOL_V2.md",
     ]
@@ -101,7 +106,7 @@ def main() -> None:
     validate_documents_and_source_scope()
     command = [
         sys.executable,
-        str(ROOT / "scripts" / "validate_oulad_v3_fair_db_closure.py"),
+            str(ROOT / "scripts" / "validate_oulad_final.py"),
         "--artifact-root",
         str(STUDY_C),
         "--report-root",

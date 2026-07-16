@@ -1,8 +1,11 @@
 from __future__ import annotations
 
+import json
+import subprocess
+import sys
 from pathlib import Path
 
-from scripts.validate_thesis_release import (
+from scripts.validate_release import (
     STUDY_A,
     STUDY_B,
     STUDY_C,
@@ -43,6 +46,25 @@ def test_obsolete_strategy_entrypoints_are_absent_from_final_source():
     validate_documents_and_source_scope()
     assert not (ROOT / "MODEL_IMPROVEMENT_PLAN_V3.md").exists()
     assert not (ROOT / "SCIENTIFIC_PROTOCOL_V2.md").exists()
+
+
+def test_project_cli_is_the_single_routine_entrypoint_and_status_is_read_only():
+    result = subprocess.run(
+        [sys.executable, str(ROOT / "project.py"), "status"],
+        cwd=ROOT,
+        check=False,
+        text=True,
+        capture_output=True,
+    )
+    assert result.returncode == 0, result.stderr
+    payload = json.loads(result.stdout)
+    assert payload["all_official_bundles_available"] is True
+    assert set(payload) >= {"student_mat", "student_por", "oulad"}
+
+    source = (ROOT / "project.py").read_text(encoding="utf-8")
+    assert "fit_candidate" not in source
+    assert "Optuna" not in source
+    assert len(list((ROOT / "scripts").glob("*.py"))) <= 11
 
 
 def test_student_grade_model_has_generic_active_module_and_same_contract():

@@ -245,7 +245,7 @@ def main() -> None:
     ancestry = subprocess.run(["git", "merge-base", "--is-ancestor", V3_COMMIT, "HEAD"], cwd=ROOT).returncode == 0
     secret_pattern = re.compile(r"postgresql://(?!<redacted>)[^\s/@:]+:[^\s/@]+@", re.I)
     secret_hits = []
-    for path in list(artifact.rglob("*")) + [ROOT / "configs/oulad_v3_fair_db_closure_protocol.yaml", ROOT / "scripts/register_oulad_v3_evidence_postgres.py"]:
+    for path in list(artifact.rglob("*")) + [ROOT / "configs/oulad_v3_fair_db_closure_protocol.yaml", ROOT / "scripts/database_register_evidence.py"]:
         if path.is_file() and path.suffix.lower() not in {".parquet", ".png"}:
             text = path.read_text(encoding="utf-8", errors="ignore")
             if secret_pattern.search(text):

@@ -171,7 +171,7 @@ def test_grouped_bootstrap_is_paired_by_student():
 
 
 def test_runner_has_no_future_prediction_input():
-    source = (ROOT / "scripts/run_oulad_deep_v2.py").read_text(encoding="utf-8")
+    source = (ROOT / "scripts/oulad_tuning.py").read_text(encoding="utf-8")
     assert 'future_predictions.parquet' not in source
     assert 'available_during_selection"]:' in source
 
@@ -182,5 +182,5 @@ def test_adaptive_envelope_forbids_scientific_changes():
 
 
 def test_partial_run_cannot_validate_complete():
-    source = (ROOT / "scripts/run_oulad_deep_v2.py").read_text(encoding="utf-8")
+    source = (ROOT / "scripts/oulad_tuning.py").read_text(encoding="utf-8")
     assert 'len(metadata) != 36' in source

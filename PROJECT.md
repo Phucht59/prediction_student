@@ -448,6 +448,7 @@ Historical evidence không bị xóa. Code runner một lần có thể bị lo�
 
 Active high-level modules:
 
+- `project.py`: entrypoint duy nhất cho các thao tác thường dùng; không cung cấp lệnh training.
 - `src/models/student_grade.py`: compact UCI MLP/CNN/BiLSTM/CNN–BiLSTM/ordinal candidates.
 - `src/studies/student_por/`: `student-por` data, model and evaluation contracts.
 - `src/studies/oulad/`: base OULAD materialization/model contracts.
@@ -457,7 +458,7 @@ Active high-level modules:
 - `src/governed_recommendation.py`: canonical recommendation builder.
 - `src/postgres_data_source.py`, `src/evaluation/`: PostgreSQL and evidence persistence.
 
-Active user commands are ingestion, study-specific reproduction, evidence registration, figure generation and validation. Old Strategy A–E orchestration, locked-test pipeline, final-closure generator, one-time cleanup script and plan markdown are deliberately absent from `main`.
+Thao tác thường dùng đi qua `project.py`. Các file còn lại trong `scripts/` là runner khoa học nội bộ, evidence registration hoặc strict validator. Old Strategy A–E orchestration, extension wrapper chạy một lần, locked-test pipeline, final-closure generator, one-time cleanup script và plan markdown đều vắng mặt khỏi `main`.
 
 Frozen configs named V2/V3 remain because they are **scientific protocol artifacts referenced by checksum**, not unfinished planning documents. Removing or rewriting them would break lineage.
 
@@ -466,12 +467,13 @@ Frozen configs named V2/V3 remain because they are **scientific protocol artifac
 ### 15.1 Quick validation — no training
 
 ```powershell
-py -3.10 scripts/validate_thesis_release.py
-py -3.10 scripts/generate_thesis_figures.py
+py -3.10 project.py status
+py -3.10 project.py validate
+py -3.10 project.py figures
 git diff --check
 ```
 
-`validate_thesis_release.py` verifies official checksums and headline metrics for all three datasets, then runs the OULAD strict validator in check-only mode.
+`project.py validate` gọi strict release validator để kiểm tra checksum và headline metrics của cả ba dataset, sau đó chạy OULAD closure validator ở chế độ check-only. Không command nào trong quick validation train model.
 
 ### 15.2 Full test suite
 
@@ -484,26 +486,34 @@ PostgreSQL destructive tests require isolated disposable admin/app DSNs. Skipped
 ### 15.3 Ingestion
 
 ```powershell
-py -3.10 scripts/ingest_dataset_to_postgres.py --dataset student-mat
-py -3.10 scripts/ingest_dataset_to_postgres.py --dataset student-por
+py -3.10 project.py ingest student-mat
+py -3.10 project.py ingest student-por
 ```
 
 OULAD audit/materialization:
 
 ```powershell
-py -3.10 scripts/audit_oulad_release.py
-py -3.10 scripts/materialize_oulad_forecasts.py
-py -3.10 scripts/materialize_oulad_splits.py
+py -3.10 project.py audit-oulad
+py -3.10 project.py prepare-oulad --resume
 ```
 
 ### 15.4 Expensive historical reproduction
 
 Các lệnh sau có thể chạy nested CV/Optuna và không phải quick validation:
 
-- `scripts/run_study_b_student_por.py`
-- `scripts/run_study_c_oulad.py`
-- `scripts/run_oulad_deep_v2.py`
-- `scripts/run_oulad_deep_v3.py`
+- `scripts/student_por_experiment.py`: independent nested evaluation của Study B.
+- `scripts/oulad_experiment.py`: baseline multi-horizon của Study C.
+- `scripts/oulad_tuning.py`: tuned aggregate/temporal comparator stage.
+- `scripts/oulad_temporal.py`: temporal dynamics exploratory stage.
+- `scripts/oulad_final_ensemble.py`: fair three-seed ensemble closure.
+
+Các file hỗ trợ còn lại được đặt tên theo đúng chức năng:
+
+- `scripts/database_audit.py`, `database_register_evidence.py`: audit schema và đăng ký evidence PostgreSQL.
+- `scripts/validate_oulad_tuning.py`, `validate_oulad_temporal.py`, `validate_oulad_final.py`: validator cho từng tầng evidence OULAD.
+- `scripts/validate_release.py`: release validator cuối cho cả `student-mat`, `student-por` và OULAD.
+
+Các wrapper cũ cho ingest, OULAD audit, materialization, split, figure và validation đã được gộp vào `project.py`; chúng không còn tồn tại thành nhiều file rời.
 
 Chỉ chạy với source data, environment, protocol, manifest và compute budget đã khóa. Không mở lại model selection trong final repository closure.
 

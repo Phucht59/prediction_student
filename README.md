@@ -118,17 +118,18 @@ Application role là least-privileged role, không phải superuser. Destructive
 ## 10. Cấu trúc repository
 
 ```text
+project.py  lệnh duy nhất cho kiểm tra, figure, ingest và chuẩn bị dữ liệu
 configs/    frozen scientific protocols và display-name mapping
 database/   migrations, constraints và lineage schema
 src/        model, feature, estimator, metric, PostgreSQL và recommendation code
-scripts/    ingestion, study runners, evidence registration và validators
+scripts/    runner khoa học nội bộ, evidence registration và strict validators
 tests/      unit, leakage, split, checksum, database và scientific-contract tests
 artifacts/  immutable machine-readable scientific evidence
 reports/    report mirrors, figures và scientific assessments
 docs/       thuật ngữ và hướng dẫn vận hành cần thiết
 ```
 
-Các runner Strategy A–E, locked-test materializer và tài liệu kế hoạch V2/V3 đã được loại khỏi source tree cuối. Immutable evidence cũ vẫn được giữ nguyên để audit; source lịch sử có thể khôi phục từ tag `archive/pre-final-source-prune-20260716`.
+Các runner Strategy A–E, locked-test materializer, wrapper chạy một lần và tài liệu kế hoạch V2/V3 đã được loại khỏi source tree cuối. Các runner nghiên cứu còn lại trong `scripts/` chỉ phục vụ tái lập evidence, không phải lệnh thường dùng. Immutable evidence cũ vẫn được giữ nguyên để audit; source trước lượt tinh gọn có thể khôi phục từ tag `archive/pre-structure-simplification-20260716`.
 
 ## 11. Cách kiểm tra dự án
 
@@ -139,10 +140,16 @@ py -3.10 -m pip install -r requirements-lock.txt
 Copy-Item .env.example .env
 ```
 
-Kiểm tra nhanh toàn bộ evidence ba dataset, không train:
+Xem nhanh ba evidence bundle chính, không train:
 
 ```powershell
-py -3.10 scripts/validate_thesis_release.py
+py -3.10 project.py status
+```
+
+Kiểm tra toàn bộ evidence ba dataset, không train:
+
+```powershell
+py -3.10 project.py validate
 ```
 
 Chạy full test suite:
@@ -154,17 +161,24 @@ py -3.10 -m pytest -q
 Tạo lại figure từ evidence đóng băng:
 
 ```powershell
-py -3.10 scripts/generate_thesis_figures.py
+py -3.10 project.py figures
 ```
 
 Ingest UCI vào PostgreSQL:
 
 ```powershell
-py -3.10 scripts/ingest_dataset_to_postgres.py --dataset student-mat
-py -3.10 scripts/ingest_dataset_to_postgres.py --dataset student-por
+py -3.10 project.py ingest student-mat
+py -3.10 project.py ingest student-por
 ```
 
-Không chạy các study runner/Optuna khi chỉ muốn kiểm tra repository; đó là expensive reproduction và phải dùng đúng frozen protocol.
+Audit hoặc materialize OULAD mà không train:
+
+```powershell
+py -3.10 project.py audit-oulad
+py -3.10 project.py prepare-oulad --resume
+```
+
+Không chạy trực tiếp các experiment file trong `scripts/` khi chỉ muốn kiểm tra repository; đó là expensive historical reproduction và phải dùng đúng frozen protocol.
 
 ## 12. Evidence chính
 
