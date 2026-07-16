@@ -3,8 +3,6 @@ import inspect
 import numpy as np
 import pytest
 
-from scripts import run_pipeline
-from scripts import optimize_model_selection
 from src import model_selection
 
 
@@ -56,64 +54,3 @@ def test_threshold_and_calibration_reject_locked_test_source():
         model_selection.optimize_class_thresholds(probabilities, labels, source="locked_test")
     with pytest.raises(ValueError, match="inner OOF"):
         model_selection.fit_temperature_policy(probabilities, labels, source="locked_test")
-
-
-def test_nested_outer_fold_freezes_inner_selection_before_scoring_outer_fold():
-    source = inspect.getsource(optimize_model_selection.evaluate_deep_outer_fold)
-    assert "run_optuna_cv_search(" in source
-    assert "collect_oof_by_seed(" in source
-    assert "evaluate_ensemble_strategies(" in source
-    assert "single_seed_only=True" in source
-    assert "fit_fold_predict_proba(" in source
-    assert "validation_fold=outer_val" in source
-    assert "apply_selected_strategy" in source
-
-
-def test_run_pipeline_persists_selected_threshold_and_ensemble_metadata():
-    source = inspect.getsource(run_pipeline.main)
-    assert '"validation_only_selection": selection_config' in source
-    assert '"selected_ensemble_method": strategy_metadata["actual_aggregation_method"]' in source
-    assert '"probability_combination_method": selected_ensemble_method' in source
-    assert '"selected_calibration_policy": selected_calibration_policy' in source
-    assert '"selected_threshold_policy": selected_threshold_policy' in source
-    assert '"actual_seed_list": selected_seed_list' in source
-    assert '"actual_aggregation_method": strategy_metadata["actual_aggregation_method"]' in source
-    assert '"decision_rule": strategy_metadata["decision_rule"]' in source
-
-
-def test_frozen_single_seed_strategy_resolves_to_single_model_metadata():
-    metadata = run_pipeline.resolve_frozen_strategy_metadata(
-        {
-            "strategy_name": "single_seed_155",
-            "seed_list": [155],
-            "ensemble_method": "mean_probability",
-            "threshold_policy": {"type": "argmax"},
-            "calibration_policy": {"type": "none"},
-        },
-        debug=False,
-    )
-    assert metadata["actual_seed_list"] == [155]
-    assert metadata["probability_combination_method"] == "mean_probability"
-    assert metadata["actual_aggregation_method"] == "single_model"
-    assert metadata["strategy_name"] == "single_seed_155"
-    assert metadata["decision_rule"] == "argmax"
-
-
-def test_frozen_single_seed_does_not_fallback_to_fixed_seeds():
-    metadata = run_pipeline.resolve_frozen_strategy_metadata(
-        {"strategy_name": "single_seed_155", "seed_list": [155], "ensemble_method": "mean_probability"},
-        debug=False,
-    )
-    assert metadata["actual_seed_list"] == [155]
-    assert metadata["actual_seed_list"] != run_pipeline.FIXED_SEEDS
-
-
-def test_same_frozen_config_creates_same_prediction_policy_object():
-    strategy = {
-        "strategy_name": "single_seed_155",
-        "seed_list": [155],
-        "ensemble_method": "mean_probability",
-        "threshold_policy": {"type": "argmax"},
-        "calibration_policy": {"type": "none"},
-    }
-    assert run_pipeline.resolve_frozen_strategy_metadata(strategy, debug=False) == run_pipeline.resolve_frozen_strategy_metadata(strategy, debug=False)

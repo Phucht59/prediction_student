@@ -1,3 +1,51 @@
+C-RULE:
+  display_name: "G2 deterministic rule"
+  category: "Reference"
+R0:
+  display_name: "G2 deterministic rule"
+  category: "Reference"
+M1:
+  display_name: "Random Forest"
+  category: "Machine Learning"
+M2:
+  display_name: "SVM"
+  category: "Machine Learning"
+N0:
+  display_name: "CNN–BiLSTM"
+  category: "Deep Learning"
+N1:
+  display_name: "Ordinal CNN–BiLSTM"
+  category: "Deep Learning"
+B-R0:
+  display_name: "G2 deterministic rule"
+  category: "Reference"
+B-L0:
+  display_name: "Logistic Regression"
+  category: "Machine Learning"
+B-RF0:
+  display_name: "Random Forest"
+  category: "Machine Learning"
+B-S0:
+  display_name: "SVM"
+  category: "Machine Learning"
+B-H0:
+  display_name: "HistGradientBoosting"
+  category: "Machine Learning"
+B-M0:
+  display_name: "MLP"
+  category: "Deep Learning"
+B-C0:
+  display_name: "CNN"
+  category: "Deep Learning"
+B-L1:
+  display_name: "BiLSTM"
+  category: "Deep Learning"
+B-H1:
+  display_name: "CNN–BiLSTM"
+  category: "Deep Learning"
+B-O0:
+  display_name: "Ordinal CNN–BiLSTM"
+  category: "Deep Learning"
 C-L0:
   display_name: "Logistic Regression"
   category: "Machine Learning"

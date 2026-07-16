@@ -10,8 +10,8 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.svm import SVC
 
-from src.estimator_factory import resolve_phase_c_neural_config
-from src.models import count_trainable_parameters, create_phase_c_model
+from src.estimator_factory import resolve_student_grade_neural_config
+from src.models import count_trainable_parameters, create_student_grade_model
 
 
 NEURAL_MAPPING = {
@@ -86,8 +86,8 @@ def neural_configs(candidate_id: str) -> list[dict[str, Any]]:
         ]
     resolved = []
     for parameters in variants:
-        config = resolve_phase_c_neural_config(internal, parameters, suggested_parameters={key: value for key, value in parameters.items() if key not in {"oversample_method", "class_weight_mode", "loss", "smote_ratio", "resampling_k_neighbors", "patience"}}, evidence_role="study_b_student_por")
-        config["parameter_count"] = count_trainable_parameters(create_phase_c_model(config))
+        config = resolve_student_grade_neural_config(internal, parameters, suggested_parameters={key: value for key, value in parameters.items() if key not in {"oversample_method", "class_weight_mode", "loss", "smote_ratio", "resampling_k_neighbors", "patience"}}, evidence_role="study_b_student_por")
+        config["parameter_count"] = count_trainable_parameters(create_student_grade_model(config))
         resolved.append(config)
     return resolved
 

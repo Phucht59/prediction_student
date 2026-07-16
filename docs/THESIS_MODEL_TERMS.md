@@ -2,37 +2,53 @@
 
 ## Tên hiển thị
 
+**G2 deterministic rule.** Quy tắc tham chiếu chia G2 theo đúng các vùng Low/Medium/High. Quy tắc không có xác suất hoặc uncertainty hợp lệ.
+
 **Logistic Regression.** Mô hình tuyến tính xác suất, dùng làm baseline dễ giải thích và chi phí thấp.
 
-**Random Forest.** Tập hợp nhiều cây quyết định, phù hợp với dữ liệu bảng và quan hệ phi tuyến.
+**Random Forest.** Tập hợp nhiều cây quyết định, phù hợp dữ liệu bảng và quan hệ phi tuyến.
 
 **SVM.** Mô hình biên phân tách; kernel RBF cho phép học ranh giới phi tuyến.
 
-**HistGradientBoosting.** Mô hình boosting trên cây với histogram, dùng làm baseline mạnh cho feature tổng hợp.
+**HistGradientBoosting.** Boosting trên cây với histogram, dùng làm baseline cho feature tổng hợp.
 
-**MLP.** Mạng nơ-ron truyền thẳng trên vector feature tổng hợp, dùng để kiểm tra giá trị của Deep Learning khi không khai thác thứ tự chuỗi.
+**MLP.** Mạng nơ-ron truyền thẳng trên vector feature tổng hợp; là control để tách giá trị của Deep Learning khỏi thứ tự temporal.
 
-**CNN.** Mạng tích chập một chiều, trích xuất các mẫu cục bộ trong chuỗi hoạt động học theo tuần.
+**CNN.** Mạng tích chập một chiều, trích xuất mẫu cục bộ trong chuỗi điểm hoặc hoạt động theo tuần.
 
-**BiLSTM.** Mạng LSTM hai chiều, tổng hợp quan hệ trong phần chuỗi đã quan sát mà không đọc dữ liệu sau prediction cutoff.
+**BiLSTM.** LSTM hai chiều trên phần chuỗi đã quan sát; không được đọc sự kiện sau prediction cutoff.
 
-**CNN–BiLSTM.** Kiến trúc kết hợp CNN và BiLSTM: CNN nhận diện mẫu cục bộ, BiLSTM học quan hệ theo chuỗi.
+**CNN–BiLSTM.** Kiến trúc kết hợp CNN và BiLSTM: CNN nhận diện mẫu cục bộ, BiLSTM tổng hợp quan hệ theo thứ tự.
 
-**CNN–BiLSTM Ensemble.** Trung bình xác suất của ba lần huấn luyện CNN–BiLSTM với ba seed cố định. Đây là cách tổng hợp kết quả, không phải một kiến trúc mạng mới.
+**Ordinal CNN–BiLSTM.** CNN–BiLSTM dùng ordered head cho target có thứ tự Low/Medium/High. Kết quả hiện tại không chứng minh ordinal learning tốt hơn nominal learning.
 
-## Bảng ánh xạ kỹ thuật cho người phát triển
+**CNN–BiLSTM Ensemble.** Trung bình xác suất của ba lần huấn luyện OULAD CNN–BiLSTM với ba seed cố định. Đây là cách tổng hợp kết quả, không phải kiến trúc mạng mới.
 
-Bảng này chỉ phục vụ truy vết source/database/artifact, không dùng làm tên mô hình trong phần trình bày khóa luận.
+## Ánh xạ kỹ thuật cho người phát triển
 
-| Technical ID | Report name |
-| --- | --- |
-| `V3-MLF` | Logistic Regression |
-| `V3-MLD` | Machine Learning with Dynamic Features |
-| `V3-A0F-ENS` | MLP |
-| `V3-A1-ENS` | MLP |
-| `V3-H2TF-ENS` | CNN–BiLSTM |
-| `V3-H3CF-ENS` | CNN–BiLSTM |
-| `V3-P0-ENS` | CNN–BiLSTM |
-| `V3-D0-ENS` | CNN–BiLSTM Ensemble |
+Các ID dưới đây chỉ phục vụ truy vết source/database/artifact. Phần trình bày khóa luận dùng tên mô hình ở cột phải.
 
-Nguồn ánh xạ máy đọc là [`configs/model_display_names.yaml`](../configs/model_display_names.yaml).
+| Study | Technical ID | Report name |
+| --- | --- | --- |
+| `student-mat` | `R0` | G2 deterministic rule |
+| `student-mat` | `M1` | Random Forest |
+| `student-mat` | `M2` | SVM |
+| `student-mat` | `N0` | CNN–BiLSTM |
+| `student-mat` | `N1` | Ordinal CNN–BiLSTM |
+| `student-por` | `B-R0` | G2 deterministic rule |
+| `student-por` | `B-L0` | Logistic Regression |
+| `student-por` | `B-RF0` | Random Forest |
+| `student-por` | `B-S0` | SVM |
+| `student-por` | `B-H0` | HistGradientBoosting |
+| `student-por` | `B-M0` | MLP |
+| `student-por` | `B-C0` | CNN |
+| `student-por` | `B-L1` | BiLSTM |
+| `student-por` | `B-H1` | CNN–BiLSTM |
+| `student-por` | `B-O0` | Ordinal CNN–BiLSTM |
+| OULAD | `V3-MLF` | Logistic Regression |
+| OULAD | `V3-MLD` | Machine Learning with Dynamic Features |
+| OULAD | `V3-A0F-ENS` | MLP |
+| OULAD | `V3-P0-ENS` | CNN–BiLSTM |
+| OULAD | `V3-D0-ENS` | CNN–BiLSTM Ensemble |
+
+Nguồn mapping máy đọc: [`configs/model_display_names.yaml`](../configs/model_display_names.yaml).

@@ -5,14 +5,12 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def test_final_python_paths_do_not_read_training_csv_directly():
-    """CSV parsing is restricted to ingestion/legacy split utilities."""
+    """Core estimator and governed-recommendation code does not read CSV directly."""
     forbidden = [
-        ROOT / "scripts" / "run_pipeline.py",
-        ROOT / "scripts" / "optimize_model_selection.py",
         ROOT / "src" / "model_selection.py",
         ROOT / "src" / "recommendation.py",
         ROOT / "src" / "explainability.py",
-        ROOT / "scripts" / "build_final_evidence_bundle.py",
+        ROOT / "src" / "governed_recommendation.py",
     ]
     for path in forbidden:
         assert "read_csv" not in path.read_text(encoding="utf-8"), path

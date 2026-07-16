@@ -335,8 +335,8 @@ def load_development_subset_from_postgres(
 ) -> tuple[pd.DataFrame, dict[str, Any]]:
     """Load only pre-approved development rows in a read-only transaction.
 
-    Phase A-B must not fetch the observed legacy holdout and filter it later in
-    memory.  This loader places the immutable development allowlist directly in
+    The frozen UCI protocol must not fetch the observed legacy holdout and filter
+    it later in memory. This loader places the immutable development allowlist directly in
     the SQL predicate and verifies exact record coverage before returning.
     """
 
