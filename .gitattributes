@@ -1,3 +1,65 @@
-# Immutable scientific evidence must retain byte-for-byte checksums on every platform.
-artifacts/study_c_oulad_v3_closure/** -text
-reports/study_c_oulad_v3_closure/** -text
+# Protocol files are hashed as repository-canonical LF text.
+configs/*.yaml text eol=lf
+
+# Windows-generated Study B/C evidence is intentionally hashed with CRLF for
+# machine-readable text outputs. YAML protocols and JSONL decision logs remain LF.
+artifacts/study_b_student_por/**/*.csv text eol=crlf
+artifacts/study_b_student_por/**/*.json text eol=crlf
+artifacts/study_b_student_por/**/*.md text eol=crlf
+artifacts/study_b_student_por/**/*.txt text eol=crlf
+artifacts/study_b_student_por/**/*.yaml text eol=lf
+
+artifacts/study_c_oulad/**/*.csv text eol=crlf
+artifacts/study_c_oulad/**/*.json text eol=crlf
+artifacts/study_c_oulad/**/*.md text eol=crlf
+artifacts/study_c_oulad/**/*.txt text eol=crlf
+artifacts/study_c_oulad/**/*.yaml text eol=lf
+
+artifacts/study_c_oulad_v2/**/*.csv text eol=crlf
+artifacts/study_c_oulad_v2/**/*.json text eol=crlf
+artifacts/study_c_oulad_v2/**/*.md text eol=crlf
+artifacts/study_c_oulad_v2/**/*.txt text eol=crlf
+artifacts/study_c_oulad_v2/**/*.yaml text eol=lf
+artifacts/study_c_oulad_v2/**/*.jsonl text eol=lf
+
+artifacts/study_c_oulad_v3/**/*.csv text eol=crlf
+artifacts/study_c_oulad_v3/**/*.json text eol=crlf
+artifacts/study_c_oulad_v3/**/*.md text eol=crlf
+artifacts/study_c_oulad_v3/**/*.txt text eol=crlf
+artifacts/study_c_oulad_v3/**/*.yaml text eol=lf
+artifacts/study_c_oulad_v3/**/*.jsonl text eol=lf
+
+artifacts/study_c_oulad_v3_closure/**/*.csv text eol=crlf
+artifacts/study_c_oulad_v3_closure/**/*.json text eol=crlf
+artifacts/study_c_oulad_v3_closure/**/*.md text eol=crlf
+artifacts/study_c_oulad_v3_closure/**/*.txt text eol=crlf
+artifacts/study_c_oulad_v3_closure/**/*.yaml text eol=lf
+artifacts/study_c_oulad_v3_closure/**/*.jsonl text eol=lf
+artifacts/study_c_oulad_v3_closure/**/postgres_backup_manifest.json text eol=lf
+
+# Report mirrors use the same platform-stable presentation encoding.
+reports/study_b_student_por/**/*.csv text eol=crlf
+reports/study_b_student_por/**/*.json text eol=crlf
+reports/study_b_student_por/**/*.md text eol=crlf
+reports/study_b_student_por/**/*.txt text eol=crlf
+reports/study_b_student_por/**/*.yaml text eol=lf
+reports/study_c_oulad/**/*.csv text eol=crlf
+reports/study_c_oulad/**/*.json text eol=crlf
+reports/study_c_oulad/**/*.md text eol=crlf
+reports/study_c_oulad/**/*.txt text eol=crlf
+reports/study_c_oulad/**/*.yaml text eol=lf
+reports/study_c_oulad_v2/**/*.csv text eol=crlf
+reports/study_c_oulad_v2/**/*.json text eol=crlf
+reports/study_c_oulad_v2/**/*.md text eol=crlf
+reports/study_c_oulad_v2/**/*.txt text eol=crlf
+reports/study_c_oulad_v2/**/*.yaml text eol=lf
+reports/study_c_oulad_v3/**/*.csv text eol=crlf
+reports/study_c_oulad_v3/**/*.json text eol=crlf
+reports/study_c_oulad_v3/**/*.md text eol=crlf
+reports/study_c_oulad_v3/**/*.txt text eol=crlf
+reports/study_c_oulad_v3/**/*.yaml text eol=lf
+reports/study_c_oulad_v3_closure/**/*.csv text eol=crlf
+reports/study_c_oulad_v3_closure/**/*.json text eol=crlf
+reports/study_c_oulad_v3_closure/**/*.md text eol=crlf
+reports/study_c_oulad_v3_closure/**/*.txt text eol=crlf
+reports/study_c_oulad_v3_closure/**/*.yaml text eol=lf
