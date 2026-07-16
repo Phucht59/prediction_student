@@ -81,6 +81,7 @@ artifacts/study_c_oulad_v3/**/*.pth
 artifacts/study_c_oulad_v3/**/*.joblib
 artifacts/study_c_oulad_v3/**/job_cache/
 artifacts/study_c_oulad_v3/**/search_cache/
+artifacts/study_c_oulad_v3_closure/**/threshold_replay_cache/
 artifacts/study_c_oulad_v3/**/preprocessors/
 reports/study_c_oulad_v3/**/*.pt
 reports/study_c_oulad_v3/**/*.pth
