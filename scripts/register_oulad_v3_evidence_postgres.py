@@ -309,6 +309,7 @@ def register_candidate_runs(connection, predictions: pd.DataFrame, mapping: dict
             if existing:
                 if existing[0] != "completed":
                     raise RuntimeError(f"Existing closure run {candidate_id} is not completed")
+                print(json.dumps({"candidate": candidate_id, "registration": "already_completed"}), flush=True)
                 continue
             cursor.execute(
                 """INSERT INTO ml_experiment_runs(
@@ -341,6 +342,8 @@ def register_candidate_runs(connection, predictions: pd.DataFrame, mapping: dict
             metrics = [(str(run_id), "test", name, value, scope, Json(context)) for name, value, scope, context in metric_rows(candidate_id, ensemble_metrics, single_metrics, mean_metrics)]
             execute_values(cursor, "INSERT INTO ml_run_metrics(run_id,split_name,metric_name,metric_value,label_scope,metric_context) VALUES %s", metrics, page_size=1000)
             cursor.execute("UPDATE ml_experiment_runs SET status='completed',completed_at=%s WHERE run_id=%s", (datetime.now(timezone.utc), str(run_id)))
+        connection.commit()
+        print(json.dumps({"candidate": candidate_id, "registration": "committed", "predictions": len(frame)}), flush=True)
     return result
 
 
@@ -485,8 +488,9 @@ def main() -> None:
         connection.autocommit = False
         dataset_version_id, mapping = ensure_dataset(connection, records, artifact_root)
         bundles = register_evidence_bundles(connection, dataset_version_id, artifact_root, args.source_commit)
-        run_ids = register_candidate_runs(connection, predictions, mapping, dataset_version_id, artifact_root, args.source_commit)
         connection.commit()
+        print(json.dumps({"registration": "dataset_and_bundle_registry_committed", "source_records": len(records), "evidence_bundles": len(bundles)}), flush=True)
+        run_ids = register_candidate_runs(connection, predictions, mapping, dataset_version_id, artifact_root, args.source_commit)
 
     reproduction = reproduce_from_database(admin_dsn, predictions, run_ids, artifact_root)
     permission = audit_permissions(admin_dsn, app_dsn, run_ids, dataset_version_id)
