@@ -28,6 +28,7 @@ from src.studies.oulad_v3_closure.fairness import metrics_with_modules
 MIGRATIONS = (
     ROOT / "database/migrations/005_oulad_lineage_and_snapshot_registry.sql",
     ROOT / "database/migrations/006_oulad_v3_fair_evidence_registry.sql",
+    ROOT / "database/migrations/007_optimize_bulk_lineage_integrity_triggers.sql",
 )
 RUN_NAMESPACE = uuid.UUID("7ae62339-ad32-49b7-8f30-0c92f90c8d38")
 REDACTED_DSN = "postgresql://<redacted>@localhost:5432/student_predict"
@@ -488,6 +489,9 @@ def main() -> None:
         connection.autocommit = False
         dataset_version_id, mapping = ensure_dataset(connection, records, artifact_root)
         bundles = register_evidence_bundles(connection, dataset_version_id, artifact_root, args.source_commit)
+        connection.commit()
+        with connection.cursor() as cursor:
+            cursor.execute("ANALYZE source_records")
         connection.commit()
         print(json.dumps({"registration": "dataset_and_bundle_registry_committed", "source_records": len(records), "evidence_bundles": len(bundles)}), flush=True)
         run_ids = register_candidate_runs(connection, predictions, mapping, dataset_version_id, artifact_root, args.source_commit)
