@@ -107,7 +107,7 @@ def nested_neural(candidate_id: str, frame: pd.DataFrame, outer_splits, trials: 
     return pd.DataFrame(output)
 
 
-def aggregate_phase_c_config(candidate_id: str) -> dict:
+def aggregate_frozen_student_mat_config(candidate_id: str) -> dict:
     path = ROOT / "artifacts" / "strategy_b_phase_c" / "strategy-b-phase-c-20260714-5d34a66" / "resolved_configs.csv"
     rows = pd.read_csv(path)
     configs = [json.loads(value)["parameters"] for value in rows.loc[rows["candidate_id"] == candidate_id, "resolved_config"]]
@@ -139,7 +139,7 @@ def transfer_predictions(mat: pd.DataFrame, por: pd.DataFrame, overlap: pd.Serie
 
     append("R0", None, g2_rule(por["G2"]))
     for study_a_id, builder_id in [("M1", "B-RF0"), ("M2", "B-S0")]:
-        config = aggregate_phase_c_config(study_a_id)
+        config = aggregate_frozen_student_mat_config(study_a_id)
         model = make_ml_model(builder_id, config, 42)
         model.fit(x_train, y_train)
         probabilities = align_probabilities(model, model.predict_proba(x_por))

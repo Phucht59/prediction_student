@@ -1,4 +1,4 @@
-"""Strict G1/G2 neural candidates for Strategy B Phase C.
+"""Compact neural candidates for the UCI G1/G2 student-grade studies.
 
 The implementations intentionally contain no BatchNorm.  Ordered heads use an
 ordered-cutpoint parameterization, so monotone cumulative probabilities follow
@@ -12,7 +12,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 
-PHASE_C_NEURAL_CANDIDATES = {"N0", "N1", "N2", "N3", "A1", "A2"}
+STUDENT_GRADE_NEURAL_CANDIDATES = {"N0", "N1", "N2", "N3", "A1", "A2"}
 ORDINAL_CANDIDATES = {"N1", "N3"}
 
 
@@ -46,7 +46,7 @@ class OrderedCutpointHead(nn.Module):
         return probabilities / probabilities.sum(dim=1, keepdim=True)
 
 
-class PhaseCSequenceModel(nn.Module):
+class StudentGradeSequenceModel(nn.Module):
     """CNN–BiLSTM and matched sequence ablations for N0/N1/A1/A2."""
 
     def __init__(
@@ -64,9 +64,9 @@ class PhaseCSequenceModel(nn.Module):
         if candidate_id not in {"N0", "N1", "A1", "A2"}:
             raise ValueError(f"Unsupported sequence candidate: {candidate_id}")
         if cnn_kernel_size not in {1, 2}:
-            raise ValueError("Phase C sequence length 2 permits only kernel size 1 or 2.")
+            raise ValueError("The G1/G2 sequence length 2 permits only kernel size 1 or 2.")
         if normalization not in {"none", "layer_norm"}:
-            raise ValueError("Phase C normalization must be none or layer_norm.")
+            raise ValueError("Student-grade normalization must be none or layer_norm.")
         self.candidate_id = candidate_id
         self.architecture_variant = {
             "N0": "cnn_bilstm", "N1": "cnn_bilstm", "A1": "cnn_only", "A2": "bilstm_only"
@@ -107,7 +107,7 @@ class PhaseCSequenceModel(nn.Module):
 
     def encode(self, seq_x: torch.Tensor) -> torch.Tensor:
         if seq_x.ndim != 3 or seq_x.shape[1:] != (2, 1):
-            raise ValueError("Phase C sequence input must have shape [batch, 2, 1].")
+            raise ValueError("Student-grade sequence input must have shape [batch, 2, 1].")
         sequence = seq_x.float()
         if self.sequence_cnn is not None:
             sequence = self.sequence_cnn(sequence.transpose(1, 2)).transpose(1, 2)
@@ -133,7 +133,7 @@ class PhaseCSequenceModel(nn.Module):
         return torch.softmax(logits, dim=1)
 
 
-class PhaseCMLPModel(nn.Module):
+class StudentGradeMLPModel(nn.Module):
     """Raw G1/G2 vector MLP for N2/N3."""
 
     def __init__(
@@ -151,7 +151,7 @@ class PhaseCMLPModel(nn.Module):
         if num_layers not in {1, 2}:
             raise ValueError("Tiny MLP supports one or two hidden layers.")
         if normalization not in {"none", "layer_norm"}:
-            raise ValueError("Phase C normalization must be none or layer_norm.")
+            raise ValueError("Student-grade normalization must be none or layer_norm.")
         self.candidate_id = candidate_id
         self.architecture_variant = "mlp"
         self.normalization_name = normalization
@@ -173,7 +173,7 @@ class PhaseCMLPModel(nn.Module):
 
     def forward(self, seq_x: torch.Tensor, *_: torch.Tensor) -> torch.Tensor:
         if seq_x.ndim != 3 or seq_x.shape[1:] != (2, 1):
-            raise ValueError("Phase C MLP input must have shape [batch, 2, 1].")
+            raise ValueError("Student-grade MLP input must have shape [batch, 2, 1].")
         representation = self.encoder(seq_x.float().reshape(len(seq_x), 2))
         return self.head(representation)
 
@@ -184,19 +184,19 @@ class PhaseCMLPModel(nn.Module):
         return torch.softmax(logits, dim=1)
 
 
-def create_phase_c_model(config: dict) -> nn.Module:
+def create_student_grade_model(config: dict) -> nn.Module:
     candidate_id = str(config["candidate_id"])
-    if candidate_id not in PHASE_C_NEURAL_CANDIDATES:
-        raise ValueError(f"Unknown Phase C neural candidate: {candidate_id}")
+    if candidate_id not in STUDENT_GRADE_NEURAL_CANDIDATES:
+        raise ValueError(f"Unknown student-grade neural candidate: {candidate_id}")
     if candidate_id in {"N2", "N3"}:
-        return PhaseCMLPModel(
+        return StudentGradeMLPModel(
             candidate_id=candidate_id,
             hidden_dim=int(config["hidden_dim"]),
             num_layers=int(config["num_layers"]),
             normalization=str(config["normalization"]),
             dropout=float(config["dropout"]),
         )
-    return PhaseCSequenceModel(
+    return StudentGradeSequenceModel(
         candidate_id=candidate_id,
         cnn_channels=int(config["cnn_channels"]),
         cnn_kernel_size=int(config["cnn_kernel_size"]),

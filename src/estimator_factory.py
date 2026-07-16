@@ -19,7 +19,7 @@ import torch.optim as optim
 
 from src.config import STUDENT_G3_3CLASS_BINS
 from src.data_pipeline import DataPreprocessor, FeatureSelector, get_sequence_columns
-from src.models import FocalLoss, create_model, create_phase_c_model
+from src.models import FocalLoss, create_model, create_student_grade_model
 
 
 RESOLVED_CONFIG_SCHEMA_VERSION = "strategy_b_resolved_config_v1"
@@ -214,18 +214,18 @@ def resolve_student_config(
     return resolved
 
 
-def resolve_phase_c_neural_config(
+def resolve_student_grade_neural_config(
     candidate_id: str,
     parameters: Mapping[str, Any],
     *,
     suggested_parameters: Mapping[str, Any] | None = None,
-    evidence_role: str = "phase_c_main_candidate",
+    evidence_role: str = "student_grade_main_candidate",
 ) -> dict[str, Any]:
-    """Resolve the strict, no-BatchNorm Phase C neural estimator contract."""
+    """Resolve the strict, no-BatchNorm UCI student-grade estimator contract."""
 
     candidate_id = str(candidate_id)
     if candidate_id not in {"N0", "N1", "N2", "N3", "A1", "A2"}:
-        raise ResolvedConfigError(f"Unsupported Phase C neural candidate: {candidate_id}")
+        raise ResolvedConfigError(f"Unsupported student-grade neural candidate: {candidate_id}")
     values = dict(parameters)
     values.setdefault("cnn_channels", 1 if candidate_id in {"N2", "N3", "A2"} else 8)
     values.setdefault("cnn_kernel_size", 1)
@@ -325,11 +325,11 @@ def validate_resolved_config(config: Mapping[str, Any]) -> None:
     if not isinstance(swa, Mapping) or set(("enabled", "batch_norm_statistics_updated", "replayable")) - set(swa):
         raise ResolvedConfigError("swa must contain enabled, batch_norm_statistics_updated and replayable.")
     if scheduler["type"] == "fixed_lr" and bool(swa["enabled"]):
-        raise ResolvedConfigError("Strategy B fixed-LR policy requires SWA disabled.")
+        raise ResolvedConfigError("The frozen UCI fixed-LR policy requires SWA disabled.")
     if config["feature_contract"].get("sequence_columns") != ["G1", "G2"]:
         raise ResolvedConfigError("Primary feature contract must be exactly G1/G2.")
     if config["feature_contract"].get("context_columns") != []:
-        raise ResolvedConfigError("Context feature track is closed for Strategy B Phase A-B.")
+        raise ResolvedConfigError("Context features are closed for the frozen UCI G1/G2 contract.")
     if config["target_contract"].get("bins") != list(STUDENT_G3_3CLASS_BINS):
         raise ResolvedConfigError("Target contract bins do not match the frozen project contract.")
     if not isinstance(config["drop_last_train"], bool):
@@ -341,25 +341,25 @@ def validate_resolved_config(config: Mapping[str, Any]) -> None:
     if "candidate_id" in config:
         candidate_id = str(config["candidate_id"])
         if candidate_id not in {"N0", "N1", "N2", "N3", "A1", "A2"}:
-            raise ResolvedConfigError("Unknown Phase C candidate_id.")
-        required_phase_c = {"head_type", "normalization", "hidden_dim", "num_layers", "parameter_guardrail"}
-        missing_phase_c = sorted(required_phase_c - set(config))
-        if missing_phase_c:
-            raise ResolvedConfigError(f"Phase C config is missing required keys: {missing_phase_c}")
+            raise ResolvedConfigError("Unknown student-grade candidate_id.")
+        required_student_grade = {"head_type", "normalization", "hidden_dim", "num_layers", "parameter_guardrail"}
+        missing_student_grade = sorted(required_student_grade - set(config))
+        if missing_student_grade:
+            raise ResolvedConfigError(f"Student-grade config is missing required keys: {missing_student_grade}")
         if config["normalization"] not in {"none", "layer_norm"}:
-            raise ResolvedConfigError("Phase C normalization must be none or layer_norm.")
+            raise ResolvedConfigError("Student-grade normalization must be none or layer_norm.")
         if bool(config["drop_last_train"]):
-            raise ResolvedConfigError("Phase C main candidates require drop_last_train=False.")
+            raise ResolvedConfigError("Student-grade main candidates require drop_last_train=False.")
         if config["scheduler"]["type"] != "fixed_lr" or not config["scheduler"]["replayable"]:
-            raise ResolvedConfigError("Phase C requires a replayable fixed-LR policy.")
+            raise ResolvedConfigError("Student-grade candidates require a replayable fixed-LR policy.")
         if bool(config["swa"]["enabled"]):
-            raise ResolvedConfigError("Phase C requires SWA disabled.")
+            raise ResolvedConfigError("Student-grade candidates require SWA disabled.")
         if config["loss"] != "cross_entropy" or config["class_weight_mode"] != "none":
-            raise ResolvedConfigError("Phase C main comparison requires unweighted cross-entropy/BCE.")
+            raise ResolvedConfigError("The frozen UCI main comparison requires unweighted cross-entropy/BCE.")
         if config["oversample_method"] != "none":
-            raise ResolvedConfigError("Phase C main comparison requires oversampling disabled.")
+            raise ResolvedConfigError("The frozen UCI main comparison requires oversampling disabled.")
         if config["preprocessing"].get("deterministic_transforms") != "none":
-            raise ResolvedConfigError("Phase C primary track uses raw G1/G2 without derived transforms.")
+            raise ResolvedConfigError("The frozen UCI primary track uses raw G1/G2 without derived transforms.")
 
 
 class StudentEstimatorFactory:
@@ -397,7 +397,7 @@ class StudentEstimatorFactory:
 
     def create_model(self, num_numerical: int, cat_cardinalities: list[int], device: torch.device) -> nn.Module:
         if "candidate_id" in self.config:
-            return create_phase_c_model(self.config).to(device)
+            return create_student_grade_model(self.config).to(device)
         return create_model(
             self.spec.kind,
             self.config,

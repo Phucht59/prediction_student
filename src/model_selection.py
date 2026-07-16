@@ -507,7 +507,7 @@ def fit_fold_predict_proba(
 ) -> FoldModelResult:
     """Fit through the shared factory and score a never-trained-on fold."""
 
-    del ablation_mode  # The approved Phase A-B estimator is sequence-only.
+    del ablation_mode  # The frozen UCI estimator is sequence-only.
     validate_resolved_config(params)
     if scenario != params["feature_contract"]["scenario"]:
         raise ResolvedConfigError("Scenario argument disagrees with the resolved feature contract.")

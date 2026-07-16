@@ -17,7 +17,6 @@ from src.governed_recommendation import assess_snapshot, build_governed_recommen
 from src.models import create_model
 from src.model_selection import student_search_space
 from src.train_pipeline import calculate_class_weights, suggest_trial_params
-from scripts.run_pipeline import normalize_cnn_bilstm_classifier_params
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -271,34 +270,6 @@ def test_student_sequence_input_uses_only_prior_grade_allowlist():
     assert seq_x.flatten().tolist() == [8.0, 9.0]
     assert num_x.shape == (0,)
     assert cat_x.shape == (0,)
-
-
-def test_final_train_config_params_disable_context_mlp():
-    params = normalize_cnn_bilstm_classifier_params(
-        {
-            "cnn_channels": 32,
-            "lstm_hidden_dim": 64,
-            "context_hidden_dim": 128,
-            "fusion_hidden_dim": 128,
-            "context_dropout": 0.2,
-            "fusion_dropout": 0.3,
-        }
-    )
-
-    assert params["architecture"] == "cnn_bilstm_classifier"
-    assert params["context_mlp_enabled"] is False
-    assert params["classifier_head"] == "linear"
-    assert "context_hidden_dim" not in params
-    assert "fusion_hidden_dim" not in params
-
-
-def test_active_pipeline_uses_cnn_bilstm_classifier_names():
-    source = (PROJECT_ROOT / "scripts" / "run_pipeline.py").read_text(encoding="utf-8")
-
-    assert "cnn_bilstm_classifier" in source
-    assert "cnn_bilstm_mlp" not in source
-    assert "CNN-BiLSTM + MLP" not in source
-    assert "confidences = mean_probabilities.max(axis=1)" in source
 
 
 def test_context_permutation_importance_is_empty_for_sequence_only_model():

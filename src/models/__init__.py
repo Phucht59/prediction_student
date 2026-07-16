@@ -1,16 +1,16 @@
 from .models import StudentHybridModel, create_model
 from .losses import FocalLoss
-from .phase_c import (
+from .student_grade import (
     OrderedCutpointHead,
-    PhaseCMLPModel,
-    PhaseCSequenceModel,
+    StudentGradeMLPModel,
+    StudentGradeSequenceModel,
     count_trainable_parameters,
-    create_phase_c_model,
+    create_student_grade_model,
 )
 
 __all__ = [
     "StudentHybridModel", "create_model", "FocalLoss", "OrderedCutpointHead",
-    "PhaseCMLPModel", "PhaseCSequenceModel", "count_trainable_parameters",
-    "create_phase_c_model",
+    "StudentGradeMLPModel", "StudentGradeSequenceModel", "count_trainable_parameters",
+    "create_student_grade_model",
 ]
 

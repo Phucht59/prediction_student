@@ -70,7 +70,7 @@ def _pooling(pooling):
 def test_pooling_shapes_and_finite(pooling):
     model=_pooling(pooling); x=torch.randn(4,7,47); lengths=torch.tensor([7,5,3,1]); mask=torch.arange(7)[None,:]<lengths[:,None]
     output,attention=model(x,lengths,mask.float(),True); assert output.shape==(4,32) and torch.isfinite(output).all()
-    if attention is not None: assert float(attention.masked_select(~mask).max())==0.0
+    if attention is not None: assert float(attention.detach().masked_select(~mask).max()) == 0.0
 
 def test_train_only_preprocessing_and_information_shapes(data):
     train,val=data.outer_indices(0); train=train[:100]; val=val[:20]

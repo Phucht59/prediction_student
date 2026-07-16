@@ -8,6 +8,8 @@ artifacts/study_b_student_por/**/*.json text eol=crlf
 artifacts/study_b_student_por/**/*.md text eol=crlf
 artifacts/study_b_student_por/**/*.txt text eol=crlf
 artifacts/study_b_student_por/**/*.yaml text eol=lf
+artifacts/study_b_student_por/**/resolved_config.yaml text eol=crlf
+artifacts/study_b_student_por/**/selected_configs.json text eol=lf
 
 artifacts/study_c_oulad/**/*.csv text eol=crlf
 artifacts/study_c_oulad/**/*.json text eol=crlf
@@ -43,6 +45,8 @@ reports/study_b_student_por/**/*.json text eol=crlf
 reports/study_b_student_por/**/*.md text eol=crlf
 reports/study_b_student_por/**/*.txt text eol=crlf
 reports/study_b_student_por/**/*.yaml text eol=lf
+reports/study_b_student_por/**/resolved_config.yaml text eol=crlf
+reports/study_b_student_por/**/selected_configs.json text eol=lf
 reports/study_c_oulad/**/*.csv text eol=crlf
 reports/study_c_oulad/**/*.json text eol=crlf
 reports/study_c_oulad/**/*.md text eol=crlf

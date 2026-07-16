@@ -1,51 +1,74 @@
-# PostgreSQL migration 003: new-environment and recovery procedure
+# PostgreSQL — migration, recovery và kiểm tra quyền
 
-The current live `student_predict` database already has migration 003 applied.
-It contains one dataset version, 395 source records and 395 target rows. This
-procedure is for disaster recovery or provisioning another environment.
+Tài liệu này dùng khi tạo môi trường PostgreSQL mới hoặc phục hồi database. Không chạy migration destructive trên production để phục vụ test.
 
-## Prerequisites
+## 1. Vai trò kết nối
 
-- Use an administrator role that can create tables, functions, triggers,
-  indexes and foreign keys in the target schema.
-- Set the administrator DSN only in the runtime environment. Never commit a
-  password, DSN, `.env` file or database dump.
-- Create and verify a backup before changing an existing database. Keep the
-  dump outside the repository.
+- Admin/DDL role: chỉ dùng cho backup, migration, role repair và evidence registration cần quyền cao.
+- Application role: least-privileged; phải là `NOSUPERUSER`, `NOCREATEDB`, `NOCREATEROLE` và không sở hữu schema.
+- Không dùng user `postgres` làm application role để làm permission test xanh giả.
+- DSN/password chỉ đặt trong environment runtime; không commit `.env`, command output, dump hoặc credential.
 
-## Apply the migration
+## 2. Backup gate
 
-```powershell
-psql $env:POSTGRES_ADMIN_DSN `
-  -v ON_ERROR_STOP=1 `
-  -f database/migrations/003_add_source_record_targets.sql
-```
+Trước mọi database write có tác động:
 
-The migration must create `source_record_targets` with its composite lineage
-foreign key, uniqueness constraint, index and immutability trigger.
+1. Audit schema, counts, constraints, indexes, roles và dependency.
+2. Tạo custom-format `pg_dump` ngoài repository.
+3. Lưu hash/size/timestamp và kiểm tra dump đọc được.
+4. Chạy migration dry-run trong transaction rồi `ROLLBACK`.
+5. Chỉ `COMMIT` khi postcondition và dependency audit đều PASS.
 
-## Restore target lineage
+## 3. Migration order
 
-Ingest or backfill targets only from the checksum-verified ingestion source.
-Join each target by `dataset_version_id` and stable `record_id`; never
-derive targets from predictions or a volatile CSV row index. Keep G3 outside
-the model feature payload.
+Chạy file trong `database/migrations/` theo thứ tự số. Các lớp chính:
 
-## Verification checklist
+- source/version/record và target lineage;
+- experiment run, split, prediction, metric và recommendation;
+- governed recommendation policies/revisions/advisor/follow-up;
+- OULAD snapshot/evidence registry;
+- fair ensemble evidence registry và set-based integrity triggers.
 
-- `source_dataset_versions`: 1 for the Student-Mat release dataset.
-- `source_records`: 395.
-- `source_record_targets`: 395.
-- Encoded target distribution: 130 Low, 192 Medium, 73 High.
-- Duplicate target rows: 0.
-- Orphan target rows: 0.
-- PostgreSQL integration tests: 5/5 passed.
-- Frozen DB-first evaluation uses the unchanged selected-config checksum and
-  unchanged split hashes.
-
-After configuring isolated admin/application test DSNs, run:
+Ví dụ chạy một migration bằng admin DSN đã đặt trong environment:
 
 ```powershell
-py -3.10 -m pytest -q tests/test_postgres_source_ml_integration.py
-py -3.10 scripts/verify_final_evidence.py
+psql $env:POSTGRES_ADMIN_DSN -v ON_ERROR_STOP=1 -f database/migrations/005_oulad_lineage_and_snapshot_registry.sql
 ```
+
+Không dùng `DROP DATABASE`, `DROP SCHEMA public CASCADE`, `TRUNCATE CASCADE` hoặc unbounded `DELETE` trong workflow kiểm thử.
+
+## 4. Post-migration checks
+
+- Không orphan source/target/split/prediction rows.
+- Không duplicate prediction key hoặc evidence key.
+- Completed run/evidence không update được.
+- Invalid status bị constraint từ chối.
+- App role đọc/ghi đúng allowlist nhưng không thể DROP/ALTER schema.
+- Target tách khỏi feature payload.
+- Registered artifact rows tái tạo đúng prediction, threshold và metric.
+
+## 5. Validation commands
+
+Validation portable, không training:
+
+```powershell
+py -3.10 scripts/validate_thesis_release.py
+```
+
+Full tests:
+
+```powershell
+py -3.10 -m pytest -q
+```
+
+Integration tests chỉ được mở khi admin/app DSN cùng trỏ tới disposable test setup và app DSN dùng least-privileged role. Nếu không có disposable DSN, test phải SKIP với waiver rõ ràng; không đổi thành PASS giả.
+
+## 6. Recovery
+
+Khi migration thất bại:
+
+1. Giữ nguyên log lỗi đã redacted.
+2. Rollback transaction nếu chưa commit.
+3. Nếu đã commit, dùng compensating migration hoặc restore custom dump đã kiểm tra.
+4. Chạy lại schema/count/orphan/permission/reproduction checks.
+5. Không sửa trực tiếp immutable evidence để khớp database mới.

@@ -1,28 +1,37 @@
 # Dự đoán kết quả học tập của sinh viên bằng CNN–BiLSTM
 
-## 1. Tên đề tài
+Repository này là mã nguồn và evidence của khóa luận về dự đoán kết quả học tập trên **ba bộ dữ liệu**: `student-mat`, `student-por` và OULAD. Dự án so sánh Machine Learning với Deep Learning, trong đó CNN–BiLSTM là kiến trúc chính cần kiểm chứng, không phải mô hình được mặc định phải thắng.
 
-Repository xây dựng và đánh giá các mô hình dự đoán kết quả học tập, trong đó CNN–BiLSTM là kiến trúc Deep Learning chính của khóa luận. Hệ thống cũng có pipeline khuyến nghị lộ trình học dựa trên luật chuyên gia, luôn yêu cầu giảng viên/cố vấn duyệt.
+Tài liệu kỹ thuật đầy đủ và có thẩm quyền cao nhất của repository là [PROJECT.md](PROJECT.md).
 
-## 2. Mục tiêu
+## 1. Ba nghiên cứu trong đồ án
 
-- Chuẩn hóa dữ liệu học tập và lưu vết nguồn dữ liệu trong PostgreSQL.
-- So sánh công bằng Machine Learning và Deep Learning trên cùng cohort, feature contract và split.
-- Kiểm tra CNN–BiLSTM có khai thác được chuỗi hành vi học theo tuần hay không.
-- Tạo khuyến nghị có cấu trúc, giải thích, kiểm soát tải học và theo dõi phiên bản.
-- Bảo toàn khả năng tái lập bằng manifest, checksum, prediction và metric đã đăng ký.
+| Nghiên cứu | Bộ dữ liệu | Bài toán | Quy mô evidence chính | Kết luận chính |
+| --- | --- | --- | ---: | --- |
+| Study A | UCI `student-mat` | Dự đoán Low/Medium/High từ G1, G2 | 316 development records | Random Forest có điểm Macro-F1 cao nhất nhưng practical-tie với quy tắc G2 và SVM; quy tắc G2 được chọn làm overall model, CNN–BiLSTM được giữ làm thesis hybrid |
+| Study B | UCI `student-por` | Lặp lại bài toán ba lớp với cohort và nested CV riêng | 649 records | Random Forest đạt Macro-F1 cao nhất; CNN–BiLSTM không vượt ML |
+| Study C | OULAD | Nhận diện At-risk tại mốc giữa khóa từ chuỗi hoạt động theo tuần | 15.378 grouped-development records | CNN–BiLSTM Ensemble có point estimate cao nhất nhưng practical-tie với MLP |
 
-## 3. Bộ dữ liệu
+`student-mat` có 395 dòng gốc, nhưng 79 dòng đã từng được quan sát trong quá trình phát triển nên được khóa dưới trạng thái `legacy_heldout_observed`; chúng không được dùng để tạo claim test-set chưa từng thấy.
 
-Repository chứa ba phạm vi nghiên cứu:
+## 2. Dữ liệu và target
 
-- **UCI Student Performance – Mathematics:** bài toán ba lớp Low/Medium/High từ điểm G3, dùng G1 và G2 làm đầu vào giai đoạn muộn. Trong 395 bản ghi, 316 bản ghi thuộc development protocol; 79 bản ghi `legacy_heldout_observed` đã từng được quan sát nên không được dùng như test set chưa thấy.
-- **UCI Student Performance – Portuguese:** cohort và lineage riêng, dùng để kiểm tra khả năng lặp lại protocol trên môn học khác.
-- **OULAD:** dữ liệu tương tác học trực tuyến theo tuần. Kết quả chính bên dưới là bài toán nhận diện sinh viên có nguy cơ tại mốc giữa khóa, đánh giá bằng grouped development out-of-fold evidence.
+### `student-mat` và `student-por`
 
-Target, feature snapshot và split membership được tách rời. Dữ liệu sau cutoff, nhãn tương lai và các thuộc tính nhạy cảm không đi vào mô hình chính.
+- Input chính: G1 và G2.
+- Target: G3 được chia thành Low (0–9), Medium (10–14), High (15–20).
+- Metric chính: Macro-F1.
+- G3, ID dòng, fold ID và metadata dự đoán không được dùng làm feature.
 
-## 4. Các mô hình được so sánh
+### OULAD
+
+- Đơn vị quan sát: `(code_module, code_presentation, id_student)`.
+- Target vận hành: At-risk = Withdrawn hoặc Fail; Not-at-risk = Pass hoặc Distinction.
+- Mốc kết quả cuối: `F2_MIDDLE`, chỉ dùng sự kiện trong khoảng `0 <= date < cutoff`, với cutoff bằng 50% độ dài presentation.
+- Split theo `global id_student`; cùng một sinh viên không xuất hiện ở cả train và validation.
+- Demographic/sensitive attributes và sự kiện sau cutoff không đi vào mô hình chính.
+
+## 3. Các mô hình được so sánh
 
 Machine Learning:
 
@@ -39,17 +48,42 @@ Deep Learning:
 - CNN–BiLSTM
 - CNN–BiLSTM Ensemble
 
-Các mã kỹ thuật vẫn được giữ trong database, artifact và prediction registry để truy vết. Tài liệu và biểu đồ dùng [tên mô hình dễ đọc](docs/THESIS_MODEL_TERMS.md).
+Mã kỹ thuật được giữ trong artifact và PostgreSQL để bảo toàn lineage; nội dung dành cho người đọc dùng [tên mô hình đơn giản](docs/THESIS_MODEL_TERMS.md).
 
-## 5. Kiến trúc CNN–BiLSTM
+## 4. Kiến trúc CNN–BiLSTM
 
-CNN trích xuất các mẫu cục bộ trong chuỗi hoạt động theo tuần. BiLSTM học quan hệ theo thứ tự trong phần chuỗi đã quan sát. Biểu diễn chuỗi được kết hợp với các thống kê tổng hợp hợp lệ tại cutoff và static context không nhạy cảm.
+Với UCI, CNN–BiLSTM nhận chuỗi điểm `[G1, G2]`. Chuỗi chỉ có hai timestep nên khả năng chứng minh ưu thế của CNN/BiLSTM bị giới hạn.
 
-CNN–BiLSTM được huấn luyện ba lần với ba seed cố định. **CNN–BiLSTM Ensemble** là trung bình số học xác suất dự đoán của cả ba lần huấn luyện; ensemble không phải một kiến trúc mạng mới.
+Với OULAD, mô hình nhận chuỗi hoạt động theo tuần. CNN trích xuất mẫu cục bộ, BiLSTM học quan hệ theo thứ tự, rồi biểu diễn temporal được kết hợp với thống kê tổng hợp và static context hợp lệ tại cutoff. Mô hình được huấn luyện bằng ba seed cố định; **CNN–BiLSTM Ensemble** là trung bình số học xác suất của cả ba lần huấn luyện, không phải một kiến trúc mạng mới.
 
-## 6. Kết quả chính
+## 5. Kết quả Study A — `student-mat`
 
-Số liệu được đọc từ fair closure evidence, không tính lại hay chép từ một lần huấn luyện mới.
+| Model | Accuracy | Macro-F1 | High F1 | Macro PR-AUC | RMSE G3 | R² G3 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| G2 deterministic rule | 0.8924 | 0.8988 | 0.9246 | 0.8461 | 2.0086 | 0.8050 |
+| Random Forest | 0.8924 | 0.9000 | 0.9332 | 0.9526 | 2.4609 | 0.7065 |
+| SVM | 0.8829 | 0.8901 | 0.9246 | 0.9602 | 2.3605 | 0.7305 |
+| CNN–BiLSTM | 0.8462 | 0.8504 | 0.8694 | 0.9510 | 2.4632 | 0.7067 |
+| Ordinal CNN–BiLSTM | 0.8315 | 0.8383 | 0.8701 | 0.9457 | 2.4329 | 0.7128 |
+
+Random Forest có point estimate Macro-F1 cao nhất. Tuy nhiên, Random Forest, quy tắc G2 và SVM nằm trong practical tie theo protocol. Quy tắc G2 được chọn làm **final overall model** theo tie-break và độ đơn giản; nominal CNN–BiLSTM là **final thesis hybrid model**. Hai vai trò này cố ý tách biệt.
+
+## 6. Kết quả Study B — `student-por`
+
+| Model | Accuracy | Macro-F1 | Macro PR-AUC |
+| --- | ---: | ---: | ---: |
+| Random Forest | 0.9014 | 0.8698 | 0.9315 |
+| SVM | 0.8952 | 0.8659 | 0.9308 |
+| HistGradientBoosting | 0.8968 | 0.8628 | 0.9329 |
+| CNN–BiLSTM | 0.8752 | 0.8470 | 0.9273 |
+| Logistic Regression | 0.8844 | 0.8449 | 0.9326 |
+| G2 deterministic rule | 0.8428 | 0.8166 | — |
+
+Random Forest là mô hình tốt nhất của independent nested evaluation trên `student-por`. Qua ba seed khai báo, Random Forest có Macro-F1 trung bình 0.8672 (SD 0.0023), còn CNN–BiLSTM có trung bình 0.8437 (SD 0.0151).
+
+Cross-subject transfer từ `student-mat` sang `student-por` được báo riêng: CNN–BiLSTM đạt Macro-F1 0.8445, Random Forest 0.8250, SVM 0.8181 và quy tắc G2 0.8166. Đây là **frozen transfer/domain-shift analysis**, không phải external validation độc lập vì hai bộ UCI có các hồ sơ quasi-identity trùng nhau.
+
+## 7. Kết quả Study C — OULAD
 
 | Model | Macro-F1 | Risk Precision | Risk Recall | PR-AUC |
 | --- | ---: | ---: | ---: | ---: |
@@ -59,11 +93,44 @@ Số liệu được đọc từ fair closure evidence, không tính lại hay c
 | CNN–BiLSTM | 0.8292 | 0.8195 | 0.7615 | 0.8923 |
 | CNN–BiLSTM Ensemble | 0.8311 | 0.8406 | 0.7431 | 0.8927 |
 
-CNN–BiLSTM Ensemble đạt point estimate Macro-F1 cao nhất. Tuy nhiên, chênh lệch so với MLP ensemble nằm trong vùng practical tie. Vì vậy, nghiên cứu **không tuyên bố CNN–BiLSTM vượt trội tuyệt đối**.
+CNN–BiLSTM Ensemble đạt point estimate Macro-F1 cao nhất. Chênh lệch so với MLP ensemble là 0.0025, thấp hơn superiority margin 0.005, nên verdict cuối là **PRACTICAL_TIE**. Nghiên cứu không tuyên bố Deep Learning vượt trội tuyệt đối.
 
-Ba biểu đồ dành cho khóa luận nằm trong [`reports/thesis_figures`](reports/thesis_figures). Comparator dùng feature động không được gán tên một thuật toán duy nhất vì các outer fold đã chọn hai họ estimator khác nhau.
+Các biểu đồ trình bày dành cho khóa luận nằm trong [reports/thesis_figures](reports/thesis_figures).
 
-## 7. Cách chạy dự án
+## 8. Hệ thống khuyến nghị
+
+Hệ thống khuyến nghị của Study A dùng CNN–BiLSTM năm seed làm nguồn model score và quy tắc G2 làm agreement guardrail. Pipeline tạo mục tiêu và kế hoạch bốn tuần theo luật chuyên gia, bắt buộc advisor review, có follow-up và revision bất biến.
+
+- Technical validation: **PASS**.
+- Expert validation: **PENDING**.
+- Effectiveness validation: **NOT PERFORMED**.
+- 316 cases phát triển; 71 cases (22,47%) đi vào uncertainty/agreement review.
+- 0 action conflict, 0 duplicate action, 0 workload violation.
+
+Không có claim rằng khuyến nghị làm tăng điểm hoặc có tác động nhân quả.
+
+## 9. PostgreSQL và lưu vết khoa học
+
+PostgreSQL lưu source identity, target tách biệt, cohort/split membership, prediction, metric và evidence registry. OULAD event/snapshot lớn được lưu bằng Parquet; PostgreSQL lưu metadata, checksum và lineage thay vì nhét toàn bộ event vào một JSON payload lớn.
+
+Application role là least-privileged role, không phải superuser. Destructive integration test chỉ được chạy trên disposable database.
+
+## 10. Cấu trúc repository
+
+```text
+configs/    frozen scientific protocols và display-name mapping
+database/   migrations, constraints và lineage schema
+src/        model, feature, estimator, metric, PostgreSQL và recommendation code
+scripts/    ingestion, study runners, evidence registration và validators
+tests/      unit, leakage, split, checksum, database và scientific-contract tests
+artifacts/  immutable machine-readable scientific evidence
+reports/    report mirrors, figures và scientific assessments
+docs/       thuật ngữ và hướng dẫn vận hành cần thiết
+```
+
+Các runner Strategy A–E, locked-test materializer và tài liệu kế hoạch V2/V3 đã được loại khỏi source tree cuối. Immutable evidence cũ vẫn được giữ nguyên để audit; source lịch sử có thể khôi phục từ tag `archive/pre-final-source-prune-20260716`.
+
+## 11. Cách kiểm tra dự án
 
 Cài môi trường:
 
@@ -72,69 +139,46 @@ py -3.10 -m pip install -r requirements-lock.txt
 Copy-Item .env.example .env
 ```
 
-Chạy toàn bộ test:
-
-```powershell
-py -3.10 -m pytest -q
-```
-
-Kiểm tra evidence mà không train lại mô hình:
+Kiểm tra nhanh toàn bộ evidence ba dataset, không train:
 
 ```powershell
 py -3.10 scripts/validate_thesis_release.py
 ```
 
-Tạo lại figure từ evidence đã đóng băng:
+Chạy full test suite:
+
+```powershell
+py -3.10 -m pytest -q
+```
+
+Tạo lại figure từ evidence đóng băng:
 
 ```powershell
 py -3.10 scripts/generate_thesis_figures.py
 ```
 
-Ingest UCI vào một database đã được cấp quyền:
+Ingest UCI vào PostgreSQL:
 
 ```powershell
 py -3.10 scripts/ingest_dataset_to_postgres.py --dataset student-mat
+py -3.10 scripts/ingest_dataset_to_postgres.py --dataset student-por
 ```
 
-Không dùng database production cho destructive integration tests. Các runner nested-CV/Optuna là lịch sử thí nghiệm tốn chi phí, không phải lệnh kiểm tra nhanh.
+Không chạy các study runner/Optuna khi chỉ muốn kiểm tra repository; đó là expensive reproduction và phải dùng đúng frozen protocol.
 
-## 8. Cấu trúc thư mục
+## 12. Evidence chính
 
-```text
-configs/    protocol và mapping tên hiển thị
-database/   migrations và ràng buộc PostgreSQL
-src/        model, feature, metric, lineage và recommendation policy
-scripts/    ingestion, validator, evidence utilities và historical runners
-tests/      unit, contract và PostgreSQL integration tests
-artifacts/  scientific evidence bất biến
-reports/    báo cáo, figure và thesis context
-docs/       tài liệu kỹ thuật và thuật ngữ
-```
+- `student-mat`: [corrected final repository closure](artifacts/final_repository_closure/final-repository-closure-corrected-20260715-6ab785d)
+- `student-por`: [independent and transfer evidence](artifacts/study_b_student_por/study-b-student-por-20260715-v1)
+- OULAD: [fair ensemble and PostgreSQL closure](artifacts/study_c_oulad_v3_closure/oulad-v3-fair-db-closure-20260716-v1)
+- Recommendation: [technical recommendation evidence](artifacts/strategy_b_phase_d_recommendation/strategy-b-phase-d-recommendation-20260715-407ac0f)
 
-## 9. PostgreSQL
+## 13. Hạn chế
 
-PostgreSQL lưu source identity, cohort/split membership, feature snapshot, prediction, metric và evidence bundle. `candidate_id` kỹ thuật không bị đổi; `display_name` chỉ là lớp trình bày.
-
-Migration phải được chạy theo thứ tự và bằng role có quyền phù hợp. App role phải là least-privileged role, không dùng superuser để làm permission test xanh giả.
-
-## 10. Kiểm thử
-
-Test suite bao gồm:
-
-- split/group và chống leakage;
-- probability, checkpoint và metric recomputation;
-- tính bất biến của scientific evidence;
-- model display-name mapping;
-- PostgreSQL schema, lineage, permission và reproduction;
-- recommendation safety, revision và advisor-review lifecycle.
-
-PostgreSQL destructive tests chỉ chạy khi có disposable DSN. Test bị skip phải được báo là skip, không chuyển thành pass giả.
-
-## 11. Hạn chế
-
-- Kết quả OULAD là grouped development evidence; benchmark presentation tương lai đã quan sát không phải external test chưa thấy.
-- Chênh lệch CNN–BiLSTM Ensemble và MLP là practical tie, không phải superiority đã xác nhận.
-- UCI Mathematics chỉ có hai mốc G1/G2, nên giá trị tăng thêm của CNN trên chuỗi ngắn chưa được chứng minh.
-- 79 bản ghi đã quan sát không được dùng cho claim locked-test.
-- Recommendation là rule-based, non-causal; expert validation còn pending và effectiveness chưa được đánh giá.
-- Chưa có bộ dữ liệu external hoàn toàn chưa thấy để xác nhận khả năng tổng quát hóa.
+- `student-mat` nhỏ và chỉ có hai grade timestep; 79 dòng đã quan sát không còn là locked test.
+- `student-por` transfer có quasi-identity overlap với `student-mat`.
+- OULAD final result là grouped development evidence tại mốc giữa khóa; future benchmark không được dùng trong closure cuối.
+- OULAD primary closure là binary at-risk, không phải target bốn lớp.
+- CNN–BiLSTM practical-tie với MLP trên OULAD; CNN incremental value chưa được chứng minh chắc chắn.
+- Chưa có external unseen confirmation dataset.
+- Expert review thật và prospective effectiveness study của recommendation chưa thực hiện.
