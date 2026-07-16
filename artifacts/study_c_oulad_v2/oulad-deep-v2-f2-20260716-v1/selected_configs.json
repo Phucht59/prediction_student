@@ -1,0 +1,304 @@
+{
+  "V2-A0": {
+    "0": {
+      "candidate_id": "V2-A0",
+      "config": {
+        "aggregate_hidden_1": 128,
+        "aggregate_hidden_2": 0,
+        "batch_size": 128,
+        "dropout": 0.2710582566280392,
+        "gradient_clip": 1.0,
+        "learning_rate": 0.0005510391929902152,
+        "max_epochs": 40,
+        "patience": 6,
+        "positive_weight": "none",
+        "scheduler": "fixed_lr",
+        "weight_decay": 2.3233503515390116e-06
+      },
+      "inner_selected_epochs": [
+        8,
+        11
+      ],
+      "outer_fold": 0,
+      "parameter_count": 32129,
+      "refit_epochs": 10,
+      "runtime_seconds": 320.7333983999997,
+      "thresholds": {
+        "inner_macro_f1": 0.8228228980439154,
+        "inner_operational_precision": 0.7502276867030966,
+        "inner_operational_recall": 0.8036585365853659,
+        "macro_threshold": 0.5179999999999999,
+        "operational_feasible": true,
+        "operational_threshold": 0.3379999999999999
+      }
+    },
+    "1": {
+      "candidate_id": "V2-A0",
+      "config": {
+        "aggregate_hidden_1": 64,
+        "aggregate_hidden_2": 0,
+        "batch_size": 256,
+        "dropout": 0.29285977682044,
+        "gradient_clip": 1.0,
+        "learning_rate": 0.0005411511028191479,
+        "max_epochs": 40,
+        "patience": 6,
+        "positive_weight": "fully_balanced",
+        "scheduler": "fixed_lr",
+        "weight_decay": 1.4316824215739616e-05
+      },
+      "inner_selected_epochs": [
+        12,
+        18
+      ],
+      "outer_fold": 1,
+      "parameter_count": 17409,
+      "refit_epochs": 15,
+      "runtime_seconds": 327.07646319999185,
+      "thresholds": {
+        "inner_macro_f1": 0.8279569051788842,
+        "inner_operational_precision": 0.7502244165170556,
+        "inner_operational_recall": 0.8167603225018324,
+        "macro_threshold": 0.5159999999999999,
+        "operational_feasible": true,
+        "operational_threshold": 0.3909999999999999
+      }
+    },
+    "2": {
+      "candidate_id": "V2-A0",
+      "config": {
+        "aggregate_hidden_1": 128,
+        "aggregate_hidden_2": 0,
+        "batch_size": 128,
+        "dropout": 0.2070035086860853,
+        "gradient_clip": 1.0,
+        "learning_rate": 0.0003528678233541288,
+        "max_epochs": 40,
+        "patience": 6,
+        "positive_weight": "sqrt_balanced",
+        "scheduler": "fixed_lr",
+        "weight_decay": 3.5888049313805686e-06
+      },
+      "inner_selected_epochs": [
+        19,
+        11
+      ],
+      "outer_fold": 2,
+      "parameter_count": 32129,
+      "refit_epochs": 15,
+      "runtime_seconds": 329.2058881999983,
+      "thresholds": {
+        "inner_macro_f1": 0.8268708956097551,
+        "inner_operational_precision": 0.7504014682266575,
+        "inner_operational_recall": 0.8090526836507544,
+        "macro_threshold": 0.5169999999999999,
+        "operational_feasible": true,
+        "operational_threshold": 0.36899999999999994
+      }
+    }
+  },
+  "V2-H2T": {
+    "0": {
+      "candidate_id": "V2-H2T",
+      "config": {
+        "batch_size": 128,
+        "conv_channels": 32,
+        "dropout": 0.10362927539708976,
+        "fusion_hidden": 32,
+        "gradient_clip": 1.0,
+        "kernel_size": 3,
+        "learning_rate": 0.0006949825557843949,
+        "lstm_hidden": 64,
+        "lstm_layers": 2,
+        "max_epochs": 40,
+        "patience": 6,
+        "positive_weight": "none",
+        "scheduler": "fixed_lr",
+        "static_hidden": 32,
+        "weight_decay": 6.64239480517792e-05
+      },
+      "inner_selected_epochs": [
+        8,
+        11
+      ],
+      "outer_fold": 0,
+      "parameter_count": 156769,
+      "refit_epochs": 10,
+      "runtime_seconds": 606.9453243000025,
+      "thresholds": {
+        "inner_macro_f1": 0.8236587671910516,
+        "inner_operational_precision": 0.7507344632768361,
+        "inner_operational_recall": 0.8102439024390244,
+        "macro_threshold": 0.4769999999999999,
+        "operational_feasible": true,
+        "operational_threshold": 0.3319999999999999
+      }
+    },
+    "1": {
+      "candidate_id": "V2-H2T",
+      "config": {
+        "batch_size": 256,
+        "conv_channels": 24,
+        "dropout": 0.2963829052469451,
+        "fusion_hidden": 32,
+        "gradient_clip": 1.0,
+        "kernel_size": 3,
+        "learning_rate": 0.0002909635600179011,
+        "lstm_hidden": 48,
+        "lstm_layers": 2,
+        "max_epochs": 40,
+        "patience": 6,
+        "positive_weight": "sqrt_balanced",
+        "scheduler": "fixed_lr",
+        "static_hidden": 32,
+        "weight_decay": 2.2148279502168874e-06
+      },
+      "inner_selected_epochs": [
+        31,
+        39
+      ],
+      "outer_fold": 1,
+      "parameter_count": 90313,
+      "refit_epochs": 35,
+      "runtime_seconds": 624.6460073999915,
+      "thresholds": {
+        "inner_macro_f1": 0.8277605549712848,
+        "inner_operational_precision": 0.7501683501683502,
+        "inner_operational_recall": 0.8165160029318348,
+        "macro_threshold": 0.5399999999999999,
+        "operational_feasible": true,
+        "operational_threshold": 0.3539999999999999
+      }
+    },
+    "2": {
+      "candidate_id": "V2-H2T",
+      "config": {
+        "batch_size": 128,
+        "conv_channels": 32,
+        "dropout": 0.25595299395828064,
+        "fusion_hidden": 32,
+        "gradient_clip": 1.0,
+        "kernel_size": 5,
+        "learning_rate": 0.0012868300386193836,
+        "lstm_hidden": 32,
+        "lstm_layers": 2,
+        "max_epochs": 40,
+        "patience": 6,
+        "positive_weight": "fully_balanced",
+        "scheduler": "deterministic_cosine",
+        "static_hidden": 32,
+        "weight_decay": 8.592563230076177e-06
+      },
+      "inner_selected_epochs": [
+        11,
+        11
+      ],
+      "outer_fold": 2,
+      "parameter_count": 48225,
+      "refit_epochs": 11,
+      "runtime_seconds": 584.5968833000079,
+      "thresholds": {
+        "inner_macro_f1": 0.824239791499916,
+        "inner_operational_precision": 0.7506938020351527,
+        "inner_operational_recall": 0.8028691565669057,
+        "macro_threshold": 0.5349999999999999,
+        "operational_feasible": true,
+        "operational_threshold": 0.3879999999999999
+      }
+    }
+  },
+  "V2-H3C": {
+    "0": {
+      "candidate_id": "V2-H3C",
+      "outer_fold": 0,
+      "parameter_count": 191713,
+      "refit_epochs": 10,
+      "runtime_seconds": 30.493338300002506,
+      "thresholds": {
+        "inner_macro_f1": 0.8223957061613907,
+        "inner_operational_precision": 0.7501137915339099,
+        "inner_operational_recall": 0.8039024390243903,
+        "macro_threshold": 0.4479999999999999,
+        "operational_feasible": true,
+        "operational_threshold": 0.30399999999999994
+      }
+    },
+    "1": {
+      "candidate_id": "V2-H3C",
+      "outer_fold": 1,
+      "parameter_count": 109449,
+      "refit_epochs": 35,
+      "runtime_seconds": 52.243983899999876,
+      "thresholds": {
+        "inner_macro_f1": 0.8251599492243125,
+        "inner_operational_precision": 0.7502769776202083,
+        "inner_operational_recall": 0.8272660640117273,
+        "macro_threshold": 0.5319999999999999,
+        "operational_feasible": true,
+        "operational_threshold": 0.37299999999999994
+      }
+    },
+    "2": {
+      "candidate_id": "V2-H3C",
+      "outer_fold": 2,
+      "parameter_count": 80993,
+      "refit_epochs": 11,
+      "runtime_seconds": 30.809820900001796,
+      "thresholds": {
+        "inner_macro_f1": 0.8208731375357193,
+        "inner_operational_precision": 0.7506950880444856,
+        "inner_operational_recall": 0.8013851100667821,
+        "macro_threshold": 0.5319999999999999,
+        "operational_feasible": true,
+        "operational_threshold": 0.3869999999999999
+      }
+    }
+  },
+  "V2-T0": {
+    "0": {
+      "candidate_id": "V2-T0",
+      "outer_fold": 0,
+      "parameter_count": 151265,
+      "refit_epochs": 10,
+      "runtime_seconds": 25.331096199995955,
+      "thresholds": {
+        "inner_macro_f1": 0.8189270971557808,
+        "inner_operational_precision": 0.7507972665148064,
+        "inner_operational_recall": 0.8039024390243903,
+        "macro_threshold": 0.4639999999999999,
+        "operational_feasible": true,
+        "operational_threshold": 0.3369999999999999
+      }
+    },
+    "1": {
+      "candidate_id": "V2-T0",
+      "outer_fold": 1,
+      "parameter_count": 85801,
+      "refit_epochs": 35,
+      "runtime_seconds": 43.31999849999556,
+      "thresholds": {
+        "inner_macro_f1": 0.8242258071041662,
+        "inner_operational_precision": 0.7503935237238588,
+        "inner_operational_recall": 0.815294405081847,
+        "macro_threshold": 0.566,
+        "operational_feasible": true,
+        "operational_threshold": 0.38199999999999995
+      }
+    },
+    "2": {
+      "candidate_id": "V2-T0",
+      "outer_fold": 2,
+      "parameter_count": 44705,
+      "refit_epochs": 11,
+      "runtime_seconds": 27.2514838000061,
+      "thresholds": {
+        "inner_macro_f1": 0.8225151599007368,
+        "inner_operational_precision": 0.75,
+        "inner_operational_recall": 0.7991590403165966,
+        "macro_threshold": 0.5049999999999999,
+        "operational_feasible": true,
+        "operational_threshold": 0.4029999999999999
+      }
+    }
+  }
+}

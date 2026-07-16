@@ -1,0 +1,12 @@
+{
+  "seeds": [
+    42,
+    2026,
+    3407
+  ],
+  "best_seed_selection": false,
+  "candidates": [
+    "B-RF0",
+    "B-H1"
+  ]
+}

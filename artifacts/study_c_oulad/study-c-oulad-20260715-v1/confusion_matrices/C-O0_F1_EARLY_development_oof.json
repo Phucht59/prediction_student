@@ -1,0 +1,17 @@
+{
+  "labels": [
+    "not_at_risk",
+    "at_risk"
+  ],
+  "matrix": [
+    [
+      9256,
+      0
+    ],
+    [
+      7310,
+      0
+    ]
+  ],
+  "records": 16566
+}

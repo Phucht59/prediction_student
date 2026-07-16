@@ -1,0 +1,6 @@
+{
+  "eligible_for_closure_verdict": false,
+  "reason": "some old rows compared probability ensemble against single-seed or mean-of-metric evidence",
+  "source": "artifacts/study_c_oulad_v3/oulad-deep-v3-f2-20260716-v1/grouped_bootstrap.csv",
+  "status": "historical_v3_mixed_contract_result"
+}

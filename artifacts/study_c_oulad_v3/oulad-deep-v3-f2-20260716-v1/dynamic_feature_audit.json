@@ -1,0 +1,16 @@
+{
+  "deadline_context": false,
+  "finite": true,
+  "matched_shape": [
+    24603,
+    440
+  ],
+  "past_only": true,
+  "records": 24603,
+  "sequence_shape": [
+    24603,
+    20,
+    47
+  ],
+  "status": "PASS"
+}

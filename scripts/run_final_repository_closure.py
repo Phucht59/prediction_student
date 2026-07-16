@@ -274,7 +274,8 @@ def database_validation() -> dict[str, Any]:
     text = migration.read_text(encoding="utf-8")
     tables = ["recommendation_policies", "recommendation_feature_registry", "recommendation_action_catalog", "prediction_snapshots", "recommendation_instances", "recommendation_revisions", "recommendation_goals", "recommendation_actions", "advisor_decisions", "recommendation_follow_ups", "recommendation_outcomes", "expert_review_cases", "expert_review_ratings"]
     checks = {
-        "migration_order": [path.name[:3] for path in migrations] == ["001", "002", "003", "004"],
+        "migration_order": [path.name[:3] for path in migrations[:4]] == ["001", "002", "003", "004"]
+        and [path.name[:3] for path in migrations] == sorted({path.name[:3] for path in migrations}),
         "required_tables": all(f"CREATE TABLE IF NOT EXISTS {table}" in text for table in tables),
         "foreign_keys": text.count("REFERENCES ") >= 10,
         "append_only_trigger": "BEFORE UPDATE OR DELETE" in text and "reject_governed_recommendation_mutation" in text,

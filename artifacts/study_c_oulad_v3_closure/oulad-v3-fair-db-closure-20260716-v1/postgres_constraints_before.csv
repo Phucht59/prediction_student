@@ -1,0 +1,68 @@
+schema_name,table_name,constraint_name,constraint_type,definition,validated
+public,ml_experiment_runs,chk_ml_runs_clean_tree_diff,c,CHECK (working_tree_state::text = 'clean'::text AND source_diff_uri IS NULL AND source_diff_hash IS NULL OR working_tree_state::text = 'dirty'::text AND source_diff_uri IS NOT NULL AND source_diff_hash IS NOT NULL),True
+public,ml_experiment_runs,chk_ml_runs_completed_at_order,c,CHECK (completed_at IS NULL OR completed_at >= started_at),True
+public,ml_experiment_runs,chk_ml_runs_completed_at_status,c,"CHECK (status::text = 'running'::text AND completed_at IS NULL OR (status::text = ANY (ARRAY['completed'::character varying, 'failed'::character varying]::text[])) AND completed_at IS NOT NULL)",True
+public,ml_experiment_runs,chk_ml_runs_environment_lock_hash,c,CHECK (length(TRIM(BOTH FROM environment_lock_hash)) > 0),True
+public,ml_experiment_runs,chk_ml_runs_environment_lock_uri,c,CHECK (length(TRIM(BOTH FROM environment_lock_uri)) > 0),True
+public,ml_experiment_runs,chk_ml_runs_metadata_object,c,CHECK (jsonb_typeof(metadata) = 'object'::text),True
+public,ml_experiment_runs,chk_ml_runs_status,c,"CHECK (status::text = ANY (ARRAY['running'::character varying, 'completed'::character varying, 'failed'::character varying]::text[]))",True
+public,ml_experiment_runs,chk_ml_runs_target_definition_object,c,CHECK (jsonb_typeof(target_definition) = 'object'::text),True
+public,ml_experiment_runs,chk_ml_runs_task_type,c,CHECK (task_type::text = 'classification'::text),True
+public,ml_experiment_runs,chk_ml_runs_train_config_object,c,CHECK (jsonb_typeof(train_config) = 'object'::text),True
+public,ml_experiment_runs,chk_ml_runs_working_tree,c,"CHECK (working_tree_state::text = ANY (ARRAY['clean'::character varying, 'dirty'::character varying]::text[]))",True
+public,ml_experiment_runs,ml_experiment_runs_dataset_version_id_fkey,f,FOREIGN KEY (dataset_version_id) REFERENCES source_dataset_versions(dataset_version_id) ON DELETE RESTRICT,True
+public,ml_experiment_runs,ml_experiment_runs_pkey,p,PRIMARY KEY (run_id),True
+public,ml_experiment_runs,uq_ml_experiment_runs_run_dataset,u,"UNIQUE (run_id, dataset_version_id)",True
+public,ml_predictions,chk_ml_predictions_confidence,c,CHECK (confidence >= 0::double precision AND confidence <= 1::double precision),True
+public,ml_predictions,chk_ml_predictions_probability_object,c,CHECK (jsonb_typeof(probability) = 'object'::text),True
+public,ml_predictions,chk_ml_predictions_split,c,"CHECK (split_name::text = ANY (ARRAY['train'::character varying, 'validation'::character varying, 'test'::character varying]::text[]))",True
+public,ml_predictions,fk_ml_predictions_split,f,"FOREIGN KEY (run_id, record_id, split_name) REFERENCES ml_run_record_splits(run_id, record_id, split_name) ON DELETE RESTRICT",True
+public,ml_predictions,ml_predictions_pkey,p,PRIMARY KEY (prediction_id),True
+public,ml_predictions,uq_ml_predictions_run_record_split,u,"UNIQUE (run_id, record_id, split_name)",True
+public,ml_recommendations,chk_ml_recommendations_explanation_object,c,CHECK (jsonb_typeof(explanation) = 'object'::text),True
+public,ml_recommendations,chk_ml_recommendations_learning_path_object,c,CHECK (jsonb_typeof(learning_path) = 'object'::text),True
+public,ml_recommendations,chk_ml_recommendations_policy,c,CHECK (length(TRIM(BOTH FROM policy_version)) > 0),True
+public,ml_recommendations,chk_ml_recommendations_risk_band,c,CHECK (length(TRIM(BOTH FROM risk_band)) > 0),True
+public,ml_recommendations,ml_recommendations_pkey,p,PRIMARY KEY (recommendation_id),True
+public,ml_recommendations,ml_recommendations_prediction_id_fkey,f,FOREIGN KEY (prediction_id) REFERENCES ml_predictions(prediction_id) ON DELETE CASCADE,True
+public,ml_recommendations,uq_ml_recommendations_prediction_policy,u,"UNIQUE (prediction_id, policy_version)",True
+public,ml_run_metrics,chk_ml_run_metrics_context_object,c,CHECK (jsonb_typeof(metric_context) = 'object'::text),True
+public,ml_run_metrics,chk_ml_run_metrics_label_scope,c,CHECK (length(TRIM(BOTH FROM label_scope)) > 0),True
+public,ml_run_metrics,chk_ml_run_metrics_name,c,CHECK (length(TRIM(BOTH FROM metric_name)) > 0),True
+public,ml_run_metrics,chk_ml_run_metrics_split,c,"CHECK (split_name::text = ANY (ARRAY['train'::character varying, 'validation'::character varying, 'test'::character varying]::text[]))",True
+public,ml_run_metrics,ml_run_metrics_pkey,p,PRIMARY KEY (metric_id),True
+public,ml_run_metrics,ml_run_metrics_run_id_fkey,f,FOREIGN KEY (run_id) REFERENCES ml_experiment_runs(run_id) ON DELETE RESTRICT,True
+public,ml_run_metrics,uq_ml_run_metrics_key,u,"UNIQUE (run_id, split_name, metric_name, label_scope)",True
+public,ml_run_record_splits,chk_ml_run_record_splits_exclusion_reason,c,CHECK (split_name::text = 'excluded'::text AND exclusion_reason IS NOT NULL AND length(TRIM(BOTH FROM exclusion_reason)) > 0 OR split_name::text <> 'excluded'::text AND exclusion_reason IS NULL),True
+public,ml_run_record_splits,chk_ml_run_record_splits_name,c,"CHECK (split_name::text = ANY (ARRAY['train'::character varying, 'validation'::character varying, 'test'::character varying, 'excluded'::character varying]::text[]))",True
+public,ml_run_record_splits,fk_ml_run_record_splits_run_dataset,f,"FOREIGN KEY (run_id, dataset_version_id) REFERENCES ml_experiment_runs(run_id, dataset_version_id) ON DELETE RESTRICT",True
+public,ml_run_record_splits,fk_ml_run_record_splits_source_record,f,"FOREIGN KEY (dataset_version_id, record_id) REFERENCES source_records(dataset_version_id, record_id) ON DELETE RESTRICT",True
+public,ml_run_record_splits,pk_ml_run_record_splits,p,"PRIMARY KEY (run_id, record_id)",True
+public,ml_run_record_splits,uq_ml_run_record_splits_prediction_ref,u,"UNIQUE (run_id, record_id, split_name)",True
+public,paper_evaluation_metrics,paper_evaluation_metrics_pkey,p,PRIMARY KEY (metric_id),True
+public,paper_evaluation_metrics,paper_evaluation_metrics_run_id_fkey,f,FOREIGN KEY (run_id) REFERENCES paper_runs(paper_run_id) ON DELETE SET NULL,True
+public,paper_learning_recommendations,paper_learning_recommendations_pkey,p,PRIMARY KEY (recommendation_id),True
+public,paper_learning_recommendations,paper_learning_recommendations_run_id_fkey,f,FOREIGN KEY (run_id) REFERENCES paper_runs(paper_run_id) ON DELETE SET NULL,True
+public,paper_predictions,paper_predictions_pkey,p,PRIMARY KEY (paper_prediction_id),True
+public,paper_predictions,paper_predictions_run_id_fkey,f,FOREIGN KEY (run_id) REFERENCES paper_runs(paper_run_id) ON DELETE SET NULL,True
+public,paper_runs,paper_runs_pkey,p,PRIMARY KEY (paper_run_id),True
+public,source_dataset_versions,chk_source_dataset_versions_contract_hash_algorithm,c,CHECK (ingestion_contract_hash_algorithm::text = 'sha256'::text),True
+public,source_dataset_versions,chk_source_dataset_versions_contract_object,c,CHECK (jsonb_typeof(ingestion_contract) = 'object'::text),True
+public,source_dataset_versions,chk_source_dataset_versions_hash_algorithm,c,CHECK (hash_algorithm::text = 'sha256'::text),True
+public,source_dataset_versions,chk_source_dataset_versions_metadata_object,c,CHECK (jsonb_typeof(metadata) = 'object'::text),True
+public,source_dataset_versions,chk_source_dataset_versions_row_count,c,CHECK (row_count >= 0),True
+public,source_dataset_versions,source_dataset_versions_pkey,p,PRIMARY KEY (dataset_version_id),True
+public,source_dataset_versions,uq_source_dataset_version_identity,u,"UNIQUE (dataset_code, hash_algorithm, content_hash, ingestion_contract_hash_algorithm, ingestion_contract_hash)",True
+public,source_record_targets,chk_source_record_targets_encoded,c,CHECK (encoded_target_value >= 0),True
+public,source_record_targets,chk_source_record_targets_raw_object,c,CHECK (raw_target_value IS NOT NULL),True
+public,source_record_targets,fk_source_record_targets_source_record,f,"FOREIGN KEY (dataset_version_id, record_id) REFERENCES source_records(dataset_version_id, record_id) ON DELETE RESTRICT",True
+public,source_record_targets,pk_source_record_targets,p,"PRIMARY KEY (dataset_version_id, record_id, target_name)",True
+public,source_records,chk_source_records_payload_object,c,CHECK (jsonb_typeof(raw_payload) = 'object'::text),True
+public,source_records,chk_source_records_row_number,c,CHECK (source_row_number >= 0),True
+public,source_records,source_records_dataset_version_id_fkey,f,FOREIGN KEY (dataset_version_id) REFERENCES source_dataset_versions(dataset_version_id) ON DELETE RESTRICT,True
+public,source_records,source_records_pkey,p,PRIMARY KEY (record_id),True
+public,source_records,uq_source_records_dataset_record,u,"UNIQUE (dataset_version_id, record_id)",True
+public,source_records,uq_source_records_dataset_row,u,"UNIQUE (dataset_version_id, source_row_number)",True
+public,student_grades,student_grades_pkey,p,PRIMARY KEY (grade_id),True
+public,student_grades,student_grades_student_id_fkey,f,FOREIGN KEY (student_id) REFERENCES students(student_id) ON DELETE SET NULL,True
+public,students,students_pkey,p,PRIMARY KEY (student_id),True

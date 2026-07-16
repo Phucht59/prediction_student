@@ -1,0 +1,27 @@
+{
+  "identity_columns": [
+    "school",
+    "sex",
+    "age",
+    "address",
+    "famsize",
+    "Pstatus",
+    "Medu",
+    "Fedu",
+    "Mjob",
+    "Fjob",
+    "reason",
+    "nursery",
+    "internet"
+  ],
+  "standard_inner_join_rows": 382,
+  "shared_unique_quasi_identity_keys": 366,
+  "unambiguous_one_to_one_keys": 358,
+  "ambiguous_shared_keys": 8,
+  "portuguese_partition_counts": {
+    "conservative_matched": 358,
+    "conservative_unmatched": 275,
+    "ambiguous_shared_key": 16
+  },
+  "claim_boundary": "Quasi-identity matching is not verified student identity; transfer is not independent external validation."
+}

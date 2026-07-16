@@ -1,0 +1,108 @@
+{
+  "schema_version": "oulad_v3_fair_db_closure_protocol_v1",
+  "protocol_status": "frozen_before_fair_recalculation_and_database_write",
+  "study_label": "exploratory V3 fair-ensemble and PostgreSQL scientific closure",
+  "run_id": "oulad-v3-fair-db-closure-20260716-v1",
+  "frozen_at": "2026-07-16T12:00:00+07:00",
+  "source": {
+    "v3_evidence_commit": "dbd5c2f27e914da2b252bffe176e7c93a6c2c237",
+    "v3_protocol_path": "configs/oulad_deep_v3_protocol.yaml",
+    "v3_protocol_sha256": "e87dfaaa1bc869000f0493c9a4d52f167bfc03ce7f7496129ec8ce632b735959",
+    "v3_artifact_root": "artifacts/study_c_oulad_v3/oulad-deep-v3-f2-20260716-v1",
+    "v3_artifact_manifest_sha256": "9d4b9fc581acc6bc85cfa1cd8b0edeecdc3d7e289615e54c57711a83e5a4176c",
+    "v3_oof_sha256": "d373c6c644424a42aafa5ad57174436138dd1302512e20062bf14f9535086e0d",
+    "v3_selected_configs_sha256": "9a9ac78a134bd0c027f8834f31a2424efc2feb87a68a267130d0289181c879fc",
+    "v3_metrics_sha256": "b6c5f5afff2d837c85baff45a3c4b26fb96ae89a32d5230db560579602ee1247"
+  },
+  "data": {
+    "forecast_id": "F2_MIDDLE",
+    "target": "1=Withdrawn_or_Fail;0=Pass_or_Distinction",
+    "group_key": "id_student",
+    "outer_folds": 3,
+    "inner_folds": 2,
+    "seed_registry": [42, 2026, 3407],
+    "future_benchmark": "NOT_EXECUTED_AND_FORBIDDEN"
+  },
+  "prediction_contracts": {
+    "single_seed": "same candidate seed compared only with the identical seed",
+    "mean_of_seed_metrics": "arithmetic mean of three separately computed pooled-OOF seed metrics; never an ensemble",
+    "probability_ensemble": "record-aligned arithmetic mean of probabilities for seeds 42,2026,3407 with fold-specific pooled-inner-OOF ensemble threshold",
+    "deterministic": "one genuine deterministic prediction set; no fabricated seed replication"
+  },
+  "candidate_registry": {
+    "ensemble_candidates": ["V3-A0F-ENS", "V3-H2TF-ENS", "V3-H3CF-ENS", "V3-P0-ENS", "V3-D0-ENS", "V3-A1-ENS"],
+    "ensemble_sources": {
+      "V3-A0F-ENS": "V3-A0F", "V3-H2TF-ENS": "V3-H2TF", "V3-H3CF-ENS": "V3-H3CF",
+      "V3-P0-ENS": "V3-P0", "V3-D0-ENS": "V3-D0", "V3-A1-ENS": "V3-A1"
+    },
+    "deterministic_candidates": ["V3-MLF", "V3-MLD"],
+    "declared_seeds": [42, 2026, 3407],
+    "seed_subset_selection": false
+  },
+  "threshold_reconstruction": {
+    "scope": "pooled inner-OOF only per outer fold and candidate",
+    "ensemble_method": "align record IDs across all declared seeds then arithmetic mean probabilities",
+    "macro_threshold_grid": {"start": 0.05, "stop": 0.95, "points": 901},
+    "operational_precision_constraint": 0.75,
+    "outer_labels_forbidden": true,
+    "optuna_rerun_forbidden": true,
+    "replay_label": "threshold-reconstruction replay",
+    "fixed_configs_and_refit_epoch_policy": true
+  },
+  "comparisons": {
+    "primary": [
+      ["V3-D0-ENS", "V3-A0F-ENS"], ["V3-D0-ENS", "V3-P0-ENS"], ["V3-D0-ENS", "V3-H3CF-ENS"],
+      ["V3-D0-ENS", "V3-A1-ENS"], ["V3-D0-ENS", "V3-MLD"], ["V3-D0-ENS", "V3-MLF"]
+    ],
+    "secondary": [["V3-A0F-ENS", "V3-MLF"], ["V3-A1-ENS", "V3-MLD"], ["V3-P0-ENS", "V3-H3CF-ENS"]],
+    "superseded_scope": "historical_v3_mixed_contract_result"
+  },
+  "metrics": {
+    "primary": "pooled grouped-OOF Binary Macro-F1",
+    "secondary": ["at_risk_precision", "at_risk_recall", "at_risk_f1", "pr_auc", "balanced_accuracy", "specificity", "accuracy", "brier", "nll", "ece", "predicted_positive_rate", "worst_eligible_module_macro_f1", "worst_eligible_module_recall", "class_collapse_count"],
+    "operational": "at_risk_recall_subject_to_precision_gte_0.75",
+    "superiority_margin": 0.005,
+    "operational_recall_margin": 0.03,
+    "macro_noninferiority_margin": 0.005
+  },
+  "bootstrap": {
+    "unit": "global id_student",
+    "paired": true,
+    "resamples": 5000,
+    "seed": 20260716,
+    "metrics": ["macro_f1", "pr_auc", "at_risk_recall", "worst_module_macro_f1", "operational_recall_at_precision_gte_0.75"],
+    "superiority_margin": 0.005
+  },
+  "database": {
+    "database_name": "student_predict",
+    "admin_role_policy": "actual DDL-capable connection used only for backup, migration, registration and role repair",
+    "application_role": "student_predict_app_local",
+    "application_role_policy": "local generated runtime credential; NOSUPERUSER NOCREATEDB NOCREATEROLE; no schema CREATE or object ownership",
+    "credentials_in_artifacts": false,
+    "redacted_dsn": "postgresql://<redacted>@localhost:5432/student_predict",
+    "latest_repository_migration_before_closure": "005_oulad_lineage_and_snapshot_registry.sql",
+    "migration_policy": "advisory-locked transaction; 5s lock timeout; 10min statement timeout; dry-run validation and rollback before commit",
+    "backup_required_before_any_write": true,
+    "backup_directory_outside_repository": "C:/Huflit/kltn_postgres_backups/<timestamp>",
+    "rollback": "restore custom pg_dump or apply documented compensating migration; cleanup transaction rolls back on any failed postcondition",
+    "evidence_registration": "reuse canonical ml_experiment_runs/ml_predictions/ml_run_metrics or add non-duplicating metadata columns/tables only when audit proves necessary"
+  },
+  "cleanup": {
+    "allowlist": [
+      "explicit test/temp/smoke/failed-placeholder runs with zero valid completed-run dependency and generated dry-run predicate",
+      "abandoned empty runs with zero splits, predictions, metrics and recommendations",
+      "byte-equivalent duplicate evidence registration rows after dependency proof"
+    ],
+    "denylist": [
+      "real source records", "dataset lineage used by completed runs", "completed immutable experiment runs", "valid predictions", "valid metrics",
+      "valid recommendations", "application users or students", "V1/V2/V3 evidence", "DROP DATABASE", "DROP SCHEMA public CASCADE",
+      "TRUNCATE CASCADE", "unbounded DELETE"
+    ],
+    "default_authorization": "deny unless every allowlist condition and backup gate passes"
+  },
+  "wall_clock": {"maximum_hours": 4.0, "stop_threshold_replays_hours": 2.55, "stop_database_migrations_hours": 3.10, "finalize_evidence_hours": 3.45},
+  "artifacts": {
+    "artifact_root": "artifacts/study_c_oulad_v3_closure/oulad-v3-fair-db-closure-20260716-v1",
+    "report_root": "reports/study_c_oulad_v3_closure/oulad-v3-fair-db-closure-20260716-v1"
+  }
+}

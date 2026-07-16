@@ -1,0 +1,22 @@
+{
+  "status": "PASS",
+  "source_commit": "07217a184b9a5dcc6402e3f117a5af2e84c7596f",
+  "branch": "feature/oulad-deep-v3-temporal",
+  "python": "3.10.8",
+  "system_torch": "2.12.0+cpu",
+  "v3_torch": "2.7.1+cu118",
+  "cuda_available": true,
+  "gpu": "NVIDIA GeForce GTX 1650",
+  "baseline_tests": {"passed": 189, "skipped": 5, "failed": 0},
+  "smoke": {
+    "forward_backward": "PASS",
+    "mixed_precision": "PASS",
+    "deterministic_seed": "PASS",
+    "checkpoint_reload_max_abs": 0.0,
+    "padding_attention_max": 0.0,
+    "variable_length_sequence": "PASS",
+    "pooled_output_finite": "PASS",
+    "max_memory_mb": 80.13623046875
+  },
+  "cpu_v1_environment_mutated": false
+}

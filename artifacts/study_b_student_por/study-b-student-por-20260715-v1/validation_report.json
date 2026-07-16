@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "scope": "Study B",
+  "parent_validation": "reports\\extension_execution\\study-bc-extension-20260715-v1\\validation_report.json",
+  "checks": {
+    "study_b_required_artifacts": true,
+    "study_b_validation_report_present": true,
+    "no_legacy_observed_access": true,
+    "study_b_checksums": true,
+    "study_b_report_mirror": true,
+    "full_test_suite": true,
+    "study_a_protected_evidence_unchanged": true
+  }
+}

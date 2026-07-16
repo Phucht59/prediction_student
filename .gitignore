@@ -1,16 +1,27 @@
 __pycache__/
 *.pyc
 .pytest_cache/
+.mypy_cache/
+.ruff_cache/
 .ipynb_checkpoints/
+.coverage
+coverage.xml
+htmlcov/
 
 .env
 .venv/
+.venv-oulad-v2/
 venv/
 .vscode/
 .vs/
 .agents/
 .DS_Store
 tmp/
+temp/
+wandb/
+lightning_logs/
+*.pid
+*.lock
 
 data/raw/*
 data/processed/*
@@ -50,6 +61,47 @@ reports/debug/
 artifacts/smoke/
 artifacts/preflight/
 
+# Scientific extension: keep raw/large derived data ignored, version only compact evidence.
+!reports/extension_execution/
+!reports/extension_execution/**
+!artifacts/study_b_student_por/
+!artifacts/study_b_student_por/**
+!artifacts/study_c_oulad/
+!artifacts/study_c_oulad/**
+artifacts/study_b_student_por/**/*.pt
+artifacts/study_b_student_por/**/*.pth
+artifacts/study_b_student_por/**/*.parquet
+artifacts/study_c_oulad/**/*.pt
+artifacts/study_c_oulad/**/*.pth
+artifacts/study_c_oulad/**/*.parquet
+artifacts/study_c_oulad/**/*.pkl
+artifacts/study_c_oulad_v2/**/*.pt
+artifacts/study_c_oulad_v2/**/*.pth
+artifacts/study_c_oulad_v2/**/*.pkl
+artifacts/study_c_oulad_v2/**/*.parquet
+reports/study_c_oulad_v2/**/*.parquet
+artifacts/study_c_oulad_v2/**/job_cache/
+artifacts/study_c_oulad_v2/**/search_cache/
+artifacts/study_c_oulad_v2/**/preprocessors/
+
+# OULAD Deep V3 runtime caches and large checkpoint bundles remain local.
+.venv-oulad-v3/
+artifacts/study_c_oulad_v3/**/*.pt
+artifacts/study_c_oulad_v3/**/*.pth
+artifacts/study_c_oulad_v3/**/*.joblib
+artifacts/study_c_oulad_v3/**/job_cache/
+artifacts/study_c_oulad_v3/**/search_cache/
+artifacts/study_c_oulad_v3_closure/**/threshold_replay_cache/
+artifacts/study_c_oulad_v3/**/preprocessors/
+reports/study_c_oulad_v3/**/*.pt
+reports/study_c_oulad_v3/**/*.pth
+reports/study_c_oulad_v3/**/*.joblib
+artifacts/study_c_oulad/**/split_manifest.csv
+artifacts/study_c_oulad/**/future_test_manifest.csv
+reports/study_c_oulad/**/*.parquet
+reports/study_c_oulad/**/split_manifest.csv
+reports/study_c_oulad/**/future_test_manifest.csv
+
 # Benchmark V2 run outputs are immutable runtime evidence, not source files.
 # Protocol definitions and selected audit reports below remain versioned.
 artifacts/benchmark_v2/
@@ -67,6 +119,8 @@ reports/benchmark_v2/v2_1/
 
 !data/raw/.gitkeep
 !data/processed/.gitkeep
+!data/manifests/
+!data/manifests/extension_raw_manifest.json
 !models/saved/.gitkeep
 !reports/results/.gitkeep
 !reports/figures/.gitkeep

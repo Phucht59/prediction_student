@@ -1,0 +1,84 @@
+{
+  "failed_replays": 0,
+  "future_access": false,
+  "inner_threshold_coverage": "PASS",
+  "outer_labels_used_for_threshold": false,
+  "parity": [
+    {
+      "candidate_id": "V3-A0F",
+      "records_per_seed": 15378,
+      "seeds": [
+        42,
+        2026,
+        3407
+      ],
+      "status": "PASS",
+      "target_prevalence": 0.39784107166081417,
+      "unique_records": 15378
+    },
+    {
+      "candidate_id": "V3-H2TF",
+      "records_per_seed": 15378,
+      "seeds": [
+        42,
+        2026,
+        3407
+      ],
+      "status": "PASS",
+      "target_prevalence": 0.39784107166081417,
+      "unique_records": 15378
+    },
+    {
+      "candidate_id": "V3-H3CF",
+      "records_per_seed": 15378,
+      "seeds": [
+        42,
+        2026,
+        3407
+      ],
+      "status": "PASS",
+      "target_prevalence": 0.39784107166081417,
+      "unique_records": 15378
+    },
+    {
+      "candidate_id": "V3-P0",
+      "records_per_seed": 15378,
+      "seeds": [
+        42,
+        2026,
+        3407
+      ],
+      "status": "PASS",
+      "target_prevalence": 0.39784107166081417,
+      "unique_records": 15378
+    },
+    {
+      "candidate_id": "V3-D0",
+      "records_per_seed": 15378,
+      "seeds": [
+        42,
+        2026,
+        3407
+      ],
+      "status": "PASS",
+      "target_prevalence": 0.39784107166081417,
+      "unique_records": 15378
+    },
+    {
+      "candidate_id": "V3-A1",
+      "records_per_seed": 15378,
+      "seeds": [
+        42,
+        2026,
+        3407
+      ],
+      "status": "PASS",
+      "target_prevalence": 0.39784107166081417,
+      "unique_records": 15378
+    }
+  ],
+  "replay_jobs": 54,
+  "replay_label": "threshold-reconstruction replay",
+  "runtime_seconds": 1891.6336895999993,
+  "status": "PASS"
+}

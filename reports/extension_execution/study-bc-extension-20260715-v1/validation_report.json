@@ -1,0 +1,32 @@
+{
+  "status": "PASS",
+  "checks": {
+    "study_b_required_artifacts": true,
+    "study_c_required_artifacts": true,
+    "study_c_required_figures": true,
+    "study_c_learning_curve_directory": true,
+    "study_c_confusion_directory": true,
+    "study_b_validation_report_present": true,
+    "study_c_validation_report_present": true,
+    "no_pending_jobs": true,
+    "zero_global_student_overlap": true,
+    "no_legacy_observed_access": true,
+    "no_target_feature": true,
+    "no_withdrawal_feature": true,
+    "study_b_checksums": true,
+    "study_c_checksums": true,
+    "study_b_report_mirror": true,
+    "study_c_report_mirror": true,
+    "full_test_suite": true,
+    "study_a_protected_evidence_unchanged": true
+  },
+  "protected_changes": [],
+  "study_b_run": "study-b-student-por-20260715-v1",
+  "study_c_run": "study-c-oulad-20260715-v1",
+  "test_counts": {
+    "collected": 174,
+    "passed": 169,
+    "skipped": 5,
+    "failed": 0
+  }
+}

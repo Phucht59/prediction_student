@@ -1,0 +1,6 @@
+{
+  "V2-H2F": "C-H2 frozen V1",
+  "V2-MLF": "C-L0 frozen V1",
+  "retrained": false,
+  "source_commit": "fccaef8b3e73a375f2a9d1bca2cc5897345242bd"
+}

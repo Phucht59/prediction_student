@@ -1,0 +1,93 @@
+C-L0:
+  display_name: "Logistic Regression"
+  category: "Machine Learning"
+C-R0:
+  display_name: "Random Forest"
+  category: "Machine Learning"
+C-S0:
+  display_name: "SVM"
+  category: "Machine Learning"
+C-H0:
+  display_name: "HistGradientBoosting"
+  category: "Machine Learning"
+C-M0:
+  display_name: "MLP"
+  category: "Deep Learning"
+C-C0:
+  display_name: "CNN"
+  category: "Deep Learning"
+C-L1:
+  display_name: "BiLSTM"
+  category: "Deep Learning"
+C-H1:
+  display_name: "CNN–BiLSTM"
+  category: "Deep Learning"
+C-H2:
+  display_name: "CNN–BiLSTM"
+  category: "Deep Learning"
+V2-MLF:
+  display_name: "Logistic Regression"
+  category: "Machine Learning"
+V2-H2F:
+  display_name: "CNN–BiLSTM"
+  category: "Deep Learning"
+V2-H2T:
+  display_name: "CNN–BiLSTM"
+  category: "Deep Learning"
+V2-A0:
+  display_name: "MLP"
+  category: "Deep Learning"
+V2-T0:
+  display_name: "BiLSTM"
+  category: "Deep Learning"
+V2-H3C:
+  display_name: "CNN–BiLSTM"
+  category: "Deep Learning"
+V3-MLF:
+  display_name: "Logistic Regression"
+  category: "Machine Learning"
+V3-MLD:
+  display_name: "Machine Learning with Dynamic Features"
+  category: "Machine Learning"
+  display_note: "Outer folds selected Logistic Regression twice and HistGradientBoosting once."
+V3-A0F:
+  display_name: "MLP"
+  category: "Deep Learning"
+V3-A0F-ENS:
+  display_name: "MLP"
+  category: "Deep Learning"
+V3-A1:
+  display_name: "MLP"
+  category: "Deep Learning"
+V3-A1-ENS:
+  display_name: "MLP"
+  category: "Deep Learning"
+V3-H2TF:
+  display_name: "CNN–BiLSTM"
+  category: "Deep Learning"
+V3-H2TF-ENS:
+  display_name: "CNN–BiLSTM"
+  category: "Deep Learning"
+V3-H3CF:
+  display_name: "CNN–BiLSTM"
+  category: "Deep Learning"
+V3-H3CF-ENS:
+  display_name: "CNN–BiLSTM"
+  category: "Deep Learning"
+V3-P0:
+  display_name: "CNN–BiLSTM"
+  category: "Deep Learning"
+V3-P0-ENS:
+  display_name: "CNN–BiLSTM"
+  category: "Deep Learning"
+V3-D0:
+  display_name: "CNN–BiLSTM"
+  category: "Deep Learning"
+V3-D0-ENS:
+  display_name: "CNN–BiLSTM Ensemble"
+  category: "Deep Learning"
+  thesis_role: "proposed_final_model"
+V3-ENS:
+  display_name: "CNN–BiLSTM Ensemble"
+  category: "Deep Learning"
+  thesis_role: "proposed_final_model"

@@ -1,0 +1,22 @@
+{
+  "artifact_checksums": {
+    "sha256": "c451bd68cd44eab5428b4d16ff201b058ad9fcddffaf5a1c24f461d9208e2967",
+    "status": "PASS"
+  },
+  "metrics": {
+    "sha256": "b427f6107a6e0fa6272a723e4516a5e4224920348aa717e9817ea5194183760d",
+    "status": "PASS"
+  },
+  "oof": {
+    "sha256": "6374d221ddf9b24370b42055c41316b246d30aac7b71d029662d45ce7984090a",
+    "status": "PASS"
+  },
+  "protocol": {
+    "sha256": "c5b4407d29204f1ceafabef3d5928db664e90b4b1a7d59e51a52d0ff87625a08",
+    "status": "PASS"
+  },
+  "selected_configs": {
+    "sha256": "b7d520e4bc5c57c58b0e31ce98e103245313cfdcbacd6f0951c972fafe66b902",
+    "status": "PASS"
+  }
+}
