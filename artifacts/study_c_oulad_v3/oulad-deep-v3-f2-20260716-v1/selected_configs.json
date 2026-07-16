@@ -1,0 +1,477 @@
+{
+  "V3-A1": {
+    "0": {
+      "aggregate_config": {
+        "aggregate_hidden_1": 64,
+        "aggregate_hidden_2": 0,
+        "batch_size": 256,
+        "dropout": 0.25,
+        "gradient_clip": 1.0,
+        "learning_rate": 0.0005,
+        "max_epochs": 40,
+        "patience": 6,
+        "positive_weight": "fully_balanced",
+        "scheduler": "fixed_lr",
+        "static_hidden": 32,
+        "weight_decay": 1e-06
+      },
+      "candidate_id": "V3-A1",
+      "inner_selected_epochs": [
+        6,
+        7
+      ],
+      "outer_fold": 0,
+      "parameter_count": 35329,
+      "refit_epochs": 6,
+      "runtime_seconds": 272.40898670000024,
+      "temporal_config": null,
+      "thresholds": {
+        "inner_macro_f1": 0.8272894145615981,
+        "inner_operational_precision": 0.7507351277991404,
+        "inner_operational_recall": 0.8095121951219513,
+        "macro_threshold": 0.5579999999999999,
+        "operational_feasible": true,
+        "operational_threshold": 0.37899999999999995
+      }
+    },
+    "1": {
+      "aggregate_config": {
+        "aggregate_hidden_1": 128,
+        "aggregate_hidden_2": 0,
+        "batch_size": 128,
+        "dropout": 0.35,
+        "gradient_clip": 1.0,
+        "learning_rate": 0.0005,
+        "max_epochs": 40,
+        "patience": 6,
+        "positive_weight": "sqrt_balanced",
+        "scheduler": "deterministic_cosine",
+        "static_hidden": 32,
+        "weight_decay": 1e-06
+      },
+      "candidate_id": "V3-A1",
+      "inner_selected_epochs": [
+        7,
+        7
+      ],
+      "outer_fold": 1,
+      "parameter_count": 67905,
+      "refit_epochs": 7,
+      "runtime_seconds": 306.80398930000047,
+      "temporal_config": null,
+      "thresholds": {
+        "inner_macro_f1": 0.8267617779004794,
+        "inner_operational_precision": 0.7501114578689255,
+        "inner_operational_recall": 0.8221353530417786,
+        "macro_threshold": 0.5319999999999999,
+        "operational_feasible": true,
+        "operational_threshold": 0.31299999999999994
+      }
+    },
+    "2": {
+      "aggregate_config": {
+        "aggregate_hidden_1": 128,
+        "aggregate_hidden_2": 0,
+        "batch_size": 256,
+        "dropout": 0.25,
+        "gradient_clip": 1.0,
+        "learning_rate": 0.0002,
+        "max_epochs": 40,
+        "patience": 6,
+        "positive_weight": "none",
+        "scheduler": "fixed_lr",
+        "static_hidden": 32,
+        "weight_decay": 1e-05
+      },
+      "candidate_id": "V3-A1",
+      "inner_selected_epochs": [
+        9,
+        11
+      ],
+      "outer_fold": 2,
+      "parameter_count": 67905,
+      "refit_epochs": 10,
+      "runtime_seconds": 222.52957259999948,
+      "temporal_config": null,
+      "thresholds": {
+        "inner_macro_f1": 0.8239359574162975,
+        "inner_operational_precision": 0.7501151543067711,
+        "inner_operational_recall": 0.8055899084837992,
+        "macro_threshold": 0.4609999999999999,
+        "operational_feasible": true,
+        "operational_threshold": 0.30899999999999994
+      }
+    }
+  },
+  "V3-D0": {
+    "0": {
+      "aggregate_config": {
+        "aggregate_hidden_1": 128,
+        "aggregate_hidden_2": 0,
+        "batch_size": 128,
+        "dropout": 0.2710582566280392,
+        "gradient_clip": 1.0,
+        "learning_rate": 0.0005510391929902152,
+        "max_epochs": 40,
+        "patience": 6,
+        "positive_weight": "none",
+        "scheduler": "fixed_lr",
+        "weight_decay": 2.3233503515390116e-06
+      },
+      "candidate_id": "V3-D0",
+      "inner_selected_epochs": [
+        9,
+        5
+      ],
+      "outer_fold": 0,
+      "parameter_count": 200801,
+      "refit_epochs": 7,
+      "runtime_seconds": 504.04494969999996,
+      "temporal_config": {
+        "batch_size": 128,
+        "conv_channels": 32,
+        "dropout": 0.20362927539708975,
+        "fusion_hidden": 32,
+        "gradient_clip": 1.0,
+        "kernel_size": 3,
+        "learning_rate": 0.0002,
+        "lstm_hidden": 64,
+        "lstm_layers": 2,
+        "max_epochs": 40,
+        "patience": 6,
+        "pooling": "last_mean_max",
+        "pooling_projection": 32,
+        "positive_weight": "none",
+        "scheduler": "deterministic_cosine",
+        "static_hidden": 32,
+        "weight_decay": 1e-06
+      },
+      "thresholds": {
+        "inner_macro_f1": 0.8237272531032513,
+        "inner_operational_precision": 0.7503942329353458,
+        "inner_operational_recall": 0.812439024390244,
+        "macro_threshold": 0.5189999999999999,
+        "operational_feasible": true,
+        "operational_threshold": 0.3469999999999999
+      }
+    },
+    "1": {
+      "aggregate_config": {
+        "aggregate_hidden_1": 64,
+        "aggregate_hidden_2": 0,
+        "batch_size": 256,
+        "dropout": 0.29285977682044,
+        "gradient_clip": 1.0,
+        "learning_rate": 0.0005411511028191479,
+        "max_epochs": 40,
+        "patience": 6,
+        "positive_weight": "fully_balanced",
+        "scheduler": "fixed_lr",
+        "weight_decay": 1.4316824215739616e-05
+      },
+      "candidate_id": "V3-D0",
+      "inner_selected_epochs": [
+        16,
+        10
+      ],
+      "outer_fold": 1,
+      "parameter_count": 113826,
+      "refit_epochs": 13,
+      "runtime_seconds": 383.5700178999996,
+      "temporal_config": {
+        "batch_size": 256,
+        "conv_channels": 24,
+        "dropout": 0.19638290524694513,
+        "fusion_hidden": 32,
+        "gradient_clip": 1.0,
+        "kernel_size": 3,
+        "learning_rate": 0.0002,
+        "lstm_hidden": 48,
+        "lstm_layers": 2,
+        "max_epochs": 40,
+        "patience": 6,
+        "pooling": "masked_attention",
+        "pooling_projection": 32,
+        "positive_weight": "sqrt_balanced",
+        "scheduler": "deterministic_cosine",
+        "static_hidden": 32,
+        "weight_decay": 1e-06
+      },
+      "thresholds": {
+        "inner_macro_f1": 0.8262653944370294,
+        "inner_operational_precision": 0.7501700294717751,
+        "inner_operational_recall": 0.8084534571219155,
+        "macro_threshold": 0.4949999999999999,
+        "operational_feasible": true,
+        "operational_threshold": 0.3449999999999999
+      }
+    },
+    "2": {
+      "aggregate_config": {
+        "aggregate_hidden_1": 128,
+        "aggregate_hidden_2": 0,
+        "batch_size": 128,
+        "dropout": 0.2070035086860853,
+        "gradient_clip": 1.0,
+        "learning_rate": 0.0003528678233541288,
+        "max_epochs": 40,
+        "patience": 6,
+        "positive_weight": "sqrt_balanced",
+        "scheduler": "fixed_lr",
+        "weight_decay": 3.5888049313805686e-06
+      },
+      "candidate_id": "V3-D0",
+      "inner_selected_epochs": [
+        3,
+        10
+      ],
+      "outer_fold": 2,
+      "parameter_count": 88162,
+      "refit_epochs": 6,
+      "runtime_seconds": 476.94236720000026,
+      "temporal_config": {
+        "batch_size": 128,
+        "conv_channels": 32,
+        "dropout": 0.30595299395828063,
+        "fusion_hidden": 32,
+        "gradient_clip": 1.0,
+        "kernel_size": 5,
+        "learning_rate": 0.0005,
+        "lstm_hidden": 32,
+        "lstm_layers": 2,
+        "max_epochs": 40,
+        "patience": 6,
+        "pooling": "masked_attention",
+        "pooling_projection": 32,
+        "positive_weight": "none",
+        "scheduler": "fixed_lr",
+        "static_hidden": 32,
+        "weight_decay": 1e-05
+      },
+      "thresholds": {
+        "inner_macro_f1": 0.8229607905208074,
+        "inner_operational_precision": 0.7501150483202945,
+        "inner_operational_recall": 0.806331931733861,
+        "macro_threshold": 0.4399999999999999,
+        "operational_feasible": true,
+        "operational_threshold": 0.31699999999999995
+      }
+    }
+  },
+  "V3-MLD": {
+    "0": {
+      "candidate_id": "V3-MLD",
+      "model_config": {
+        "C": 0.1
+      },
+      "model_kind": "logistic",
+      "outer_fold": 0,
+      "parameter_count": null,
+      "refit_epochs": null,
+      "runtime_seconds": 133.74439749999965,
+      "thresholds": {
+        "inner_macro_f1": 0.8256200815901006,
+        "inner_operational_precision": 0.75,
+        "inner_operational_recall": 0.8165853658536585,
+        "macro_threshold": 0.4729999999999999,
+        "operational_feasible": true,
+        "operational_threshold": 0.3349999999999999
+      }
+    },
+    "1": {
+      "candidate_id": "V3-MLD",
+      "model_config": {
+        "C": 1.0
+      },
+      "model_kind": "logistic",
+      "outer_fold": 1,
+      "parameter_count": null,
+      "refit_epochs": null,
+      "runtime_seconds": 128.82082319999972,
+      "thresholds": {
+        "inner_macro_f1": 0.8314271708049199,
+        "inner_operational_precision": 0.7501683501683502,
+        "inner_operational_recall": 0.8165160029318348,
+        "macro_threshold": 0.5109999999999999,
+        "operational_feasible": true,
+        "operational_threshold": 0.3349999999999999
+      }
+    },
+    "2": {
+      "candidate_id": "V3-MLD",
+      "model_config": {
+        "l2_regularization": 0.1,
+        "learning_rate": 0.05,
+        "max_leaf_nodes": 15
+      },
+      "model_kind": "hgb",
+      "outer_fold": 2,
+      "parameter_count": null,
+      "refit_epochs": null,
+      "runtime_seconds": 103.63972689999991,
+      "thresholds": {
+        "inner_macro_f1": 0.8235153442219793,
+        "inner_operational_precision": 0.7500575373993096,
+        "inner_operational_recall": 0.8060845906505071,
+        "macro_threshold": 0.4869999999999999,
+        "operational_feasible": true,
+        "operational_threshold": 0.32999999999999996
+      }
+    }
+  },
+  "V3-P0": {
+    "0": {
+      "aggregate_config": {
+        "aggregate_hidden_1": 128,
+        "aggregate_hidden_2": 0,
+        "batch_size": 128,
+        "dropout": 0.2710582566280392,
+        "gradient_clip": 1.0,
+        "learning_rate": 0.0005510391929902152,
+        "max_epochs": 40,
+        "patience": 6,
+        "positive_weight": "none",
+        "scheduler": "fixed_lr",
+        "weight_decay": 2.3233503515390116e-06
+      },
+      "candidate_id": "V3-P0",
+      "inner_selected_epochs": [
+        6,
+        3
+      ],
+      "outer_fold": 0,
+      "parameter_count": 197825,
+      "refit_epochs": 4,
+      "runtime_seconds": 399.99283479999986,
+      "temporal_config": {
+        "batch_size": 128,
+        "conv_channels": 32,
+        "dropout": 0.15362927539708976,
+        "fusion_hidden": 32,
+        "gradient_clip": 1.0,
+        "kernel_size": 3,
+        "learning_rate": 0.0006949825557843949,
+        "lstm_hidden": 64,
+        "lstm_layers": 2,
+        "max_epochs": 40,
+        "patience": 6,
+        "pooling": "last_mean_max",
+        "pooling_projection": 32,
+        "positive_weight": "none",
+        "scheduler": "fixed_lr",
+        "static_hidden": 32,
+        "weight_decay": 6.64239480517792e-05
+      },
+      "thresholds": {
+        "inner_macro_f1": 0.8237394692555327,
+        "inner_operational_precision": 0.7501144164759725,
+        "inner_operational_recall": 0.7995121951219513,
+        "macro_threshold": 0.4779999999999999,
+        "operational_feasible": true,
+        "operational_threshold": 0.3449999999999999
+      }
+    },
+    "1": {
+      "aggregate_config": {
+        "aggregate_hidden_1": 64,
+        "aggregate_hidden_2": 0,
+        "batch_size": 256,
+        "dropout": 0.29285977682044,
+        "gradient_clip": 1.0,
+        "learning_rate": 0.0005411511028191479,
+        "max_epochs": 40,
+        "patience": 6,
+        "positive_weight": "fully_balanced",
+        "scheduler": "fixed_lr",
+        "weight_decay": 1.4316824215739616e-05
+      },
+      "candidate_id": "V3-P0",
+      "inner_selected_epochs": [
+        22,
+        16
+      ],
+      "outer_fold": 1,
+      "parameter_count": 111594,
+      "refit_epochs": 19,
+      "runtime_seconds": 428.95718880000004,
+      "temporal_config": {
+        "batch_size": 256,
+        "conv_channels": 24,
+        "dropout": 0.24638290524694512,
+        "fusion_hidden": 32,
+        "gradient_clip": 1.0,
+        "kernel_size": 3,
+        "learning_rate": 0.0002909635600179011,
+        "lstm_hidden": 48,
+        "lstm_layers": 2,
+        "max_epochs": 40,
+        "patience": 6,
+        "pooling": "masked_attention",
+        "pooling_projection": 32,
+        "positive_weight": "sqrt_balanced",
+        "scheduler": "fixed_lr",
+        "static_hidden": 32,
+        "weight_decay": 2.2148279502168874e-06
+      },
+      "thresholds": {
+        "inner_macro_f1": 0.8284900946674989,
+        "inner_operational_precision": 0.7507278835386338,
+        "inner_operational_recall": 0.8189591986318104,
+        "macro_threshold": 0.4759999999999999,
+        "operational_feasible": true,
+        "operational_threshold": 0.3429999999999999
+      }
+    },
+    "2": {
+      "aggregate_config": {
+        "aggregate_hidden_1": 128,
+        "aggregate_hidden_2": 0,
+        "batch_size": 128,
+        "dropout": 0.2070035086860853,
+        "gradient_clip": 1.0,
+        "learning_rate": 0.0003528678233541288,
+        "max_epochs": 40,
+        "patience": 6,
+        "positive_weight": "sqrt_balanced",
+        "scheduler": "fixed_lr",
+        "weight_decay": 3.5888049313805686e-06
+      },
+      "candidate_id": "V3-P0",
+      "inner_selected_epochs": [
+        6,
+        5
+      ],
+      "outer_fold": 2,
+      "parameter_count": 83202,
+      "refit_epochs": 6,
+      "runtime_seconds": 316.77226410000003,
+      "temporal_config": {
+        "batch_size": 128,
+        "conv_channels": 32,
+        "dropout": 0.25595299395828064,
+        "fusion_hidden": 32,
+        "gradient_clip": 1.0,
+        "kernel_size": 5,
+        "learning_rate": 0.0012868300386193836,
+        "lstm_hidden": 32,
+        "lstm_layers": 2,
+        "max_epochs": 40,
+        "patience": 6,
+        "pooling": "masked_attention",
+        "pooling_projection": 32,
+        "positive_weight": "fully_balanced",
+        "scheduler": "deterministic_cosine",
+        "static_hidden": 32,
+        "weight_decay": 8.592563230076177e-06
+      },
+      "thresholds": {
+        "inner_macro_f1": 0.8236849449192347,
+        "inner_operational_precision": 0.7500572213321126,
+        "inner_operational_recall": 0.810536730150878,
+        "macro_threshold": 0.5259999999999999,
+        "operational_feasible": true,
+        "operational_threshold": 0.3939999999999999
+      }
+    }
+  }
+}
