@@ -1,0 +1,7 @@
+system_id: student_risk_recommendation_system
+official_name: Student Risk-Based Recommendation System
+status: selected
+expert_status: PENDING_EXPERT_LABELS
+causal_effectiveness_claimed: false
+training_enabled: false
+source_artifact_path: artifacts/v6/recommendation/technical_metrics.json

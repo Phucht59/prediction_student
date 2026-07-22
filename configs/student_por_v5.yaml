@@ -1,0 +1,54 @@
+{
+  "schema_version": "student_por_v5_protocol_v1",
+  "dataset": "student-por",
+  "source": {
+    "path": "data/raw/student-por.csv",
+    "sha256": "a7594a11d7771c0efe1a740824e0e833da9c4cad07c39a9766a874575563fb3f",
+    "delimiter": ";",
+    "expected_rows": 649
+  },
+  "target": {
+    "source_column": "G3",
+    "classification": {"low": [0, 9], "medium": [10, 14], "high": [15, 20]},
+    "regression": "raw_G3_0_to_20",
+    "G3_as_input": "PROHIBITED"
+  },
+  "input": {
+    "sequence": ["G1", "G2"],
+    "context_allowlist": ["failures", "absences", "studytime", "schoolsup", "famsup", "paid", "activities", "internet", "higher", "traveltime", "freetime", "goout", "health"],
+    "sensitive_columns_excluded": ["sex", "age", "address", "famsize", "Pstatus", "Mjob", "Fjob"],
+    "context_rationale": "Same pre-G3 construct contract as student-mat, tuned independently.",
+    "preprocessing": "fit_inside_each_training_partition"
+  },
+  "splits": {
+    "outer": "StratifiedGroupKFold_or_StratifiedKFold_5",
+    "inner": "StratifiedGroupKFold_or_StratifiedKFold_3",
+    "group_key": "conservative_cross_subject_quasi_identity_when_joint_data_are_used",
+    "fixed_split_seed": 1201,
+    "mat_results_are_not_independent_validation": true,
+    "joint_learning_student_overlap_cross_fold": "PROHIBITED"
+  },
+  "models": {
+    "main": ["logistic_regression", "decision_tree", "random_forest", "svm", "cnn_bilstm_v5"],
+    "extended": ["hist_gradient_boosting"],
+    "cnn_bilstm": {
+      "branches": ["g1_g2_temporal", "context"],
+      "fusion": ["concatenation", "gated"],
+      "heads": ["three_class_classification", "g3_regression"],
+      "multitask_loss_alpha_candidates": [0.0, 0.05, 0.1, 0.2],
+      "classification_loss_remains_primary": true
+    },
+    "joint_learning": ["standalone", "joint_pretrain_then_subject_finetune"],
+    "joint_selected_only_if_inner_validation_stably_improves": true
+  },
+  "search": {
+    "storage": "artifacts/v5/student_por/optuna.db",
+    "sampler_seed": 7319,
+    "cnn_bilstm_trials": 30,
+    "ml_trials_per_tuned_family": 24,
+    "pruning": "median_after_warmup",
+    "resume": true,
+    "stop_rule": "stop_at_budget_or_after_10_non_improving_completed_trials_when_search_has_converged"
+  },
+  "final_evaluation": {"seeds": [42, 1201, 2026, 3407, 7319], "primary_metric": "macro_f1", "secondary": ["accuracy", "weighted_f1", "per_class_precision_recall_f1", "macro_pr_auc", "rmse", "r2", "seed_stability"]}
+}

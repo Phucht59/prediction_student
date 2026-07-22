@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "case_count": 4,
+  "four_week_plan": true,
+  "workload_limit": true,
+  "no_duplicate_actions": true,
+  "advisor_review_required": true,
+  "abstention_case_present": true,
+  "uncertainty_escalation_present": true,
+  "immutable_revision_chain": true,
+  "effectiveness": "NOT_ESTABLISHED",
+  "expert_review": "PENDING"
+}

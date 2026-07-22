@@ -1,0 +1,40 @@
+{
+  "status": "PASS",
+  "presentations": 22,
+  "modules": 7,
+  "assessment_nodes": 206,
+  "resource_nodes": 6364,
+  "assessment_types": 3,
+  "activity_types": 20,
+  "descriptor_columns": [
+    "assessment_count",
+    "assessment_type_count",
+    "assessment_total_weight",
+    "resource_count",
+    "activity_type_count"
+  ],
+  "graph_only_descriptors": [
+    "activity_type_count",
+    "assessment_count",
+    "assessment_total_weight",
+    "assessment_type_count",
+    "resource_count"
+  ],
+  "within_module_varying_presentations": {
+    "assessment_count": 2,
+    "assessment_type_count": 2,
+    "assessment_total_weight": 0,
+    "resource_count": 7,
+    "activity_type_count": 2
+  },
+  "novel_varying_descriptors": [
+    "activity_type_count",
+    "assessment_count",
+    "assessment_type_count",
+    "resource_count"
+  ],
+  "verdict": "GRAPH_CONTEXT_PASS",
+  "lightweight_graph_allowed": true,
+  "student_test_nodes_in_graph": false,
+  "future_accessed": false
+}

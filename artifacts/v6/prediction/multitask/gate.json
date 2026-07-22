@@ -1,0 +1,68 @@
+{
+  "schema_version": "v6_multitask_gate_v1",
+  "status": "COMPLETE",
+  "selected": "W0",
+  "gate_pass": true,
+  "candidates": {
+    "W0": {
+      "inner_fold": 1.0,
+      "macro_f1": 0.8244025350963762,
+      "at_risk_f1": 0.7843159480048639,
+      "at_risk_recall": 0.7567297005358067,
+      "pr_auc": 0.8916031340678794,
+      "brier": 0.11654434830223066,
+      "survival_concordance": 0.5615376666525472,
+      "integrated_brier_observed_risk_sets": 0.013461666046997764,
+      "withdrawal_recall": 0.00273224043715847,
+      "median_warning_lead_days": 56.0,
+      "outcome_macro_f1": 0.5951270331680978,
+      "outcome_majority_macro_f1": 0.23065992761390194,
+      "parameter_count": 100938.0,
+      "runtime_seconds": 82.98920993333256,
+      "replay_max_abs_difference": 0.0,
+      "weights": {
+        "survival": 0.15,
+        "outcome": 0.15
+      },
+      "binary_noninferior": true,
+      "survival_useful": true,
+      "outcome_exceeds_majority": true,
+      "gate_pass": true
+    },
+    "W1": {
+      "inner_fold": 1.0,
+      "macro_f1": 0.8241226940437487,
+      "at_risk_f1": 0.783987090464262,
+      "at_risk_recall": 0.7568189982557411,
+      "pr_auc": 0.8918316885836971,
+      "brier": 0.11678140114152848,
+      "survival_concordance": 0.5743197191632367,
+      "integrated_brier_observed_risk_sets": 0.01156769050015335,
+      "withdrawal_recall": 0.001366120218579235,
+      "median_warning_lead_days": 54.0,
+      "outcome_macro_f1": 0.6054780312043194,
+      "outcome_majority_macro_f1": 0.23065992761390194,
+      "parameter_count": 100938.0,
+      "runtime_seconds": 81.9171117333414,
+      "replay_max_abs_difference": 0.0,
+      "weights": {
+        "survival": 0.25,
+        "outcome": 0.2
+      },
+      "binary_noninferior": true,
+      "survival_useful": true,
+      "outcome_exceeds_majority": true,
+      "gate_pass": true
+    }
+  },
+  "baseline": {
+    "macro_f1": 0.8244426413333334,
+    "at_risk_f1": 0.7784279338666668,
+    "pr_auc": 0.8916520246333334,
+    "brier": 0.11553907006666668
+  },
+  "survival_event": "withdrawal_only",
+  "fail_event_time_assumed": false,
+  "outer_test_accessed": false,
+  "future_accessed": false
+}

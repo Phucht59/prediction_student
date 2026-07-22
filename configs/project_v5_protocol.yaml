@@ -1,0 +1,88 @@
+{
+  "schema_version": "project_v5_protocol_v1",
+  "protocol_status": "frozen_before_v5_results",
+  "frozen_at": "2026-07-18T02:00:00+07:00",
+  "project": "CNN-BiLSTM V5 for student outcome and risk prediction",
+  "branch": "codex/project-v5-cnn-bilstm-final",
+  "v4_frozen_commit": "ce79aa0b8f7444ac47ae9ae3ba6e72f997c5dd0a",
+  "v4_evidence": {
+    "immutable": true,
+    "allowed_operations": ["read", "hash", "copy_hash_into_v5_audit"],
+    "forbidden_operations": ["modify", "delete", "rewrite_metric", "rewrite_verdict", "store_v5_output"],
+    "oulad_traditional_ml_verdict": "PRACTICAL_TIE",
+    "oulad_temporal_mechanism_verdict": "FAIL",
+    "oulad_future_benchmark": "NOT_EXECUTED"
+  },
+  "studies": {
+    "student-mat": "configs/student_mat_v5.yaml",
+    "student-por": "configs/student_por_v5.yaml",
+    "oulad": "configs/oulad_v5.yaml"
+  },
+  "fixed_seeds": [42, 1201, 2026, 3407, 7319],
+  "selection": {
+    "primary_metric": "macro_f1",
+    "inner_validation_only": true,
+    "outer_results_never_select_configuration": true,
+    "best_seed_selection_prohibited": true,
+    "probability_ensemble": "arithmetic_mean_of_all_five_fixed_seeds",
+    "threshold_and_calibration_scope": "inner_oof_only",
+    "performance_is_not_a_validation_gate": true
+  },
+  "fit_scope": {
+    "scaler": "training_partition_only",
+    "imputer": "training_partition_only",
+    "one_hot_vocabulary": "training_partition_only",
+    "feature_selection": "training_partition_only",
+    "resampling": "training_partition_only",
+    "augmentation": "training_partition_only"
+  },
+  "imbalance": {
+    "uci_tabular_strategies": ["none", "class_weight", "random_oversampling", "smote", "adasyn"],
+    "oulad_tabular_strategies": ["none", "class_weight", "random_oversampling", "smote", "adasyn"],
+    "oulad_sequence_strategies": ["none", "positive_class_weight", "focal_loss", "safe_sequence_augmentation"],
+    "smote_or_adasyn_on_3d_sequence": "PROHIBITED"
+  },
+  "artifacts": {
+    "root": "artifacts/v5",
+    "report_root": "reports/v5",
+    "checksums": "sha256",
+    "resume_state_required": true,
+    "skip_only_when_config_source_and_result_checksums_match": true,
+    "v4_namespace_prohibited": true
+  },
+  "database": {
+    "mode": "database_first",
+    "v4_migrations_immutable": true,
+    "v5_root": "database/v5",
+    "schemas": ["source", "education", "feature", "experiment", "evaluation", "recommendation"],
+    "roles": ["student_predict_migrator", "student_predict_writer", "student_predict_reader"],
+    "large_oulad_arrays": "parquet_or_npz_with_postgresql_metadata_and_sha256",
+    "destructive_test_database": "disposable_only",
+    "reset_requires": "--confirm-disposable",
+    "credentials_in_repository": "PROHIBITED"
+  },
+  "recommendation": {
+    "policy": "rule_based_advisor_in_the_loop",
+    "prediction_source": "best_validated_operational_model_per_dataset",
+    "cnn_bilstm_results_reported_separately": true,
+    "abstention_required": true,
+    "uncertainty_escalation_required": true,
+    "immutable_revision_history_required": true,
+    "causal_effectiveness_claim": "PROHIBITED_UNTIL_EXTERNAL_EVALUATION"
+  },
+  "completion_gates": {
+    "three_studies_complete": true,
+    "fair_baselines": true,
+    "v4_hashes_unchanged": true,
+    "no_leakage": true,
+    "no_future_access": true,
+    "probability_contract": true,
+    "checkpoint_replay": true,
+    "checksum_validation": true,
+    "recommendation_technical_validation": true,
+    "database_migration_audit_or_explicit_missing_dsn_waiver": true,
+    "report_generation": true,
+    "clean_clone_validation": true,
+    "cnn_bilstm_must_win": false
+  }
+}

@@ -14,6 +14,7 @@ htmlcov/
 venv/
 .vscode/
 .vs/
+.idea/
 .agents/
 .DS_Store
 tmp/
@@ -135,6 +136,49 @@ reports/oulad/temporal/**/*.joblib
 
 artifacts/oulad/final/**/threshold_replay_cache/
 
+# OULAD V4: compact reports are versioned; large resumable runtime ledgers stay local.
+.venv-oulad-v4/
+artifacts/oulad/v4/**/*.pt
+artifacts/oulad/v4/**/*.pth
+artifacts/oulad/v4/**/*.joblib
+artifacts/oulad/v4/**/*.parquet
+artifacts/oulad/v4/**/search_cache/
+artifacts/oulad/v4/**/job_cache/
+artifacts/oulad/v4/**/imbalance_cache/
+artifacts/oulad/v4/**/optuna.db
+# Per-record recommendation runtime outputs remain local; only compact policy/audit summaries are versioned.
+artifacts/oulad/v4/**/recommendation_audit.csv
+artifacts/oulad/v4/**/recommendation_drafts.jsonl
+reports/oulad/v4/**/*.pt
+reports/oulad/v4/**/*.pth
+reports/oulad/v4/**/*.joblib
+reports/oulad/v4/**/*.parquet
+
+# V5 runtime state: keep compact evidence, not databases, checkpoints or caches.
+artifacts/v5/**/*.pt
+artifacts/v5/**/*.pth
+artifacts/v5/**/*.joblib
+artifacts/v5/**/runtime_cache/
+artifacts/v5/**/optuna.db
+artifacts/v5/**/*.parquet
+reports/v5/**/*.parquet
+artifacts/v5/*.log
+# Official V5 replay checkpoints and OOF probabilities are compact release evidence.
+!artifacts/v5/**/checkpoints/
+!artifacts/v5/**/checkpoints/*.pt
+!artifacts/v5/oulad/oof_predictions.parquet
+
+# V5.1: retain compact predictions and replay checkpoints, keep resumable/runtime
+# state local. Registries preserve hashes for every selected release checkpoint.
+artifacts/v5_1/**/*.joblib
+artifacts/v5_1/**/ml_models/
+artifacts/v5_1/**/optuna.db
+artifacts/v5_1/**/*.log
+artifacts/v5_1/**/runtime_cache/
+database/v5/volume/
+database/v5/backups/
+*.sql.gz
+
 # Benchmark V2 run outputs are immutable runtime evidence, not source files.
 # Protocol definitions and selected audit reports below remain versioned.
 artifacts/benchmark_v2/
@@ -158,3 +202,37 @@ reports/benchmark_v2/v2_1/
 !reports/results/.gitkeep
 !reports/figures/.gitkeep
 !reports/tables/.gitkeep
+
+# Local experimental laboratory (never part of the final release)
+/test_lab/
+test_lab/**
+
+# Local non-selected experiment snapshots retained outside the public release
+/configs/v5_2/
+/configs/v5_3/
+/configs/v5_4/
+/src/studies/v5_2/
+/src/studies/v5_3/
+/src/studies/v5_4/
+/scripts/v5_2/
+/scripts/v5_3/
+/scripts/v5_4/
+/artifacts/v5_2/
+/artifacts/v5_3/
+/artifacts/v5_4/
+/reports/v5_2/
+/reports/v5_3/
+/reports/v5_4/
+/tests/v5_2/
+/tests/v5_3/
+/tests/v5_4/
+/artifacts/oulad/v4/
+/src/studies/oulad_v4/
+/configs/oulad_v4_protocol.yaml
+/scripts/*v4*.py
+/tests/*v4*.py
+/requirements-v4.txt
+/reports/oulad/v4/
+/docs/OULAD_V4_RUNBOOK.md
+/database/migrations/008_v5_2_recommendation_evaluation.sql
+/database/migrations/rollback/008_v5_2_recommendation_evaluation.rollback.sql

@@ -1,0 +1,17 @@
+{
+  "status": "PASS_WITH_TRANSPARENT_SKIP",
+  "read_only_existing_database": {
+    "status": "PASS_READ_ONLY",
+    "database": "student_predict",
+    "user": "student_predict_app",
+    "schemas": [],
+    "tables_by_schema": {},
+    "transaction_read_only": true
+  },
+  "destructive_disposable_integration": {
+    "status": "SKIP_NO_DISPOSABLE_DSN",
+    "reason": "POSTGRES_TEST_DSN is not present in the execution environment."
+  },
+  "writes_executed": false,
+  "credentials_logged": false
+}

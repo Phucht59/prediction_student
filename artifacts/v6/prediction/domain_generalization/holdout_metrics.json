@@ -1,0 +1,2206 @@
+[
+  {
+    "protocol": "leave_one_module_out",
+    "holdout": "AAA",
+    "records": 677,
+    "deep": {
+      "records": 677,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.7209489213433168,
+      "balanced_accuracy": 0.7424799422129351,
+      "at_risk_precision": 0.5191256830601093,
+      "at_risk_recall": 0.6506849315068494,
+      "at_risk_f1": 0.5775075987841946,
+      "pr_auc": 0.6896032979754952,
+      "brier": 0.1429170155467029,
+      "nll": 0.4434771650190767,
+      "ece": 0.15247861352753295,
+      "confusion_matrix": [
+        [
+          443,
+          88
+        ],
+        [
+          51,
+          95
+        ]
+      ],
+      "precision_at_5_percent": 0.9411764705882353,
+      "recall_at_5_percent": 0.2191780821917808,
+      "precision_at_10_percent": 0.8382352941176471,
+      "recall_at_10_percent": 0.3904109589041096,
+      "precision_at_20_percent": 0.6323529411764706,
+      "recall_at_20_percent": 0.589041095890411,
+      "ndcg_at_10_percent": 0.877706956597469,
+      "ndcg_at_20_percent": 0.7023295555177665,
+      "survival_concordance": 0.7407605182541244,
+      "integrated_brier_observed_risk_sets": 0.00948927118966135,
+      "withdrawal_recall": 0.0,
+      "median_warning_lead_days": null,
+      "outcome_macro_f1": 0.6041891285251696,
+      "outcome_majority_macro_f1": 0.292756236850015
+    },
+    "xgboost_fixed_cross_check": {
+      "records": 677,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.7178355064494357,
+      "balanced_accuracy": 0.7745917498645616,
+      "at_risk_precision": 0.4810126582278481,
+      "at_risk_recall": 0.7808219178082192,
+      "at_risk_f1": 0.5953002610966057,
+      "pr_auc": 0.679447595907586,
+      "brier": 0.16250737508375426,
+      "nll": 0.4903628855905117,
+      "ece": 0.19252864339910283,
+      "confusion_matrix": [
+        [
+          408,
+          123
+        ],
+        [
+          32,
+          114
+        ]
+      ]
+    },
+    "status": "COMPLETE",
+    "train_records": 23926,
+    "deep_checkpoint": "artifacts/v6/prediction/domain_generalization/checkpoints/leave_one_module_out__AAA.pt",
+    "deep_checkpoint_sha256": "dbb607fa3c89be50d4999cf94545d4c669fcd7f325d5bd86d99a3d91bc135c22",
+    "deep_replay_max_abs_difference": 0.0,
+    "threshold": 0.495,
+    "threshold_source": "median frozen V5.1 inner-OOF thresholds",
+    "seed": 42,
+    "training_exclusion": "entire_target_module"
+  },
+  {
+    "protocol": "leave_one_presentation_out",
+    "holdout": "AAA::2013J",
+    "records": 349,
+    "deep": {
+      "records": 349,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.7106135986733002,
+      "balanced_accuracy": 0.734167595501064,
+      "at_risk_precision": 0.4945054945054945,
+      "at_risk_recall": 0.6338028169014085,
+      "at_risk_f1": 0.5555555555555556,
+      "pr_auc": 0.6634917729082251,
+      "brier": 0.14041453146239982,
+      "nll": 0.43741370831950316,
+      "ece": 0.15196601615519525,
+      "confusion_matrix": [
+        [
+          232,
+          46
+        ],
+        [
+          26,
+          45
+        ]
+      ],
+      "precision_at_5_percent": 0.9444444444444444,
+      "recall_at_5_percent": 0.23943661971830985,
+      "precision_at_10_percent": 0.8285714285714286,
+      "recall_at_10_percent": 0.4084507042253521,
+      "precision_at_20_percent": 0.5714285714285714,
+      "recall_at_20_percent": 0.5633802816901409,
+      "ndcg_at_10_percent": 0.8704452830360141,
+      "ndcg_at_20_percent": 0.661621204439094,
+      "survival_concordance": 0.7954231830726771,
+      "integrated_brier_observed_risk_sets": 0.008016241410600462,
+      "withdrawal_recall": 0.0,
+      "median_warning_lead_days": null,
+      "outcome_macro_f1": 0.6241607586362611,
+      "outcome_majority_macro_f1": 0.29604130808950085
+    },
+    "xgboost_fixed_cross_check": {
+      "records": 349,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.7277429282836594,
+      "balanced_accuracy": 0.7795622656804134,
+      "at_risk_precision": 0.4909090909090909,
+      "at_risk_recall": 0.7605633802816901,
+      "at_risk_f1": 0.5966850828729282,
+      "pr_auc": 0.6664469907495256,
+      "brier": 0.1551629411317179,
+      "nll": 0.47253406718139535,
+      "ece": 0.18510924938286952,
+      "confusion_matrix": [
+        [
+          222,
+          56
+        ],
+        [
+          17,
+          54
+        ]
+      ]
+    },
+    "status": "COMPLETE",
+    "train_records": 23926,
+    "deep_checkpoint": "artifacts/v6/prediction/domain_generalization/checkpoints/leave_one_module_out__AAA.pt",
+    "deep_checkpoint_sha256": "dbb607fa3c89be50d4999cf94545d4c669fcd7f325d5bd86d99a3d91bc135c22",
+    "deep_replay_max_abs_difference": 0.0,
+    "threshold": 0.495,
+    "threshold_source": "median frozen V5.1 inner-OOF thresholds",
+    "seed": 42,
+    "training_exclusion": "entire_target_module"
+  },
+  {
+    "protocol": "leave_one_presentation_out",
+    "holdout": "AAA::2014J",
+    "records": 328,
+    "deep": {
+      "records": 328,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.7308940401405777,
+      "balanced_accuracy": 0.7503293807641633,
+      "at_risk_precision": 0.5434782608695652,
+      "at_risk_recall": 0.6666666666666666,
+      "at_risk_f1": 0.5988023952095808,
+      "pr_auc": 0.7176071921193261,
+      "brier": 0.14557971964859862,
+      "nll": 0.4499288308366106,
+      "ece": 0.1594128610634404,
+      "confusion_matrix": [
+        [
+          211,
+          42
+        ],
+        [
+          25,
+          50
+        ]
+      ],
+      "precision_at_5_percent": 1.0,
+      "recall_at_5_percent": 0.22666666666666666,
+      "precision_at_10_percent": 0.8787878787878788,
+      "recall_at_10_percent": 0.38666666666666666,
+      "precision_at_20_percent": 0.6666666666666666,
+      "recall_at_20_percent": 0.5866666666666667,
+      "ndcg_at_10_percent": 0.9138434729391727,
+      "ndcg_at_20_percent": 0.7427999624126905,
+      "survival_concordance": 0.6895179124281291,
+      "integrated_brier_observed_risk_sets": 0.011060424329505159,
+      "withdrawal_recall": 0.0,
+      "median_warning_lead_days": null,
+      "outcome_macro_f1": 0.5711177711177712,
+      "outcome_majority_macro_f1": 0.28914141414141414
+    },
+    "xgboost_fixed_cross_check": {
+      "records": 328,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.7067213329262442,
+      "balanced_accuracy": 0.7675889328063241,
+      "at_risk_precision": 0.47244094488188976,
+      "at_risk_recall": 0.8,
+      "at_risk_f1": 0.594059405940594,
+      "pr_auc": 0.6931063383392402,
+      "brier": 0.17032203194125636,
+      "nll": 0.5093331832270411,
+      "ece": 0.20042305959320467,
+      "confusion_matrix": [
+        [
+          186,
+          67
+        ],
+        [
+          15,
+          60
+        ]
+      ]
+    },
+    "status": "COMPLETE",
+    "train_records": 23926,
+    "deep_checkpoint": "artifacts/v6/prediction/domain_generalization/checkpoints/leave_one_module_out__AAA.pt",
+    "deep_checkpoint_sha256": "dbb607fa3c89be50d4999cf94545d4c669fcd7f325d5bd86d99a3d91bc135c22",
+    "deep_replay_max_abs_difference": 0.0,
+    "threshold": 0.495,
+    "threshold_source": "median frozen V5.1 inner-OOF thresholds",
+    "seed": 42,
+    "training_exclusion": "entire_target_module"
+  },
+  {
+    "protocol": "leave_one_module_out",
+    "holdout": "BBB",
+    "records": 5917,
+    "deep": {
+      "records": 5917,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.7742302065902271,
+      "balanced_accuracy": 0.7652196418134111,
+      "at_risk_precision": 0.7717633928571429,
+      "at_risk_recall": 0.6393897364771152,
+      "at_risk_f1": 0.6993678887484197,
+      "pr_auc": 0.8274010141462332,
+      "brier": 0.1376883814659926,
+      "nll": 0.42353379873944846,
+      "ece": 0.032969238311782646,
+      "confusion_matrix": [
+        [
+          3345,
+          409
+        ],
+        [
+          780,
+          1383
+        ]
+      ],
+      "precision_at_5_percent": 1.0,
+      "recall_at_5_percent": 0.1368469717984281,
+      "precision_at_10_percent": 0.9966216216216216,
+      "recall_at_10_percent": 0.2727693018955155,
+      "precision_at_20_percent": 0.9180743243243243,
+      "recall_at_20_percent": 0.502542764678687,
+      "ndcg_at_10_percent": 0.9972243429973051,
+      "ndcg_at_20_percent": 0.9308978560021735,
+      "survival_concordance": 0.6686446919176543,
+      "integrated_brier_observed_risk_sets": 0.010869202238802205,
+      "withdrawal_recall": 0.0,
+      "median_warning_lead_days": null,
+      "outcome_macro_f1": 0.4962292251016159,
+      "outcome_majority_macro_f1": 0.23866589102191196
+    },
+    "xgboost_fixed_cross_check": {
+      "records": 5917,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.7722859267119968,
+      "balanced_accuracy": 0.7668984182321412,
+      "at_risk_precision": 0.741405849153412,
+      "at_risk_recall": 0.6680536292186777,
+      "at_risk_f1": 0.7028210116731517,
+      "pr_auc": 0.8271400696817658,
+      "brier": 0.1402069338976045,
+      "nll": 0.4291700003145881,
+      "ece": 0.045683488641699195,
+      "confusion_matrix": [
+        [
+          3250,
+          504
+        ],
+        [
+          718,
+          1445
+        ]
+      ]
+    },
+    "status": "COMPLETE",
+    "train_records": 18686,
+    "deep_checkpoint": "artifacts/v6/prediction/domain_generalization/checkpoints/leave_one_module_out__BBB.pt",
+    "deep_checkpoint_sha256": "e84139108245285a5b1faab3d5c692eb9d6500240f27e3fab0b2a209c8dd2388",
+    "deep_replay_max_abs_difference": 0.0,
+    "threshold": 0.495,
+    "threshold_source": "median frozen V5.1 inner-OOF thresholds",
+    "seed": 42,
+    "training_exclusion": "entire_target_module"
+  },
+  {
+    "protocol": "leave_one_presentation_out",
+    "holdout": "BBB::2013B",
+    "records": 1380,
+    "deep": {
+      "records": 1380,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.793530719899531,
+      "balanced_accuracy": 0.7853758975764626,
+      "at_risk_precision": 0.8648018648018648,
+      "at_risk_recall": 0.6429809358752167,
+      "at_risk_f1": 0.7375745526838966,
+      "pr_auc": 0.8812041766643389,
+      "brier": 0.1289532932334404,
+      "nll": 0.3994962703241243,
+      "ece": 0.029637789450909793,
+      "confusion_matrix": [
+        [
+          745,
+          58
+        ],
+        [
+          206,
+          371
+        ]
+      ],
+      "precision_at_5_percent": 1.0,
+      "recall_at_5_percent": 0.1195840554592721,
+      "precision_at_10_percent": 1.0,
+      "recall_at_10_percent": 0.2391681109185442,
+      "precision_at_20_percent": 0.9782608695652174,
+      "recall_at_20_percent": 0.4679376083188908,
+      "ndcg_at_10_percent": 1.0,
+      "ndcg_at_20_percent": 0.9828577349172674,
+      "survival_concordance": 0.6909663248496303,
+      "integrated_brier_observed_risk_sets": 0.013034136331567426,
+      "withdrawal_recall": 0.0,
+      "median_warning_lead_days": null,
+      "outcome_macro_f1": 0.5174422592617138,
+      "outcome_majority_macro_f1": 0.22629649030906232
+    },
+    "xgboost_fixed_cross_check": {
+      "records": 1380,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.7943628312363815,
+      "balanced_accuracy": 0.7869482076528442,
+      "at_risk_precision": 0.8482142857142857,
+      "at_risk_recall": 0.658578856152513,
+      "at_risk_f1": 0.7414634146341463,
+      "pr_auc": 0.8739245872119904,
+      "brier": 0.13153487098983133,
+      "nll": 0.4041315607150408,
+      "ece": 0.026304724622868758,
+      "confusion_matrix": [
+        [
+          735,
+          68
+        ],
+        [
+          197,
+          380
+        ]
+      ]
+    },
+    "status": "COMPLETE",
+    "train_records": 18686,
+    "deep_checkpoint": "artifacts/v6/prediction/domain_generalization/checkpoints/leave_one_module_out__BBB.pt",
+    "deep_checkpoint_sha256": "e84139108245285a5b1faab3d5c692eb9d6500240f27e3fab0b2a209c8dd2388",
+    "deep_replay_max_abs_difference": 0.0,
+    "threshold": 0.495,
+    "threshold_source": "median frozen V5.1 inner-OOF thresholds",
+    "seed": 42,
+    "training_exclusion": "entire_target_module"
+  },
+  {
+    "protocol": "leave_one_presentation_out",
+    "holdout": "BBB::2013J",
+    "records": 1677,
+    "deep": {
+      "records": 1677,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.8010539346319825,
+      "balanced_accuracy": 0.7801814789687924,
+      "at_risk_precision": 0.9386666666666666,
+      "at_risk_recall": 0.5818181818181818,
+      "at_risk_f1": 0.7183673469387755,
+      "pr_auc": 0.87074012443645,
+      "brier": 0.11919276123912835,
+      "nll": 0.3758569091080262,
+      "ece": 0.039134089696705884,
+      "confusion_matrix": [
+        [
+          1049,
+          23
+        ],
+        [
+          253,
+          352
+        ]
+      ],
+      "precision_at_5_percent": 1.0,
+      "recall_at_5_percent": 0.13884297520661157,
+      "precision_at_10_percent": 1.0,
+      "recall_at_10_percent": 0.27768595041322314,
+      "precision_at_20_percent": 0.9523809523809523,
+      "recall_at_20_percent": 0.5289256198347108,
+      "ndcg_at_10_percent": 1.0,
+      "ndcg_at_20_percent": 0.9618999571962095,
+      "survival_concordance": 0.6884573148121738,
+      "integrated_brier_observed_risk_sets": 0.009624217693939162,
+      "withdrawal_recall": 0.0,
+      "median_warning_lead_days": null,
+      "outcome_macro_f1": 0.5256424514481234,
+      "outcome_majority_macro_f1": 0.24018228119555018
+    },
+    "xgboost_fixed_cross_check": {
+      "records": 1677,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.8011335347310062,
+      "balanced_accuracy": 0.7831434254348094,
+      "at_risk_precision": 0.8910411622276029,
+      "at_risk_recall": 0.6082644628099173,
+      "at_risk_f1": 0.7229862475442044,
+      "pr_auc": 0.8597731684093268,
+      "brier": 0.12139426265307025,
+      "nll": 0.38334037005091653,
+      "ece": 0.026745815672531294,
+      "confusion_matrix": [
+        [
+          1027,
+          45
+        ],
+        [
+          237,
+          368
+        ]
+      ]
+    },
+    "status": "COMPLETE",
+    "train_records": 18686,
+    "deep_checkpoint": "artifacts/v6/prediction/domain_generalization/checkpoints/leave_one_module_out__BBB.pt",
+    "deep_checkpoint_sha256": "e84139108245285a5b1faab3d5c692eb9d6500240f27e3fab0b2a209c8dd2388",
+    "deep_replay_max_abs_difference": 0.0,
+    "threshold": 0.495,
+    "threshold_source": "median frozen V5.1 inner-OOF thresholds",
+    "seed": 42,
+    "training_exclusion": "entire_target_module"
+  },
+  {
+    "protocol": "leave_one_presentation_out",
+    "holdout": "BBB::2014B",
+    "records": 1192,
+    "deep": {
+      "records": 1192,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.7814277878926547,
+      "balanced_accuracy": 0.7674520418275133,
+      "at_risk_precision": 0.9078498293515358,
+      "at_risk_recall": 0.5720430107526882,
+      "at_risk_f1": 0.7018469656992085,
+      "pr_auc": 0.8613901694762588,
+      "brier": 0.13033528824982307,
+      "nll": 0.40041939223362255,
+      "ece": 0.03231800662434892,
+      "confusion_matrix": [
+        [
+          700,
+          27
+        ],
+        [
+          199,
+          266
+        ]
+      ],
+      "precision_at_5_percent": 1.0,
+      "recall_at_5_percent": 0.12903225806451613,
+      "precision_at_10_percent": 1.0,
+      "recall_at_10_percent": 0.25806451612903225,
+      "precision_at_20_percent": 0.9707112970711297,
+      "recall_at_20_percent": 0.4989247311827957,
+      "ndcg_at_10_percent": 1.0,
+      "ndcg_at_20_percent": 0.9768733824194642,
+      "survival_concordance": 0.661514423697735,
+      "integrated_brier_observed_risk_sets": 0.01092574229303999,
+      "withdrawal_recall": 0.0,
+      "median_warning_lead_days": null,
+      "outcome_macro_f1": 0.4830013895321908,
+      "outcome_majority_macro_f1": 0.22209026128266032
+    },
+    "xgboost_fixed_cross_check": {
+      "records": 1192,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.7937964230720002,
+      "balanced_accuracy": 0.7838532191507299,
+      "at_risk_precision": 0.8324175824175825,
+      "at_risk_recall": 0.6516129032258065,
+      "at_risk_f1": 0.7310012062726177,
+      "pr_auc": 0.848993511045657,
+      "brier": 0.13631578642076533,
+      "nll": 0.41942823856438,
+      "ece": 0.033502544120154125,
+      "confusion_matrix": [
+        [
+          666,
+          61
+        ],
+        [
+          162,
+          303
+        ]
+      ]
+    },
+    "status": "COMPLETE",
+    "train_records": 18686,
+    "deep_checkpoint": "artifacts/v6/prediction/domain_generalization/checkpoints/leave_one_module_out__BBB.pt",
+    "deep_checkpoint_sha256": "e84139108245285a5b1faab3d5c692eb9d6500240f27e3fab0b2a209c8dd2388",
+    "deep_replay_max_abs_difference": 0.0,
+    "threshold": 0.495,
+    "threshold_source": "median frozen V5.1 inner-OOF thresholds",
+    "seed": 42,
+    "training_exclusion": "entire_target_module"
+  },
+  {
+    "protocol": "leave_one_presentation_out",
+    "holdout": "BBB::2014J",
+    "records": 1668,
+    "deep": {
+      "records": 1668,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.7258215378637004,
+      "balanced_accuracy": 0.751140584625323,
+      "at_risk_precision": 0.5669064748201439,
+      "at_risk_recall": 0.7635658914728682,
+      "at_risk_f1": 0.6507018992568125,
+      "pr_auc": 0.7815040593705592,
+      "brier": 0.16876539824959425,
+      "nll": 0.5078733105380021,
+      "ece": 0.1767010033293683,
+      "confusion_matrix": [
+        [
+          851,
+          301
+        ],
+        [
+          122,
+          394
+        ]
+      ],
+      "precision_at_5_percent": 0.9880952380952381,
+      "recall_at_5_percent": 0.16085271317829458,
+      "precision_at_10_percent": 0.9760479041916168,
+      "recall_at_10_percent": 0.31589147286821706,
+      "precision_at_20_percent": 0.8323353293413174,
+      "recall_at_20_percent": 0.5387596899224806,
+      "ndcg_at_10_percent": 0.9811414472277493,
+      "ndcg_at_20_percent": 0.8635092258208613,
+      "survival_concordance": 0.6411658345857735,
+      "integrated_brier_observed_risk_sets": 0.010476313875518981,
+      "withdrawal_recall": 0.0,
+      "median_warning_lead_days": null,
+      "outcome_macro_f1": 0.45966402498649966,
+      "outcome_majority_macro_f1": 0.25765407554671965
+    },
+    "xgboost_fixed_cross_check": {
+      "records": 1668,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.709917508002955,
+      "balanced_accuracy": 0.7385537790697674,
+      "at_risk_precision": 0.5441988950276243,
+      "at_risk_recall": 0.7635658914728682,
+      "at_risk_f1": 0.635483870967742,
+      "pr_auc": 0.7767337473584618,
+      "brier": 0.1690765647622347,
+      "nll": 0.5029239071525979,
+      "ece": 0.16564053781352922,
+      "confusion_matrix": [
+        [
+          822,
+          330
+        ],
+        [
+          122,
+          394
+        ]
+      ]
+    },
+    "status": "COMPLETE",
+    "train_records": 18686,
+    "deep_checkpoint": "artifacts/v6/prediction/domain_generalization/checkpoints/leave_one_module_out__BBB.pt",
+    "deep_checkpoint_sha256": "e84139108245285a5b1faab3d5c692eb9d6500240f27e3fab0b2a209c8dd2388",
+    "deep_replay_max_abs_difference": 0.0,
+    "threshold": 0.495,
+    "threshold_source": "median frozen V5.1 inner-OOF thresholds",
+    "seed": 42,
+    "training_exclusion": "entire_target_module"
+  },
+  {
+    "protocol": "leave_one_module_out",
+    "holdout": "CCC",
+    "records": 2863,
+    "deep": {
+      "records": 2863,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.7645769574792511,
+      "balanced_accuracy": 0.7755517813167132,
+      "at_risk_precision": 0.6771978021978022,
+      "at_risk_recall": 0.8313659359190556,
+      "at_risk_f1": 0.7464042392127176,
+      "pr_auc": 0.8653619061619044,
+      "brier": 0.15541463077130072,
+      "nll": 0.4701406486225959,
+      "ece": 0.12321822228280348,
+      "confusion_matrix": [
+        [
+          1207,
+          470
+        ],
+        [
+          200,
+          986
+        ]
+      ],
+      "precision_at_5_percent": 1.0,
+      "recall_at_5_percent": 0.12141652613827993,
+      "precision_at_10_percent": 0.9965156794425087,
+      "recall_at_10_percent": 0.2411467116357504,
+      "precision_at_20_percent": 0.9511343804537522,
+      "recall_at_20_percent": 0.45952782462057334,
+      "ndcg_at_10_percent": 0.9972319094778236,
+      "ndcg_at_20_percent": 0.959829375052693,
+      "survival_concordance": 0.6708760545488809,
+      "integrated_brier_observed_risk_sets": 0.010479281615678092,
+      "withdrawal_recall": 0.0,
+      "median_warning_lead_days": null,
+      "outcome_macro_f1": 0.45104951429077483,
+      "outcome_majority_macro_f1": 0.21611218036843552
+    },
+    "xgboost_fixed_cross_check": {
+      "records": 2863,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.7741250767801418,
+      "balanced_accuracy": 0.781091465628114,
+      "at_risk_precision": 0.7003663003663003,
+      "at_risk_recall": 0.806070826306914,
+      "at_risk_f1": 0.7495099960799686,
+      "pr_auc": 0.8626891849890632,
+      "brier": 0.15066130416782214,
+      "nll": 0.45447276413461457,
+      "ece": 0.09334339524599439,
+      "confusion_matrix": [
+        [
+          1268,
+          409
+        ],
+        [
+          230,
+          956
+        ]
+      ]
+    },
+    "status": "COMPLETE",
+    "train_records": 21740,
+    "deep_checkpoint": "artifacts/v6/prediction/domain_generalization/checkpoints/leave_one_module_out__CCC.pt",
+    "deep_checkpoint_sha256": "0dbff4f135c7eac0ad24a34655822a49220a311c3207c18b5f25ea7c4cd0a5ce",
+    "deep_replay_max_abs_difference": 0.0,
+    "threshold": 0.495,
+    "threshold_source": "median frozen V5.1 inner-OOF thresholds",
+    "seed": 42,
+    "training_exclusion": "entire_target_module"
+  },
+  {
+    "protocol": "leave_one_presentation_out",
+    "holdout": "CCC::2014B",
+    "records": 1219,
+    "deep": {
+      "records": 1219,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.7758715790962449,
+      "balanced_accuracy": 0.7845388847293207,
+      "at_risk_precision": 0.703012912482066,
+      "at_risk_recall": 0.8812949640287769,
+      "at_risk_f1": 0.7821229050279329,
+      "pr_auc": 0.8988873038030831,
+      "brier": 0.15290724725912205,
+      "nll": 0.4617949809981495,
+      "ece": 0.13232945999508025,
+      "confusion_matrix": [
+        [
+          456,
+          207
+        ],
+        [
+          66,
+          490
+        ]
+      ],
+      "precision_at_5_percent": 1.0,
+      "recall_at_5_percent": 0.10971223021582734,
+      "precision_at_10_percent": 1.0,
+      "recall_at_10_percent": 0.21942446043165467,
+      "precision_at_20_percent": 0.9918032786885246,
+      "recall_at_20_percent": 0.4352517985611511,
+      "ndcg_at_10_percent": 1.0,
+      "ndcg_at_20_percent": 0.9936308675292558,
+      "survival_concordance": 0.6672082157925572,
+      "integrated_brier_observed_risk_sets": 0.012530580847267329,
+      "withdrawal_recall": 0.0,
+      "median_warning_lead_days": null,
+      "outcome_macro_f1": 0.4616528633532691,
+      "outcome_majority_macro_f1": 0.20808482438701126
+    },
+    "xgboost_fixed_cross_check": {
+      "records": 1219,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.7702910060031766,
+      "balanced_accuracy": 0.7769377258374296,
+      "at_risk_precision": 0.7053571428571429,
+      "at_risk_recall": 0.8525179856115108,
+      "at_risk_f1": 0.7719869706840391,
+      "pr_auc": 0.8909977582961619,
+      "brier": 0.15348708396452496,
+      "nll": 0.45718566327135873,
+      "ece": 0.11582347649815045,
+      "confusion_matrix": [
+        [
+          465,
+          198
+        ],
+        [
+          82,
+          474
+        ]
+      ]
+    },
+    "status": "COMPLETE",
+    "train_records": 21740,
+    "deep_checkpoint": "artifacts/v6/prediction/domain_generalization/checkpoints/leave_one_module_out__CCC.pt",
+    "deep_checkpoint_sha256": "0dbff4f135c7eac0ad24a34655822a49220a311c3207c18b5f25ea7c4cd0a5ce",
+    "deep_replay_max_abs_difference": 0.0,
+    "threshold": 0.495,
+    "threshold_source": "median frozen V5.1 inner-OOF thresholds",
+    "seed": 42,
+    "training_exclusion": "entire_target_module"
+  },
+  {
+    "protocol": "leave_one_presentation_out",
+    "holdout": "CCC::2014J",
+    "records": 1644,
+    "deep": {
+      "records": 1644,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.752562733369956,
+      "balanced_accuracy": 0.763966375504837,
+      "at_risk_precision": 0.6534914361001317,
+      "at_risk_recall": 0.7873015873015873,
+      "at_risk_f1": 0.7141828653707704,
+      "pr_auc": 0.8330659087505141,
+      "brier": 0.15727381599109744,
+      "nll": 0.47632882917867886,
+      "ece": 0.11731448413355505,
+      "confusion_matrix": [
+        [
+          751,
+          263
+        ],
+        [
+          134,
+          496
+        ]
+      ],
+      "precision_at_5_percent": 0.9879518072289156,
+      "recall_at_5_percent": 0.13015873015873017,
+      "precision_at_10_percent": 0.9878787878787879,
+      "recall_at_10_percent": 0.25873015873015875,
+      "precision_at_20_percent": 0.9179331306990881,
+      "recall_at_20_percent": 0.4793650793650794,
+      "ndcg_at_10_percent": 0.9900766095916482,
+      "ndcg_at_20_percent": 0.9327920617471844,
+      "survival_concordance": 0.6676434161550492,
+      "integrated_brier_observed_risk_sets": 0.009107193524706549,
+      "withdrawal_recall": 0.0,
+      "median_warning_lead_days": null,
+      "outcome_macro_f1": 0.4403180328521199,
+      "outcome_majority_macro_f1": 0.22180451127819548
+    },
+    "xgboost_fixed_cross_check": {
+      "records": 1644,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.7729749066717442,
+      "balanced_accuracy": 0.7784962900347516,
+      "at_risk_precision": 0.6955266955266955,
+      "at_risk_recall": 0.765079365079365,
+      "at_risk_f1": 0.7286470143613001,
+      "pr_auc": 0.8361267709077644,
+      "brier": 0.14856603313851513,
+      "nll": 0.4524611923294498,
+      "ece": 0.07722566703135043,
+      "confusion_matrix": [
+        [
+          803,
+          211
+        ],
+        [
+          148,
+          482
+        ]
+      ]
+    },
+    "status": "COMPLETE",
+    "train_records": 21740,
+    "deep_checkpoint": "artifacts/v6/prediction/domain_generalization/checkpoints/leave_one_module_out__CCC.pt",
+    "deep_checkpoint_sha256": "0dbff4f135c7eac0ad24a34655822a49220a311c3207c18b5f25ea7c4cd0a5ce",
+    "deep_replay_max_abs_difference": 0.0,
+    "threshold": 0.495,
+    "threshold_source": "median frozen V5.1 inner-OOF thresholds",
+    "seed": 42,
+    "training_exclusion": "entire_target_module"
+  },
+  {
+    "protocol": "leave_one_module_out",
+    "holdout": "DDD",
+    "records": 4622,
+    "deep": {
+      "records": 4622,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.7485794146937478,
+      "balanced_accuracy": 0.7455363603817706,
+      "at_risk_precision": 0.9370503597122302,
+      "at_risk_recall": 0.5178926441351889,
+      "at_risk_f1": 0.6670934699103713,
+      "pr_auc": 0.8873249400399479,
+      "brier": 0.15852887198222645,
+      "nll": 0.49602110979862324,
+      "ece": 0.14059586602205526,
+      "confusion_matrix": [
+        [
+          2540,
+          70
+        ],
+        [
+          970,
+          1042
+        ]
+      ],
+      "precision_at_5_percent": 0.9913793103448276,
+      "recall_at_5_percent": 0.1143141153081511,
+      "precision_at_10_percent": 0.9870410367170627,
+      "recall_at_10_percent": 0.2271371769383698,
+      "precision_at_20_percent": 0.9697297297297297,
+      "recall_at_20_percent": 0.44582504970178927,
+      "ndcg_at_10_percent": 0.988677764068812,
+      "ndcg_at_20_percent": 0.9737602586553259,
+      "survival_concordance": 0.6917078773379989,
+      "integrated_brier_observed_risk_sets": 0.009674276570394522,
+      "withdrawal_recall": 0.0,
+      "median_warning_lead_days": null,
+      "outcome_macro_f1": 0.5685355796928727,
+      "outcome_majority_macro_f1": 0.23785111609526863
+    },
+    "xgboost_fixed_cross_check": {
+      "records": 4622,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.7634642185127989,
+      "balanced_accuracy": 0.7585513737498382,
+      "at_risk_precision": 0.9015873015873016,
+      "at_risk_recall": 0.5646123260437376,
+      "at_risk_f1": 0.6943765281173594,
+      "pr_auc": 0.8815117208708103,
+      "brier": 0.14619208107828532,
+      "nll": 0.4500822863013781,
+      "ece": 0.10109974679080526,
+      "confusion_matrix": [
+        [
+          2486,
+          124
+        ],
+        [
+          876,
+          1136
+        ]
+      ]
+    },
+    "status": "COMPLETE",
+    "train_records": 19981,
+    "deep_checkpoint": "artifacts/v6/prediction/domain_generalization/checkpoints/leave_one_module_out__DDD.pt",
+    "deep_checkpoint_sha256": "1caae309731298d316a7f70243a9caeffd82020c5eea116c1e173d974502a5f1",
+    "deep_replay_max_abs_difference": 0.0,
+    "threshold": 0.495,
+    "threshold_source": "median frozen V5.1 inner-OOF thresholds",
+    "seed": 42,
+    "training_exclusion": "entire_target_module"
+  },
+  {
+    "protocol": "leave_one_presentation_out",
+    "holdout": "DDD::2013B",
+    "records": 997,
+    "deep": {
+      "records": 997,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.7381887147233794,
+      "balanced_accuracy": 0.7506059507992109,
+      "at_risk_precision": 0.9919354838709677,
+      "at_risk_recall": 0.5051334702258727,
+      "at_risk_f1": 0.6693877551020408,
+      "pr_auc": 0.9128931531485603,
+      "brier": 0.17071270390184345,
+      "nll": 0.5205545976598686,
+      "ece": 0.17146399250270852,
+      "confusion_matrix": [
+        [
+          508,
+          2
+        ],
+        [
+          241,
+          246
+        ]
+      ],
+      "precision_at_5_percent": 1.0,
+      "recall_at_5_percent": 0.1026694045174538,
+      "precision_at_10_percent": 1.0,
+      "recall_at_10_percent": 0.2053388090349076,
+      "precision_at_20_percent": 1.0,
+      "recall_at_20_percent": 0.4106776180698152,
+      "ndcg_at_10_percent": 1.0,
+      "ndcg_at_20_percent": 1.0,
+      "survival_concordance": 0.6761061350932722,
+      "integrated_brier_observed_risk_sets": 0.010849935774198356,
+      "withdrawal_recall": 0.0,
+      "median_warning_lead_days": null,
+      "outcome_macro_f1": 0.5721368359857569,
+      "outcome_majority_macro_f1": 0.229607250755287
+    },
+    "xgboost_fixed_cross_check": {
+      "records": 997,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.7563538611925709,
+      "balanced_accuracy": 0.7612815557434474,
+      "at_risk_precision": 0.896551724137931,
+      "at_risk_recall": 0.5872689938398358,
+      "at_risk_f1": 0.7096774193548387,
+      "pr_auc": 0.9046654632119366,
+      "brier": 0.15295787521597537,
+      "nll": 0.4674427766247709,
+      "ece": 0.12399181645875472,
+      "confusion_matrix": [
+        [
+          477,
+          33
+        ],
+        [
+          201,
+          286
+        ]
+      ]
+    },
+    "status": "COMPLETE",
+    "train_records": 19981,
+    "deep_checkpoint": "artifacts/v6/prediction/domain_generalization/checkpoints/leave_one_module_out__DDD.pt",
+    "deep_checkpoint_sha256": "1caae309731298d316a7f70243a9caeffd82020c5eea116c1e173d974502a5f1",
+    "deep_replay_max_abs_difference": 0.0,
+    "threshold": 0.495,
+    "threshold_source": "median frozen V5.1 inner-OOF thresholds",
+    "seed": 42,
+    "training_exclusion": "entire_target_module"
+  },
+  {
+    "protocol": "leave_one_presentation_out",
+    "holdout": "DDD::2013J",
+    "records": 1428,
+    "deep": {
+      "records": 1428,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.7399917359984081,
+      "balanced_accuracy": 0.7347841496986333,
+      "at_risk_precision": 0.9394904458598726,
+      "at_risk_recall": 0.49248747913188645,
+      "at_risk_f1": 0.6462212486308871,
+      "pr_auc": 0.8869461348178523,
+      "brier": 0.15886054612134531,
+      "nll": 0.5000081973084435,
+      "ece": 0.14562778685669772,
+      "confusion_matrix": [
+        [
+          810,
+          19
+        ],
+        [
+          304,
+          295
+        ]
+      ],
+      "precision_at_5_percent": 1.0,
+      "recall_at_5_percent": 0.12020033388981637,
+      "precision_at_10_percent": 0.993006993006993,
+      "recall_at_10_percent": 0.2370617696160267,
+      "precision_at_20_percent": 0.972027972027972,
+      "recall_at_20_percent": 0.46410684474123537,
+      "ndcg_at_10_percent": 0.9944544928164843,
+      "ndcg_at_20_percent": 0.9775103640342193,
+      "survival_concordance": 0.7184669386538823,
+      "integrated_brier_observed_risk_sets": 0.008697049906506035,
+      "withdrawal_recall": 0.0,
+      "median_warning_lead_days": null,
+      "outcome_macro_f1": 0.5318092404170993,
+      "outcome_majority_macro_f1": 0.24550797649034425
+    },
+    "xgboost_fixed_cross_check": {
+      "records": 1428,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.756058276594187,
+      "balanced_accuracy": 0.7489261354368257,
+      "at_risk_precision": 0.924198250728863,
+      "at_risk_recall": 0.5292153589315526,
+      "at_risk_f1": 0.673036093418259,
+      "pr_auc": 0.8866994500506301,
+      "brier": 0.148002807025717,
+      "nll": 0.45737276723131454,
+      "ece": 0.12060628049479959,
+      "confusion_matrix": [
+        [
+          803,
+          26
+        ],
+        [
+          282,
+          317
+        ]
+      ]
+    },
+    "status": "COMPLETE",
+    "train_records": 19981,
+    "deep_checkpoint": "artifacts/v6/prediction/domain_generalization/checkpoints/leave_one_module_out__DDD.pt",
+    "deep_checkpoint_sha256": "1caae309731298d316a7f70243a9caeffd82020c5eea116c1e173d974502a5f1",
+    "deep_replay_max_abs_difference": 0.0,
+    "threshold": 0.495,
+    "threshold_source": "median frozen V5.1 inner-OOF thresholds",
+    "seed": 42,
+    "training_exclusion": "entire_target_module"
+  },
+  {
+    "protocol": "leave_one_presentation_out",
+    "holdout": "DDD::2014B",
+    "records": 891,
+    "deep": {
+      "records": 891,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.7985295770550549,
+      "balanced_accuracy": 0.7962102478869815,
+      "at_risk_precision": 0.9228070175438596,
+      "at_risk_recall": 0.6383495145631068,
+      "at_risk_f1": 0.7546628407460545,
+      "pr_auc": 0.91195981991635,
+      "brier": 0.1304338797494808,
+      "nll": 0.4090899948383195,
+      "ece": 0.09159953087593364,
+      "confusion_matrix": [
+        [
+          457,
+          22
+        ],
+        [
+          149,
+          263
+        ]
+      ],
+      "precision_at_5_percent": 0.9777777777777777,
+      "recall_at_5_percent": 0.10679611650485436,
+      "precision_at_10_percent": 0.9888888888888889,
+      "recall_at_10_percent": 0.21601941747572814,
+      "precision_at_20_percent": 0.9832402234636871,
+      "recall_at_20_percent": 0.42718446601941745,
+      "ndcg_at_10_percent": 0.989879212096618,
+      "ndcg_at_20_percent": 0.9851453953729208,
+      "survival_concordance": 0.6678943688309998,
+      "integrated_brier_observed_risk_sets": 0.013109073067835505,
+      "withdrawal_recall": 0.0,
+      "median_warning_lead_days": null,
+      "outcome_macro_f1": 0.6882987566046036,
+      "outcome_majority_macro_f1": 0.21877848678213307
+    },
+    "xgboost_fixed_cross_check": {
+      "records": 891,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.8081959466554658,
+      "balanced_accuracy": 0.8053843971056205,
+      "at_risk_precision": 0.9133333333333333,
+      "at_risk_recall": 0.6650485436893204,
+      "at_risk_f1": 0.7696629213483146,
+      "pr_auc": 0.9057259690704511,
+      "brier": 0.12786454015260695,
+      "nll": 0.4004921481435386,
+      "ece": 0.06559795584094813,
+      "confusion_matrix": [
+        [
+          453,
+          26
+        ],
+        [
+          138,
+          274
+        ]
+      ]
+    },
+    "status": "COMPLETE",
+    "train_records": 19981,
+    "deep_checkpoint": "artifacts/v6/prediction/domain_generalization/checkpoints/leave_one_module_out__DDD.pt",
+    "deep_checkpoint_sha256": "1caae309731298d316a7f70243a9caeffd82020c5eea116c1e173d974502a5f1",
+    "deep_replay_max_abs_difference": 0.0,
+    "threshold": 0.495,
+    "threshold_source": "median frozen V5.1 inner-OOF thresholds",
+    "seed": 42,
+    "training_exclusion": "entire_target_module"
+  },
+  {
+    "protocol": "leave_one_presentation_out",
+    "holdout": "DDD::2014J",
+    "records": 1306,
+    "deep": {
+      "records": 1306,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.7228685061422067,
+      "balanced_accuracy": 0.7144720551821719,
+      "at_risk_precision": 0.8981132075471698,
+      "at_risk_recall": 0.46303501945525294,
+      "at_risk_f1": 0.6110397946084724,
+      "pr_auc": 0.8469462266499892,
+      "brier": 0.16803249141932936,
+      "nll": 0.5322402331278315,
+      "ece": 0.146201676300443,
+      "confusion_matrix": [
+        [
+          765,
+          27
+        ],
+        [
+          276,
+          238
+        ]
+      ],
+      "precision_at_5_percent": 0.9696969696969697,
+      "recall_at_5_percent": 0.1245136186770428,
+      "precision_at_10_percent": 0.9694656488549618,
+      "recall_at_10_percent": 0.24708171206225682,
+      "precision_at_20_percent": 0.9045801526717557,
+      "recall_at_20_percent": 0.46108949416342415,
+      "ndcg_at_10_percent": 0.9718403812576891,
+      "ndcg_at_20_percent": 0.9200845996674741,
+      "survival_concordance": 0.7028222804607163,
+      "integrated_brier_observed_risk_sets": 0.007722386702169213,
+      "withdrawal_recall": 0.0,
+      "median_warning_lead_days": null,
+      "outcome_macro_f1": 0.5243261410230556,
+      "outcome_majority_macro_f1": 0.24691358024691357
+    },
+    "xgboost_fixed_cross_check": {
+      "records": 1306,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.7372988505747127,
+      "balanced_accuracy": 0.7273243131706166,
+      "at_risk_precision": 0.8691275167785235,
+      "at_risk_recall": 0.5038910505836576,
+      "at_risk_f1": 0.6379310344827587,
+      "pr_auc": 0.8359867839147725,
+      "brier": 0.15155090615988565,
+      "nll": 0.4626899413383329,
+      "ece": 0.09340880350188377,
+      "confusion_matrix": [
+        [
+          753,
+          39
+        ],
+        [
+          255,
+          259
+        ]
+      ]
+    },
+    "status": "COMPLETE",
+    "train_records": 19981,
+    "deep_checkpoint": "artifacts/v6/prediction/domain_generalization/checkpoints/leave_one_module_out__DDD.pt",
+    "deep_checkpoint_sha256": "1caae309731298d316a7f70243a9caeffd82020c5eea116c1e173d974502a5f1",
+    "deep_replay_max_abs_difference": 0.0,
+    "threshold": 0.495,
+    "threshold_source": "median frozen V5.1 inner-OOF thresholds",
+    "seed": 42,
+    "training_exclusion": "entire_target_module"
+  },
+  {
+    "protocol": "leave_one_module_out",
+    "holdout": "EEE",
+    "records": 2345,
+    "deep": {
+      "records": 2345,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.8394521920660705,
+      "balanced_accuracy": 0.83621975147155,
+      "at_risk_precision": 0.7857142857142857,
+      "at_risk_recall": 0.7597122302158273,
+      "at_risk_f1": 0.7724945135332846,
+      "pr_auc": 0.87298105442152,
+      "brier": 0.09714909846830104,
+      "nll": 0.3206524999631478,
+      "ece": 0.0577787018883457,
+      "confusion_matrix": [
+        [
+          1506,
+          144
+        ],
+        [
+          167,
+          528
+        ]
+      ],
+      "precision_at_5_percent": 1.0,
+      "recall_at_5_percent": 0.1697841726618705,
+      "precision_at_10_percent": 1.0,
+      "recall_at_10_percent": 0.3381294964028777,
+      "precision_at_20_percent": 0.9232409381663113,
+      "recall_at_20_percent": 0.6230215827338129,
+      "ndcg_at_10_percent": 1.0,
+      "ndcg_at_20_percent": 0.9375677250900537,
+      "survival_concordance": 0.754950393851018,
+      "integrated_brier_observed_risk_sets": 0.005348602640869182,
+      "withdrawal_recall": 0.0,
+      "median_warning_lead_days": null,
+      "outcome_macro_f1": 0.680092997587142,
+      "outcome_majority_macro_f1": 0.24605438296254042
+    },
+    "xgboost_fixed_cross_check": {
+      "records": 2345,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.8434291108348299,
+      "balanced_accuracy": 0.826760409853935,
+      "at_risk_precision": 0.8521739130434782,
+      "at_risk_recall": 0.7050359712230215,
+      "at_risk_f1": 0.7716535433070866,
+      "pr_auc": 0.8688098550514948,
+      "brier": 0.0955023341586734,
+      "nll": 0.3177409044689382,
+      "ece": 0.03474932234726355,
+      "confusion_matrix": [
+        [
+          1565,
+          85
+        ],
+        [
+          205,
+          490
+        ]
+      ]
+    },
+    "status": "COMPLETE",
+    "train_records": 22258,
+    "deep_checkpoint": "artifacts/v6/prediction/domain_generalization/checkpoints/leave_one_module_out__EEE.pt",
+    "deep_checkpoint_sha256": "a9c5083396904184fb164bcb761e3858458b276e6ceac255c1e3c382246250ec",
+    "deep_replay_max_abs_difference": 0.0,
+    "threshold": 0.495,
+    "threshold_source": "median frozen V5.1 inner-OOF thresholds",
+    "seed": 42,
+    "training_exclusion": "entire_target_module"
+  },
+  {
+    "protocol": "leave_one_presentation_out",
+    "holdout": "EEE::2013J",
+    "records": 855,
+    "deep": {
+      "records": 855,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.8641003860871883,
+      "balanced_accuracy": 0.855801193479915,
+      "at_risk_precision": 0.8370044052863436,
+      "at_risk_recall": 0.7723577235772358,
+      "at_risk_f1": 0.8033826638477801,
+      "pr_auc": 0.8857583360666388,
+      "brier": 0.0863674754110759,
+      "nll": 0.2920336103355333,
+      "ece": 0.05293527451174998,
+      "confusion_matrix": [
+        [
+          572,
+          37
+        ],
+        [
+          56,
+          190
+        ]
+      ],
+      "precision_at_5_percent": 1.0,
+      "recall_at_5_percent": 0.17479674796747968,
+      "precision_at_10_percent": 1.0,
+      "recall_at_10_percent": 0.34959349593495936,
+      "precision_at_20_percent": 0.9532163742690059,
+      "recall_at_20_percent": 0.6626016260162602,
+      "ndcg_at_10_percent": 1.0,
+      "ndcg_at_20_percent": 0.9644466896784034,
+      "survival_concordance": 0.7340057636887608,
+      "integrated_brier_observed_risk_sets": 0.005176109921015801,
+      "withdrawal_recall": 0.0,
+      "median_warning_lead_days": null,
+      "outcome_macro_f1": 0.6924532524696322,
+      "outcome_majority_macro_f1": 0.24890265943712883
+    },
+    "xgboost_fixed_cross_check": {
+      "records": 855,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.852588517421357,
+      "balanced_accuracy": 0.838760062477472,
+      "at_risk_precision": 0.8450704225352113,
+      "at_risk_recall": 0.7317073170731707,
+      "at_risk_f1": 0.7843137254901961,
+      "pr_auc": 0.8769546844277251,
+      "brier": 0.09042328226297966,
+      "nll": 0.3039103689331315,
+      "ece": 0.05206042738816543,
+      "confusion_matrix": [
+        [
+          576,
+          33
+        ],
+        [
+          66,
+          180
+        ]
+      ]
+    },
+    "status": "COMPLETE",
+    "train_records": 22258,
+    "deep_checkpoint": "artifacts/v6/prediction/domain_generalization/checkpoints/leave_one_module_out__EEE.pt",
+    "deep_checkpoint_sha256": "a9c5083396904184fb164bcb761e3858458b276e6ceac255c1e3c382246250ec",
+    "deep_replay_max_abs_difference": 0.0,
+    "threshold": 0.495,
+    "threshold_source": "median frozen V5.1 inner-OOF thresholds",
+    "seed": 42,
+    "training_exclusion": "entire_target_module"
+  },
+  {
+    "protocol": "leave_one_presentation_out",
+    "holdout": "EEE::2014B",
+    "records": 558,
+    "deep": {
+      "records": 558,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.8124291749115444,
+      "balanced_accuracy": 0.8141435678749112,
+      "at_risk_precision": 0.7524271844660194,
+      "at_risk_recall": 0.7711442786069652,
+      "at_risk_f1": 0.7616707616707616,
+      "pr_auc": 0.8849511488342436,
+      "brier": 0.11468787921957578,
+      "nll": 0.3641006702703263,
+      "ece": 0.07043358154167623,
+      "confusion_matrix": [
+        [
+          306,
+          51
+        ],
+        [
+          46,
+          155
+        ]
+      ],
+      "precision_at_5_percent": 1.0,
+      "recall_at_5_percent": 0.13930348258706468,
+      "precision_at_10_percent": 1.0,
+      "recall_at_10_percent": 0.27860696517412936,
+      "precision_at_20_percent": 0.9732142857142857,
+      "recall_at_20_percent": 0.5422885572139303,
+      "ndcg_at_10_percent": 1.0,
+      "ndcg_at_20_percent": 0.9798009210768396,
+      "survival_concordance": 0.7412077974276527,
+      "integrated_brier_observed_risk_sets": 0.00713676267904434,
+      "withdrawal_recall": 0.0,
+      "median_warning_lead_days": null,
+      "outcome_macro_f1": 0.6812163414840414,
+      "outcome_majority_macro_f1": 0.23573200992555832
+    },
+    "xgboost_fixed_cross_check": {
+      "records": 558,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.8441244653410389,
+      "balanced_accuracy": 0.8323717546720181,
+      "at_risk_precision": 0.8690476190476191,
+      "at_risk_recall": 0.7263681592039801,
+      "at_risk_f1": 0.7913279132791328,
+      "pr_auc": 0.8832225997133146,
+      "brier": 0.10820776735370499,
+      "nll": 0.3542219581765612,
+      "ece": 0.04830005863768225,
+      "confusion_matrix": [
+        [
+          335,
+          22
+        ],
+        [
+          55,
+          146
+        ]
+      ]
+    },
+    "status": "COMPLETE",
+    "train_records": 22258,
+    "deep_checkpoint": "artifacts/v6/prediction/domain_generalization/checkpoints/leave_one_module_out__EEE.pt",
+    "deep_checkpoint_sha256": "a9c5083396904184fb164bcb761e3858458b276e6ceac255c1e3c382246250ec",
+    "deep_replay_max_abs_difference": 0.0,
+    "threshold": 0.495,
+    "threshold_source": "median frozen V5.1 inner-OOF thresholds",
+    "seed": 42,
+    "training_exclusion": "entire_target_module"
+  },
+  {
+    "protocol": "leave_one_presentation_out",
+    "holdout": "EEE::2014J",
+    "records": 932,
+    "deep": {
+      "records": 932,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.8318339275781801,
+      "balanced_accuracy": 0.8280159403886059,
+      "at_risk_precision": 0.7656903765690377,
+      "at_risk_recall": 0.7379032258064516,
+      "at_risk_f1": 0.7515400410677618,
+      "pr_auc": 0.8498884174008872,
+      "brier": 0.09653927878452014,
+      "nll": 0.32089399309641475,
+      "ece": 0.062253229475935895,
+      "confusion_matrix": [
+        [
+          628,
+          56
+        ],
+        [
+          65,
+          183
+        ]
+      ],
+      "precision_at_5_percent": 1.0,
+      "recall_at_5_percent": 0.18951612903225806,
+      "precision_at_10_percent": 0.9893617021276596,
+      "recall_at_10_percent": 0.375,
+      "precision_at_20_percent": 0.8449197860962567,
+      "recall_at_20_percent": 0.6370967741935484,
+      "ndcg_at_10_percent": 0.992291418233304,
+      "ndcg_at_20_percent": 0.8786092451872975,
+      "survival_concordance": 0.7769038941108767,
+      "integrated_brier_observed_risk_sets": 0.004542899354451946,
+      "withdrawal_recall": 0.0,
+      "median_warning_lead_days": null,
+      "outcome_macro_f1": 0.6685558006958005,
+      "outcome_majority_macro_f1": 0.2493494203927135
+    },
+    "xgboost_fixed_cross_check": {
+      "records": 932,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.8309563357962464,
+      "balanced_accuracy": 0.808715336728919,
+      "at_risk_precision": 0.845360824742268,
+      "at_risk_recall": 0.6612903225806451,
+      "at_risk_f1": 0.7420814479638009,
+      "pr_auc": 0.849801608664219,
+      "brier": 0.0925548638238993,
+      "nll": 0.3085871275529093,
+      "ece": 0.03655225865127191,
+      "confusion_matrix": [
+        [
+          654,
+          30
+        ],
+        [
+          84,
+          164
+        ]
+      ]
+    },
+    "status": "COMPLETE",
+    "train_records": 22258,
+    "deep_checkpoint": "artifacts/v6/prediction/domain_generalization/checkpoints/leave_one_module_out__EEE.pt",
+    "deep_checkpoint_sha256": "a9c5083396904184fb164bcb761e3858458b276e6ceac255c1e3c382246250ec",
+    "deep_replay_max_abs_difference": 0.0,
+    "threshold": 0.495,
+    "threshold_source": "median frozen V5.1 inner-OOF thresholds",
+    "seed": 42,
+    "training_exclusion": "entire_target_module"
+  },
+  {
+    "protocol": "leave_one_module_out",
+    "holdout": "FFF",
+    "records": 5847,
+    "deep": {
+      "records": 5847,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.8345520088377232,
+      "balanced_accuracy": 0.8246616284914196,
+      "at_risk_precision": 0.8573743922204214,
+      "at_risk_recall": 0.7216916780354706,
+      "at_risk_f1": 0.7837037037037037,
+      "pr_auc": 0.8926657610885088,
+      "brier": 0.109945618917905,
+      "nll": 0.35947600553678954,
+      "ece": 0.04057876561623883,
+      "confusion_matrix": [
+        [
+          3384,
+          264
+        ],
+        [
+          612,
+          1587
+        ]
+      ],
+      "precision_at_5_percent": 0.9965870307167235,
+      "recall_at_5_percent": 0.13278763074124603,
+      "precision_at_10_percent": 0.9931623931623932,
+      "recall_at_10_percent": 0.26421100500227374,
+      "precision_at_20_percent": 0.9726495726495726,
+      "recall_at_20_percent": 0.5175079581628013,
+      "ndcg_at_10_percent": 0.9941504061515053,
+      "ndcg_at_20_percent": 0.9766129033809499,
+      "survival_concordance": 0.7014325653814831,
+      "integrated_brier_observed_risk_sets": 0.012691024364535054,
+      "withdrawal_recall": 0.0,
+      "median_warning_lead_days": null,
+      "outcome_macro_f1": 0.6417250984673998,
+      "outcome_majority_macro_f1": 0.23824952998119922
+    },
+    "xgboost_fixed_cross_check": {
+      "records": 5847,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.8288718037160117,
+      "balanced_accuracy": 0.8184321596539097,
+      "at_risk_precision": 0.8556531284302964,
+      "at_risk_recall": 0.7089586175534334,
+      "at_risk_f1": 0.7754289977617508,
+      "pr_auc": 0.8893814019043897,
+      "brier": 0.10972017399864625,
+      "nll": 0.35218592518003744,
+      "ece": 0.01892001049859729,
+      "confusion_matrix": [
+        [
+          3385,
+          263
+        ],
+        [
+          640,
+          1559
+        ]
+      ]
+    },
+    "status": "COMPLETE",
+    "train_records": 18756,
+    "deep_checkpoint": "artifacts/v6/prediction/domain_generalization/checkpoints/leave_one_module_out__FFF.pt",
+    "deep_checkpoint_sha256": "33ab9477bdb6e5310bbc40234a6ecc94ee6bdff1880787d8f7d9c95974103b6e",
+    "deep_replay_max_abs_difference": 0.0,
+    "threshold": 0.495,
+    "threshold_source": "median frozen V5.1 inner-OOF thresholds",
+    "seed": 42,
+    "training_exclusion": "entire_target_module"
+  },
+  {
+    "protocol": "leave_one_presentation_out",
+    "holdout": "FFF::2013B",
+    "records": 1311,
+    "deep": {
+      "records": 1311,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.798444729885884,
+      "balanced_accuracy": 0.7925052818859113,
+      "at_risk_precision": 0.8074398249452954,
+      "at_risk_recall": 0.6975425330812854,
+      "at_risk_f1": 0.7484787018255578,
+      "pr_auc": 0.8713032523420323,
+      "brier": 0.133913458175209,
+      "nll": 0.42441560370009296,
+      "ece": 0.06578045262948734,
+      "confusion_matrix": [
+        [
+          694,
+          88
+        ],
+        [
+          160,
+          369
+        ]
+      ],
+      "precision_at_5_percent": 1.0,
+      "recall_at_5_percent": 0.12476370510396975,
+      "precision_at_10_percent": 1.0,
+      "recall_at_10_percent": 0.2495274102079395,
+      "precision_at_20_percent": 0.9543726235741445,
+      "recall_at_20_percent": 0.47448015122873344,
+      "ndcg_at_10_percent": 1.0,
+      "ndcg_at_20_percent": 0.9638504813898121,
+      "survival_concordance": 0.6943251758499414,
+      "integrated_brier_observed_risk_sets": 0.014020196339981044,
+      "withdrawal_recall": 0.0,
+      "median_warning_lead_days": null,
+      "outcome_macro_f1": 0.5892948820910499,
+      "outcome_majority_macro_f1": 0.2372275812790282
+    },
+    "xgboost_fixed_cross_check": {
+      "records": 1311,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.7956832574708095,
+      "balanced_accuracy": 0.7902535305237407,
+      "at_risk_precision": 0.7991360691144709,
+      "at_risk_recall": 0.6994328922495274,
+      "at_risk_f1": 0.7459677419354839,
+      "pr_auc": 0.8704694069242596,
+      "brier": 0.1284153737616802,
+      "nll": 0.3989107325103056,
+      "ece": 0.02814277453301154,
+      "confusion_matrix": [
+        [
+          689,
+          93
+        ],
+        [
+          159,
+          370
+        ]
+      ]
+    },
+    "status": "COMPLETE",
+    "train_records": 18756,
+    "deep_checkpoint": "artifacts/v6/prediction/domain_generalization/checkpoints/leave_one_module_out__FFF.pt",
+    "deep_checkpoint_sha256": "33ab9477bdb6e5310bbc40234a6ecc94ee6bdff1880787d8f7d9c95974103b6e",
+    "deep_replay_max_abs_difference": 0.0,
+    "threshold": 0.495,
+    "threshold_source": "median frozen V5.1 inner-OOF thresholds",
+    "seed": 42,
+    "training_exclusion": "entire_target_module"
+  },
+  {
+    "protocol": "leave_one_presentation_out",
+    "holdout": "FFF::2013J",
+    "records": 1734,
+    "deep": {
+      "records": 1734,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.8592736179266647,
+      "balanced_accuracy": 0.8458443201063305,
+      "at_risk_precision": 0.9073359073359073,
+      "at_risk_recall": 0.7355242566510172,
+      "at_risk_f1": 0.8124459809853068,
+      "pr_auc": 0.9183076885656698,
+      "brier": 0.09216480683169206,
+      "nll": 0.30291158361031906,
+      "ece": 0.035256056228895355,
+      "confusion_matrix": [
+        [
+          1047,
+          48
+        ],
+        [
+          169,
+          470
+        ]
+      ],
+      "precision_at_5_percent": 1.0,
+      "recall_at_5_percent": 0.13615023474178403,
+      "precision_at_10_percent": 1.0,
+      "recall_at_10_percent": 0.27230046948356806,
+      "precision_at_20_percent": 0.9942363112391931,
+      "recall_at_20_percent": 0.539906103286385,
+      "ndcg_at_10_percent": 1.0,
+      "ndcg_at_20_percent": 0.9954489835428609,
+      "survival_concordance": 0.6950742507039167,
+      "integrated_brier_observed_risk_sets": 0.01230907957228679,
+      "withdrawal_recall": 0.0,
+      "median_warning_lead_days": null,
+      "outcome_macro_f1": 0.6941757340505736,
+      "outcome_majority_macro_f1": 0.24088075341557236
+    },
+    "xgboost_fixed_cross_check": {
+      "records": 1734,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.8526598828152292,
+      "balanced_accuracy": 0.837303577936416,
+      "at_risk_precision": 0.9173387096774194,
+      "at_risk_recall": 0.7120500782472613,
+      "at_risk_f1": 0.801762114537445,
+      "pr_auc": 0.9138758050842006,
+      "brier": 0.09592388884665032,
+      "nll": 0.31554719779213614,
+      "ece": 0.034938612342151495,
+      "confusion_matrix": [
+        [
+          1054,
+          41
+        ],
+        [
+          184,
+          455
+        ]
+      ]
+    },
+    "status": "COMPLETE",
+    "train_records": 18756,
+    "deep_checkpoint": "artifacts/v6/prediction/domain_generalization/checkpoints/leave_one_module_out__FFF.pt",
+    "deep_checkpoint_sha256": "33ab9477bdb6e5310bbc40234a6ecc94ee6bdff1880787d8f7d9c95974103b6e",
+    "deep_replay_max_abs_difference": 0.0,
+    "threshold": 0.495,
+    "threshold_source": "median frozen V5.1 inner-OOF thresholds",
+    "seed": 42,
+    "training_exclusion": "entire_target_module"
+  },
+  {
+    "protocol": "leave_one_presentation_out",
+    "holdout": "FFF::2014B",
+    "records": 1165,
+    "deep": {
+      "records": 1165,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.8257431995503635,
+      "balanced_accuracy": 0.8231640903187969,
+      "at_risk_precision": 0.832271762208068,
+      "at_risk_recall": 0.7671232876712328,
+      "at_risk_f1": 0.7983706720977597,
+      "pr_auc": 0.9026420019463239,
+      "brier": 0.12068771657807555,
+      "nll": 0.3948643774118214,
+      "ece": 0.05600643530967663,
+      "confusion_matrix": [
+        [
+          575,
+          79
+        ],
+        [
+          119,
+          392
+        ]
+      ],
+      "precision_at_5_percent": 1.0,
+      "recall_at_5_percent": 0.11545988258317025,
+      "precision_at_10_percent": 0.9743589743589743,
+      "recall_at_10_percent": 0.22309197651663404,
+      "precision_at_20_percent": 0.9828326180257511,
+      "recall_at_20_percent": 0.4481409001956947,
+      "ndcg_at_10_percent": 0.9804010953041667,
+      "ndcg_at_20_percent": 0.9849397434447997,
+      "survival_concordance": 0.7058198073083933,
+      "integrated_brier_observed_risk_sets": 0.015968250419825938,
+      "withdrawal_recall": 0.0,
+      "median_warning_lead_days": null,
+      "outcome_macro_f1": 0.609468080587045,
+      "outcome_majority_macro_f1": 0.23007360672975816
+    },
+    "xgboost_fixed_cross_check": {
+      "records": 1165,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.8165276541101076,
+      "balanced_accuracy": 0.8135933020939934,
+      "at_risk_precision": 0.8272138228941684,
+      "at_risk_recall": 0.7495107632093934,
+      "at_risk_f1": 0.7864476386036962,
+      "pr_auc": 0.9000345905238349,
+      "brier": 0.1194738284463486,
+      "nll": 0.3772794335334263,
+      "ece": 0.02967204666604557,
+      "confusion_matrix": [
+        [
+          574,
+          80
+        ],
+        [
+          128,
+          383
+        ]
+      ]
+    },
+    "status": "COMPLETE",
+    "train_records": 18756,
+    "deep_checkpoint": "artifacts/v6/prediction/domain_generalization/checkpoints/leave_one_module_out__FFF.pt",
+    "deep_checkpoint_sha256": "33ab9477bdb6e5310bbc40234a6ecc94ee6bdff1880787d8f7d9c95974103b6e",
+    "deep_replay_max_abs_difference": 0.0,
+    "threshold": 0.495,
+    "threshold_source": "median frozen V5.1 inner-OOF thresholds",
+    "seed": 42,
+    "training_exclusion": "entire_target_module"
+  },
+  {
+    "protocol": "leave_one_presentation_out",
+    "holdout": "FFF::2014J",
+    "records": 1637,
+    "deep": {
+      "records": 1637,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.8395264229746988,
+      "balanced_accuracy": 0.8203739411886234,
+      "at_risk_precision": 0.8790123456790123,
+      "at_risk_recall": 0.6846153846153846,
+      "at_risk_f1": 0.7697297297297298,
+      "pr_auc": 0.870761238530538,
+      "brier": 0.10194045527530823,
+      "nll": 0.34220016020630517,
+      "ece": 0.04141331245017875,
+      "confusion_matrix": [
+        [
+          1068,
+          49
+        ],
+        [
+          164,
+          356
+        ]
+      ],
+      "precision_at_5_percent": 1.0,
+      "recall_at_5_percent": 0.1576923076923077,
+      "precision_at_10_percent": 0.9939024390243902,
+      "recall_at_10_percent": 0.31346153846153846,
+      "precision_at_20_percent": 0.9237804878048781,
+      "recall_at_20_percent": 0.5826923076923077,
+      "ndcg_at_10_percent": 0.9950502332811006,
+      "ndcg_at_20_percent": 0.9383199270824946,
+      "survival_concordance": 0.6819529012016518,
+      "integrated_brier_observed_risk_sets": 0.010086011721027147,
+      "withdrawal_recall": 0.0,
+      "median_warning_lead_days": null,
+      "outcome_macro_f1": 0.6415158366427065,
+      "outcome_majority_macro_f1": 0.24173350218094836
+    },
+    "xgboost_fixed_cross_check": {
+      "records": 1637,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.8352175760038418,
+      "balanced_accuracy": 0.8155662488809311,
+      "at_risk_precision": 0.8775,
+      "at_risk_recall": 0.675,
+      "at_risk_f1": 0.7630434782608696,
+      "pr_auc": 0.8662939090545448,
+      "brier": 0.10242044530753464,
+      "nll": 0.33571762563754576,
+      "ece": 0.020254012732610134,
+      "confusion_matrix": [
+        [
+          1068,
+          49
+        ],
+        [
+          169,
+          351
+        ]
+      ]
+    },
+    "status": "COMPLETE",
+    "train_records": 18756,
+    "deep_checkpoint": "artifacts/v6/prediction/domain_generalization/checkpoints/leave_one_module_out__FFF.pt",
+    "deep_checkpoint_sha256": "33ab9477bdb6e5310bbc40234a6ecc94ee6bdff1880787d8f7d9c95974103b6e",
+    "deep_replay_max_abs_difference": 0.0,
+    "threshold": 0.495,
+    "threshold_source": "median frozen V5.1 inner-OOF thresholds",
+    "seed": 42,
+    "training_exclusion": "entire_target_module"
+  },
+  {
+    "protocol": "leave_one_module_out",
+    "holdout": "GGG",
+    "records": 2332,
+    "deep": {
+      "records": 2332,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.2675653031749652,
+      "balanced_accuracy": 0.5030215139545174,
+      "at_risk_precision": 0.3521551724137931,
+      "at_risk_recall": 0.9987775061124694,
+      "at_risk_f1": 0.5207138304652645,
+      "pr_auc": 0.809550658877274,
+      "brier": 0.48212225541768144,
+      "nll": 1.4222977697639227,
+      "ece": 0.5381403652053345,
+      "confusion_matrix": [
+        [
+          11,
+          1503
+        ],
+        [
+          1,
+          817
+        ]
+      ],
+      "precision_at_5_percent": 0.9743589743589743,
+      "recall_at_5_percent": 0.1393643031784841,
+      "precision_at_10_percent": 0.9786324786324786,
+      "recall_at_10_percent": 0.27995110024449876,
+      "precision_at_20_percent": 0.9014989293361885,
+      "recall_at_20_percent": 0.5146699266503667,
+      "ndcg_at_10_percent": 0.9770675672451656,
+      "ndcg_at_20_percent": 0.914988843165296,
+      "survival_concordance": 0.6903870821700747,
+      "integrated_brier_observed_risk_sets": 0.013214079133972571,
+      "withdrawal_recall": 0.0,
+      "median_warning_lead_days": null,
+      "outcome_macro_f1": 0.17235249749974826,
+      "outcome_majority_macro_f1": 0.22182539682539681
+    },
+    "xgboost_fixed_cross_check": {
+      "records": 2332,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.3428344417062591,
+      "balanced_accuracy": 0.5384076250028261,
+      "at_risk_precision": 0.36923076923076925,
+      "at_risk_recall": 0.9975550122249389,
+      "at_risk_f1": 0.5389696169088507,
+      "pr_auc": 0.8050983038330041,
+      "brier": 0.3604114496645961,
+      "nll": 1.0012937860518334,
+      "ece": 0.4364214733012953,
+      "confusion_matrix": [
+        [
+          120,
+          1394
+        ],
+        [
+          2,
+          816
+        ]
+      ]
+    },
+    "status": "COMPLETE",
+    "train_records": 22271,
+    "deep_checkpoint": "artifacts/v6/prediction/domain_generalization/checkpoints/leave_one_module_out__GGG.pt",
+    "deep_checkpoint_sha256": "06374bf84cdcef3a14e793c131b7bd2d2d6bca527b883b03d9da00b718fd61d1",
+    "deep_replay_max_abs_difference": 0.0,
+    "threshold": 0.495,
+    "threshold_source": "median frozen V5.1 inner-OOF thresholds",
+    "seed": 42,
+    "training_exclusion": "entire_target_module"
+  },
+  {
+    "protocol": "leave_one_presentation_out",
+    "holdout": "GGG::2013J",
+    "records": 909,
+    "deep": {
+      "records": 909,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.27666605245378045,
+      "balanced_accuracy": 0.5068686588796999,
+      "at_risk_precision": 0.3518930957683742,
+      "at_risk_recall": 0.9968454258675079,
+      "at_risk_f1": 0.5201646090534979,
+      "pr_auc": 0.790622188617835,
+      "brier": 0.4726683411491826,
+      "nll": 1.3869339467586745,
+      "ece": 0.5297879597993836,
+      "confusion_matrix": [
+        [
+          10,
+          582
+        ],
+        [
+          1,
+          316
+        ]
+      ],
+      "precision_at_5_percent": 0.9565217391304348,
+      "recall_at_5_percent": 0.138801261829653,
+      "precision_at_10_percent": 0.967032967032967,
+      "recall_at_10_percent": 0.277602523659306,
+      "precision_at_20_percent": 0.9010989010989011,
+      "recall_at_20_percent": 0.5173501577287066,
+      "ndcg_at_10_percent": 0.9651312923615146,
+      "ndcg_at_20_percent": 0.9143508469737683,
+      "survival_concordance": 0.6045509831745388,
+      "integrated_brier_observed_risk_sets": 0.011676437586060488,
+      "withdrawal_recall": 0.0,
+      "median_warning_lead_days": null,
+      "outcome_macro_f1": 0.17971422993386532,
+      "outcome_majority_macro_f1": 0.224881575666916
+    },
+    "xgboost_fixed_cross_check": {
+      "records": 909,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.3831203425220492,
+      "balanced_accuracy": 0.5585008312729133,
+      "at_risk_precision": 0.3776978417266187,
+      "at_risk_recall": 0.9936908517350158,
+      "at_risk_f1": 0.5473501303214596,
+      "pr_auc": 0.8027766672682642,
+      "brier": 0.3266844767202939,
+      "nll": 0.9034859504203082,
+      "ece": 0.404760618709495,
+      "confusion_matrix": [
+        [
+          73,
+          519
+        ],
+        [
+          2,
+          315
+        ]
+      ]
+    },
+    "status": "COMPLETE",
+    "train_records": 22271,
+    "deep_checkpoint": "artifacts/v6/prediction/domain_generalization/checkpoints/leave_one_module_out__GGG.pt",
+    "deep_checkpoint_sha256": "06374bf84cdcef3a14e793c131b7bd2d2d6bca527b883b03d9da00b718fd61d1",
+    "deep_replay_max_abs_difference": 0.0,
+    "threshold": 0.495,
+    "threshold_source": "median frozen V5.1 inner-OOF thresholds",
+    "seed": 42,
+    "training_exclusion": "entire_target_module"
+  },
+  {
+    "protocol": "leave_one_presentation_out",
+    "holdout": "GGG::2014B",
+    "records": 774,
+    "deep": {
+      "records": 774,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.2766355140186916,
+      "balanced_accuracy": 0.5,
+      "at_risk_precision": 0.38242894056847543,
+      "at_risk_recall": 1.0,
+      "at_risk_f1": 0.5532710280373832,
+      "pr_auc": 0.8368459251012887,
+      "brier": 0.47558023029415375,
+      "nll": 1.4248155482911977,
+      "ece": 0.5229374244231586,
+      "confusion_matrix": [
+        [
+          0,
+          478
+        ],
+        [
+          0,
+          296
+        ]
+      ],
+      "precision_at_5_percent": 1.0,
+      "recall_at_5_percent": 0.13175675675675674,
+      "precision_at_10_percent": 1.0,
+      "recall_at_10_percent": 0.2635135135135135,
+      "precision_at_20_percent": 0.9225806451612903,
+      "recall_at_20_percent": 0.4831081081081081,
+      "ndcg_at_10_percent": 1.0,
+      "ndcg_at_20_percent": 0.9403081809601038,
+      "survival_concordance": 0.6761452115234882,
+      "integrated_brier_observed_risk_sets": 0.01580568818940042,
+      "withdrawal_recall": 0.0,
+      "median_warning_lead_days": null,
+      "outcome_macro_f1": 0.18060672631715446,
+      "outcome_majority_macro_f1": 0.21545090797168362
+    },
+    "xgboost_fixed_cross_check": {
+      "records": 774,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.32644274809160306,
+      "balanced_accuracy": 0.5230125523012552,
+      "at_risk_precision": 0.39361702127659576,
+      "at_risk_recall": 1.0,
+      "at_risk_f1": 0.5648854961832062,
+      "pr_auc": 0.8092317666564747,
+      "brier": 0.3780937964450488,
+      "nll": 1.0558310347200406,
+      "ece": 0.44021487905997636,
+      "confusion_matrix": [
+        [
+          22,
+          456
+        ],
+        [
+          0,
+          296
+        ]
+      ]
+    },
+    "status": "COMPLETE",
+    "train_records": 22271,
+    "deep_checkpoint": "artifacts/v6/prediction/domain_generalization/checkpoints/leave_one_module_out__GGG.pt",
+    "deep_checkpoint_sha256": "06374bf84cdcef3a14e793c131b7bd2d2d6bca527b883b03d9da00b718fd61d1",
+    "deep_replay_max_abs_difference": 0.0,
+    "threshold": 0.495,
+    "threshold_source": "median frozen V5.1 inner-OOF thresholds",
+    "seed": 42,
+    "training_exclusion": "entire_target_module"
+  },
+  {
+    "protocol": "leave_one_presentation_out",
+    "holdout": "GGG::2014J",
+    "records": 649,
+    "deep": {
+      "records": 649,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.24257544423515157,
+      "balanced_accuracy": 0.5011261261261262,
+      "at_risk_precision": 0.31635802469135804,
+      "at_risk_recall": 1.0,
+      "at_risk_f1": 0.4806565064478312,
+      "pr_auc": 0.8123843472542052,
+      "brier": 0.5031656075219588,
+      "nll": 1.468826205097759,
+      "ece": 0.567969968717528,
+      "confusion_matrix": [
+        [
+          1,
+          443
+        ],
+        [
+          0,
+          205
+        ]
+      ],
+      "precision_at_5_percent": 1.0,
+      "recall_at_5_percent": 0.16097560975609757,
+      "precision_at_10_percent": 0.9846153846153847,
+      "recall_at_10_percent": 0.3121951219512195,
+      "precision_at_20_percent": 0.8692307692307693,
+      "recall_at_20_percent": 0.551219512195122,
+      "ndcg_at_10_percent": 0.9883475811400504,
+      "ndcg_at_20_percent": 0.8991733017855361,
+      "survival_concordance": 0.7472131147540984,
+      "integrated_brier_observed_risk_sets": 0.012512216278954422,
+      "withdrawal_recall": 0.0,
+      "median_warning_lead_days": null,
+      "outcome_macro_f1": 0.1514366916979558,
+      "outcome_majority_macro_f1": 0.224822695035461
+    },
+    "xgboost_fixed_cross_check": {
+      "records": 649,
+      "threshold": null,
+      "threshold_scope": "per_outer_fold",
+      "macro_f1": 0.30059079066154665,
+      "balanced_accuracy": 0.5281531531531531,
+      "at_risk_precision": 0.328525641025641,
+      "at_risk_recall": 1.0,
+      "at_risk_f1": 0.4945717732207479,
+      "pr_auc": 0.8129580889436245,
+      "brier": 0.38656196121821734,
+      "nll": 1.0732436968682644,
+      "ece": 0.47624215244879525,
+      "confusion_matrix": [
+        [
+          25,
+          419
+        ],
+        [
+          0,
+          205
+        ]
+      ]
+    },
+    "status": "COMPLETE",
+    "train_records": 22271,
+    "deep_checkpoint": "artifacts/v6/prediction/domain_generalization/checkpoints/leave_one_module_out__GGG.pt",
+    "deep_checkpoint_sha256": "06374bf84cdcef3a14e793c131b7bd2d2d6bca527b883b03d9da00b718fd61d1",
+    "deep_replay_max_abs_difference": 0.0,
+    "threshold": 0.495,
+    "threshold_source": "median frozen V5.1 inner-OOF thresholds",
+    "seed": 42,
+    "training_exclusion": "entire_target_module"
+  }
+]

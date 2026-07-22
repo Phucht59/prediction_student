@@ -1,0 +1,122 @@
+[
+  {
+    "outer_fold": 0,
+    "config": {
+      "input_projection": 48,
+      "conv_channels": 24,
+      "kernels": [
+        2,
+        3
+      ],
+      "dilation": 2,
+      "lstm_hidden": 64,
+      "lstm_layers": 1,
+      "pooling": "masked_mean_max",
+      "pooling_projection": 48,
+      "aggregate_hidden": 64,
+      "static_hidden": 32,
+      "fusion_hidden": 64,
+      "fusion": "gated_residual",
+      "branch_dropout": 0.0,
+      "dropout": 0.28548926103262684,
+      "loss": "standard_bce",
+      "focal_gamma": 2.0,
+      "learning_rate": 0.001462740013487936,
+      "pretraining_learning_rate": 0.0005,
+      "weight_decay": 1.9904886022582856e-07,
+      "batch_size": 256,
+      "gradient_clip": 1.0,
+      "max_epochs": 70,
+      "patience": 9,
+      "parameter_limit": 1500000,
+      "temporal_order": "original"
+    },
+    "augmentation": "none",
+    "pretraining": null,
+    "threshold": {
+      "threshold": 0.45500000000000007,
+      "inner_macro_f1": 0.8298059295395404
+    },
+    "fixed_epochs": 9
+  },
+  {
+    "outer_fold": 1,
+    "config": {
+      "input_projection": 48,
+      "conv_channels": 24,
+      "kernels": [
+        2,
+        3
+      ],
+      "dilation": 2,
+      "lstm_hidden": 64,
+      "lstm_layers": 1,
+      "pooling": "masked_mean_max",
+      "pooling_projection": 48,
+      "aggregate_hidden": 64,
+      "static_hidden": 32,
+      "fusion_hidden": 64,
+      "fusion": "gated_residual",
+      "branch_dropout": 0.0,
+      "dropout": 0.28548926103262684,
+      "loss": "standard_bce",
+      "focal_gamma": 2.0,
+      "learning_rate": 0.001462740013487936,
+      "pretraining_learning_rate": 0.0005,
+      "weight_decay": 1.9904886022582856e-07,
+      "batch_size": 256,
+      "gradient_clip": 1.0,
+      "max_epochs": 70,
+      "patience": 9,
+      "parameter_limit": 1500000,
+      "temporal_order": "original"
+    },
+    "augmentation": "none",
+    "pretraining": null,
+    "threshold": {
+      "threshold": 0.49500000000000005,
+      "inner_macro_f1": 0.830648531699669
+    },
+    "fixed_epochs": 10
+  },
+  {
+    "outer_fold": 2,
+    "config": {
+      "input_projection": 48,
+      "conv_channels": 24,
+      "kernels": [
+        2,
+        3
+      ],
+      "dilation": 2,
+      "lstm_hidden": 64,
+      "lstm_layers": 1,
+      "pooling": "masked_mean_max",
+      "pooling_projection": 48,
+      "aggregate_hidden": 64,
+      "static_hidden": 32,
+      "fusion_hidden": 64,
+      "fusion": "gated_residual",
+      "branch_dropout": 0.0,
+      "dropout": 0.28548926103262684,
+      "loss": "standard_bce",
+      "focal_gamma": 2.0,
+      "learning_rate": 0.001462740013487936,
+      "pretraining_learning_rate": 0.0005,
+      "weight_decay": 1.9904886022582856e-07,
+      "batch_size": 256,
+      "gradient_clip": 1.0,
+      "max_epochs": 70,
+      "patience": 9,
+      "parameter_limit": 1500000,
+      "temporal_order": "original"
+    },
+    "augmentation": "none",
+    "pretraining": null,
+    "threshold": {
+      "threshold": 0.5,
+      "inner_macro_f1": 0.8257575301428806
+    },
+    "fixed_epochs": 12
+  }
+]

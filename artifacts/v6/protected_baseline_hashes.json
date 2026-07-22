@@ -1,0 +1,26 @@
+{
+  "schema_version": "v6_protected_baseline_hashes_v1",
+  "base_sha": "24cca2b7f0904504e6f1c937af04589938e1a73f",
+  "paths": {
+    "artifacts/oulad/v4": "88d27c25f2037a003131dc30b8dd3aa06d27b693",
+    "artifacts/v5": "8e308644d9186afd140dafeb2c09b0a0939a6efc",
+    "artifacts/v5_1": "4d28136fdf2b0c8e1aa73c73b32135cfc63da4d4",
+    "artifacts/v5_2": "fe828184ad872906098e70ea99833aa7ea071432",
+    "artifacts/v5_3": "05d650b4f403236abfcbf70aaad6a729e2f12003",
+    "artifacts/v5_4": "b21c34e4fbe2e3c9b5e580cdd52aedd3f5bd503d",
+    "configs/v5_1": "4c6f3b771a2704fb1671ceaf72ed5903257d19e5",
+    "configs/v5_2": "67df9cafe53e1cace9a257c714001b8bbb4a5739",
+    "configs/v5_3": "79101c5272739796caa50bf9292a11d7e4e73085",
+    "configs/v5_4": "ab802d6ec338be981d30f82afc24264e24abce90",
+    "src/studies/v5_1": "703eeb62043c528ce3200550e36a406252503a09",
+    "src/studies/v5_2": "59fd0ab046b12efdb4f51b62b675b5facbd1362e",
+    "src/studies/v5_3": "f138acf9e3de8b4af5beb89fee953c2e9edf60a6",
+    "src/studies/v5_4": "f14b8959c29d63d75a8063d12247c8f37376a1bf",
+    "src/recommendation/v5_2": "db9ee2eb28f636f1da67acd59204af0bfe401ab4",
+    "reports/v5_1": "99739166f4d14d3c046ccb7f335d0542ecedf20d",
+    "reports/v5_2": "c7d4c884377180fe17859fdc73711d42db48a0fa",
+    "reports/v5_3": "80453470015b4c6fe56d54453bdcb0910bbaee5b",
+    "reports/v5_4": "d347bdbfebe1744d75871f9d9cd1cd9278721905"
+  }
+}
+

@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "scope": "outer_training_fold_0_cross_fitted_inner_oof",
+  "records": 10258,
+  "deep_correct_xgboost_wrong": 275,
+  "xgboost_correct_deep_wrong": 324,
+  "both_correct": 8276,
+  "both_wrong": 1383,
+  "disagreement_rate": 0.05839344901540261,
+  "deep_accuracy": 0.8335932930395789,
+  "xgboost_accuracy": 0.8383700526418405,
+  "oracle_union_accuracy": 0.865178397348411,
+  "oracle_gain_over_best": 0.026808344706570453,
+  "selector_allowed": true,
+  "outer_test_accessed": false,
+  "future_accessed": false
+}

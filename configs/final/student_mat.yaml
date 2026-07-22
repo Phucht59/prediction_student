@@ -1,0 +1,10 @@
+model_id: cnn_bilstm_mat
+official_name: CNN-BiLSTM — Student-Mat
+dataset: student-mat
+task: multiclass_student_performance
+classes: [Low, Medium, High]
+status: selected
+result_scope: FINAL_PROBABILITY_ENSEMBLE
+future_access: not_applicable
+training_enabled: false
+source_artifact_path: artifacts/v5_1/student_mat/final_metrics.json

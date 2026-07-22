@@ -1,0 +1,21 @@
+{
+  "schema_version": "final_checksum_manifest_v1",
+  "files": {
+    "artifacts/final/final_results.json": "dd8daaa79fc15fc19e9bfb6d3fdfc8136b94a6f509ea0bead358431820e116b5",
+    "artifacts/final/final_results.csv": "3b0d5ec82cc5c88f02a6bb302861daa80f1707c29a2aaf6a69666df330cd686c",
+    "artifacts/final/model_registry.json": "49ebd0f168ab42f96d4221613cc66796ff7eb1feaef7a101703e51497704788c",
+    "configs/final/model_registry.yaml": "c5c05fe3e5b616b288fb105c91093b4b69553951a04efcc444b0e947202f7af2",
+    "configs/final/oulad.yaml": "f2714d2c1f21fb3fd971d9a05ca1e3bac9c63602c72a201a15744b562876c0a2",
+    "configs/final/recommendation.yaml": "8b34efad9b05927a2c6ea4ed035e24bcbbb09510c83620d73b0d2a49a69d51e8",
+    "configs/final/student_mat.yaml": "e3b0cc7c6f7e0c36074f31d6e96dadf83ffad8a6a91118d4f43f80c80263e2dc",
+    "configs/final/student_por.yaml": "2adcfdad63ec93ec9dd89c2feebf0493c973aa5e5c962598d29ed6226477990a",
+    "reports/final/CLAIM_BOUNDARIES.md": "e4c438b1d40e6f51abd71fdcc7755f5cce7705a5558f3f76fd39bf8aacc624e9",
+    "reports/final/FINAL_MODEL_RESULTS.md": "5b65fa582b0dd61a94c04189f217b9f9cfa87612721c347e2525fd602b4ba697",
+    "reports/final/FINAL_PROJECT_REVIEW.md": "bbd9c7d23275b24b7482c8dd2038cec1176f44caecc4e2d6d759d9720664163f",
+    "reports/final/IMBALANCE_RESULTS.md": "f6cf5f3a892c9fc7b902b4e888864e127055cd72fa51cef6f96d5db5cee246d4",
+    "reports/final/OULAD_RESULTS.md": "a06e666493f6dfa4d33793041421338461c694b321166fc231330ce6fede0342",
+    "reports/final/RECOMMENDATION_RESULTS.md": "88838b25b2f55dcc59705fcc5f58bb1dd551f4a1023c61bd0085462a5231e8b9",
+    "reports/final/STUDENT_MAT_RESULTS.md": "2345a874666e83331d06489e7821b4e2a74b1e89577fd77aa1c19d66f185b9cf",
+    "reports/final/STUDENT_POR_RESULTS.md": "213fd308cb32ea50e9cce21bce0190b0382ab3da1f07d4d61146be2d7864f479"
+  }
+}

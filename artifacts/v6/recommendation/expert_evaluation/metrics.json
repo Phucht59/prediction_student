@@ -1,0 +1,12 @@
+{
+  "schema_version": "v6_expert_evaluation_v1",
+  "status": "PENDING_EXPERT_LABELS",
+  "experts": 0,
+  "cases_scored": 0,
+  "action_f1": null,
+  "top_3_action_recall": null,
+  "plan_approval_rate": null,
+  "escalation_f1": null,
+  "agreement": null,
+  "synthetic_labels_created": false
+}

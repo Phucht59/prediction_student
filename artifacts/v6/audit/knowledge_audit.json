@@ -1,0 +1,259 @@
+{
+  "schema_version": "v6_knowledge_audit_v1",
+  "status": "PASS",
+  "order_destruction": {
+    "status": "PASS",
+    "scope": "outer_training_fold_0_inner_oof",
+    "seed": 42,
+    "fixed_epochs": 8,
+    "threshold_protocol": "cross_fitted_inner_oof",
+    "same_configuration": true,
+    "same_training_budget": true,
+    "variants": {
+      "bag_of_weeks": {
+        "records": 10258,
+        "threshold": null,
+        "threshold_scope": "per_outer_fold",
+        "macro_f1": 0.8187287287563738,
+        "balanced_accuracy": 0.8156902383574014,
+        "at_risk_precision": 0.80248833592535,
+        "at_risk_recall": 0.7551219512195122,
+        "at_risk_f1": 0.7780849459663232,
+        "pr_auc": 0.8851367403083583,
+        "brier": 0.11938338280285254,
+        "nll": 0.377358106683579,
+        "ece": 0.017512704941015027,
+        "confusion_matrix": [
+          [
+            5396,
+            762
+          ],
+          [
+            1004,
+            3096
+          ]
+        ],
+        "delta_macro_f1_vs_original": -0.0025261360332464733,
+        "delta_at_risk_f1_vs_original": 0.0007235297626793091,
+        "delta_pr_auc_vs_original": -0.00382601094077728,
+        "delta_brier_vs_original": 0.0019945450264104575
+      },
+      "original": {
+        "records": 10258,
+        "threshold": null,
+        "threshold_scope": "per_outer_fold",
+        "macro_f1": 0.8212548647896203,
+        "balanced_accuracy": 0.8155951013553656,
+        "at_risk_precision": 0.8266007144820006,
+        "at_risk_recall": 0.7336585365853658,
+        "at_risk_f1": 0.7773614162036439,
+        "pr_auc": 0.8889627512491356,
+        "brier": 0.11738883777644209,
+        "nll": 0.3707736483829802,
+        "ece": 0.019494592731821827,
+        "confusion_matrix": [
+          [
+            5527,
+            631
+          ],
+          [
+            1092,
+            3008
+          ]
+        ],
+        "delta_macro_f1_vs_original": 0.0,
+        "delta_at_risk_f1_vs_original": 0.0,
+        "delta_pr_auc_vs_original": 0.0,
+        "delta_brier_vs_original": 0.0
+      },
+      "reversed": {
+        "records": 10258,
+        "threshold": null,
+        "threshold_scope": "per_outer_fold",
+        "macro_f1": 0.8218073423155765,
+        "balanced_accuracy": 0.8172670490102107,
+        "at_risk_precision": 0.8177194860813705,
+        "at_risk_recall": 0.7451219512195122,
+        "at_risk_f1": 0.7797345584481878,
+        "pr_auc": 0.8893241097159943,
+        "brier": 0.11708173785654019,
+        "nll": 0.3705994357740417,
+        "ece": 0.019110393043310407,
+        "confusion_matrix": [
+          [
+            5477,
+            681
+          ],
+          [
+            1045,
+            3055
+          ]
+        ],
+        "delta_macro_f1_vs_original": 0.0005524775259562187,
+        "delta_at_risk_f1_vs_original": 0.002373142244543991,
+        "delta_pr_auc_vs_original": 0.00036135846685869666,
+        "delta_brier_vs_original": -0.0003070999199018959
+      },
+      "shuffled": {
+        "records": 10258,
+        "threshold": null,
+        "threshold_scope": "per_outer_fold",
+        "macro_f1": 0.8204682464512877,
+        "balanced_accuracy": 0.8163754861809742,
+        "at_risk_precision": 0.8125662778366914,
+        "at_risk_recall": 0.7475609756097561,
+        "at_risk_f1": 0.7787093495934959,
+        "pr_auc": 0.8856114527064047,
+        "brier": 0.11936698517963282,
+        "nll": 0.3768113059469513,
+        "ece": 0.02024523146894663,
+        "confusion_matrix": [
+          [
+            5451,
+            707
+          ],
+          [
+            1035,
+            3065
+          ]
+        ],
+        "delta_macro_f1_vs_original": -0.0007866183383326009,
+        "delta_at_risk_f1_vs_original": 0.001347933389852063,
+        "delta_pr_auc_vs_original": -0.003351298542730863,
+        "delta_brier_vs_original": 0.0019781474031907303
+      }
+    },
+    "original_minus_best_destroyed_macro_f1": -0.0005524775259562187,
+    "verdict": "TEMPORAL_ORDER_LOW_VALUE",
+    "outer_test_accessed": false,
+    "future_accessed": false
+  },
+  "residual_ceiling": {
+    "status": "PASS",
+    "scope": "outer_training_fold_0_cross_fitted_inner_oof",
+    "classifier_input": "v5_1_temporal_projection_embedding_64",
+    "classifier": "standardized_logistic_regression",
+    "records": 10258,
+    "residual_error_auc": 0.668940373663983,
+    "residual_error_pr_auc": 0.9084595565057254,
+    "brier": 0.33618805606965624,
+    "ece": 0.386950920285757,
+    "module_segments": {
+      "AAA": {
+        "records": 222,
+        "teacher_correct_rate": 0.8423423423423423,
+        "residual_auc": 0.6368220015278839
+      },
+      "BBB": {
+        "records": 2831,
+        "teacher_correct_rate": 0.8406923348640056,
+        "residual_auc": 0.6827069630512959
+      },
+      "CCC": {
+        "records": 768,
+        "teacher_correct_rate": 0.8255208333333334,
+        "residual_auc": 0.7229624746927821
+      },
+      "DDD": {
+        "records": 1964,
+        "teacher_correct_rate": 0.8126272912423625,
+        "residual_auc": 0.6506381442737278
+      },
+      "EEE": {
+        "records": 782,
+        "teacher_correct_rate": 0.8797953964194374,
+        "residual_auc": 0.6409574468085106
+      },
+      "FFF": {
+        "records": 2606,
+        "teacher_correct_rate": 0.8468917881811205,
+        "residual_auc": 0.7028786283788311
+      },
+      "GGG": {
+        "records": 1085,
+        "teacher_correct_rate": 0.8368663594470046,
+        "residual_auc": 0.5847830956469797
+      }
+    },
+    "verdict": "RESIDUAL_SIGNAL_HIGH",
+    "complex_selector_allowed": true,
+    "outer_test_accessed": false,
+    "future_accessed": false
+  },
+  "oracle_complementarity": {
+    "status": "PASS",
+    "scope": "outer_training_fold_0_cross_fitted_inner_oof",
+    "records": 10258,
+    "deep_correct_xgboost_wrong": 275,
+    "xgboost_correct_deep_wrong": 324,
+    "both_correct": 8276,
+    "both_wrong": 1383,
+    "disagreement_rate": 0.05839344901540261,
+    "deep_accuracy": 0.8335932930395789,
+    "xgboost_accuracy": 0.8383700526418405,
+    "oracle_union_accuracy": 0.865178397348411,
+    "oracle_gain_over_best": 0.026808344706570453,
+    "selector_allowed": true,
+    "outer_test_accessed": false,
+    "future_accessed": false
+  },
+  "survival": {
+    "status": "PASS",
+    "records": 15378,
+    "withdrawn_records": 1167,
+    "withdrawn_with_timestamp": 1161,
+    "withdrawn_with_valid_course_timestamp": 1160,
+    "withdrawal_events_after_f2_cutoff": 1156,
+    "censored_at_cutoff_or_observation_end": 14222,
+    "nonwithdrawal_with_unregistration_timestamp": 0,
+    "fail_as_withdrawal_event": false,
+    "fail_event_time_available": false,
+    "weekly_risk_sets_feasible": true,
+    "verdict": "WITHDRAWAL_SURVIVAL_FEASIBLE",
+    "outer_test_labels_used_for_selection": false,
+    "future_accessed": false
+  },
+  "graph": {
+    "status": "PASS",
+    "presentations": 22,
+    "modules": 7,
+    "assessment_nodes": 206,
+    "resource_nodes": 6364,
+    "assessment_types": 3,
+    "activity_types": 20,
+    "descriptor_columns": [
+      "assessment_count",
+      "assessment_type_count",
+      "assessment_total_weight",
+      "resource_count",
+      "activity_type_count"
+    ],
+    "graph_only_descriptors": [
+      "activity_type_count",
+      "assessment_count",
+      "assessment_total_weight",
+      "assessment_type_count",
+      "resource_count"
+    ],
+    "within_module_varying_presentations": {
+      "assessment_count": 2,
+      "assessment_type_count": 2,
+      "assessment_total_weight": 0,
+      "resource_count": 7,
+      "activity_type_count": 2
+    },
+    "novel_varying_descriptors": [
+      "activity_type_count",
+      "assessment_count",
+      "assessment_type_count",
+      "resource_count"
+    ],
+    "verdict": "GRAPH_CONTEXT_PASS",
+    "lightweight_graph_allowed": true,
+    "student_test_nodes_in_graph": false,
+    "future_accessed": false
+  },
+  "runtime_seconds": 1556.9613625000056,
+  "outer_test_accessed": false,
+  "future_accessed": false
+}

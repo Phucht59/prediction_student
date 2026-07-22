@@ -1,0 +1,116 @@
+schema_version: v6_integrated_system_protocol_v1
+status: FROZEN_BEFORE_V6_AUDIT
+repository_base_sha: 24cca2b7f0904504e6f1c937af04589938e1a73f
+scientific_v5_1_source_sha: 308370cf6c6f16e65cc0f0aaa3f38393ae141e16
+recommendation_v5_2_source_sha: b9087ceb1600582ad1351b134a2f4c4d9af77d89
+branch: codex/project-v6-integrated-risk-recommendation-system
+
+data:
+  dataset: OULAD
+  forecast_id: F2_MIDDLE
+  cutoff_contract: immutable_v5_F2_MIDDLE
+  target:
+    positive: [Withdrawn, Fail]
+    negative: [Pass, Distinction]
+  group_key: id_student
+  outer_folds: 3
+  inner_folds: 3
+  fixed_seeds: [42, 1201, 2026, 3407, 7319]
+  future_oulad: LOCKED_NOT_EXECUTED
+  outer_test_for_selection: PROHIBITED
+  post_cutoff_features: PROHIBITED
+
+prediction:
+  default_candidate: A_V5_1_REPRODUCTION
+  architecture:
+    input_projection: 48
+    conv_channels: 24
+    kernels: [2, 3]
+    dilation: 2
+    lstm_hidden: 64
+    lstm_layers: 1
+    bidirectional: true
+    pooling: masked_mean_max
+    pooling_projection: 48
+    aggregate_hidden: 64
+    static_hidden: 32
+    fusion_hidden: 64
+    fusion: gated_residual
+    loss: standard_bce
+    batch_size: 256
+    gradient_clip: 1.0
+  candidate_ladder:
+    - A_V5_1_REPRODUCTION
+    - B_MINIMAL_PRETRAINING
+    - C_TEMPORAL_MULTITASK
+    - D_RISK_RANKING
+    - E_LIGHTWEIGHT_GRAPH_IF_AUDIT_PASS
+  primary_metric: macro_f1
+  co_primary_metrics: [at_risk_f1, pr_auc, brier, recall_at_10_percent]
+  guardrails:
+    macro_f1_max_drop: 0.001
+    at_risk_recall_max_drop: 0.002
+    brier_max_increase: 0.002
+  v5_1_locked_macro_f1: 0.8274221017
+  xgboost_cross_check_macro_f1: 0.8283814220
+
+audit:
+  order_variants: [original, reversed, shuffled, bag_of_weeks]
+  order_seed: 42
+  order_outer_training_fold: 0
+  residual_classifier: logistic_regression
+  graph_context_allowed_only_after_pass: true
+
+pretraining:
+  candidates: [P0_NONE, P1_MASKED_AND_NEXT_WEEK]
+  mask_valid_weeks: [1, 2]
+  outer_training_only: true
+  gate:
+    macro_f1_or_pr_auc_gain: 0.002
+    positive_inner_folds: 2
+    at_risk_f1_max_drop: 0.001
+    brier_max_increase: 0.002
+
+multitask:
+  enabled_only_after_temporal_signal: true
+  registered_weights:
+    - {survival: 0.15, outcome: 0.15}
+    - {survival: 0.25, outcome: 0.20}
+  fail_is_withdrawal_event: false
+  consistency: soft_only
+
+ranking:
+  registered_weights: [0.05, 0.10]
+  pairs: same_module_presentation_progress
+  metrics: [precision_at_5_percent, recall_at_5_percent, precision_at_10_percent,
+    recall_at_10_percent, precision_at_20_percent, recall_at_20_percent,
+    ndcg_at_10_percent, ndcg_at_20_percent]
+
+calibration:
+  method: temperature_scaling
+  fit_scope: inner_oof_only
+  outer_test_fit: PROHIBITED
+  confidence_levels: [HIGH_CONFIDENCE, MEDIUM_CONFIDENCE, LOW_CONFIDENCE]
+  abstention_status: ABSTAIN_REVIEW_REQUIRED
+
+risk_profile:
+  schema_version: student_risk_profile_v1
+  sensitive_demographics_in_payload: PROHIBITED
+
+recommendation:
+  input_schema: recommendation_input_v2
+  engine_version: v5_2
+  technical_baseline_status: PASS
+  expert_status: PENDING_EXPERT_LABELS
+  synthetic_expert_labels: PROHIBITED
+
+database:
+  production_write: PROHIBITED
+  missing_disposable_dsn_status: SKIP_NO_DISPOSABLE_DSN
+  migrations: ADDITIVE_ONLY
+
+claims:
+  causal_recommendation_effectiveness: PROHIBITED
+  future_oulad_generalization: PROHIBITED
+  best_seed_or_fold_reporting: PROHIBITED
+

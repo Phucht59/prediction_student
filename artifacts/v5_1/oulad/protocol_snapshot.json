@@ -1,0 +1,324 @@
+{
+  "schema_version": "oulad_v5_1_protocol_v1",
+  "protocol_status": "frozen_before_outer_evaluation",
+  "dataset": "OULAD",
+  "forecast": "F2_MIDDLE",
+  "target": {
+    "name": "target_at_risk",
+    "positive": [
+      "Withdrawn",
+      "Fail"
+    ],
+    "negative": [
+      "Pass",
+      "Distinction"
+    ]
+  },
+  "grain": [
+    "code_module",
+    "code_presentation",
+    "id_student"
+  ],
+  "group_key": "id_student",
+  "sources": {
+    "processed_manifest": {
+      "path": "data/processed/study_c_oulad/manifests/F2_MIDDLE.json",
+      "sha256": "8482dbf51c1fe25940a8eef871daeaf07515ac9698fc36b5620263d52b9a1110"
+    },
+    "source_split_manifest": {
+      "path": "data/processed/study_c_oulad/manifests/split_manifest.csv",
+      "sha256": "5e5e4d9ab48a6049f86cdf2451f4302bc44f2896a2f23a23494bc95f549b97d4"
+    },
+    "sequence": {
+      "path": "data/processed/study_c_oulad/sequences/F2_MIDDLE.npz",
+      "sha256": "04ba62019047feb092ef4aaa0a5426060c1afb0ca1f543b84a64cfc42bff0ea5"
+    },
+    "full_aggregate_oracle": {
+      "path": "data/processed/study_c_oulad/aggregated/F2_MIDDLE.parquet",
+      "sha256": "3e935a12da9625048b6dd3b237fac9791a7e5ef601d315aa4184f40111d4efe0"
+    },
+    "target_table": {
+      "path": "data/processed/study_c_oulad/targets/F2_MIDDLE.parquet",
+      "sha256": "f5dabf9719c2c8ce038e2bca89d11da82508eee2ca65c92c2bca40d7bad9da80"
+    }
+  },
+  "data_contract": {
+    "sequence_channels": 47,
+    "development_role": "historical_development",
+    "cohort": "immutable_v5_F2_MIDDLE",
+    "cutoff": "immutable_v5_F2_MIDDLE",
+    "events": "strictly_before_cutoff_only",
+    "forbidden_roles": [
+      "future_candidate",
+      "excluded_future_student_overlap"
+    ],
+    "forbidden_features": [
+      "final_result",
+      "date_unregistration",
+      "post_cutoff_event",
+      "future_submission",
+      "future_score",
+      "sensitive_demographics"
+    ],
+    "future_benchmark": "LOCKED_NOT_EXECUTED"
+  },
+  "splits": {
+    "outer_manifest": "artifacts/v5/oulad/split_manifest.csv",
+    "outer_manifest_sha256": "ae8d20773ccfda9123a9ef5e7162f0a324f80edd8dcb152ae2c97f1b6814cbb0",
+    "outer_folds": 3,
+    "inner_folds": 3,
+    "group_disjoint_on": "id_student",
+    "inner_seed": 3407
+  },
+  "aggregate_contracts": {
+    "primary_compact_groups": [
+      "activity_intensity",
+      "active_weeks_days",
+      "recent_trend",
+      "inactivity",
+      "assessment_progress",
+      "submission_behavior",
+      "score_progress",
+      "content_diversity"
+    ],
+    "primary_selection": "deterministic_allowlist_patterns_versioned_in_code",
+    "full_440_matched_vector_role": "strong_engineered_oracle_only",
+    "standard_ml_input": "compact_aggregate_plus_static",
+    "primary_hybrid_input": "sequence_plus_compact_aggregate_plus_static"
+  },
+  "architecture": {
+    "input_projection": [
+      32,
+      48,
+      64
+    ],
+    "normalization": "LayerNorm",
+    "kernels": [
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        5
+      ],
+      [
+        2,
+        3,
+        5
+      ]
+    ],
+    "dilation": [
+      1,
+      2
+    ],
+    "convolution_channels": [
+      24,
+      32,
+      48,
+      64
+    ],
+    "residual_projection": "required",
+    "bilstm_layers": [
+      1,
+      2
+    ],
+    "bilstm_hidden": [
+      32,
+      48,
+      64,
+      96,
+      128
+    ],
+    "pooling": [
+      "masked_mean_max",
+      "masked_attention"
+    ],
+    "fusion": [
+      "concatenation",
+      "gated_residual"
+    ],
+    "branch_dropout": [
+      0.0,
+      0.1,
+      0.2
+    ],
+    "dropout": [
+      0.1,
+      0.2,
+      0.3,
+      0.4
+    ],
+    "parameter_limit": 1500000,
+    "variants": [
+      "aggregate_only_mlp",
+      "cnn_only",
+      "bilstm_only",
+      "cnn_bilstm_full",
+      "cnn_bilstm_without_gated_fusion",
+      "cnn_bilstm_without_pretraining",
+      "shuffled_temporal_order",
+      "reversed_temporal_order"
+    ]
+  },
+  "pretraining": {
+    "candidate": "masked_week_reconstruction",
+    "scope": "each_outer_training_partition_only",
+    "mask_valid_weeks_only": true,
+    "never_mask_entire_sequence": true,
+    "padding_masked": false,
+    "future_or_post_cutoff_data": "PROHIBITED",
+    "reconstruction_channels": [
+      "total_clicks",
+      "active_days",
+      "content_clicks",
+      "forum_clicks",
+      "quiz_clicks",
+      "assessment_related_clicks",
+      "submitted_assessment_count",
+      "weeks_without_activity"
+    ],
+    "mask_fraction": [
+      0.1,
+      0.2,
+      0.3
+    ],
+    "epochs": [
+      5,
+      10,
+      15
+    ],
+    "controlled_configs_max": 4,
+    "open_only_if_selected_architecture_inner_macro_f1_at_least": 0.8305,
+    "retain_requires_mean_inner_delta_at_least": 0.001,
+    "retain_forbids_material_single_fold_harm": true
+  },
+  "augmentation": {
+    "candidates": [
+      "none",
+      "event_thinning",
+      "short_span_masking",
+      "channel_group_dropout"
+    ],
+    "screening_after_architecture_stable": true,
+    "training_only": true,
+    "invalid": [
+      "time_warping",
+      "strong_jitter",
+      "student_mixup",
+      "raw_sequence_mixup",
+      "smote_3d",
+      "adasyn_3d"
+    ],
+    "dependent_features_recomputed": "required",
+    "controlled_configs_max": 4,
+    "open_only_with_documented_overfit_evidence": true,
+    "overfit_evidence_selected_epoch_fraction_at_most": 0.7,
+    "retain_requires_mean_inner_delta_at_least": 0.001,
+    "retain_requires_positive_inner_folds": 2
+  },
+  "loss": {
+    "candidates": [
+      "standard_bce",
+      "weighted_bce",
+      "focal"
+    ],
+    "selection_metric": "inner_macro_f1",
+    "guardrails": [
+      "at_risk_precision",
+      "at_risk_recall",
+      "pr_auc",
+      "brier",
+      "class_collapse"
+    ],
+    "controlled_configs_max": 4,
+    "open_only_with_documented_imbalance_evidence": true,
+    "imbalance_evidence_minority_majority_ratio_below": 0.67,
+    "retain_requires_mean_inner_delta_at_least": 0.001
+  },
+  "comparators": {
+    "primary": "xgboost_full_440_oracle",
+    "standard": [
+      "logistic_regression",
+      "hist_gradient_boosting",
+      "xgboost_compact"
+    ],
+    "strong_engineered_oracle": "xgboost_full_440",
+    "baseline_v5_cnn_bilstm_macro_f1": 0.8280026389,
+    "immutable_oracle_macro_f1": 0.828381422,
+    "reuse_v5_when_input_contract_and_checksum_match": true
+  },
+  "search": {
+    "mode": "stage_gated_compute_reduction",
+    "component_screening_outer_fold": 0,
+    "round_a_architecture_evaluated_trials_initial": 8,
+    "round_a_architecture_evaluated_trials_max": 12,
+    "round_a_budget_unit": "unique_fully_evaluated_configs",
+    "round_a_pruning": "disabled_full_fold_mean",
+    "round_a_extension_threshold_macro_f1": 0.83,
+    "round_a_recent_improvement_window": 3,
+    "round_a_top_configs_to_confirm": 2,
+    "round_a_seeds": [
+      42,
+      2026,
+      3407
+    ],
+    "round_b_outer_fold": 0,
+    "round_b_trials_initial_total": 16,
+    "round_b_trials_max_total": 24,
+    "round_b_recent_improvement_window": 4,
+    "round_b_top_configs_to_confirm": 2,
+    "storage": "artifacts/v5_1/oulad/optuna.db",
+    "sampler_seed": 3407,
+    "no_outer_result_used_for_selection": true
+  },
+  "evaluation": {
+    "seeds": [
+      42,
+      1201,
+      2026,
+      3407,
+      7319
+    ],
+    "primary_metric": "macro_f1",
+    "directional_target_macro_f1": 0.832,
+    "threshold_scope": "inner_oof_only",
+    "ensemble": "record_aligned_arithmetic_mean_all_fixed_seeds",
+    "selected_configuration_reused_across_all_outer_folds": true,
+    "architecture_ablation_seed": 42,
+    "architecture_ablations": [
+      "cnn_only",
+      "bilstm_only"
+    ],
+    "metrics": [
+      "accuracy",
+      "macro_f1",
+      "weighted_f1",
+      "per_class_precision_recall_f1",
+      "macro_pr_auc",
+      "at_risk_precision",
+      "at_risk_recall",
+      "at_risk_f1",
+      "pr_auc",
+      "brier"
+    ],
+    "diagnostics": [
+      "gate_mean",
+      "gate_variance",
+      "gate_saturation",
+      "gate_collapse",
+      "attention_entropy",
+      "attention_padding_max",
+      "parameter_count",
+      "runtime_seconds",
+      "seed_stability",
+      "fold_stability"
+    ],
+    "performance_target_is_gate": false
+  },
+  "artifacts": {
+    "root": "artifacts/v5_1/oulad",
+    "report_root": "reports/v5_1/oulad",
+    "future_accessed": false
+  }
+}

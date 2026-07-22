@@ -1,0 +1,5 @@
+{
+  "student_mat": "decision_tree",
+  "student_por": "random_forest",
+  "oulad": "xgboost"
+}

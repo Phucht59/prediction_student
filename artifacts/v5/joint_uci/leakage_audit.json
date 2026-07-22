@@ -1,0 +1,142 @@
+{
+  "status": "PASS",
+  "comparisons": [
+    {
+      "outer_fold": 0,
+      "inner_fold": 0,
+      "mat_train_records": 209,
+      "mat_validation_records": 107,
+      "por_pretraining_records": 546,
+      "excluded_por_overlap_records": 103,
+      "overlapping_validation_groups": 0
+    },
+    {
+      "outer_fold": 0,
+      "inner_fold": 1,
+      "mat_train_records": 211,
+      "mat_validation_records": 105,
+      "por_pretraining_records": 548,
+      "excluded_por_overlap_records": 101,
+      "overlapping_validation_groups": 0
+    },
+    {
+      "outer_fold": 0,
+      "inner_fold": 2,
+      "mat_train_records": 212,
+      "mat_validation_records": 104,
+      "por_pretraining_records": 552,
+      "excluded_por_overlap_records": 97,
+      "overlapping_validation_groups": 0
+    },
+    {
+      "outer_fold": 1,
+      "inner_fold": 0,
+      "mat_train_records": 210,
+      "mat_validation_records": 106,
+      "por_pretraining_records": 550,
+      "excluded_por_overlap_records": 99,
+      "overlapping_validation_groups": 0
+    },
+    {
+      "outer_fold": 1,
+      "inner_fold": 1,
+      "mat_train_records": 212,
+      "mat_validation_records": 104,
+      "por_pretraining_records": 548,
+      "excluded_por_overlap_records": 101,
+      "overlapping_validation_groups": 0
+    },
+    {
+      "outer_fold": 1,
+      "inner_fold": 2,
+      "mat_train_records": 210,
+      "mat_validation_records": 106,
+      "por_pretraining_records": 549,
+      "excluded_por_overlap_records": 100,
+      "overlapping_validation_groups": 0
+    },
+    {
+      "outer_fold": 2,
+      "inner_fold": 0,
+      "mat_train_records": 210,
+      "mat_validation_records": 106,
+      "por_pretraining_records": 547,
+      "excluded_por_overlap_records": 102,
+      "overlapping_validation_groups": 0
+    },
+    {
+      "outer_fold": 2,
+      "inner_fold": 1,
+      "mat_train_records": 211,
+      "mat_validation_records": 105,
+      "por_pretraining_records": 550,
+      "excluded_por_overlap_records": 99,
+      "overlapping_validation_groups": 0
+    },
+    {
+      "outer_fold": 2,
+      "inner_fold": 2,
+      "mat_train_records": 211,
+      "mat_validation_records": 105,
+      "por_pretraining_records": 545,
+      "excluded_por_overlap_records": 104,
+      "overlapping_validation_groups": 0
+    },
+    {
+      "outer_fold": 3,
+      "inner_fold": 0,
+      "mat_train_records": 208,
+      "mat_validation_records": 108,
+      "por_pretraining_records": 543,
+      "excluded_por_overlap_records": 106,
+      "overlapping_validation_groups": 0
+    },
+    {
+      "outer_fold": 3,
+      "inner_fold": 1,
+      "mat_train_records": 212,
+      "mat_validation_records": 104,
+      "por_pretraining_records": 554,
+      "excluded_por_overlap_records": 95,
+      "overlapping_validation_groups": 0
+    },
+    {
+      "outer_fold": 3,
+      "inner_fold": 2,
+      "mat_train_records": 212,
+      "mat_validation_records": 104,
+      "por_pretraining_records": 549,
+      "excluded_por_overlap_records": 100,
+      "overlapping_validation_groups": 0
+    },
+    {
+      "outer_fold": 4,
+      "inner_fold": 0,
+      "mat_train_records": 210,
+      "mat_validation_records": 106,
+      "por_pretraining_records": 547,
+      "excluded_por_overlap_records": 102,
+      "overlapping_validation_groups": 0
+    },
+    {
+      "outer_fold": 4,
+      "inner_fold": 1,
+      "mat_train_records": 210,
+      "mat_validation_records": 106,
+      "por_pretraining_records": 551,
+      "excluded_por_overlap_records": 98,
+      "overlapping_validation_groups": 0
+    },
+    {
+      "outer_fold": 4,
+      "inner_fold": 2,
+      "mat_train_records": 212,
+      "mat_validation_records": 104,
+      "por_pretraining_records": 552,
+      "excluded_por_overlap_records": 97,
+      "overlapping_validation_groups": 0
+    }
+  ],
+  "G3_used_as_input": false,
+  "subject_indicator_added": true
+}

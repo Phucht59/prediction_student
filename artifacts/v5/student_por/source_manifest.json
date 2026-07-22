@@ -1,0 +1,12 @@
+{
+  "sources": [
+    {
+      "source": "student-por",
+      "path": "data/raw/student-por.csv",
+      "expected_sha256": "a7594a11d7771c0efe1a740824e0e833da9c4cad07c39a9766a874575563fb3f",
+      "observed_sha256": "a7594a11d7771c0efe1a740824e0e833da9c4cad07c39a9766a874575563fb3f",
+      "status": "PASS"
+    }
+  ],
+  "records": 649
+}

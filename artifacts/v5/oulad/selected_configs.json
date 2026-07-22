@@ -1,0 +1,103 @@
+[
+  {
+    "outer_fold": 0,
+    "augmentation": "none",
+    "config": {
+      "aggregate_hidden": 64,
+      "batch_size": 128,
+      "conv_channels": 16,
+      "dropout": 0.43847439609206107,
+      "focal_gamma": 2.0,
+      "fusion_hidden": 32,
+      "gradient_clip": 1.0,
+      "kernels": [
+        3,
+        5
+      ],
+      "learning_rate": 0.0012134279873404858,
+      "loss": "weighted_bce",
+      "lstm_hidden": 24,
+      "lstm_layers": 1,
+      "max_epochs": 80,
+      "parameter_limit": 1500000,
+      "patience": 10,
+      "pooling": "masked_attention",
+      "pooling_projection": 32,
+      "positive_weight": "none",
+      "static_hidden": 32,
+      "weight_decay": 7.066031368651346e-05
+    },
+    "threshold": {
+      "threshold": 0.44500000000000006,
+      "inner_macro_f1": 0.8306240071721319
+    },
+    "fixed_epochs": 10
+  },
+  {
+    "outer_fold": 1,
+    "augmentation": "short_span_masking",
+    "config": {
+      "aggregate_hidden": 128,
+      "batch_size": 128,
+      "conv_channels": 24,
+      "dropout": 0.10065299446608476,
+      "focal_gamma": 2.0,
+      "fusion_hidden": 64,
+      "gradient_clip": 1.0,
+      "kernels": [
+        3,
+        5
+      ],
+      "learning_rate": 0.0007395009246151684,
+      "loss": "weighted_bce",
+      "lstm_hidden": 24,
+      "lstm_layers": 2,
+      "max_epochs": 80,
+      "parameter_limit": 1500000,
+      "patience": 10,
+      "pooling": "masked_mean_max",
+      "pooling_projection": 64,
+      "positive_weight": "none",
+      "static_hidden": 24,
+      "weight_decay": 9.014029631204815e-06
+    },
+    "threshold": {
+      "threshold": 0.42000000000000004,
+      "inner_macro_f1": 0.8292941368929929
+    },
+    "fixed_epochs": 5
+  },
+  {
+    "outer_fold": 2,
+    "augmentation": "none",
+    "config": {
+      "aggregate_hidden": 96,
+      "batch_size": 128,
+      "conv_channels": 16,
+      "dropout": 0.46550412145935327,
+      "focal_gamma": 1.9187000333451556,
+      "fusion_hidden": 48,
+      "gradient_clip": 1.0,
+      "kernels": [
+        5
+      ],
+      "learning_rate": 0.0003058419070981122,
+      "loss": "focal",
+      "lstm_hidden": 32,
+      "lstm_layers": 1,
+      "max_epochs": 80,
+      "parameter_limit": 1500000,
+      "patience": 10,
+      "pooling": "masked_attention",
+      "pooling_projection": 96,
+      "positive_weight": "balanced",
+      "static_hidden": 48,
+      "weight_decay": 2.771111794382705e-05
+    },
+    "threshold": {
+      "threshold": 0.5050000000000001,
+      "inner_macro_f1": 0.8268813939017803
+    },
+    "fixed_epochs": 30
+  }
+]

@@ -1,0 +1,21 @@
+{
+  "canonical_results": "../final_results.json",
+  "registry": {
+    "model_id": "cnn_bilstm_por",
+    "official_name": "CNN-BiLSTM — Student-Por",
+    "dataset": "student-por",
+    "task": "multiclass_student_performance",
+    "classes": [
+      "Low",
+      "Medium",
+      "High"
+    ],
+    "class_name": "CNNBiLSTMStudentPorModel",
+    "status": "selected",
+    "source_commit": "9611bfc1e7ff594f64f19fe3144a105216388954",
+    "source_artifact_path": "artifacts/v5_1/student_por/final_metrics.json",
+    "source_checksum": "5ad0710721b0323a0e2e47371b983b9ad0bd6eb4b12a27e18a69b38e7c982a25",
+    "checkpoint_checksum": "59409253fe3ca7d22879616b0748dda2d8f18b7a81a5236635a273999e608938",
+    "feature_contract_checksum": "9f73d25f60ab272fa97deea066b76f4de4a74b15cf574208f64f35094c60fba1"
+  }
+}

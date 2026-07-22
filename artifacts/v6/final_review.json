@@ -1,0 +1,8 @@
+{
+  "schema_version": "v6_final_review_v1",
+  "status": "COMPLETE",
+  "system_verdict": "INTEGRATED_SYSTEM_PASS_EXPERT_PENDING",
+  "branch": "codex/project-v6-integrated-risk-recommendation-system",
+  "report_generation_head": "8ee9f43751aa9eeb5e6b06eb00e707e6c65074ee",
+  "expert_status": "PENDING_EXPERT_LABELS"
+}

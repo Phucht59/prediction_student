@@ -1,0 +1,10 @@
+{
+  "canonical_results": "../final_results.json",
+  "registry": {
+    "system_id": "student_risk_recommendation_system",
+    "official_name": "Student Risk-Based Recommendation System",
+    "source_commit": "9611bfc1e7ff594f64f19fe3144a105216388954",
+    "source_artifact_path": "artifacts/v6/recommendation/technical_metrics.json",
+    "source_checksum": "401838c38c24dd881deedf968728522329feb8bfd6fdde884b138073938c8cfc"
+  }
+}

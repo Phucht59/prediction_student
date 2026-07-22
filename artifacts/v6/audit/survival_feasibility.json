@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "records": 15378,
+  "withdrawn_records": 1167,
+  "withdrawn_with_timestamp": 1161,
+  "withdrawn_with_valid_course_timestamp": 1160,
+  "withdrawal_events_after_f2_cutoff": 1156,
+  "censored_at_cutoff_or_observation_end": 14222,
+  "nonwithdrawal_with_unregistration_timestamp": 0,
+  "fail_as_withdrawal_event": false,
+  "fail_event_time_available": false,
+  "weekly_risk_sets_feasible": true,
+  "verdict": "WITHDRAWAL_SURVIVAL_FEASIBLE",
+  "outer_test_labels_used_for_selection": false,
+  "future_accessed": false
+}

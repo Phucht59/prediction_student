@@ -1,0 +1,14 @@
+{
+  "schema_version": "v6_recommendation_technical_metrics_v1",
+  "status": "PASS",
+  "plans_generated": 15378,
+  "coverage": 1.0,
+  "escalation_rate": 0.4685914943425673,
+  "conflicts": 0,
+  "duplicate_plans": 0,
+  "workload_violations": 0,
+  "missing_lineage": 0,
+  "deterministic_replay": true,
+  "mean_latency_ms": 0.9091114969431042,
+  "causal_effectiveness_claimed": false
+}

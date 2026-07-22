@@ -1,0 +1,52 @@
+{
+  "status": "PASS",
+  "scope": "outer_training_fold_0_cross_fitted_inner_oof",
+  "classifier_input": "v5_1_temporal_projection_embedding_64",
+  "classifier": "standardized_logistic_regression",
+  "records": 10258,
+  "residual_error_auc": 0.668940373663983,
+  "residual_error_pr_auc": 0.9084595565057254,
+  "brier": 0.33618805606965624,
+  "ece": 0.386950920285757,
+  "module_segments": {
+    "AAA": {
+      "records": 222,
+      "teacher_correct_rate": 0.8423423423423423,
+      "residual_auc": 0.6368220015278839
+    },
+    "BBB": {
+      "records": 2831,
+      "teacher_correct_rate": 0.8406923348640056,
+      "residual_auc": 0.6827069630512959
+    },
+    "CCC": {
+      "records": 768,
+      "teacher_correct_rate": 0.8255208333333334,
+      "residual_auc": 0.7229624746927821
+    },
+    "DDD": {
+      "records": 1964,
+      "teacher_correct_rate": 0.8126272912423625,
+      "residual_auc": 0.6506381442737278
+    },
+    "EEE": {
+      "records": 782,
+      "teacher_correct_rate": 0.8797953964194374,
+      "residual_auc": 0.6409574468085106
+    },
+    "FFF": {
+      "records": 2606,
+      "teacher_correct_rate": 0.8468917881811205,
+      "residual_auc": 0.7028786283788311
+    },
+    "GGG": {
+      "records": 1085,
+      "teacher_correct_rate": 0.8368663594470046,
+      "residual_auc": 0.5847830956469797
+    }
+  },
+  "verdict": "RESIDUAL_SIGNAL_HIGH",
+  "complex_selector_allowed": true,
+  "outer_test_accessed": false,
+  "future_accessed": false
+}

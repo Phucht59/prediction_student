@@ -1,0 +1,231 @@
+{
+  "schema_version": "v5_strict_validation_v1",
+  "status": "PASS",
+  "checks": [
+    {
+      "check": "v4_immutable",
+      "status": "PASS",
+      "detail": []
+    },
+    {
+      "check": "performance_not_gate",
+      "status": "PASS"
+    },
+    {
+      "check": "joint_learning_complete",
+      "status": "PASS"
+    },
+    {
+      "check": "joint_learning_group_leakage",
+      "status": "PASS"
+    },
+    {
+      "check": "recommendation_technical_validation",
+      "status": "PASS"
+    },
+    {
+      "check": "database_audit_or_explicit_waiver",
+      "status": "PASS",
+      "detail": "SKIP_NO_DISPOSABLE_DSN"
+    }
+  ],
+  "studies": {
+    "student-mat": [
+      {
+        "check": "source_hashes",
+        "status": "PASS",
+        "detail": [
+          {
+            "source": "student-mat",
+            "path": "data/raw/student-mat.csv",
+            "expected_sha256": "e47f9ee225e1ee6e69b7564e6dac7123e80b8486677fe111f351964cef5dec80",
+            "observed_sha256": "e47f9ee225e1ee6e69b7564e6dac7123e80b8486677fe111f351964cef5dec80",
+            "status": "PASS"
+          }
+        ]
+      },
+      {
+        "check": "run_complete",
+        "status": "PASS",
+        "detail": "COMPLETE"
+      },
+      {
+        "check": "future_not_accessed",
+        "status": "PASS",
+        "detail": false
+      },
+      {
+        "check": "artifact_checksums",
+        "status": "PASS",
+        "detail": 37
+      },
+      {
+        "check": "metrics_present",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "check": "model_registry",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "check": "probability_contract",
+        "status": "PASS",
+        "detail": 4345
+      },
+      {
+        "check": "oof_record_coverage",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "check": "checkpoint_replay",
+        "status": "PASS",
+        "detail": 25
+      }
+    ],
+    "student-por": [
+      {
+        "check": "source_hashes",
+        "status": "PASS",
+        "detail": [
+          {
+            "source": "student-por",
+            "path": "data/raw/student-por.csv",
+            "expected_sha256": "a7594a11d7771c0efe1a740824e0e833da9c4cad07c39a9766a874575563fb3f",
+            "observed_sha256": "a7594a11d7771c0efe1a740824e0e833da9c4cad07c39a9766a874575563fb3f",
+            "status": "PASS"
+          }
+        ]
+      },
+      {
+        "check": "run_complete",
+        "status": "PASS",
+        "detail": "COMPLETE"
+      },
+      {
+        "check": "future_not_accessed",
+        "status": "PASS",
+        "detail": false
+      },
+      {
+        "check": "artifact_checksums",
+        "status": "PASS",
+        "detail": 37
+      },
+      {
+        "check": "metrics_present",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "check": "model_registry",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "check": "probability_contract",
+        "status": "PASS",
+        "detail": 7139
+      },
+      {
+        "check": "oof_record_coverage",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "check": "checkpoint_replay",
+        "status": "PASS",
+        "detail": 25
+      }
+    ],
+    "oulad": [
+      {
+        "check": "source_hashes",
+        "status": "PASS",
+        "detail": [
+          {
+            "source": "processed_manifest",
+            "path": "data/processed/study_c_oulad/manifests/F2_MIDDLE.json",
+            "expected_sha256": "8482dbf51c1fe25940a8eef871daeaf07515ac9698fc36b5620263d52b9a1110",
+            "observed_sha256": "8482dbf51c1fe25940a8eef871daeaf07515ac9698fc36b5620263d52b9a1110",
+            "status": "PASS"
+          },
+          {
+            "source": "split_manifest",
+            "path": "data/processed/study_c_oulad/manifests/split_manifest.csv",
+            "expected_sha256": "5e5e4d9ab48a6049f86cdf2451f4302bc44f2896a2f23a23494bc95f549b97d4",
+            "observed_sha256": "5e5e4d9ab48a6049f86cdf2451f4302bc44f2896a2f23a23494bc95f549b97d4",
+            "status": "PASS"
+          },
+          {
+            "source": "sequence",
+            "path": "data/processed/study_c_oulad/sequences/F2_MIDDLE.npz",
+            "expected_sha256": "04ba62019047feb092ef4aaa0a5426060c1afb0ca1f543b84a64cfc42bff0ea5",
+            "observed_sha256": "04ba62019047feb092ef4aaa0a5426060c1afb0ca1f543b84a64cfc42bff0ea5",
+            "status": "PASS"
+          },
+          {
+            "source": "aggregate",
+            "path": "data/processed/study_c_oulad/aggregated/F2_MIDDLE.parquet",
+            "expected_sha256": "3e935a12da9625048b6dd3b237fac9791a7e5ef601d315aa4184f40111d4efe0",
+            "observed_sha256": "3e935a12da9625048b6dd3b237fac9791a7e5ef601d315aa4184f40111d4efe0",
+            "status": "PASS"
+          },
+          {
+            "source": "target_table",
+            "path": "data/processed/study_c_oulad/targets/F2_MIDDLE.parquet",
+            "expected_sha256": "f5dabf9719c2c8ce038e2bca89d11da82508eee2ca65c92c2bca40d7bad9da80",
+            "observed_sha256": "f5dabf9719c2c8ce038e2bca89d11da82508eee2ca65c92c2bca40d7bad9da80",
+            "status": "PASS"
+          }
+        ]
+      },
+      {
+        "check": "run_complete",
+        "status": "PASS",
+        "detail": "COMPLETE"
+      },
+      {
+        "check": "future_not_accessed",
+        "status": "PASS",
+        "detail": false
+      },
+      {
+        "check": "artifact_checksums",
+        "status": "PASS",
+        "detail": 57
+      },
+      {
+        "check": "metrics_present",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "check": "model_registry",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "check": "probability_contract",
+        "status": "PASS",
+        "detail": 246048
+      },
+      {
+        "check": "grouped_student_contract",
+        "status": "PASS",
+        "detail": 15378
+      },
+      {
+        "check": "checkpoint_replay",
+        "status": "PASS",
+        "detail": 45
+      }
+    ]
+  },
+  "database_integration": "SKIP_NO_DISPOSABLE_DSN",
+  "future_benchmark": "NOT_EXECUTED",
+  "external_source_note": "A clean clone validates committed evidence and replay checkpoints; raw/processed source hashes are skipped only when every declared external source is absent.",
+  "validator_checks_correctness_not_model_superiority": true
+}

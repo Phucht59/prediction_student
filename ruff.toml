@@ -1,0 +1,18 @@
+# Historical experiment runners intentionally retain their compact, immutable
+# source form. V5.2 is clean under the full default rule set; the repository-wide
+# command waives only pre-existing formatting/import-noise classes while keeping
+# syntax errors, undefined names and other correctness-oriented E/F checks active.
+exclude = [
+    ".git",
+    ".pytest_cache",
+    ".venv",
+    ".venv-oulad",
+    ".venv-oulad-v2",
+    "artifacts",
+    "data",
+    "reports",
+]
+
+[lint]
+select = ["E4", "E7", "E9", "F"]
+ignore = ["E401", "E402", "E701", "E702", "E703", "E731", "F401", "F541", "F811", "F841"]

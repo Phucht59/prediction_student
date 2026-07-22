@@ -1,0 +1,83 @@
+{
+  "status": "PASS",
+  "platform": "Windows-10-10.0.26220-SP0",
+  "python": "3.10.0",
+  "packages": {
+    "torch": "2.7.1+cu118",
+    "numpy": "2.2.6",
+    "pandas": "2.3.3",
+    "sklearn": "1.7.2"
+  },
+  "cuda": {
+    "available": true,
+    "version": "11.8",
+    "device": "NVIDIA GeForce RTX 2060",
+    "memory_bytes": 6442123264
+  },
+  "docker_available": false,
+  "git_available": true,
+  "database": {
+    "v5_dsn_present": false,
+    "test_dsn_present": false,
+    "credentials_logged": false
+  },
+  "protocol_status": "frozen_before_v5_results",
+  "source_checks": {
+    "student-mat": [
+      {
+        "source": "student-mat",
+        "path": "data/raw/student-mat.csv",
+        "expected_sha256": "e47f9ee225e1ee6e69b7564e6dac7123e80b8486677fe111f351964cef5dec80",
+        "observed_sha256": "e47f9ee225e1ee6e69b7564e6dac7123e80b8486677fe111f351964cef5dec80",
+        "status": "PASS"
+      }
+    ],
+    "student-por": [
+      {
+        "source": "student-por",
+        "path": "data/raw/student-por.csv",
+        "expected_sha256": "a7594a11d7771c0efe1a740824e0e833da9c4cad07c39a9766a874575563fb3f",
+        "observed_sha256": "a7594a11d7771c0efe1a740824e0e833da9c4cad07c39a9766a874575563fb3f",
+        "status": "PASS"
+      }
+    ],
+    "oulad": [
+      {
+        "source": "processed_manifest",
+        "path": "data/processed/study_c_oulad/manifests/F2_MIDDLE.json",
+        "expected_sha256": "8482dbf51c1fe25940a8eef871daeaf07515ac9698fc36b5620263d52b9a1110",
+        "observed_sha256": "8482dbf51c1fe25940a8eef871daeaf07515ac9698fc36b5620263d52b9a1110",
+        "status": "PASS"
+      },
+      {
+        "source": "split_manifest",
+        "path": "data/processed/study_c_oulad/manifests/split_manifest.csv",
+        "expected_sha256": "5e5e4d9ab48a6049f86cdf2451f4302bc44f2896a2f23a23494bc95f549b97d4",
+        "observed_sha256": "5e5e4d9ab48a6049f86cdf2451f4302bc44f2896a2f23a23494bc95f549b97d4",
+        "status": "PASS"
+      },
+      {
+        "source": "sequence",
+        "path": "data/processed/study_c_oulad/sequences/F2_MIDDLE.npz",
+        "expected_sha256": "04ba62019047feb092ef4aaa0a5426060c1afb0ca1f543b84a64cfc42bff0ea5",
+        "observed_sha256": "04ba62019047feb092ef4aaa0a5426060c1afb0ca1f543b84a64cfc42bff0ea5",
+        "status": "PASS"
+      },
+      {
+        "source": "aggregate",
+        "path": "data/processed/study_c_oulad/aggregated/F2_MIDDLE.parquet",
+        "expected_sha256": "3e935a12da9625048b6dd3b237fac9791a7e5ef601d315aa4184f40111d4efe0",
+        "observed_sha256": "3e935a12da9625048b6dd3b237fac9791a7e5ef601d315aa4184f40111d4efe0",
+        "status": "PASS"
+      },
+      {
+        "source": "target_table",
+        "path": "data/processed/study_c_oulad/targets/F2_MIDDLE.parquet",
+        "expected_sha256": "f5dabf9719c2c8ce038e2bca89d11da82508eee2ca65c92c2bca40d7bad9da80",
+        "observed_sha256": "f5dabf9719c2c8ce038e2bca89d11da82508eee2ca65c92c2bca40d7bad9da80",
+        "status": "PASS"
+      }
+    ]
+  },
+  "future_benchmark": "LOCKED_NOT_EXECUTED"
+}

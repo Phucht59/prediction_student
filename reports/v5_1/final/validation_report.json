@@ -1,0 +1,157 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "name": "student_mat_complete",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "student_mat_future_locked",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "student_mat_seed_registry",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "student_mat_checkpoint_replay",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "student_mat_checksums",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "student_mat_outer_fold_coverage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "student_mat_five_seed_coverage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "student_mat_record_seed_coverage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "student_por_complete",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "student_por_future_locked",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "student_por_seed_registry",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "student_por_checkpoint_replay",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "student_por_checksums",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "student_por_outer_fold_coverage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "student_por_five_seed_coverage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "student_por_record_seed_coverage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "oulad_complete",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "oulad_future_locked",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "oulad_seed_registry",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "oulad_checkpoint_replay",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "oulad_checksums",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "oulad_outer_fold_coverage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "oulad_five_seed_coverage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "oulad_ensemble_unique",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "consolidated_complete",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "future_oulad_locked",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "paired_bootstrap_complete",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "primary_comparisons_present",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "v5_manifest_immutable",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "v5_report_immutable",
+      "pass": true,
+      "detail": null
+    }
+  ],
+  "directional_targets_are_not_correctness_gates": true,
+  "future_oulad": "LOCKED_NOT_EXECUTED"
+}

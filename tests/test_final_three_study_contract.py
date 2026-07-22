@@ -26,15 +26,18 @@ def test_readme_and_project_cover_all_three_datasets_and_final_verdicts():
         text = (ROOT / filename).read_text(encoding="utf-8")
         for required in ("student-mat", "student-por", "OULAD"):
             assert required in text
-        assert "0.8988" in text
-        assert "0.8698" in text
-        assert "0.8311" in text
-        assert "PRACTICAL_TIE" in text
-        assert "expert_validation = PENDING" in text or "Expert validation: **PENDING**" in text
+        assert "0.9015" in text
+        assert "0.8623" in text
+        assert "0.8281" in text
+        assert "PENDING_EXPERT_LABELS" in text
 
 
 def test_final_release_metrics_recompute_from_all_three_official_tables():
-    assert validate_metrics() == {"study_a_models": 5, "study_b_models": 10, "study_c_models": 8}
+    assert validate_metrics() == {
+        "study_a_models": 5,
+        "study_b_models": 10,
+        "study_c_models": 8,
+    }
 
 
 def test_official_three_study_checksum_manifests_remain_valid():
@@ -51,7 +54,7 @@ def test_obsolete_strategy_entrypoints_are_absent_from_final_source():
 
 def test_project_cli_is_the_single_routine_entrypoint_and_status_is_read_only():
     result = subprocess.run(
-        [sys.executable, str(ROOT / "project.py"), "status"],
+        [sys.executable, str(ROOT / "project.py"), "final", "status"],
         cwd=ROOT,
         check=False,
         text=True,
@@ -59,33 +62,61 @@ def test_project_cli_is_the_single_routine_entrypoint_and_status_is_read_only():
     )
     assert result.returncode == 0, result.stderr
     payload = json.loads(result.stdout)
-    assert payload["all_official_bundles_available"] is True
-    assert set(payload) >= {"student_mat", "student_por", "oulad"}
+    assert payload["status"] == "READY"
+    assert payload["training_performed"] is False
+    assert payload["dataset_model_rows"] == {
+        "student_mat": 9,
+        "student_por": 9,
+        "oulad": 9,
+    }
 
     source = (ROOT / "project.py").read_text(encoding="utf-8")
     assert "fit_candidate" not in source
     assert "Optuna" not in source
-    assert len(list((ROOT / "scripts").glob("*.py"))) <= 11
+    final_scripts = {path.name for path in (ROOT / "scripts" / "final").glob("*.py")}
+    assert final_scripts == {
+        "build_final_results.py",
+        "generate_dataset_reports.py",
+        "validate_final_results.py",
+        "verify_release.py",
+    }
 
 
 def test_tracked_evidence_tree_uses_thesis_friendly_dataset_names():
     artifact_paths = subprocess.check_output(
-        ["git", "ls-files", "--cached", "--others", "--exclude-standard", "artifacts"], cwd=ROOT, text=True
+        ["git", "ls-files", "--cached", "--others", "--exclude-standard", "artifacts"],
+        cwd=ROOT,
+        text=True,
     ).splitlines()
     report_paths = subprocess.check_output(
-        ["git", "ls-files", "--cached", "--others", "--exclude-standard", "reports"], cwd=ROOT, text=True
+        ["git", "ls-files", "--cached", "--others", "--exclude-standard", "reports"],
+        cwd=ROOT,
+        text=True,
     ).splitlines()
     artifact_top = {path.split("/", 2)[1] for path in artifact_paths if "/" in path}
     report_top = {path.split("/", 2)[1] for path in report_paths if "/" in path}
-    assert artifact_top == {"README.md", "student_mat", "student_por", "oulad", "archive"}
-    assert report_top == {"README.md", "student_mat", "student_por", "oulad", "thesis_figures", "archive"}
+    artifact_required = {"README.md", "student_mat", "student_por", "oulad", "archive"}
+    report_required = {
+        "README.md",
+        "student_mat",
+        "student_por",
+        "oulad",
+        "thesis_figures",
+        "archive",
+    }
+    release_namespaces = {"final", "v5", "v5_1", "v6"}
+    assert artifact_required <= artifact_top <= artifact_required | release_namespaces
+    assert report_required <= report_top <= report_required | release_namespaces
 
     official = official_evidence_paths(ROOT)
     assert all(path.is_dir() for path in official.values())
-    assert resolve_evidence_path(
-        ROOT,
-        "artifacts/study_c_oulad_v3_closure/oulad-v3-fair-db-closure-20260716-v1",
-    ) == ROOT / "artifacts" / "oulad" / "final"
+    assert (
+        resolve_evidence_path(
+            ROOT,
+            "artifacts/study_c_oulad_v3_closure/oulad-v3-fair-db-closure-20260716-v1",
+        )
+        == ROOT / "artifacts" / "oulad" / "final"
+    )
 
 
 def test_student_grade_model_has_generic_active_module_and_same_contract():
