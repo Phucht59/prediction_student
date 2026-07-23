@@ -1,0 +1,43 @@
+schema_version: final_comparator_completion_protocol_amendment_v1
+amendment_id: final-comparator-completion-amendment-002
+base_protocol_id: final-comparator-completion-20260723-v1
+supersedes_scope_of: final-comparator-completion-amendment-001
+status: PREREGISTERED_BEFORE_AFFECTED_METRIC_RECOMPUTATION
+registered_at: "2026-07-23T11:53:00+07:00"
+scope: metric_definition_only
+reason:
+  type: technical_contract_correction
+  description: >-
+    Frozen replay established that the repository has intentionally distinct
+    multiclass and binary ECE contracts. Amendment 001 correctly restored the
+    UCI multiclass contract but incorrectly generalized it to binary OULAD.
+change:
+  student_mat_and_student_por:
+    metric: ece
+    definition: fifteen_equal_width_bins_of_predicted_class_confidence
+    implementation: src/evaluation/calibration.py
+  oulad:
+    metric: ece
+    definition: ten_equal_width_bins_of_positive_at_risk_probability
+    implementation: src/studies/v5/common/metrics.py
+  affected_outputs_must_be_recomputed: true
+unchanged:
+  - datasets
+  - targets
+  - classes
+  - features
+  - splits
+  - outer_folds
+  - inner_folds
+  - seeds
+  - search_spaces
+  - search_budgets
+  - model_selection
+  - thresholds
+  - probability_aggregation
+  - bootstrap
+  - official_deep_models
+  - recommendation_system
+  - future_oulad_lock
+performance_driven: false
+
