@@ -1,0 +1,31 @@
+{
+  "calculation_method": "recomputed_from_record_aligned_ensemble_probability",
+  "class_order": [
+    "Low",
+    "Medium",
+    "High"
+  ],
+  "feature_contract_hash": "e2d95909395cd43c1b08943fae596f34b6ce143016782b51c59ddf28912636b1",
+  "matrix": [
+    [
+      74,
+      26,
+      0
+    ],
+    [
+      18,
+      387,
+      13
+    ],
+    [
+      0,
+      11,
+      120
+    ]
+  ],
+  "model": "XGBoost",
+  "protocol_hash": "2cdc30713990ecf6932e69b484b3a1eb3f2c96a1329e682381ad09a5b136f5c2",
+  "source_artifact": "artifacts/final/comparator_completion/student_por/oof_predictions.parquet",
+  "source_checksum": "14258e818e14c9cf5b5bd21077453f85869bc5605984b17b03dfd4b818d72670",
+  "split_manifest_hash": "2ea07b2d17714fc9df3eec23150579090d245a1a45f33270b2864c88653d2de2"
+}

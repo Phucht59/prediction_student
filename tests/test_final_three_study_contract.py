@@ -63,7 +63,8 @@ def test_project_cli_is_the_single_routine_entrypoint_and_status_is_read_only():
     assert result.returncode == 0, result.stderr
     payload = json.loads(result.stdout)
     assert payload["status"] == "READY"
-    assert payload["training_performed"] is False
+    assert payload["training_performed"] is True
+    assert payload["comparator_completion_performed"] is True
     assert payload["dataset_model_rows"] == {
         "student_mat": 9,
         "student_por": 9,
@@ -79,6 +80,10 @@ def test_project_cli_is_the_single_routine_entrypoint_and_status_is_read_only():
         "generate_dataset_reports.py",
         "validate_final_results.py",
         "verify_release.py",
+        "build_missing_result_audit.py",
+        "evaluate_comparator_completion.py",
+        "monitor_process_resources.py",
+        "run_comparator_completion.py",
     }
 
 

@@ -18,7 +18,7 @@ Ba tên trên là các model product riêng theo dataset, cùng API CNN-BiLSTM c
 
 ## Machine Learning comparators
 
-Mọi dataset dùng cùng thứ tự: CNN-BiLSTM, CNN-only, BiLSTM-only, Logistic Regression, Decision Tree, Random Forest, HistGradientBoosting, SVM và XGBoost. Thiếu frozen final evidence được ghi `N/A`.
+Mọi dataset dùng cùng thứ tự: CNN-BiLSTM, CNN-only, BiLSTM-only, Logistic Regression, Decision Tree, Random Forest, HistGradientBoosting, SVM và XGBoost. Mọi metric mô hình áp dụng được truy vết từ probability artifact; không còn ô `N/A` áp dụng.
 
 ## Prediction tasks
 
@@ -30,7 +30,7 @@ Student Risk-Based Recommendation System sinh kế hoạch hỗ trợ từ risk 
 
 ## Data flow
 
-Frozen outer-OOF/ensemble predictions → metric audit → risk profile → safeguarded recommendation → canonical JSON/CSV → reports.
+Validated frozen/completion outer-OOF ensemble predictions → metric audit → risk profile → safeguarded recommendation → canonical JSON/CSV → reports.
 
 ## Evaluation protocol
 
@@ -52,7 +52,7 @@ Public configuration ở `configs/final`, API ở `src`, validation scripts ở 
 
 ## Reproducibility
 
-`python project.py final validate` dựng lại canonical payload từ frozen evidence, đối chiếu checksum, bảng, class metrics, future lock và expert status mà không train.
+`python project.py final validate` dựng lại canonical payload từ validated evidence, đối chiếu checksum, bảng, class metrics, future lock và expert status mà không train lại deep model.
 
 ## Scientific limitations
 

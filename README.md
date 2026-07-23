@@ -1,6 +1,6 @@
 # Dự đoán kết quả và rủi ro học tập bằng CNN-BiLSTM
 
-Repository phát hành ba mô hình dự đoán sinh viên và một hệ thống hỗ trợ khuyến nghị dựa trên rủi ro. Bản phát hành chỉ tổng hợp bằng chứng cuối đã đóng băng; các lệnh kiểm định không huấn luyện lại mô hình.
+Repository phát hành ba mô hình dự đoán sinh viên và một hệ thống hỗ trợ khuyến nghị dựa trên rủi ro. Bản phát hành tổng hợp bằng chứng deep đã đóng băng cùng comparator completion đã preregister; các lệnh kiểm định không huấn luyện lại mô hình.
 
 ## Mục tiêu
 
@@ -26,7 +26,7 @@ CNN trích xuất mẫu cục bộ trong chuỗi đặc trưng, BiLSTM mô hình
 | Student-Por | CNN-BiLSTM — Student-Por | 0.8623 | 0.8676 | 0.9147 |
 | OULAD | CNN-BiLSTM — OULAD | 0.8281 | 0.8203 | 0.8934 |
 
-Bảng đủ chín mô hình, chỉ số từng lớp, Top-k, confusion matrix, nguồn và checksum nằm trong [báo cáo cuối](reports/final/FINAL_MODEL_RESULTS.md). Ô thiếu bằng chứng cuối được ghi `N/A`, không ước lượng.
+Bảng đủ chín mô hình, chỉ số từng lớp, Top-k, confusion matrix, nguồn và checksum nằm trong [báo cáo cuối](reports/final/FINAL_MODEL_RESULTS.md). Không còn metric mô hình `N/A` có thể áp dụng; comparator bổ sung được phân biệt rõ với bằng chứng deep đóng băng.
 
 ## Kiến trúc repository
 
@@ -44,7 +44,7 @@ python project.py final report
 python project.py final validate
 ```
 
-Các lệnh trên chỉ đọc/tổng hợp frozen evidence. Future OULAD được giữ khóa. Nhãn chuyên gia chưa có vẫn mang trạng thái `PENDING_EXPERT_LABELS`.
+Các lệnh trên chỉ đọc/tổng hợp validated evidence; chúng không train lại deep model. Future OULAD được giữ khóa. Nhãn chuyên gia chưa có vẫn mang trạng thái `PENDING_EXPERT_LABELS`.
 
 ## Giới hạn khoa học
 

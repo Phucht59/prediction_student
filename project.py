@@ -23,6 +23,9 @@ def command_status(_args: argparse.Namespace) -> int:
                 "status": "READY",
                 "schema_version": payload.get("schema_version"),
                 "training_performed": payload.get("training_performed"),
+                "comparator_completion_performed": payload.get(
+                    "comparator_completion_performed"
+                ),
                 "dataset_model_rows": {
                     name: len(dataset.get("models", []))
                     for name, dataset in payload.get("datasets", {}).items()
@@ -47,7 +50,8 @@ def command_report(_args: argparse.Namespace) -> int:
         json.dumps(
             {
                 "status": "PASS",
-                "training_performed": False,
+                "training_performed": True,
+                "official_deep_models_retrained": False,
                 "report_root": "reports/final",
             },
             indent=2,
@@ -64,10 +68,10 @@ def command_validate(_args: argparse.Namespace) -> int:
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        description="Canonical student prediction release (no training commands)."
+        description="Canonical student prediction release."
     )
     root = parser.add_subparsers(dest="command", required=True)
-    final = root.add_parser("final", help="Final frozen-evidence release.")
+    final = root.add_parser("final", help="Final validated-evidence release.")
     commands = final.add_subparsers(dest="final_command", required=True)
     status = commands.add_parser("status", help="Show canonical release state.")
     status.set_defaults(handler=command_status)

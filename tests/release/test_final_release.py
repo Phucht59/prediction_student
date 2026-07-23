@@ -57,13 +57,13 @@ def test_precision_present_in_overall_tables() -> None:
         )
 
 
-def test_macro_f1_present_in_per_class_tables() -> None:
+def test_macro_f1_absent_from_per_class_tables() -> None:
     for name in (
         "STUDENT_MAT_RESULTS.md",
         "STUDENT_POR_RESULTS.md",
         "OULAD_RESULTS.md",
     ):
-        assert "Model Macro-F1" in (ROOT / "reports/final" / name).read_text(
+        assert "Model Macro-F1" not in (ROOT / "reports/final" / name).read_text(
             encoding="utf-8"
         )
 
@@ -109,7 +109,7 @@ def test_final_metrics_have_sources(payload: dict) -> None:
                     )
 
 
-def test_missing_metrics_are_null(payload: dict) -> None:
+def test_no_applicable_missing_model_metrics(payload: dict) -> None:
     missing = [
         metric
         for dataset in payload["datasets"].values()
@@ -117,9 +117,7 @@ def test_missing_metrics_are_null(payload: dict) -> None:
         for metric in row["metrics"].values()
         if metric.get("status") == "N/A"
     ]
-    assert missing and all(
-        metric["value"] is None and metric.get("reason") for metric in missing
-    )
+    assert not missing
 
 
 def test_no_fabricated_metrics(payload: dict) -> None:
@@ -156,7 +154,8 @@ def test_top_k_requires_probability(payload: dict) -> None:
             for metric in (item["precision"], item["recall"], item["f1"], item["ndcg"]):
                 assert (
                     metric["value"] is None
-                    or metric.get("calculation") == "recomputed_from_frozen_predictions"
+                    or metric.get("calculation_method")
+                    == "recomputed_from_record_aligned_ensemble_probability"
                 )
 
 

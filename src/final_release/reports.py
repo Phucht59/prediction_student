@@ -6,8 +6,10 @@ import json
 from pathlib import Path
 from typing import Any
 
+import pandas as pd
+
 from src.final_release.build import FINAL_ROOT, REPORT_ROOT, ROOT
-from src.final_release.catalog import OFFICIAL_MODELS
+from src.final_release.catalog import COMPARISON_MODELS, OFFICIAL_MODELS
 
 
 def value(item: dict[str, Any]) -> Any:
@@ -55,13 +57,13 @@ def overall_table(dataset: dict[str, Any], oulad: bool = False) -> str:
 
 def per_class_table(dataset: dict[str, Any]) -> str:
     lines = [
-        "| Model | Class | Precision | Recall | F1 | Support | Model Macro-F1 |",
-        "|---|---|---:|---:|---:|---:|---:|",
+        "| Model | Class | Precision | Recall | F1 | Support |",
+        "|---|---|---:|---:|---:|---:|",
     ]
     for row in dataset["models"]:
         for item in row["per_class"]:
             lines.append(
-                f"| {row['model']} | {item['class']} | {fmt(item['precision'])} | {fmt(item['recall'])} | {fmt(item['f1'])} | {fmt(item['support'], 0)} | {fmt(item['macro_f1'])} |"
+                f"| {row['model']} | {item['class']} | {fmt(item['precision'])} | {fmt(item['recall'])} | {fmt(item['f1'])} | {fmt(item['support'], 0)} |"
             )
     return "\n".join(lines)
 
@@ -97,15 +99,11 @@ def source_notes(dataset: dict[str, Any]) -> str:
 def dataset_report(dataset_id: str, dataset: dict[str, Any]) -> str:
     official = OFFICIAL_MODELS[dataset_id]
     is_oulad = dataset_id == "oulad"
-    selected_cm = (
-        {"cnn_bilstm", "decision_tree", "random_forest", "xgboost"}
-        if is_oulad
-        else {"cnn_bilstm", "decision_tree", "random_forest"}
-    )
+    selected_cm = {model_id for model_id, _ in COMPARISON_MODELS}
     text = [
         f"# {official['official_name']} — Final Results",
         "",
-        "All values come from frozen final outer-OOF or final probability-ensemble evidence. N/A means no frozen final prediction artifact exists; no screening metric or estimate is substituted.",
+        "All values are recomputed from validated record-aligned outer-OOF probability ensembles. Frozen deep predictions are unchanged; explicitly identified comparators were trained under the preregistered completion protocol.",
         "",
         "Precision and Recall in the overall table are macro averages.",
         "",
@@ -146,7 +144,7 @@ def dataset_report(dataset_id: str, dataset: dict[str, Any]) -> str:
                 )
     text += [
         "",
-        "## Frozen confusion matrices",
+        "## Confusion matrices",
         "",
         confusion_sections(dataset, selected_cm),
         "",
@@ -223,7 +221,7 @@ Only selected results with registered frozen final evidence are shown. The relea
     claims = (
         "# Claim Boundaries\n\n"
         + "\n".join(f"- {item}" for item in payload["claim_boundaries"])
-        + "\n\nMissing metrics remain N/A; no metric is estimated from screening evidence.\n"
+        + "\n\nAll applicable model metrics are sourced from native record-level probabilities; no metric is inferred from a headline score.\n"
     )
     (REPORT_ROOT / "CLAIM_BOUNDARIES.md").write_text(claims, encoding="utf-8")
     official = "\n".join(
@@ -241,11 +239,91 @@ Only selected results with registered frozen final evidence are shown. The relea
     ):
         combined += f"\n\n## {heading} overall comparison\n\n{overall_table(payload['datasets'][dataset_id], dataset_id == 'oulad')}\n\n## {heading} per-class comparison\n\n{per_class_table(payload['datasets'][dataset_id])}"
     combined += (
-        "\n\n## OULAD Top-k\n\nSee `OULAD_RESULTS.md`; only rows backed by frozen probabilities contain values.\n\n## Imbalance\n\nSee `IMBALANCE_RESULTS.md`.\n\n## Recommendation\n\n"
+        "\n\n## OULAD Top-k\n\nSee `OULAD_RESULTS.md`; all nine models have aligned probability-based 5%, 10%, and 20% results.\n\n## Statistical comparison\n\nSee `COMPARATOR_COMPLETION_REPORT.md` for paired bootstrap intervals on all three datasets.\n\n## Imbalance\n\nSee `IMBALANCE_RESULTS.md`.\n\n## Recommendation\n\n"
         + rec_report
     )
     (REPORT_ROOT / "FINAL_MODEL_RESULTS.md").write_text(combined, encoding="utf-8")
-    review = "# Final Project Review\n\nThe repository exposes three official CNN-BiLSTM models and one risk-based recommendation system. Canonical JSON, CSV, registry, dataset reports, checksums, and validation are synchronized from frozen evidence. Training is disabled in the final commands.\n\nVerdict is assigned only by `python project.py final validate`.\n"
+    runtime = pd.read_csv(FINAL_ROOT / "comparator_completion/runtime_resources.csv")
+    bootstrap = pd.concat(
+        [
+            pd.read_csv(
+                FINAL_ROOT / f"comparator_completion/{dataset}/bootstrap_comparison.csv"
+            )
+            for dataset in ("student_mat", "student_por", "oulad")
+        ],
+        ignore_index=True,
+    )
+    resource_summary = json.loads(
+        (
+            FINAL_ROOT / "comparator_completion/resource_summary.json"
+        ).read_text(encoding="utf-8")
+    )
+    training_rows = [
+        "| Dataset | Model | Action | Outer folds | Seeds | Status | Runtime (s) |",
+        "|---|---|---|---:|---:|---|---:|",
+    ]
+    for dataset in ("student_mat", "student_por"):
+        seconds = runtime.loc[
+            (runtime["dataset"] == dataset) & (runtime["model_id"] == "xgboost"),
+            "runtime_seconds",
+        ].sum()
+        training_rows.append(
+            f"| {dataset} | XGBoost | TRAIN_COMPLETION_MODEL | 5 | 5 | COMPLETE | {seconds:.1f} |"
+        )
+    for model_id, model_name in COMPARISON_MODELS[3:]:
+        seconds = runtime.loc[
+            (runtime["dataset"] == "oulad")
+            & (runtime["model_id"] == model_id),
+            "runtime_seconds",
+        ].sum()
+        training_rows.append(
+            f"| oulad | {model_name} | TRAIN_COMPLETION_MODEL | 3 | 5 | COMPLETE | {seconds:.1f} |"
+        )
+    bootstrap_rows = [
+        "| Dataset | Comparator | CNN-BiLSTM Macro-F1 | Comparator Macro-F1 | Delta | 95% CI | Verdict |",
+        "|---|---|---:|---:|---:|---|---|",
+    ]
+    for _, row in bootstrap.iterrows():
+        bootstrap_rows.append(
+            f"| {row['dataset']} | {row['comparator']} | {row['cnn_bilstm_macro_f1']:.4f} | {row['comparator_macro_f1']:.4f} | {row['delta_cnn_bilstm_minus_comparator']:.4f} | [{row['ci_95_lower']:.4f}, {row['ci_95_upper']:.4f}] | {row['verdict']} |"
+        )
+    completion = "\n".join(
+        [
+            "# Comparator Completion Report",
+            "",
+            "Protocol: `final-comparator-completion-20260723-v1`.",
+            "",
+            "Technical amendments 001–002 align ECE with the frozen dataset-specific contracts: 15-bin multiclass confidence for UCI and 10-bin At-risk probability for OULAD. They change no model selection or probability.",
+            "",
+            "The initial release contained 252 serialized missing fields. Frozen probabilities were used for DERIVE_ONLY rows; no complete replay bundle qualified for REPLAY_INFERENCE. Student-Mat/Student-Por XGBoost and all six unified OULAD ML comparators were trained as registered completion models.",
+            "",
+            "Historical OULAD LR/HGB/XGBoost summaries were DO_NOT_IMPORT because record-level native probabilities and a complete unified-contract replay bundle were absent.",
+            "",
+            "## Training",
+            "",
+            *training_rows,
+            "",
+            "## Paired bootstrap",
+            "",
+            *bootstrap_rows,
+            "",
+            "## Resources",
+            "",
+            f"The largest directly observed live OULAD worker RSS was {resource_summary.get('oulad_process_peak_rss_bytes', resource_summary.get('oulad_observed_max_rss_bytes')) / (1024 ** 3):.2f} GiB. Measurement status: `{resource_summary.get('measurement_status', 'PERIODIC_PROCESS_MONITOR')}`. Classical comparators ran on CPU, with one RBF-SVM job at a time.",
+            "",
+            "## Integrity and claim boundaries",
+            "",
+            "- Official CNN-BiLSTM checkpoints, predictions, thresholds, and registry selection were not changed.",
+            "- The recommendation artifacts and verdict remain unchanged.",
+            "- Future OULAD remains `LOCKED_NOT_EXECUTED`.",
+            "- Comparator results do not replace the official model selection.",
+            "- Full provenance is stored in `artifacts/final/comparator_completion/`.",
+        ]
+    )
+    (REPORT_ROOT / "COMPARATOR_COMPLETION_REPORT.md").write_text(
+        completion + "\n", encoding="utf-8"
+    )
+    review = "# Final Project Review\n\nThe repository exposes three unchanged official CNN-BiLSTM models and one unchanged risk-based recommendation system. The preregistered comparator completion adds the missing classical-ML predictions and synchronizes a complete nine-model matrix from validated evidence.\n\nVerdict is assigned only by `python project.py final validate`.\n"
     (REPORT_ROOT / "FINAL_PROJECT_REVIEW.md").write_text(review, encoding="utf-8")
 
 

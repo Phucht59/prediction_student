@@ -471,19 +471,133 @@ def recommendation_result() -> dict[str, Any]:
 
 
 def build_payload() -> dict[str, Any]:
+    completion_root = FINAL_ROOT / "comparator_completion"
+    protocol_snapshot = load_json(completion_root / "protocol_snapshot.json")
+    protocol_id = protocol_snapshot["protocol_id"]
+    protocol_hash = protocol_snapshot["protocol_hash"]
+
+    def completed_dataset(dataset: str) -> dict[str, Any]:
+        root = completion_root / dataset
+        evidence = load_json(root / "metrics.json")
+        per_class_frame = pd.read_csv(root / "per_class.csv")
+        confusion = load_json(root / "confusion_matrices.json")
+        top_k_frame = (
+            pd.read_csv(root / "top_k.csv")
+            if (root / "top_k.csv").is_file()
+            else pd.DataFrame()
+        )
+        rows = []
+        for item in evidence["models"]:
+            model_id = item["model_id"]
+            metric_provenance = item["metric_provenance"]
+            metrics = {
+                name: {
+                    "value": value,
+                    **metric_provenance,
+                }
+                for name, value in item["metrics"].items()
+            }
+            class_rows = []
+            selected_class = per_class_frame.loc[
+                per_class_frame["model_id"] == model_id
+            ]
+            for _, class_item in selected_class.iterrows():
+                class_rows.append(
+                    {
+                        "class": class_item["class"],
+                        **{
+                            name: {
+                                "value": (
+                                    int(class_item[name])
+                                    if name == "support"
+                                    else float(class_item[name])
+                                ),
+                                **metric_provenance,
+                            }
+                            for name in ("precision", "recall", "f1", "support")
+                        },
+                    }
+                )
+            top_k = []
+            if not top_k_frame.empty:
+                selected_top_k = top_k_frame.loc[
+                    top_k_frame["model_id"] == model_id
+                ]
+                for _, top_item in selected_top_k.iterrows():
+                    top_k.append(
+                        {
+                            "budget": float(top_item["budget"]),
+                            "k": int(top_item["k"]),
+                            "precision": {
+                                "value": float(top_item["precision_at_k"]),
+                                **metric_provenance,
+                            },
+                            "recall": {
+                                "value": float(top_item["recall_at_k"]),
+                                **metric_provenance,
+                            },
+                            "f1": {
+                                "value": float(top_item["f1_at_k"]),
+                                **metric_provenance,
+                            },
+                            "ndcg": {
+                                "value": float(top_item["ndcg_at_k"]),
+                                **metric_provenance,
+                            },
+                        }
+                    )
+            rows.append(
+                {
+                    "model_id": model_id,
+                    "model": item["model"],
+                    "result_scope": "FINAL_PROBABILITY_ENSEMBLE",
+                    "metrics": metrics,
+                    "per_class": class_rows,
+                    "confusion_matrix": {
+                        "value": confusion[model_id]["matrix"],
+                        **metric_provenance,
+                    },
+                    "top_k": top_k,
+                    "seed_stability": item["seed_stability"],
+                    "evidence_origin": item["evidence_origin"],
+                    "protocol_id": item["protocol_id"],
+                    "source_artifacts": item["source_artifacts"],
+                    "source_checksums": item["source_checksums"],
+                }
+            )
+        expected = [model_id for model_id, _ in COMPARISON_MODELS]
+        if [row["model_id"] for row in rows] != expected:
+            raise RuntimeError(f"{dataset} completed model order mismatch")
+        return {
+            "dataset": "student-mat"
+            if dataset == "student_mat"
+            else "student-por"
+            if dataset == "student_por"
+            else "oulad",
+            "classes": ["Low", "Medium", "High"]
+            if dataset != "oulad"
+            else ["Not-at-risk", "At-risk"],
+            "models": rows,
+        }
+
     return {
-        "schema_version": "final_results_v1",
-        "generated_from_frozen_evidence": True,
-        "training_performed": False,
-        "missing_metric_policy": "N/A",
+        "schema_version": "final_results_v2",
+        "generated_from_validated_evidence": True,
+        "comparator_completion_performed": True,
+        "official_deep_models_retrained": False,
+        "future_oulad_executed": False,
+        "training_performed": True,
+        "missing_metric_policy": "FAIL_ON_APPLICABLE_NA",
+        "completion_protocol_id": protocol_id,
+        "completion_protocol_hash": protocol_hash,
         "comparison_models": [model_id for model_id, _ in COMPARISON_MODELS],
         "official_models": {
             key: value["model_id"] for key, value in OFFICIAL_MODELS.items()
         },
         "datasets": {
-            "student_mat": uci_dataset("student_mat"),
-            "student_por": uci_dataset("student_por"),
-            "oulad": oulad_dataset(),
+            "student_mat": completed_dataset("student_mat"),
+            "student_por": completed_dataset("student_por"),
+            "oulad": completed_dataset("oulad"),
         },
         "recommendation": recommendation_result(),
         "claim_boundaries": [
@@ -606,7 +720,9 @@ def main() -> int:
         json.dumps(
             {
                 "status": "PASS",
-                "training_performed": False,
+                "training_performed": True,
+                "comparator_completion_performed": True,
+                "official_deep_models_retrained": False,
                 "dataset_rows": {
                     key: len(value["models"])
                     for key, value in payload["datasets"].items()

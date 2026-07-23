@@ -12,6 +12,7 @@ from typing import Any
 
 from src.final_release.build import FINAL_ROOT, REPORT_ROOT, ROOT, build_payload, sha256
 from src.final_release.catalog import COMPARISON_MODELS, OFFICIAL_MODELS
+from src.final_release.comparator_completion import verify_no_change_guard
 
 LAB_PATTERN = re.compile(r"\bV(?:4|5|6)(?:[._-]\d+)?\b", re.IGNORECASE)
 
@@ -53,7 +54,7 @@ def validate() -> list[str]:
     expected = build_payload()
     _assert(
         payload == expected,
-        "canonical JSON does not match recomputation from frozen evidence",
+        "canonical JSON does not match recomputation from validated evidence",
         errors,
     )
     catalog = [model_id for model_id, _ in COMPARISON_MODELS]
@@ -66,10 +67,8 @@ def validate() -> list[str]:
         for row in dataset["models"]:
             for name, metric in row["metrics"].items():
                 if metric.get("value") is None:
-                    _assert(
-                        metric.get("status") == "N/A" and bool(metric.get("reason")),
-                        f"{dataset_id}/{row['model_id']}/{name}: missing metric is not explicit N/A",
-                        errors,
+                    errors.append(
+                        f"{dataset_id}/{row['model_id']}/{name}: applicable metric is missing"
                     )
                 else:
                     source = ROOT / metric.get("source_artifact", "")
@@ -112,11 +111,73 @@ def validate() -> list[str]:
                     if metric.get("value") is not None:
                         _assert(
                             "source_artifact" in metric
-                            and metric.get("calculation")
-                            == "recomputed_from_frozen_predictions",
+                            and metric.get("calculation_method")
+                            == "recomputed_from_record_aligned_ensemble_probability",
                             f"{dataset_id}/{row['model_id']}: top-k lacks probability source",
                             errors,
                         )
+            _assert(
+                "macro_f1" not in {
+                    key for item in row["per_class"] for key in item
+                },
+                f"{dataset_id}/{row['model_id']}: per-class schema repeats Macro-F1",
+                errors,
+            )
+            _assert(
+                bool(row.get("evidence_origin"))
+                and bool(row.get("protocol_id"))
+                and bool(row.get("source_artifacts"))
+                and bool(row.get("source_checksums")),
+                f"{dataset_id}/{row['model_id']}: incomplete model provenance",
+                errors,
+            )
+    _assert(
+        payload.get("schema_version") == "final_results_v2"
+        and payload.get("generated_from_validated_evidence") is True
+        and payload.get("comparator_completion_performed") is True
+        and payload.get("official_deep_models_retrained") is False
+        and payload.get("future_oulad_executed") is False,
+        "final_results_v2 completion flags are invalid",
+        errors,
+    )
+    guard = verify_no_change_guard()
+    _assert(guard["status"] == "PASS", f"no-change guard failed: {guard}", errors)
+    completion_root = FINAL_ROOT / "comparator_completion"
+    completion_validation_path = completion_root / "validation_report.json"
+    _assert(
+        completion_validation_path.is_file(),
+        "comparator completion validation report is missing",
+        errors,
+    )
+    if completion_validation_path.is_file():
+        completion_validation = json.loads(
+            completion_validation_path.read_text(encoding="utf-8")
+        )
+        _assert(
+            completion_validation.get("status") == "PASS"
+            and completion_validation.get("nine_models_each_dataset") is True
+            and completion_validation.get("no_applicable_na") is True
+            and completion_validation.get("future_oulad_executed") is False,
+            "comparator completion validation did not pass",
+            errors,
+        )
+    completion_manifest_path = completion_root / "checksum_manifest.json"
+    _assert(
+        completion_manifest_path.is_file(),
+        "comparator completion checksum manifest is missing",
+        errors,
+    )
+    if completion_manifest_path.is_file():
+        completion_manifest = json.loads(
+            completion_manifest_path.read_text(encoding="utf-8")
+        )
+        for name, digest in completion_manifest.get("files", {}).items():
+            path = ROOT / name
+            _assert(
+                path.is_file() and sha256(path) == digest,
+                f"comparator completion checksum mismatch: {name}",
+                errors,
+            )
     _assert(
         payload.get("future_oulad") == "LOCKED_NOT_EXECUTED",
         "Future OULAD is not locked",
@@ -179,6 +240,7 @@ def validate() -> list[str]:
         "RECOMMENDATION_RESULTS.md",
         "CLAIM_BOUNDARIES.md",
         "FINAL_PROJECT_REVIEW.md",
+        "COMPARATOR_COMPLETION_REPORT.md",
     }
     _assert(
         required_reports <= {path.name for path in REPORT_ROOT.glob("*.md")},
@@ -201,7 +263,11 @@ def validate() -> list[str]:
 
 def main() -> int:
     errors = validate()
-    status = "FINAL_PROJECT_CLEANUP_FAIL" if errors else "FINAL_PROJECT_CLEANUP_PASS"
+    status = (
+        "FINAL_COMPARATOR_COMPLETION_FAIL"
+        if errors
+        else "FINAL_COMPARATOR_COMPLETION_PASS"
+    )
     print(
         json.dumps({"status": status, "errors": errors}, indent=2, ensure_ascii=False)
     )

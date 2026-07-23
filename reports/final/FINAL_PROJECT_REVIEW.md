@@ -1,5 +1,5 @@
 # Final Project Review
 
-The repository exposes three official CNN-BiLSTM models and one risk-based recommendation system. Canonical JSON, CSV, registry, dataset reports, checksums, and validation are synchronized from frozen evidence. Training is disabled in the final commands.
+The repository exposes three unchanged official CNN-BiLSTM models and one unchanged risk-based recommendation system. The preregistered comparator completion adds the missing classical-ML predictions and synchronizes a complete nine-model matrix from validated evidence.
 
 Verdict is assigned only by `python project.py final validate`.

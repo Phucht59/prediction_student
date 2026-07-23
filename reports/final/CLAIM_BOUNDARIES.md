@@ -5,4 +5,4 @@
 - Future OULAD remains LOCKED_NOT_EXECUTED.
 - Cross-domain advantage is not claimed where frozen evidence did not establish it.
 
-Missing metrics remain N/A; no metric is estimated from screening evidence.
+All applicable model metrics are sourced from native record-level probabilities; no metric is inferred from a headline score.
