@@ -1,0 +1,1649 @@
+[
+  {
+    "constraint_name": "dataset_class_labels_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (jsonb_typeof(class_labels) = 'array'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "catalog",
+    "table_name": "dataset"
+  },
+  {
+    "constraint_name": "dataset_class_labels_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL class_labels",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "catalog",
+    "table_name": "dataset"
+  },
+  {
+    "constraint_name": "dataset_created_at_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL created_at",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "catalog",
+    "table_name": "dataset"
+  },
+  {
+    "constraint_name": "dataset_dataset_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL dataset_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "catalog",
+    "table_name": "dataset"
+  },
+  {
+    "constraint_name": "dataset_display_name_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL display_name",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "catalog",
+    "table_name": "dataset"
+  },
+  {
+    "constraint_name": "dataset_pkey",
+    "constraint_type": "PRIMARY KEY",
+    "definition": "PRIMARY KEY (dataset_id)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "catalog",
+    "table_name": "dataset"
+  },
+  {
+    "constraint_name": "dataset_slug_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (slug = ANY (ARRAY['student-mat'::text, 'student-por'::text, 'oulad'::text]))",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "catalog",
+    "table_name": "dataset"
+  },
+  {
+    "constraint_name": "dataset_slug_key",
+    "constraint_type": "UNIQUE",
+    "definition": "UNIQUE (slug)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "catalog",
+    "table_name": "dataset"
+  },
+  {
+    "constraint_name": "dataset_slug_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL slug",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "catalog",
+    "table_name": "dataset"
+  },
+  {
+    "constraint_name": "dataset_task_type_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (task_type = ANY (ARRAY['multiclass_student_performance'::text, 'binary_student_risk'::text]))",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "catalog",
+    "table_name": "dataset"
+  },
+  {
+    "constraint_name": "dataset_task_type_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL task_type",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "catalog",
+    "table_name": "dataset"
+  },
+  {
+    "constraint_name": "dataset_version_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (status = 'sealed'::text AND sealed_at IS NOT NULL OR status <> 'sealed'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "catalog",
+    "table_name": "dataset_version"
+  },
+  {
+    "constraint_name": "dataset_version_created_at_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL created_at",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "catalog",
+    "table_name": "dataset_version"
+  },
+  {
+    "constraint_name": "dataset_version_data_schema_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL data_schema",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "catalog",
+    "table_name": "dataset_version"
+  },
+  {
+    "constraint_name": "dataset_version_dataset_id_fkey",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (dataset_id) REFERENCES catalog.dataset(dataset_id) ON DELETE RESTRICT",
+    "referenced_schema": "catalog",
+    "referenced_table": "dataset",
+    "schema_name": "catalog",
+    "table_name": "dataset_version"
+  },
+  {
+    "constraint_name": "dataset_version_dataset_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL dataset_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "catalog",
+    "table_name": "dataset_version"
+  },
+  {
+    "constraint_name": "dataset_version_dataset_id_version_label_key",
+    "constraint_type": "UNIQUE",
+    "definition": "UNIQUE (dataset_id, version_label)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "catalog",
+    "table_name": "dataset_version"
+  },
+  {
+    "constraint_name": "dataset_version_dataset_version_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL dataset_version_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "catalog",
+    "table_name": "dataset_version"
+  },
+  {
+    "constraint_name": "dataset_version_pkey",
+    "constraint_type": "PRIMARY KEY",
+    "definition": "PRIMARY KEY (dataset_version_id)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "catalog",
+    "table_name": "dataset_version"
+  },
+  {
+    "constraint_name": "dataset_version_row_count_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (row_count >= 0)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "catalog",
+    "table_name": "dataset_version"
+  },
+  {
+    "constraint_name": "dataset_version_row_count_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL row_count",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "catalog",
+    "table_name": "dataset_version"
+  },
+  {
+    "constraint_name": "dataset_version_source_files_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (jsonb_typeof(source_files) = 'array'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "catalog",
+    "table_name": "dataset_version"
+  },
+  {
+    "constraint_name": "dataset_version_source_files_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL source_files",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "catalog",
+    "table_name": "dataset_version"
+  },
+  {
+    "constraint_name": "dataset_version_source_sha256_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (source_sha256 ~ '^[0-9a-f]{64}$'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "catalog",
+    "table_name": "dataset_version"
+  },
+  {
+    "constraint_name": "dataset_version_source_sha256_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL source_sha256",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "catalog",
+    "table_name": "dataset_version"
+  },
+  {
+    "constraint_name": "dataset_version_status_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (status = ANY (ARRAY['draft'::text, 'sealed'::text, 'retired'::text]))",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "catalog",
+    "table_name": "dataset_version"
+  },
+  {
+    "constraint_name": "dataset_version_status_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL status",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "catalog",
+    "table_name": "dataset_version"
+  },
+  {
+    "constraint_name": "dataset_version_version_label_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL version_label",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "catalog",
+    "table_name": "dataset_version"
+  },
+  {
+    "constraint_name": "record_attributes_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL attributes",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "catalog",
+    "table_name": "record"
+  },
+  {
+    "constraint_name": "record_created_at_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL created_at",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "catalog",
+    "table_name": "record"
+  },
+  {
+    "constraint_name": "record_dataset_version_id_fkey",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (dataset_version_id) REFERENCES catalog.dataset_version(dataset_version_id) ON DELETE RESTRICT",
+    "referenced_schema": "catalog",
+    "referenced_table": "dataset_version",
+    "schema_name": "catalog",
+    "table_name": "record"
+  },
+  {
+    "constraint_name": "record_dataset_version_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL dataset_version_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "catalog",
+    "table_name": "record"
+  },
+  {
+    "constraint_name": "record_dataset_version_id_source_record_id_key",
+    "constraint_type": "UNIQUE",
+    "definition": "UNIQUE (dataset_version_id, source_record_id)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "catalog",
+    "table_name": "record"
+  },
+  {
+    "constraint_name": "record_pkey",
+    "constraint_type": "PRIMARY KEY",
+    "definition": "PRIMARY KEY (record_pk)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "catalog",
+    "table_name": "record"
+  },
+  {
+    "constraint_name": "record_record_pk_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL record_pk",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "catalog",
+    "table_name": "record"
+  },
+  {
+    "constraint_name": "record_source_record_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL source_record_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "catalog",
+    "table_name": "record"
+  },
+  {
+    "constraint_name": "artifact_artifact_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL artifact_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "artifact"
+  },
+  {
+    "constraint_name": "artifact_artifact_kind_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL artifact_kind",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "artifact"
+  },
+  {
+    "constraint_name": "artifact_byte_count_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (byte_count IS NULL OR byte_count >= 0)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "artifact"
+  },
+  {
+    "constraint_name": "artifact_created_at_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL created_at",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "artifact"
+  },
+  {
+    "constraint_name": "artifact_dataset_version_id_fkey",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (dataset_version_id) REFERENCES catalog.dataset_version(dataset_version_id) ON DELETE RESTRICT",
+    "referenced_schema": "catalog",
+    "referenced_table": "dataset_version",
+    "schema_name": "ml",
+    "table_name": "artifact"
+  },
+  {
+    "constraint_name": "artifact_metadata_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL metadata",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "artifact"
+  },
+  {
+    "constraint_name": "artifact_pkey",
+    "constraint_type": "PRIMARY KEY",
+    "definition": "PRIMARY KEY (artifact_id)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "artifact"
+  },
+  {
+    "constraint_name": "artifact_row_count_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (row_count IS NULL OR row_count >= 0)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "artifact"
+  },
+  {
+    "constraint_name": "artifact_run_id_artifact_kind_storage_path_key",
+    "constraint_type": "UNIQUE",
+    "definition": "UNIQUE (run_id, artifact_kind, storage_path)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "artifact"
+  },
+  {
+    "constraint_name": "artifact_run_id_fkey",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (run_id) REFERENCES ml.run(run_id) ON DELETE RESTRICT",
+    "referenced_schema": "ml",
+    "referenced_table": "run",
+    "schema_name": "ml",
+    "table_name": "artifact"
+  },
+  {
+    "constraint_name": "artifact_sha256_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (sha256 ~ '^[0-9a-f]{64}$'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "artifact"
+  },
+  {
+    "constraint_name": "artifact_sha256_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL sha256",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "artifact"
+  },
+  {
+    "constraint_name": "artifact_storage_path_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL storage_path",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "artifact"
+  },
+  {
+    "constraint_name": "metric_aggregation_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL aggregation",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "metric"
+  },
+  {
+    "constraint_name": "metric_budget_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (budget IS NULL OR budget >= 0::double precision AND budget <= 1::double precision)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "metric"
+  },
+  {
+    "constraint_name": "metric_created_at_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL created_at",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "metric"
+  },
+  {
+    "constraint_name": "metric_detail_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL detail",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "metric"
+  },
+  {
+    "constraint_name": "metric_metric_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL metric_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "metric"
+  },
+  {
+    "constraint_name": "metric_metric_name_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL metric_name",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "metric"
+  },
+  {
+    "constraint_name": "metric_pkey",
+    "constraint_type": "PRIMARY KEY",
+    "definition": "PRIMARY KEY (metric_id)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "metric"
+  },
+  {
+    "constraint_name": "metric_run_id_fkey",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (run_id) REFERENCES ml.run(run_id) ON DELETE RESTRICT",
+    "referenced_schema": "ml",
+    "referenced_table": "run",
+    "schema_name": "ml",
+    "table_name": "metric"
+  },
+  {
+    "constraint_name": "metric_run_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL run_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "metric"
+  },
+  {
+    "constraint_name": "metric_scope_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL scope",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "metric"
+  },
+  {
+    "constraint_name": "model_config_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL config",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "model"
+  },
+  {
+    "constraint_name": "model_config_sha256_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (config_sha256 ~ '^[0-9a-f]{64}$'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "model"
+  },
+  {
+    "constraint_name": "model_config_sha256_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL config_sha256",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "model"
+  },
+  {
+    "constraint_name": "model_created_at_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL created_at",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "model"
+  },
+  {
+    "constraint_name": "model_dataset_id_fkey",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (dataset_id) REFERENCES catalog.dataset(dataset_id) ON DELETE RESTRICT",
+    "referenced_schema": "catalog",
+    "referenced_table": "dataset",
+    "schema_name": "ml",
+    "table_name": "model"
+  },
+  {
+    "constraint_name": "model_dataset_id_model_key_key",
+    "constraint_type": "UNIQUE",
+    "definition": "UNIQUE (dataset_id, model_key)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "model"
+  },
+  {
+    "constraint_name": "model_dataset_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL dataset_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "model"
+  },
+  {
+    "constraint_name": "model_is_selected_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL is_selected",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "model"
+  },
+  {
+    "constraint_name": "model_model_family_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL model_family",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "model"
+  },
+  {
+    "constraint_name": "model_model_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL model_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "model"
+  },
+  {
+    "constraint_name": "model_model_key_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL model_key",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "model"
+  },
+  {
+    "constraint_name": "model_official_name_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL official_name",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "model"
+  },
+  {
+    "constraint_name": "model_pkey",
+    "constraint_type": "PRIMARY KEY",
+    "definition": "PRIMARY KEY (model_id)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "model"
+  },
+  {
+    "constraint_name": "model_protocol_version_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL protocol_version",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "model"
+  },
+  {
+    "constraint_name": "model_status_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (status = ANY (ARRAY['selected'::text, 'comparator'::text, 'retired'::text]))",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "model"
+  },
+  {
+    "constraint_name": "model_status_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL status",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "model"
+  },
+  {
+    "constraint_name": "run_aggregation_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL aggregation",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "run"
+  },
+  {
+    "constraint_name": "run_created_at_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL created_at",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "run"
+  },
+  {
+    "constraint_name": "run_dataset_version_id_fkey",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (dataset_version_id) REFERENCES catalog.dataset_version(dataset_version_id) ON DELETE RESTRICT",
+    "referenced_schema": "catalog",
+    "referenced_table": "dataset_version",
+    "schema_name": "ml",
+    "table_name": "run"
+  },
+  {
+    "constraint_name": "run_dataset_version_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL dataset_version_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "run"
+  },
+  {
+    "constraint_name": "run_feature_contract_sha256_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (feature_contract_sha256 IS NULL OR feature_contract_sha256 ~ '^[0-9a-f]{64}$'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "run"
+  },
+  {
+    "constraint_name": "run_hardware_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL hardware",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "run"
+  },
+  {
+    "constraint_name": "run_model_id_dataset_version_id_result_scope_key",
+    "constraint_type": "UNIQUE",
+    "definition": "UNIQUE (model_id, dataset_version_id, result_scope)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "run"
+  },
+  {
+    "constraint_name": "run_model_id_fkey",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (model_id) REFERENCES ml.model(model_id) ON DELETE RESTRICT",
+    "referenced_schema": "ml",
+    "referenced_table": "model",
+    "schema_name": "ml",
+    "table_name": "run"
+  },
+  {
+    "constraint_name": "run_model_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL model_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "run"
+  },
+  {
+    "constraint_name": "run_pkey",
+    "constraint_type": "PRIMARY KEY",
+    "definition": "PRIMARY KEY (run_id)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "run"
+  },
+  {
+    "constraint_name": "run_protocol_sha256_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (protocol_sha256 IS NULL OR protocol_sha256 ~ '^[0-9a-f]{64}$'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "run"
+  },
+  {
+    "constraint_name": "run_protocol_version_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL protocol_version",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "run"
+  },
+  {
+    "constraint_name": "run_result_scope_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL result_scope",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "run"
+  },
+  {
+    "constraint_name": "run_run_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL run_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "run"
+  },
+  {
+    "constraint_name": "run_run_type_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (run_type = ANY (ARRAY['official_final'::text, 'comparator_completion'::text, 'evaluation_only'::text]))",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "run"
+  },
+  {
+    "constraint_name": "run_run_type_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL run_type",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "run"
+  },
+  {
+    "constraint_name": "run_seed_summary_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL seed_summary",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "run"
+  },
+  {
+    "constraint_name": "run_split_manifest_sha256_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (split_manifest_sha256 IS NULL OR split_manifest_sha256 ~ '^[0-9a-f]{64}$'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "run"
+  },
+  {
+    "constraint_name": "run_status_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (status = ANY (ARRAY['pending'::text, 'running'::text, 'completed'::text, 'failed'::text]))",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "run"
+  },
+  {
+    "constraint_name": "run_status_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL status",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "ml",
+    "table_name": "run"
+  },
+  {
+    "constraint_name": "action_action_code_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL action_code",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "action"
+  },
+  {
+    "constraint_name": "action_action_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL action_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "action"
+  },
+  {
+    "constraint_name": "action_action_text_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL action_text",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "action"
+  },
+  {
+    "constraint_name": "action_checksum_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (checksum ~ '^[0-9a-f]{64}$'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "action"
+  },
+  {
+    "constraint_name": "action_checksum_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL checksum",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "action"
+  },
+  {
+    "constraint_name": "action_created_at_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL created_at",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "action"
+  },
+  {
+    "constraint_name": "action_payload_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL payload",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "action"
+  },
+  {
+    "constraint_name": "action_pkey",
+    "constraint_type": "PRIMARY KEY",
+    "definition": "PRIMARY KEY (action_id)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "action"
+  },
+  {
+    "constraint_name": "action_plan_id_action_code_week_no_priority_key",
+    "constraint_type": "UNIQUE",
+    "definition": "UNIQUE (plan_id, action_code, week_no, priority)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "action"
+  },
+  {
+    "constraint_name": "action_plan_id_fkey",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (plan_id) REFERENCES recommendation.plan(plan_id) ON DELETE RESTRICT",
+    "referenced_schema": "recommendation",
+    "referenced_table": "plan",
+    "schema_name": "recommendation",
+    "table_name": "action"
+  },
+  {
+    "constraint_name": "action_plan_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL plan_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "action"
+  },
+  {
+    "constraint_name": "action_priority_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (priority > 0)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "action"
+  },
+  {
+    "constraint_name": "action_priority_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL priority",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "action"
+  },
+  {
+    "constraint_name": "action_status_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL status",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "action"
+  },
+  {
+    "constraint_name": "action_week_no_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (week_no >= 0)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "action"
+  },
+  {
+    "constraint_name": "action_week_no_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL week_no",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "action"
+  },
+  {
+    "constraint_name": "action_workload_minutes_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (workload_minutes >= 0)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "action"
+  },
+  {
+    "constraint_name": "action_workload_minutes_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL workload_minutes",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "action"
+  },
+  {
+    "constraint_name": "plan_checksum_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (checksum ~ '^[0-9a-f]{64}$'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "plan"
+  },
+  {
+    "constraint_name": "plan_checksum_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL checksum",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "plan"
+  },
+  {
+    "constraint_name": "plan_created_at_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL created_at",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "plan"
+  },
+  {
+    "constraint_name": "plan_goal_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL goal",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "plan"
+  },
+  {
+    "constraint_name": "plan_payload_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL payload",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "plan"
+  },
+  {
+    "constraint_name": "plan_pkey",
+    "constraint_type": "PRIMARY KEY",
+    "definition": "PRIMARY KEY (plan_id)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "plan"
+  },
+  {
+    "constraint_name": "plan_plan_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL plan_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "plan"
+  },
+  {
+    "constraint_name": "plan_policy_id_fkey",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (policy_id) REFERENCES recommendation.policy(policy_id) ON DELETE RESTRICT",
+    "referenced_schema": "recommendation",
+    "referenced_table": "policy",
+    "schema_name": "recommendation",
+    "table_name": "plan"
+  },
+  {
+    "constraint_name": "plan_policy_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL policy_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "plan"
+  },
+  {
+    "constraint_name": "plan_priority_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL priority",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "plan"
+  },
+  {
+    "constraint_name": "plan_rationale_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL rationale",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "plan"
+  },
+  {
+    "constraint_name": "plan_revision_no_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (revision_no > 0)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "plan"
+  },
+  {
+    "constraint_name": "plan_revision_no_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL revision_no",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "plan"
+  },
+  {
+    "constraint_name": "plan_risk_profile_id_fkey",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (risk_profile_id) REFERENCES recommendation.risk_profile(risk_profile_id) ON DELETE RESTRICT",
+    "referenced_schema": "recommendation",
+    "referenced_table": "risk_profile",
+    "schema_name": "recommendation",
+    "table_name": "plan"
+  },
+  {
+    "constraint_name": "plan_risk_profile_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL risk_profile_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "plan"
+  },
+  {
+    "constraint_name": "plan_risk_profile_id_revision_no_key",
+    "constraint_type": "UNIQUE",
+    "definition": "UNIQUE (risk_profile_id, revision_no)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "plan"
+  },
+  {
+    "constraint_name": "plan_status_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL status",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "plan"
+  },
+  {
+    "constraint_name": "plan_supersedes_plan_id_fkey",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (supersedes_plan_id) REFERENCES recommendation.plan(plan_id) ON DELETE RESTRICT",
+    "referenced_schema": "recommendation",
+    "referenced_table": "plan",
+    "schema_name": "recommendation",
+    "table_name": "plan"
+  },
+  {
+    "constraint_name": "policy_created_at_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL created_at",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "policy"
+  },
+  {
+    "constraint_name": "policy_pkey",
+    "constraint_type": "PRIMARY KEY",
+    "definition": "PRIMARY KEY (policy_id)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "policy"
+  },
+  {
+    "constraint_name": "policy_policy_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL policy_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "policy"
+  },
+  {
+    "constraint_name": "policy_policy_name_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL policy_name",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "policy"
+  },
+  {
+    "constraint_name": "policy_policy_name_version_label_key",
+    "constraint_type": "UNIQUE",
+    "definition": "UNIQUE (policy_name, version_label)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "policy"
+  },
+  {
+    "constraint_name": "policy_policy_sha256_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (policy_sha256 ~ '^[0-9a-f]{64}$'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "policy"
+  },
+  {
+    "constraint_name": "policy_policy_sha256_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL policy_sha256",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "policy"
+  },
+  {
+    "constraint_name": "policy_rules_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (jsonb_typeof(rules) = 'object'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "policy"
+  },
+  {
+    "constraint_name": "policy_rules_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL rules",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "policy"
+  },
+  {
+    "constraint_name": "policy_status_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (status = ANY (ARRAY['active'::text, 'retired'::text]))",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "policy"
+  },
+  {
+    "constraint_name": "policy_status_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL status",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "policy"
+  },
+  {
+    "constraint_name": "policy_version_label_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL version_label",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "policy"
+  },
+  {
+    "constraint_name": "review_action_id_fkey",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (action_id) REFERENCES recommendation.action(action_id) ON DELETE RESTRICT",
+    "referenced_schema": "recommendation",
+    "referenced_table": "action",
+    "schema_name": "recommendation",
+    "table_name": "review"
+  },
+  {
+    "constraint_name": "review_created_at_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL created_at",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "review"
+  },
+  {
+    "constraint_name": "review_payload_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL payload",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "review"
+  },
+  {
+    "constraint_name": "review_pkey",
+    "constraint_type": "PRIMARY KEY",
+    "definition": "PRIMARY KEY (review_id)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "review"
+  },
+  {
+    "constraint_name": "review_plan_id_fkey",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (plan_id) REFERENCES recommendation.plan(plan_id) ON DELETE RESTRICT",
+    "referenced_schema": "recommendation",
+    "referenced_table": "plan",
+    "schema_name": "recommendation",
+    "table_name": "review"
+  },
+  {
+    "constraint_name": "review_plan_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL plan_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "review"
+  },
+  {
+    "constraint_name": "review_review_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL review_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "review"
+  },
+  {
+    "constraint_name": "review_review_type_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (review_type = ANY (ARRAY['advisor'::text, 'expert'::text, 'follow_up'::text, 'system_validation'::text]))",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "review"
+  },
+  {
+    "constraint_name": "review_review_type_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL review_type",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "review"
+  },
+  {
+    "constraint_name": "review_reviewer_key_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL reviewer_key",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "review"
+  },
+  {
+    "constraint_name": "review_status_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL status",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "review"
+  },
+  {
+    "constraint_name": "risk_profile_checksum_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (checksum ~ '^[0-9a-f]{64}$'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "risk_profile"
+  },
+  {
+    "constraint_name": "risk_profile_checksum_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL checksum",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "risk_profile"
+  },
+  {
+    "constraint_name": "risk_profile_created_at_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL created_at",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "risk_profile"
+  },
+  {
+    "constraint_name": "risk_profile_escalation_required_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL escalation_required",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "risk_profile"
+  },
+  {
+    "constraint_name": "risk_profile_lineage_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL lineage",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "risk_profile"
+  },
+  {
+    "constraint_name": "risk_profile_payload_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL payload",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "risk_profile"
+  },
+  {
+    "constraint_name": "risk_profile_pkey",
+    "constraint_type": "PRIMARY KEY",
+    "definition": "PRIMARY KEY (risk_profile_id)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "risk_profile"
+  },
+  {
+    "constraint_name": "risk_profile_predicted_label_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (predicted_label = ANY (ARRAY['At-risk'::text, 'Not-at-risk'::text]))",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "risk_profile"
+  },
+  {
+    "constraint_name": "risk_profile_predicted_label_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL predicted_label",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "risk_profile"
+  },
+  {
+    "constraint_name": "risk_profile_record_pk_fkey",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (record_pk) REFERENCES catalog.record(record_pk) ON DELETE RESTRICT",
+    "referenced_schema": "catalog",
+    "referenced_table": "record",
+    "schema_name": "recommendation",
+    "table_name": "risk_profile"
+  },
+  {
+    "constraint_name": "risk_profile_record_pk_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL record_pk",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "risk_profile"
+  },
+  {
+    "constraint_name": "risk_profile_risk_band_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL risk_band",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "risk_profile"
+  },
+  {
+    "constraint_name": "risk_profile_risk_probability_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (risk_probability >= 0::double precision AND risk_probability <= 1::double precision)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "risk_profile"
+  },
+  {
+    "constraint_name": "risk_profile_risk_probability_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL risk_probability",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "risk_profile"
+  },
+  {
+    "constraint_name": "risk_profile_risk_profile_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL risk_profile_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "risk_profile"
+  },
+  {
+    "constraint_name": "risk_profile_run_id_fkey",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (run_id) REFERENCES ml.run(run_id) ON DELETE RESTRICT",
+    "referenced_schema": "ml",
+    "referenced_table": "run",
+    "schema_name": "recommendation",
+    "table_name": "risk_profile"
+  },
+  {
+    "constraint_name": "risk_profile_run_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL run_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "risk_profile"
+  },
+  {
+    "constraint_name": "risk_profile_run_id_record_pk_key",
+    "constraint_type": "UNIQUE",
+    "definition": "UNIQUE (run_id, record_pk)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "risk_profile"
+  },
+  {
+    "constraint_name": "risk_profile_uncertainty_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (uncertainty IS NULL OR uncertainty >= 0::double precision AND uncertainty <= 1::double precision)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "recommendation",
+    "table_name": "risk_profile"
+  },
+  {
+    "constraint_name": "schema_migration_applied_at_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL applied_at",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "system",
+    "table_name": "schema_migration"
+  },
+  {
+    "constraint_name": "schema_migration_applied_by_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL applied_by",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "system",
+    "table_name": "schema_migration"
+  },
+  {
+    "constraint_name": "schema_migration_filename_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL filename",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "system",
+    "table_name": "schema_migration"
+  },
+  {
+    "constraint_name": "schema_migration_metadata_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL metadata",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "system",
+    "table_name": "schema_migration"
+  },
+  {
+    "constraint_name": "schema_migration_pkey",
+    "constraint_type": "PRIMARY KEY",
+    "definition": "PRIMARY KEY (filename)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "system",
+    "table_name": "schema_migration"
+  },
+  {
+    "constraint_name": "schema_migration_sha256_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (sha256 ~ '^[0-9a-f]{64}$'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "system",
+    "table_name": "schema_migration"
+  },
+  {
+    "constraint_name": "schema_migration_sha256_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL sha256",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "system",
+    "table_name": "schema_migration"
+  },
+  {
+    "constraint_name": "schema_migration_version_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (version > 0)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "system",
+    "table_name": "schema_migration"
+  },
+  {
+    "constraint_name": "schema_migration_version_key",
+    "constraint_type": "UNIQUE",
+    "definition": "UNIQUE (version)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "system",
+    "table_name": "schema_migration"
+  },
+  {
+    "constraint_name": "schema_migration_version_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL version",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "system",
+    "table_name": "schema_migration"
+  }
+]

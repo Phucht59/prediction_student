@@ -46,6 +46,13 @@ python project.py final validate
 
 Các lệnh trên chỉ đọc/tổng hợp validated evidence; chúng không train lại deep model. Future OULAD được giữ khóa. Nhãn chuyên gia chưa có vẫn mang trạng thái `PENDING_EXPERT_LABELS`.
 
+## PostgreSQL
+
+PostgreSQL lưu metadata, kết quả cuối, risk profiles và recommendation. File
+lớn vẫn nằm ngoài database và được đăng ký bằng SHA-256. Cấu trúc gồm 13 bảng
+lõi trong bốn schema; xem [Database Architecture](docs/DATABASE_ARCHITECTURE.md)
+và [Database Operations](docs/DATABASE_OPERATIONS.md).
+
 ## Giới hạn khoa học
 
 Kết quả chỉ áp dụng cho target, split, seed và dữ liệu đã đăng ký. Không suy diễn quan hệ nhân quả từ dự đoán hoặc khuyến nghị; không tuyên bố ưu thế ngoài miền khi bằng chứng đóng băng chưa xác lập. Xem [Claim Boundaries](reports/final/CLAIM_BOUNDARIES.md).

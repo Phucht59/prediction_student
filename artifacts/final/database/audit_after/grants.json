@@ -1,0 +1,1696 @@
+[
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "DELETE",
+    "schema_name": "catalog",
+    "table_name": "dataset"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "INSERT",
+    "schema_name": "catalog",
+    "table_name": "dataset"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "REFERENCES",
+    "schema_name": "catalog",
+    "table_name": "dataset"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "SELECT",
+    "schema_name": "catalog",
+    "table_name": "dataset"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "TRIGGER",
+    "schema_name": "catalog",
+    "table_name": "dataset"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "TRUNCATE",
+    "schema_name": "catalog",
+    "table_name": "dataset"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "UPDATE",
+    "schema_name": "catalog",
+    "table_name": "dataset"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "DELETE",
+    "schema_name": "catalog",
+    "table_name": "dataset"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "INSERT",
+    "schema_name": "catalog",
+    "table_name": "dataset"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "REFERENCES",
+    "schema_name": "catalog",
+    "table_name": "dataset"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "SELECT",
+    "schema_name": "catalog",
+    "table_name": "dataset"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "TRIGGER",
+    "schema_name": "catalog",
+    "table_name": "dataset"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "TRUNCATE",
+    "schema_name": "catalog",
+    "table_name": "dataset"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "UPDATE",
+    "schema_name": "catalog",
+    "table_name": "dataset"
+  },
+  {
+    "grantee": "student_predict_reader",
+    "is_grantable": "NO",
+    "privilege_type": "SELECT",
+    "schema_name": "catalog",
+    "table_name": "dataset"
+  },
+  {
+    "grantee": "student_predict_writer",
+    "is_grantable": "NO",
+    "privilege_type": "SELECT",
+    "schema_name": "catalog",
+    "table_name": "dataset"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "DELETE",
+    "schema_name": "catalog",
+    "table_name": "dataset_version"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "INSERT",
+    "schema_name": "catalog",
+    "table_name": "dataset_version"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "REFERENCES",
+    "schema_name": "catalog",
+    "table_name": "dataset_version"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "SELECT",
+    "schema_name": "catalog",
+    "table_name": "dataset_version"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "TRIGGER",
+    "schema_name": "catalog",
+    "table_name": "dataset_version"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "TRUNCATE",
+    "schema_name": "catalog",
+    "table_name": "dataset_version"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "UPDATE",
+    "schema_name": "catalog",
+    "table_name": "dataset_version"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "DELETE",
+    "schema_name": "catalog",
+    "table_name": "dataset_version"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "INSERT",
+    "schema_name": "catalog",
+    "table_name": "dataset_version"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "REFERENCES",
+    "schema_name": "catalog",
+    "table_name": "dataset_version"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "SELECT",
+    "schema_name": "catalog",
+    "table_name": "dataset_version"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "TRIGGER",
+    "schema_name": "catalog",
+    "table_name": "dataset_version"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "TRUNCATE",
+    "schema_name": "catalog",
+    "table_name": "dataset_version"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "UPDATE",
+    "schema_name": "catalog",
+    "table_name": "dataset_version"
+  },
+  {
+    "grantee": "student_predict_reader",
+    "is_grantable": "NO",
+    "privilege_type": "SELECT",
+    "schema_name": "catalog",
+    "table_name": "dataset_version"
+  },
+  {
+    "grantee": "student_predict_writer",
+    "is_grantable": "NO",
+    "privilege_type": "SELECT",
+    "schema_name": "catalog",
+    "table_name": "dataset_version"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "DELETE",
+    "schema_name": "catalog",
+    "table_name": "record"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "INSERT",
+    "schema_name": "catalog",
+    "table_name": "record"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "REFERENCES",
+    "schema_name": "catalog",
+    "table_name": "record"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "SELECT",
+    "schema_name": "catalog",
+    "table_name": "record"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "TRIGGER",
+    "schema_name": "catalog",
+    "table_name": "record"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "TRUNCATE",
+    "schema_name": "catalog",
+    "table_name": "record"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "UPDATE",
+    "schema_name": "catalog",
+    "table_name": "record"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "DELETE",
+    "schema_name": "catalog",
+    "table_name": "record"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "INSERT",
+    "schema_name": "catalog",
+    "table_name": "record"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "REFERENCES",
+    "schema_name": "catalog",
+    "table_name": "record"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "SELECT",
+    "schema_name": "catalog",
+    "table_name": "record"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "TRIGGER",
+    "schema_name": "catalog",
+    "table_name": "record"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "TRUNCATE",
+    "schema_name": "catalog",
+    "table_name": "record"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "UPDATE",
+    "schema_name": "catalog",
+    "table_name": "record"
+  },
+  {
+    "grantee": "student_predict_reader",
+    "is_grantable": "NO",
+    "privilege_type": "SELECT",
+    "schema_name": "catalog",
+    "table_name": "record"
+  },
+  {
+    "grantee": "student_predict_writer",
+    "is_grantable": "NO",
+    "privilege_type": "SELECT",
+    "schema_name": "catalog",
+    "table_name": "record"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "DELETE",
+    "schema_name": "ml",
+    "table_name": "artifact"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "INSERT",
+    "schema_name": "ml",
+    "table_name": "artifact"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "REFERENCES",
+    "schema_name": "ml",
+    "table_name": "artifact"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "SELECT",
+    "schema_name": "ml",
+    "table_name": "artifact"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "TRIGGER",
+    "schema_name": "ml",
+    "table_name": "artifact"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "TRUNCATE",
+    "schema_name": "ml",
+    "table_name": "artifact"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "UPDATE",
+    "schema_name": "ml",
+    "table_name": "artifact"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "DELETE",
+    "schema_name": "ml",
+    "table_name": "artifact"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "INSERT",
+    "schema_name": "ml",
+    "table_name": "artifact"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "REFERENCES",
+    "schema_name": "ml",
+    "table_name": "artifact"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "SELECT",
+    "schema_name": "ml",
+    "table_name": "artifact"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "TRIGGER",
+    "schema_name": "ml",
+    "table_name": "artifact"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "TRUNCATE",
+    "schema_name": "ml",
+    "table_name": "artifact"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "UPDATE",
+    "schema_name": "ml",
+    "table_name": "artifact"
+  },
+  {
+    "grantee": "student_predict_reader",
+    "is_grantable": "NO",
+    "privilege_type": "SELECT",
+    "schema_name": "ml",
+    "table_name": "artifact"
+  },
+  {
+    "grantee": "student_predict_writer",
+    "is_grantable": "NO",
+    "privilege_type": "SELECT",
+    "schema_name": "ml",
+    "table_name": "artifact"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "DELETE",
+    "schema_name": "ml",
+    "table_name": "final_model_results"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "INSERT",
+    "schema_name": "ml",
+    "table_name": "final_model_results"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "REFERENCES",
+    "schema_name": "ml",
+    "table_name": "final_model_results"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "SELECT",
+    "schema_name": "ml",
+    "table_name": "final_model_results"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "TRIGGER",
+    "schema_name": "ml",
+    "table_name": "final_model_results"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "TRUNCATE",
+    "schema_name": "ml",
+    "table_name": "final_model_results"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "UPDATE",
+    "schema_name": "ml",
+    "table_name": "final_model_results"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "DELETE",
+    "schema_name": "ml",
+    "table_name": "final_model_results"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "INSERT",
+    "schema_name": "ml",
+    "table_name": "final_model_results"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "REFERENCES",
+    "schema_name": "ml",
+    "table_name": "final_model_results"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "SELECT",
+    "schema_name": "ml",
+    "table_name": "final_model_results"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "TRIGGER",
+    "schema_name": "ml",
+    "table_name": "final_model_results"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "TRUNCATE",
+    "schema_name": "ml",
+    "table_name": "final_model_results"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "UPDATE",
+    "schema_name": "ml",
+    "table_name": "final_model_results"
+  },
+  {
+    "grantee": "student_predict_reader",
+    "is_grantable": "NO",
+    "privilege_type": "SELECT",
+    "schema_name": "ml",
+    "table_name": "final_model_results"
+  },
+  {
+    "grantee": "student_predict_writer",
+    "is_grantable": "NO",
+    "privilege_type": "SELECT",
+    "schema_name": "ml",
+    "table_name": "final_model_results"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "DELETE",
+    "schema_name": "ml",
+    "table_name": "metric"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "INSERT",
+    "schema_name": "ml",
+    "table_name": "metric"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "REFERENCES",
+    "schema_name": "ml",
+    "table_name": "metric"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "SELECT",
+    "schema_name": "ml",
+    "table_name": "metric"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "TRIGGER",
+    "schema_name": "ml",
+    "table_name": "metric"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "TRUNCATE",
+    "schema_name": "ml",
+    "table_name": "metric"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "UPDATE",
+    "schema_name": "ml",
+    "table_name": "metric"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "DELETE",
+    "schema_name": "ml",
+    "table_name": "metric"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "INSERT",
+    "schema_name": "ml",
+    "table_name": "metric"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "REFERENCES",
+    "schema_name": "ml",
+    "table_name": "metric"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "SELECT",
+    "schema_name": "ml",
+    "table_name": "metric"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "TRIGGER",
+    "schema_name": "ml",
+    "table_name": "metric"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "TRUNCATE",
+    "schema_name": "ml",
+    "table_name": "metric"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "UPDATE",
+    "schema_name": "ml",
+    "table_name": "metric"
+  },
+  {
+    "grantee": "student_predict_reader",
+    "is_grantable": "NO",
+    "privilege_type": "SELECT",
+    "schema_name": "ml",
+    "table_name": "metric"
+  },
+  {
+    "grantee": "student_predict_writer",
+    "is_grantable": "NO",
+    "privilege_type": "SELECT",
+    "schema_name": "ml",
+    "table_name": "metric"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "DELETE",
+    "schema_name": "ml",
+    "table_name": "model"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "INSERT",
+    "schema_name": "ml",
+    "table_name": "model"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "REFERENCES",
+    "schema_name": "ml",
+    "table_name": "model"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "SELECT",
+    "schema_name": "ml",
+    "table_name": "model"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "TRIGGER",
+    "schema_name": "ml",
+    "table_name": "model"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "TRUNCATE",
+    "schema_name": "ml",
+    "table_name": "model"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "UPDATE",
+    "schema_name": "ml",
+    "table_name": "model"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "DELETE",
+    "schema_name": "ml",
+    "table_name": "model"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "INSERT",
+    "schema_name": "ml",
+    "table_name": "model"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "REFERENCES",
+    "schema_name": "ml",
+    "table_name": "model"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "SELECT",
+    "schema_name": "ml",
+    "table_name": "model"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "TRIGGER",
+    "schema_name": "ml",
+    "table_name": "model"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "TRUNCATE",
+    "schema_name": "ml",
+    "table_name": "model"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "UPDATE",
+    "schema_name": "ml",
+    "table_name": "model"
+  },
+  {
+    "grantee": "student_predict_reader",
+    "is_grantable": "NO",
+    "privilege_type": "SELECT",
+    "schema_name": "ml",
+    "table_name": "model"
+  },
+  {
+    "grantee": "student_predict_writer",
+    "is_grantable": "NO",
+    "privilege_type": "SELECT",
+    "schema_name": "ml",
+    "table_name": "model"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "DELETE",
+    "schema_name": "ml",
+    "table_name": "run"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "INSERT",
+    "schema_name": "ml",
+    "table_name": "run"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "REFERENCES",
+    "schema_name": "ml",
+    "table_name": "run"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "SELECT",
+    "schema_name": "ml",
+    "table_name": "run"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "TRIGGER",
+    "schema_name": "ml",
+    "table_name": "run"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "TRUNCATE",
+    "schema_name": "ml",
+    "table_name": "run"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "UPDATE",
+    "schema_name": "ml",
+    "table_name": "run"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "DELETE",
+    "schema_name": "ml",
+    "table_name": "run"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "INSERT",
+    "schema_name": "ml",
+    "table_name": "run"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "REFERENCES",
+    "schema_name": "ml",
+    "table_name": "run"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "SELECT",
+    "schema_name": "ml",
+    "table_name": "run"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "TRIGGER",
+    "schema_name": "ml",
+    "table_name": "run"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "TRUNCATE",
+    "schema_name": "ml",
+    "table_name": "run"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "UPDATE",
+    "schema_name": "ml",
+    "table_name": "run"
+  },
+  {
+    "grantee": "student_predict_reader",
+    "is_grantable": "NO",
+    "privilege_type": "SELECT",
+    "schema_name": "ml",
+    "table_name": "run"
+  },
+  {
+    "grantee": "student_predict_writer",
+    "is_grantable": "NO",
+    "privilege_type": "SELECT",
+    "schema_name": "ml",
+    "table_name": "run"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "DELETE",
+    "schema_name": "recommendation",
+    "table_name": "action"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "INSERT",
+    "schema_name": "recommendation",
+    "table_name": "action"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "REFERENCES",
+    "schema_name": "recommendation",
+    "table_name": "action"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "SELECT",
+    "schema_name": "recommendation",
+    "table_name": "action"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "TRIGGER",
+    "schema_name": "recommendation",
+    "table_name": "action"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "TRUNCATE",
+    "schema_name": "recommendation",
+    "table_name": "action"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "UPDATE",
+    "schema_name": "recommendation",
+    "table_name": "action"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "DELETE",
+    "schema_name": "recommendation",
+    "table_name": "action"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "INSERT",
+    "schema_name": "recommendation",
+    "table_name": "action"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "REFERENCES",
+    "schema_name": "recommendation",
+    "table_name": "action"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "SELECT",
+    "schema_name": "recommendation",
+    "table_name": "action"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "TRIGGER",
+    "schema_name": "recommendation",
+    "table_name": "action"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "TRUNCATE",
+    "schema_name": "recommendation",
+    "table_name": "action"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "UPDATE",
+    "schema_name": "recommendation",
+    "table_name": "action"
+  },
+  {
+    "grantee": "student_predict_reader",
+    "is_grantable": "NO",
+    "privilege_type": "SELECT",
+    "schema_name": "recommendation",
+    "table_name": "action"
+  },
+  {
+    "grantee": "student_predict_writer",
+    "is_grantable": "NO",
+    "privilege_type": "INSERT",
+    "schema_name": "recommendation",
+    "table_name": "action"
+  },
+  {
+    "grantee": "student_predict_writer",
+    "is_grantable": "NO",
+    "privilege_type": "SELECT",
+    "schema_name": "recommendation",
+    "table_name": "action"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "DELETE",
+    "schema_name": "recommendation",
+    "table_name": "plan"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "INSERT",
+    "schema_name": "recommendation",
+    "table_name": "plan"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "REFERENCES",
+    "schema_name": "recommendation",
+    "table_name": "plan"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "SELECT",
+    "schema_name": "recommendation",
+    "table_name": "plan"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "TRIGGER",
+    "schema_name": "recommendation",
+    "table_name": "plan"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "TRUNCATE",
+    "schema_name": "recommendation",
+    "table_name": "plan"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "UPDATE",
+    "schema_name": "recommendation",
+    "table_name": "plan"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "DELETE",
+    "schema_name": "recommendation",
+    "table_name": "plan"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "INSERT",
+    "schema_name": "recommendation",
+    "table_name": "plan"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "REFERENCES",
+    "schema_name": "recommendation",
+    "table_name": "plan"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "SELECT",
+    "schema_name": "recommendation",
+    "table_name": "plan"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "TRIGGER",
+    "schema_name": "recommendation",
+    "table_name": "plan"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "TRUNCATE",
+    "schema_name": "recommendation",
+    "table_name": "plan"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "UPDATE",
+    "schema_name": "recommendation",
+    "table_name": "plan"
+  },
+  {
+    "grantee": "student_predict_reader",
+    "is_grantable": "NO",
+    "privilege_type": "SELECT",
+    "schema_name": "recommendation",
+    "table_name": "plan"
+  },
+  {
+    "grantee": "student_predict_writer",
+    "is_grantable": "NO",
+    "privilege_type": "INSERT",
+    "schema_name": "recommendation",
+    "table_name": "plan"
+  },
+  {
+    "grantee": "student_predict_writer",
+    "is_grantable": "NO",
+    "privilege_type": "SELECT",
+    "schema_name": "recommendation",
+    "table_name": "plan"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "DELETE",
+    "schema_name": "recommendation",
+    "table_name": "plan_summary"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "INSERT",
+    "schema_name": "recommendation",
+    "table_name": "plan_summary"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "REFERENCES",
+    "schema_name": "recommendation",
+    "table_name": "plan_summary"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "SELECT",
+    "schema_name": "recommendation",
+    "table_name": "plan_summary"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "TRIGGER",
+    "schema_name": "recommendation",
+    "table_name": "plan_summary"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "TRUNCATE",
+    "schema_name": "recommendation",
+    "table_name": "plan_summary"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "UPDATE",
+    "schema_name": "recommendation",
+    "table_name": "plan_summary"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "DELETE",
+    "schema_name": "recommendation",
+    "table_name": "plan_summary"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "INSERT",
+    "schema_name": "recommendation",
+    "table_name": "plan_summary"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "REFERENCES",
+    "schema_name": "recommendation",
+    "table_name": "plan_summary"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "SELECT",
+    "schema_name": "recommendation",
+    "table_name": "plan_summary"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "TRIGGER",
+    "schema_name": "recommendation",
+    "table_name": "plan_summary"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "TRUNCATE",
+    "schema_name": "recommendation",
+    "table_name": "plan_summary"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "UPDATE",
+    "schema_name": "recommendation",
+    "table_name": "plan_summary"
+  },
+  {
+    "grantee": "student_predict_reader",
+    "is_grantable": "NO",
+    "privilege_type": "SELECT",
+    "schema_name": "recommendation",
+    "table_name": "plan_summary"
+  },
+  {
+    "grantee": "student_predict_writer",
+    "is_grantable": "NO",
+    "privilege_type": "SELECT",
+    "schema_name": "recommendation",
+    "table_name": "plan_summary"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "DELETE",
+    "schema_name": "recommendation",
+    "table_name": "policy"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "INSERT",
+    "schema_name": "recommendation",
+    "table_name": "policy"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "REFERENCES",
+    "schema_name": "recommendation",
+    "table_name": "policy"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "SELECT",
+    "schema_name": "recommendation",
+    "table_name": "policy"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "TRIGGER",
+    "schema_name": "recommendation",
+    "table_name": "policy"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "TRUNCATE",
+    "schema_name": "recommendation",
+    "table_name": "policy"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "UPDATE",
+    "schema_name": "recommendation",
+    "table_name": "policy"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "DELETE",
+    "schema_name": "recommendation",
+    "table_name": "policy"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "INSERT",
+    "schema_name": "recommendation",
+    "table_name": "policy"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "REFERENCES",
+    "schema_name": "recommendation",
+    "table_name": "policy"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "SELECT",
+    "schema_name": "recommendation",
+    "table_name": "policy"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "TRIGGER",
+    "schema_name": "recommendation",
+    "table_name": "policy"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "TRUNCATE",
+    "schema_name": "recommendation",
+    "table_name": "policy"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "UPDATE",
+    "schema_name": "recommendation",
+    "table_name": "policy"
+  },
+  {
+    "grantee": "student_predict_reader",
+    "is_grantable": "NO",
+    "privilege_type": "SELECT",
+    "schema_name": "recommendation",
+    "table_name": "policy"
+  },
+  {
+    "grantee": "student_predict_writer",
+    "is_grantable": "NO",
+    "privilege_type": "SELECT",
+    "schema_name": "recommendation",
+    "table_name": "policy"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "DELETE",
+    "schema_name": "recommendation",
+    "table_name": "review"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "INSERT",
+    "schema_name": "recommendation",
+    "table_name": "review"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "REFERENCES",
+    "schema_name": "recommendation",
+    "table_name": "review"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "SELECT",
+    "schema_name": "recommendation",
+    "table_name": "review"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "TRIGGER",
+    "schema_name": "recommendation",
+    "table_name": "review"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "TRUNCATE",
+    "schema_name": "recommendation",
+    "table_name": "review"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "UPDATE",
+    "schema_name": "recommendation",
+    "table_name": "review"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "DELETE",
+    "schema_name": "recommendation",
+    "table_name": "review"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "INSERT",
+    "schema_name": "recommendation",
+    "table_name": "review"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "REFERENCES",
+    "schema_name": "recommendation",
+    "table_name": "review"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "SELECT",
+    "schema_name": "recommendation",
+    "table_name": "review"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "TRIGGER",
+    "schema_name": "recommendation",
+    "table_name": "review"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "TRUNCATE",
+    "schema_name": "recommendation",
+    "table_name": "review"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "UPDATE",
+    "schema_name": "recommendation",
+    "table_name": "review"
+  },
+  {
+    "grantee": "student_predict_reader",
+    "is_grantable": "NO",
+    "privilege_type": "SELECT",
+    "schema_name": "recommendation",
+    "table_name": "review"
+  },
+  {
+    "grantee": "student_predict_writer",
+    "is_grantable": "NO",
+    "privilege_type": "INSERT",
+    "schema_name": "recommendation",
+    "table_name": "review"
+  },
+  {
+    "grantee": "student_predict_writer",
+    "is_grantable": "NO",
+    "privilege_type": "SELECT",
+    "schema_name": "recommendation",
+    "table_name": "review"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "DELETE",
+    "schema_name": "recommendation",
+    "table_name": "risk_profile"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "INSERT",
+    "schema_name": "recommendation",
+    "table_name": "risk_profile"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "REFERENCES",
+    "schema_name": "recommendation",
+    "table_name": "risk_profile"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "SELECT",
+    "schema_name": "recommendation",
+    "table_name": "risk_profile"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "TRIGGER",
+    "schema_name": "recommendation",
+    "table_name": "risk_profile"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "TRUNCATE",
+    "schema_name": "recommendation",
+    "table_name": "risk_profile"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "UPDATE",
+    "schema_name": "recommendation",
+    "table_name": "risk_profile"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "DELETE",
+    "schema_name": "recommendation",
+    "table_name": "risk_profile"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "INSERT",
+    "schema_name": "recommendation",
+    "table_name": "risk_profile"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "REFERENCES",
+    "schema_name": "recommendation",
+    "table_name": "risk_profile"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "SELECT",
+    "schema_name": "recommendation",
+    "table_name": "risk_profile"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "TRIGGER",
+    "schema_name": "recommendation",
+    "table_name": "risk_profile"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "TRUNCATE",
+    "schema_name": "recommendation",
+    "table_name": "risk_profile"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "UPDATE",
+    "schema_name": "recommendation",
+    "table_name": "risk_profile"
+  },
+  {
+    "grantee": "student_predict_reader",
+    "is_grantable": "NO",
+    "privilege_type": "SELECT",
+    "schema_name": "recommendation",
+    "table_name": "risk_profile"
+  },
+  {
+    "grantee": "student_predict_writer",
+    "is_grantable": "NO",
+    "privilege_type": "INSERT",
+    "schema_name": "recommendation",
+    "table_name": "risk_profile"
+  },
+  {
+    "grantee": "student_predict_writer",
+    "is_grantable": "NO",
+    "privilege_type": "SELECT",
+    "schema_name": "recommendation",
+    "table_name": "risk_profile"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "DELETE",
+    "schema_name": "system",
+    "table_name": "schema_migration"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "INSERT",
+    "schema_name": "system",
+    "table_name": "schema_migration"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "REFERENCES",
+    "schema_name": "system",
+    "table_name": "schema_migration"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "SELECT",
+    "schema_name": "system",
+    "table_name": "schema_migration"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "TRIGGER",
+    "schema_name": "system",
+    "table_name": "schema_migration"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "TRUNCATE",
+    "schema_name": "system",
+    "table_name": "schema_migration"
+  },
+  {
+    "grantee": "postgres",
+    "is_grantable": "YES",
+    "privilege_type": "UPDATE",
+    "schema_name": "system",
+    "table_name": "schema_migration"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "DELETE",
+    "schema_name": "system",
+    "table_name": "schema_migration"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "INSERT",
+    "schema_name": "system",
+    "table_name": "schema_migration"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "REFERENCES",
+    "schema_name": "system",
+    "table_name": "schema_migration"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "SELECT",
+    "schema_name": "system",
+    "table_name": "schema_migration"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "TRIGGER",
+    "schema_name": "system",
+    "table_name": "schema_migration"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "TRUNCATE",
+    "schema_name": "system",
+    "table_name": "schema_migration"
+  },
+  {
+    "grantee": "student_predict_migrator",
+    "is_grantable": "NO",
+    "privilege_type": "UPDATE",
+    "schema_name": "system",
+    "table_name": "schema_migration"
+  }
+]

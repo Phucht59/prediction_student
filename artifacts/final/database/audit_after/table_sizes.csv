@@ -1,0 +1,14 @@
+schema,table,table_bytes,total_bytes
+catalog,dataset,8192,49152
+catalog,dataset_version,8192,49152
+catalog,record,14778368,17399808
+ml,artifact,24576,131072
+ml,metric,573440,778240
+ml,model,16384,81920
+ml,run,24576,122880
+recommendation,action,14385152,18833408
+recommendation,plan,29114368,31481856
+recommendation,policy,8192,49152
+recommendation,review,0,24576
+recommendation,risk_profile,23756800,37011456
+system,schema_migration,8192,49152
