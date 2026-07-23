@@ -14,7 +14,6 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from src.database.connection import DatabaseSettings, connect_with_retry, transaction
-from src.database.services.ingestion_service import IngestionService
 from src.studies.v5.common.artifacts import atomic_write_json
 from src.studies.v5.common.protocol import sha256_file
 
@@ -60,26 +59,9 @@ def migrate() -> dict[str, object]:
 
 
 def seed() -> dict[str, object]:
-    settings = _settings(mutating=True)
-    service = IngestionService(settings)
-    rows = []
-    for slug, name, filename, count in [
-        ("student-mat", "UCI Student Mathematics", "student-mat.csv", 395),
-        ("student-por", "UCI Student Portuguese", "student-por.csv", 649),
-        ("oulad", "Open University Learning Analytics Dataset", "studentInfo.csv", 32593),
-    ]:
-        rows.append(
-            service.register_source(
-                slug=slug,
-                display_name=name,
-                source_path=ROOT / "data" / "raw" / filename,
-                version_label="v5-frozen-20260718",
-                row_count=count,
-                data_schema={"registered_by": "scripts/database_v5.py", "full_ingestion": slug != "oulad"},
-                license_note="See dataset source documentation; metadata registration is not a license grant.",
-            )
-        )
-    return {"status": "PASS", "datasets": rows}
+    raise RuntimeError(
+        "Legacy database seeding is retired; use `python project.py db-final load-results`."
+    )
 
 
 def audit() -> dict[str, object]:

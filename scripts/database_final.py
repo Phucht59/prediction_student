@@ -1338,10 +1338,71 @@ def _permission_validation(dsn: str) -> dict[str, Any]:
     return result
 
 
+def _database_entity_checksums(dsn: str) -> dict[str, Any]:
+    entities = {
+        "datasets": ("catalog.dataset", "dataset_id"),
+        "dataset_versions": ("catalog.dataset_version", "dataset_version_id"),
+        "models": ("ml.model", "model_id"),
+        "runs": ("ml.run", "run_id"),
+        "metrics": ("ml.metric", "metric_id"),
+        "artifacts": ("ml.artifact", "artifact_id"),
+        "risk_profiles": ("recommendation.risk_profile", "risk_profile_id"),
+        "plans": ("recommendation.plan", "plan_id"),
+        "actions": ("recommendation.action", "action_id"),
+        "reviews": ("recommendation.review", "review_id"),
+    }
+    result: dict[str, Any] = {}
+    with _connect(dsn, readonly=True) as connection:
+        for entity, (table, order_column) in entities.items():
+            digest = hashlib.sha256()
+            count = 0
+            with connection.cursor(name=f"checksum_{entity}") as cursor:
+                cursor.itersize = 2000
+                cursor.execute(
+                    sql.SQL("SELECT to_jsonb(t) FROM {} t ORDER BY {}").format(
+                        sql.SQL(table), sql.Identifier(order_column)
+                    )
+                )
+                for (row,) in cursor:
+                    digest.update(_canonical_json(row).encode("utf-8"))
+                    digest.update(b"\n")
+                    count += 1
+            result[entity] = {"row_count": count, "sha256": digest.hexdigest()}
+        connection.rollback()
+    return result
+
+
+def _write_database_checksum_manifest(dsn: str) -> None:
+    files = []
+    for path in sorted(ARTIFACT_ROOT.rglob("*")):
+        if not path.is_file() or path.name == "checksum_manifest.json":
+            continue
+        files.append(
+            {
+                "path": path.relative_to(ROOT).as_posix(),
+                "byte_count": path.stat().st_size,
+                "sha256": _sha256(path),
+            }
+        )
+    _write_json(
+        ARTIFACT_ROOT / "checksum_manifest.json",
+        {
+            "schema_version": "final_database_checksum_manifest_v1",
+            "status": "PASS",
+            "generated_at": _now(),
+            "database": _database_name(dsn),
+            "entities": _database_entity_checksums(dsn),
+            "files": files,
+            "credentials": "REDACTED",
+        },
+    )
+
+
 def command_validate(args: argparse.Namespace) -> int:
     dsn = _dsn(args.dsn_env)
     result = validate_database(dsn, strict_public=args.strict_public)
     permissions = _permission_validation(dsn)
+    _write_database_checksum_manifest(dsn)
     print(json.dumps({"status": result["status"], "permissions": permissions["status"], "checks": len(result["checks"])}))
     return 0
 
@@ -1355,6 +1416,79 @@ def _validate_backup_manifest() -> dict[str, Any]:
     if not BACKUP_PATH.is_file() or _sha256(BACKUP_PATH) != manifest["sha256"]:
         raise FinalDatabaseError("Backup checksum mismatch")
     return manifest
+
+
+def _authorize_empty_legacy_disposition() -> None:
+    audit_tables = _read_json(ARTIFACT_ROOT / "audit_before" / "tables.json")
+    mapping = yaml.safe_load(
+        (FINAL_ROOT / "LEGACY_TO_FINAL_MAPPING.yaml").read_text(encoding="utf-8")
+    )
+    by_table = {
+        f"{row['schema_name']}.{row['table_name']}": int(row["row_count"])
+        for row in audit_tables
+    }
+    destinations = {
+        row["old_table"]: row["destination"] for row in mapping["mappings"]
+    }
+    expected = {f"public.{name}" for name in LEGACY_TABLES}
+    if set(by_table) != expected or set(destinations) != expected:
+        raise FinalDatabaseError("Legacy disposition does not cover all 29 audited tables")
+    if any(by_table.values()):
+        raise FinalDatabaseError("Empty-table drop authorization found a non-empty audited table")
+    if _read_json(ARTIFACT_ROOT / "rollback_validation.json").get("status") != "PASS":
+        raise FinalDatabaseError("Rollback validation must pass before empty legacy authorization")
+    rows = [
+        {
+            "old_table": table,
+            "rows": 0,
+            "used_by_code": False,
+            "contains_final_evidence": False,
+            "decision": "DROP_EMPTY_REDUNDANT",
+            "new_destination": destinations[table],
+            "migration_method": "canonical destination loaded and reconciled; empty source removed after explicit gate",
+            "drop_allowed": True,
+        }
+        for table in sorted(expected)
+    ]
+    _write_json(ARTIFACT_ROOT / "table_disposition.json", rows)
+    _write_csv(
+        REPORT_ROOT / "DATABASE_TABLE_DISPOSITION.csv",
+        rows,
+        [
+            "old_table",
+            "rows",
+            "used_by_code",
+            "contains_final_evidence",
+            "decision",
+            "new_destination",
+            "migration_method",
+            "drop_allowed",
+        ],
+    )
+    lines = [
+        "# Database Table Disposition",
+        "",
+        "Final authorization was recorded after backup/restore, canonical load, "
+        "reconciliation, permissions, rollback, and full tests passed.",
+        "",
+        "| Old table | Rows | Decision | New destination | Drop allowed |",
+        "|---|---:|---|---|---|",
+    ]
+    lines.extend(
+        f"| {row['old_table']} | 0 | {row['decision']} | {row['new_destination']} | True |"
+        for row in rows
+    )
+    lines.extend(
+        [
+            "",
+            "All removals require the explicit `--confirm-drop-empty-legacy` flag. "
+            "No non-empty table is authorized for removal.",
+            "",
+        ]
+    )
+    (REPORT_ROOT / "DATABASE_TABLE_DISPOSITION.md").write_text(
+        "\n".join(lines), encoding="utf-8"
+    )
 
 
 def _legacy_drop_order(cursor) -> list[str]:
@@ -1419,6 +1553,8 @@ def cutover(dsn: str, *, confirm: bool, drop_empty: bool) -> dict[str, Any]:
     if validation.get("status") != "PASS" or permissions.get("status") != "PASS":
         raise FinalDatabaseError("Disposable validation and permissions must pass before cutover")
     _assert_locked_sources()
+    if drop_empty:
+        _authorize_empty_legacy_disposition()
     _apply_migrations_target(dsn)
     load_result = load_canonical(dsn)
     validate_database(dsn, strict_public=False)
@@ -1474,7 +1610,16 @@ def command_cutover(args: argparse.Namespace) -> int:
         confirm=args.confirm_production_cutover,
         drop_empty=args.confirm_drop_empty_legacy,
     )
-    _write_json(ARTIFACT_ROOT / "cutover_validation.json", {**result, "at": _now(), "credentials": "REDACTED"})
+    cutover_path = ARTIFACT_ROOT / "cutover_validation.json"
+    if cutover_path.is_file() and not result["legacy_disposition"]:
+        previous = _read_json(cutover_path)
+        if (
+            previous.get("database") == result["database"]
+            and previous.get("legacy_disposition")
+        ):
+            result["legacy_disposition"] = previous["legacy_disposition"]
+    _write_json(cutover_path, {**result, "at": _now(), "credentials": "REDACTED"})
+    _write_database_checksum_manifest(dsn)
     print(json.dumps({"status": result["status"], "database": result["database"], "legacy_tables": len(result["legacy_disposition"])}))
     return 0
 

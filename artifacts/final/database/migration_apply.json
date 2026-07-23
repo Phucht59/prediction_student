@@ -1,5 +1,10 @@
 {
   "applied": [
+    "010_archive_legacy_functions.sql"
+  ],
+  "at": "2026-07-23T15:42:17.193720+00:00",
+  "database": "student_predict_final_dev",
+  "skipped": [
     "001_create_final_schemas.sql",
     "002_create_catalog.sql",
     "003_create_ml.sql",
@@ -10,8 +15,5 @@
     "008_finalize_cutover.sql",
     "009_prune_redundant_indexes.sql"
   ],
-  "at": "2026-07-23T15:33:23.173075+00:00",
-  "database": "student_predict_rollback_test",
-  "skipped": [],
   "status": "PASS"
 }

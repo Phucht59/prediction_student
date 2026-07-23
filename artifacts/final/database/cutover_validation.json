@@ -1,8 +1,154 @@
 {
-  "at": "2026-07-23T15:37:32.663872+00:00",
+  "at": "2026-07-23T15:42:49.217972+00:00",
   "credentials": "REDACTED",
-  "database": "student_predict_final_dev",
-  "legacy_disposition": [],
+  "database": "student_predict",
+  "legacy_disposition": [
+    {
+      "decision": "DROP_EMPTY_REDUNDANT",
+      "rows": 0,
+      "table": "public.advisor_decisions"
+    },
+    {
+      "decision": "DROP_EMPTY_REDUNDANT",
+      "rows": 0,
+      "table": "public.expert_review_ratings"
+    },
+    {
+      "decision": "DROP_EMPTY_REDUNDANT",
+      "rows": 0,
+      "table": "public.ml_evidence_bundles"
+    },
+    {
+      "decision": "DROP_EMPTY_REDUNDANT",
+      "rows": 0,
+      "table": "public.ml_recommendations"
+    },
+    {
+      "decision": "DROP_EMPTY_REDUNDANT",
+      "rows": 0,
+      "table": "public.ml_run_metrics"
+    },
+    {
+      "decision": "DROP_EMPTY_REDUNDANT",
+      "rows": 0,
+      "table": "public.ml_schema_migrations"
+    },
+    {
+      "decision": "DROP_EMPTY_REDUNDANT",
+      "rows": 0,
+      "table": "public.recommendation_action_catalog"
+    },
+    {
+      "decision": "DROP_EMPTY_REDUNDANT",
+      "rows": 0,
+      "table": "public.recommendation_feature_registry"
+    },
+    {
+      "decision": "DROP_EMPTY_REDUNDANT",
+      "rows": 0,
+      "table": "public.recommendation_follow_ups"
+    },
+    {
+      "decision": "DROP_EMPTY_REDUNDANT",
+      "rows": 0,
+      "table": "public.recommendation_outcomes"
+    },
+    {
+      "decision": "DROP_EMPTY_REDUNDANT",
+      "rows": 0,
+      "table": "public.snapshot_record_index"
+    },
+    {
+      "decision": "DROP_EMPTY_REDUNDANT",
+      "rows": 0,
+      "table": "public.source_dataset_files"
+    },
+    {
+      "decision": "DROP_EMPTY_REDUNDANT",
+      "rows": 0,
+      "table": "public.source_record_targets"
+    },
+    {
+      "decision": "DROP_EMPTY_REDUNDANT",
+      "rows": 0,
+      "table": "public.split_manifest_registry"
+    },
+    {
+      "decision": "DROP_EMPTY_REDUNDANT",
+      "rows": 0,
+      "table": "public.study_extension_runs"
+    },
+    {
+      "decision": "DROP_EMPTY_REDUNDANT",
+      "rows": 0,
+      "table": "public.cutoff_feature_snapshots"
+    },
+    {
+      "decision": "DROP_EMPTY_REDUNDANT",
+      "rows": 0,
+      "table": "public.expert_review_cases"
+    },
+    {
+      "decision": "DROP_EMPTY_REDUNDANT",
+      "rows": 0,
+      "table": "public.ml_predictions"
+    },
+    {
+      "decision": "DROP_EMPTY_REDUNDANT",
+      "rows": 0,
+      "table": "public.recommendation_actions"
+    },
+    {
+      "decision": "DROP_EMPTY_REDUNDANT",
+      "rows": 0,
+      "table": "public.ml_run_record_splits"
+    },
+    {
+      "decision": "DROP_EMPTY_REDUNDANT",
+      "rows": 0,
+      "table": "public.prediction_cohorts"
+    },
+    {
+      "decision": "DROP_EMPTY_REDUNDANT",
+      "rows": 0,
+      "table": "public.recommendation_goals"
+    },
+    {
+      "decision": "DROP_EMPTY_REDUNDANT",
+      "rows": 0,
+      "table": "public.ml_experiment_runs"
+    },
+    {
+      "decision": "DROP_EMPTY_REDUNDANT",
+      "rows": 0,
+      "table": "public.recommendation_revisions"
+    },
+    {
+      "decision": "DROP_EMPTY_REDUNDANT",
+      "rows": 0,
+      "table": "public.source_records"
+    },
+    {
+      "decision": "DROP_EMPTY_REDUNDANT",
+      "rows": 0,
+      "table": "public.recommendation_instances"
+    },
+    {
+      "decision": "DROP_EMPTY_REDUNDANT",
+      "rows": 0,
+      "table": "public.source_dataset_versions"
+    },
+    {
+      "decision": "DROP_EMPTY_REDUNDANT",
+      "rows": 0,
+      "table": "public.prediction_snapshots"
+    },
+    {
+      "decision": "DROP_EMPTY_REDUNDANT",
+      "rows": 0,
+      "table": "public.recommendation_policies"
+    }
+  ],
   "loaded": {
     "actions": 27355,
     "datasets": 3,

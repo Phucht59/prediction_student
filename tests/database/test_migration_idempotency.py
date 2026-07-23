@@ -7,7 +7,7 @@ ROOT = Path(__file__).resolve().parents[2]
 
 def test_migration_idempotent():
     files = sorted((ROOT / "database/final/migrations").glob("*.sql"))
-    assert [path.name[:3] for path in files] == [f"{index:03d}" for index in range(1, 10)]
+    assert [path.name[:3] for path in files] == [f"{index:03d}" for index in range(1, 11)]
     for path in files:
         text = path.read_text(encoding="utf-8").strip()
         assert text.startswith("BEGIN;")

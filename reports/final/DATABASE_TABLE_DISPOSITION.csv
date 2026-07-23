@@ -1,30 +1,30 @@
 old_table,rows,used_by_code,contains_final_evidence,decision,new_destination,migration_method,drop_allowed
-public.advisor_decisions,0,False,False,MERGE,recommendation.review,map advisor decision to review,False
-public.cutoff_feature_snapshots,0,False,False,MIGRATE_TO_ARTIFACT,ml.artifact,register immutable snapshot path and checksum,False
-public.expert_review_cases,0,False,False,MERGE,recommendation.review,map expert case metadata without fabricating labels,False
-public.expert_review_ratings,0,False,False,MERGE,recommendation.review,map real expert rating only,False
-public.ml_evidence_bundles,0,True,False,MERGE,ml.artifact,register evidence bundle path and checksum,False
-public.ml_experiment_runs,0,True,False,MERGE,ml.run,normalize final and evaluation runs,False
-public.ml_predictions,0,True,False,MIGRATE_TO_ARTIFACT,ml.artifact,store prediction file metadata; risk rows use risk_profile,False
-public.ml_recommendations,0,True,False,MERGE,recommendation.plan,normalize final recommendation plans,False
-public.ml_run_metrics,0,True,False,MERGE,ml.metric,"normalize overall, class, top-k and calibration metrics",False
-public.ml_run_record_splits,0,True,False,MIGRATE_TO_ARTIFACT,ml.artifact,register split manifest instead of split members,False
-public.ml_schema_migrations,0,True,False,MERGE,system.schema_migration,copy immutable migration ledger,False
-public.prediction_cohorts,0,False,False,MERGE,catalog.dataset_version,preserve cohort contract in version metadata,False
-public.prediction_snapshots,0,False,False,MIGRATE_TO_ARTIFACT,ml.artifact,register prediction snapshot path and checksum,False
-public.recommendation_action_catalog,0,False,False,MERGE,recommendation.policy,embed versioned action catalog in policy rules,False
-public.recommendation_actions,0,False,False,MERGE,recommendation.action,normalize final plan actions,False
-public.recommendation_feature_registry,0,False,False,MERGE,recommendation.policy,embed recommendation feature contract in policy,False
-public.recommendation_follow_ups,0,False,False,MERGE,recommendation.review,map as follow_up review,False
-public.recommendation_goals,0,False,False,MERGE,recommendation.plan,map goal into plan goal and payload,False
-public.recommendation_instances,0,False,False,MERGE,recommendation.risk_profile,normalize risk/recommendation case identity,False
-public.recommendation_outcomes,0,False,False,MERGE,recommendation.review,map recorded outcome as review payload,False
-public.recommendation_policies,0,False,False,MERGE,recommendation.policy,normalize one checksummed policy registry,False
-public.recommendation_revisions,0,False,False,MERGE,recommendation.plan,normalize plan revision and supersession,False
-public.snapshot_record_index,0,False,False,MIGRATE_TO_ARTIFACT,ml.artifact,retain row index inside snapshot artifact,False
-public.source_dataset_files,0,False,False,MERGE,catalog.dataset_version,embed source file checksums in source_files,False
-public.source_dataset_versions,0,True,False,RENAME,catalog.dataset_version,normalize dataset version identity,False
-public.source_record_targets,0,True,False,MERGE,catalog.record,merge target into canonical record,False
-public.source_records,0,True,False,RENAME,catalog.record,normalize final cohort records,False
-public.split_manifest_registry,0,False,False,MIGRATE_TO_ARTIFACT,ml.artifact,register split manifest path and checksum,False
-public.study_extension_runs,0,False,False,MERGE,ml.run,normalize evaluation-only extension runs,False
+public.advisor_decisions,0,False,False,DROP_EMPTY_REDUNDANT,recommendation.review,canonical destination loaded and reconciled; empty source removed after explicit gate,True
+public.cutoff_feature_snapshots,0,False,False,DROP_EMPTY_REDUNDANT,ml.artifact,canonical destination loaded and reconciled; empty source removed after explicit gate,True
+public.expert_review_cases,0,False,False,DROP_EMPTY_REDUNDANT,recommendation.review,canonical destination loaded and reconciled; empty source removed after explicit gate,True
+public.expert_review_ratings,0,False,False,DROP_EMPTY_REDUNDANT,recommendation.review,canonical destination loaded and reconciled; empty source removed after explicit gate,True
+public.ml_evidence_bundles,0,False,False,DROP_EMPTY_REDUNDANT,ml.artifact,canonical destination loaded and reconciled; empty source removed after explicit gate,True
+public.ml_experiment_runs,0,False,False,DROP_EMPTY_REDUNDANT,ml.run,canonical destination loaded and reconciled; empty source removed after explicit gate,True
+public.ml_predictions,0,False,False,DROP_EMPTY_REDUNDANT,ml.artifact,canonical destination loaded and reconciled; empty source removed after explicit gate,True
+public.ml_recommendations,0,False,False,DROP_EMPTY_REDUNDANT,recommendation.plan,canonical destination loaded and reconciled; empty source removed after explicit gate,True
+public.ml_run_metrics,0,False,False,DROP_EMPTY_REDUNDANT,ml.metric,canonical destination loaded and reconciled; empty source removed after explicit gate,True
+public.ml_run_record_splits,0,False,False,DROP_EMPTY_REDUNDANT,ml.artifact,canonical destination loaded and reconciled; empty source removed after explicit gate,True
+public.ml_schema_migrations,0,False,False,DROP_EMPTY_REDUNDANT,system.schema_migration,canonical destination loaded and reconciled; empty source removed after explicit gate,True
+public.prediction_cohorts,0,False,False,DROP_EMPTY_REDUNDANT,catalog.dataset_version,canonical destination loaded and reconciled; empty source removed after explicit gate,True
+public.prediction_snapshots,0,False,False,DROP_EMPTY_REDUNDANT,ml.artifact,canonical destination loaded and reconciled; empty source removed after explicit gate,True
+public.recommendation_action_catalog,0,False,False,DROP_EMPTY_REDUNDANT,recommendation.policy,canonical destination loaded and reconciled; empty source removed after explicit gate,True
+public.recommendation_actions,0,False,False,DROP_EMPTY_REDUNDANT,recommendation.action,canonical destination loaded and reconciled; empty source removed after explicit gate,True
+public.recommendation_feature_registry,0,False,False,DROP_EMPTY_REDUNDANT,recommendation.policy,canonical destination loaded and reconciled; empty source removed after explicit gate,True
+public.recommendation_follow_ups,0,False,False,DROP_EMPTY_REDUNDANT,recommendation.review,canonical destination loaded and reconciled; empty source removed after explicit gate,True
+public.recommendation_goals,0,False,False,DROP_EMPTY_REDUNDANT,recommendation.plan,canonical destination loaded and reconciled; empty source removed after explicit gate,True
+public.recommendation_instances,0,False,False,DROP_EMPTY_REDUNDANT,recommendation.risk_profile,canonical destination loaded and reconciled; empty source removed after explicit gate,True
+public.recommendation_outcomes,0,False,False,DROP_EMPTY_REDUNDANT,recommendation.review,canonical destination loaded and reconciled; empty source removed after explicit gate,True
+public.recommendation_policies,0,False,False,DROP_EMPTY_REDUNDANT,recommendation.policy,canonical destination loaded and reconciled; empty source removed after explicit gate,True
+public.recommendation_revisions,0,False,False,DROP_EMPTY_REDUNDANT,recommendation.plan,canonical destination loaded and reconciled; empty source removed after explicit gate,True
+public.snapshot_record_index,0,False,False,DROP_EMPTY_REDUNDANT,ml.artifact,canonical destination loaded and reconciled; empty source removed after explicit gate,True
+public.source_dataset_files,0,False,False,DROP_EMPTY_REDUNDANT,catalog.dataset_version,canonical destination loaded and reconciled; empty source removed after explicit gate,True
+public.source_dataset_versions,0,False,False,DROP_EMPTY_REDUNDANT,catalog.dataset_version,canonical destination loaded and reconciled; empty source removed after explicit gate,True
+public.source_record_targets,0,False,False,DROP_EMPTY_REDUNDANT,catalog.record,canonical destination loaded and reconciled; empty source removed after explicit gate,True
+public.source_records,0,False,False,DROP_EMPTY_REDUNDANT,catalog.record,canonical destination loaded and reconciled; empty source removed after explicit gate,True
+public.split_manifest_registry,0,False,False,DROP_EMPTY_REDUNDANT,ml.artifact,canonical destination loaded and reconciled; empty source removed after explicit gate,True
+public.study_extension_runs,0,False,False,DROP_EMPTY_REDUNDANT,ml.run,canonical destination loaded and reconciled; empty source removed after explicit gate,True

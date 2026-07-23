@@ -38,6 +38,17 @@ SCAN_PATHS = (
     "docker-compose.yml",
 )
 
+# These modules are retained solely to reproduce historical training/database
+# evidence. They are not imported by the final runtime or final database CLI.
+HISTORICAL_DATABASE_PATHS = {
+    "src/postgres_data_source.py",
+    "src/evaluation/evaluation.py",
+    "scripts/database_audit.py",
+    "scripts/database_register_evidence.py",
+    "scripts/database_v5.py",
+    "scripts/validate_oulad_final.py",
+}
+
 LEGACY_DESTINATIONS: dict[str, tuple[str, str, str]] = {
     "advisor_decisions": ("MERGE", "recommendation.review", "map advisor decision to review"),
     "cutoff_feature_snapshots": ("MIGRATE_TO_ARTIFACT", "ml.artifact", "register immutable snapshot path and checksum"),
@@ -180,7 +191,7 @@ def _inventory(dsn: str) -> tuple[dict[str, Any], dict[str, list[dict[str, Any]]
                 JOIN pg_namespace n ON n.oid = c.relnamespace
                 LEFT JOIN pg_class rc ON rc.oid = con.confrelid
                 LEFT JOIN pg_namespace rn ON rn.oid = rc.relnamespace
-                WHERE n.nspname NOT IN ('pg_catalog', 'information_schema')
+                WHERE n.nspname !~ '^pg_' AND n.nspname <> 'information_schema'
                 ORDER BY n.nspname, c.relname, con.conname
                 """,
             )
@@ -195,7 +206,7 @@ def _inventory(dsn: str) -> tuple[dict[str, Any], dict[str, list[dict[str, Any]]
                 JOIN pg_class idx ON idx.oid = i.indexrelid
                 JOIN pg_class tbl ON tbl.oid = i.indrelid
                 JOIN pg_namespace ns ON ns.oid = tbl.relnamespace
-                WHERE ns.nspname NOT IN ('pg_catalog', 'information_schema')
+                WHERE ns.nspname !~ '^pg_' AND ns.nspname <> 'information_schema'
                 ORDER BY ns.nspname, tbl.relname, idx.relname
                 """,
             )
@@ -208,7 +219,7 @@ def _inventory(dsn: str) -> tuple[dict[str, Any], dict[str, list[dict[str, Any]]
                 JOIN pg_class c ON c.oid = t.tgrelid
                 JOIN pg_namespace n ON n.oid = c.relnamespace
                 WHERE NOT t.tgisinternal
-                  AND n.nspname NOT IN ('pg_catalog', 'information_schema')
+                  AND n.nspname !~ '^pg_' AND n.nspname <> 'information_schema'
                 ORDER BY n.nspname, c.relname, t.tgname
                 """,
             )
@@ -222,7 +233,7 @@ def _inventory(dsn: str) -> tuple[dict[str, Any], dict[str, list[dict[str, Any]]
                 FROM pg_proc p
                 JOIN pg_namespace n ON n.oid = p.pronamespace
                 JOIN pg_language l ON l.oid = p.prolang
-                WHERE n.nspname NOT IN ('pg_catalog', 'information_schema')
+                WHERE n.nspname !~ '^pg_' AND n.nspname <> 'information_schema'
                 ORDER BY n.nspname, p.proname
                 """,
             )
@@ -431,6 +442,7 @@ def _usage(tables: list[dict[str, Any]]) -> list[dict[str, Any]]:
             ref
             for ref in buckets["read_references"] + buckets["write_references"]
             if ref.startswith(("src/", "scripts/"))
+            and ref not in HISTORICAL_DATABASE_PATHS
         ]
         if runtime_paths:
             runtime_status = "ACTIVE_RUNTIME"
@@ -651,9 +663,29 @@ def run(dsn: str, audit_label: str = "audit_before") -> None:
 
     usage = _usage(inventory["tables"])
     disposition = _disposition(inventory["tables"], usage)
-    _write_json(DATABASE_DIR / "database_code_usage.json", usage)
-    _write_json(DATABASE_DIR / "table_disposition.json", disposition)
-    _render_reports(profile, inventory["tables"], usage, disposition)
+    if audit_label == "audit_before":
+        _write_json(DATABASE_DIR / "database_code_usage.json", usage)
+        _write_json(DATABASE_DIR / "table_disposition.json", disposition)
+        _render_reports(profile, inventory["tables"], usage, disposition)
+    else:
+        lines = [
+            "# Database Post-Cutover Audit",
+            "",
+            f"- Audit timestamp: `{profile['audited_at']}`",
+            f"- Endpoint: `{profile['connection']}`",
+            f"- Active base tables: **{profile['base_table_count']}**",
+            f"- Views: **{profile['view_count']}**",
+            f"- Triggers: **{profile['trigger_count']}**",
+            f"- Exact total rows: **{profile['total_rows']}**",
+            f"- Database size: **{profile['database_size']}**",
+            "",
+            "The detailed object inventory and checksum manifest are in "
+            "`artifacts/final/database/audit_after/`.",
+            "",
+        ]
+        (REPORT_DIR / "DATABASE_POST_CUTOVER_AUDIT.md").write_text(
+            "\n".join(lines), encoding="utf-8"
+        )
 
     manifest_inputs = [
         path
