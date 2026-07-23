@@ -603,20 +603,21 @@ def _checksum_manifest(paths: list[Path]) -> dict[str, Any]:
     }
 
 
-def run(dsn: str) -> None:
+def run(dsn: str, audit_label: str = "audit_before") -> None:
     profile, inventory = _inventory(dsn)
-    AUDIT_DIR.mkdir(parents=True, exist_ok=True)
+    audit_dir = DATABASE_DIR / audit_label
+    audit_dir.mkdir(parents=True, exist_ok=True)
     REPORT_DIR.mkdir(parents=True, exist_ok=True)
 
-    _write_json(AUDIT_DIR / "database_profile.json", profile)
+    _write_json(audit_dir / "database_profile.json", profile)
     for name in ("schemas", "tables", "columns", "constraints", "indexes", "triggers", "functions", "grants"):
-        _write_json(AUDIT_DIR / f"{name}.json", inventory[name])
+        _write_json(audit_dir / f"{name}.json", inventory[name])
     _write_json(
-        AUDIT_DIR / "integrity_checks.json",
+        audit_dir / "integrity_checks.json",
         inventory["integrity_checks"],
     )
     _write_json(
-        AUDIT_DIR / "objects.json",
+        audit_dir / "objects.json",
         {
             "views": inventory["views"],
             "materialized_views": inventory["materialized_views"],
@@ -632,7 +633,7 @@ def run(dsn: str) -> None:
         }
         for table in inventory["tables"]
     ]
-    _write_csv(AUDIT_DIR / "row_counts.csv", row_counts, ["schema", "table", "row_count"])
+    _write_csv(audit_dir / "row_counts.csv", row_counts, ["schema", "table", "row_count"])
     table_sizes = [
         {
             "schema": table["schema_name"],
@@ -643,7 +644,7 @@ def run(dsn: str) -> None:
         for table in inventory["tables"]
     ]
     _write_csv(
-        AUDIT_DIR / "table_sizes.csv",
+        audit_dir / "table_sizes.csv",
         table_sizes,
         ["schema", "table", "table_bytes", "total_bytes"],
     )
@@ -656,11 +657,11 @@ def run(dsn: str) -> None:
 
     manifest_inputs = [
         path
-        for path in AUDIT_DIR.iterdir()
+        for path in audit_dir.iterdir()
         if path.is_file() and path.name != "schema_checksum_manifest.json"
     ]
     _write_json(
-        AUDIT_DIR / "schema_checksum_manifest.json",
+        audit_dir / "schema_checksum_manifest.json",
         _checksum_manifest(manifest_inputs),
     )
     counts = Counter(row["decision"] for row in disposition)
@@ -681,11 +682,16 @@ def run(dsn: str) -> None:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--dsn-env", default="POSTGRES_TEST_DSN")
+    parser.add_argument(
+        "--audit-label",
+        choices=("audit_before", "audit_after"),
+        default="audit_before",
+    )
     args = parser.parse_args()
     dsn = os.environ.get(args.dsn_env)
     if not dsn:
         raise SystemExit(f"Missing required environment variable: {args.dsn_env}")
-    run(dsn)
+    run(dsn, args.audit_label)
     return 0
 
 

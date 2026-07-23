@@ -1,0 +1,12 @@
+{
+  "actions": 27355,
+  "at": "2026-07-23T15:33:37.858364+00:00",
+  "database": "student_predict_rollback_test",
+  "datasets": 3,
+  "expert_status": "PENDING_EXPERT_LABELS",
+  "future_oulad": "LOCKED",
+  "models": 27,
+  "plans": 15378,
+  "risk_profiles": 15378,
+  "status": "PASS"
+}

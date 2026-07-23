@@ -1,0 +1,18 @@
+{
+  "backup_filename": "student_predict_before_final_database.dump",
+  "byte_count": 127010,
+  "created_at": "2026-07-23T15:16:25.458272+00:00",
+  "credentials": "REDACTED",
+  "database_name": "student_predict",
+  "restore_command_template": "pg_restore --exit-on-error --no-owner --no-acl --dbname <disposable_database> backups/student_predict_before_final_database.dump",
+  "restore_test": {
+    "database": "student_predict_restore_test",
+    "schema_hash": "a39786cda672c14f638d5a45c3c56777a5a189842780935d20fc67f551d1525a",
+    "status": "PASS"
+  },
+  "schema_version": "final_database_backup_v1",
+  "server_version": "18.4",
+  "sha256": "1925375607e5b6ba4379ce2499690185f4684da3869e10bf922d940626ed0cb6",
+  "starting_schema_hash": "a39786cda672c14f638d5a45c3c56777a5a189842780935d20fc67f551d1525a",
+  "status": "PASS"
+}

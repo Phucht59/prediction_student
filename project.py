@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
@@ -87,6 +88,10 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main() -> int:
+    if len(sys.argv) > 1 and sys.argv[1] == "db-final":
+        from scripts.database_final import main as database_final_main
+
+        return int(database_final_main(sys.argv[2:]))
     args = build_parser().parse_args()
     return int(args.handler(args))
 
