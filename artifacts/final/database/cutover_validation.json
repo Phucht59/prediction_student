@@ -1,0 +1,18 @@
+{
+  "at": "2026-07-23T15:37:32.663872+00:00",
+  "credentials": "REDACTED",
+  "database": "student_predict_final_dev",
+  "legacy_disposition": [],
+  "loaded": {
+    "actions": 27355,
+    "datasets": 3,
+    "expert_status": "PENDING_EXPERT_LABELS",
+    "future_oulad": "LOCKED",
+    "models": 27,
+    "plans": 15378,
+    "risk_profiles": 15378,
+    "status": "PASS"
+  },
+  "post_cutover_validation": "PASS",
+  "status": "PASS"
+}

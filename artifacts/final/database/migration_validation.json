@@ -1,0 +1,31 @@
+{
+  "checks": {
+    "action_count": true,
+    "all_metrics_match_canonical_json": true,
+    "artifact_checksums_match": true,
+    "expected_13_core_tables": true,
+    "expert_status_pending": true,
+    "final_base_table_count_at_most_15": true,
+    "future_oulad_locked": true,
+    "no_application_tables_in_public": true,
+    "no_duplicate_risk_profile": true,
+    "no_fake_expert_review": true,
+    "no_orphan_action": true,
+    "no_orphan_plan": true,
+    "no_versioned_table_names": true,
+    "non_pk_indexes_at_most_twenty": true,
+    "plan_count": true,
+    "probabilities_valid": true,
+    "risk_profile_count": true,
+    "three_datasets_loaded": true,
+    "triggers_at_most_two": true,
+    "twenty_seven_model_dataset_results": true,
+    "two_views": true
+  },
+  "credentials": "REDACTED",
+  "database": "student_predict_final_dev",
+  "schema_version": "final_database_validation_v1",
+  "status": "PASS",
+  "strict_public": true,
+  "validated_at": "2026-07-23T15:37:32.495214+00:00"
+}
