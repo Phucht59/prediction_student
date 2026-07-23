@@ -1,0 +1,292 @@
+[
+  {
+    "contains_final_evidence": false,
+    "decision": "MERGE",
+    "drop_allowed": false,
+    "migration_method": "map advisor decision to review",
+    "new_destination": "recommendation.review",
+    "old_table": "public.advisor_decisions",
+    "rows": 0,
+    "used_by_code": false
+  },
+  {
+    "contains_final_evidence": false,
+    "decision": "MIGRATE_TO_ARTIFACT",
+    "drop_allowed": false,
+    "migration_method": "register immutable snapshot path and checksum",
+    "new_destination": "ml.artifact",
+    "old_table": "public.cutoff_feature_snapshots",
+    "rows": 0,
+    "used_by_code": false
+  },
+  {
+    "contains_final_evidence": false,
+    "decision": "MERGE",
+    "drop_allowed": false,
+    "migration_method": "map expert case metadata without fabricating labels",
+    "new_destination": "recommendation.review",
+    "old_table": "public.expert_review_cases",
+    "rows": 0,
+    "used_by_code": false
+  },
+  {
+    "contains_final_evidence": false,
+    "decision": "MERGE",
+    "drop_allowed": false,
+    "migration_method": "map real expert rating only",
+    "new_destination": "recommendation.review",
+    "old_table": "public.expert_review_ratings",
+    "rows": 0,
+    "used_by_code": false
+  },
+  {
+    "contains_final_evidence": false,
+    "decision": "MERGE",
+    "drop_allowed": false,
+    "migration_method": "register evidence bundle path and checksum",
+    "new_destination": "ml.artifact",
+    "old_table": "public.ml_evidence_bundles",
+    "rows": 0,
+    "used_by_code": true
+  },
+  {
+    "contains_final_evidence": false,
+    "decision": "MERGE",
+    "drop_allowed": false,
+    "migration_method": "normalize final and evaluation runs",
+    "new_destination": "ml.run",
+    "old_table": "public.ml_experiment_runs",
+    "rows": 0,
+    "used_by_code": true
+  },
+  {
+    "contains_final_evidence": false,
+    "decision": "MIGRATE_TO_ARTIFACT",
+    "drop_allowed": false,
+    "migration_method": "store prediction file metadata; risk rows use risk_profile",
+    "new_destination": "ml.artifact",
+    "old_table": "public.ml_predictions",
+    "rows": 0,
+    "used_by_code": true
+  },
+  {
+    "contains_final_evidence": false,
+    "decision": "MERGE",
+    "drop_allowed": false,
+    "migration_method": "normalize final recommendation plans",
+    "new_destination": "recommendation.plan",
+    "old_table": "public.ml_recommendations",
+    "rows": 0,
+    "used_by_code": true
+  },
+  {
+    "contains_final_evidence": false,
+    "decision": "MERGE",
+    "drop_allowed": false,
+    "migration_method": "normalize overall, class, top-k and calibration metrics",
+    "new_destination": "ml.metric",
+    "old_table": "public.ml_run_metrics",
+    "rows": 0,
+    "used_by_code": true
+  },
+  {
+    "contains_final_evidence": false,
+    "decision": "MIGRATE_TO_ARTIFACT",
+    "drop_allowed": false,
+    "migration_method": "register split manifest instead of split members",
+    "new_destination": "ml.artifact",
+    "old_table": "public.ml_run_record_splits",
+    "rows": 0,
+    "used_by_code": true
+  },
+  {
+    "contains_final_evidence": false,
+    "decision": "MERGE",
+    "drop_allowed": false,
+    "migration_method": "copy immutable migration ledger",
+    "new_destination": "system.schema_migration",
+    "old_table": "public.ml_schema_migrations",
+    "rows": 0,
+    "used_by_code": true
+  },
+  {
+    "contains_final_evidence": false,
+    "decision": "MERGE",
+    "drop_allowed": false,
+    "migration_method": "preserve cohort contract in version metadata",
+    "new_destination": "catalog.dataset_version",
+    "old_table": "public.prediction_cohorts",
+    "rows": 0,
+    "used_by_code": false
+  },
+  {
+    "contains_final_evidence": false,
+    "decision": "MIGRATE_TO_ARTIFACT",
+    "drop_allowed": false,
+    "migration_method": "register prediction snapshot path and checksum",
+    "new_destination": "ml.artifact",
+    "old_table": "public.prediction_snapshots",
+    "rows": 0,
+    "used_by_code": false
+  },
+  {
+    "contains_final_evidence": false,
+    "decision": "MERGE",
+    "drop_allowed": false,
+    "migration_method": "embed versioned action catalog in policy rules",
+    "new_destination": "recommendation.policy",
+    "old_table": "public.recommendation_action_catalog",
+    "rows": 0,
+    "used_by_code": false
+  },
+  {
+    "contains_final_evidence": false,
+    "decision": "MERGE",
+    "drop_allowed": false,
+    "migration_method": "normalize final plan actions",
+    "new_destination": "recommendation.action",
+    "old_table": "public.recommendation_actions",
+    "rows": 0,
+    "used_by_code": false
+  },
+  {
+    "contains_final_evidence": false,
+    "decision": "MERGE",
+    "drop_allowed": false,
+    "migration_method": "embed recommendation feature contract in policy",
+    "new_destination": "recommendation.policy",
+    "old_table": "public.recommendation_feature_registry",
+    "rows": 0,
+    "used_by_code": false
+  },
+  {
+    "contains_final_evidence": false,
+    "decision": "MERGE",
+    "drop_allowed": false,
+    "migration_method": "map as follow_up review",
+    "new_destination": "recommendation.review",
+    "old_table": "public.recommendation_follow_ups",
+    "rows": 0,
+    "used_by_code": false
+  },
+  {
+    "contains_final_evidence": false,
+    "decision": "MERGE",
+    "drop_allowed": false,
+    "migration_method": "map goal into plan goal and payload",
+    "new_destination": "recommendation.plan",
+    "old_table": "public.recommendation_goals",
+    "rows": 0,
+    "used_by_code": false
+  },
+  {
+    "contains_final_evidence": false,
+    "decision": "MERGE",
+    "drop_allowed": false,
+    "migration_method": "normalize risk/recommendation case identity",
+    "new_destination": "recommendation.risk_profile",
+    "old_table": "public.recommendation_instances",
+    "rows": 0,
+    "used_by_code": false
+  },
+  {
+    "contains_final_evidence": false,
+    "decision": "MERGE",
+    "drop_allowed": false,
+    "migration_method": "map recorded outcome as review payload",
+    "new_destination": "recommendation.review",
+    "old_table": "public.recommendation_outcomes",
+    "rows": 0,
+    "used_by_code": false
+  },
+  {
+    "contains_final_evidence": false,
+    "decision": "MERGE",
+    "drop_allowed": false,
+    "migration_method": "normalize one checksummed policy registry",
+    "new_destination": "recommendation.policy",
+    "old_table": "public.recommendation_policies",
+    "rows": 0,
+    "used_by_code": false
+  },
+  {
+    "contains_final_evidence": false,
+    "decision": "MERGE",
+    "drop_allowed": false,
+    "migration_method": "normalize plan revision and supersession",
+    "new_destination": "recommendation.plan",
+    "old_table": "public.recommendation_revisions",
+    "rows": 0,
+    "used_by_code": false
+  },
+  {
+    "contains_final_evidence": false,
+    "decision": "MIGRATE_TO_ARTIFACT",
+    "drop_allowed": false,
+    "migration_method": "retain row index inside snapshot artifact",
+    "new_destination": "ml.artifact",
+    "old_table": "public.snapshot_record_index",
+    "rows": 0,
+    "used_by_code": false
+  },
+  {
+    "contains_final_evidence": false,
+    "decision": "MERGE",
+    "drop_allowed": false,
+    "migration_method": "embed source file checksums in source_files",
+    "new_destination": "catalog.dataset_version",
+    "old_table": "public.source_dataset_files",
+    "rows": 0,
+    "used_by_code": false
+  },
+  {
+    "contains_final_evidence": false,
+    "decision": "RENAME",
+    "drop_allowed": false,
+    "migration_method": "normalize dataset version identity",
+    "new_destination": "catalog.dataset_version",
+    "old_table": "public.source_dataset_versions",
+    "rows": 0,
+    "used_by_code": true
+  },
+  {
+    "contains_final_evidence": false,
+    "decision": "MERGE",
+    "drop_allowed": false,
+    "migration_method": "merge target into canonical record",
+    "new_destination": "catalog.record",
+    "old_table": "public.source_record_targets",
+    "rows": 0,
+    "used_by_code": true
+  },
+  {
+    "contains_final_evidence": false,
+    "decision": "RENAME",
+    "drop_allowed": false,
+    "migration_method": "normalize final cohort records",
+    "new_destination": "catalog.record",
+    "old_table": "public.source_records",
+    "rows": 0,
+    "used_by_code": true
+  },
+  {
+    "contains_final_evidence": false,
+    "decision": "MIGRATE_TO_ARTIFACT",
+    "drop_allowed": false,
+    "migration_method": "register split manifest path and checksum",
+    "new_destination": "ml.artifact",
+    "old_table": "public.split_manifest_registry",
+    "rows": 0,
+    "used_by_code": false
+  },
+  {
+    "contains_final_evidence": false,
+    "decision": "MERGE",
+    "drop_allowed": false,
+    "migration_method": "normalize evaluation-only extension runs",
+    "new_destination": "ml.run",
+    "old_table": "public.study_extension_runs",
+    "rows": 0,
+    "used_by_code": false
+  }
+]

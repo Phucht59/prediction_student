@@ -1,0 +1,7 @@
+[
+  {
+    "comment": "standard public schema",
+    "owner": "pg_database_owner",
+    "schema_name": "public"
+  }
+]

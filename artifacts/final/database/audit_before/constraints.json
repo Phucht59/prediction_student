@@ -1,0 +1,3314 @@
+[
+  {
+    "constraint_name": "advisor_decisions_advisor_decision_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL advisor_decision_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "advisor_decisions"
+  },
+  {
+    "constraint_name": "advisor_decisions_advisor_reference_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL advisor_reference",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "advisor_decisions"
+  },
+  {
+    "constraint_name": "advisor_decisions_decision_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL decision",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "advisor_decisions"
+  },
+  {
+    "constraint_name": "advisor_decisions_decision_timestamp_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL decision_timestamp",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "advisor_decisions"
+  },
+  {
+    "constraint_name": "advisor_decisions_modified_fields_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL modified_fields",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "advisor_decisions"
+  },
+  {
+    "constraint_name": "advisor_decisions_pkey",
+    "constraint_type": "PRIMARY KEY",
+    "definition": "PRIMARY KEY (advisor_decision_id)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "advisor_decisions"
+  },
+  {
+    "constraint_name": "advisor_decisions_reason_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL reason",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "advisor_decisions"
+  },
+  {
+    "constraint_name": "advisor_decisions_revision_id_fkey",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (revision_id) REFERENCES recommendation_revisions(revision_id)",
+    "referenced_schema": "public",
+    "referenced_table": "recommendation_revisions",
+    "schema_name": "public",
+    "table_name": "advisor_decisions"
+  },
+  {
+    "constraint_name": "advisor_decisions_revision_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL revision_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "advisor_decisions"
+  },
+  {
+    "constraint_name": "chk_advisor_decision",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (decision = ANY (ARRAY['approve'::text, 'modify'::text, 'reject'::text, 'request_more_information'::text]))",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "advisor_decisions"
+  },
+  {
+    "constraint_name": "cutoff_feature_snapshots_channel_order_hash_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (channel_order_hash ~ '^[0-9a-f]{64}$'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "cutoff_feature_snapshots"
+  },
+  {
+    "constraint_name": "cutoff_feature_snapshots_channel_order_hash_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL channel_order_hash",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "cutoff_feature_snapshots"
+  },
+  {
+    "constraint_name": "cutoff_feature_snapshots_channel_order_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL channel_order",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "cutoff_feature_snapshots"
+  },
+  {
+    "constraint_name": "cutoff_feature_snapshots_created_at_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL created_at",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "cutoff_feature_snapshots"
+  },
+  {
+    "constraint_name": "cutoff_feature_snapshots_cutoff_feature_snapshot_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL cutoff_feature_snapshot_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "cutoff_feature_snapshots"
+  },
+  {
+    "constraint_name": "cutoff_feature_snapshots_feature_contract_hash_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (feature_contract_hash ~ '^[0-9a-f]{64}$'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "cutoff_feature_snapshots"
+  },
+  {
+    "constraint_name": "cutoff_feature_snapshots_feature_contract_hash_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL feature_contract_hash",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "cutoff_feature_snapshots"
+  },
+  {
+    "constraint_name": "cutoff_feature_snapshots_parquet_relative_path_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL parquet_relative_path",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "cutoff_feature_snapshots"
+  },
+  {
+    "constraint_name": "cutoff_feature_snapshots_parquet_sha256_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (parquet_sha256 ~ '^[0-9a-f]{64}$'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "cutoff_feature_snapshots"
+  },
+  {
+    "constraint_name": "cutoff_feature_snapshots_parquet_sha256_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL parquet_sha256",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "cutoff_feature_snapshots"
+  },
+  {
+    "constraint_name": "cutoff_feature_snapshots_pkey",
+    "constraint_type": "PRIMARY KEY",
+    "definition": "PRIMARY KEY (cutoff_feature_snapshot_id)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "cutoff_feature_snapshots"
+  },
+  {
+    "constraint_name": "cutoff_feature_snapshots_prediction_cohort_id_fkey",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (prediction_cohort_id) REFERENCES prediction_cohorts(prediction_cohort_id)",
+    "referenced_schema": "public",
+    "referenced_table": "prediction_cohorts",
+    "schema_name": "public",
+    "table_name": "cutoff_feature_snapshots"
+  },
+  {
+    "constraint_name": "cutoff_feature_snapshots_prediction_cohort_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL prediction_cohort_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "cutoff_feature_snapshots"
+  },
+  {
+    "constraint_name": "cutoff_feature_snapshots_row_count_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (row_count >= 0)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "cutoff_feature_snapshots"
+  },
+  {
+    "constraint_name": "cutoff_feature_snapshots_row_count_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL row_count",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "cutoff_feature_snapshots"
+  },
+  {
+    "constraint_name": "cutoff_feature_snapshots_sequence_length_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (sequence_length > 0)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "cutoff_feature_snapshots"
+  },
+  {
+    "constraint_name": "cutoff_feature_snapshots_sequence_length_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL sequence_length",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "cutoff_feature_snapshots"
+  },
+  {
+    "constraint_name": "cutoff_feature_snapshots_status_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (status = ANY (ARRAY['materialized'::text, 'validated'::text, 'deprecated'::text]))",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "cutoff_feature_snapshots"
+  },
+  {
+    "constraint_name": "cutoff_feature_snapshots_status_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL status",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "cutoff_feature_snapshots"
+  },
+  {
+    "constraint_name": "cutoff_feature_snapshots_target_hash_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (target_hash ~ '^[0-9a-f]{64}$'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "cutoff_feature_snapshots"
+  },
+  {
+    "constraint_name": "cutoff_feature_snapshots_target_hash_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL target_hash",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "cutoff_feature_snapshots"
+  },
+  {
+    "constraint_name": "expert_review_cases_case_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL case_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "expert_review_cases"
+  },
+  {
+    "constraint_name": "expert_review_cases_created_at_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL created_at",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "expert_review_cases"
+  },
+  {
+    "constraint_name": "expert_review_cases_pkey",
+    "constraint_type": "PRIMARY KEY",
+    "definition": "PRIMARY KEY (case_id)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "expert_review_cases"
+  },
+  {
+    "constraint_name": "expert_review_cases_stratum_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL stratum",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "expert_review_cases"
+  },
+  {
+    "constraint_name": "expert_review_ratings_case_id_fkey",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (case_id) REFERENCES expert_review_cases(case_id)",
+    "referenced_schema": "public",
+    "referenced_table": "expert_review_cases",
+    "schema_name": "public",
+    "table_name": "expert_review_ratings"
+  },
+  {
+    "constraint_name": "expert_review_ratings_case_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL case_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "expert_review_ratings"
+  },
+  {
+    "constraint_name": "expert_review_ratings_created_at_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL created_at",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "expert_review_ratings"
+  },
+  {
+    "constraint_name": "expert_review_ratings_expert_reference_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL expert_reference",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "expert_review_ratings"
+  },
+  {
+    "constraint_name": "expert_review_ratings_pkey",
+    "constraint_type": "PRIMARY KEY",
+    "definition": "PRIMARY KEY (rating_id)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "expert_review_ratings"
+  },
+  {
+    "constraint_name": "expert_review_ratings_rating_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL rating_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "expert_review_ratings"
+  },
+  {
+    "constraint_name": "expert_review_ratings_rating_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL rating",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "expert_review_ratings"
+  },
+  {
+    "constraint_name": "ml_evidence_bundles_artifact_manifest_sha256_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (artifact_manifest_sha256 ~ '^[0-9a-f]{64}$'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_evidence_bundles"
+  },
+  {
+    "constraint_name": "ml_evidence_bundles_artifact_manifest_sha256_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL artifact_manifest_sha256",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_evidence_bundles"
+  },
+  {
+    "constraint_name": "ml_evidence_bundles_artifact_root_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL artifact_root",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_evidence_bundles"
+  },
+  {
+    "constraint_name": "ml_evidence_bundles_benchmark_status_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (benchmark_status = ANY (ARRAY['development_only'::text, 'reused_observed'::text, 'not_executed'::text]))",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_evidence_bundles"
+  },
+  {
+    "constraint_name": "ml_evidence_bundles_benchmark_status_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL benchmark_status",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_evidence_bundles"
+  },
+  {
+    "constraint_name": "ml_evidence_bundles_candidate_registry_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (jsonb_typeof(candidate_registry) = 'object'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_evidence_bundles"
+  },
+  {
+    "constraint_name": "ml_evidence_bundles_candidate_registry_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL candidate_registry",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_evidence_bundles"
+  },
+  {
+    "constraint_name": "ml_evidence_bundles_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (completed_at >= created_at)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_evidence_bundles"
+  },
+  {
+    "constraint_name": "ml_evidence_bundles_completed_at_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL completed_at",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_evidence_bundles"
+  },
+  {
+    "constraint_name": "ml_evidence_bundles_created_at_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL created_at",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_evidence_bundles"
+  },
+  {
+    "constraint_name": "ml_evidence_bundles_dataset_version_id_fkey",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (dataset_version_id) REFERENCES source_dataset_versions(dataset_version_id) ON DELETE RESTRICT",
+    "referenced_schema": "public",
+    "referenced_table": "source_dataset_versions",
+    "schema_name": "public",
+    "table_name": "ml_evidence_bundles"
+  },
+  {
+    "constraint_name": "ml_evidence_bundles_environment_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (jsonb_typeof(environment) = 'object'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_evidence_bundles"
+  },
+  {
+    "constraint_name": "ml_evidence_bundles_environment_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL environment",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_evidence_bundles"
+  },
+  {
+    "constraint_name": "ml_evidence_bundles_evidence_bundle_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL evidence_bundle_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_evidence_bundles"
+  },
+  {
+    "constraint_name": "ml_evidence_bundles_forecast_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL forecast_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_evidence_bundles"
+  },
+  {
+    "constraint_name": "ml_evidence_bundles_future_benchmark_status_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (future_benchmark_status = ANY (ARRAY['NOT_EXECUTED'::text, 'REUSED_OBSERVED'::text]))",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_evidence_bundles"
+  },
+  {
+    "constraint_name": "ml_evidence_bundles_future_benchmark_status_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL future_benchmark_status",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_evidence_bundles"
+  },
+  {
+    "constraint_name": "ml_evidence_bundles_pkey",
+    "constraint_type": "PRIMARY KEY",
+    "definition": "PRIMARY KEY (evidence_bundle_id)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_evidence_bundles"
+  },
+  {
+    "constraint_name": "ml_evidence_bundles_protocol_path_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL protocol_path",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_evidence_bundles"
+  },
+  {
+    "constraint_name": "ml_evidence_bundles_protocol_sha256_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (protocol_sha256 ~ '^[0-9a-f]{64}$'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_evidence_bundles"
+  },
+  {
+    "constraint_name": "ml_evidence_bundles_protocol_sha256_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL protocol_sha256",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_evidence_bundles"
+  },
+  {
+    "constraint_name": "ml_evidence_bundles_registered_at_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL registered_at",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_evidence_bundles"
+  },
+  {
+    "constraint_name": "ml_evidence_bundles_run_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL run_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_evidence_bundles"
+  },
+  {
+    "constraint_name": "ml_evidence_bundles_runtime_seconds_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (runtime_seconds IS NULL OR runtime_seconds >= 0::double precision)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_evidence_bundles"
+  },
+  {
+    "constraint_name": "ml_evidence_bundles_scientific_verdict_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL scientific_verdict",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_evidence_bundles"
+  },
+  {
+    "constraint_name": "ml_evidence_bundles_seed_registry_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (jsonb_typeof(seed_registry) = 'array'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_evidence_bundles"
+  },
+  {
+    "constraint_name": "ml_evidence_bundles_seed_registry_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL seed_registry",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_evidence_bundles"
+  },
+  {
+    "constraint_name": "ml_evidence_bundles_source_commit_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (source_commit ~ '^[0-9a-f]{40}$'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_evidence_bundles"
+  },
+  {
+    "constraint_name": "ml_evidence_bundles_source_commit_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL source_commit",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_evidence_bundles"
+  },
+  {
+    "constraint_name": "ml_evidence_bundles_split_contract_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (jsonb_typeof(split_contract) = 'object'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_evidence_bundles"
+  },
+  {
+    "constraint_name": "ml_evidence_bundles_split_contract_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL split_contract",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_evidence_bundles"
+  },
+  {
+    "constraint_name": "ml_evidence_bundles_study_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL study_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_evidence_bundles"
+  },
+  {
+    "constraint_name": "ml_evidence_bundles_study_version_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL study_version",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_evidence_bundles"
+  },
+  {
+    "constraint_name": "ml_evidence_bundles_target_contract_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (jsonb_typeof(target_contract) = 'object'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_evidence_bundles"
+  },
+  {
+    "constraint_name": "ml_evidence_bundles_target_contract_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL target_contract",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_evidence_bundles"
+  },
+  {
+    "constraint_name": "ml_evidence_bundles_validation_status_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (validation_status = ANY (ARRAY['PASS'::text, 'FAIL'::text, 'PENDING'::text]))",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_evidence_bundles"
+  },
+  {
+    "constraint_name": "ml_evidence_bundles_validation_status_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL validation_status",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_evidence_bundles"
+  },
+  {
+    "constraint_name": "uq_ml_evidence_bundle_identity",
+    "constraint_type": "UNIQUE",
+    "definition": "UNIQUE (study_id, study_version, run_id)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_evidence_bundles"
+  },
+  {
+    "constraint_name": "chk_ml_runs_clean_tree_diff",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (working_tree_state::text = 'clean'::text AND source_diff_uri IS NULL AND source_diff_hash IS NULL OR working_tree_state::text = 'dirty'::text AND source_diff_uri IS NOT NULL AND source_diff_hash IS NOT NULL)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_experiment_runs"
+  },
+  {
+    "constraint_name": "chk_ml_runs_completed_at_order",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (completed_at IS NULL OR completed_at >= started_at)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_experiment_runs"
+  },
+  {
+    "constraint_name": "chk_ml_runs_completed_at_status",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (status::text = 'running'::text AND completed_at IS NULL OR (status::text = ANY (ARRAY['completed'::character varying, 'failed'::character varying]::text[])) AND completed_at IS NOT NULL)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_experiment_runs"
+  },
+  {
+    "constraint_name": "chk_ml_runs_environment_lock_hash",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (length(TRIM(BOTH FROM environment_lock_hash)) > 0)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_experiment_runs"
+  },
+  {
+    "constraint_name": "chk_ml_runs_environment_lock_uri",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (length(TRIM(BOTH FROM environment_lock_uri)) > 0)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_experiment_runs"
+  },
+  {
+    "constraint_name": "chk_ml_runs_metadata_object",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (jsonb_typeof(metadata) = 'object'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_experiment_runs"
+  },
+  {
+    "constraint_name": "chk_ml_runs_status",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (status::text = ANY (ARRAY['running'::character varying, 'completed'::character varying, 'failed'::character varying]::text[]))",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_experiment_runs"
+  },
+  {
+    "constraint_name": "chk_ml_runs_target_definition_object",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (jsonb_typeof(target_definition) = 'object'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_experiment_runs"
+  },
+  {
+    "constraint_name": "chk_ml_runs_task_type",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (task_type::text = 'classification'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_experiment_runs"
+  },
+  {
+    "constraint_name": "chk_ml_runs_train_config_object",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (jsonb_typeof(train_config) = 'object'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_experiment_runs"
+  },
+  {
+    "constraint_name": "chk_ml_runs_working_tree",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (working_tree_state::text = ANY (ARRAY['clean'::character varying, 'dirty'::character varying]::text[]))",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_experiment_runs"
+  },
+  {
+    "constraint_name": "ml_experiment_runs_artifact_uri_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL artifact_uri",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_experiment_runs"
+  },
+  {
+    "constraint_name": "ml_experiment_runs_dataset_version_id_fkey",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (dataset_version_id) REFERENCES source_dataset_versions(dataset_version_id) ON DELETE RESTRICT",
+    "referenced_schema": "public",
+    "referenced_table": "source_dataset_versions",
+    "schema_name": "public",
+    "table_name": "ml_experiment_runs"
+  },
+  {
+    "constraint_name": "ml_experiment_runs_dataset_version_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL dataset_version_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_experiment_runs"
+  },
+  {
+    "constraint_name": "ml_experiment_runs_environment_lock_hash_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL environment_lock_hash",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_experiment_runs"
+  },
+  {
+    "constraint_name": "ml_experiment_runs_environment_lock_uri_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL environment_lock_uri",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_experiment_runs"
+  },
+  {
+    "constraint_name": "ml_experiment_runs_git_commit_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL git_commit",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_experiment_runs"
+  },
+  {
+    "constraint_name": "ml_experiment_runs_metadata_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL metadata",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_experiment_runs"
+  },
+  {
+    "constraint_name": "ml_experiment_runs_model_name_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL model_name",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_experiment_runs"
+  },
+  {
+    "constraint_name": "ml_experiment_runs_pkey",
+    "constraint_type": "PRIMARY KEY",
+    "definition": "PRIMARY KEY (run_id)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_experiment_runs"
+  },
+  {
+    "constraint_name": "ml_experiment_runs_run_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL run_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_experiment_runs"
+  },
+  {
+    "constraint_name": "ml_experiment_runs_split_manifest_hash_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL split_manifest_hash",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_experiment_runs"
+  },
+  {
+    "constraint_name": "ml_experiment_runs_split_manifest_uri_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL split_manifest_uri",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_experiment_runs"
+  },
+  {
+    "constraint_name": "ml_experiment_runs_started_at_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL started_at",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_experiment_runs"
+  },
+  {
+    "constraint_name": "ml_experiment_runs_status_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL status",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_experiment_runs"
+  },
+  {
+    "constraint_name": "ml_experiment_runs_target_definition_hash_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL target_definition_hash",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_experiment_runs"
+  },
+  {
+    "constraint_name": "ml_experiment_runs_target_definition_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL target_definition",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_experiment_runs"
+  },
+  {
+    "constraint_name": "ml_experiment_runs_task_type_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL task_type",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_experiment_runs"
+  },
+  {
+    "constraint_name": "ml_experiment_runs_train_config_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL train_config",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_experiment_runs"
+  },
+  {
+    "constraint_name": "ml_experiment_runs_working_tree_state_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL working_tree_state",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_experiment_runs"
+  },
+  {
+    "constraint_name": "uq_ml_experiment_runs_run_dataset",
+    "constraint_type": "UNIQUE",
+    "definition": "UNIQUE (run_id, dataset_version_id)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_experiment_runs"
+  },
+  {
+    "constraint_name": "chk_ml_predictions_confidence",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (confidence >= 0::double precision AND confidence <= 1::double precision)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_predictions"
+  },
+  {
+    "constraint_name": "chk_ml_predictions_probability_object",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (jsonb_typeof(probability) = 'object'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_predictions"
+  },
+  {
+    "constraint_name": "chk_ml_predictions_split",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (split_name::text = ANY (ARRAY['train'::character varying, 'validation'::character varying, 'test'::character varying]::text[]))",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_predictions"
+  },
+  {
+    "constraint_name": "fk_ml_predictions_split",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (run_id, record_id, split_name) REFERENCES ml_run_record_splits(run_id, record_id, split_name) ON DELETE RESTRICT",
+    "referenced_schema": "public",
+    "referenced_table": "ml_run_record_splits",
+    "schema_name": "public",
+    "table_name": "ml_predictions"
+  },
+  {
+    "constraint_name": "ml_predictions_confidence_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL confidence",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_predictions"
+  },
+  {
+    "constraint_name": "ml_predictions_created_at_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL created_at",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_predictions"
+  },
+  {
+    "constraint_name": "ml_predictions_pkey",
+    "constraint_type": "PRIMARY KEY",
+    "definition": "PRIMARY KEY (prediction_id)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_predictions"
+  },
+  {
+    "constraint_name": "ml_predictions_predicted_label_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL predicted_label",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_predictions"
+  },
+  {
+    "constraint_name": "ml_predictions_prediction_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL prediction_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_predictions"
+  },
+  {
+    "constraint_name": "ml_predictions_probability_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL probability",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_predictions"
+  },
+  {
+    "constraint_name": "ml_predictions_record_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL record_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_predictions"
+  },
+  {
+    "constraint_name": "ml_predictions_run_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL run_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_predictions"
+  },
+  {
+    "constraint_name": "ml_predictions_split_name_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL split_name",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_predictions"
+  },
+  {
+    "constraint_name": "ml_predictions_true_label_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL true_label",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_predictions"
+  },
+  {
+    "constraint_name": "uq_ml_predictions_run_record_split",
+    "constraint_type": "UNIQUE",
+    "definition": "UNIQUE (run_id, record_id, split_name)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_predictions"
+  },
+  {
+    "constraint_name": "chk_ml_recommendations_explanation_object",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (jsonb_typeof(explanation) = 'object'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_recommendations"
+  },
+  {
+    "constraint_name": "chk_ml_recommendations_learning_path_object",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (jsonb_typeof(learning_path) = 'object'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_recommendations"
+  },
+  {
+    "constraint_name": "chk_ml_recommendations_policy",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (length(TRIM(BOTH FROM policy_version)) > 0)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_recommendations"
+  },
+  {
+    "constraint_name": "chk_ml_recommendations_risk_band",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (length(TRIM(BOTH FROM risk_band)) > 0)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_recommendations"
+  },
+  {
+    "constraint_name": "ml_recommendations_created_at_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL created_at",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_recommendations"
+  },
+  {
+    "constraint_name": "ml_recommendations_explanation_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL explanation",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_recommendations"
+  },
+  {
+    "constraint_name": "ml_recommendations_learning_path_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL learning_path",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_recommendations"
+  },
+  {
+    "constraint_name": "ml_recommendations_pkey",
+    "constraint_type": "PRIMARY KEY",
+    "definition": "PRIMARY KEY (recommendation_id)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_recommendations"
+  },
+  {
+    "constraint_name": "ml_recommendations_policy_version_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL policy_version",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_recommendations"
+  },
+  {
+    "constraint_name": "ml_recommendations_prediction_id_fkey",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (prediction_id) REFERENCES ml_predictions(prediction_id) ON DELETE CASCADE",
+    "referenced_schema": "public",
+    "referenced_table": "ml_predictions",
+    "schema_name": "public",
+    "table_name": "ml_recommendations"
+  },
+  {
+    "constraint_name": "ml_recommendations_prediction_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL prediction_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_recommendations"
+  },
+  {
+    "constraint_name": "ml_recommendations_recommendation_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL recommendation_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_recommendations"
+  },
+  {
+    "constraint_name": "ml_recommendations_risk_band_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL risk_band",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_recommendations"
+  },
+  {
+    "constraint_name": "uq_ml_recommendations_prediction_policy",
+    "constraint_type": "UNIQUE",
+    "definition": "UNIQUE (prediction_id, policy_version)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_recommendations"
+  },
+  {
+    "constraint_name": "chk_ml_run_metrics_context_object",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (jsonb_typeof(metric_context) = 'object'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_run_metrics"
+  },
+  {
+    "constraint_name": "chk_ml_run_metrics_label_scope",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (length(TRIM(BOTH FROM label_scope)) > 0)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_run_metrics"
+  },
+  {
+    "constraint_name": "chk_ml_run_metrics_name",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (length(TRIM(BOTH FROM metric_name)) > 0)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_run_metrics"
+  },
+  {
+    "constraint_name": "chk_ml_run_metrics_split",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (split_name::text = ANY (ARRAY['train'::character varying, 'validation'::character varying, 'test'::character varying]::text[]))",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_run_metrics"
+  },
+  {
+    "constraint_name": "ml_run_metrics_created_at_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL created_at",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_run_metrics"
+  },
+  {
+    "constraint_name": "ml_run_metrics_label_scope_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL label_scope",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_run_metrics"
+  },
+  {
+    "constraint_name": "ml_run_metrics_metric_context_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL metric_context",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_run_metrics"
+  },
+  {
+    "constraint_name": "ml_run_metrics_metric_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL metric_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_run_metrics"
+  },
+  {
+    "constraint_name": "ml_run_metrics_metric_name_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL metric_name",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_run_metrics"
+  },
+  {
+    "constraint_name": "ml_run_metrics_metric_value_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL metric_value",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_run_metrics"
+  },
+  {
+    "constraint_name": "ml_run_metrics_pkey",
+    "constraint_type": "PRIMARY KEY",
+    "definition": "PRIMARY KEY (metric_id)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_run_metrics"
+  },
+  {
+    "constraint_name": "ml_run_metrics_run_id_fkey",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (run_id) REFERENCES ml_experiment_runs(run_id) ON DELETE RESTRICT",
+    "referenced_schema": "public",
+    "referenced_table": "ml_experiment_runs",
+    "schema_name": "public",
+    "table_name": "ml_run_metrics"
+  },
+  {
+    "constraint_name": "ml_run_metrics_run_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL run_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_run_metrics"
+  },
+  {
+    "constraint_name": "ml_run_metrics_split_name_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL split_name",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_run_metrics"
+  },
+  {
+    "constraint_name": "uq_ml_run_metrics_key",
+    "constraint_type": "UNIQUE",
+    "definition": "UNIQUE (run_id, split_name, metric_name, label_scope)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_run_metrics"
+  },
+  {
+    "constraint_name": "chk_ml_run_record_splits_exclusion_reason",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (split_name::text = 'excluded'::text AND exclusion_reason IS NOT NULL AND length(TRIM(BOTH FROM exclusion_reason)) > 0 OR split_name::text <> 'excluded'::text AND exclusion_reason IS NULL)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_run_record_splits"
+  },
+  {
+    "constraint_name": "chk_ml_run_record_splits_name",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (split_name::text = ANY (ARRAY['train'::character varying, 'validation'::character varying, 'test'::character varying, 'excluded'::character varying]::text[]))",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_run_record_splits"
+  },
+  {
+    "constraint_name": "fk_ml_run_record_splits_run_dataset",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (run_id, dataset_version_id) REFERENCES ml_experiment_runs(run_id, dataset_version_id) ON DELETE RESTRICT",
+    "referenced_schema": "public",
+    "referenced_table": "ml_experiment_runs",
+    "schema_name": "public",
+    "table_name": "ml_run_record_splits"
+  },
+  {
+    "constraint_name": "fk_ml_run_record_splits_source_record",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (dataset_version_id, record_id) REFERENCES source_records(dataset_version_id, record_id) ON DELETE RESTRICT",
+    "referenced_schema": "public",
+    "referenced_table": "source_records",
+    "schema_name": "public",
+    "table_name": "ml_run_record_splits"
+  },
+  {
+    "constraint_name": "ml_run_record_splits_created_at_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL created_at",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_run_record_splits"
+  },
+  {
+    "constraint_name": "ml_run_record_splits_dataset_version_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL dataset_version_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_run_record_splits"
+  },
+  {
+    "constraint_name": "ml_run_record_splits_record_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL record_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_run_record_splits"
+  },
+  {
+    "constraint_name": "ml_run_record_splits_run_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL run_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_run_record_splits"
+  },
+  {
+    "constraint_name": "ml_run_record_splits_split_name_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL split_name",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_run_record_splits"
+  },
+  {
+    "constraint_name": "pk_ml_run_record_splits",
+    "constraint_type": "PRIMARY KEY",
+    "definition": "PRIMARY KEY (run_id, record_id)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_run_record_splits"
+  },
+  {
+    "constraint_name": "uq_ml_run_record_splits_prediction_ref",
+    "constraint_type": "UNIQUE",
+    "definition": "UNIQUE (run_id, record_id, split_name)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_run_record_splits"
+  },
+  {
+    "constraint_name": "ml_schema_migrations_applied_at_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL applied_at",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_schema_migrations"
+  },
+  {
+    "constraint_name": "ml_schema_migrations_applied_by_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL applied_by",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_schema_migrations"
+  },
+  {
+    "constraint_name": "ml_schema_migrations_migration_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL migration_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_schema_migrations"
+  },
+  {
+    "constraint_name": "ml_schema_migrations_migration_sha256_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (migration_sha256 ~ '^[0-9a-f]{64}$'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_schema_migrations"
+  },
+  {
+    "constraint_name": "ml_schema_migrations_migration_sha256_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL migration_sha256",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_schema_migrations"
+  },
+  {
+    "constraint_name": "ml_schema_migrations_pkey",
+    "constraint_type": "PRIMARY KEY",
+    "definition": "PRIMARY KEY (migration_id)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_schema_migrations"
+  },
+  {
+    "constraint_name": "ml_schema_migrations_source_commit_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL source_commit",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "ml_schema_migrations"
+  },
+  {
+    "constraint_name": "prediction_cohorts_cohort_hash_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (cohort_hash ~ '^[0-9a-f]{64}$'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "prediction_cohorts"
+  },
+  {
+    "constraint_name": "prediction_cohorts_cohort_hash_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL cohort_hash",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "prediction_cohorts"
+  },
+  {
+    "constraint_name": "prediction_cohorts_cohort_id_key",
+    "constraint_type": "UNIQUE",
+    "definition": "UNIQUE (cohort_id)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "prediction_cohorts"
+  },
+  {
+    "constraint_name": "prediction_cohorts_cohort_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL cohort_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "prediction_cohorts"
+  },
+  {
+    "constraint_name": "prediction_cohorts_created_at_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL created_at",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "prediction_cohorts"
+  },
+  {
+    "constraint_name": "prediction_cohorts_cutoff_contract_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL cutoff_contract",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "prediction_cohorts"
+  },
+  {
+    "constraint_name": "prediction_cohorts_dataset_version_id_fkey",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (dataset_version_id) REFERENCES source_dataset_versions(dataset_version_id)",
+    "referenced_schema": "public",
+    "referenced_table": "source_dataset_versions",
+    "schema_name": "public",
+    "table_name": "prediction_cohorts"
+  },
+  {
+    "constraint_name": "prediction_cohorts_dataset_version_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL dataset_version_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "prediction_cohorts"
+  },
+  {
+    "constraint_name": "prediction_cohorts_forecast_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL forecast_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "prediction_cohorts"
+  },
+  {
+    "constraint_name": "prediction_cohorts_pkey",
+    "constraint_type": "PRIMARY KEY",
+    "definition": "PRIMARY KEY (prediction_cohort_id)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "prediction_cohorts"
+  },
+  {
+    "constraint_name": "prediction_cohorts_prediction_cohort_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL prediction_cohort_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "prediction_cohorts"
+  },
+  {
+    "constraint_name": "prediction_cohorts_record_count_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (record_count >= 0)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "prediction_cohorts"
+  },
+  {
+    "constraint_name": "prediction_cohorts_record_count_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL record_count",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "prediction_cohorts"
+  },
+  {
+    "constraint_name": "chk_prediction_snapshot_class",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (predicted_class >= 0 AND predicted_class <= 2)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "prediction_snapshots"
+  },
+  {
+    "constraint_name": "chk_prediction_snapshot_scores",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (max_model_score >= 0::double precision AND max_model_score <= 1::double precision)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "prediction_snapshots"
+  },
+  {
+    "constraint_name": "prediction_snapshots_checkpoint_bundle_hash_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL checkpoint_bundle_hash",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "prediction_snapshots"
+  },
+  {
+    "constraint_name": "prediction_snapshots_class_scores_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL class_scores",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "prediction_snapshots"
+  },
+  {
+    "constraint_name": "prediction_snapshots_deterministic_rule_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL deterministic_rule",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "prediction_snapshots"
+  },
+  {
+    "constraint_name": "prediction_snapshots_ensemble_seed_disagreement_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL ensemble_seed_disagreement",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "prediction_snapshots"
+  },
+  {
+    "constraint_name": "prediction_snapshots_ensemble_seed_predictions_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL ensemble_seed_predictions",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "prediction_snapshots"
+  },
+  {
+    "constraint_name": "prediction_snapshots_feature_contract_hash_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL feature_contract_hash",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "prediction_snapshots"
+  },
+  {
+    "constraint_name": "prediction_snapshots_input_snapshot_timestamp_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL input_snapshot_timestamp",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "prediction_snapshots"
+  },
+  {
+    "constraint_name": "prediction_snapshots_max_model_score_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL max_model_score",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "prediction_snapshots"
+  },
+  {
+    "constraint_name": "prediction_snapshots_model_bundle_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL model_bundle_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "prediction_snapshots"
+  },
+  {
+    "constraint_name": "prediction_snapshots_model_candidate_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL model_candidate_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "prediction_snapshots"
+  },
+  {
+    "constraint_name": "prediction_snapshots_model_version_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL model_version",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "prediction_snapshots"
+  },
+  {
+    "constraint_name": "prediction_snapshots_n0_r0_agreement_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL n0_r0_agreement",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "prediction_snapshots"
+  },
+  {
+    "constraint_name": "prediction_snapshots_pkey",
+    "constraint_type": "PRIMARY KEY",
+    "definition": "PRIMARY KEY (prediction_snapshot_id)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "prediction_snapshots"
+  },
+  {
+    "constraint_name": "prediction_snapshots_policy_version_fkey",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (policy_version) REFERENCES recommendation_policies(policy_version)",
+    "referenced_schema": "public",
+    "referenced_table": "recommendation_policies",
+    "schema_name": "public",
+    "table_name": "prediction_snapshots"
+  },
+  {
+    "constraint_name": "prediction_snapshots_policy_version_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL policy_version",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "prediction_snapshots"
+  },
+  {
+    "constraint_name": "prediction_snapshots_predicted_class_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL predicted_class",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "prediction_snapshots"
+  },
+  {
+    "constraint_name": "prediction_snapshots_prediction_snapshot_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL prediction_snapshot_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "prediction_snapshots"
+  },
+  {
+    "constraint_name": "prediction_snapshots_prediction_timestamp_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL prediction_timestamp",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "prediction_snapshots"
+  },
+  {
+    "constraint_name": "prediction_snapshots_predictive_entropy_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL predictive_entropy",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "prediction_snapshots"
+  },
+  {
+    "constraint_name": "prediction_snapshots_preprocessor_hash_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL preprocessor_hash",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "prediction_snapshots"
+  },
+  {
+    "constraint_name": "prediction_snapshots_probability_available_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL probability_available",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "prediction_snapshots"
+  },
+  {
+    "constraint_name": "prediction_snapshots_r0_reference_class_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL r0_reference_class",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "prediction_snapshots"
+  },
+  {
+    "constraint_name": "prediction_snapshots_student_source_reference_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL student_source_reference",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "prediction_snapshots"
+  },
+  {
+    "constraint_name": "prediction_snapshots_uncertainty_available_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL uncertainty_available",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "prediction_snapshots"
+  },
+  {
+    "constraint_name": "recommendation_action_catalog_action_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL action_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_action_catalog"
+  },
+  {
+    "constraint_name": "recommendation_action_catalog_created_at_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL created_at",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_action_catalog"
+  },
+  {
+    "constraint_name": "recommendation_action_catalog_definition_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL definition",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_action_catalog"
+  },
+  {
+    "constraint_name": "recommendation_action_catalog_pkey",
+    "constraint_type": "PRIMARY KEY",
+    "definition": "PRIMARY KEY (policy_version, action_id)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_action_catalog"
+  },
+  {
+    "constraint_name": "recommendation_action_catalog_policy_version_fkey",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (policy_version) REFERENCES recommendation_policies(policy_version)",
+    "referenced_schema": "public",
+    "referenced_table": "recommendation_policies",
+    "schema_name": "public",
+    "table_name": "recommendation_action_catalog"
+  },
+  {
+    "constraint_name": "recommendation_action_catalog_policy_version_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL policy_version",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_action_catalog"
+  },
+  {
+    "constraint_name": "recommendation_actions_action_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL action_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_actions"
+  },
+  {
+    "constraint_name": "recommendation_actions_action_instance_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL action_instance_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_actions"
+  },
+  {
+    "constraint_name": "recommendation_actions_goal_id_fkey",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (goal_id) REFERENCES recommendation_goals(goal_id)",
+    "referenced_schema": "public",
+    "referenced_table": "recommendation_goals",
+    "schema_name": "public",
+    "table_name": "recommendation_actions"
+  },
+  {
+    "constraint_name": "recommendation_actions_goal_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL goal_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_actions"
+  },
+  {
+    "constraint_name": "recommendation_actions_payload_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL payload",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_actions"
+  },
+  {
+    "constraint_name": "recommendation_actions_pkey",
+    "constraint_type": "PRIMARY KEY",
+    "definition": "PRIMARY KEY (action_instance_id)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_actions"
+  },
+  {
+    "constraint_name": "recommendation_actions_revision_id_fkey",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (revision_id) REFERENCES recommendation_revisions(revision_id)",
+    "referenced_schema": "public",
+    "referenced_table": "recommendation_revisions",
+    "schema_name": "public",
+    "table_name": "recommendation_actions"
+  },
+  {
+    "constraint_name": "recommendation_actions_revision_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL revision_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_actions"
+  },
+  {
+    "constraint_name": "recommendation_feature_registry_created_at_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL created_at",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_feature_registry"
+  },
+  {
+    "constraint_name": "recommendation_feature_registry_definition_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL definition",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_feature_registry"
+  },
+  {
+    "constraint_name": "recommendation_feature_registry_feature_name_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL feature_name",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_feature_registry"
+  },
+  {
+    "constraint_name": "recommendation_feature_registry_pkey",
+    "constraint_type": "PRIMARY KEY",
+    "definition": "PRIMARY KEY (policy_version, feature_name)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_feature_registry"
+  },
+  {
+    "constraint_name": "recommendation_feature_registry_policy_version_fkey",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (policy_version) REFERENCES recommendation_policies(policy_version)",
+    "referenced_schema": "public",
+    "referenced_table": "recommendation_policies",
+    "schema_name": "public",
+    "table_name": "recommendation_feature_registry"
+  },
+  {
+    "constraint_name": "recommendation_feature_registry_policy_version_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL policy_version",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_feature_registry"
+  },
+  {
+    "constraint_name": "recommendation_follow_ups_action_instance_id_fkey",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (action_instance_id) REFERENCES recommendation_actions(action_instance_id)",
+    "referenced_schema": "public",
+    "referenced_table": "recommendation_actions",
+    "schema_name": "public",
+    "table_name": "recommendation_follow_ups"
+  },
+  {
+    "constraint_name": "recommendation_follow_ups_follow_up_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL follow_up_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_follow_ups"
+  },
+  {
+    "constraint_name": "recommendation_follow_ups_payload_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL payload",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_follow_ups"
+  },
+  {
+    "constraint_name": "recommendation_follow_ups_pkey",
+    "constraint_type": "PRIMARY KEY",
+    "definition": "PRIMARY KEY (follow_up_id)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_follow_ups"
+  },
+  {
+    "constraint_name": "recommendation_follow_ups_recorded_at_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL recorded_at",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_follow_ups"
+  },
+  {
+    "constraint_name": "recommendation_goals_goal_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL goal_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_goals"
+  },
+  {
+    "constraint_name": "recommendation_goals_payload_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL payload",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_goals"
+  },
+  {
+    "constraint_name": "recommendation_goals_pkey",
+    "constraint_type": "PRIMARY KEY",
+    "definition": "PRIMARY KEY (goal_id)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_goals"
+  },
+  {
+    "constraint_name": "recommendation_goals_revision_id_fkey",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (revision_id) REFERENCES recommendation_revisions(revision_id)",
+    "referenced_schema": "public",
+    "referenced_table": "recommendation_revisions",
+    "schema_name": "public",
+    "table_name": "recommendation_goals"
+  },
+  {
+    "constraint_name": "recommendation_goals_revision_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL revision_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_goals"
+  },
+  {
+    "constraint_name": "chk_recommendation_review_status",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (recommendation_review_status = ANY (ARRAY['eligible_for_draft'::text, 'advisor_review_required'::text, 'insufficient_information'::text, 'invalid_prediction'::text, 'stale_prediction'::text]))",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_instances"
+  },
+  {
+    "constraint_name": "recommendation_instances_created_at_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL created_at",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_instances"
+  },
+  {
+    "constraint_name": "recommendation_instances_created_by_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL created_by",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_instances"
+  },
+  {
+    "constraint_name": "recommendation_instances_pkey",
+    "constraint_type": "PRIMARY KEY",
+    "definition": "PRIMARY KEY (recommendation_instance_id)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_instances"
+  },
+  {
+    "constraint_name": "recommendation_instances_policy_version_fkey",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (policy_version) REFERENCES recommendation_policies(policy_version)",
+    "referenced_schema": "public",
+    "referenced_table": "recommendation_policies",
+    "schema_name": "public",
+    "table_name": "recommendation_instances"
+  },
+  {
+    "constraint_name": "recommendation_instances_policy_version_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL policy_version",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_instances"
+  },
+  {
+    "constraint_name": "recommendation_instances_prediction_snapshot_id_fkey",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (prediction_snapshot_id) REFERENCES prediction_snapshots(prediction_snapshot_id)",
+    "referenced_schema": "public",
+    "referenced_table": "prediction_snapshots",
+    "schema_name": "public",
+    "table_name": "recommendation_instances"
+  },
+  {
+    "constraint_name": "recommendation_instances_prediction_snapshot_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL prediction_snapshot_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_instances"
+  },
+  {
+    "constraint_name": "recommendation_instances_recommendation_instance_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL recommendation_instance_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_instances"
+  },
+  {
+    "constraint_name": "recommendation_instances_recommendation_review_status_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL recommendation_review_status",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_instances"
+  },
+  {
+    "constraint_name": "recommendation_outcomes_outcome_event_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL outcome_event",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_outcomes"
+  },
+  {
+    "constraint_name": "recommendation_outcomes_outcome_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL outcome_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_outcomes"
+  },
+  {
+    "constraint_name": "recommendation_outcomes_pkey",
+    "constraint_type": "PRIMARY KEY",
+    "definition": "PRIMARY KEY (outcome_id)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_outcomes"
+  },
+  {
+    "constraint_name": "recommendation_outcomes_recommendation_instance_id_fkey",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (recommendation_instance_id) REFERENCES recommendation_instances(recommendation_instance_id)",
+    "referenced_schema": "public",
+    "referenced_table": "recommendation_instances",
+    "schema_name": "public",
+    "table_name": "recommendation_outcomes"
+  },
+  {
+    "constraint_name": "recommendation_outcomes_recommendation_instance_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL recommendation_instance_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_outcomes"
+  },
+  {
+    "constraint_name": "recommendation_outcomes_recorded_at_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL recorded_at",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_outcomes"
+  },
+  {
+    "constraint_name": "chk_recommendation_policy_status",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (status = ANY (ARRAY['draft'::text, 'technical_validated'::text, 'expert_review_pending'::text, 'expert_approved'::text, 'deprecated'::text]))",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_policies"
+  },
+  {
+    "constraint_name": "recommendation_policies_action_catalog_hash_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL action_catalog_hash",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_policies"
+  },
+  {
+    "constraint_name": "recommendation_policies_created_at_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL created_at",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_policies"
+  },
+  {
+    "constraint_name": "recommendation_policies_evidence_reference_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL evidence_reference",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_policies"
+  },
+  {
+    "constraint_name": "recommendation_policies_feature_registry_hash_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL feature_registry_hash",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_policies"
+  },
+  {
+    "constraint_name": "recommendation_policies_model_bundle_hash_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL model_bundle_hash",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_policies"
+  },
+  {
+    "constraint_name": "recommendation_policies_pkey",
+    "constraint_type": "PRIMARY KEY",
+    "definition": "PRIMARY KEY (policy_version)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_policies"
+  },
+  {
+    "constraint_name": "recommendation_policies_policy_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL policy_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_policies"
+  },
+  {
+    "constraint_name": "recommendation_policies_policy_version_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL policy_version",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_policies"
+  },
+  {
+    "constraint_name": "recommendation_policies_schema_version_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL schema_version",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_policies"
+  },
+  {
+    "constraint_name": "recommendation_policies_source_commit_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL source_commit",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_policies"
+  },
+  {
+    "constraint_name": "recommendation_policies_status_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL status",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_policies"
+  },
+  {
+    "constraint_name": "recommendation_policies_uncertainty_policy_hash_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL uncertainty_policy_hash",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_policies"
+  },
+  {
+    "constraint_name": "recommendation_revisions_created_at_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL created_at",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_revisions"
+  },
+  {
+    "constraint_name": "recommendation_revisions_created_by_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL created_by",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_revisions"
+  },
+  {
+    "constraint_name": "recommendation_revisions_payload_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL payload",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_revisions"
+  },
+  {
+    "constraint_name": "recommendation_revisions_pkey",
+    "constraint_type": "PRIMARY KEY",
+    "definition": "PRIMARY KEY (revision_id)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_revisions"
+  },
+  {
+    "constraint_name": "recommendation_revisions_policy_version_fkey",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (policy_version) REFERENCES recommendation_policies(policy_version)",
+    "referenced_schema": "public",
+    "referenced_table": "recommendation_policies",
+    "schema_name": "public",
+    "table_name": "recommendation_revisions"
+  },
+  {
+    "constraint_name": "recommendation_revisions_policy_version_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL policy_version",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_revisions"
+  },
+  {
+    "constraint_name": "recommendation_revisions_recommendation_instance_id_fkey",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (recommendation_instance_id) REFERENCES recommendation_instances(recommendation_instance_id)",
+    "referenced_schema": "public",
+    "referenced_table": "recommendation_instances",
+    "schema_name": "public",
+    "table_name": "recommendation_revisions"
+  },
+  {
+    "constraint_name": "recommendation_revisions_recommendation_instance_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL recommendation_instance_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_revisions"
+  },
+  {
+    "constraint_name": "recommendation_revisions_revision_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL revision_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_revisions"
+  },
+  {
+    "constraint_name": "recommendation_revisions_revision_reason_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL revision_reason",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "recommendation_revisions"
+  },
+  {
+    "constraint_name": "recommendation_revisions_supersedes_revision_id_fkey",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (supersedes_revision_id) REFERENCES recommendation_revisions(revision_id)",
+    "referenced_schema": "public",
+    "referenced_table": "recommendation_revisions",
+    "schema_name": "public",
+    "table_name": "recommendation_revisions"
+  },
+  {
+    "constraint_name": "snapshot_record_index_cutoff_feature_snapshot_id_fkey",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (cutoff_feature_snapshot_id) REFERENCES cutoff_feature_snapshots(cutoff_feature_snapshot_id)",
+    "referenced_schema": "public",
+    "referenced_table": "cutoff_feature_snapshots",
+    "schema_name": "public",
+    "table_name": "snapshot_record_index"
+  },
+  {
+    "constraint_name": "snapshot_record_index_cutoff_feature_snapshot_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL cutoff_feature_snapshot_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "snapshot_record_index"
+  },
+  {
+    "constraint_name": "snapshot_record_index_cutoff_feature_snapshot_id_row_index_key",
+    "constraint_type": "UNIQUE",
+    "definition": "UNIQUE (cutoff_feature_snapshot_id, row_index)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "snapshot_record_index"
+  },
+  {
+    "constraint_name": "snapshot_record_index_pkey",
+    "constraint_type": "PRIMARY KEY",
+    "definition": "PRIMARY KEY (cutoff_feature_snapshot_id, record_id)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "snapshot_record_index"
+  },
+  {
+    "constraint_name": "snapshot_record_index_record_id_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (record_id ~ '^[0-9a-f]{64}$'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "snapshot_record_index"
+  },
+  {
+    "constraint_name": "snapshot_record_index_record_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL record_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "snapshot_record_index"
+  },
+  {
+    "constraint_name": "snapshot_record_index_row_index_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (row_index >= 0)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "snapshot_record_index"
+  },
+  {
+    "constraint_name": "snapshot_record_index_row_index_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL row_index",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "snapshot_record_index"
+  },
+  {
+    "constraint_name": "source_dataset_files_created_at_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL created_at",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_dataset_files"
+  },
+  {
+    "constraint_name": "source_dataset_files_dataset_version_id_fkey",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (dataset_version_id) REFERENCES source_dataset_versions(dataset_version_id)",
+    "referenced_schema": "public",
+    "referenced_table": "source_dataset_versions",
+    "schema_name": "public",
+    "table_name": "source_dataset_files"
+  },
+  {
+    "constraint_name": "source_dataset_files_dataset_version_id_logical_name_sha256_key",
+    "constraint_type": "UNIQUE",
+    "definition": "UNIQUE (dataset_version_id, logical_name, sha256)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_dataset_files"
+  },
+  {
+    "constraint_name": "source_dataset_files_dataset_version_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL dataset_version_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_dataset_files"
+  },
+  {
+    "constraint_name": "source_dataset_files_logical_name_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL logical_name",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_dataset_files"
+  },
+  {
+    "constraint_name": "source_dataset_files_pkey",
+    "constraint_type": "PRIMARY KEY",
+    "definition": "PRIMARY KEY (source_dataset_file_id)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_dataset_files"
+  },
+  {
+    "constraint_name": "source_dataset_files_relative_path_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL relative_path",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_dataset_files"
+  },
+  {
+    "constraint_name": "source_dataset_files_row_count_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (row_count >= 0)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_dataset_files"
+  },
+  {
+    "constraint_name": "source_dataset_files_row_count_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL row_count",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_dataset_files"
+  },
+  {
+    "constraint_name": "source_dataset_files_schema_json_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL schema_json",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_dataset_files"
+  },
+  {
+    "constraint_name": "source_dataset_files_sha256_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (sha256 ~ '^[0-9a-f]{64}$'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_dataset_files"
+  },
+  {
+    "constraint_name": "source_dataset_files_sha256_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL sha256",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_dataset_files"
+  },
+  {
+    "constraint_name": "source_dataset_files_source_dataset_file_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL source_dataset_file_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_dataset_files"
+  },
+  {
+    "constraint_name": "chk_source_dataset_versions_contract_hash_algorithm",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (ingestion_contract_hash_algorithm::text = 'sha256'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_dataset_versions"
+  },
+  {
+    "constraint_name": "chk_source_dataset_versions_contract_object",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (jsonb_typeof(ingestion_contract) = 'object'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_dataset_versions"
+  },
+  {
+    "constraint_name": "chk_source_dataset_versions_hash_algorithm",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (hash_algorithm::text = 'sha256'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_dataset_versions"
+  },
+  {
+    "constraint_name": "chk_source_dataset_versions_metadata_object",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (jsonb_typeof(metadata) = 'object'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_dataset_versions"
+  },
+  {
+    "constraint_name": "chk_source_dataset_versions_row_count",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (row_count >= 0)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_dataset_versions"
+  },
+  {
+    "constraint_name": "source_dataset_versions_content_hash_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL content_hash",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_dataset_versions"
+  },
+  {
+    "constraint_name": "source_dataset_versions_created_at_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL created_at",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_dataset_versions"
+  },
+  {
+    "constraint_name": "source_dataset_versions_dataset_code_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL dataset_code",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_dataset_versions"
+  },
+  {
+    "constraint_name": "source_dataset_versions_dataset_version_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL dataset_version_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_dataset_versions"
+  },
+  {
+    "constraint_name": "source_dataset_versions_hash_algorithm_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL hash_algorithm",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_dataset_versions"
+  },
+  {
+    "constraint_name": "source_dataset_versions_ingestion_contract_hash_algori_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL ingestion_contract_hash_algorithm",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_dataset_versions"
+  },
+  {
+    "constraint_name": "source_dataset_versions_ingestion_contract_hash_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL ingestion_contract_hash",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_dataset_versions"
+  },
+  {
+    "constraint_name": "source_dataset_versions_ingestion_contract_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL ingestion_contract",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_dataset_versions"
+  },
+  {
+    "constraint_name": "source_dataset_versions_metadata_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL metadata",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_dataset_versions"
+  },
+  {
+    "constraint_name": "source_dataset_versions_pkey",
+    "constraint_type": "PRIMARY KEY",
+    "definition": "PRIMARY KEY (dataset_version_id)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_dataset_versions"
+  },
+  {
+    "constraint_name": "source_dataset_versions_row_count_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL row_count",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_dataset_versions"
+  },
+  {
+    "constraint_name": "source_dataset_versions_source_locator_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL source_locator",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_dataset_versions"
+  },
+  {
+    "constraint_name": "uq_source_dataset_version_identity",
+    "constraint_type": "UNIQUE",
+    "definition": "UNIQUE (dataset_code, hash_algorithm, content_hash, ingestion_contract_hash_algorithm, ingestion_contract_hash)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_dataset_versions"
+  },
+  {
+    "constraint_name": "chk_source_record_targets_encoded",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (encoded_target_value >= 0)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_record_targets"
+  },
+  {
+    "constraint_name": "chk_source_record_targets_raw_object",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (raw_target_value IS NOT NULL)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_record_targets"
+  },
+  {
+    "constraint_name": "fk_source_record_targets_source_record",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (dataset_version_id, record_id) REFERENCES source_records(dataset_version_id, record_id) ON DELETE RESTRICT",
+    "referenced_schema": "public",
+    "referenced_table": "source_records",
+    "schema_name": "public",
+    "table_name": "source_record_targets"
+  },
+  {
+    "constraint_name": "pk_source_record_targets",
+    "constraint_type": "PRIMARY KEY",
+    "definition": "PRIMARY KEY (dataset_version_id, record_id, target_name)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_record_targets"
+  },
+  {
+    "constraint_name": "source_record_targets_created_at_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL created_at",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_record_targets"
+  },
+  {
+    "constraint_name": "source_record_targets_dataset_version_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL dataset_version_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_record_targets"
+  },
+  {
+    "constraint_name": "source_record_targets_encoded_target_value_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL encoded_target_value",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_record_targets"
+  },
+  {
+    "constraint_name": "source_record_targets_raw_target_value_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL raw_target_value",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_record_targets"
+  },
+  {
+    "constraint_name": "source_record_targets_record_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL record_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_record_targets"
+  },
+  {
+    "constraint_name": "source_record_targets_target_contract_hash_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL target_contract_hash",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_record_targets"
+  },
+  {
+    "constraint_name": "source_record_targets_target_name_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL target_name",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_record_targets"
+  },
+  {
+    "constraint_name": "chk_source_records_payload_object",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (jsonb_typeof(raw_payload) = 'object'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_records"
+  },
+  {
+    "constraint_name": "chk_source_records_row_number",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (source_row_number >= 0)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_records"
+  },
+  {
+    "constraint_name": "source_records_created_at_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL created_at",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_records"
+  },
+  {
+    "constraint_name": "source_records_dataset_version_id_fkey",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (dataset_version_id) REFERENCES source_dataset_versions(dataset_version_id) ON DELETE RESTRICT",
+    "referenced_schema": "public",
+    "referenced_table": "source_dataset_versions",
+    "schema_name": "public",
+    "table_name": "source_records"
+  },
+  {
+    "constraint_name": "source_records_dataset_version_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL dataset_version_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_records"
+  },
+  {
+    "constraint_name": "source_records_pkey",
+    "constraint_type": "PRIMARY KEY",
+    "definition": "PRIMARY KEY (record_id)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_records"
+  },
+  {
+    "constraint_name": "source_records_raw_payload_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL raw_payload",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_records"
+  },
+  {
+    "constraint_name": "source_records_record_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL record_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_records"
+  },
+  {
+    "constraint_name": "source_records_source_row_number_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL source_row_number",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_records"
+  },
+  {
+    "constraint_name": "uq_source_records_dataset_record",
+    "constraint_type": "UNIQUE",
+    "definition": "UNIQUE (dataset_version_id, record_id)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_records"
+  },
+  {
+    "constraint_name": "uq_source_records_dataset_row",
+    "constraint_type": "UNIQUE",
+    "definition": "UNIQUE (dataset_version_id, source_row_number)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "source_records"
+  },
+  {
+    "constraint_name": "split_manifest_registry_created_at_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL created_at",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "split_manifest_registry"
+  },
+  {
+    "constraint_name": "split_manifest_registry_manifest_relative_path_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL manifest_relative_path",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "split_manifest_registry"
+  },
+  {
+    "constraint_name": "split_manifest_registry_manifest_sha256_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (manifest_sha256 ~ '^[0-9a-f]{64}$'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "split_manifest_registry"
+  },
+  {
+    "constraint_name": "split_manifest_registry_manifest_sha256_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL manifest_sha256",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "split_manifest_registry"
+  },
+  {
+    "constraint_name": "split_manifest_registry_pkey",
+    "constraint_type": "PRIMARY KEY",
+    "definition": "PRIMARY KEY (split_manifest_registry_id)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "split_manifest_registry"
+  },
+  {
+    "constraint_name": "split_manifest_registry_prediction_cohort_id_fkey",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (prediction_cohort_id) REFERENCES prediction_cohorts(prediction_cohort_id)",
+    "referenced_schema": "public",
+    "referenced_table": "prediction_cohorts",
+    "schema_name": "public",
+    "table_name": "split_manifest_registry"
+  },
+  {
+    "constraint_name": "split_manifest_registry_prediction_cohort_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL prediction_cohort_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "split_manifest_registry"
+  },
+  {
+    "constraint_name": "split_manifest_registry_prediction_cohort_id_split_role_man_key",
+    "constraint_type": "UNIQUE",
+    "definition": "UNIQUE (prediction_cohort_id, split_role, manifest_sha256)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "split_manifest_registry"
+  },
+  {
+    "constraint_name": "split_manifest_registry_split_manifest_registry_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL split_manifest_registry_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "split_manifest_registry"
+  },
+  {
+    "constraint_name": "split_manifest_registry_split_role_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (split_role = ANY (ARRAY['historical_development'::text, 'outer_cv'::text, 'inner_cv'::text, 'future_presentation'::text, 'excluded_overlap'::text, 'descriptive_only'::text]))",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "split_manifest_registry"
+  },
+  {
+    "constraint_name": "split_manifest_registry_split_role_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL split_role",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "split_manifest_registry"
+  },
+  {
+    "constraint_name": "study_extension_runs_artifact_relative_path_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL artifact_relative_path",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "study_extension_runs"
+  },
+  {
+    "constraint_name": "study_extension_runs_created_at_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL created_at",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "study_extension_runs"
+  },
+  {
+    "constraint_name": "study_extension_runs_dataset_version_id_fkey",
+    "constraint_type": "FOREIGN KEY",
+    "definition": "FOREIGN KEY (dataset_version_id) REFERENCES source_dataset_versions(dataset_version_id)",
+    "referenced_schema": "public",
+    "referenced_table": "source_dataset_versions",
+    "schema_name": "public",
+    "table_name": "study_extension_runs"
+  },
+  {
+    "constraint_name": "study_extension_runs_dataset_version_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL dataset_version_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "study_extension_runs"
+  },
+  {
+    "constraint_name": "study_extension_runs_extension_run_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL extension_run_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "study_extension_runs"
+  },
+  {
+    "constraint_name": "study_extension_runs_metadata_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL metadata",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "study_extension_runs"
+  },
+  {
+    "constraint_name": "study_extension_runs_pkey",
+    "constraint_type": "PRIMARY KEY",
+    "definition": "PRIMARY KEY (extension_run_id)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "study_extension_runs"
+  },
+  {
+    "constraint_name": "study_extension_runs_protocol_sha256_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (protocol_sha256 ~ '^[0-9a-f]{64}$'::text)",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "study_extension_runs"
+  },
+  {
+    "constraint_name": "study_extension_runs_protocol_sha256_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL protocol_sha256",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "study_extension_runs"
+  },
+  {
+    "constraint_name": "study_extension_runs_source_commit_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL source_commit",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "study_extension_runs"
+  },
+  {
+    "constraint_name": "study_extension_runs_status_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (status = ANY (ARRAY['running'::text, 'completed'::text, 'failed'::text, 'partial'::text]))",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "study_extension_runs"
+  },
+  {
+    "constraint_name": "study_extension_runs_status_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL status",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "study_extension_runs"
+  },
+  {
+    "constraint_name": "study_extension_runs_study_id_check",
+    "constraint_type": "CHECK",
+    "definition": "CHECK (study_id = ANY (ARRAY['study_b_student_por'::text, 'study_c_oulad'::text]))",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "study_extension_runs"
+  },
+  {
+    "constraint_name": "study_extension_runs_study_id_not_null",
+    "constraint_type": "n",
+    "definition": "NOT NULL study_id",
+    "referenced_schema": null,
+    "referenced_table": null,
+    "schema_name": "public",
+    "table_name": "study_extension_runs"
+  }
+]
