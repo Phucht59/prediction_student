@@ -53,6 +53,11 @@ backup_git/
 optuna/
 db_backups/
 *.log
+
+# Local PostgreSQL safety backups are never committed.
+/backups/
+*.dump
+*.backup
 *.tmp
 *.bak
 *.dump

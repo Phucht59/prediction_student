@@ -1,16 +1,12 @@
-from .education_repository import EducationRepository
-from .evaluation_repository import EvaluationRepository
-from .experiment_repository import ExperimentRepository
-from .feature_repository import FeatureRepository
+from .catalog_repository import CatalogRepository
+from .model_repository import ModelRepository
 from .recommendation_repository import RecommendationRepository
-from .source_repository import SourceRepository
+from .result_repository import ResultRepository
 
 __all__ = [
-    "EducationRepository",
-    "EvaluationRepository",
-    "ExperimentRepository",
-    "FeatureRepository",
+    "CatalogRepository",
+    "ModelRepository",
     "RecommendationRepository",
-    "SourceRepository",
+    "ResultRepository",
 ]
 

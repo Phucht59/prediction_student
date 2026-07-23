@@ -21,7 +21,11 @@ class DatabaseSettings:
 
     @classmethod
     def from_environment(cls, *, require_v5_dsn: bool = False) -> "DatabaseSettings":
-        dsn = os.getenv("V5_DATABASE_URL") or os.getenv("POSTGRES_TEST_DSN")
+        dsn = (
+            (os.getenv("V5_DATABASE_URL") or os.getenv("POSTGRES_TEST_DSN"))
+            if require_v5_dsn
+            else os.getenv("POSTGRES_RUNTIME_APP_DSN")
+        )
         if require_v5_dsn and not dsn:
             raise RuntimeError("A mutating database command requires V5_DATABASE_URL or POSTGRES_TEST_DSN")
         if dsn:

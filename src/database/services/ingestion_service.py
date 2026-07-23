@@ -5,7 +5,7 @@ from pathlib import Path
 from src.studies.v5.common.protocol import sha256_file
 
 from ..connection import DatabaseSettings, transaction
-from ..repositories import SourceRepository
+from ..repositories.source_repository import SourceRepository
 
 
 class IngestionService:

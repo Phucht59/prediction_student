@@ -1,4 +1,4 @@
-"""Small, parameterized PostgreSQL access layer for database-first V5."""
+"""Version-neutral PostgreSQL access layer for the final application schema."""
 
 from .connection import DatabaseSettings, connect_with_retry, transaction
 

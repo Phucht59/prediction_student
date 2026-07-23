@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from src.database.connection import DatabaseSettings, connect_with_retry, transaction
-from src.database.services import IngestionService
+from src.database.services.ingestion_service import IngestionService
 from src.studies.v5.common.artifacts import atomic_write_json
 from src.studies.v5.common.protocol import sha256_file
 

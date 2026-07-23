@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from ..connection import DatabaseSettings, transaction
-from ..repositories import EvaluationRepository
+from ..repositories.evaluation_repository import EvaluationRepository
 
 
 class PredictionService:

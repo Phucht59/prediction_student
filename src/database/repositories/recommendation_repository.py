@@ -1,28 +1,52 @@
 from __future__ import annotations
 
-from psycopg2.extras import Json
+from psycopg2.extras import Json, RealDictCursor
 
 from .base import Repository
 
 
 class RecommendationRepository(Repository):
-    def register_policy(self, name: str, version: str, rules: dict, sha256: str, status: str = "draft") -> int:
-        return int(
-            self.scalar(
-                """INSERT INTO recommendation.policy(policy_name,version_label,rules,policy_sha256,status)
-                   VALUES (%s,%s,%s,%s,%s)
-                   ON CONFLICT (policy_name,version_label) DO UPDATE SET status=EXCLUDED.status
-                   RETURNING policy_id""",
-                (name, version, Json(rules), sha256, status),
+    def plan_for_record(self, source_record_id: str) -> dict | None:
+        with self.connection.cursor(cursor_factory=RealDictCursor) as cursor:
+            cursor.execute(
+                """
+                SELECT ps.*,p.payload
+                FROM recommendation.plan_summary ps
+                JOIN recommendation.plan p USING(plan_id)
+                WHERE ps.source_record_id=%s
+                """,
+                (source_record_id,),
             )
-        )
+            row = cursor.fetchone()
+            return dict(row) if row else None
 
-    def create_plan(self, case_id: int, revision_no: int, goal: str, rationale: str, supersedes: int | None = None) -> int:
+    def add_review(
+        self,
+        *,
+        plan_id: str,
+        review_type: str,
+        reviewer_key: str,
+        status: str,
+        decision: str | None = None,
+        reason: str | None = None,
+        payload: dict | None = None,
+    ) -> int:
         return int(
             self.scalar(
-                """INSERT INTO recommendation.plan(case_id,revision_no,goal,rationale,status,supersedes_plan_id)
-                   VALUES (%s,%s,%s,%s,'draft',%s) RETURNING plan_id""",
-                (case_id, revision_no, goal, rationale, supersedes),
+                """
+                INSERT INTO recommendation.review(
+                    plan_id,review_type,reviewer_key,status,decision,reason,payload
+                ) VALUES (%s,%s,%s,%s,%s,%s,%s) RETURNING review_id
+                """,
+                (
+                    plan_id,
+                    review_type,
+                    reviewer_key,
+                    status,
+                    decision,
+                    reason,
+                    Json(payload or {}),
+                ),
             )
         )
 
