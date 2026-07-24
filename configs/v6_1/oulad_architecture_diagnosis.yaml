@@ -1,0 +1,125 @@
+schema_version: v6_1_oulad_architecture_diagnosis_protocol_v1
+status: PREREGISTERED_BEFORE_NEW_EXPERIMENT_RESULTS
+repository_base_sha: b9d9128bc71a83f16ddac22103c1efaa53e96329
+namespace: v6_1_oulad_architecture_diagnosis
+
+evidence_protection:
+  immutable_namespaces: [artifacts/v5, artifacts/v5_1, artifacts/v5_3, artifacts/v5_4, artifacts/v6]
+  new_artifact_root: artifacts/v6_1_oulad_architecture_diagnosis
+  outer_test_for_architecture_selection: PROHIBITED
+  future_oulad: LOCKED_NOT_EXECUTED
+  official_oof_replacement: PROHIBITED
+
+data:
+  dataset: OULAD
+  forecast_id: F2_MIDDLE
+  target:
+    positive: [Withdrawn, Fail]
+    negative: [Pass, Distinction]
+  temporal_shape: [20, 47]
+  group_key: id_student
+  development_outer_training_fold: 0
+  inner_folds: 3
+  inner_seed: 3407
+  screening_seeds: [42, 2026, 3407]
+  final_outer_folds: [0, 1, 2]
+  final_seeds: [42, 1201, 2026, 3407, 7319]
+  preprocessing_fit_scope: current_training_partition_only
+  threshold_fit_scope: pooled_inner_oof_only
+
+training:
+  max_epochs: 50
+  patience: 7
+  batch_size: 128
+  learning_rate: 0.0010971133033084526
+  weight_decay: 0.0003562642142815574
+  dropout: 0.33265226225196237
+  loss: standard_bce
+  gradient_clip: 1.0
+  early_stopping_metric: macro_f1_at_0_5_with_nll_tiebreak
+  deterministic_algorithms: true
+  long_logs: artifacts/v6_1_oulad_architecture_diagnosis/logs
+
+current_architecture:
+  input_projection: 48
+  conv_channels: 24
+  kernels: [2, 3]
+  dilation: 2
+  lstm_hidden: 64
+  lstm_layers: 1
+  bidirectional: true
+  pooling: masked_mean_max
+  pooling_projection: 48
+  aggregate_hidden: 64
+  static_hidden: 32
+  fusion_hidden: 64
+  fusion: gated_residual
+  branch_dropout: 0.0
+
+hypotheses:
+  H1: Capacity imbalance may suppress CNN contribution relative to the BiLSTM.
+  H2: Serial CNN-to-BiLSTM may obscure CNN features because there is no direct prediction path.
+  H3: Dilation 2 may miss adjacent-week local patterns.
+  H4: Compact aggregate/static features may make temporal CNN features redundant.
+  H5: Controlled fixes may remain negative because F2_MIDDLE contains little incremental local signal.
+
+candidate_ladder:
+  - {id: A0_aggregate_static_only, phase: A, temporal: none, branches: aggregate_static}
+  - {id: A1_cnn_small_temporal, phase: A, temporal: cnn, branches: temporal_only, kernels: [2, 3], dilations: [2], conv_channels: 24}
+  - {id: A2_bilstm_current_temporal, phase: A, temporal: bilstm, branches: temporal_only, lstm_hidden: 64}
+  - {id: A3_serial_current_temporal, phase: A, temporal: serial, branches: temporal_only}
+  - {id: A4_serial_current_full, phase: A, temporal: serial, branches: full}
+  - {id: B2_cnn_matched_temporal, phase: B, temporal: cnn, branches: temporal_only, kernels: [2, 3, 5], dilations: [1], conv_channels: 72}
+  - {id: C1_cnn_d1_temporal, phase: C, temporal: cnn, branches: temporal_only, kernels: [2, 3], dilations: [1], conv_channels: 24}
+  - {id: C2_cnn_d2_temporal, phase: C, reuse: A1_cnn_small_temporal}
+  - {id: C3_cnn_multidilation_temporal, phase: C, temporal: cnn, branches: temporal_only, kernels: [2, 3, 3], dilations: [1, 1, 2], conv_channels: 24}
+  - {id: D_serial_with_cnn_skip, phase: D, temporal: serial_skip, branches: full}
+  - {id: E_parallel_concat, phase: E, temporal: parallel_concat, branches: full}
+
+capacity_match:
+  reference: A2_bilstm_current_temporal
+  candidate: B2_cnn_matched_temporal
+  maximum_encoder_parameter_deviation_fraction: 0.10
+
+optional_branch_dropout:
+  enabled_only_if_parallel_branch_collapse: true
+  probability: 0.10
+  retain_only_if_inner_macro_f1_or_stability_improves: true
+
+selection:
+  primary_metric: macro_f1
+  co_primary_metrics: [at_risk_f1, pr_auc, brier]
+  minimum_mean_macro_f1_gain_vs_A4: 0.001
+  minimum_positive_inner_folds: 2
+  maximum_at_risk_recall_drop: 0.002
+  maximum_brier_increase: 0.002
+  practical_tie_delta: 0.0005
+  maximum_selected_candidates: 1
+
+order_audit:
+  variants: [original, reversed, shuffled, bag_of_weeks]
+  seed: 42
+  scope: selected_architecture_development_outer_training_fold_0
+
+final_evaluation:
+  enabled_only_if_development_gate_passes: true
+  candidates:
+    - current_frozen_cnn_bilstm_reference
+    - A2_bilstm_current_temporal
+    - B2_cnn_matched_temporal
+    - selected_new_architecture
+    - xgboost_operational_cross_check
+  outer_folds: [0, 1, 2]
+  seeds: [42, 1201, 2026, 3407, 7319]
+  best_seed_selection: PROHIBITED
+  bootstrap:
+    unit: id_student
+    paired: true
+    replicates: 2000
+    seed: 7319
+
+recommendation:
+  observed_state_source: real_pre_cutoff_features_only
+  probability_derived_observed_state: PROHIBITED
+  withdrawal_mechanism_specific_actions_require_reliability_gate: true
+

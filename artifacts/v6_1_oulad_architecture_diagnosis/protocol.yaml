@@ -1,0 +1,9 @@
+schema_version: v6_1_oulad_architecture_diagnosis_protocol_pointer_v1
+status: PREREGISTERED_BEFORE_NEW_EXPERIMENT_RESULTS
+canonical_protocol: configs/v6_1/oulad_architecture_diagnosis.yaml
+repository_base_sha: b9d9128bc71a83f16ddac22103c1efaa53e96329
+selection_scope: outer_training_fold_0_inner_cv_only
+outer_test_for_selection: PROHIBITED
+future_oulad: LOCKED_NOT_EXECUTED
+frozen_evidence_overwrite: PROHIBITED
+
