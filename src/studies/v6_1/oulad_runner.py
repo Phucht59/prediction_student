@@ -854,14 +854,14 @@ def _frozen_references() -> list[dict[str, Any]]:
     xgb_row = xgb.iloc[0].to_dict()
     return [
         {
+            **v51_row,
             "candidate": "current_frozen_cnn_bilstm_reference",
             "evidence_status": "REUSED_IMMUTABLE",
-            **v51_row,
         },
         {
+            **xgb_row,
             "candidate": "xgboost_operational_cross_check",
             "evidence_status": "REUSED_IMMUTABLE",
-            **xgb_row,
         },
     ]
 
@@ -998,14 +998,21 @@ def run_final(device: str = "cuda") -> dict[str, Any]:
     )
     selected_candidate = selected["selected_candidate"]
     if selected_candidate is None:
-        pd.DataFrame(
-            columns=[
-                "candidate",
-                "evidence_status",
-                "macro_f1_mean",
-                "macro_f1_sd",
-            ]
-        ).to_csv(ARTIFACT_ROOT / "final_outer_results.csv", index=False)
+        references = pd.DataFrame(_frozen_references())
+        for metric in [
+            "macro_f1",
+            "balanced_accuracy",
+            "at_risk_precision",
+            "at_risk_recall",
+            "at_risk_f1",
+            "pr_auc",
+            "brier",
+            "ece",
+        ]:
+            references[f"{metric}_mean"] = references[metric]
+            references[f"{metric}_sd"] = np.nan
+        references["new_outer_evaluation"] = False
+        references.to_csv(ARTIFACT_ROOT / "final_outer_results.csv", index=False)
         result = {
             "status": "SKIPPED_DEVELOPMENT_GATE_NOT_PASSED",
             "selected_candidate": None,
