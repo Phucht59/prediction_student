@@ -4,6 +4,7 @@ from typing import Any
 
 
 POLICY_VERSION = "v6_risk_to_recommendation_policy_v1"
+WITHDRAWAL_MECHANISM_STATUS = "EXPLORATORY_DISABLED_FOR_RECOMMENDATION"
 POLICY_THRESHOLDS = {
     "risk": {"medium": 0.35, "high": 0.60, "critical": 0.80},
     "hazard": {"high": 0.45},
@@ -29,15 +30,13 @@ def risk_mechanism(profile: dict[str, Any]) -> str:
         "decision_status"
     ] == "ABSTAIN_REVIEW_REQUIRED":
         return "UNCERTAIN_RISK"
-    engagement = profile["withdrawal_risk_horizon"] >= POLICY_THRESHOLDS["hazard"]["high"]
+    # The registered withdrawal head has near-zero recall. Its probability can
+    # remain in the risk profile as exploratory evidence, but it is not reliable
+    # enough to assert an engagement mechanism or select mechanism-specific care.
     academic = profile["probability_fail"] >= POLICY_THRESHOLDS["fail"]["high"]
-    if engagement and academic:
-        return "MIXED_RISK"
-    if engagement:
-        return "ENGAGEMENT_RISK"
     if academic:
         return "ACADEMIC_RISK"
-    return "ACADEMIC_RISK" if profile["probability_at_risk"] >= 0.5 else "ENGAGEMENT_RISK"
+    return "GENERAL_RISK"
 
 
 def priority(profile: dict[str, Any], level: str) -> str:
@@ -88,6 +87,7 @@ def apply_decision_policy(profile: dict[str, Any]) -> dict[str, Any]:
 __all__ = [
     "POLICY_THRESHOLDS",
     "POLICY_VERSION",
+    "WITHDRAWAL_MECHANISM_STATUS",
     "apply_decision_policy",
     "escalation_reasons",
     "priority",

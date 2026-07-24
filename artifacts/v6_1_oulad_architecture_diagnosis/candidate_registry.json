@@ -1,0 +1,326 @@
+[
+  {
+    "candidate_id": "A0_aggregate_static_only",
+    "phase": "A",
+    "temporal": "none",
+    "branches": "aggregate_static",
+    "kernels": [
+      2,
+      3
+    ],
+    "dilations": [
+      2,
+      2
+    ],
+    "conv_channels": 24,
+    "parameter_counts": {
+      "total": 22849,
+      "input_projection": 0,
+      "cnn": 0,
+      "bilstm": 0,
+      "temporal_fusion": 0,
+      "aggregate_branch": 7488,
+      "static_branch": 2624,
+      "fusion_head": 12737,
+      "input_projection_ratio": 0.0,
+      "cnn_ratio": 0.0,
+      "bilstm_ratio": 0.0,
+      "temporal_fusion_ratio": 0.0,
+      "aggregate_branch_ratio": 0.327716749091864,
+      "static_branch_ratio": 0.1148409120749267,
+      "fusion_head_ratio": 0.5574423388332094
+    }
+  },
+  {
+    "candidate_id": "A1_cnn_small_temporal",
+    "phase": "A",
+    "temporal": "cnn",
+    "branches": "temporal_only",
+    "kernels": [
+      2,
+      3
+    ],
+    "dilations": [
+      2,
+      2
+    ],
+    "conv_channels": 24,
+    "parameter_counts": {
+      "total": 22897,
+      "input_projection": 2400,
+      "cnn": 13008,
+      "bilstm": 0,
+      "temporal_fusion": 3136,
+      "aggregate_branch": 0,
+      "static_branch": 0,
+      "fusion_head": 4353,
+      "input_projection_ratio": 0.10481722496396909,
+      "cnn_ratio": 0.5681093593047124,
+      "bilstm_ratio": 0.0,
+      "temporal_fusion_ratio": 0.1369611739529196,
+      "aggregate_branch_ratio": 0.0,
+      "static_branch_ratio": 0.0,
+      "fusion_head_ratio": 0.19011224177839892
+    }
+  },
+  {
+    "candidate_id": "A2_bilstm_current_temporal",
+    "phase": "A",
+    "temporal": "bilstm",
+    "branches": "temporal_only",
+    "kernels": [
+      2,
+      3
+    ],
+    "dilations": [
+      2,
+      2
+    ],
+    "conv_channels": 24,
+    "parameter_counts": {
+      "total": 80689,
+      "input_projection": 2400,
+      "cnn": 0,
+      "bilstm": 70800,
+      "temporal_fusion": 3136,
+      "aggregate_branch": 0,
+      "static_branch": 0,
+      "fusion_head": 4353,
+      "input_projection_ratio": 0.029743831253330688,
+      "cnn_ratio": 0.0,
+      "bilstm_ratio": 0.8774430219732553,
+      "temporal_fusion_ratio": 0.038865272837685434,
+      "aggregate_branch_ratio": 0.0,
+      "static_branch_ratio": 0.0,
+      "fusion_head_ratio": 0.05394787393572854
+    }
+  },
+  {
+    "candidate_id": "A3_serial_current_temporal",
+    "phase": "A",
+    "temporal": "serial",
+    "branches": "temporal_only",
+    "kernels": [
+      2,
+      3
+    ],
+    "dilations": [
+      2,
+      2
+    ],
+    "conv_channels": 24,
+    "parameter_counts": {
+      "total": 88945,
+      "input_projection": 2400,
+      "cnn": 8256,
+      "bilstm": 70800,
+      "temporal_fusion": 3136,
+      "aggregate_branch": 0,
+      "static_branch": 0,
+      "fusion_head": 4353,
+      "input_projection_ratio": 0.026982967002079937,
+      "cnn_ratio": 0.09282140648715498,
+      "bilstm_ratio": 0.7959975265613581,
+      "temporal_fusion_ratio": 0.03525774354938445,
+      "aggregate_branch_ratio": 0.0,
+      "static_branch_ratio": 0.0,
+      "fusion_head_ratio": 0.048940356400022485
+    }
+  },
+  {
+    "candidate_id": "A4_serial_current_full",
+    "phase": "A",
+    "temporal": "serial",
+    "branches": "full",
+    "kernels": [
+      2,
+      3
+    ],
+    "dilations": [
+      2,
+      2
+    ],
+    "conv_channels": 24,
+    "parameter_counts": {
+      "total": 99443,
+      "input_projection": 2400,
+      "cnn": 8256,
+      "bilstm": 70800,
+      "temporal_fusion": 3136,
+      "aggregate_branch": 7488,
+      "static_branch": 2624,
+      "fusion_head": 4739,
+      "input_projection_ratio": 0.024134428768239093,
+      "cnn_ratio": 0.08302243496274248,
+      "bilstm_ratio": 0.7119656486630532,
+      "temporal_fusion_ratio": 0.03153565359049908,
+      "aggregate_branch_ratio": 0.07529941775690596,
+      "static_branch_ratio": 0.02638697545327474,
+      "fusion_head_ratio": 0.04765544080528544
+    }
+  },
+  {
+    "candidate_id": "B2_cnn_matched_temporal",
+    "phase": "B",
+    "temporal": "cnn",
+    "branches": "temporal_only",
+    "kernels": [
+      2,
+      3,
+      5
+    ],
+    "dilations": [
+      1,
+      1,
+      1
+    ],
+    "conv_channels": 72,
+    "parameter_counts": {
+      "total": 76561,
+      "input_projection": 2400,
+      "cnn": 66672,
+      "bilstm": 0,
+      "temporal_fusion": 3136,
+      "aggregate_branch": 0,
+      "static_branch": 0,
+      "fusion_head": 4353,
+      "input_projection_ratio": 0.03134755293164927,
+      "cnn_ratio": 0.8708350204412169,
+      "bilstm_ratio": 0.0,
+      "temporal_fusion_ratio": 0.04096080249735505,
+      "aggregate_branch_ratio": 0.0,
+      "static_branch_ratio": 0.0,
+      "fusion_head_ratio": 0.05685662412977887
+    }
+  },
+  {
+    "candidate_id": "C1_cnn_d1_temporal",
+    "phase": "C",
+    "temporal": "cnn",
+    "branches": "temporal_only",
+    "kernels": [
+      2,
+      3
+    ],
+    "dilations": [
+      1,
+      1
+    ],
+    "conv_channels": 24,
+    "parameter_counts": {
+      "total": 22897,
+      "input_projection": 2400,
+      "cnn": 13008,
+      "bilstm": 0,
+      "temporal_fusion": 3136,
+      "aggregate_branch": 0,
+      "static_branch": 0,
+      "fusion_head": 4353,
+      "input_projection_ratio": 0.10481722496396909,
+      "cnn_ratio": 0.5681093593047124,
+      "bilstm_ratio": 0.0,
+      "temporal_fusion_ratio": 0.1369611739529196,
+      "aggregate_branch_ratio": 0.0,
+      "static_branch_ratio": 0.0,
+      "fusion_head_ratio": 0.19011224177839892
+    }
+  },
+  {
+    "candidate_id": "C3_cnn_multidilation_temporal",
+    "phase": "C",
+    "temporal": "cnn",
+    "branches": "temporal_only",
+    "kernels": [
+      2,
+      3,
+      3
+    ],
+    "dilations": [
+      1,
+      1,
+      2
+    ],
+    "conv_channels": 24,
+    "parameter_counts": {
+      "total": 29905,
+      "input_projection": 2400,
+      "cnn": 20016,
+      "bilstm": 0,
+      "temporal_fusion": 3136,
+      "aggregate_branch": 0,
+      "static_branch": 0,
+      "fusion_head": 4353,
+      "input_projection_ratio": 0.08025413810399598,
+      "cnn_ratio": 0.6693195117873265,
+      "bilstm_ratio": 0.0,
+      "temporal_fusion_ratio": 0.10486540712255475,
+      "aggregate_branch_ratio": 0.0,
+      "static_branch_ratio": 0.0,
+      "fusion_head_ratio": 0.1455609429861227
+    }
+  },
+  {
+    "candidate_id": "D_serial_with_cnn_skip",
+    "phase": "D",
+    "temporal": "serial_skip",
+    "branches": "full",
+    "kernels": [
+      2,
+      3
+    ],
+    "dilations": [
+      2,
+      2
+    ],
+    "conv_channels": 24,
+    "parameter_counts": {
+      "total": 108947,
+      "input_projection": 2400,
+      "cnn": 13008,
+      "bilstm": 70800,
+      "temporal_fusion": 7888,
+      "aggregate_branch": 7488,
+      "static_branch": 2624,
+      "fusion_head": 4739,
+      "input_projection_ratio": 0.022029060001652178,
+      "cnn_ratio": 0.11939750520895481,
+      "bilstm_ratio": 0.6498572700487393,
+      "temporal_fusion_ratio": 0.07240217720543016,
+      "aggregate_branch_ratio": 0.0687306672051548,
+      "static_branch_ratio": 0.02408510560180638,
+      "fusion_head_ratio": 0.04349821472826237
+    }
+  },
+  {
+    "candidate_id": "E_parallel_concat",
+    "phase": "E",
+    "temporal": "parallel_concat",
+    "branches": "full",
+    "kernels": [
+      2,
+      3
+    ],
+    "dilations": [
+      2,
+      2
+    ],
+    "conv_channels": 24,
+    "parameter_counts": {
+      "total": 108947,
+      "input_projection": 2400,
+      "cnn": 13008,
+      "bilstm": 70800,
+      "temporal_fusion": 7888,
+      "aggregate_branch": 7488,
+      "static_branch": 2624,
+      "fusion_head": 4739,
+      "input_projection_ratio": 0.022029060001652178,
+      "cnn_ratio": 0.11939750520895481,
+      "bilstm_ratio": 0.6498572700487393,
+      "temporal_fusion_ratio": 0.07240217720543016,
+      "aggregate_branch_ratio": 0.0687306672051548,
+      "static_branch_ratio": 0.02408510560180638,
+      "fusion_head_ratio": 0.04349821472826237
+    }
+  }
+]
