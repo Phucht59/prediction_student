@@ -1,0 +1,28 @@
+{
+  "status": "COMPLETE",
+  "candidate": "A0_aggregate_static_only",
+  "scope": "inner",
+  "outer_fold": 0,
+  "inner_fold": 2,
+  "seed": 42,
+  "order": "original",
+  "records": 3416,
+  "selected_epoch": 28,
+  "parameter_count": 22849,
+  "runtime_seconds": 32.73000810001395,
+  "gpu_peak_memory_bytes": 69512192,
+  "checkpoint": "artifacts/v6_1_oulad_architecture_diagnosis/checkpoints/inner/A0_aggregate_static_only_outer_0_inner_2_seed_42.pt",
+  "checkpoint_sha256": "7eace6169f8b123b5d016b910da4bf3b5925da9e97f22a9cd22cd6799b36d923",
+  "state_dict_sha256": "2e9a48f32a57e48716467159024301069bfc539fa5768b909ef0d22eae3df302",
+  "prediction": "artifacts/v6_1_oulad_architecture_diagnosis/runs/inner/A0_aggregate_static_only_outer_0_inner_2_seed_42.npz",
+  "replay_max_abs_difference": 0.0,
+  "diagnostics": {
+    "gates": null,
+    "cnn_norm": null,
+    "lstm_norm": null,
+    "expert_cosine": null
+  },
+  "config_sha256": "b14b66e85d66735ec148d42715d4d985fed98633c66d0bab1a98d07bbb624234",
+  "outer_test_accessed": false,
+  "future_accessed": false
+}

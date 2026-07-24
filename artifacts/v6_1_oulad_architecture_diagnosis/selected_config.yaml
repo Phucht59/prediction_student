@@ -1,0 +1,22 @@
+schema_version: v6_1_selected_architecture_v1
+status: NO_CANDIDATE_PASSED_DEVELOPMENT_GATE
+selected_candidate: null
+selected_spec: null
+config: null
+gate_results:
+- candidate: D_serial_with_cnn_skip
+  macro_f1_delta: -0.0013152945018615192
+  at_risk_recall_delta: 0.004146341463414527
+  brier_delta: 0.0005141637313419017
+  positive_inner_folds: 0
+  passes: false
+- candidate: E_parallel_concat
+  macro_f1_delta: -0.0005177345480329443
+  at_risk_recall_delta: 0.008699186991869778
+  brier_delta: 0.0010311025105904231
+  positive_inner_folds: 1
+  passes: false
+selection_scope: outer_training_fold_0_inner_cv_only
+outer_test_used_for_selection: false
+future_accessed: false
+config_sha256: 707e42bab25f4cb7bae79049ca93c12f85c875b86e5e61385d53ab8892b1dd0c

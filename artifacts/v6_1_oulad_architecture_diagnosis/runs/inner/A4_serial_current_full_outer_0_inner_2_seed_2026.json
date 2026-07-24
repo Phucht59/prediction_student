@@ -1,0 +1,42 @@
+{
+  "status": "COMPLETE",
+  "candidate": "A4_serial_current_full",
+  "scope": "inner",
+  "outer_fold": 0,
+  "inner_fold": 2,
+  "seed": 2026,
+  "order": "original",
+  "records": 3416,
+  "selected_epoch": 13,
+  "parameter_count": 99443,
+  "runtime_seconds": 345.5740664000041,
+  "gpu_peak_memory_bytes": 99223040,
+  "checkpoint": "artifacts/v6_1_oulad_architecture_diagnosis/checkpoints/inner/A4_serial_current_full_outer_0_inner_2_seed_2026.pt",
+  "checkpoint_sha256": "44add0a407efc5a9ba019b0f2e156bf5d783a84328f74089483607b80b27afe1",
+  "state_dict_sha256": "e92718b6eeff44b9ad7cf4c026a2b1a4c3af894f3804548c594740519b0bd34f",
+  "prediction": "artifacts/v6_1_oulad_architecture_diagnosis/runs/inner/A4_serial_current_full_outer_0_inner_2_seed_2026.npz",
+  "replay_max_abs_difference": 0.0,
+  "diagnostics": {
+    "gates": {
+      "mean": 0.6062561869621277,
+      "std": 0.18043853342533112,
+      "min": 0.13238048553466797,
+      "max": 0.9265257716178894,
+      "per_branch_mean": [
+        0.7138107419013977,
+        0.49870213866233826
+      ]
+    },
+    "cnn_norm": null,
+    "lstm_norm": {
+      "mean": 4.571372985839844,
+      "std": 0.5889225006103516,
+      "min": 3.1991071701049805,
+      "max": 5.610393524169922
+    },
+    "expert_cosine": null
+  },
+  "config_sha256": "b14b66e85d66735ec148d42715d4d985fed98633c66d0bab1a98d07bbb624234",
+  "outer_test_accessed": false,
+  "future_accessed": false
+}

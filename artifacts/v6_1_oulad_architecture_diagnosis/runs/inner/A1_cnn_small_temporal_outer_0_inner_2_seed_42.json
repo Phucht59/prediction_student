@@ -1,0 +1,33 @@
+{
+  "status": "COMPLETE",
+  "candidate": "A1_cnn_small_temporal",
+  "scope": "inner",
+  "outer_fold": 0,
+  "inner_fold": 2,
+  "seed": 42,
+  "order": "original",
+  "records": 3416,
+  "selected_epoch": 11,
+  "parameter_count": 22897,
+  "runtime_seconds": 275.41902599998866,
+  "gpu_peak_memory_bytes": 73441280,
+  "checkpoint": "artifacts/v6_1_oulad_architecture_diagnosis/checkpoints/inner/A1_cnn_small_temporal_outer_0_inner_2_seed_42.pt",
+  "checkpoint_sha256": "6e30c8d1bd3e5f863f0b4f8abb8680ff5375790912acd3898d4dd9469703c31e",
+  "state_dict_sha256": "49c221d69ecc0d51744e35fee12ab7f00b9997b30792462d04e38cb759aef0f6",
+  "prediction": "artifacts/v6_1_oulad_architecture_diagnosis/runs/inner/A1_cnn_small_temporal_outer_0_inner_2_seed_42.npz",
+  "replay_max_abs_difference": 0.0,
+  "diagnostics": {
+    "gates": null,
+    "cnn_norm": {
+      "mean": 4.838768482208252,
+      "std": 0.22327594459056854,
+      "min": 4.063140869140625,
+      "max": 5.601124286651611
+    },
+    "lstm_norm": null,
+    "expert_cosine": null
+  },
+  "config_sha256": "b14b66e85d66735ec148d42715d4d985fed98633c66d0bab1a98d07bbb624234",
+  "outer_test_accessed": false,
+  "future_accessed": false
+}

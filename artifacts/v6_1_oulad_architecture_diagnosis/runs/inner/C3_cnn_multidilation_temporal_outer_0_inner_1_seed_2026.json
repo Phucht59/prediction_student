@@ -1,0 +1,33 @@
+{
+  "status": "COMPLETE",
+  "candidate": "C3_cnn_multidilation_temporal",
+  "scope": "inner",
+  "outer_fold": 0,
+  "inner_fold": 1,
+  "seed": 2026,
+  "order": "original",
+  "records": 3414,
+  "selected_epoch": 6,
+  "parameter_count": 29905,
+  "runtime_seconds": 143.46821510000154,
+  "gpu_peak_memory_bytes": 75235328,
+  "checkpoint": "artifacts/v6_1_oulad_architecture_diagnosis/checkpoints/inner/C3_cnn_multidilation_temporal_outer_0_inner_1_seed_2026.pt",
+  "checkpoint_sha256": "40bfef29e2e1b62c3474874fd7a64d7712ab16f3bc9d53234a8b695df146af8b",
+  "state_dict_sha256": "0d49d2309e3e3c830b3c134f17d3bc66d2f907347872ed4264bd30560872609e",
+  "prediction": "artifacts/v6_1_oulad_architecture_diagnosis/runs/inner/C3_cnn_multidilation_temporal_outer_0_inner_1_seed_2026.npz",
+  "replay_max_abs_difference": 0.0,
+  "diagnostics": {
+    "gates": null,
+    "cnn_norm": {
+      "mean": 4.882692813873291,
+      "std": 0.20296308398246765,
+      "min": 3.9994876384735107,
+      "max": 5.580333709716797
+    },
+    "lstm_norm": null,
+    "expert_cosine": null
+  },
+  "config_sha256": "b14b66e85d66735ec148d42715d4d985fed98633c66d0bab1a98d07bbb624234",
+  "outer_test_accessed": false,
+  "future_accessed": false
+}

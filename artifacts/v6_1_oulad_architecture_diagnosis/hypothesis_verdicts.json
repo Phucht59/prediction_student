@@ -1,0 +1,24 @@
+{
+  "H1_capacity_imbalance": {
+    "verdict": "PARTIAL",
+    "cnn_matched_delta_vs_cnn_small": 0.0017060435965013943,
+    "cnn_matched_delta_vs_bilstm": -0.002360062544841668
+  },
+  "H2_serial_bottleneck": {
+    "verdict": "NOT_SUPPORTED",
+    "best_skip_or_parallel_delta_vs_serial_full": -0.0005177345480329443
+  },
+  "H3_dilation_mismatch": {
+    "verdict": "SUPPORTED",
+    "best_d1_or_multidilation_delta_vs_d2": 0.0011121399678315491
+  },
+  "H4_aggregate_redundancy": {
+    "verdict": "PARTIAL",
+    "aggregate_static_delta_vs_full_serial": -0.0035185741484733413
+  },
+  "H5_data_limitation": {
+    "verdict": "PARTIAL",
+    "development_gate_passed": false
+  },
+  "scenario": "B_CAPACITY_BIAS_PARTIALLY_CONFIRMED"
+}

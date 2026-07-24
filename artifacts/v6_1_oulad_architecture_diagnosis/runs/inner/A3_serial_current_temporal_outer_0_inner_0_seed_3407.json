@@ -1,0 +1,33 @@
+{
+  "status": "COMPLETE",
+  "candidate": "A3_serial_current_temporal",
+  "scope": "inner",
+  "outer_fold": 0,
+  "inner_fold": 0,
+  "seed": 3407,
+  "order": "original",
+  "records": 3428,
+  "selected_epoch": 4,
+  "parameter_count": 88945,
+  "runtime_seconds": 190.10747770001763,
+  "gpu_peak_memory_bytes": 99038208,
+  "checkpoint": "artifacts/v6_1_oulad_architecture_diagnosis/checkpoints/inner/A3_serial_current_temporal_outer_0_inner_0_seed_3407.pt",
+  "checkpoint_sha256": "3ac282a80ba88498a93592ce82cd196ca3ff92c4c350698f973d1ea004b23012",
+  "state_dict_sha256": "2db1c5d542f15f3a9cdf3e7008a034331b2936c36e91acc52a860a9076c2c63a",
+  "prediction": "artifacts/v6_1_oulad_architecture_diagnosis/runs/inner/A3_serial_current_temporal_outer_0_inner_0_seed_3407.npz",
+  "replay_max_abs_difference": 0.0,
+  "diagnostics": {
+    "gates": null,
+    "cnn_norm": null,
+    "lstm_norm": {
+      "mean": 4.901369571685791,
+      "std": 0.25643378496170044,
+      "min": 4.323963642120361,
+      "max": 5.435205936431885
+    },
+    "expert_cosine": null
+  },
+  "config_sha256": "b14b66e85d66735ec148d42715d4d985fed98633c66d0bab1a98d07bbb624234",
+  "outer_test_accessed": false,
+  "future_accessed": false
+}
