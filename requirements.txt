@@ -10,3 +10,4 @@ pytest
 xgboost
 PyYAML
 matplotlib
+openpyxl>=3.1,<4
