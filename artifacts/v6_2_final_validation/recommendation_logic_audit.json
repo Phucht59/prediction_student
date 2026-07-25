@@ -1,0 +1,15 @@
+{
+  "schema_version": "v6_2_recommendation_scientific_validation_v1",
+  "status": "PASS",
+  "historical_circular_logic_detected_before_v6_1": true,
+  "current_probability_to_observed_behavior_paths": 0,
+  "observed_features_require_real_pre_cutoff_lineage": true,
+  "missing_or_invalid_lineage_abstains": true,
+  "withdrawal_reliability": "EXPLORATORY_DISABLED_FOR_RECOMMENDATION",
+  "withdrawal_to_mechanism_paths": 0,
+  "withdrawal_to_reason_paths": 0,
+  "withdrawal_to_priority_or_urgency_paths": 0,
+  "withdrawal_to_action_paths": 0,
+  "sensitive_attributes_in_payload_or_reasoning": false,
+  "causal_effectiveness_claimed": false
+}
