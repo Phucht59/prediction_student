@@ -20,9 +20,9 @@ def payload() -> dict:
 
 def test_official_cnn_bilstm_names() -> None:
     assert [item["official_name"] for item in OFFICIAL_MODELS.values()] == [
-        "CNN-BiLSTM — Student-Mat",
-        "CNN-BiLSTM — Student-Por",
-        "CNN-BiLSTM — OULAD",
+        "CNN-BiLSTM MAT",
+        "CNN-BiLSTM POR",
+        "CNN-BiLSTM OULAD",
     ]
 
 

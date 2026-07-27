@@ -4,4 +4,4 @@ status: selected
 expert_status: PENDING_EXPERT_LABELS
 causal_effectiveness_claimed: false
 training_enabled: false
-source_artifact_path: artifacts/v6/recommendation/technical_metrics.json
+source_artifact_path: artifacts/final/recommendation/recommendation_technical_validation.json

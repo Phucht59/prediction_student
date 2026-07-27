@@ -38,15 +38,16 @@ FINAL_RESULTS = ROOT / "artifacts" / "final" / "final_results.json"
 FINAL_RESULTS_CSV = ROOT / "artifacts" / "final" / "final_results.csv"
 MODEL_REGISTRY = ROOT / "artifacts" / "final" / "model_registry.json"
 FINAL_CHECKSUMS = ROOT / "artifacts" / "final" / "checksum_manifest.json"
-RISK_PROFILES = ROOT / "artifacts" / "v6" / "prediction" / "risk_profiles.parquet"
-PLANS = ROOT / "artifacts" / "v6" / "recommendation" / "plans.jsonl"
-POLICY = ROOT / "artifacts" / "v6" / "registry" / "policy_registry.json"
+RISK_PROFILES = ROOT / "artifacts" / "final" / "recommendation" / "risk_profiles.parquet"
+PLANS = ROOT / "artifacts" / "final" / "database" / "persisted_recommendation_plans.jsonl"
+POLICY = ROOT / "artifacts" / "final" / "recommendation" / "policy_registry.json"
+RELOCATION_MANIFEST = ROOT / "artifacts" / "final" / "checksums" / "relocation_manifest.json"
 
 LOCKED_SOURCES = {
-    FINAL_RESULTS: "07afefd254ad8950746c92cc064f3c6f0c8a2273cd2e14496d70ac826f49a5ba",
+    FINAL_RESULTS: "362b067e0a7f3229c67e4cac10eb58c8909c4a162c99ad3e789745842af1ca79",
     FINAL_RESULTS_CSV: "682c99357fae996624bdca65e2ca999559c4b859a8f9cd3b96d48f0b68be209a",
-    MODEL_REGISTRY: "49ebd0f168ab42f96d4221613cc66796ff7eb1feaef7a101703e51497704788c",
-    FINAL_CHECKSUMS: "cf047d1e6ebcc5b5b51cc9b148bb71d64aeca176bd0fae0e3ae0bd7036be9139",
+    MODEL_REGISTRY: "c8da344cd07e58ef4f8ed3ce15b311aa450cc10875a0da1f4e28d0dd27e99e57",
+    FINAL_CHECKSUMS: "0e3aa50dd2f522e13d9835ffb90d5eb8a675c279c9998c375c1a1339f2b61712",
     RISK_PROFILES: "a0178477871e16b81eebc4ec50dd23567fa4df6ec5b9d75d9e75d14f7ebe5625",
     PLANS: "d34e61d0fbbaaa9a8db7299dba174caeb2bb92308bf99981788a05fb5ba06cc3",
     POLICY: "f7bb538881fb6d10fdba84244d4f6b295bee6cf4def913e139b2adb9d13b8532",
@@ -826,7 +827,7 @@ def load_canonical(dsn: str) -> dict[str, Any]:
                     Json(expert_status),
                 )
             )
-            multitask_path = ROOT / "artifacts" / "v6" / "prediction" / "multitask" / "fold_metrics.json"
+            multitask_path = ROOT / "artifacts" / "final" / "metrics" / "cnn_bilstm_oulad_inner_multitask.json"
             for name, value, detail in _flatten_numeric(_read_json(multitask_path), "multitask"):
                 metric_values.append(
                     (
@@ -861,7 +862,7 @@ def load_canonical(dsn: str) -> dict[str, Any]:
                 artifact_values.append(
                     (
                         selected_run.get("oulad"),
-                        datasets["oulad"][1] if "v6/" in relative or "recommendation" in relative else None,
+                        datasets["oulad"][1] if "cnn_bilstm_oulad" in relative or "recommendation" in relative else None,
                         "canonical_final_source",
                         relative,
                         expected,
@@ -1213,11 +1214,19 @@ def validate_database(dsn: str, *, strict_public: bool) -> dict[str, Any]:
                 )
             checks["all_metrics_match_canonical_json"] = all(row["status"] == "PASS" for row in metric_reconciliation)
 
+            relocation = {
+                entry["original_path"]: entry["canonical_or_preserved_path"]
+                for entry in _read_json(RELOCATION_MANIFEST)["entries"]
+            }
             cursor.execute("SELECT storage_path,sha256 FROM ml.artifact")
             artifact_failures = []
             for row in cursor.fetchall():
                 path = ROOT / row["storage_path"]
-                if path.is_file() and _sha256(path) != row["sha256"].strip():
+                expected = row["sha256"].strip()
+                if path.is_file() and _sha256(path) == expected:
+                    continue
+                relocated = ROOT / relocation.get(row["storage_path"], "")
+                if not relocated.is_file() or _sha256(relocated) != expected:
                     artifact_failures.append(row["storage_path"])
             checks["artifact_checksums_match"] = not artifact_failures
         connection.rollback()

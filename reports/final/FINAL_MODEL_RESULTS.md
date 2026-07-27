@@ -4,9 +4,9 @@
 
 | Dataset | Final model | Task |
 |---|---|---|
-| student-mat | CNN-BiLSTM — Student-Mat | multiclass_student_performance |
-| student-por | CNN-BiLSTM — Student-Por | multiclass_student_performance |
-| oulad | CNN-BiLSTM — OULAD | binary_student_risk |
+| student-mat | CNN-BiLSTM MAT | multiclass_student_performance |
+| student-por | CNN-BiLSTM POR | multiclass_student_performance |
+| oulad | CNN-BiLSTM OULAD | binary_student_risk |
 
 ## Student-Mat overall comparison
 
@@ -157,13 +157,19 @@ This is a deterministic risk-based decision-support system, not a causal interve
 
 | Measure | Value |
 |---|---:|
-| Plans Generated | 15378.0000 |
-| Coverage | 1.0000 |
-| Escalation Rate | 0.4686 |
-| Conflicts | 0.0000 |
-| Duplicate Plans | 0.0000 |
+| Records | 15378.0000 |
+| Generated | 10953.0000 |
+| Partial Evidence | 1209.0000 |
+| Abstained | 3216.0000 |
+| Generated Or Partial | 0.7909 |
+| Abstention | 0.2091 |
 | Workload Violations | 0.0000 |
+| Action Cap Violations | 0.0000 |
+| Duplicates | 0.0000 |
 | Missing Lineage | 0.0000 |
+| Post Cutoff Usage | False |
+| Sensitive Usage | False |
+| Withdrawal Mechanism Usage | 0.0000 |
 | Deterministic Replay | True |
 | Expert status | PENDING_EXPERT_LABELS |
 | Causal effectiveness claimed | False |

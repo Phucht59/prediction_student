@@ -1,1 +1,0 @@
-"""Explicit CSV ingestion boundary."""

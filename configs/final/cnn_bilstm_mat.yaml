@@ -1,0 +1,30 @@
+model_id: cnn_bilstm_mat
+display_name: CNN-BiLSTM MAT
+dataset: student_mat
+task: three_class_student_performance
+input_contract:
+  source: UCI Student Performance student-mat
+  classes: [Low, Medium, High]
+  preprocessing: fit_on_training_partition_only
+architecture:
+  family: CNN-BiLSTM
+  transfer_learning: true
+  shared_trunk: true
+  subject_specific_head: true
+selection:
+  selected_on: inner_validation_only
+  outer_test_used_for_selection: false
+training_protocol:
+  outer_folds: 5
+  fixed_seeds: [42, 1201, 2026, 3407, 7319]
+  ensemble: mean_probability
+  training_enabled_in_release: false
+artifacts:
+  metrics: artifacts/final/metrics/cnn_bilstm_mat.json
+  predictions: artifacts/final/predictions/cnn_bilstm_mat/oof_predictions.parquet
+  checkpoints: artifacts/final/models/cnn_bilstm_mat
+  tuning_evidence: artifacts/final/tuning_evidence/cnn_bilstm_mat
+provenance:
+  source_version: v5_1
+  original_candidate: cnn_bilstm_v5_1_transfer_selected_ensemble
+  role: canonical_prediction_evidence

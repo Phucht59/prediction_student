@@ -1,8 +1,0 @@
-{
-  "dataset_hash": "e47f9ee225e1ee6e69b7564e6dac7123e80b8486677fe111f351964cef5dec80",
-  "development_records": 316,
-  "development_source_rows_hash": "c665addbde4d77a082da3f1512b14a663593f803b4375f69bc3871a62db38372",
-  "legacy_observed_rows_fetched": false,
-  "target_contract_hash": "797081e5751784633dbba3ed0e1c53d4c9a6850f338a0be5079e7360bb23689b",
-  "transaction_read_only": true
-}

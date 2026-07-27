@@ -45,7 +45,7 @@ HISTORICAL_DATABASE_PATHS = {
     "src/evaluation/evaluation.py",
     "scripts/database_audit.py",
     "scripts/database_register_evidence.py",
-    "scripts/database_v5.py",
+    "scripts/database_final.py",
     "scripts/validate_oulad_final.py",
 }
 

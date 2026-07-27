@@ -2,7 +2,7 @@
   "canonical_results": "../final_results.json",
   "registry": {
     "model_id": "cnn_bilstm_oulad",
-    "official_name": "CNN-BiLSTM — OULAD",
+    "official_name": "CNN-BiLSTM OULAD",
     "dataset": "oulad",
     "task": "binary_student_risk",
     "classes": [
@@ -12,9 +12,9 @@
     "class_name": "CNNBiLSTMOULADModel",
     "status": "selected",
     "source_commit": "9611bfc1e7ff594f64f19fe3144a105216388954",
-    "source_artifact_path": "artifacts/v6/prediction/final/metrics.json",
+    "source_artifact_path": "artifacts/final/metrics/cnn_bilstm_oulad.json",
     "source_checksum": "17110c49f9cde7d82d1583b051e9c13f2520062030e4954778b0196162c0067a",
-    "checkpoint_checksum": "e676675cb92538a725c6cf32eff95e552bdbcfe237a3903bd633adb9fe71d6af",
-    "feature_contract_checksum": "d17f004245c07b0ecbbc05a6b67a7cadd998583ec97f88994841def9a55d2f58"
+    "checkpoint_checksum": "44fc5f5502abcbef00cdabdefabdbe20900c4c77dafbd382ac1a836e70b10fcc",
+    "feature_contract_checksum": "fcca253af167b3405e5000d88f0f5a286fd235b7075fcbf05e162e0a92f86756"
   }
 }

@@ -1,4 +1,0 @@
-dataset,final_model,cnn_bilstm_macro_f1,strongest_ml,strongest_ml_macro_f1,delta
-student-mat,decision_tree,0.8799168720699821,decision_tree,0.9018875313283208,-0.021970659258338632
-student-por,random_forest,0.8491516177055304,random_forest,0.8605087126041724,-0.011357094898642006
-oulad,xgboost,0.828002638861856,xgboost,0.8283814220319712,-0.00037878317011519336

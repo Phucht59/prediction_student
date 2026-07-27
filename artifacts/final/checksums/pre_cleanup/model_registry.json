@@ -1,0 +1,63 @@
+{
+  "schema_version": "official_model_registry_v1",
+  "student_mat": {
+    "model_id": "cnn_bilstm_mat",
+    "official_name": "CNN-BiLSTM — Student-Mat",
+    "dataset": "student-mat",
+    "task": "multiclass_student_performance",
+    "classes": [
+      "Low",
+      "Medium",
+      "High"
+    ],
+    "class_name": "CNNBiLSTMStudentMatModel",
+    "status": "selected",
+    "source_commit": "9611bfc1e7ff594f64f19fe3144a105216388954",
+    "source_artifact_path": "artifacts/v5_1/student_mat/final_metrics.json",
+    "source_checksum": "ee4e998ca6e8173f374d78984ba5eba52105c1ae57501e93397bfc4e08aff776",
+    "checkpoint_checksum": "a20b83fd1b02c7951052fc4e154854b6eaa57e6b4a26748658a72e8da89e7643",
+    "feature_contract_checksum": "9f73d25f60ab272fa97deea066b76f4de4a74b15cf574208f64f35094c60fba1"
+  },
+  "student_por": {
+    "model_id": "cnn_bilstm_por",
+    "official_name": "CNN-BiLSTM — Student-Por",
+    "dataset": "student-por",
+    "task": "multiclass_student_performance",
+    "classes": [
+      "Low",
+      "Medium",
+      "High"
+    ],
+    "class_name": "CNNBiLSTMStudentPorModel",
+    "status": "selected",
+    "source_commit": "9611bfc1e7ff594f64f19fe3144a105216388954",
+    "source_artifact_path": "artifacts/v5_1/student_por/final_metrics.json",
+    "source_checksum": "5ad0710721b0323a0e2e47371b983b9ad0bd6eb4b12a27e18a69b38e7c982a25",
+    "checkpoint_checksum": "59409253fe3ca7d22879616b0748dda2d8f18b7a81a5236635a273999e608938",
+    "feature_contract_checksum": "9f73d25f60ab272fa97deea066b76f4de4a74b15cf574208f64f35094c60fba1"
+  },
+  "oulad": {
+    "model_id": "cnn_bilstm_oulad",
+    "official_name": "CNN-BiLSTM — OULAD",
+    "dataset": "oulad",
+    "task": "binary_student_risk",
+    "classes": [
+      "Not-at-risk",
+      "At-risk"
+    ],
+    "class_name": "CNNBiLSTMOULADModel",
+    "status": "selected",
+    "source_commit": "9611bfc1e7ff594f64f19fe3144a105216388954",
+    "source_artifact_path": "artifacts/v6/prediction/final/metrics.json",
+    "source_checksum": "17110c49f9cde7d82d1583b051e9c13f2520062030e4954778b0196162c0067a",
+    "checkpoint_checksum": "e676675cb92538a725c6cf32eff95e552bdbcfe237a3903bd633adb9fe71d6af",
+    "feature_contract_checksum": "d17f004245c07b0ecbbc05a6b67a7cadd998583ec97f88994841def9a55d2f58"
+  },
+  "recommendation": {
+    "system_id": "student_risk_recommendation_system",
+    "official_name": "Student Risk-Based Recommendation System",
+    "source_commit": "9611bfc1e7ff594f64f19fe3144a105216388954",
+    "source_artifact_path": "artifacts/v6/recommendation/technical_metrics.json",
+    "source_checksum": "401838c38c24dd881deedf968728522329feb8bfd6fdde884b138073938c8cfc"
+  }
+}

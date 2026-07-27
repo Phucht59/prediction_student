@@ -1,0 +1,34 @@
+{
+  "schema_version": "v6_2_recommendation_scientific_validation_v1",
+  "status": "PASS_BOUNDED",
+  "claims": [
+    {
+      "claim": "recommendation_effectiveness",
+      "status": "NOT_ESTABLISHED",
+      "authoritative_boundary": "technical validity and expert-evaluation readiness only"
+    },
+    {
+      "claim": "causal_student_outcome_improvement",
+      "status": "PROHIBITED",
+      "authoritative_boundary": "no prospective or randomized intervention evidence"
+    },
+    {
+      "claim": "cnn_incremental_contribution_oulad",
+      "status": "LIMITED_PARTIAL",
+      "authoritative_boundary": "V6.1 development diagnosis; no new outer gate"
+    },
+    {
+      "claim": "withdrawal_specific_mechanism",
+      "status": "DISABLED",
+      "authoritative_boundary": "near-zero recall; exploratory output only"
+    },
+    {
+      "claim": "future_oulad_generalization",
+      "status": "NOT_EVALUATED_LOCKED",
+      "authoritative_boundary": "historical grouped OOF only"
+    }
+  ],
+  "causal_effectiveness_claimed": false,
+  "expert_approval_claimed": false,
+  "future_generalization_claimed": false
+}

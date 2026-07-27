@@ -1,0 +1,15 @@
+{
+  "schema_version": "v6_2_expert_review_v1",
+  "status": "PENDING_REAL_EXPERT_LABELS",
+  "cases": 60,
+  "reviewers_prepared": 2,
+  "model_identity_exposed": false,
+  "exact_probabilities_exposed": false,
+  "internal_record_ids_exposed": false,
+  "outcomes_exposed": false,
+  "demographics_exposed": false,
+  "synthetic_labels_created": false,
+  "llm_labels_created": false,
+  "heuristic_labels_created": false,
+  "package_sha256": "124c9b1bffb97a72cc7d8ee3823c9fc4da04d99b7ec98b6ebb1063526c9396ed"
+}

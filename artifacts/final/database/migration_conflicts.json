@@ -1,0 +1,10 @@
+{
+  "failures": [
+    {
+      "actual": "c8da344cd07e58ef4f8ed3ce15b311aa450cc10875a0da1f4e28d0dd27e99e57",
+      "expected": "ac6b37d6c239dbd84ddf1e9a61355b8dd3312b31e500af3b32967575c6d57b80",
+      "path": "artifacts/final/model_registry.json"
+    }
+  ],
+  "status": "STOP_MIGRATION_CONFLICT"
+}

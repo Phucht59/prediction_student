@@ -1,9 +1,0 @@
-{
-  "command": "py -3.10 -m pytest -q",
-  "return_code": 0,
-  "collected": 174,
-  "passed": 169,
-  "skipped": 5,
-  "failed": 0,
-  "raw_stdout": "test_stdout.txt"
-}

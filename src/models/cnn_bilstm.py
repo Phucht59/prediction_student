@@ -8,6 +8,8 @@ from __future__ import annotations
 
 from typing import Any
 
+from src.models._uci import UCICNNBiLSTM
+
 
 class _FrozenModelFacade:
     model_id: str
@@ -25,14 +27,22 @@ class _FrozenModelFacade:
 
 class CNNBiLSTMStudentMatModel(_FrozenModelFacade):
     model_id = "cnn_bilstm_mat"
-    official_name = "CNN-BiLSTM — Student-Mat"
+    official_name = "CNN-BiLSTM MAT"
 
 
 class CNNBiLSTMStudentPorModel(_FrozenModelFacade):
     model_id = "cnn_bilstm_por"
-    official_name = "CNN-BiLSTM — Student-Por"
+    official_name = "CNN-BiLSTM POR"
 
 
 class CNNBiLSTMOULADModel(_FrozenModelFacade):
     model_id = "cnn_bilstm_oulad"
-    official_name = "CNN-BiLSTM — OULAD"
+    official_name = "CNN-BiLSTM OULAD"
+
+
+__all__ = [
+    "UCICNNBiLSTM",
+    "CNNBiLSTMStudentMatModel",
+    "CNNBiLSTMStudentPorModel",
+    "CNNBiLSTMOULADModel",
+]

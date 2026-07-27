@@ -1,4 +1,0 @@
-forecast_id,source_student_info,joined_records,registered_before_cutoff,active_at_cutoff,primary_cohort,excluded_not_registered,excluded_withdrawn_before_cutoff,at_risk,not_at_risk
-F1_EARLY,32593,32593,32538,26751,26734,55,5804,11354,15380
-F2_MIDDLE,32593,32593,32546,24612,24603,47,7943,9219,15384
-F3_LATE,32593,32593,32548,23040,23034,45,9514,7650,15384

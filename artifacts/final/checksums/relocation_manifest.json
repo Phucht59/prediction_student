@@ -1,0 +1,121 @@
+{
+    "schema_version":  "final_artifact_relocation_manifest_v1",
+    "purpose":  "resolve immutable database artifact provenance after public path cleanup",
+    "entries":  [
+                    {
+                        "original_path":  "artifacts/final/checksum_manifest.json",
+                        "canonical_or_preserved_path":  "artifacts/final/checksums/pre_cleanup/checksum_manifest.json",
+                        "sha256":  "cf047d1e6ebcc5b5b51cc9b148bb71d64aeca176bd0fae0e3ae0bd7036be9139"
+                    },
+                    {
+                        "original_path":  "artifacts/final/final_results.json",
+                        "canonical_or_preserved_path":  "artifacts/final/checksums/pre_cleanup/final_results.json",
+                        "sha256":  "07afefd254ad8950746c92cc064f3c6f0c8a2273cd2e14496d70ac826f49a5ba"
+                    },
+                    {
+                        "original_path":  "artifacts/final/model_registry.json",
+                        "canonical_or_preserved_path":  "artifacts/final/checksums/pre_cleanup/model_registry.json",
+                        "sha256":  "49ebd0f168ab42f96d4221613cc66796ff7eb1feaef7a101703e51497704788c"
+                    },
+                    {
+                        "original_path":  "artifacts/v5_1/oulad/oof_predictions.parquet",
+                        "canonical_or_preserved_path":  "artifacts/final/ablation_evidence/oulad_reference_oof_predictions.parquet",
+                        "sha256":  "2f2aab90e37150c4262a15f7eaba89c9a27b5aa57c3857dda4006605eef99fcf"
+                    },
+                    {
+                        "original_path":  "artifacts/v5_1/oulad/selected_configs.json",
+                        "canonical_or_preserved_path":  "artifacts/final/ablation_evidence/oulad_reference_selected_configs.json",
+                        "sha256":  "a893996045033811203022d7e768fdd63a42452c71ce085a367c925e950087f0"
+                    },
+                    {
+                        "original_path":  "artifacts/v5_1/student_mat/ml_oof_predictions.parquet",
+                        "canonical_or_preserved_path":  "artifacts/final/predictions/cnn_bilstm_mat/ml_comparator_oof_predictions.parquet",
+                        "sha256":  "7ba6855f87d83ef4e7f99e874de4e5d70e6e7164b70a3c5bf11a43d8877f8089"
+                    },
+                    {
+                        "original_path":  "artifacts/v5_1/student_mat/ml_selected_configs.json",
+                        "canonical_or_preserved_path":  "artifacts/final/tuning_evidence/cnn_bilstm_mat/ml_selected_configs.json",
+                        "sha256":  "76fbeccb36335e8d289b3ddaacc961f546fcc54aa871aa89d9ce366447cd6811"
+                    },
+                    {
+                        "original_path":  "artifacts/v5_1/student_mat/oof_predictions.parquet",
+                        "canonical_or_preserved_path":  "artifacts/final/predictions/cnn_bilstm_mat/oof_predictions.parquet",
+                        "sha256":  "1375a4f664a087b3c650624813bb2a01f5ff3586fc20b1688ca526c2c4dbf59e"
+                    },
+                    {
+                        "original_path":  "artifacts/v5_1/student_mat/selected_configs.json",
+                        "canonical_or_preserved_path":  "artifacts/final/tuning_evidence/cnn_bilstm_mat/selected_configs.json",
+                        "sha256":  "3d3d104f48570059b57d2d6aff77e854a9fc432977728d9aca2a0eb5be33100b"
+                    },
+                    {
+                        "original_path":  "artifacts/v5_1/student_por/ml_oof_predictions.parquet",
+                        "canonical_or_preserved_path":  "artifacts/final/predictions/cnn_bilstm_por/ml_comparator_oof_predictions.parquet",
+                        "sha256":  "0707092138da95908583571bdd679c9735cc12a43522a3138f7975afb6269b87"
+                    },
+                    {
+                        "original_path":  "artifacts/v5_1/student_por/ml_selected_configs.json",
+                        "canonical_or_preserved_path":  "artifacts/final/tuning_evidence/cnn_bilstm_por/ml_selected_configs.json",
+                        "sha256":  "19852f2a1b9564d6d0d0c7ec213a95230fe1a5546ad77944612bbffe8b31b311"
+                    },
+                    {
+                        "original_path":  "artifacts/v5_1/student_por/oof_predictions.parquet",
+                        "canonical_or_preserved_path":  "artifacts/final/predictions/cnn_bilstm_por/oof_predictions.parquet",
+                        "sha256":  "641d6d1ec6d4337a236d27aa38bade954faab18cee30b5028fd34c4b487db4f3"
+                    },
+                    {
+                        "original_path":  "artifacts/v5_1/student_por/selected_configs.json",
+                        "canonical_or_preserved_path":  "artifacts/final/tuning_evidence/cnn_bilstm_por/selected_configs.json",
+                        "sha256":  "3bf1ece12337279a0292a8d3adf3b104153db48f3189078c7b053471a023e931"
+                    },
+                    {
+                        "original_path":  "artifacts/v6/prediction/final/seed_predictions.parquet",
+                        "canonical_or_preserved_path":  "artifacts/final/predictions/cnn_bilstm_oulad/seed_predictions.parquet",
+                        "sha256":  "020368682692f7be2377c0c5f06f1ab5bde1674a4e0dfa538b0dda974fdc5dc6"
+                    },
+                    {
+                        "original_path":  "artifacts/v6/prediction/multitask/fold_metrics.json",
+                        "canonical_or_preserved_path":  "artifacts/final/metrics/cnn_bilstm_oulad_inner_multitask.json",
+                        "sha256":  "c287f6f6230f5ed7c45823efce2124764752ef56d5ad93b6b0b4bb1c3ddf1fab"
+                    },
+                    {
+                        "original_path":  "artifacts/v6/prediction/risk_profiles.parquet",
+                        "canonical_or_preserved_path":  "artifacts/final/recommendation/risk_profiles.parquet",
+                        "sha256":  "a0178477871e16b81eebc4ec50dd23567fa4df6ec5b9d75d9e75d14f7ebe5625"
+                    },
+                    {
+                        "original_path":  "artifacts/v6/prediction/selected_model.json",
+                        "canonical_or_preserved_path":  "artifacts/final/protocol_snapshots/cnn_bilstm_oulad_selected_model.json",
+                        "sha256":  "9ce8ea80e8a8da0d89d9007b3049f5acb62b5bec44515adb1757e2712ba45322"
+                    },
+                    {
+                        "original_path":  "artifacts/v6/recommendation/plans.jsonl",
+                        "canonical_or_preserved_path":  "artifacts/final/database/persisted_recommendation_plans.jsonl",
+                        "sha256":  "d34e61d0fbbaaa9a8db7299dba174caeb2bb92308bf99981788a05fb5ba06cc3"
+                    },
+                    {
+                        "original_path":  "artifacts/v6/registry/policy_registry.json",
+                        "canonical_or_preserved_path":  "artifacts/final/recommendation/policy_registry.json",
+                        "sha256":  "f7bb538881fb6d10fdba84244d4f6b295bee6cf4def913e139b2adb9d13b8532"
+                    },
+                    {
+                        "original_path":  "configs/v5_1/oulad_v5_1.yaml",
+                        "canonical_or_preserved_path":  "artifacts/final/protocol_snapshots/source_oulad_reference.yaml",
+                        "sha256":  "5213999fd1f71c1fa52b8e40ab90a08e4cb31493a95905f1464f9dd896335bb6"
+                    },
+                    {
+                        "original_path":  "configs/v5_1/student_mat_v5_1.yaml",
+                        "canonical_or_preserved_path":  "artifacts/final/protocol_snapshots/source_student_mat.yaml",
+                        "sha256":  "552b6ee92e69b1b4cb132bf1b9e65a93c5b1bf84c110a082da487ffd9b93ca68"
+                    },
+                    {
+                        "original_path":  "configs/v5_1/student_por_v5_1.yaml",
+                        "canonical_or_preserved_path":  "artifacts/final/protocol_snapshots/source_student_por.yaml",
+                        "sha256":  "ca297aa0faa002d0df705bc1eca1bb5094fec6534375908f0a9e452f6e3f46d4"
+                    },
+                    {
+                        "original_path":  "configs/v6/integrated_system_protocol.yaml",
+                        "canonical_or_preserved_path":  "artifacts/final/protocol_snapshots/source_oulad_final.yaml",
+                        "sha256":  "d17f004245c07b0ecbbc05a6b67a7cadd998583ec97f88994841def9a55d2f58"
+                    }
+                ]
+}
