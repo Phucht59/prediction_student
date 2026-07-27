@@ -52,6 +52,12 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def write_text_lf(path: Path, content: str) -> None:
+    """Write repository-canonical UTF-8 text on every operating system."""
+    with path.open("w", encoding="utf-8", newline="\n") as handle:
+        handle.write(content)
+
+
 def relative(path: Path) -> str:
     return path.relative_to(ROOT).as_posix()
 
@@ -428,8 +434,9 @@ def build_payload() -> dict[str, Any]:
 
 def write_results(payload: dict[str, Any]) -> None:
     FINAL_ROOT.mkdir(parents=True, exist_ok=True)
-    (FINAL_ROOT / "final_results.json").write_text(
-        json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+    write_text_lf(
+        FINAL_ROOT / "final_results.json",
+        json.dumps(payload, indent=2, ensure_ascii=False) + "\n",
     )
     metric_names = sorted(
         {
@@ -443,7 +450,7 @@ def write_results(payload: dict[str, Any]) -> None:
     with (FINAL_ROOT / "final_results.csv").open(
         "w", newline="", encoding="utf-8"
     ) as handle:
-        writer = csv.DictWriter(handle, fieldnames=columns)
+        writer = csv.DictWriter(handle, fieldnames=columns, lineterminator="\n")
         writer.writeheader()
         for dataset_id, dataset in payload["datasets"].items():
             for row in dataset["models"]:
@@ -497,8 +504,9 @@ def build_registry() -> dict[str, Any]:
             / "recommendation_technical_validation.json"
         ),
     }
-    (FINAL_ROOT / "model_registry.json").write_text(
-        json.dumps(registry, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+    write_text_lf(
+        FINAL_ROOT / "model_registry.json",
+        json.dumps(registry, indent=2, ensure_ascii=False) + "\n",
     )
     return registry
 
@@ -510,7 +518,8 @@ def main() -> int:
     for dataset in (*OFFICIAL_MODELS, "recommendation"):
         target = FINAL_ROOT / dataset
         target.mkdir(parents=True, exist_ok=True)
-        (target / "index.json").write_text(
+        write_text_lf(
+            target / "index.json",
             json.dumps(
                 {
                     "canonical_results": "../final_results.json",
@@ -524,7 +533,6 @@ def main() -> int:
                 ensure_ascii=False,
             )
             + "\n",
-            encoding="utf-8",
         )
     print(
         json.dumps(

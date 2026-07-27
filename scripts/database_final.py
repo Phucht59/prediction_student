@@ -44,13 +44,13 @@ POLICY = ROOT / "artifacts" / "final" / "recommendation" / "policy_registry.json
 RELOCATION_MANIFEST = ROOT / "artifacts" / "final" / "checksums" / "relocation_manifest.json"
 
 LOCKED_SOURCES = {
-    FINAL_RESULTS: "362b067e0a7f3229c67e4cac10eb58c8909c4a162c99ad3e789745842af1ca79",
-    FINAL_RESULTS_CSV: "682c99357fae996624bdca65e2ca999559c4b859a8f9cd3b96d48f0b68be209a",
-    MODEL_REGISTRY: "c8da344cd07e58ef4f8ed3ce15b311aa450cc10875a0da1f4e28d0dd27e99e57",
-    FINAL_CHECKSUMS: "0e3aa50dd2f522e13d9835ffb90d5eb8a675c279c9998c375c1a1339f2b61712",
+    FINAL_RESULTS: "1e3356900e8b1cf440f2797c2aecb4d8c8acf2e119f3e5e79b910531e53a3f19",
+    FINAL_RESULTS_CSV: "4915e52a57532c239a55ee1c3c6fe9b4aa4a402326fe69f784797c094d65f69d",
+    MODEL_REGISTRY: "5cae9c5e67391fce12bf6dbc0147ce5f05dc73dede6feeb07573c44986830494",
+    FINAL_CHECKSUMS: "3b5a733e197f137ed0fe1c3f692e46c29fb5cde2f57992b6450a3e5f37ec4749",
     RISK_PROFILES: "a0178477871e16b81eebc4ec50dd23567fa4df6ec5b9d75d9e75d14f7ebe5625",
     PLANS: "d34e61d0fbbaaa9a8db7299dba174caeb2bb92308bf99981788a05fb5ba06cc3",
-    POLICY: "f7bb538881fb6d10fdba84244d4f6b295bee6cf4def913e139b2adb9d13b8532",
+    POLICY: "89f054fc62d035ec2d4789b4d65950363d5158d04396bff0c3c243bda7cb47d8",
 }
 
 OOF_PATHS = {
@@ -219,6 +219,10 @@ def _assert_locked_sources() -> None:
     if failures:
         _write_json(ARTIFACT_ROOT / "migration_conflicts.json", {"status": "STOP_MIGRATION_CONFLICT", "failures": failures})
         raise FinalDatabaseError("STOP_MIGRATION_CONFLICT: locked canonical source mismatch")
+    _write_json(
+        ARTIFACT_ROOT / "migration_conflicts.json",
+        {"status": "PASS", "failures": []},
+    )
 
 
 def _schema_payload(dsn: str) -> dict[str, Any]:

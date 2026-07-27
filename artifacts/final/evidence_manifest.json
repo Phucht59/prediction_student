@@ -58,7 +58,7 @@
     },
     {
       "path": "artifacts/final/checksum_manifest.json",
-      "sha256": "0e3aa50dd2f522e13d9835ffb90d5eb8a675c279c9998c375c1a1339f2b61712"
+      "sha256": "3b5a733e197f137ed0fe1c3f692e46c29fb5cde2f57992b6450a3e5f37ec4749"
     },
     {
       "path": "artifacts/final/checksums/checkpoint_manifest.json",
@@ -73,6 +73,10 @@
       "sha256": "cf047d1e6ebcc5b5b51cc9b148bb71d64aeca176bd0fae0e3ae0bd7036be9139"
     },
     {
+      "path": "artifacts/final/checksums/pre_cleanup/final_results.csv",
+      "sha256": "682c99357fae996624bdca65e2ca999559c4b859a8f9cd3b96d48f0b68be209a"
+    },
+    {
       "path": "artifacts/final/checksums/pre_cleanup/final_results.json",
       "sha256": "07afefd254ad8950746c92cc064f3c6f0c8a2273cd2e14496d70ac826f49a5ba"
     },
@@ -81,8 +85,12 @@
       "sha256": "49ebd0f168ab42f96d4221613cc66796ff7eb1feaef7a101703e51497704788c"
     },
     {
+      "path": "artifacts/final/checksums/pre_cleanup/policy_registry.json",
+      "sha256": "f7bb538881fb6d10fdba84244d4f6b295bee6cf4def913e139b2adb9d13b8532"
+    },
+    {
       "path": "artifacts/final/checksums/relocation_manifest.json",
-      "sha256": "e5cc63abc5e5e746df118bd70e0a52d306da7349b9ec67439f6ffd6921669c94"
+      "sha256": "d2b2d3991aeb6552f18778b93c552c049fc3d939e842b771ab729039cffde647"
     },
     {
       "path": "artifacts/final/comparator_completion/checksum_manifest.json",
@@ -626,7 +634,7 @@
     },
     {
       "path": "artifacts/final/database/checksum_manifest.json",
-      "sha256": "8f83e1a24137457267cb6ef2edab35f38099fba3206eaf0c6863ef15b149b7fb"
+      "sha256": "2b9f7d847479476e0497739f48851ada2a07b570352a381047f68de82c3e3113"
     },
     {
       "path": "artifacts/final/database/cutover_validation.json",
@@ -650,11 +658,11 @@
     },
     {
       "path": "artifacts/final/database/migration_conflicts.json",
-      "sha256": "acb49280dff78ba8a13f9f72e6d347a8c4abfc1cdc293837cfd132d6caf7004a"
+      "sha256": "491c4c93afc30b9746f994513e0e9998407b38afd3b8ae98231561dccd61bbdd"
     },
     {
       "path": "artifacts/final/database/migration_validation.json",
-      "sha256": "e4f8f64289810bd312cad52ca0c2c54715d48bf602f99be23df57b4948b3e6ab"
+      "sha256": "b33cf0069f1cfc4b8d639de433cbe1f8b3817a5388be44cef51e3bfd47ef0a44"
     },
     {
       "path": "artifacts/final/database/permission_validation.json",
@@ -682,11 +690,11 @@
     },
     {
       "path": "artifacts/final/final_results.csv",
-      "sha256": "682c99357fae996624bdca65e2ca999559c4b859a8f9cd3b96d48f0b68be209a"
+      "sha256": "4915e52a57532c239a55ee1c3c6fe9b4aa4a402326fe69f784797c094d65f69d"
     },
     {
       "path": "artifacts/final/final_results.json",
-      "sha256": "362b067e0a7f3229c67e4cac10eb58c8909c4a162c99ad3e789745842af1ca79"
+      "sha256": "1e3356900e8b1cf440f2797c2aecb4d8c8acf2e119f3e5e79b910531e53a3f19"
     },
     {
       "path": "artifacts/final/metrics/cnn_bilstm_mat.json",
@@ -706,7 +714,7 @@
     },
     {
       "path": "artifacts/final/model_registry.json",
-      "sha256": "c8da344cd07e58ef4f8ed3ce15b311aa450cc10875a0da1f4e28d0dd27e99e57"
+      "sha256": "5cae9c5e67391fce12bf6dbc0147ce5f05dc73dede6feeb07573c44986830494"
     },
     {
       "path": "artifacts/final/models/cnn_bilstm_mat/outer_0_seed_1201.pt",
@@ -970,7 +978,7 @@
     },
     {
       "path": "artifacts/final/oulad/index.json",
-      "sha256": "084208d358ae6bc29c4db8ff107280a07c9c978bc1c2fb76b80f1e9fe0384247"
+      "sha256": "5801bd2d26279f5a69562fb158a2a4165805587a068b12d406d92b8d0a87f64d"
     },
     {
       "path": "artifacts/final/predictions/cnn_bilstm_mat/ml_comparator_oof_predictions.parquet",
@@ -1030,7 +1038,7 @@
     },
     {
       "path": "artifacts/final/recommendation/canonical_classification_results.csv",
-      "sha256": "107e5a639eb8c847e91ceaba57c11beb18ea6ffe0dbd15a26775692eaf33756f"
+      "sha256": "b096e216a85498f352a8c8936a71225ab98661f8f6cea1e6870b6dbb8b7ab5c1"
     },
     {
       "path": "artifacts/final/recommendation/checksums.sha256",
@@ -1046,15 +1054,15 @@
     },
     {
       "path": "artifacts/final/recommendation/expert_evaluation/action_review_template_E01.csv",
-      "sha256": "7ec5ddb48e9ce247b3c27eef05b8b543ec3095ae808a12b2af7f76e252f341ee"
+      "sha256": "c3c2aede9ef0b292ba5e5a5fd57733d3d2c63724feade2fbf28b488d21187e06"
     },
     {
       "path": "artifacts/final/recommendation/expert_evaluation/action_review_template_E02.csv",
-      "sha256": "ace696ef7ae00f3f8198f01201ca0e8bddd5f550a22d366330ba2cd286ace8c6"
+      "sha256": "78b8858432410ffa4de7391b3d12863125ac70662da7152acb7d1b5c17f15564"
     },
     {
       "path": "artifacts/final/recommendation/expert_evaluation/case_randomization_map.csv",
-      "sha256": "865703478bc27dd9e92b94b86b35ec2ce57b1dada099103fe0b3977ab68f4124"
+      "sha256": "f74a838f1e00f8ee0b58fceedce438b7cb30e33366ba945b56f98d999c0d56f7"
     },
     {
       "path": "artifacts/final/recommendation/expert_evaluation/case_registry.json",
@@ -1066,15 +1074,15 @@
     },
     {
       "path": "artifacts/final/recommendation/expert_evaluation/expert_review_cases.csv",
-      "sha256": "8d948a8aa5023a76846ebf134163515427fbf88012984d7d1af4a924bbb76b66"
+      "sha256": "daf3563f532b30a8845f234235f744558f08c96f91ff3be8d122345f80de9a26"
     },
     {
       "path": "artifacts/final/recommendation/expert_evaluation/expert_review_cases_E01.csv",
-      "sha256": "2c49f3566ff963fdca6d45cbfa38e7cfa3c359d80930c745109b99a620cf5297"
+      "sha256": "5fde1c6a18d95e9d50bd0a1c1aca6b7f820e2335a9068dadb18c3f23db66b9a4"
     },
     {
       "path": "artifacts/final/recommendation/expert_evaluation/expert_review_cases_E02.csv",
-      "sha256": "296f8854905c04f8640620eb9d00a582478d99be4c95ea39f4c6e249c13922f4"
+      "sha256": "29ac8b2f0bae18f1e9b58f9006ff6251e1a9ea0fd0f87318cdb547bbf8a9feae"
     },
     {
       "path": "artifacts/final/recommendation/expert_evaluation/expert_review_form.xlsx",
@@ -1114,11 +1122,11 @@
     },
     {
       "path": "artifacts/final/recommendation/expert_evaluation/plan_review_template_E01.csv",
-      "sha256": "55ac07389940cd09c53ab7f6b1e6660934b6f9daa37f1abad11582ff4441190b"
+      "sha256": "bd3940f70cc9edb97c563e9d0d0d38da4e7168adc6579707a37f7e79961adf4f"
     },
     {
       "path": "artifacts/final/recommendation/expert_evaluation/plan_review_template_E02.csv",
-      "sha256": "74d562c75874d802142a0ddeddbecdd00dd8cc3d42b23583c9d736156de8351f"
+      "sha256": "e02dab969b298c07294a1e8a4dd7a9e3b8dc5d39f32c0882153c4b3aab41d9f0"
     },
     {
       "path": "artifacts/final/recommendation/final_validation.json",
@@ -1126,7 +1134,7 @@
     },
     {
       "path": "artifacts/final/recommendation/index.json",
-      "sha256": "03e139b037d476037047032fe0e330547a90748b3b56e879906335eafe52c4e4"
+      "sha256": "d0c041ced4390b856cdb4a3d0e172e738b42b109d4f31f5daa1df1800935479e"
     },
     {
       "path": "artifacts/final/recommendation/logs/dependency_openpyxl.log",
@@ -1182,7 +1190,7 @@
     },
     {
       "path": "artifacts/final/recommendation/policy_registry.json",
-      "sha256": "f7bb538881fb6d10fdba84244d4f6b295bee6cf4def913e139b2adb9d13b8532"
+      "sha256": "89f054fc62d035ec2d4789b4d65950363d5158d04396bff0c3c243bda7cb47d8"
     },
     {
       "path": "artifacts/final/recommendation/protocol_snapshot.yaml",
@@ -1210,15 +1218,15 @@
     },
     {
       "path": "artifacts/final/recommendation/uci_regression_metrics.csv",
-      "sha256": "47fd10c4f579f1e55f97935edf36ba4a1bc73bad424f02a13b78d47f3b54b8de"
+      "sha256": "bba2450c93e24ffe440de51eff702b7e96fd62409f70696ac5aceba8ec22b95a"
     },
     {
       "path": "artifacts/final/student_mat/index.json",
-      "sha256": "a2998827ed4ca6897eb56d45799ef573b11f49fef8fc61e2fa61fefd695990d3"
+      "sha256": "a349a151a0304fece17dd8e41fb0fc8d953ea7044738ae5352cc244f09bbb4f8"
     },
     {
       "path": "artifacts/final/student_por/index.json",
-      "sha256": "920d2764656b6ce313feeaf74456c50f74d1e9272758dc271fd201ec3be0b7d1"
+      "sha256": "ad697160b3b3b48da2a9743760c3f1dfa061a66dd433f7ffd28b942386ec000d"
     },
     {
       "path": "artifacts/final/tuning_evidence/cnn_bilstm_mat/artifact_checksums.json",

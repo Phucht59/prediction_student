@@ -36,10 +36,8 @@ def main() -> None:
         "future_oulad_accessed": False,
         "files": files,
     }
-    OUTPUT.write_text(
-        json.dumps(manifest, indent=2, ensure_ascii=False) + "\n",
-        encoding="utf-8",
-    )
+    with OUTPUT.open("w", encoding="utf-8", newline="\n") as stream:
+        stream.write(json.dumps(manifest, indent=2, ensure_ascii=False) + "\n")
     print(json.dumps({"status": "PASS", "files": len(files)}))
 
 

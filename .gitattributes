@@ -1,6 +1,11 @@
 # Protocol files are hashed as repository-canonical LF text.
 configs/*.yaml text eol=lf
 
+# The public final release is byte-stable across Windows/Linux checkouts.
+configs/final/** text eol=lf
+reports/final/** text eol=lf
+artifacts/final/** -text whitespace=-trailing-space,-blank-at-eof
+
 # Windows-generated Study B/C evidence is intentionally hashed with CRLF for
 # machine-readable text outputs. YAML protocols and JSONL decision logs remain LF.
 artifacts/study_b_student_por/**/*.csv text eol=crlf

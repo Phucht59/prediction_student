@@ -10,7 +10,14 @@ import subprocess
 from pathlib import Path
 from typing import Any
 
-from src.final_release.build import FINAL_ROOT, REPORT_ROOT, ROOT, build_payload, sha256
+from src.final_release.build import (
+    FINAL_ROOT,
+    REPORT_ROOT,
+    ROOT,
+    build_payload,
+    sha256,
+    write_text_lf,
+)
 from src.final_release.catalog import COMPARISON_MODELS, OFFICIAL_MODELS
 
 LAB_PATTERN = re.compile(r"\bV(?:4|5|6)(?:[._-]\d+)?\b", re.IGNORECASE)
@@ -49,8 +56,9 @@ def write_checksum_manifest() -> dict[str, Any]:
             if path.is_file()
         },
     }
-    (FINAL_ROOT / "checksum_manifest.json").write_text(
-        json.dumps(manifest, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+    write_text_lf(
+        FINAL_ROOT / "checksum_manifest.json",
+        json.dumps(manifest, indent=2, ensure_ascii=False) + "\n",
     )
     return manifest
 

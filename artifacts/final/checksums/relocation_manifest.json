@@ -3,6 +3,11 @@
     "purpose":  "resolve immutable database artifact provenance after public path cleanup",
     "entries":  [
                     {
+                        "original_path":  "artifacts/final/final_results.csv",
+                        "canonical_or_preserved_path":  "artifacts/final/checksums/pre_cleanup/final_results.csv",
+                        "sha256":  "682c99357fae996624bdca65e2ca999559c4b859a8f9cd3b96d48f0b68be209a"
+                    },
+                    {
                         "original_path":  "artifacts/final/checksum_manifest.json",
                         "canonical_or_preserved_path":  "artifacts/final/checksums/pre_cleanup/checksum_manifest.json",
                         "sha256":  "cf047d1e6ebcc5b5b51cc9b148bb71d64aeca176bd0fae0e3ae0bd7036be9139"
@@ -94,7 +99,12 @@
                     },
                     {
                         "original_path":  "artifacts/v6/registry/policy_registry.json",
-                        "canonical_or_preserved_path":  "artifacts/final/recommendation/policy_registry.json",
+                        "canonical_or_preserved_path":  "artifacts/final/checksums/pre_cleanup/policy_registry.json",
+                        "sha256":  "f7bb538881fb6d10fdba84244d4f6b295bee6cf4def913e139b2adb9d13b8532"
+                    },
+                    {
+                        "original_path":  "artifacts/final/recommendation/policy_registry.json",
+                        "canonical_or_preserved_path":  "artifacts/final/checksums/pre_cleanup/policy_registry.json",
                         "sha256":  "f7bb538881fb6d10fdba84244d4f6b295bee6cf4def913e139b2adb9d13b8532"
                     },
                     {

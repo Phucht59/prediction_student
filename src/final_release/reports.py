@@ -8,7 +8,7 @@ from typing import Any
 
 import pandas as pd
 
-from src.final_release.build import FINAL_ROOT, REPORT_ROOT, ROOT
+from src.final_release.build import FINAL_ROOT, REPORT_ROOT, ROOT, write_text_lf
 from src.final_release.catalog import COMPARISON_MODELS, OFFICIAL_MODELS
 
 
@@ -193,9 +193,9 @@ def generate() -> None:
         reports[dataset_id] = dataset_report(
             dataset_id, payload["datasets"][dataset_id]
         )
-        (REPORT_ROOT / filename).write_text(reports[dataset_id], encoding="utf-8")
+        write_text_lf(REPORT_ROOT / filename, reports[dataset_id])
     rec_report = recommendation_report(payload)
-    (REPORT_ROOT / "RECOMMENDATION_RESULTS.md").write_text(rec_report, encoding="utf-8")
+    write_text_lf(REPORT_ROOT / "RECOMMENDATION_RESULTS.md", rec_report)
     imbalance = """# Imbalance Results
 
 Only selected results with registered frozen final evidence are shown. The release does not imply that every listed imbalance method was run.
@@ -217,13 +217,13 @@ Only selected results with registered frozen final evidence are shown. The relea
 """
     row = payload["datasets"]["oulad"]["models"][0]
     imbalance += f"| CNN-BiLSTM | Registered selected policy | {fmt(row['metrics']['macro_f1'])} | {fmt(row['metrics']['risk_precision'])} | {fmt(row['metrics']['risk_recall'])} | {fmt(row['metrics']['risk_f1'])} | {fmt(row['metrics']['pr_auc'])} |\n"
-    (REPORT_ROOT / "IMBALANCE_RESULTS.md").write_text(imbalance, encoding="utf-8")
+    write_text_lf(REPORT_ROOT / "IMBALANCE_RESULTS.md", imbalance)
     claims = (
         "# Claim Boundaries\n\n"
         + "\n".join(f"- {item}" for item in payload["claim_boundaries"])
         + "\n\nAll applicable model metrics are sourced from native record-level probabilities; no metric is inferred from a headline score.\n"
     )
-    (REPORT_ROOT / "CLAIM_BOUNDARIES.md").write_text(claims, encoding="utf-8")
+    write_text_lf(REPORT_ROOT / "CLAIM_BOUNDARIES.md", claims)
     official = "\n".join(
         f"| {OFFICIAL_MODELS[key]['dataset']} | {OFFICIAL_MODELS[key]['official_name']} | {OFFICIAL_MODELS[key]['task']} |"
         for key in OFFICIAL_MODELS
@@ -242,7 +242,7 @@ Only selected results with registered frozen final evidence are shown. The relea
         "\n\n## OULAD Top-k\n\nSee `OULAD_RESULTS.md`; all nine models have aligned probability-based 5%, 10%, and 20% results.\n\n## Statistical comparison\n\nSee `COMPARATOR_COMPLETION_REPORT.md` for paired bootstrap intervals on all three datasets.\n\n## Imbalance\n\nSee `IMBALANCE_RESULTS.md`.\n\n## Recommendation\n\n"
         + rec_report
     )
-    (REPORT_ROOT / "FINAL_MODEL_RESULTS.md").write_text(combined, encoding="utf-8")
+    write_text_lf(REPORT_ROOT / "FINAL_MODEL_RESULTS.md", combined)
     runtime = pd.read_csv(FINAL_ROOT / "comparator_completion/runtime_resources.csv")
     bootstrap = pd.concat(
         [
@@ -320,11 +320,9 @@ Only selected results with registered frozen final evidence are shown. The relea
             "- Full provenance is stored in `artifacts/final/comparator_completion/`.",
         ]
     )
-    (REPORT_ROOT / "COMPARATOR_COMPLETION_REPORT.md").write_text(
-        completion + "\n", encoding="utf-8"
-    )
+    write_text_lf(REPORT_ROOT / "COMPARATOR_COMPLETION_REPORT.md", completion + "\n")
     review = "# Final Project Review\n\nThe repository exposes three unchanged official CNN-BiLSTM models and one unchanged risk-based recommendation system. The preregistered comparator completion adds the missing classical-ML predictions and synchronizes a complete nine-model matrix from validated evidence.\n\nVerdict is assigned only by `python project.py final validate`.\n"
-    (REPORT_ROOT / "FINAL_PROJECT_REVIEW.md").write_text(review, encoding="utf-8")
+    write_text_lf(REPORT_ROOT / "FINAL_PROJECT_REVIEW.md", review)
 
 
 if __name__ == "__main__":
