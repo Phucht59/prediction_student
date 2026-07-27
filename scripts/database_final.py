@@ -161,6 +161,18 @@ def _write_json(path: Path, value: Any) -> None:
     path.write_text(json.dumps(_clean(value), indent=2, sort_keys=True, ensure_ascii=False) + "\n", encoding="utf-8")
 
 
+def _preserved_timestamp(path: Path, key: str) -> str:
+    """Keep release evidence byte-stable across repeated successful audits."""
+    if path.is_file():
+        try:
+            value = _read_json(path).get(key)
+            if isinstance(value, str) and value:
+                return value
+        except (OSError, ValueError, AttributeError):
+            pass
+    return _now()
+
+
 def _write_csv(path: Path, rows: list[dict[str, Any]], fields: list[str]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", newline="", encoding="utf-8") as handle:
@@ -1278,7 +1290,9 @@ def validate_database(dsn: str, *, strict_public: bool) -> dict[str, Any]:
         "database": _database_name(dsn),
         "strict_public": strict_public,
         "checks": checks,
-        "validated_at": _now(),
+        "validated_at": _preserved_timestamp(
+            ARTIFACT_ROOT / "migration_validation.json", "validated_at"
+        ),
         "credentials": "REDACTED",
     }
     _write_json(ARTIFACT_ROOT / "migration_validation.json", result)
@@ -1402,7 +1416,9 @@ def _write_database_checksum_manifest(dsn: str) -> None:
         {
             "schema_version": "final_database_checksum_manifest_v1",
             "status": "PASS",
-            "generated_at": _now(),
+            "generated_at": _preserved_timestamp(
+                ARTIFACT_ROOT / "checksum_manifest.json", "generated_at"
+            ),
             "database": _database_name(dsn),
             "entities": _database_entity_checksums(dsn),
             "files": files,
