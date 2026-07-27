@@ -1,7 +1,0 @@
-file,line,claim,classification,blocking
-README.md,24,dl_superiority,negated_or_prohibited_example,False
-README.md,24,generalization_proven,negated_or_prohibited_example,False
-PROJECT.md,96,untouched_confirmation,negated_or_prohibited_example,False
-PROJECT.md,97,generalization_proven,negated_or_prohibited_example,False
-PROJECT.md,98,recommendation_effective,negated_or_prohibited_example,False
-PROJECT.md,99,expert_pass,negated_or_prohibited_example,False

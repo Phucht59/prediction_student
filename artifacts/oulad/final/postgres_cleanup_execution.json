@@ -1,8 +1,0 @@
-{
-  "authorized_deletion_count": 0,
-  "predicates_executed": [],
-  "rows_removed": 0,
-  "status": "PASS",
-  "transaction": "ROLLBACK",
-  "valid_scientific_lineage_preserved": true
-}

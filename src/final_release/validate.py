@@ -12,9 +12,25 @@ from typing import Any
 
 from src.final_release.build import FINAL_ROOT, REPORT_ROOT, ROOT, build_payload, sha256
 from src.final_release.catalog import COMPARISON_MODELS, OFFICIAL_MODELS
-from src.final_release.comparator_completion import verify_no_change_guard
 
 LAB_PATTERN = re.compile(r"\bV(?:4|5|6)(?:[._-]\d+)?\b", re.IGNORECASE)
+
+
+def verify_final_checkpoints() -> dict[str, Any]:
+    manifest_path = FINAL_ROOT / "checksums" / "checkpoint_manifest.json"
+    if not manifest_path.is_file():
+        return {"status": "FAIL", "reason": "checkpoint manifest missing"}
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8-sig"))
+    errors = []
+    for entry in manifest.get("checkpoints", []):
+        path = ROOT / entry["path"]
+        if not path.is_file() or sha256(path) != entry["sha256"]:
+            errors.append(entry["path"])
+    return {
+        "status": "PASS" if not errors else "FAIL",
+        "checkpoint_count": len(manifest.get("checkpoints", [])),
+        "errors": errors,
+    }
 
 
 def write_checksum_manifest() -> dict[str, Any]:
@@ -140,8 +156,13 @@ def validate() -> list[str]:
         "final_results_v2 completion flags are invalid",
         errors,
     )
-    guard = verify_no_change_guard()
+    guard = verify_final_checkpoints()
     _assert(guard["status"] == "PASS", f"no-change guard failed: {guard}", errors)
+    _assert(
+        guard.get("checkpoint_count") == 65,
+        "final checkpoint set must contain 65 ensemble checkpoints",
+        errors,
+    )
     completion_root = FINAL_ROOT / "comparator_completion"
     completion_validation_path = completion_root / "validation_report.json"
     _assert(
@@ -191,6 +212,16 @@ def validate() -> list[str]:
     _assert(
         payload["recommendation"]["causal_effectiveness_claimed"]["value"] is False,
         "causal effectiveness was claimed",
+        errors,
+    )
+    recommendation = payload["recommendation"]["metrics"]
+    _assert(
+        recommendation["records"]["value"] == 15378
+        and recommendation["generated"]["value"] == 10953
+        and recommendation["partial_evidence"]["value"] == 1209
+        and recommendation["abstained"]["value"] == 3216
+        and recommendation["deterministic_replay"]["value"] is True,
+        "corrected recommendation counts/replay changed",
         errors,
     )
     for filename in ("README.md", "PROJECT.md"):

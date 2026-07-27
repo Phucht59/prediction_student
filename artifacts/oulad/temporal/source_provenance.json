@@ -1,9 +1,0 @@
-{
-  "future_access": false,
-  "protocol_sha256": "e87dfaaa1bc869000f0493c9a4d52f167bfc03ce7f7496129ec8ce632b735959",
-  "mandatory_run_wall_clock_seconds": 4585,
-  "posthoc_metric_recompute_seconds": 344.5115401999992,
-  "posthoc_metric_recompute_training_runs": 0,
-  "source_commit": "8961253b9da0520274e8c9674987c3754d04da8d",
-  "v2_evidence_commit": "07217a184b9a5dcc6402e3f117a5af2e84c7596f"
-}

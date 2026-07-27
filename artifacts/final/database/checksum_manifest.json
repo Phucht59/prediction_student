@@ -215,14 +215,24 @@
       "sha256": "98b379fda2f1c059fca2be67f3e15d899c7a8862b20adfb4b053eed68e1fb247"
     },
     {
+      "byte_count": 307,
+      "path": "artifacts/final/database/migration_conflicts.json",
+      "sha256": "9cf67c8041c73bbbfa5d12a7b63960ed3704398af21ceb384b904a105872fa36"
+    },
+    {
       "byte_count": 1014,
       "path": "artifacts/final/database/migration_validation.json",
-      "sha256": "43d3cf68176eae7ea49523df4d72cef7fd0b21e7151364418955126321d0bc52"
+      "sha256": "260044d5de15e448218ea5fdacfa6a1869b4685dae764980ec98bba83a5f76e3"
     },
     {
       "byte_count": 278,
       "path": "artifacts/final/database/permission_validation.json",
       "sha256": "448101125be19476ed8c231f3d82cd7d16901e3c0574cdf99dc24040c87498e4"
+    },
+    {
+      "byte_count": 22325477,
+      "path": "artifacts/final/database/persisted_recommendation_plans.jsonl",
+      "sha256": "d34e61d0fbbaaa9a8db7299dba174caeb2bb92308bf99981788a05fb5ba06cc3"
     },
     {
       "byte_count": 313,
@@ -245,7 +255,7 @@
       "sha256": "de04ed85e11dae0370f17e36c865279663761210ea50a3a7365a2ebf2649eb0a"
     }
   ],
-  "generated_at": "2026-07-23T15:51:41.133378+00:00",
+  "generated_at": "2026-07-27T08:41:05.762858+00:00",
   "schema_version": "final_database_checksum_manifest_v1",
   "status": "PASS"
 }

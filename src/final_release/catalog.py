@@ -15,7 +15,7 @@ COMPARISON_MODELS = (
 OFFICIAL_MODELS = {
     "student_mat": {
         "model_id": "cnn_bilstm_mat",
-        "official_name": "CNN-BiLSTM — Student-Mat",
+        "official_name": "CNN-BiLSTM MAT",
         "dataset": "student-mat",
         "task": "multiclass_student_performance",
         "classes": ["Low", "Medium", "High"],
@@ -23,7 +23,7 @@ OFFICIAL_MODELS = {
     },
     "student_por": {
         "model_id": "cnn_bilstm_por",
-        "official_name": "CNN-BiLSTM — Student-Por",
+        "official_name": "CNN-BiLSTM POR",
         "dataset": "student-por",
         "task": "multiclass_student_performance",
         "classes": ["Low", "Medium", "High"],
@@ -31,7 +31,7 @@ OFFICIAL_MODELS = {
     },
     "oulad": {
         "model_id": "cnn_bilstm_oulad",
-        "official_name": "CNN-BiLSTM — OULAD",
+        "official_name": "CNN-BiLSTM OULAD",
         "dataset": "oulad",
         "task": "binary_student_risk",
         "classes": ["Not-at-risk", "At-risk"],

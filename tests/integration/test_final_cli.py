@@ -17,7 +17,7 @@ def test_final_status_is_read_only_and_ready() -> None:
     )
     assert result.returncode == 0
     payload = json.loads(result.stdout)
-    assert payload["training_performed"] is True
+    assert payload["training_performed"] is False
     assert payload["comparator_completion_performed"] is True
     assert payload["dataset_model_rows"] == {
         "student_mat": 9,

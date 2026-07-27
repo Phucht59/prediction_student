@@ -1,9 +1,0 @@
-{
-  "competitive_gate": "PASS",
-  "conditional_branch": "NOT_OPENED_MANDATORY_EVIDENCE_PRIORITIZED",
-  "dynamics_gate": "FAIL",
-  "future_benchmark": "NOT_EXECUTED",
-  "operational_superiority": "FAIL",
-  "overall_superiority": "FAIL",
-  "pooling_gate": "FAIL"
-}

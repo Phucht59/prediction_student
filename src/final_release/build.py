@@ -216,247 +216,62 @@ def binary_class_rows(
     return rows
 
 
-def uci_dataset(dataset: str) -> dict[str, Any]:
-    root = ROOT / "artifacts" / "v5_1" / dataset
-    deep_path = root / "final_metrics.json"
-    ml_path = root / "ml_final_metrics.json"
-    deep = load_json(deep_path)
-    ml = load_json(ml_path)
-    ablations = {entry["candidate"]: entry for entry in deep["ablation_metrics"]}
-    ml_ensemble = {
-        entry["candidate"].removesuffix("_ensemble"): entry
-        for entry in ml
-        if entry.get("seed") == -1
-    }
-    prediction_path = root / "oof_predictions.parquet"
-    ml_prediction_path = root / "ml_oof_predictions.parquet"
-    deep_candidate = (
-        "cnn_bilstm_v5_1_transfer_selected"
-        if dataset == "student_mat"
-        else "cnn_bilstm_v5_1"
-    )
-    source_candidates = {
-        "cnn_bilstm": (deep["metrics"], deep_path, deep_candidate, prediction_path),
-        "cnn_only": (
-            ablations.get("cnn_only_v5_1_ensemble"),
-            deep_path,
-            "cnn_only_v5_1",
-            prediction_path,
-        ),
-        "bilstm_only": (
-            ablations.get("bilstm_only_v5_1_ensemble"),
-            deep_path,
-            "bilstm_only_v5_1",
-            prediction_path,
-        ),
-        "logistic_regression": (
-            ml_ensemble.get("logistic_regression"),
-            ml_path,
-            "logistic_regression",
-            ml_prediction_path,
-        ),
-        "decision_tree": (
-            ml_ensemble.get("decision_tree"),
-            ml_path,
-            "decision_tree",
-            ml_prediction_path,
-        ),
-        "random_forest": (
-            ml_ensemble.get("random_forest"),
-            ml_path,
-            "random_forest",
-            ml_prediction_path,
-        ),
-        "hist_gradient_boosting": (
-            ml_ensemble.get("hist_gradient_boosting"),
-            ml_path,
-            "hist_gradient_boosting",
-            ml_prediction_path,
-        ),
-        "svm": (ml_ensemble.get("svm"), ml_path, "svm", ml_prediction_path),
-        "xgboost": (None, None, None, None),
-    }
-    rows = []
-    for model_id, display_name in COMPARISON_MODELS:
-        values, source, candidate, probability_source = source_candidates[model_id]
-        extras: dict[str, tuple[float, Path]] = {}
-        if (
-            values is not None
-            and probability_source is not None
-            and candidate is not None
-        ):
-            extras = {
-                name: (value, probability_source)
-                for name, value in prediction_extensions(
-                    probability_source, candidate, 3
-                ).items()
-            }
-        confusion = values.get("confusion_matrix") if values else None
-        per_class = class_rows(
-            values.get("per_class") if values else None,
-            values.get("macro_f1") if values else None,
-            ["Low", "Medium", "High"],
-            source,
-        )
-        rows.append(
-            metric_row(
-                model_id,
-                display_name,
-                values,
-                source,
-                UCI_METRICS,
-                per_class,
-                confusion,
-                extras,
-            )
-        )
-    return {
-        "dataset": OFFICIAL_MODELS[dataset]["dataset"],
-        "classes": ["Low", "Medium", "High"],
-        "models": rows,
-    }
-
-
-def oulad_dataset() -> dict[str, Any]:
-    official_path = ROOT / "artifacts" / "v6" / "prediction" / "final" / "metrics.json"
-    official_rows = load_json(official_path)
-    official = next(entry for entry in official_rows if entry.get("seed") == -1)
-    ablation_path = ROOT / "artifacts" / "v5_1" / "oulad" / "final_metrics.json"
-    ablations = load_json(ablation_path)
-    ablation_map = {
-        entry["candidate"]: entry for entry in ablations if entry.get("seed") == -1
-    }
-    comparator_path = ROOT / "artifacts" / "v5" / "oulad" / "final_metrics.csv"
-    comparators = {
-        row["candidate"]: row
-        for row in csv.DictReader(comparator_path.open(encoding="utf-8"))
-        if row.get("seed") == "-1"
-    }
-    for row in comparators.values():
-        for key, value in list(row.items()):
-            if key not in {
-                "candidate",
-                "threshold_scope",
-                "source",
-                "seed",
-            } and value not in {"", None}:
-                try:
-                    row[key] = float(value)
-                except ValueError:
-                    pass
-    sources = {
-        "cnn_bilstm": (official, official_path),
-        "cnn_only": (ablation_map.get("cnn_only_ensemble"), ablation_path),
-        "bilstm_only": (ablation_map.get("bilstm_only_ensemble"), ablation_path),
-        "logistic_regression": (
-            comparators.get("logistic_regression"),
-            comparator_path,
-        ),
-        "decision_tree": (None, None),
-        "random_forest": (None, None),
-        "hist_gradient_boosting": (
-            comparators.get("hist_gradient_boosting"),
-            comparator_path,
-        ),
-        "svm": (None, None),
-        "xgboost": (comparators.get("xgboost"), comparator_path),
-    }
-    rows = []
-    for model_id, display_name in COMPARISON_MODELS:
-        values, source = sources[model_id]
-        confusion = values.get("confusion_matrix") if values else None
-        per_class = binary_class_rows(
-            confusion, values.get("macro_f1") if values else None, source
-        )
-        row = metric_row(
-            model_id, display_name, values, source, OULAD_METRICS, per_class, confusion
-        )
-        rows.append(row)
-
-    probability_sources = {
-        "cnn_bilstm": (
-            ROOT
-            / "artifacts"
-            / "v6"
-            / "prediction"
-            / "final"
-            / "seed_predictions.parquet",
-            None,
-        ),
-        "cnn_only": (
-            ROOT / "artifacts" / "v5_1" / "oulad" / "oof_predictions.parquet",
-            "cnn_only",
-        ),
-        "bilstm_only": (
-            ROOT / "artifacts" / "v5_1" / "oulad" / "oof_predictions.parquet",
-            "bilstm_only",
-        ),
-    }
-    for row in rows:
-        if row["model_id"] not in probability_sources:
-            row["top_k"] = [
-                {
-                    "budget": budget,
-                    "precision": missing(),
-                    "recall": missing(),
-                    "f1": missing(),
-                    "ndcg": missing(),
-                }
-                for budget in (0.05, 0.10, 0.20)
-            ]
-            continue
-        path, candidate = probability_sources[row["model_id"]]
-        frame = pd.read_parquet(path)
-        if candidate is not None:
-            frame = frame.loc[frame["candidate"] == candidate]
-        grouped = (
-            frame.groupby("record_id", sort=True)
-            .agg(target=("target", "first"), probability=("probability", "mean"))
-            .reset_index()
-        )
-        row["top_k"] = []
-        for budget in (0.05, 0.10, 0.20):
-            calculated = top_k_metrics(
-                grouped.target.to_numpy(),
-                grouped.probability.to_numpy(),
-                grouped.record_id.to_numpy(),
-                budget,
-            )
-            row["top_k"].append(
-                {
-                    "budget": budget,
-                    **{
-                        name: sourced(value, path, "recomputed_from_frozen_predictions")
-                        for name, value in calculated.items()
-                    },
-                }
-            )
-    return {"dataset": "oulad", "classes": ["Not-at-risk", "At-risk"], "models": rows}
-
-
 def recommendation_result() -> dict[str, Any]:
     technical_path = (
-        ROOT / "artifacts" / "v6" / "recommendation" / "technical_metrics.json"
+        FINAL_ROOT / "recommendation" / "recommendation_technical_validation.json"
     )
-    action_path = ROOT / "artifacts" / "v6" / "recommendation" / "action_metrics.json"
+    action_path = (
+        FINAL_ROOT
+        / "recommendation"
+        / "expert_evaluation"
+        / "expert_metrics.json"
+    )
     technical = load_json(technical_path)
     action = load_json(action_path)
     return {
         **RECOMMENDATION_SYSTEM,
         "metrics": {
-            key: sourced(technical[key], technical_path)
-            for key in (
-                "plans_generated",
-                "coverage",
-                "escalation_rate",
-                "conflicts",
-                "duplicate_plans",
-                "workload_violations",
-                "missing_lineage",
-                "deterministic_replay",
-            )
+            "records": sourced(technical["records"], technical_path),
+            "generated": sourced(technical["status_counts"]["GENERATED"], technical_path),
+            "partial_evidence": sourced(
+                technical["status_counts"]["PARTIAL_EVIDENCE"], technical_path
+            ),
+            "abstained": sourced(
+                technical["status_counts"]["ABSTAINED"], technical_path
+            ),
+            "generated_or_partial": sourced(
+                technical["coverage_generated_or_partial"], technical_path
+            ),
+            "abstention": sourced(technical["abstention_rate"], technical_path),
+            "workload_violations": sourced(
+                technical["workload_violations"], technical_path
+            ),
+            "action_cap_violations": sourced(
+                technical["action_cap_violations"], technical_path
+            ),
+            "duplicates": sourced(
+                technical["duplicate_action_violations"], technical_path
+            ),
+            "missing_lineage": sourced(
+                technical["missing_action_lineage"], technical_path
+            ),
+            "post_cutoff_usage": sourced(technical["post_cutoff_used"], technical_path),
+            "sensitive_usage": sourced(
+                technical["sensitive_attributes_in_payload_or_reasoning"],
+                technical_path,
+            ),
+            "withdrawal_mechanism_usage": sourced(
+                technical["withdrawal_action_paths"], technical_path
+            ),
+            "deterministic_replay": sourced(
+                technical["deterministic_replay"], technical_path
+            ),
         },
-        "expert_status": sourced(action["status"], action_path),
+        "expert_status": sourced(
+            "PENDING_EXPERT_LABELS",
+            action_path,
+            "normalized_from_pending_real_expert_labels",
+        ),
         "expert_metrics": {
             key: missing("Expert labels have not been supplied")
             for key in (
@@ -586,7 +401,7 @@ def build_payload() -> dict[str, Any]:
         "comparator_completion_performed": True,
         "official_deep_models_retrained": False,
         "future_oulad_executed": False,
-        "training_performed": True,
+        "training_performed": False,
         "missing_metric_policy": "FAIL_ON_APPLICABLE_NA",
         "completion_protocol_id": protocol_id,
         "completion_protocol_hash": protocol_hash,
@@ -648,27 +463,15 @@ def write_results(payload: dict[str, Any]) -> None:
 
 def build_registry() -> dict[str, Any]:
     evidence = {
-        "student_mat": ROOT
-        / "artifacts"
-        / "v5_1"
-        / "student_mat"
-        / "final_metrics.json",
-        "student_por": ROOT
-        / "artifacts"
-        / "v5_1"
-        / "student_por"
-        / "final_metrics.json",
-        "oulad": ROOT / "artifacts" / "v6" / "prediction" / "final" / "metrics.json",
+        "student_mat": FINAL_ROOT / "metrics" / "cnn_bilstm_mat.json",
+        "student_por": FINAL_ROOT / "metrics" / "cnn_bilstm_por.json",
+        "oulad": FINAL_ROOT / "metrics" / "cnn_bilstm_oulad.json",
     }
     registry: dict[str, Any] = {"schema_version": "official_model_registry_v1"}
     for dataset, metadata in OFFICIAL_MODELS.items():
         source = evidence[dataset]
-        checkpoint_manifest = source.parent / "checkpoint_metadata.json"
-        if not checkpoint_manifest.is_file():
-            checkpoint_manifest = (
-                ROOT / "artifacts" / "v6" / "prediction" / "checkpoint_registry.json"
-            )
-        registry[dataset] = {
+        checkpoint_manifest = FINAL_ROOT / "checksums" / "checkpoint_manifest.json"
+        registry[metadata["model_id"]] = {
             **metadata,
             "status": "selected",
             "source_commit": SOURCE_COMMIT,
@@ -678,17 +481,20 @@ def build_registry() -> dict[str, Any]:
             if checkpoint_manifest.is_file()
             else None,
             "feature_contract_checksum": sha256(
-                ROOT / "configs" / "v6" / "integrated_system_protocol.yaml"
-            )
-            if dataset == "oulad"
-            else sha256(ROOT / "configs" / "v5_1" / "project_v5_1_protocol.yaml"),
+                ROOT
+                / "configs"
+                / "final"
+                / f"{metadata['model_id']}.yaml"
+            ),
         }
     registry["recommendation"] = {
         **RECOMMENDATION_SYSTEM,
         "source_commit": SOURCE_COMMIT,
-        "source_artifact_path": "artifacts/v6/recommendation/technical_metrics.json",
+        "source_artifact_path": "artifacts/final/recommendation/recommendation_technical_validation.json",
         "source_checksum": sha256(
-            ROOT / "artifacts" / "v6" / "recommendation" / "technical_metrics.json"
+            FINAL_ROOT
+            / "recommendation"
+            / "recommendation_technical_validation.json"
         ),
     }
     (FINAL_ROOT / "model_registry.json").write_text(
@@ -708,7 +514,11 @@ def main() -> int:
             json.dumps(
                 {
                     "canonical_results": "../final_results.json",
-                    "registry": registry[dataset],
+                    "registry": registry[
+                        OFFICIAL_MODELS[dataset]["model_id"]
+                        if dataset in OFFICIAL_MODELS
+                        else dataset
+                    ],
                 },
                 indent=2,
                 ensure_ascii=False,
@@ -720,7 +530,7 @@ def main() -> int:
         json.dumps(
             {
                 "status": "PASS",
-                "training_performed": True,
+                "training_performed": False,
                 "comparator_completion_performed": True,
                 "official_deep_models_retrained": False,
                 "dataset_rows": {

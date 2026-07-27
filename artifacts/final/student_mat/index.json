@@ -2,7 +2,7 @@
   "canonical_results": "../final_results.json",
   "registry": {
     "model_id": "cnn_bilstm_mat",
-    "official_name": "CNN-BiLSTM — Student-Mat",
+    "official_name": "CNN-BiLSTM MAT",
     "dataset": "student-mat",
     "task": "multiclass_student_performance",
     "classes": [
@@ -13,9 +13,9 @@
     "class_name": "CNNBiLSTMStudentMatModel",
     "status": "selected",
     "source_commit": "9611bfc1e7ff594f64f19fe3144a105216388954",
-    "source_artifact_path": "artifacts/v5_1/student_mat/final_metrics.json",
+    "source_artifact_path": "artifacts/final/metrics/cnn_bilstm_mat.json",
     "source_checksum": "ee4e998ca6e8173f374d78984ba5eba52105c1ae57501e93397bfc4e08aff776",
-    "checkpoint_checksum": "a20b83fd1b02c7951052fc4e154854b6eaa57e6b4a26748658a72e8da89e7643",
-    "feature_contract_checksum": "9f73d25f60ab272fa97deea066b76f4de4a74b15cf574208f64f35094c60fba1"
+    "checkpoint_checksum": "44fc5f5502abcbef00cdabdefabdbe20900c4c77dafbd382ac1a836e70b10fcc",
+    "feature_contract_checksum": "3ec5452d5539fb96ce0982838c229c9317cf3a6acedb23e3eaf9de3ef9f27a69"
   }
 }

@@ -9,8 +9,8 @@ class ResultImportService:
     REQUIRED = (
         "artifacts/final/final_results.json",
         "artifacts/final/model_registry.json",
-        "artifacts/v6/prediction/risk_profiles.parquet",
-        "artifacts/v6/recommendation/plans.jsonl",
+        "artifacts/final/recommendation/risk_profiles.parquet",
+        "artifacts/final/recommendation/recommendation_plans.jsonl",
     )
 
     def __init__(self, root: Path):

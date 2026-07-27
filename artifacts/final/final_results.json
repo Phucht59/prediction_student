@@ -4,7 +4,7 @@
   "comparator_completion_performed": true,
   "official_deep_models_retrained": false,
   "future_oulad_executed": false,
-  "training_performed": true,
+  "training_performed": false,
   "missing_metric_policy": "FAIL_ON_APPLICABLE_NA",
   "completion_protocol_id": "final-comparator-completion-20260723-v1",
   "completion_protocol_hash": "2cdc30713990ecf6932e69b484b3a1eb3f2c96a1329e682381ad09a5b136f5c2",
@@ -8251,60 +8251,96 @@
     "system_id": "student_risk_recommendation_system",
     "official_name": "Student Risk-Based Recommendation System",
     "metrics": {
-      "plans_generated": {
+      "records": {
         "value": 15378,
-        "source_artifact": "artifacts/v6/recommendation/technical_metrics.json",
-        "source_checksum": "401838c38c24dd881deedf968728522329feb8bfd6fdde884b138073938c8cfc",
+        "source_artifact": "artifacts/final/recommendation/recommendation_technical_validation.json",
+        "source_checksum": "7bc8ccc48ad1bc8bfdddd74377ba184ef8fc535f4f686e07ee5ff15f6a2f1123",
         "calculation": "loaded_from_frozen_final_evidence"
       },
-      "coverage": {
-        "value": 1.0,
-        "source_artifact": "artifacts/v6/recommendation/technical_metrics.json",
-        "source_checksum": "401838c38c24dd881deedf968728522329feb8bfd6fdde884b138073938c8cfc",
+      "generated": {
+        "value": 10953,
+        "source_artifact": "artifacts/final/recommendation/recommendation_technical_validation.json",
+        "source_checksum": "7bc8ccc48ad1bc8bfdddd74377ba184ef8fc535f4f686e07ee5ff15f6a2f1123",
         "calculation": "loaded_from_frozen_final_evidence"
       },
-      "escalation_rate": {
-        "value": 0.4685914943425673,
-        "source_artifact": "artifacts/v6/recommendation/technical_metrics.json",
-        "source_checksum": "401838c38c24dd881deedf968728522329feb8bfd6fdde884b138073938c8cfc",
+      "partial_evidence": {
+        "value": 1209,
+        "source_artifact": "artifacts/final/recommendation/recommendation_technical_validation.json",
+        "source_checksum": "7bc8ccc48ad1bc8bfdddd74377ba184ef8fc535f4f686e07ee5ff15f6a2f1123",
         "calculation": "loaded_from_frozen_final_evidence"
       },
-      "conflicts": {
-        "value": 0,
-        "source_artifact": "artifacts/v6/recommendation/technical_metrics.json",
-        "source_checksum": "401838c38c24dd881deedf968728522329feb8bfd6fdde884b138073938c8cfc",
+      "abstained": {
+        "value": 3216,
+        "source_artifact": "artifacts/final/recommendation/recommendation_technical_validation.json",
+        "source_checksum": "7bc8ccc48ad1bc8bfdddd74377ba184ef8fc535f4f686e07ee5ff15f6a2f1123",
         "calculation": "loaded_from_frozen_final_evidence"
       },
-      "duplicate_plans": {
-        "value": 0,
-        "source_artifact": "artifacts/v6/recommendation/technical_metrics.json",
-        "source_checksum": "401838c38c24dd881deedf968728522329feb8bfd6fdde884b138073938c8cfc",
+      "generated_or_partial": {
+        "value": 0.7908700741318767,
+        "source_artifact": "artifacts/final/recommendation/recommendation_technical_validation.json",
+        "source_checksum": "7bc8ccc48ad1bc8bfdddd74377ba184ef8fc535f4f686e07ee5ff15f6a2f1123",
+        "calculation": "loaded_from_frozen_final_evidence"
+      },
+      "abstention": {
+        "value": 0.2091299258681233,
+        "source_artifact": "artifacts/final/recommendation/recommendation_technical_validation.json",
+        "source_checksum": "7bc8ccc48ad1bc8bfdddd74377ba184ef8fc535f4f686e07ee5ff15f6a2f1123",
         "calculation": "loaded_from_frozen_final_evidence"
       },
       "workload_violations": {
         "value": 0,
-        "source_artifact": "artifacts/v6/recommendation/technical_metrics.json",
-        "source_checksum": "401838c38c24dd881deedf968728522329feb8bfd6fdde884b138073938c8cfc",
+        "source_artifact": "artifacts/final/recommendation/recommendation_technical_validation.json",
+        "source_checksum": "7bc8ccc48ad1bc8bfdddd74377ba184ef8fc535f4f686e07ee5ff15f6a2f1123",
+        "calculation": "loaded_from_frozen_final_evidence"
+      },
+      "action_cap_violations": {
+        "value": 0,
+        "source_artifact": "artifacts/final/recommendation/recommendation_technical_validation.json",
+        "source_checksum": "7bc8ccc48ad1bc8bfdddd74377ba184ef8fc535f4f686e07ee5ff15f6a2f1123",
+        "calculation": "loaded_from_frozen_final_evidence"
+      },
+      "duplicates": {
+        "value": 0,
+        "source_artifact": "artifacts/final/recommendation/recommendation_technical_validation.json",
+        "source_checksum": "7bc8ccc48ad1bc8bfdddd74377ba184ef8fc535f4f686e07ee5ff15f6a2f1123",
         "calculation": "loaded_from_frozen_final_evidence"
       },
       "missing_lineage": {
         "value": 0,
-        "source_artifact": "artifacts/v6/recommendation/technical_metrics.json",
-        "source_checksum": "401838c38c24dd881deedf968728522329feb8bfd6fdde884b138073938c8cfc",
+        "source_artifact": "artifacts/final/recommendation/recommendation_technical_validation.json",
+        "source_checksum": "7bc8ccc48ad1bc8bfdddd74377ba184ef8fc535f4f686e07ee5ff15f6a2f1123",
+        "calculation": "loaded_from_frozen_final_evidence"
+      },
+      "post_cutoff_usage": {
+        "value": false,
+        "source_artifact": "artifacts/final/recommendation/recommendation_technical_validation.json",
+        "source_checksum": "7bc8ccc48ad1bc8bfdddd74377ba184ef8fc535f4f686e07ee5ff15f6a2f1123",
+        "calculation": "loaded_from_frozen_final_evidence"
+      },
+      "sensitive_usage": {
+        "value": false,
+        "source_artifact": "artifacts/final/recommendation/recommendation_technical_validation.json",
+        "source_checksum": "7bc8ccc48ad1bc8bfdddd74377ba184ef8fc535f4f686e07ee5ff15f6a2f1123",
+        "calculation": "loaded_from_frozen_final_evidence"
+      },
+      "withdrawal_mechanism_usage": {
+        "value": 0,
+        "source_artifact": "artifacts/final/recommendation/recommendation_technical_validation.json",
+        "source_checksum": "7bc8ccc48ad1bc8bfdddd74377ba184ef8fc535f4f686e07ee5ff15f6a2f1123",
         "calculation": "loaded_from_frozen_final_evidence"
       },
       "deterministic_replay": {
         "value": true,
-        "source_artifact": "artifacts/v6/recommendation/technical_metrics.json",
-        "source_checksum": "401838c38c24dd881deedf968728522329feb8bfd6fdde884b138073938c8cfc",
+        "source_artifact": "artifacts/final/recommendation/recommendation_technical_validation.json",
+        "source_checksum": "7bc8ccc48ad1bc8bfdddd74377ba184ef8fc535f4f686e07ee5ff15f6a2f1123",
         "calculation": "loaded_from_frozen_final_evidence"
       }
     },
     "expert_status": {
       "value": "PENDING_EXPERT_LABELS",
-      "source_artifact": "artifacts/v6/recommendation/action_metrics.json",
-      "source_checksum": "0fe79419eba6cf9859f71d593c17331b5890eddac99ebeb9411e185af4baf23e",
-      "calculation": "loaded_from_frozen_final_evidence"
+      "source_artifact": "artifacts/final/recommendation/expert_evaluation/expert_metrics.json",
+      "source_checksum": "d784763b1eb42c66ca5b6f5286dfaf63a7b7efcf4181a8a62c7baa17047b6132",
+      "calculation": "normalized_from_pending_real_expert_labels"
     },
     "expert_metrics": {
       "action_precision": {
@@ -8330,8 +8366,8 @@
     },
     "causal_effectiveness_claimed": {
       "value": false,
-      "source_artifact": "artifacts/v6/recommendation/technical_metrics.json",
-      "source_checksum": "401838c38c24dd881deedf968728522329feb8bfd6fdde884b138073938c8cfc",
+      "source_artifact": "artifacts/final/recommendation/recommendation_technical_validation.json",
+      "source_checksum": "7bc8ccc48ad1bc8bfdddd74377ba184ef8fc535f4f686e07ee5ff15f6a2f1123",
       "calculation": "loaded_from_frozen_final_evidence"
     }
   },

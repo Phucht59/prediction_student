@@ -1,6 +1,0 @@
-{
-  "protocol": "stratified_80_20_locked_test",
-  "seed": 42,
-  "locked_test": "ca2a68b26668f2bee5145eee12e41fef74fe18ab3fb701835fb954af64d6f1f3",
-  "train": "c665addbde4d77a082da3f1512b14a663593f803b4375f69bc3871a62db38372"
-}

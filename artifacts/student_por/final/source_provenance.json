@@ -1,7 +1,0 @@
-{
-  "source_commit": "6d897310224fd70bfd01b9cf2305ccc2678e01bc",
-  "protocol_commit": "a00acaa",
-  "study_a_mutated": false,
-  "legacy_observed_accessed": false,
-  "raw_manifest": "data/manifests/extension_raw_manifest.json"
-}

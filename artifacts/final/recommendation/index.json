@@ -4,7 +4,7 @@
     "system_id": "student_risk_recommendation_system",
     "official_name": "Student Risk-Based Recommendation System",
     "source_commit": "9611bfc1e7ff594f64f19fe3144a105216388954",
-    "source_artifact_path": "artifacts/v6/recommendation/technical_metrics.json",
-    "source_checksum": "401838c38c24dd881deedf968728522329feb8bfd6fdde884b138073938c8cfc"
+    "source_artifact_path": "artifacts/final/recommendation/recommendation_technical_validation.json",
+    "source_checksum": "7bc8ccc48ad1bc8bfdddd74377ba184ef8fc535f4f686e07ee5ff15f6a2f1123"
   }
 }

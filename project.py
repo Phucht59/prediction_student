@@ -51,7 +51,7 @@ def command_report(_args: argparse.Namespace) -> int:
         json.dumps(
             {
                 "status": "PASS",
-                "training_performed": True,
+                "training_performed": False,
                 "official_deep_models_retrained": False,
                 "report_root": "reports/final",
             },

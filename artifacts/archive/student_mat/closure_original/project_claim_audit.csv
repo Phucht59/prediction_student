@@ -1,5 +1,0 @@
-claim_id,pass,evidence
-final_roles,True,Phase E final roles
-metrics,True,Phase E stability_summary.csv
-recommendation_status,True,Phase D strict validation
-target_contract,True,frozen target contract

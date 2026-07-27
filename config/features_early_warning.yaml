@@ -1,7 +1,0 @@
-{
-  "scenario": "early_warning",
-  "feature_set_id": "student_mat_early_warning_strict_v1",
-  "cutoff": "after_G1_before_G2",
-  "allowed_features": ["G1"],
-  "policy": "Strict: G1 is documented as the first-period grade. Questionnaire fields with undocumented collection time are excluded; G2, G3 and G3-derived fields are forbidden."
-}

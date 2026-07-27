@@ -1,4 +1,4 @@
-# CNN-BiLSTM — Student-Por — Final Results
+# CNN-BiLSTM POR — Final Results
 
 All values are recomputed from validated record-aligned outer-OOF probability ensembles. Frozen deep predictions are unchanged; explicitly identified comparators were trained under the preregistered completion protocol.
 

@@ -2,7 +2,7 @@
   "canonical_results": "../final_results.json",
   "registry": {
     "model_id": "cnn_bilstm_por",
-    "official_name": "CNN-BiLSTM — Student-Por",
+    "official_name": "CNN-BiLSTM POR",
     "dataset": "student-por",
     "task": "multiclass_student_performance",
     "classes": [
@@ -13,9 +13,9 @@
     "class_name": "CNNBiLSTMStudentPorModel",
     "status": "selected",
     "source_commit": "9611bfc1e7ff594f64f19fe3144a105216388954",
-    "source_artifact_path": "artifacts/v5_1/student_por/final_metrics.json",
+    "source_artifact_path": "artifacts/final/metrics/cnn_bilstm_por.json",
     "source_checksum": "5ad0710721b0323a0e2e47371b983b9ad0bd6eb4b12a27e18a69b38e7c982a25",
-    "checkpoint_checksum": "59409253fe3ca7d22879616b0748dda2d8f18b7a81a5236635a273999e608938",
-    "feature_contract_checksum": "9f73d25f60ab272fa97deea066b76f4de4a74b15cf574208f64f35094c60fba1"
+    "checkpoint_checksum": "44fc5f5502abcbef00cdabdefabdbe20900c4c77dafbd382ac1a836e70b10fcc",
+    "feature_contract_checksum": "6c4c9f85c5b494e662d2dfe4e186841df332523d868411f602f266903a6c59d1"
   }
 }
