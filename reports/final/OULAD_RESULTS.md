@@ -17,6 +17,7 @@ Precision and Recall in the overall table are macro averages.
 | HistGradientBoosting | 0.8337 | 0.8203 | 0.8295 | 0.8203 | 0.8241 | 0.8325 | 0.8134 | 0.7551 | 0.7832 | 0.8889 | 0.9030 | 0.1173 | 0.3713 | 0.0313 |
 | SVM | 0.8362 | 0.8186 | 0.8360 | 0.8186 | 0.8250 | 0.8340 | 0.8354 | 0.7326 | 0.7806 | 0.8797 | 0.8993 | 0.1184 | 0.3797 | 0.0171 |
 | XGBoost | 0.8352 | 0.8222 | 0.8310 | 0.8222 | 0.8259 | 0.8341 | 0.8145 | 0.7586 | 0.7855 | 0.8900 | 0.9048 | 0.1159 | 0.3658 | 0.0160 |
+| MLP | 0.8393 | 0.8219 | 0.8392 | 0.8219 | 0.8283 | 0.8372 | 0.8392 | 0.7372 | 0.7849 | 0.8917 | 0.9073 | 0.2287 | 0.3620 | 0.0060 |
 
 ## Per-class results
 
@@ -40,6 +41,8 @@ Precision and Recall in the overall table are macro averages.
 | SVM | At-risk | 0.8354 | 0.7326 | 0.7806 | 6118 |
 | XGBoost | Not-at-risk | 0.8474 | 0.8859 | 0.8662 | 9260 |
 | XGBoost | At-risk | 0.8145 | 0.7586 | 0.7855 | 6118 |
+| MLP | Not-at-risk | 0.8393 | 0.9067 | 0.8717 | 9260 |
+| MLP | At-risk | 0.8392 | 0.7372 | 0.7849 | 6118 |
 
 ## Top-k risk ranking
 
@@ -74,6 +77,9 @@ Tie-breaking is descending probability then ascending record ID; the budget is r
 | XGBoost | 5% | 0.9974 | 0.1254 | 0.2227 | 0.9979 |
 | XGBoost | 10% | 0.9954 | 0.2502 | 0.3999 | 0.9960 |
 | XGBoost | 20% | 0.9753 | 0.4904 | 0.6526 | 0.9783 |
+| MLP | 1% | 1.0000 | 0.0252 | 0.0491 | 1.0000 |
+| MLP | 5% | 0.9961 | 0.1252 | 0.2224 | 0.9966 |
+| MLP | 10% | 0.9954 | 0.2502 | 0.3999 | 0.9959 |
 
 ## Confusion matrices
 
@@ -140,6 +146,14 @@ Tie-breaking is descending probability then ascending record ID; the budget is r
 1477 4641
 ```
 
+### MLP
+
+```text
+8396 864
+1608 4510
+```
+
 ## Evidence sources
 
 - `artifacts/final/comparator_completion/oulad/ensemble_oof_predictions.parquet` — SHA-256 `c1e5dce42ad049db51caef8c6e7f0811e02236fb47db086a3d3e127299b1f041`
+- `artifacts/final/teacher_feedback_validation/mlp_comparator/oulad/oof_predictions.parquet` — SHA-256 `e773503dd0dcabb5b4859980da097b4412eb46122aaaa41abc72e3a87ff1d824`

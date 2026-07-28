@@ -20,6 +20,7 @@ Historical OULAD LR/HGB/XGBoost summaries were DO_NOT_IMPORT because record-leve
 | oulad | HistGradientBoosting | TRAIN_COMPLETION_MODEL | 3 | 5 | COMPLETE | 317.9 |
 | oulad | SVM | TRAIN_COMPLETION_MODEL | 3 | 5 | COMPLETE | 1580.0 |
 | oulad | XGBoost | TRAIN_COMPLETION_MODEL | 3 | 5 | COMPLETE | 166.1 |
+| oulad | MLP | TRAIN_COMPLETION_MODEL | 3 | 5 | COMPLETE | 0.0 |
 
 ## Paired bootstrap
 

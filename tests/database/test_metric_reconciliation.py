@@ -38,7 +38,7 @@ def test_all_oulad_top_k_loaded(final_connection):
             WHERE d.slug='oulad' AND mt.scope='top_k'
             """
         )
-        assert cursor.fetchone()[0] == 9 * 3 * 4
+        assert cursor.fetchone()[0] == 10 * 3 * 4
 
 
 def test_artifact_checksums_match():

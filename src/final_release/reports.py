@@ -239,7 +239,7 @@ Only selected results with registered frozen final evidence are shown. The relea
     ):
         combined += f"\n\n## {heading} overall comparison\n\n{overall_table(payload['datasets'][dataset_id], dataset_id == 'oulad')}\n\n## {heading} per-class comparison\n\n{per_class_table(payload['datasets'][dataset_id])}"
     combined += (
-        "\n\n## OULAD Top-k\n\nSee `OULAD_RESULTS.md`; all nine models have aligned probability-based 5%, 10%, and 20% results.\n\n## Statistical comparison\n\nSee `COMPARATOR_COMPLETION_REPORT.md` for paired bootstrap intervals on all three datasets.\n\n## Imbalance\n\nSee `IMBALANCE_RESULTS.md`.\n\n## Recommendation\n\n"
+        "\n\n## OULAD Top-k\n\nSee `OULAD_RESULTS.md`; all ten models have aligned probability-based budget results.\n\n## Statistical comparison\n\nSee `COMPARATOR_COMPLETION_REPORT.md` and `MLP_COMPARATOR_REPORT.md` for paired bootstrap intervals on all three datasets.\n\n## Imbalance\n\nSee `IMBALANCE_RESULTS.md`.\n\n## Recommendation\n\n"
         + rec_report
     )
     write_text_lf(REPORT_ROOT / "FINAL_MODEL_RESULTS.md", combined)
@@ -321,7 +321,7 @@ Only selected results with registered frozen final evidence are shown. The relea
         ]
     )
     write_text_lf(REPORT_ROOT / "COMPARATOR_COMPLETION_REPORT.md", completion + "\n")
-    review = "# Final Project Review\n\nThe repository exposes three unchanged official CNN-BiLSTM models and one unchanged risk-based recommendation system. The preregistered comparator completion adds the missing classical-ML predictions and synchronizes a complete nine-model matrix from validated evidence.\n\nVerdict is assigned only by `python project.py final validate`.\n"
+    review = "# Final Project Review\n\nThe repository exposes three unchanged official CNN-BiLSTM models and one unchanged risk-based recommendation system. The validated teacher-feedback completion adds a standalone MLP and synchronizes a complete ten-model matrix per dataset. Affected historical UCI resampling rows are superseded by safe no-synthetic-resampling revalidation.\n\nVerdict is assigned only by `python project.py final validate`.\n"
     write_text_lf(REPORT_ROOT / "FINAL_PROJECT_REVIEW.md", review)
 
 

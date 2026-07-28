@@ -4,10 +4,10 @@
 
 | Field | Value |
 |---|---|
-| Branch | `codex/final-release-cleanup` |
-| Base commit | `f51e1f43d9af768194bb34ea5ff4aeb8e4cbd502` |
-| Release commit | Resolved by `git rev-parse v1.0-thesis-final^{commit}` after publication |
-| Tag | `v1.0-thesis-final` (created only after validated main) |
+| Branch | `codex/teacher-feedback-completion` |
+| Base commit | `b20747dea0b2e80242b92e737e6080a24b022a3f` |
+| Release commit | Resolve from the branch head after this audit commit |
+| Tag | Existing final-release tag is unchanged by this study task |
 | Working tree | Must be CLEAN at release handoff |
 
 ## Final models and metrics
@@ -59,6 +59,22 @@ archived locally.
   `artifacts/final/checksums/checkpoint_manifest.json` retain public hashes and
   original-path provenance.
 
+## Teacher-feedback completion
+
+- Added immutable UCI target and timing contracts for S0 (no G1/G2), S1
+  (G1-only), and S2 (G1+G2).
+- Added standalone MLP evidence for Student-Mat, Student-Por, and OULAD using
+  all five registered seeds without best-seed selection.
+- Expanded the comparator catalog from 9 to 10 models per dataset (30
+  model–dataset identities); no selected model changed.
+- Historical UCI classical rows affected by plain SMOTE/ADASYN after
+  categorical encoding are superseded by training-only, no-synthetic-
+  resampling S2 revalidation.
+- Paired bootstrap uses 5,000 replicates and record-aligned predictions;
+  OULAD is grouped by `id_student`.
+- Future OULAD remains `LOCKED_NOT_EXECUTED`; expert evaluation remains
+  `PENDING_EXPERT_LABELS`; xAPI is absent from the final release.
+
 ## Validation
 
 | Check | Status |
@@ -66,7 +82,9 @@ archived locally.
 | `project.py final status` | PASS |
 | `project.py final report` | PASS |
 | `project.py final validate` | PASS |
-| pytest | 23 passed, 0 failed |
+| Project pytest | 35 passed, 0 failed |
+| Live database pytest | 30 passed, 0 failed |
+| Teacher-feedback validation | PASS |
 | Final checkpoint load | PASS (65/65) |
 | Checksum replay | PASS |
 | Prediction/metric replay | PASS |
@@ -85,7 +103,8 @@ separate immutable evidence set.
 ## Scientific freeze
 
 - Canonical metrics changed: **NO**
-- Prediction model retrained: **NO**
+- Official CNN-BiLSTM prediction model retrained: **NO**
+- Registered comparator/timing study trained: **YES**
 - New Optuna search run: **NO**
 - Future OULAD accessed: **NO**
 - Outer test used for tuning: **NO**

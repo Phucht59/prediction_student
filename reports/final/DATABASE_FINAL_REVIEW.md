@@ -8,10 +8,10 @@ Database acceptance status: **PASS**
 | Backup checksum | PASS |
 | Disposable restore | PASS |
 | 29-table disposition | PASS |
-| 13 core tables | PASS |
+| 16 core tables | PASS |
 | Two views | PASS |
 | Two triggers maximum | PASS |
-| 20 non-PK indexes maximum | PASS |
+| 24 non-PK indexes maximum | PASS |
 | Canonical metrics | PASS |
 | Per-class and OULAD Top-k | PASS |
 | 15,378 risk profiles/plans | PASS |

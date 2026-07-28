@@ -9,7 +9,7 @@ ml
 recommendation
 ```
 
-It has exactly 13 core tables and two views. `public` is removed from the
+It has exactly 16 core tables and two views. `public` is removed from the
 application search path and contains no application tables after cutover.
 
 | Schema | Base tables |
@@ -17,7 +17,7 @@ application search path and contains no application tables after cutover.
 | system | 1 |
 | catalog | 3 |
 | ml | 4 |
-| recommendation | 5 |
+| recommendation | 8 |
 | **Total** | **13** |
 
 Two immutability triggers protect sealed dataset versions and completed final

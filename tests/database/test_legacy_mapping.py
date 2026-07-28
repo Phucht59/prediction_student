@@ -35,3 +35,20 @@ def test_empty_drop_requires_explicit_flag():
     source = (ROOT / "scripts/database_final.py").read_text(encoding="utf-8")
     assert "--confirm-drop-empty-legacy" in source
     assert "elif drop_empty:" in source
+
+
+def test_cutover_uses_requested_backup_manifest():
+    source = (ROOT / "scripts/database_final.py").read_text(encoding="utf-8")
+    assert "backup_manifest=Path(args.backup_manifest)" in source
+    assert "_validate_backup_manifest(backup_manifest)" in source
+
+
+def test_database_plan_is_read_only_and_never_authorizes_cutover():
+    source = (ROOT / "scripts/database_final.py").read_text(encoding="utf-8")
+    plan_source = source.split("def command_plan", 1)[1].split(
+        "def command_status", 1
+    )[0]
+    assert "_connect(dsn, readonly=True)" in plan_source
+    assert '"dry_run": True' in plan_source
+    assert '"cutover_performed": False' in plan_source
+    assert '"cutover_authorized": False' in plan_source

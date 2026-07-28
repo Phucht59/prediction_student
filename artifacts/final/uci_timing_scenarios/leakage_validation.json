@@ -1,0 +1,11 @@
+{
+  "G3_in_any_feature_contract": false,
+  "S0_contains_G1_or_G2": false,
+  "S0_contains_grade_derived_features": false,
+  "S1_contains_G2": false,
+  "S1_contains_G2_derived_features": false,
+  "S2_matches_frozen_two_timestep_contract": true,
+  "preprocessing_fit_on_validation": false,
+  "schema_version": "uci_timing_leakage_validation_v1",
+  "status": "PASS"
+}

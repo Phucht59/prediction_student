@@ -1,0 +1,48 @@
+{
+  "accuracy": 0.8392508778774873,
+  "balanced_accuracy": 0.8219322369215367,
+  "brier": 0.22869253442714016,
+  "confusion_matrix": [
+    [
+      8396,
+      864
+    ],
+    [
+      1608,
+      4510
+    ]
+  ],
+  "dataset": "oulad",
+  "ece": 0.0060305352676675895,
+  "macro_f1": 0.8282857900281345,
+  "macro_precision": 0.8392450983878872,
+  "macro_recall": 0.8219322369215367,
+  "model": "MLP",
+  "model_id": "mlp",
+  "nll": 0.3620183902919177,
+  "per_class": {
+    "At-risk": {
+      "f1": 0.7848938391924817,
+      "precision": 0.8392259024934872,
+      "recall": 0.7371690094802223,
+      "support": 6118
+    },
+    "Not-at-risk": {
+      "f1": 0.8716777408637874,
+      "precision": 0.8392642942822871,
+      "recall": 0.906695464362851,
+      "support": 9260
+    }
+  },
+  "pr_auc": 0.8917099151142994,
+  "roc_auc": 0.9073361577951828,
+  "scenario": "FINAL_TABULAR_CONTRACT",
+  "seed_stability": {
+    "seed_count": 5,
+    "seed_max": 0.8260338244202146,
+    "seed_mean": 0.8246050441573141,
+    "seed_min": 0.8229551324117527,
+    "seed_std": 0.0010424371441530437
+  },
+  "weighted_f1": 0.8371515404199684
+}

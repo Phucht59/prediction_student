@@ -16,10 +16,13 @@ EXPECTED = {
     "recommendation.plan",
     "recommendation.action",
     "recommendation.review",
+    "recommendation.expert_review_case",
+    "recommendation.expert_plan_review",
+    "recommendation.expert_action_review",
 }
 
 
-def test_expected_13_core_tables(final_connection):
+def test_expected_16_core_tables(final_connection):
     with final_connection.cursor() as cursor:
         cursor.execute(
             """

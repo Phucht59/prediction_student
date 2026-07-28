@@ -1,4 +1,4 @@
-def test_final_base_table_count_at_most_15(final_connection):
+def test_final_base_table_count_at_most_18(final_connection):
     with final_connection.cursor() as cursor:
         cursor.execute(
             """
@@ -7,7 +7,7 @@ def test_final_base_table_count_at_most_15(final_connection):
               AND table_schema IN ('system','catalog','ml','recommendation')
             """
         )
-        assert cursor.fetchone()[0] == 13
+        assert cursor.fetchone()[0] == 16
 
         cursor.execute(
             """
@@ -29,4 +29,4 @@ def test_final_base_table_count_at_most_15(final_connection):
               AND n.nspname IN ('system','catalog','ml','recommendation')
             """
         )
-        assert cursor.fetchone()[0] <= 20
+        assert cursor.fetchone()[0] <= 24

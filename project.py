@@ -67,6 +67,40 @@ def command_validate(_args: argparse.Namespace) -> int:
     return int(main())
 
 
+def command_teacher_feedback_prepare(_args: argparse.Namespace) -> int:
+    from src.studies.teacher_feedback import prepare_regression_guard
+
+    result = prepare_regression_guard()
+    print(
+        json.dumps(
+            {
+                "status": "PASS",
+                "guard": "artifacts/final/teacher_feedback_validation/regression_guard_before.json",
+                "official_macro_f1": result["official_macro_f1"],
+                "training_performed": False,
+            },
+            indent=2,
+        )
+    )
+    return 0
+
+
+def command_teacher_feedback_all(_args: argparse.Namespace) -> int:
+    from src.studies.teacher_feedback import run_all
+
+    result = run_all()
+    print(json.dumps(result, indent=2))
+    return 0 if result["status"] == "PASS" else 1
+
+
+def command_teacher_feedback_validate(_args: argparse.Namespace) -> int:
+    from src.studies.teacher_feedback import validate_study
+
+    result = validate_study()
+    print(json.dumps(result, indent=2))
+    return 0 if result["status"] == "PASS" else 1
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description="Canonical student prediction release."
@@ -84,6 +118,29 @@ def build_parser() -> argparse.ArgumentParser:
         "validate", help="Validate evidence, tables and checksums."
     )
     validate.set_defaults(handler=command_validate)
+    study = root.add_parser(
+        "study", help="Explicit training/diagnostic studies; never implicit."
+    )
+    study_commands = study.add_subparsers(dest="study_command", required=True)
+    teacher = study_commands.add_parser(
+        "teacher-feedback", help="Teacher-feedback evidence completion."
+    )
+    teacher_commands = teacher.add_subparsers(
+        dest="teacher_feedback_command", required=True
+    )
+    prepare = teacher_commands.add_parser(
+        "prepare", help="Freeze the official regression guard without training."
+    )
+    prepare.set_defaults(handler=command_teacher_feedback_prepare)
+    run_all = teacher_commands.add_parser(
+        "all",
+        help="Explicitly train missing timing/MLP comparators on frozen folds.",
+    )
+    run_all.set_defaults(handler=command_teacher_feedback_all)
+    study_validate = teacher_commands.add_parser(
+        "validate", help="Validate already-generated teacher-feedback evidence."
+    )
+    study_validate.set_defaults(handler=command_teacher_feedback_validate)
     return parser
 
 

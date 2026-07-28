@@ -44,10 +44,10 @@ POLICY = ROOT / "artifacts" / "final" / "recommendation" / "policy_registry.json
 RELOCATION_MANIFEST = ROOT / "artifacts" / "final" / "checksums" / "relocation_manifest.json"
 
 LOCKED_SOURCES = {
-    FINAL_RESULTS: "1e3356900e8b1cf440f2797c2aecb4d8c8acf2e119f3e5e79b910531e53a3f19",
-    FINAL_RESULTS_CSV: "4915e52a57532c239a55ee1c3c6fe9b4aa4a402326fe69f784797c094d65f69d",
-    MODEL_REGISTRY: "5cae9c5e67391fce12bf6dbc0147ce5f05dc73dede6feeb07573c44986830494",
-    FINAL_CHECKSUMS: "3b5a733e197f137ed0fe1c3f692e46c29fb5cde2f57992b6450a3e5f37ec4749",
+    FINAL_RESULTS: "000c185fb2fd9ba4b528e79d98636fdb17ee4586dbad197e9990717164b3681b",
+    FINAL_RESULTS_CSV: "d2271c48bc6ed65a2836ec3b2430eef0777ad9f2b83f0d16092f389e57148b0f",
+    MODEL_REGISTRY: "83415a32684557a970a7059a307ead51913562581e83c03e864550cd98bc268b",
+    FINAL_CHECKSUMS: "32f5b10feeae6c70935c44746a51dbf1e64b038c4adef20432d9dc62f43914e9",
     RISK_PROFILES: "a0178477871e16b81eebc4ec50dd23567fa4df6ec5b9d75d9e75d14f7ebe5625",
     PLANS: "d34e61d0fbbaaa9a8db7299dba174caeb2bb92308bf99981788a05fb5ba06cc3",
     POLICY: "89f054fc62d035ec2d4789b4d65950363d5158d04396bff0c3c243bda7cb47d8",
@@ -105,6 +105,9 @@ EXPECTED_TABLES = {
     "recommendation.plan",
     "recommendation.action",
     "recommendation.review",
+    "recommendation.expert_review_case",
+    "recommendation.expert_plan_review",
+    "recommendation.expert_action_review",
 }
 
 DISPOSABLE_MARKERS = ("test", "dev", "disposable", "final_dev")
@@ -807,8 +810,8 @@ def load_canonical(dsn: str) -> dict[str, Any]:
                                 Json({"evidence_origin": model["evidence_origin"]}),
                             )
                         )
-            if model_count != 27:
-                raise FinalDatabaseError(f"Expected 27 model–dataset rows, found {model_count}")
+            if model_count != 30:
+                raise FinalDatabaseError(f"Expected 30 model–dataset rows, found {model_count}")
 
             recommendation_metrics = final_results["recommendation"]["metrics"]
             for name, payload in recommendation_metrics.items():
@@ -1044,7 +1047,7 @@ def load_canonical(dsn: str) -> dict[str, Any]:
     return {
         "status": "PASS",
         "datasets": 3,
-        "models": 27,
+        "models": 30,
         "risk_profiles": len(risk_df),
         "plans": len(plans),
         "actions": sum(len(plan["recommended_actions"]) for plan in plans),
@@ -1100,8 +1103,8 @@ def validate_database(dsn: str, *, strict_public: bool) -> dict[str, Any]:
                 """
             )
             tables = {row["name"] for row in cursor.fetchall()}
-            checks["expected_13_core_tables"] = tables == EXPECTED_TABLES
-            checks["final_base_table_count_at_most_15"] = len(tables) <= 15
+            checks["expected_16_core_tables"] = tables == EXPECTED_TABLES
+            checks["final_base_table_count_at_most_18"] = len(tables) <= 18
             cursor.execute(
                 """
                 SELECT count(*) AS count FROM information_schema.views
@@ -1129,11 +1132,11 @@ def validate_database(dsn: str, *, strict_public: bool) -> dict[str, Any]:
                   AND NOT i.indisprimary
                 """
             )
-            checks["non_pk_indexes_at_most_twenty"] = cursor.fetchone()["count"] <= 20
+            checks["non_pk_indexes_at_most_twenty_four"] = cursor.fetchone()["count"] <= 24
             cursor.execute("SELECT count(*) AS count FROM catalog.dataset")
             checks["three_datasets_loaded"] = cursor.fetchone()["count"] == 3
             cursor.execute("SELECT count(*) AS count FROM ml.model")
-            checks["twenty_seven_model_dataset_results"] = cursor.fetchone()["count"] == 27
+            checks["thirty_model_dataset_results"] = cursor.fetchone()["count"] == 30
             cursor.execute("SELECT count(*) AS count FROM recommendation.risk_profile")
             risk_count = cursor.fetchone()["count"]
             checks["risk_profile_count"] = risk_count == 15378
@@ -1249,7 +1252,7 @@ def validate_database(dsn: str, *, strict_public: bool) -> dict[str, Any]:
 
     row_reconciliation = [
         {"entity": "datasets", "source_rows": 3, "migrated_rows": 3, "rejected_rows": 0, "duplicate_rows": 0, "status": "PASS"},
-        {"entity": "models", "source_rows": 27, "migrated_rows": 27, "rejected_rows": 0, "duplicate_rows": 0, "status": "PASS"},
+        {"entity": "models", "source_rows": 30, "migrated_rows": 30, "rejected_rows": 0, "duplicate_rows": 0, "status": "PASS"},
         {"entity": "risk_profiles", "source_rows": 15378, "migrated_rows": risk_count, "rejected_rows": 0, "duplicate_rows": 0, "status": "PASS" if risk_count == 15378 else "FAIL"},
         {"entity": "plans", "source_rows": 15378, "migrated_rows": plan_count, "rejected_rows": 0, "duplicate_rows": 0, "status": "PASS" if plan_count == 15378 else "FAIL"},
         {"entity": "actions", "source_rows": expected_actions, "migrated_rows": action_count, "rejected_rows": 0, "duplicate_rows": 0, "status": "PASS" if action_count == expected_actions else "FAIL"},
@@ -1436,13 +1439,17 @@ def command_validate(args: argparse.Namespace) -> int:
     return 0
 
 
-def _validate_backup_manifest() -> dict[str, Any]:
-    if not BACKUP_MANIFEST.is_file():
-        raise FinalDatabaseError("Backup manifest missing")
-    manifest = _read_json(BACKUP_MANIFEST)
+def _validate_backup_manifest(
+    manifest_path: Path = BACKUP_MANIFEST,
+) -> dict[str, Any]:
+    manifest_path = manifest_path.resolve()
+    if not manifest_path.is_file():
+        raise FinalDatabaseError(f"Backup manifest missing: {manifest_path}")
+    manifest = _read_json(manifest_path)
     if manifest.get("status") != "PASS" or manifest.get("restore_test", {}).get("status") != "PASS":
         raise FinalDatabaseError("Backup/restore gate is not PASS")
-    if not BACKUP_PATH.is_file() or _sha256(BACKUP_PATH) != manifest["sha256"]:
+    backup_path = ROOT / "backups" / Path(manifest["backup_filename"]).name
+    if not backup_path.is_file() or _sha256(backup_path) != manifest["sha256"]:
         raise FinalDatabaseError("Backup checksum mismatch")
     return manifest
 
@@ -1573,10 +1580,16 @@ def _apply_migrations_target(dsn: str) -> None:
             connection.commit()
 
 
-def cutover(dsn: str, *, confirm: bool, drop_empty: bool) -> dict[str, Any]:
+def cutover(
+    dsn: str,
+    *,
+    confirm: bool,
+    drop_empty: bool,
+    backup_manifest: Path = BACKUP_MANIFEST,
+) -> dict[str, Any]:
     if not confirm:
         raise FinalDatabaseError("Cutover requires --confirm-production-cutover")
-    _validate_backup_manifest()
+    _validate_backup_manifest(backup_manifest)
     validation = _read_json(ARTIFACT_ROOT / "migration_validation.json")
     permissions = _read_json(ARTIFACT_ROOT / "permission_validation.json")
     if validation.get("status") != "PASS" or permissions.get("status") != "PASS":
@@ -1638,6 +1651,7 @@ def command_cutover(args: argparse.Namespace) -> int:
         dsn,
         confirm=args.confirm_production_cutover,
         drop_empty=args.confirm_drop_empty_legacy,
+        backup_manifest=Path(args.backup_manifest),
     )
     cutover_path = ARTIFACT_ROOT / "cutover_validation.json"
     if cutover_path.is_file() and not result["legacy_disposition"]:
@@ -1690,14 +1704,107 @@ def command_inventory(args: argparse.Namespace) -> int:
     return 0
 
 
-def command_plan(_args: argparse.Namespace) -> int:
-    mapping = yaml.safe_load((FINAL_ROOT / "LEGACY_TO_FINAL_MAPPING.yaml").read_text(encoding="utf-8"))
+def command_backup_check(args: argparse.Namespace) -> int:
+    manifest_path = Path(args.backup_manifest)
+    manifest = _validate_backup_manifest(manifest_path)
     result = {
         "status": "PASS",
+        "operation": "backup_check",
+        "manifest": str(manifest_path),
+        "backup_filename": manifest["backup_filename"],
+        "restore_test": manifest["restore_test"]["status"],
+        "cutover_performed": False,
+        "credentials": "REDACTED",
+    }
+    print(json.dumps(result))
+    return 0
+
+
+def command_plan(args: argparse.Namespace) -> int:
+    dsn = _dsn(args.dsn_env)
+    mapping = yaml.safe_load((FINAL_ROOT / "LEGACY_TO_FINAL_MAPPING.yaml").read_text(encoding="utf-8"))
+    with _connect(dsn, readonly=True) as connection:
+        with connection.cursor(cursor_factory=RealDictCursor) as cursor:
+            cursor.execute(
+                """
+                SELECT current_database() AS database,
+                       to_regclass('ml.model') IS NOT NULL AS final_schema_present,
+                       (SELECT count(*) FROM information_schema.tables
+                        WHERE table_type='BASE TABLE' AND table_schema='public')
+                           AS public_tables
+                """
+            )
+            database = dict(cursor.fetchone())
+            model_count = None
+            risk_profile_count = None
+            plan_count = None
+            action_count = None
+            if database["final_schema_present"]:
+                cursor.execute("SELECT count(*) AS count FROM ml.model")
+                model_count = int(cursor.fetchone()["count"])
+                cursor.execute("SELECT count(*) AS count FROM recommendation.risk_profile")
+                risk_profile_count = int(cursor.fetchone()["count"])
+                cursor.execute("SELECT count(*) AS count FROM recommendation.plan")
+                plan_count = int(cursor.fetchone()["count"])
+                cursor.execute("SELECT count(*) AS count FROM recommendation.action")
+                action_count = int(cursor.fetchone()["count"])
+        connection.rollback()
+    backup_ready = False
+    backup_error = None
+    try:
+        _validate_backup_manifest(Path(args.backup_manifest))
+        backup_ready = True
+    except FinalDatabaseError as error:
+        backup_error = str(error)
+    validation_ready = (
+        (ARTIFACT_ROOT / "migration_validation.json").is_file()
+        and _read_json(ARTIFACT_ROOT / "migration_validation.json").get("status")
+        == "PASS"
+    )
+    permissions_ready = (
+        (ARTIFACT_ROOT / "permission_validation.json").is_file()
+        and _read_json(ARTIFACT_ROOT / "permission_validation.json").get("status")
+        == "PASS"
+    )
+    result = {
+        "status": "PASS",
+        "operation": "dry_run_plan",
+        "dry_run": True,
+        "cutover_performed": False,
+        "cutover_authorized": False,
+        "database": database["database"],
+        "endpoint": _redacted(dsn),
+        "current": {
+            "final_schema_present": database["final_schema_present"],
+            "model_dataset_identities": model_count,
+            "risk_profiles": risk_profile_count,
+            "plan_objects": plan_count,
+            "actions": action_count,
+            "public_tables": int(database["public_tables"]),
+        },
+        "expected_after_cutover": {
+            "model_dataset_identities": 30,
+            "risk_profiles": 15378,
+            "plan_objects": 15378,
+            "actions": 27355,
+            "expert_reviews_fabricated": False,
+        },
+        "preconditions": {
+            "backup_restore_gate": "PASS" if backup_ready else "NOT_READY",
+            "backup_error": backup_error,
+            "disposable_migration_validation": (
+                "PASS" if validation_ready else "NOT_READY"
+            ),
+            "permission_validation": (
+                "PASS" if permissions_ready else "NOT_READY"
+            ),
+            "explicit_confirmation_required": True,
+        },
         "mapping_count": len(mapping["mappings"]),
         "core_tables": len(EXPECTED_TABLES),
         "views": 2,
         "protocol": "final_database_consolidation_v1",
+        "credentials": "REDACTED",
     }
     print(json.dumps(result))
     return 0
@@ -1738,7 +1845,14 @@ def _build_parser() -> argparse.ArgumentParser:
     backup.add_argument("--dsn-env", default="POSTGRES_TEST_DSN")
     backup.add_argument("--restore-database", default="student_predict_restore_test")
     backup.set_defaults(handler=command_backup)
+    backup_check = commands.add_parser("backup-check")
+    backup_check.add_argument(
+        "--backup-manifest", default=str(BACKUP_MANIFEST)
+    )
+    backup_check.set_defaults(handler=command_backup_check)
     plan = commands.add_parser("plan")
+    plan.add_argument("--dsn-env", default="POSTGRES_TEST_DSN")
+    plan.add_argument("--backup-manifest", default=str(BACKUP_MANIFEST))
     plan.set_defaults(handler=command_plan)
     migrate = commands.add_parser("migrate")
     migrate.add_argument("--dsn-env", default="FINAL_DATABASE_URL")

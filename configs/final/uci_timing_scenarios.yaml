@@ -1,0 +1,126 @@
+schema_version: uci_timing_scenarios_v1
+status: PREREGISTERED_BEFORE_OUTER_SCORING
+purpose: diagnostic_information_timing_not_model_reselection
+target_contract: artifacts/final/teacher_feedback_validation/uci_target_contract.json
+split_source: frozen_final_comparator_oof_fold_assignments
+outer_evaluation:
+  student_mat_folds: 5
+  student_por_folds: 5
+  selection_partition: inner_only
+  outer_used_for_tuning: false
+seeds: [42, 1201, 2026, 3407, 7319]
+evaluation_metrics:
+  - accuracy
+  - balanced_accuracy
+  - macro_precision
+  - macro_recall
+  - macro_f1
+  - weighted_f1
+  - per_class_precision
+  - per_class_recall
+  - per_class_f1
+  - confusion_matrix
+  - pr_auc_macro_ovr
+  - roc_auc_macro_ovr
+  - brier
+  - nll
+  - ece_15_bin_multiclass_confidence
+datasets:
+  - student_mat
+  - student_por
+scenarios:
+  - scenario_id: S0_EARLY_NO_GRADE
+    prediction_stage: before_G1
+    available_raw_fields:
+      - failures
+      - studytime
+      - schoolsup
+      - famsup
+      - paid
+      - activities
+      - internet
+      - higher
+      - traveltime
+      - freetime
+      - goout
+      - health
+    forbidden_raw_fields: [G1, G2, G3]
+    derived_feature_rules:
+      grade_features: none
+      deep_label: context_only_deep
+      cnn_bilstm_claim: prohibited
+  - scenario_id: S1_MID_G1_ONLY
+    prediction_stage: after_G1_before_G2
+    available_raw_fields:
+      - G1
+      - failures
+      - studytime
+      - schoolsup
+      - famsup
+      - paid
+      - activities
+      - internet
+      - higher
+      - traveltime
+      - freetime
+      - goout
+      - health
+    forbidden_raw_fields: [G2, G3]
+    derived_feature_rules:
+      grade_features: first_timestep_only
+      G1_to_G2_delta: prohibited
+      G1_G2_absolute_change: prohibited
+      G1_G2_direction: prohibited
+      kernel_size_2: disabled_if_deep_variant_is_run
+  - scenario_id: S2_LATE_G1_G2
+    prediction_stage: after_G2_before_G3
+    available_raw_fields:
+      - G1
+      - G2
+      - failures
+      - studytime
+      - schoolsup
+      - famsup
+      - paid
+      - activities
+      - internet
+      - higher
+      - traveltime
+      - freetime
+      - goout
+      - health
+    forbidden_raw_fields: [G3]
+    derived_feature_rules:
+      grade_features: frozen_two_timestep_contract
+      channels:
+        - normalized_grade
+        - stage_indicator
+        - signed_change_from_G1
+        - absolute_change_from_G1
+        - signed_distance_to_boundary_10
+        - signed_distance_to_boundary_15
+        - change_direction
+      matches_final_uci_information_contract: true
+models:
+  shared_across_all_scenarios:
+    - logistic_regression
+    - random_forest
+    - xgboost
+    - mlp
+  mlp:
+    display_name: MLP
+    selection: mean_inner_macro_f1
+    aggregation: mean_probability_across_all_fixed_seeds
+    search:
+      hidden_layer_sizes: [[64], [64, 32], [128, 64]]
+      alpha: [0.0001, 0.001, 0.01]
+      activation: relu
+      learning_rate_init: 0.001
+      max_iter: 300
+      early_stopping: true
+imbalance:
+  allowed: [none, class_weight, training_only_random_oversampling, training_only_SMOTENC]
+  prohibited: [plain_SMOTE_on_mixed_UCI, plain_ADASYN_on_mixed_UCI]
+  study_policy: no_synthetic_resampling
+future_oulad: LOCKED_NOT_EXECUTED
+xapi: OUT_OF_FINAL_SCOPE

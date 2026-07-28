@@ -190,6 +190,28 @@ def validate() -> list[str]:
             "comparator completion validation did not pass",
             errors,
         )
+    teacher_validation_path = (
+        FINAL_ROOT / "teacher_feedback_validation" / "validation_report.json"
+    )
+    _assert(
+        teacher_validation_path.is_file(),
+        "teacher-feedback validation report is missing",
+        errors,
+    )
+    if teacher_validation_path.is_file():
+        teacher_validation = json.loads(
+            teacher_validation_path.read_text(encoding="utf-8")
+        )
+        _assert(
+            teacher_validation.get("status") == "PASS"
+            and teacher_validation.get("future_oulad")
+            == "LOCKED_NOT_EXECUTED"
+            and teacher_validation.get("expert_status")
+            == "PENDING_EXPERT_LABELS"
+            and teacher_validation.get("xapi_in_final") is False,
+            "teacher-feedback evidence validation did not pass",
+            errors,
+        )
     completion_manifest_path = completion_root / "checksum_manifest.json"
     _assert(
         completion_manifest_path.is_file(),
@@ -262,7 +284,7 @@ def validate() -> list[str]:
     csv_rows = list(
         csv.DictReader((FINAL_ROOT / "final_results.csv").open(encoding="utf-8"))
     )
-    _assert(len(csv_rows) == 27, "final_results.csv must contain 27 model rows", errors)
+    _assert(len(csv_rows) == 30, "final_results.csv must contain 30 model rows", errors)
     json_order = [
         (dataset_id, row["model_id"])
         for dataset_id, dataset in payload["datasets"].items()
@@ -280,6 +302,12 @@ def validate() -> list[str]:
         "CLAIM_BOUNDARIES.md",
         "FINAL_PROJECT_REVIEW.md",
         "COMPARATOR_COMPLETION_REPORT.md",
+        "UCI_TIMING_SCENARIO_REPORT.md",
+        "MLP_COMPARATOR_REPORT.md",
+        "TEACHER_FEEDBACK_COMPLETION.md",
+        "UCI_BASELINE_REVALIDATION_REPORT.md",
+        "DATABASE_30_MODEL_CUTOVER_GUIDE.md",
+        "MERGE_READINESS.md",
     }
     _assert(
         required_reports <= {path.name for path in REPORT_ROOT.glob("*.md")},
