@@ -24,10 +24,23 @@
 | xAPI absent | `artifacts/final/teacher_feedback_validation/regression_guard_after.json` | PASS |
 | Future OULAD locked | `artifacts/final/teacher_feedback_validation/evaluation_contract.json` | PASS |
 | expert labels pending | `artifacts/final/recommendation/expert_evaluation/expert_metrics.json` | EXPECTED |
-| DEEP_TIMING_DIAGNOSTIC | `artifacts/final/teacher_feedback_validation/deep_timing_feasibility.json` | NOT_RUN_ARCHITECTURE_NOT_COMPARABLE |
+| Target and timing separated | `artifacts/final/uci_timing_scenarios/leakage_validation.json` | PASS |
+| G1/G2 band relationship | `artifacts/final/uci_timing_scenarios/grade_band_relationship.json` | PASS |
+| All 10 models × S0/S1/S2 × MAT/POR | `artifacts/final/uci_timing_scenarios/scenario_rankings.csv` | PASS (60/60) |
+| Fair timing uses no transfer | `artifacts/final/teacher_feedback_validation/fair_comparison_contract.json` | PASS |
+| Same folds/raw information/preprocessing/metrics | `artifacts/final/teacher_feedback_validation/fair_comparison_contract.json` | PASS |
+| Low/Medium/High metrics complete | `artifacts/final/uci_timing_scenarios/per_class_metrics.csv` | PASS (180/180) |
+| Mask-aware deep timing | `artifacts/final/uci_timing_scenarios/deep_mask_validation.json` | PASS |
+| Unified paired bootstrap | `artifacts/final/uci_timing_scenarios/paired_bootstrap_all_models.csv` | PASS |
+| Final imbalance safety | `artifacts/final/teacher_feedback_validation/imbalance_final_safety_audit.json` | PASS |
+| OULAD 47-channel temporal audit | `artifacts/final/teacher_feedback_validation/oulad_temporal_branch_audit.json` | PASS |
 
 Official CNN-BiLSTM selection, checkpoints, headline metrics, recommendation counts, and expert-label status remain frozen.
 
 The historical unsafe plain-SMOTE/ADASYN UCI baseline path is disclosed in the imbalance audit and is not used by this completion evidence. Safe S2 classical revalidation uses no synthetic resampling.
 
-Deep timing is intentionally not run. The frozen UCI hybrid requires exactly two grade timesteps and has no explicit availability mask; manufacturing S0/S1 inputs would not be an architecture-comparable test. The standalone MLP study is the registered information-availability diagnostic.
+The fair diagnostic uses a separate mask-aware implementation with one fixed
+`[batch, 2, 7]` contract across S0/S1/S2. It uses no transfer or official
+checkpoint and does not replace the frozen official Student-Mat/Student-Por
+models. MLP is one member of the unified ten-model matrix, not a separate
+scientific study.

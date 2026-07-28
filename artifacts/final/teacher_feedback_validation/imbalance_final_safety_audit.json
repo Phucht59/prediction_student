@@ -1,0 +1,497 @@
+{
+  "canonical_timing_synthetic_resampling": "NONE",
+  "occurrences": [
+    {
+      "active_sampler_call": false,
+      "classification": "documentation",
+      "path": ".agents/explorer_r1_2/analysis.md",
+      "token": "SMOTE"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/combine/__init__.py",
+      "token": "SMOTE"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/combine/_smote_enn.py",
+      "token": "SMOTE"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/combine/_smote_tomek.py",
+      "token": "SMOTE"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "test",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/combine/tests/test_smote_enn.py",
+      "token": "SMOTE"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "test",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/combine/tests/test_smote_tomek.py",
+      "token": "SMOTE"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/ensemble/_bagging.py",
+      "token": "SMOTE"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "test",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/ensemble/tests/test_bagging.py",
+      "token": "SMOTE"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "test",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/ensemble/tests/test_bagging.py",
+      "token": "RandomOverSampler"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "test",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/keras/tests/test_generator.py",
+      "token": "RandomOverSampler"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/over_sampling/__init__.py",
+      "token": "SMOTE"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/over_sampling/__init__.py",
+      "token": "ADASYN"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/over_sampling/__init__.py",
+      "token": "SMOTENC"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/over_sampling/__init__.py",
+      "token": "RandomOverSampler"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/over_sampling/_adasyn.py",
+      "token": "SMOTE"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/over_sampling/_adasyn.py",
+      "token": "ADASYN"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/over_sampling/_adasyn.py",
+      "token": "SMOTENC"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/over_sampling/_random_over_sampler.py",
+      "token": "SMOTE"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/over_sampling/_random_over_sampler.py",
+      "token": "ADASYN"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/over_sampling/_random_over_sampler.py",
+      "token": "SMOTENC"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/over_sampling/_random_over_sampler.py",
+      "token": "RandomOverSampler"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/over_sampling/_smote/__init__.py",
+      "token": "SMOTE"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/over_sampling/_smote/__init__.py",
+      "token": "SMOTENC"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/over_sampling/_smote/base.py",
+      "token": "SMOTE"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/over_sampling/_smote/base.py",
+      "token": "ADASYN"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/over_sampling/_smote/base.py",
+      "token": "SMOTENC"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/over_sampling/_smote/cluster.py",
+      "token": "SMOTE"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/over_sampling/_smote/cluster.py",
+      "token": "ADASYN"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/over_sampling/_smote/cluster.py",
+      "token": "SMOTENC"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/over_sampling/_smote/filter.py",
+      "token": "SMOTE"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/over_sampling/_smote/filter.py",
+      "token": "ADASYN"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/over_sampling/_smote/filter.py",
+      "token": "SMOTENC"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "test",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/over_sampling/_smote/tests/test_borderline_smote.py",
+      "token": "SMOTE"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "test",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/over_sampling/_smote/tests/test_kmeans_smote.py",
+      "token": "SMOTE"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "test",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/over_sampling/_smote/tests/test_smote.py",
+      "token": "SMOTE"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "test",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/over_sampling/_smote/tests/test_smote_nc.py",
+      "token": "SMOTE"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "test",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/over_sampling/_smote/tests/test_smote_nc.py",
+      "token": "SMOTENC"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "test",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/over_sampling/_smote/tests/test_smoten.py",
+      "token": "SMOTE"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "test",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/over_sampling/_smote/tests/test_svm_smote.py",
+      "token": "SMOTE"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "test",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/over_sampling/tests/test_adasyn.py",
+      "token": "ADASYN"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "test",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/over_sampling/tests/test_common.py",
+      "token": "SMOTE"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "test",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/over_sampling/tests/test_common.py",
+      "token": "ADASYN"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "test",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/over_sampling/tests/test_common.py",
+      "token": "SMOTENC"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "test",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/over_sampling/tests/test_random_over_sampler.py",
+      "token": "RandomOverSampler"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/pipeline.py",
+      "token": "SMOTE"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "test",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/tensorflow/tests/test_generator.py",
+      "token": "RandomOverSampler"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "test",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/tests/test_common.py",
+      "token": "RandomOverSampler"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/utils/_test_common/instance_generator.py",
+      "token": "SMOTE"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/utils/_test_common/instance_generator.py",
+      "token": "ADASYN"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/utils/_test_common/instance_generator.py",
+      "token": "SMOTENC"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/utils/_test_common/instance_generator.py",
+      "token": "RandomOverSampler"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": ".venv-oulad-v2/Lib/site-packages/imblearn/utils/estimator_checks.py",
+      "token": "SMOTE"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": "artifacts/final/teacher_feedback_validation/baseline_revalidation.json",
+      "token": "SMOTE"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": "artifacts/final/teacher_feedback_validation/baseline_revalidation.json",
+      "token": "ADASYN"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": "artifacts/final/teacher_feedback_validation/imbalance_final_safety_audit.json",
+      "token": "SMOTE"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": "artifacts/final/teacher_feedback_validation/imbalance_final_safety_audit.json",
+      "token": "ADASYN"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": "artifacts/final/teacher_feedback_validation/imbalance_final_safety_audit.json",
+      "token": "SMOTENC"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": "artifacts/final/teacher_feedback_validation/imbalance_final_safety_audit.json",
+      "token": "RandomOverSampler"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": "artifacts/final/teacher_feedback_validation/imbalance_safety_audit.json",
+      "token": "SMOTE"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": "artifacts/final/teacher_feedback_validation/imbalance_safety_audit.json",
+      "token": "ADASYN"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": "configs/final/uci_early_warning_all_models.yaml",
+      "token": "SMOTE"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": "configs/final/uci_early_warning_all_models.yaml",
+      "token": "ADASYN"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": "configs/final/uci_timing_scenarios.yaml",
+      "token": "SMOTE"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": "configs/final/uci_timing_scenarios.yaml",
+      "token": "ADASYN"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": "configs/final/uci_timing_scenarios.yaml",
+      "token": "SMOTENC"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "documentation",
+      "path": "docs/OULAD_V4_RUNBOOK.md",
+      "token": "SMOTE"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "documentation",
+      "path": "docs/OULAD_V4_RUNBOOK.md",
+      "token": "ADASYN"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "documentation",
+      "path": "docs/OULAD_V4_RUNBOOK.md",
+      "token": "RandomOverSampler"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "documentation",
+      "path": "reports/final/FINAL_RELEASE_AUDIT.md",
+      "token": "SMOTE"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "documentation",
+      "path": "reports/final/FINAL_RELEASE_AUDIT.md",
+      "token": "ADASYN"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "documentation",
+      "path": "reports/final/TEACHER_FEEDBACK_COMPLETION.md",
+      "token": "SMOTE"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "documentation",
+      "path": "reports/final/TEACHER_FEEDBACK_COMPLETION.md",
+      "token": "ADASYN"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "documentation",
+      "path": "reports/final/UCI_BASELINE_REVALIDATION_REPORT.md",
+      "token": "SMOTE"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "documentation",
+      "path": "reports/final/UCI_BASELINE_REVALIDATION_REPORT.md",
+      "token": "ADASYN"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": "src/studies/early_warning.py",
+      "token": "SMOTE"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": "src/studies/early_warning.py",
+      "token": "ADASYN"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": "src/studies/early_warning.py",
+      "token": "SMOTENC"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": "src/studies/early_warning.py",
+      "token": "RandomOverSampler"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": "src/studies/teacher_feedback.py",
+      "token": "SMOTE"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": "src/studies/teacher_feedback.py",
+      "token": "ADASYN"
+    },
+    {
+      "active_sampler_call": false,
+      "classification": "canonical_guard_or_declaration",
+      "path": "src/studies/teacher_feedback.py",
+      "token": "SMOTENC"
+    }
+  ],
+  "plain_adasyn_mixed_uci": "ABSENT",
+  "plain_smote_mixed_uci": "ABSENT",
+  "schema_version": "imbalance_final_safety_audit_v1",
+  "status": "PASS",
+  "synthetic_oulad_tensor": "ABSENT",
+  "training_only_preprocessing": "PASS"
+}

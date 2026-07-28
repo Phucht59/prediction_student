@@ -69,17 +69,54 @@ class _UCITemporalEncoder(nn.Module):
             sequence_output = hidden * 2
         self.output_dim = sequence_output * 2
 
-    def forward(self, temporal: torch.Tensor) -> torch.Tensor:
+    def forward(
+        self, temporal: torch.Tensor, availability_mask: torch.Tensor | None = None
+    ) -> torch.Tensor:
         if temporal.ndim != 3 or temporal.shape[1] != 2:
             raise ValueError("UCI V5.1 temporal input must have shape [batch,2,channels]")
+        if availability_mask is None:
+            # Preserve the frozen official forward path byte-for-byte.
+            projected = self.activation(
+                self.input_norm(self.input_projection(temporal.float()))
+            )
+            values = projected
+            if self.convolutions:
+                convolved = [
+                    layer(projected.transpose(1, 2)).transpose(1, 2)
+                    for layer in self.convolutions
+                ]
+                values = self.activation(
+                    self.conv_norm(
+                        torch.cat(convolved, dim=2) + self.residual(projected)
+                    )
+                )
+            if self.recurrent is not None:
+                values, _ = self.recurrent(self.dropout(values))
+            return torch.cat(
+                [values.mean(dim=1), values.max(dim=1).values], dim=1
+            )
+        if availability_mask.shape != temporal.shape[:2]:
+            raise ValueError("availability mask must have shape [batch,2]")
+        mask = availability_mask.to(device=temporal.device, dtype=temporal.dtype)
+        temporal = temporal * mask.unsqueeze(-1)
         projected = self.activation(self.input_norm(self.input_projection(temporal.float())))
+        projected = projected * mask.unsqueeze(-1)
         values = projected
         if self.convolutions:
             convolved = [layer(projected.transpose(1, 2)).transpose(1, 2) for layer in self.convolutions]
             values = self.activation(self.conv_norm(torch.cat(convolved, dim=2) + self.residual(projected)))
+            values = values * mask.unsqueeze(-1)
         if self.recurrent is not None:
             values, _ = self.recurrent(self.dropout(values))
-        return torch.cat([values.mean(dim=1), values.max(dim=1).values], dim=1)
+            values = values * mask.unsqueeze(-1)
+        valid = mask.unsqueeze(-1)
+        counts = valid.sum(dim=1).clamp_min(1.0)
+        mean = (values * valid).sum(dim=1) / counts
+        maximum = values.masked_fill(valid == 0, float("-inf")).max(dim=1).values
+        all_masked = mask.sum(dim=1) == 0
+        maximum = torch.where(all_masked.unsqueeze(1), torch.zeros_like(maximum), maximum)
+        pooled = torch.cat([mean, maximum], dim=1)
+        return torch.where(all_masked.unsqueeze(1), torch.zeros_like(pooled), pooled)
 
 
 class _UCIContextEncoder(nn.Module):
@@ -134,8 +171,20 @@ class UCICNNBiLSTM(nn.Module):
         self.regressor = nn.Linear(fusion_dim, 1)
         self.ordinal = nn.Linear(fusion_dim, 2)
 
-    def encode(self, temporal: torch.Tensor, context: torch.Tensor) -> tuple[torch.Tensor, dict[str, torch.Tensor]]:
-        temporal_embedding = self.temporal_projection(self.temporal(temporal))
+    def encode(
+        self,
+        temporal: torch.Tensor,
+        context: torch.Tensor,
+        availability_mask: torch.Tensor | None = None,
+    ) -> tuple[torch.Tensor, dict[str, torch.Tensor]]:
+        temporal_embedding = self.temporal_projection(
+            self.temporal(temporal, availability_mask)
+        )
+        if availability_mask is not None:
+            has_temporal = (availability_mask.sum(dim=1, keepdim=True) > 0).to(
+                temporal_embedding.dtype
+            )
+            temporal_embedding = temporal_embedding * has_temporal
         context_embedding = self.context_projection(self.context(context))
         diagnostics: dict[str, torch.Tensor] = {
             "temporal_norm": temporal_embedding.norm(dim=1),
@@ -157,8 +206,15 @@ class UCICNNBiLSTM(nn.Module):
             diagnostics.update({"gate": gate, "film_gamma": gamma, "film_beta": beta})
         return self.head(fused), diagnostics
 
-    def forward(self, temporal: torch.Tensor, context: torch.Tensor) -> dict[str, torch.Tensor]:
-        representation, diagnostics = self.encode(temporal, context)
+    def forward(
+        self,
+        temporal: torch.Tensor,
+        context: torch.Tensor,
+        availability_mask: torch.Tensor | None = None,
+    ) -> dict[str, torch.Tensor]:
+        representation, diagnostics = self.encode(
+            temporal, context, availability_mask
+        )
         return {
             "classification": self.classifier(representation),
             "regression": self.regressor(representation).squeeze(1),

@@ -32,19 +32,36 @@ selection, or prediction artifact changed.
 - Selected technical identities:
   `cnn_bilstm_mat`, `cnn_bilstm_por`, `cnn_bilstm_oulad`
 
-## UCI timing study
+## Fair UCI timing study
 
-| Dataset | S0: no G1/G2 | S1: G1 only | S2: G1+G2 |
-|---|---:|---:|---:|
-| Student-Mat Macro-F1 | 0.4022 | 0.7466 | 0.8595 |
-| Student-Por Macro-F1 | 0.3433 | 0.7440 | 0.8304 |
+- Scope: `FAIR_TIMING_NO_TRANSFER`
+- Coverage: 10 models × 3 scenarios × 2 datasets = 60 results
+- Per-class coverage: 180 Low/Medium/High rows
+- Paired bootstrap: 5,000 stratified replicates per comparison
+- Grade-band reference: diagnostic only, not a model identity
+- Deep contract: fixed `[batch, 2, 7]` plus explicit availability mask
 
-Deep timing status:
-`NOT_RUN_ARCHITECTURE_NOT_COMPARABLE`.
+S0 and S1 are early-warning scenarios; S2 is late-stage. The fair benchmark
+does not use the official Student-Por→Student-Mat transfer and does not replace
+the frozen official models. Full results are in
+`reports/final/UCI_TIMING_SCENARIO_REPORT.md`.
 
-The official UCI hybrid requires two temporal grade steps, kernels `(1, 2)`,
-and two-step pooling without an availability mask. No zero-filled or falsely
-named deep timing comparator was introduced.
+| Dataset/scenario | Best model Macro-F1 | CNN-BiLSTM Macro-F1 (rank) | Best Low Recall |
+|---|---|---|---|
+| MAT S0 | Random Forest 0.4595 | 0.4157 (4) | BiLSTM-only 0.5385 |
+| MAT S1 | SVM 0.7516 | 0.7176 (7) | CNN-only 0.9231 |
+| MAT S2 | Decision Tree 0.9024 | 0.8829 (4) | BiLSTM-only 0.9385 |
+| POR S0 | Random Forest 0.5180 | 0.4571 (5) | BiLSTM-only/CNN-BiLSTM 0.6400 |
+| POR S1 | Decision Tree 0.8101 | 0.7539 (5) | CNN-only 0.8800 |
+| POR S2 | XGBoost 0.8677 | 0.8446 (6) | BiLSTM-only/CNN-BiLSTM 0.9100 |
+
+## OULAD temporal input audit
+
+The audit confirms 47 channels per valid weekly timestep: 16 observed weekly
+channels plus 31 deterministic current/past-only dynamics. Padding uses a
+separate mask; static and compact aggregate branches are not repeated in the
+sequence; post-cutoff/future/sensitive inputs are absent. OULAD was not
+retrained.
 
 ## Backup safety
 
@@ -190,9 +207,9 @@ ABSTAINED plans have no actions.
 
 ## Validation
 
-- Project tests: 38 passed
-- Database tests: 46 passed
-- Total: 84 passed
+- Full project suite: 76 passed
+- Explicit database suite: 23 passed, 23 environment-gated tests skipped
+- Fair early-warning test module: 38 passed
 - Ruff: PASS
 - Final status: READY
 - Final report: PASS

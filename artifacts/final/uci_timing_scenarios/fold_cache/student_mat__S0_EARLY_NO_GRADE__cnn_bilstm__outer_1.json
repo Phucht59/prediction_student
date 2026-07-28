@@ -1,0 +1,50 @@
+{
+  "runtime_seconds": 10.860373200033791,
+  "selected": {
+    "outer_rows_used_for_selection": false,
+    "params": {
+      "batch_size": 64,
+      "class_weight": "balanced",
+      "cnn_channels": 16,
+      "context_hidden": 16,
+      "dropout": 0.15,
+      "fusion_hidden": 16,
+      "input_projection": 16,
+      "learning_rate": 0.001,
+      "lstm_hidden": 16,
+      "max_epochs": 40,
+      "patience": 6,
+      "weight_decay": 0.0001
+    },
+    "selected_epochs": 19,
+    "selected_inner_macro_f1": 0.4843376966117124
+  },
+  "trials": [
+    {
+      "dataset": "student_mat",
+      "inner_fold_macro_f1": "[0.4780255384028969, 0.4796411318150448, 0.49534641961719555]",
+      "inner_objective": 0.4843376966117124,
+      "model_id": "cnn_bilstm",
+      "outer_fold": 1,
+      "outer_rows_used_for_selection": false,
+      "params": "{\"batch_size\": 64, \"class_weight\": \"balanced\", \"cnn_channels\": 16, \"context_hidden\": 16, \"dropout\": 0.15, \"fusion_hidden\": 16, \"input_projection\": 16, \"learning_rate\": 0.001, \"lstm_hidden\": 16, \"max_epochs\": 40, \"patience\": 6, \"weight_decay\": 0.0001}",
+      "scenario": "S0_EARLY_NO_GRADE",
+      "selected_epochs": 19,
+      "state": "COMPLETE",
+      "trial": 0
+    },
+    {
+      "dataset": "student_mat",
+      "inner_fold_macro_f1": "[0.43116883116883115, 0.35919291492272337, 0.3485554520037279]",
+      "inner_objective": 0.3796390660317608,
+      "model_id": "cnn_bilstm",
+      "outer_fold": 1,
+      "outer_rows_used_for_selection": false,
+      "params": "{\"batch_size\": 64, \"class_weight\": \"none\", \"cnn_channels\": 16, \"context_hidden\": 24, \"dropout\": 0.25, \"fusion_hidden\": 24, \"input_projection\": 24, \"learning_rate\": 0.0005, \"lstm_hidden\": 24, \"max_epochs\": 40, \"patience\": 6, \"weight_decay\": 0.001}",
+      "scenario": "S0_EARLY_NO_GRADE",
+      "selected_epochs": 7,
+      "state": "COMPLETE",
+      "trial": 1
+    }
+  ]
+}

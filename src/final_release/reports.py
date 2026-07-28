@@ -221,6 +221,11 @@ Only selected results with registered frozen final evidence are shown. The relea
     claims = (
         "# Claim Boundaries\n\n"
         + "\n".join(f"- {item}" for item in payload["claim_boundaries"])
+        + "\n- Early-warning conclusions use S0/S1 only; S2 is late-stage prediction."
+        + "\n- `Low` denotes the final G3 class (0–9), not an early point in time."
+        + "\n- Fair UCI timing models use identical outer rows and no cross-subject transfer."
+        + "\n- A paired-bootstrap interval crossing zero is insufficient evidence, not equivalence."
+        + "\n- The fair diagnostic does not reselect or replace the official frozen models."
         + "\n\nAll applicable model metrics are sourced from native record-level probabilities; no metric is inferred from a headline score.\n"
     )
     write_text_lf(REPORT_ROOT / "CLAIM_BOUNDARIES.md", claims)
