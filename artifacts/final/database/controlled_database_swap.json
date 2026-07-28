@@ -1,0 +1,19 @@
+{
+  "broken_database_dropped": false,
+  "broken_database_original": "student_predict",
+  "canonical_allows_connections": true,
+  "canonical_database_after": "student_predict",
+  "checks": {
+    "broken_database_quarantined": true,
+    "canonical_connection_enabled": true,
+    "quarantine_retained": true,
+    "replacement_renamed": true
+  },
+  "credentials": "REDACTED",
+  "quarantine_allows_connections": false,
+  "quarantined_database_after": "student_predict_broken_restore_20260728t050600",
+  "schema_version": "controlled_database_swap_v1",
+  "status": "PASS",
+  "swapped_at": "2026-07-28T05:05:57.430436+00:00",
+  "validated_replacement_original": "student_predict_replacement_20260728t050000"
+}

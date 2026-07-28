@@ -1,0 +1,53 @@
+{
+  "schema_version": "disposable_cutover_reconciliation_validation_v1",
+  "status": "PASS",
+  "disposable_database": "sp_cutover_reconcile_test_20260728t044800",
+  "source_backup": "student_predict_pre_30_model_cutover_20260728T043451Z.dump",
+  "source_backup_sha256": "725d26e93493038f5f6f87812e29137287d6c43092c0617846bcefd70eee62b2",
+  "pre_cutover_counts": {
+    "models": 27,
+    "runs": 27,
+    "metrics": 891,
+    "risk_profiles": 15378,
+    "plans": 15378,
+    "actions": 27355,
+    "reviews": 0
+  },
+  "post_cutover_counts": {
+    "models": 30,
+    "runs": 30,
+    "metrics": 995,
+    "risk_profiles": 15378,
+    "plans": 15378,
+    "actions": 27355,
+    "reviews": 0
+  },
+  "metric_reconciliation": {
+    "expected_metric_rows": 995,
+    "actual_metric_rows": 995,
+    "matched_rows": 886,
+    "inserted_rows": 109,
+    "updated_rows": 339,
+    "deleted_stale_rows": 5,
+    "missing_rows": 0,
+    "extra_rows": 0,
+    "duplicate_natural_keys": 0,
+    "value_mismatches": 0,
+    "detail_mismatches": 0,
+    "all_metrics_match_canonical_json": true
+  },
+  "atomic_validation": "PASS",
+  "strict_public_validation": "PASS",
+  "disposable_database_removed": true,
+  "idempotent_second_run": {
+    "inserted_rows": 0,
+    "updated_rows": 0,
+    "deleted_stale_rows": 0,
+    "missing_rows": 0,
+    "extra_rows": 0,
+    "value_mismatches": 0,
+    "detail_mismatches": 0,
+    "deterministic_replay": true
+  },
+  "credentials": "REDACTED"
+}

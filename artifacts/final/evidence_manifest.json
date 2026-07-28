@@ -1,5 +1,12 @@
 {
+  "schema_version": "final_evidence_manifest_v2",
+  "generated_from_immutable_existing_evidence": false,
+  "training_performed": true,
+  "official_deep_model_training_performed": false,
+  "teacher_feedback_comparator_training_performed": true,
+  "outer_evaluation_used_for_selection": false,
   "best_seed_selected": false,
+  "future_oulad_accessed": false,
   "files": [
     {
       "path": "artifacts/final/ablation_evidence/ablation_results.csv",
@@ -55,7 +62,7 @@
     },
     {
       "path": "artifacts/final/checksum_manifest.json",
-      "sha256": "32f5b10feeae6c70935c44746a51dbf1e64b038c4adef20432d9dc62f43914e9"
+      "sha256": "58137b7e871c44edb81e9f386bc755c0c8fb637eb9174ea04b782f06489fd31b"
     },
     {
       "path": "artifacts/final/checksums/checkpoint_manifest.json",
@@ -626,20 +633,56 @@
       "sha256": "6fb96833dd9b11d67af5c238272ee9e485d34b6712ccc21588a877107ca870fd"
     },
     {
+      "path": "artifacts/final/database/backup_creation_validation.json",
+      "sha256": "17b1f8939960dea193ebdbc54403a600bfb82f7c8ffe6bb358750878cd550340"
+    },
+    {
       "path": "artifacts/final/database/backup_manifest.json",
-      "sha256": "fde6f520ca423eefdb91082654a919f0be51779c419587b8e465f7e66722fc13"
+      "sha256": "37d8c83d82dadf653fd3410a843bbcde6ca0f530cb0efa791bd3d2831d86ed45"
+    },
+    {
+      "path": "artifacts/final/database/backup_restore_validation.json",
+      "sha256": "b6b782fa62e0b7436c3f2c417bfb8f96d8321e01031ab44f8af646c435031ba9"
     },
     {
       "path": "artifacts/final/database/checksum_manifest.json",
-      "sha256": "1aebe6e03d30e31bb27bd8de519ef1d90731388f698bd24686d03f5208c6c360"
+      "sha256": "486ed3cb72010f75d21dcd40bb176d57fd9731e1008bc250ed14216df7d21e79"
+    },
+    {
+      "path": "artifacts/final/database/controlled_database_swap.json",
+      "sha256": "1c82b6ee11c76aa0ee726cb6618e1e63900eff7b531c9b79066cf5b7faa8f7d7"
     },
     {
       "path": "artifacts/final/database/cutover_validation.json",
-      "sha256": "d6f343b91b99652402d1b51f982010c8bec33081cdf445c3df1af69b22bf70a5"
+      "sha256": "e7049aeb4c99b6a354de96b67611a425d22f3b67bb78d00b4a7ee7ab7f831d64"
     },
     {
       "path": "artifacts/final/database/database_code_usage.json",
       "sha256": "158187f2b96ccc7e9d96cc9c1f487ef4f5c36504975e994b2a07c067cc23cf31"
+    },
+    {
+      "path": "artifacts/final/database/database_recovery_final_state.json",
+      "sha256": "52bdf5d0b32ac8d3088ca4d66621695df9859a0c9bcbde1b034e4df350933363"
+    },
+    {
+      "path": "artifacts/final/database/disposable_atomic_rollback_validation.json",
+      "sha256": "777b3a77e0a78d34b89f2cef73824254b5f54096c21358507ebf3d4a3784ecb1"
+    },
+    {
+      "path": "artifacts/final/database/disposable_cutover_reconciliation_validation.json",
+      "sha256": "7c541b60f2d351aaf240fe4af1504302168c7be8cac691c0041f786dbab47452"
+    },
+    {
+      "path": "artifacts/final/database/failed_cutover_metric_reconciliation.json",
+      "sha256": "fe946493a45ffd5713603b3478b9d1afe23d389dca2c2f4f5454885350b35929"
+    },
+    {
+      "path": "artifacts/final/database/failed_in_place_restore.json",
+      "sha256": "d05e9466eb7227998eab9fba487d9b56a0ba9f415e0b4284351cf1fe5b79a693"
+    },
+    {
+      "path": "artifacts/final/database/failed_partial_cutover_backup.json",
+      "sha256": "022901617ee60fd6cfa4132ab4ab253fa43ed7681e059cdbe58259864f2c8f97"
     },
     {
       "path": "artifacts/final/database/load_results.json",
@@ -650,8 +693,12 @@
       "sha256": "1fcfc3ac251d5f6463074a4536afe425629b7f227b5307fa1dd8babfed59c6d7"
     },
     {
+      "path": "artifacts/final/database/metric_reconciliation_validation.json",
+      "sha256": "fa4f8e0218124b15800c1681f23cb8ebab1031c8e290f1b8c5c70948fb29832a"
+    },
+    {
       "path": "artifacts/final/database/migration_apply.json",
-      "sha256": "60ab559e670aade310e1903aba6af54283d4f2f67a88a8bd0941227dac58fab4"
+      "sha256": "e5046a38296b7168a18e55f442312db01e0cbbebb2e4463641803d15abc42870"
     },
     {
       "path": "artifacts/final/database/migration_conflicts.json",
@@ -659,7 +706,7 @@
     },
     {
       "path": "artifacts/final/database/migration_validation.json",
-      "sha256": "e1c01e8de5010562f4c9ead8c4a28ab0b5aa9dd4688cd4bf8e72a277176a2abc"
+      "sha256": "83b4158dc32d338dab5493f6210367c5926cf9f9c9fe71a72e511d7579f97065"
     },
     {
       "path": "artifacts/final/database/permission_validation.json",
@@ -670,8 +717,24 @@
       "sha256": "d34e61d0fbbaaa9a8db7299dba174caeb2bb92308bf99981788a05fb5ba06cc3"
     },
     {
+      "path": "artifacts/final/database/pre_cutover_database_state.json",
+      "sha256": "a5fb39999fd7816a222d707bc68cddf6ce91e136d166c7e9d8f6fd0fd7df2799"
+    },
+    {
       "path": "artifacts/final/database/recommendation_reconciliation.json",
       "sha256": "e5be20cec53ae493bdbc0cda36055dbeec67dcbafa323892aa2648771461160e"
+    },
+    {
+      "path": "artifacts/final/database/replacement_post_cutover_validation.json",
+      "sha256": "2fe88ef1524d83da8c1d39eed084053784b79e3ceab7dc594327779985427b4d"
+    },
+    {
+      "path": "artifacts/final/database/replacement_pre_cutover_validation.json",
+      "sha256": "53991a9602bb0c9d7971bac9df1defa65771f3a103ada31769e9accc569dd379"
+    },
+    {
+      "path": "artifacts/final/database/replacement_raw_restore_validation.json",
+      "sha256": "9d7eeec4cedecbbd7bbedd9030138b3089476ad87a942d2ffc5cd1b2bb32092a"
     },
     {
       "path": "artifacts/final/database/rollback_validation.json",
@@ -684,6 +747,10 @@
     {
       "path": "artifacts/final/database/table_disposition.json",
       "sha256": "7357521af25934ecd0ffb3d2187a34d6bd657af3d84a159e615212e0b241aca3"
+    },
+    {
+      "path": "artifacts/final/database/validated_30_model_backup_manifest.json",
+      "sha256": "6cc5c8f43cf6ec4b1cb2cfd77549fdd4a886c3e69d61d27d7788aa2ed38a5c7a"
     },
     {
       "path": "artifacts/final/final_results.csv",
@@ -1521,12 +1588,5 @@
       "path": "artifacts/final/uci_timing_scenarios/student_por_selected_configs.csv",
       "sha256": "c9294ba42066085db6f2cdf0447c947d85eed1c5b53711b72c0a94d9c96d9630"
     }
-  ],
-  "future_oulad_accessed": false,
-  "generated_from_immutable_existing_evidence": false,
-  "official_deep_model_training_performed": false,
-  "outer_evaluation_used_for_selection": false,
-  "schema_version": "final_evidence_manifest_v2",
-  "teacher_feedback_comparator_training_performed": true,
-  "training_performed": true
+  ]
 }
