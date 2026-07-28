@@ -101,6 +101,21 @@ def command_teacher_feedback_validate(_args: argparse.Namespace) -> int:
     return 0 if result["status"] == "PASS" else 1
 
 
+def command_early_warning(args: argparse.Namespace) -> int:
+    from src.studies import early_warning
+
+    handlers = {
+        "prepare": early_warning.prepare,
+        "run": early_warning.run,
+        "validate": early_warning.validate,
+        "report": lambda: (early_warning.report() or {"status": "PASS"}),
+        "all": early_warning.all_steps,
+    }
+    result = handlers[args.early_warning_command]()
+    print(json.dumps(result, indent=2))
+    return 0 if result.get("status") in {"PASS", "PREREGISTERED_BEFORE_OUTER_SCORING"} else 1
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description="Canonical student prediction release."
@@ -141,6 +156,15 @@ def build_parser() -> argparse.ArgumentParser:
         "validate", help="Validate already-generated teacher-feedback evidence."
     )
     study_validate.set_defaults(handler=command_teacher_feedback_validate)
+    early = study_commands.add_parser(
+        "early-warning", help="Unified fair UCI timing benchmark."
+    )
+    early_commands = early.add_subparsers(
+        dest="early_warning_command", required=True
+    )
+    for name in ("prepare", "run", "validate", "report", "all"):
+        command = early_commands.add_parser(name)
+        command.set_defaults(handler=command_early_warning)
     return parser
 
 

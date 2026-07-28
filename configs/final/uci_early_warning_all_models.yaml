@@ -1,0 +1,70 @@
+schema_version: uci_early_warning_all_models_v1
+status: PREREGISTERED_BEFORE_OUTER_SCORING
+scope: FAIR_TIMING_NO_TRANSFER
+purpose: fair_information_timing_diagnostic_not_official_model_reselection
+datasets: [student_mat, student_por]
+scenarios:
+  S0_EARLY_NO_GRADE:
+    stage: before_G1
+    context_features: [failures, studytime, schoolsup, famsup, paid, activities, internet, higher, traveltime, freetime, goout, health]
+    grade_timesteps: 0
+    mask: [0, 0]
+    forbidden: [G1, G2, G3]
+  S1_MID_G1_ONLY:
+    stage: after_G1_before_G2
+    context_features: [failures, studytime, schoolsup, famsup, paid, activities, internet, higher, traveltime, freetime, goout, health]
+    grade_timesteps: 1
+    mask: [1, 0]
+    forbidden: [G2, G3]
+  S2_LATE_G1_G2:
+    stage: after_G2_before_G3
+    context_features: [failures, studytime, schoolsup, famsup, paid, activities, internet, higher, traveltime, freetime, goout, health]
+    grade_timesteps: 2
+    mask: [1, 1]
+    forbidden: [G3]
+target:
+  source: G3
+  labels: {Low: "0 <= G3 < 10", Medium: "10 <= G3 < 15", High: "15 <= G3 <= 20"}
+models:
+  - logistic_regression
+  - decision_tree
+  - random_forest
+  - hist_gradient_boosting
+  - svm
+  - xgboost
+  - mlp
+  - cnn_only
+  - bilstm_only
+  - cnn_bilstm
+reference:
+  model_id: grade_band_reference
+  model_identity: false
+  smoothing: laplace_alpha_1
+outer_folds: frozen_final_comparator_oof_fold_assignments
+inner_folds: 3
+inner_seed: 42
+outer_used_for_tuning: false
+transfer_learning: prohibited
+pretrained_checkpoint: prohibited
+seeds: [42, 1201, 2026, 3407, 7319]
+probability_aggregation: mean_across_all_fixed_seeds
+deep:
+  input_shape: [2, 7]
+  mask_shape: [2]
+  candidate_grid:
+    - {input_projection: 16, cnn_channels: 16, lstm_hidden: 16, context_hidden: 16, fusion_hidden: 16, dropout: 0.15, learning_rate: 0.001, weight_decay: 0.0001, batch_size: 64, max_epochs: 40, patience: 6, class_weight: balanced}
+    - {input_projection: 24, cnn_channels: 16, lstm_hidden: 24, context_hidden: 24, fusion_hidden: 24, dropout: 0.25, learning_rate: 0.0005, weight_decay: 0.001, batch_size: 64, max_epochs: 40, patience: 6, class_weight: none}
+  inner_selection_seed: 42
+  device: cuda_with_cpu_fallback
+imbalance:
+  synthetic_resampling: NONE
+  allowed: [none, class_weight, weighted_cross_entropy]
+  prohibited: [plain_SMOTE, plain_ADASYN, synthetic_tensor_resampling]
+metrics: [accuracy, balanced_accuracy, macro_precision, macro_recall, macro_f1, weighted_f1, pr_auc, roc_auc, brier, nll, ece_15_bins, per_class, confusion_matrix, seed_stability]
+bootstrap:
+  replicates: 5000
+  confidence: 0.95
+  sampling: paired_stratified_by_true_class
+  metrics: [macro_f1, low_recall, low_f1]
+future_oulad: LOCKED_NOT_EXECUTED
+xapi: ABSENT
