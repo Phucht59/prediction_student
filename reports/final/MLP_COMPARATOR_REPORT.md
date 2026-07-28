@@ -1,3 +1,5 @@
+TECHNICAL EVIDENCE ONLY — MLP IS ONE COMPARATOR IN THE UNIFIED MODEL COMPARISON.
+
 # Standalone MLP Comparator
 
 MLP is a standalone tabular baseline. It is not a CNN-BiLSTM variant. Hyperparameters were selected on inner folds only, and probabilities were averaged across all five registered seeds.

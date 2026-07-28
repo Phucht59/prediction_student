@@ -1,11 +1,9 @@
 {
-  "G3_in_any_feature_contract": false,
-  "S0_contains_G1_or_G2": false,
-  "S0_contains_grade_derived_features": false,
-  "S1_contains_G2": false,
-  "S1_contains_G2_derived_features": false,
-  "S2_matches_frozen_two_timestep_contract": true,
-  "preprocessing_fit_on_validation": false,
-  "schema_version": "uci_timing_leakage_validation_v1",
-  "status": "PASS"
+  "G3_feature_lineage_occurrences": 0,
+  "S0_grade_information_occurrences": 0,
+  "S1_G2_information_occurrences": 0,
+  "outer_rows_used_for_tuning": 0,
+  "schema_version": "uci_timing_leakage_v2",
+  "status": "PASS",
+  "transfer_rows_used": 0
 }

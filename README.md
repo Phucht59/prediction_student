@@ -49,24 +49,32 @@ checkpoint và replay; không train hoặc tune model.
 
 ## Teacher-feedback evidence
 
-The final comparator catalog contains 10 models per dataset, including the
-standalone tabular `MLP` baseline. UCI timing diagnostics compare:
+The final comparator catalog contains 10 models per dataset, including `MLP`
+as one comparator. The fair UCI timing benchmark runs all 10 models on:
 
 - `S0_EARLY_NO_GRADE`: context only, without G1/G2;
 - `S1_MID_G1_ONLY`: context plus G1;
 - `S2_LATE_G1_G2`: the frozen final UCI information contract.
+
+The benchmark uses identical frozen outer rows and information availability,
+training-only preprocessing, three inner folds, five fixed seeds, and no
+Student-Por→Student-Mat transfer. `GRADE_BAND_REFERENCE` is reported as a
+training-fold-only diagnostic and is not an eleventh model identity.
 
 The generated evidence is stored in
 `artifacts/final/uci_timing_scenarios/` and
 `artifacts/final/teacher_feedback_validation/`. Training is explicit:
 
 ```powershell
-python project.py study teacher-feedback all
-python project.py study teacher-feedback validate
+python project.py study early-warning all
+python project.py study early-warning validate
 ```
 
 `python project.py final validate` remains read-only and never trains a model.
-Recommendation expert evaluation remains `PENDING_EXPERT_LABELS`.
+The OULAD audit confirms that 47 means channels per valid week (16 observed
+weekly channels plus 31 current/past-only dynamics), with a separate padding
+mask and no static/aggregate duplication. Recommendation expert evaluation
+remains `PENDING_EXPERT_LABELS`.
 
 ## Repository structure
 
