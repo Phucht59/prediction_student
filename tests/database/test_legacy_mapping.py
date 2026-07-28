@@ -40,7 +40,15 @@ def test_empty_drop_requires_explicit_flag():
 def test_cutover_uses_requested_backup_manifest():
     source = (ROOT / "scripts/database_final.py").read_text(encoding="utf-8")
     assert "backup_manifest=Path(args.backup_manifest)" in source
-    assert "_validate_backup_manifest(backup_manifest)" in source
+    assert "_validate_backup_manifest(backup_manifest, source_dsn=dsn)" in source
+
+
+def test_backup_gate_checks_current_database_state():
+    source = (ROOT / "scripts/database_final.py").read_text(encoding="utf-8")
+    assert "Backup source database identity mismatch" in source
+    assert "Backup source schema hash is stale" in source
+    assert "Backup source entity counts are stale" in source
+    assert "Backup migration ledger is stale" in source
 
 
 def test_database_plan_is_read_only_and_never_authorizes_cutover():

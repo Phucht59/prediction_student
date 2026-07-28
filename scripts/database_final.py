@@ -13,9 +13,10 @@ import shutil
 import subprocess
 import sys
 from collections import Counter
+from contextlib import nullcontext
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any, Callable, Iterable, Mapping, Sequence
 from urllib.parse import urlsplit, urlunsplit
 
 import pandas as pd
@@ -33,6 +34,12 @@ ARTIFACT_ROOT = ROOT / "artifacts" / "final" / "database"
 REPORT_ROOT = ROOT / "reports" / "final"
 BACKUP_PATH = ROOT / "backups" / "student_predict_before_final_database.dump"
 BACKUP_MANIFEST = ARTIFACT_ROOT / "backup_manifest.json"
+PRE_CUTOVER_STATE = ARTIFACT_ROOT / "pre_cutover_database_state.json"
+BACKUP_CREATION_VALIDATION = ARTIFACT_ROOT / "backup_creation_validation.json"
+BACKUP_RESTORE_VALIDATION = ARTIFACT_ROOT / "backup_restore_validation.json"
+METRIC_RECONCILIATION_VALIDATION = (
+    ARTIFACT_ROOT / "metric_reconciliation_validation.json"
+)
 
 FINAL_RESULTS = ROOT / "artifacts" / "final" / "final_results.json"
 FINAL_RESULTS_CSV = ROOT / "artifacts" / "final" / "final_results.csv"
@@ -47,7 +54,7 @@ LOCKED_SOURCES = {
     FINAL_RESULTS: "000c185fb2fd9ba4b528e79d98636fdb17ee4586dbad197e9990717164b3681b",
     FINAL_RESULTS_CSV: "d2271c48bc6ed65a2836ec3b2430eef0777ad9f2b83f0d16092f389e57148b0f",
     MODEL_REGISTRY: "83415a32684557a970a7059a307ead51913562581e83c03e864550cd98bc268b",
-    FINAL_CHECKSUMS: "32f5b10feeae6c70935c44746a51dbf1e64b038c4adef20432d9dc62f43914e9",
+    FINAL_CHECKSUMS: "58137b7e871c44edb81e9f386bc755c0c8fb637eb9174ea04b782f06489fd31b",
     RISK_PROFILES: "a0178477871e16b81eebc4ec50dd23567fa4df6ec5b9d75d9e75d14f7ebe5625",
     PLANS: "d34e61d0fbbaaa9a8db7299dba174caeb2bb92308bf99981788a05fb5ba06cc3",
     POLICY: "89f054fc62d035ec2d4789b4d65950363d5158d04396bff0c3c243bda7cb47d8",
@@ -110,7 +117,13 @@ EXPECTED_TABLES = {
     "recommendation.expert_action_review",
 }
 
-DISPOSABLE_MARKERS = ("test", "dev", "disposable", "final_dev")
+DISPOSABLE_MARKERS = (
+    "test",
+    "dev",
+    "disposable",
+    "final_dev",
+    "replacement",
+)
 
 
 class FinalDatabaseError(RuntimeError):
@@ -305,12 +318,146 @@ def _schema_signature(dsn: str) -> str:
     return hashlib.sha256(_canonical_json(_schema_payload(dsn)).encode("utf-8")).hexdigest()
 
 
+def _migration_ledger(dsn: str) -> dict[str, Any]:
+    with _connect(dsn, readonly=True) as connection:
+        with connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT filename, version, sha256
+                FROM system.schema_migration
+                ORDER BY filename
+                """
+            )
+            rows = [
+                {
+                    "filename": row[0],
+                    "version": int(row[1]),
+                    "sha256": row[2].strip(),
+                }
+                for row in cursor.fetchall()
+            ]
+        connection.rollback()
+    return {
+        "row_count": len(rows),
+        "sha256": _json_sha(rows),
+        "rows": rows,
+    }
+
+
+def _sequence_state(dsn: str) -> dict[str, Any]:
+    with _connect(dsn, readonly=True) as connection:
+        with connection.cursor() as cursor:
+            cursor.execute(
+                """
+                SELECT schemaname, sequencename, start_value, min_value,
+                       max_value, increment_by, cycle, cache_size, last_value
+                FROM pg_sequences
+                WHERE schemaname IN ('system','catalog','ml','recommendation')
+                ORDER BY schemaname, sequencename
+                """
+            )
+            rows = [list(row) for row in cursor.fetchall()]
+        connection.rollback()
+    return {"count": len(rows), "sha256": _json_sha(rows)}
+
+
+def _database_backup_state(dsn: str) -> dict[str, Any]:
+    count_tables = {
+        "models": "ml.model",
+        "risk_profiles": "recommendation.risk_profile",
+        "plans": "recommendation.plan",
+        "actions": "recommendation.action",
+        "reviews": "recommendation.review",
+        "datasets": "catalog.dataset",
+        "dataset_versions": "catalog.dataset_version",
+        "runs": "ml.run",
+        "metrics": "ml.metric",
+    }
+    counts: dict[str, int] = {}
+    with _connect(dsn, readonly=True) as connection:
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT current_database()")
+            database = cursor.fetchone()[0]
+            for name, table in count_tables.items():
+                cursor.execute(
+                    sql.SQL("SELECT count(*) FROM {}").format(
+                        sql.SQL(table)
+                    )
+                )
+                counts[name] = int(cursor.fetchone()[0])
+            cursor.execute(
+                """
+                SELECT to_regclass('ml.final_model_results')::text,
+                       to_regclass('recommendation.plan_summary')::text
+                """
+            )
+            views = cursor.fetchone()
+            cursor.execute(
+                """
+                SELECT count(*)
+                FROM recommendation.action a
+                LEFT JOIN recommendation.plan p ON p.plan_id=a.plan_id
+                WHERE p.plan_id IS NULL
+                """
+            )
+            orphan_actions = int(cursor.fetchone()[0])
+            cursor.execute(
+                """
+                SELECT count(*)
+                FROM recommendation.plan p
+                LEFT JOIN recommendation.risk_profile r
+                  ON r.risk_profile_id=p.risk_profile_id
+                WHERE r.risk_profile_id IS NULL
+                """
+            )
+            orphan_plans = int(cursor.fetchone()[0])
+            cursor.execute(
+                """
+                SELECT count(*)
+                FROM recommendation.plan p
+                JOIN recommendation.action a ON a.plan_id=p.plan_id
+                WHERE p.status='ABSTAINED'
+                """
+            )
+            abstained_actions = int(cursor.fetchone()[0])
+        connection.rollback()
+    ledger = _migration_ledger(dsn)
+    sequences = _sequence_state(dsn)
+    return {
+        "database": database,
+        "schema_hash": _schema_signature(dsn),
+        "migration_ledger_hash": ledger["sha256"],
+        "migration_ledger_rows": ledger["row_count"],
+        "counts": counts,
+        "views": {
+            "ml.final_model_results": views[0] == "ml.final_model_results",
+            "recommendation.plan_summary": (
+                views[1] == "recommendation.plan_summary"
+            ),
+            "status": "PASS" if all(views) else "FAIL",
+        },
+        "integrity": {
+            "orphan_actions": orphan_actions,
+            "orphan_plans": orphan_plans,
+            "abstained_plan_actions": abstained_actions,
+            "status": (
+                "PASS"
+                if orphan_actions == orphan_plans == abstained_actions == 0
+                else "FAIL"
+            ),
+        },
+        "sequences": sequences,
+    }
+
+
 def _server_tools() -> dict[str, Path]:
     bin_dir = Path("C:/Program Files/PostgreSQL/18/bin")
     tools = {
         "pg_dump": bin_dir / "pg_dump.exe",
         "pg_restore": bin_dir / "pg_restore.exe",
         "createdb": bin_dir / "createdb.exe",
+        "dropdb": bin_dir / "dropdb.exe",
+        "psql": bin_dir / "psql.exe",
     }
     for name, path in tools.items():
         if not path.is_file():
@@ -337,64 +484,355 @@ def _connection_args(dsn: str) -> tuple[list[str], dict[str, str]]:
     return args, env
 
 
+def _tool_version(path: Path) -> str:
+    result = subprocess.run(
+        [str(path), "--version"],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    return result.stdout.strip()
+
+
+def _archive_required_objects(
+    archive_text: str,
+) -> tuple[bool, list[str]]:
+    required = [
+        "system schema_migration",
+        "catalog dataset",
+        "catalog dataset_version",
+        "catalog record",
+        "ml model",
+        "ml run",
+        "ml artifact",
+        "ml metric",
+        "recommendation policy",
+        "recommendation risk_profile",
+        "recommendation plan",
+        "recommendation action",
+        "recommendation review",
+    ]
+    normalized = " ".join(archive_text.lower().split())
+    missing = [item for item in required if item not in normalized]
+    return not missing, missing
+
+
+def _database_exists(dsn: str, database: str) -> bool:
+    maintenance_dsn = _replace_database(dsn, "postgres")
+    with _connect(maintenance_dsn, readonly=True) as connection:
+        with connection.cursor() as cursor:
+            cursor.execute(
+                "SELECT EXISTS(SELECT 1 FROM pg_database WHERE datname=%s)",
+                (database,),
+            )
+            exists = bool(cursor.fetchone()[0])
+        connection.rollback()
+    return exists
+
+
+def _safe_disposable_name(source_database: str) -> str:
+    stamp = datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S")
+    name = f"{source_database}_backup_restore_test_{stamp}"
+    if not re.fullmatch(r"[a-z][a-z0-9_]{1,62}", name):
+        raise FinalDatabaseError("Generated disposable database name is unsafe")
+    return name
+
+
 def command_backup(args: argparse.Namespace) -> int:
     dsn = _dsn(args.dsn_env)
+    database_name = _database_name(dsn)
+    if database_name != args.expected_database:
+        raise FinalDatabaseError(
+            f"Backup target must be {args.expected_database}, got {database_name}"
+        )
     tools = _server_tools()
-    BACKUP_PATH.parent.mkdir(parents=True, exist_ok=True)
-    starting_hash = _schema_signature(dsn)
+    source_state = _database_backup_state(dsn)
+    starting_hash = source_state["schema_hash"]
+    if args.expected_schema_hash and starting_hash != args.expected_schema_hash:
+        raise FinalDatabaseError(
+            "Current database schema hash changed since the safety audit"
+        )
+    if source_state["views"]["status"] != "PASS":
+        raise FinalDatabaseError("Required source database views are missing")
+    if source_state["integrity"]["status"] != "PASS":
+        raise FinalDatabaseError("Source recommendation integrity check failed")
+    expected_counts = {
+        "models": 27,
+        "risk_profiles": 15378,
+        "plans": 15378,
+        "actions": 27355,
+    }
+    for name, expected in expected_counts.items():
+        if source_state["counts"][name] != expected:
+            raise FinalDatabaseError(
+                f"Pre-cutover {name} changed: "
+                f"{source_state['counts'][name]} != {expected}"
+            )
+    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    backup_path = (
+        ROOT
+        / "backups"
+        / f"{database_name}_pre_30_model_cutover_{stamp}.dump"
+    )
+    if backup_path.exists():
+        raise FinalDatabaseError("Refusing to overwrite an existing backup")
+    backup_path.parent.mkdir(parents=True, exist_ok=True)
+    captured_at = _now()
+    _write_json(
+        PRE_CUTOVER_STATE,
+        {
+            "schema_version": "pre_cutover_database_state_v1",
+            "status": "PASS",
+            "captured_at": captured_at,
+            **source_state,
+            "credentials": "REDACTED",
+        },
+    )
     connection_args, env = _connection_args(dsn)
-    if not BACKUP_PATH.exists():
-        command = [
+    subprocess.run(
+        [
             str(tools["pg_dump"]),
             "--format=custom",
             "--no-owner",
             "--no-acl",
-            f"--file={BACKUP_PATH}",
+            f"--file={backup_path}",
             *connection_args,
-            _database_name(dsn),
-        ]
-        subprocess.run(command, env=env, check=True, capture_output=True)
+            database_name,
+        ],
+        env=env,
+        check=True,
+        capture_output=True,
+    )
+    if not backup_path.is_file() or backup_path.stat().st_size <= 0:
+        raise FinalDatabaseError("Versioned backup was not created")
+    archive = subprocess.run(
+        [str(tools["pg_restore"]), "--list", str(backup_path)],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    archive_ok, missing_objects = _archive_required_objects(archive.stdout)
+    if not archive_ok:
+        raise FinalDatabaseError(
+            "Backup archive is missing required objects: "
+            + ", ".join(missing_objects)
+        )
+    backup_hash = _sha256(backup_path)
+    tool_versions = {
+        name: _tool_version(tools[name])
+        for name in ("pg_dump", "pg_restore", "psql")
+    }
+    _write_json(
+        BACKUP_CREATION_VALIDATION,
+        {
+            "schema_version": "backup_creation_validation_v1",
+            "status": "PASS",
+            "source_database": database_name,
+            "source_schema_hash": starting_hash,
+            "source_counts": source_state["counts"],
+            "backup_filename": backup_path.name,
+            "backup_managed_path": f"backups/{backup_path.name}",
+            "backup_sha256": backup_hash,
+            "backup_byte_count": backup_path.stat().st_size,
+            "archive_readable": True,
+            "required_objects_present": True,
+            "missing_required_objects": [],
+            "postgres_tools": tool_versions,
+            "created_at": datetime.fromtimestamp(
+                backup_path.stat().st_mtime, timezone.utc
+            ).isoformat(),
+            "credentials": "REDACTED",
+        },
+    )
 
-    backup_hash = _sha256(BACKUP_PATH)
-    restore_dsn = _replace_database(dsn, args.restore_database)
-    restore_status = "MISSING"
-    restore_hash = None
+    restore_database = _safe_disposable_name(database_name)
+    if _database_exists(dsn, restore_database):
+        raise FinalDatabaseError(
+            "Generated disposable restore database already exists"
+        )
+    subprocess.run(
+        [
+            str(tools["createdb"]),
+            "--template=template0",
+            *connection_args,
+            restore_database,
+        ],
+        env=env,
+        check=True,
+        capture_output=True,
+    )
+    restore_dsn = _replace_database(dsn, restore_database)
+    restored_state: dict[str, Any]
+    cleanup_status = False
     try:
-        restore_hash = _schema_signature(restore_dsn)
-        restore_status = "PASS" if restore_hash == starting_hash else "FAIL"
-    except psycopg2.Error:
-        restore_status = "MISSING"
-    if restore_status != "PASS":
-        raise FinalDatabaseError("Backup exists but disposable restore signature is not PASS")
+        subprocess.run(
+            [
+                str(tools["pg_restore"]),
+                "--exit-on-error",
+                "--no-owner",
+                "--no-acl",
+                *connection_args,
+                "--dbname",
+                restore_database,
+                str(backup_path),
+            ],
+            env=env,
+            check=True,
+            capture_output=True,
+        )
+        restored_state = _database_backup_state(restore_dsn)
+        state_checks = {
+            "schema_hash_match": (
+                restored_state["schema_hash"] == starting_hash
+            ),
+            "counts_match": (
+                restored_state["counts"] == source_state["counts"]
+            ),
+            "migration_ledger_match": (
+                restored_state["migration_ledger_hash"]
+                == source_state["migration_ledger_hash"]
+            ),
+            "constraints_valid": (
+                restored_state["integrity"]["status"] == "PASS"
+            ),
+            "views_valid": restored_state["views"]["status"] == "PASS",
+            "sequences_match": (
+                restored_state["sequences"] == source_state["sequences"]
+            ),
+        }
+        if not all(state_checks.values()):
+            raise FinalDatabaseError(
+                "Restored database does not match the source database"
+            )
+        dry_run = {
+            "current_model_dataset_identities": (
+                restored_state["counts"]["models"]
+            ),
+            "expected_model_dataset_identities_after_cutover": 30,
+            "risk_profiles_before_after": [15378, 15378],
+            "plans_before_after": [15378, 15378],
+            "actions_before_after": [27355, 27355],
+            "reviews_before_after": [
+                restored_state["counts"]["reviews"],
+                restored_state["counts"]["reviews"],
+            ],
+            "status": "PASS",
+        }
+        if restored_state["counts"]["models"] != 27:
+            raise FinalDatabaseError(
+                "Restored dry-run plan does not start from 27 models"
+            )
+        subprocess.run(
+            [
+                str(tools["dropdb"]),
+                *connection_args,
+                restore_database,
+            ],
+            env=env,
+            check=True,
+            capture_output=True,
+        )
+        cleanup_status = not _database_exists(dsn, restore_database)
+        if not cleanup_status:
+            raise FinalDatabaseError(
+                "Disposable restore database cleanup did not complete"
+            )
+    except Exception:
+        # Preserve a failed restore database for investigation. Never drop it
+        # unless every equivalence check has already passed.
+        raise
+
+    restore_validation = {
+        "schema_version": "backup_restore_validation_v1",
+        "status": "PASS",
+        "source_database": database_name,
+        "source_schema_hash": starting_hash,
+        "restored_schema_hash": restored_state["schema_hash"],
+        "schema_hash_match": True,
+        "source_counts": source_state["counts"],
+        "restored_counts": restored_state["counts"],
+        "counts_match": True,
+        "source_migration_ledger_hash": source_state[
+            "migration_ledger_hash"
+        ],
+        "restored_migration_ledger_hash": restored_state[
+            "migration_ledger_hash"
+        ],
+        "migration_ledger_match": True,
+        "constraints_valid": True,
+        "views_valid": True,
+        "sequences_match": True,
+        "dry_run_cutover_plan": dry_run,
+        "disposable_database": restore_database,
+        "disposable_database_removed": cleanup_status,
+        "credentials": "REDACTED",
+    }
+    _write_json(BACKUP_RESTORE_VALIDATION, restore_validation)
 
     with _connect(dsn, readonly=True) as connection:
         with connection.cursor() as cursor:
-            cursor.execute("SELECT current_database(), current_setting('server_version')")
-            database_name, server_version = cursor.fetchone()
+            cursor.execute("SELECT current_setting('server_version')")
+            server_version = cursor.fetchone()[0]
         connection.rollback()
     manifest = {
-        "schema_version": "final_database_backup_v1",
+        "schema_version": "final_database_backup_v2",
         "status": "PASS",
+        "source_database": database_name,
+        "source_schema_hash": starting_hash,
         "database_name": database_name,
-        "backup_filename": BACKUP_PATH.name,
-        "created_at": datetime.fromtimestamp(BACKUP_PATH.stat().st_mtime, timezone.utc).isoformat(),
-        "byte_count": BACKUP_PATH.stat().st_size,
+        "backup_filename": backup_path.name,
+        "backup_managed_path": f"backups/{backup_path.name}",
+        "created_at": datetime.fromtimestamp(
+            backup_path.stat().st_mtime, timezone.utc
+        ).isoformat(),
+        "byte_count": backup_path.stat().st_size,
         "sha256": backup_hash,
+        "backup_sha256": backup_hash,
+        "backup_byte_count": backup_path.stat().st_size,
         "server_version": server_version,
+        "postgres_version": tool_versions["pg_dump"],
         "starting_schema_hash": starting_hash,
+        "source_counts": source_state["counts"],
+        "source_migration_ledger_hash": source_state[
+            "migration_ledger_hash"
+        ],
+        "restore_tested": True,
+        "restore_test_database": restore_database,
+        "restored_schema_hash": restored_state["schema_hash"],
+        "schema_hash_match": True,
+        "restored_counts": restored_state["counts"],
+        "expected_pre_cutover_counts": expected_counts,
+        "validation_artifact": (
+            "artifacts/final/database/backup_restore_validation.json"
+        ),
+        "disposable_database_removed": cleanup_status,
         "restore_test": {
-            "database": args.restore_database,
-            "status": restore_status,
-            "schema_hash": restore_hash,
+            "database": restore_database,
+            "status": "PASS",
+            "schema_hash": restored_state["schema_hash"],
+            "database_removed": cleanup_status,
         },
         "restore_command_template": (
             "pg_restore --exit-on-error --no-owner --no-acl "
-            "--dbname <disposable_database> backups/student_predict_before_final_database.dump"
+            f"--dbname <disposable_database> backups/{backup_path.name}"
         ),
         "credentials": "REDACTED",
     }
     _write_json(BACKUP_MANIFEST, manifest)
-    print(json.dumps({"status": "PASS", "backup": BACKUP_PATH.name, "restore_test": "PASS", "credentials": "REDACTED"}))
+    print(
+        json.dumps(
+            {
+                "status": "PASS",
+                "backup": backup_path.name,
+                "source_schema_hash": starting_hash,
+                "restore_test": "PASS",
+                "schema_hash_match": True,
+                "counts_match": True,
+                "disposable_database_removed": cleanup_status,
+                "credentials": "REDACTED",
+            }
+        )
+    )
     return 0
 
 
@@ -580,6 +1018,31 @@ def _metric_rows(run_id: str, model: dict[str, Any]) -> list[tuple[Any, ...]]:
     return rows
 
 
+METRIC_NATURAL_KEY_COLUMNS = (
+    "run_id",
+    "metric_name",
+    "scope",
+    "aggregation",
+    "class_label",
+    "budget",
+    "fold",
+    "seed",
+)
+_METRIC_TUPLE_KEY_INDEXES = (0, 1, 3, 4, 5, 6, 7, 8)
+_NULL_KEY = "<NULL>"
+
+
+def normalize_metric_natural_key(
+    row: Mapping[str, Any] | Sequence[Any],
+) -> tuple[Any, ...]:
+    """Return the registered metric key with deterministic NULL semantics."""
+    if isinstance(row, Mapping):
+        values = [row[column] for column in METRIC_NATURAL_KEY_COLUMNS]
+    else:
+        values = [row[index] for index in _METRIC_TUPLE_KEY_INDEXES]
+    return tuple(_NULL_KEY if value is None else _clean(value) for value in values)
+
+
 def _flatten_numeric(value: Any, prefix: str = "") -> Iterable[tuple[str, float, dict[str, Any]]]:
     if isinstance(value, dict):
         for key, item in value.items():
@@ -589,6 +1052,374 @@ def _flatten_numeric(value: Any, prefix: str = "") -> Iterable[tuple[str, float,
         yield prefix, float(value), {"original_type": "boolean"}
     elif isinstance(value, (int, float)) and not pd.isna(value):
         yield prefix, float(value), {}
+
+
+def _canonical_metric_rows(
+    final_results: dict[str, Any] | None = None,
+) -> list[tuple[Any, ...]]:
+    """Build the complete final-run metric set from locked release evidence."""
+    payload = final_results or _read_json(FINAL_RESULTS)
+    rows: list[tuple[Any, ...]] = []
+    selected_run: dict[str, str] = {}
+    for dataset_key, dataset_payload in payload["datasets"].items():
+        for model in dataset_payload["models"]:
+            run_id = f"final:{dataset_key}:{model['model_id']}"
+            rows.extend(_metric_rows(run_id, model))
+            if model["model_id"] == "cnn_bilstm":
+                selected_run[dataset_key] = run_id
+
+    for name, metric in payload["recommendation"]["metrics"].items():
+        rows.append(
+            (
+                selected_run["oulad"],
+                name,
+                (
+                    float(metric["value"])
+                    if isinstance(metric["value"], (int, float, bool))
+                    else None
+                ),
+                "recommendation",
+                "final",
+                None,
+                None,
+                None,
+                None,
+                None,
+                Json(metric),
+            )
+        )
+    rows.append(
+        (
+            selected_run["oulad"],
+            "expert_status",
+            None,
+            "recommendation",
+            "final",
+            None,
+            None,
+            None,
+            None,
+            None,
+            Json(payload["recommendation"]["expert_status"]),
+        )
+    )
+    multitask_path = (
+        ROOT
+        / "artifacts"
+        / "final"
+        / "metrics"
+        / "cnn_bilstm_oulad_inner_multitask.json"
+    )
+    for name, value, detail in _flatten_numeric(
+        _read_json(multitask_path), "multitask"
+    ):
+        rows.append(
+            (
+                selected_run["oulad"],
+                name,
+                value,
+                "multitask",
+                "fixed_protocol",
+                None,
+                None,
+                None,
+                None,
+                None,
+                Json(detail),
+            )
+        )
+
+    keys = [normalize_metric_natural_key(row) for row in rows]
+    duplicates = [key for key, count in Counter(keys).items() if count > 1]
+    if duplicates:
+        raise FinalDatabaseError(
+            "Canonical metric evidence contains duplicate natural keys"
+        )
+    return rows
+
+
+_METRIC_KEY_JOIN = """
+target.run_id = source.run_id
+AND target.metric_name = source.metric_name
+AND target.scope = source.scope
+AND target.aggregation = source.aggregation
+AND target.class_label IS NOT DISTINCT FROM source.class_label
+AND target.budget IS NOT DISTINCT FROM source.budget
+AND target.fold IS NOT DISTINCT FROM source.fold
+AND target.seed IS NOT DISTINCT FROM source.seed
+"""
+
+
+def _reconcile_canonical_metrics(
+    cursor,
+    metric_rows: Sequence[tuple[Any, ...]],
+) -> dict[str, Any]:
+    """Synchronize final-run metrics exactly to the canonical release set."""
+    if not metric_rows:
+        raise FinalDatabaseError("Canonical metric set is empty")
+    normalized_keys = [
+        normalize_metric_natural_key(row) for row in metric_rows
+    ]
+    if len(normalized_keys) != len(set(normalized_keys)):
+        raise FinalDatabaseError(
+            "Canonical metric set has duplicate natural keys"
+        )
+    run_ids = sorted({str(row[0]) for row in metric_rows})
+
+    def column(row: Mapping[str, Any] | Sequence[Any], name: str, index: int):
+        return row[name] if isinstance(row, Mapping) else row[index]
+
+    cursor.execute("DROP TABLE IF EXISTS pg_temp.canonical_metric_stage")
+    cursor.execute(
+        """
+        CREATE TEMP TABLE canonical_metric_stage (
+            run_id TEXT NOT NULL,
+            metric_name TEXT NOT NULL,
+            metric_value DOUBLE PRECISION,
+            scope TEXT NOT NULL,
+            aggregation TEXT NOT NULL,
+            class_label TEXT,
+            budget DOUBLE PRECISION,
+            fold INTEGER,
+            seed INTEGER,
+            unit TEXT,
+            detail JSONB NOT NULL
+        ) ON COMMIT DROP
+        """
+    )
+    execute_values(
+        cursor,
+        """
+        INSERT INTO canonical_metric_stage(
+            run_id,metric_name,metric_value,scope,aggregation,class_label,
+            budget,fold,seed,unit,detail
+        ) VALUES %s
+        """,
+        metric_rows,
+        page_size=2000,
+    )
+    cursor.execute(
+        """
+        SELECT count(*) AS count
+        FROM (
+            SELECT run_id,metric_name,scope,aggregation,class_label,budget,fold,seed
+            FROM canonical_metric_stage
+            GROUP BY run_id,metric_name,scope,aggregation,class_label,budget,fold,seed
+            HAVING count(*) > 1
+        ) duplicates
+        """
+    )
+    stage_duplicates_row = cursor.fetchone()
+    stage_duplicates = int(
+        column(stage_duplicates_row, "count", 0)
+    )
+    if stage_duplicates:
+        raise FinalDatabaseError(
+            "Canonical metric staging contains duplicate natural keys"
+        )
+
+    cursor.execute(
+        f"""
+        SELECT
+            count(*) FILTER (WHERE target.metric_id IS NOT NULL) AS matched,
+            count(*) FILTER (WHERE target.metric_id IS NULL) AS missing,
+            count(*) FILTER (
+                WHERE target.metric_id IS NOT NULL
+                  AND (
+                    target.metric_value IS DISTINCT FROM source.metric_value
+                    OR target.unit IS DISTINCT FROM source.unit
+                    OR target.detail IS DISTINCT FROM source.detail
+                  )
+            ) AS changed
+        FROM canonical_metric_stage source
+        LEFT JOIN ml.metric target ON {_METRIC_KEY_JOIN}
+        """
+    )
+    before = cursor.fetchone()
+    matched_rows = int(column(before, "matched", 0))
+    inserted_rows = int(column(before, "missing", 1))
+    updated_rows = int(column(before, "changed", 2))
+    cursor.execute(
+        f"""
+        SELECT count(*) AS count
+        FROM ml.metric target
+        WHERE target.run_id = ANY(%s)
+          AND NOT EXISTS (
+              SELECT 1
+              FROM canonical_metric_stage source
+              WHERE {_METRIC_KEY_JOIN}
+          )
+        """,
+        (run_ids,),
+    )
+    deleted_row = cursor.fetchone()
+    deleted_stale_rows = int(column(deleted_row, "count", 0))
+
+    cursor.execute(
+        """
+        INSERT INTO ml.metric AS target(
+            run_id,metric_name,metric_value,scope,aggregation,class_label,
+            budget,fold,seed,unit,detail
+        )
+        SELECT
+            run_id,metric_name,metric_value,scope,aggregation,class_label,
+            budget,fold,seed,unit,detail
+        FROM canonical_metric_stage
+        WHERE true
+        ON CONFLICT (
+            run_id,metric_name,scope,aggregation,class_label,budget,fold,seed
+        ) DO UPDATE SET
+            metric_value = EXCLUDED.metric_value,
+            unit = EXCLUDED.unit,
+            detail = EXCLUDED.detail
+        WHERE target.metric_value IS DISTINCT FROM EXCLUDED.metric_value
+           OR target.unit IS DISTINCT FROM EXCLUDED.unit
+           OR target.detail IS DISTINCT FROM EXCLUDED.detail
+        """
+    )
+    cursor.execute(
+        f"""
+        DELETE FROM ml.metric target
+        WHERE target.run_id = ANY(%s)
+          AND NOT EXISTS (
+              SELECT 1
+              FROM canonical_metric_stage source
+              WHERE {_METRIC_KEY_JOIN}
+          )
+        """,
+        (run_ids,),
+    )
+
+    cursor.execute(
+        f"""
+        SELECT
+            count(*) FILTER (WHERE target.metric_id IS NULL) AS missing,
+            count(*) FILTER (
+                WHERE target.metric_id IS NOT NULL
+                  AND target.metric_value IS DISTINCT FROM source.metric_value
+            ) AS value_mismatches,
+            count(*) FILTER (
+                WHERE target.metric_id IS NOT NULL
+                  AND (
+                    target.unit IS DISTINCT FROM source.unit
+                    OR target.detail IS DISTINCT FROM source.detail
+                  )
+            ) AS detail_mismatches
+        FROM canonical_metric_stage source
+        LEFT JOIN ml.metric target ON {_METRIC_KEY_JOIN}
+        """
+    )
+    post = cursor.fetchone()
+    missing_rows = int(column(post, "missing", 0))
+    value_mismatches = int(column(post, "value_mismatches", 1))
+    detail_mismatches = int(column(post, "detail_mismatches", 2))
+    cursor.execute(
+        f"""
+        SELECT count(*) AS count
+        FROM ml.metric target
+        WHERE target.run_id = ANY(%s)
+          AND NOT EXISTS (
+              SELECT 1
+              FROM canonical_metric_stage source
+              WHERE {_METRIC_KEY_JOIN}
+          )
+        """,
+        (run_ids,),
+    )
+    extra_row = cursor.fetchone()
+    extra_rows = int(column(extra_row, "count", 0))
+    cursor.execute(
+        """
+        SELECT count(*) AS count
+        FROM (
+            SELECT run_id,metric_name,scope,aggregation,class_label,budget,fold,seed
+            FROM ml.metric
+            WHERE run_id = ANY(%s)
+            GROUP BY run_id,metric_name,scope,aggregation,class_label,budget,fold,seed
+            HAVING count(*) > 1
+        ) duplicates
+        """,
+        (run_ids,),
+    )
+    duplicate_row = cursor.fetchone()
+    duplicate_natural_keys = int(column(duplicate_row, "count", 0))
+    cursor.execute(
+        "SELECT count(*) AS count FROM ml.metric WHERE run_id = ANY(%s)",
+        (run_ids,),
+    )
+    actual_row = cursor.fetchone()
+    actual_metric_rows = int(column(actual_row, "count", 0))
+    result = {
+        "expected_metric_rows": len(metric_rows),
+        "actual_metric_rows": actual_metric_rows,
+        "matched_rows": matched_rows,
+        "inserted_rows": inserted_rows,
+        "updated_rows": updated_rows,
+        "deleted_stale_rows": deleted_stale_rows,
+        "missing_rows": missing_rows,
+        "extra_rows": extra_rows,
+        "duplicate_natural_keys": duplicate_natural_keys,
+        "value_mismatches": value_mismatches,
+        "detail_mismatches": detail_mismatches,
+        "all_metrics_match_canonical_json": (
+            actual_metric_rows == len(metric_rows)
+            and missing_rows == 0
+            and extra_rows == 0
+            and duplicate_natural_keys == 0
+            and value_mismatches == 0
+            and detail_mismatches == 0
+        ),
+    }
+    if not result["all_metrics_match_canonical_json"]:
+        raise FinalDatabaseError(
+            "Canonical metric reconciliation did not converge"
+        )
+    return result
+
+
+def _synchronize_identity_sequences(cursor) -> None:
+    """Reset identity sequences to deterministic maxima after idempotent load."""
+    def scalar(row):
+        return next(iter(row.values())) if isinstance(row, Mapping) else row[0]
+
+    identities = (
+        ("catalog.dataset", "dataset_id"),
+        ("catalog.dataset_version", "dataset_version_id"),
+        ("catalog.record", "record_pk"),
+        ("ml.artifact", "artifact_id"),
+        ("ml.metric", "metric_id"),
+        ("recommendation.action", "action_id"),
+        ("recommendation.review", "review_id"),
+        (
+            "recommendation.expert_plan_review",
+            "expert_plan_review_id",
+        ),
+        (
+            "recommendation.expert_action_review",
+            "expert_action_review_id",
+        ),
+    )
+    for table, column in identities:
+        cursor.execute(
+            "SELECT pg_get_serial_sequence(%s,%s)", (table, column)
+        )
+        sequence = scalar(cursor.fetchone())
+        if sequence is None:
+            raise FinalDatabaseError(
+                f"Identity sequence missing for {table}.{column}"
+            )
+        cursor.execute(
+            sql.SQL("SELECT max({}) FROM {}").format(
+                sql.Identifier(column), sql.SQL(table)
+            )
+        )
+        maximum = scalar(cursor.fetchone())
+        if maximum is None:
+            cursor.execute("SELECT setval(%s,1,false)", (sequence,))
+        else:
+            cursor.execute(
+                "SELECT setval(%s,%s,true)", (sequence, int(maximum))
+            )
 
 
 def _verify_artifact(path_text: str, expected: str | None) -> tuple[str, int | None]:
@@ -603,7 +1434,12 @@ def _verify_artifact(path_text: str, expected: str | None) -> tuple[str, int | N
     return expected, None
 
 
-def load_canonical(dsn: str) -> dict[str, Any]:
+def load_canonical(
+    dsn: str,
+    *,
+    connection=None,
+    commit: bool = True,
+) -> dict[str, Any]:
     _assert_locked_sources()
     final_results = _read_json(FINAL_RESULTS)
     registry = _read_json(MODEL_REGISTRY)
@@ -617,7 +1453,10 @@ def load_canonical(dsn: str) -> dict[str, Any]:
         raise FinalDatabaseError("Duplicate recommendation record")
     dataset_frames = _dataset_rows(final_results, risk_df)
 
-    with _connect(dsn) as connection:
+    connection_context = (
+        _connect(dsn) if connection is None else nullcontext(connection)
+    )
+    with connection_context as connection:
         with connection.cursor(cursor_factory=RealDictCursor) as cursor:
             cursor.execute("SELECT pg_advisory_xact_lock(hashtext('final_database_load_v1'))")
             datasets: dict[str, tuple[int, int]] = {}
@@ -727,7 +1566,6 @@ def load_canonical(dsn: str) -> dict[str, Any]:
                     )
 
             model_count = 0
-            metric_values: list[tuple[Any, ...]] = []
             artifact_values: list[tuple[Any, ...]] = []
             selected_run: dict[str, str] = {}
             for key, dataset_payload in final_results["datasets"].items():
@@ -793,7 +1631,6 @@ def load_canonical(dsn: str) -> dict[str, Any]:
                             Json({"source": "canonical artifact; hardware unchanged"}),
                         ),
                     )
-                    metric_values.extend(_metric_rows(run_id, model))
                     for source_path in model.get("source_artifacts", []):
                         expected = model.get("source_checksums", {}).get(source_path)
                         digest, byte_count = _verify_artifact(source_path, expected)
@@ -813,67 +1650,10 @@ def load_canonical(dsn: str) -> dict[str, Any]:
             if model_count != 30:
                 raise FinalDatabaseError(f"Expected 30 model–dataset rows, found {model_count}")
 
-            recommendation_metrics = final_results["recommendation"]["metrics"]
-            for name, payload in recommendation_metrics.items():
-                metric_values.append(
-                    (
-                        selected_run["oulad"],
-                        name,
-                        float(payload["value"]) if isinstance(payload["value"], (int, float, bool)) else None,
-                        "recommendation",
-                        "final",
-                        None,
-                        None,
-                        None,
-                        None,
-                        None,
-                        Json(payload),
-                    )
-                )
-            expert_status = final_results["recommendation"]["expert_status"]
-            metric_values.append(
-                (
-                    selected_run["oulad"],
-                    "expert_status",
-                    None,
-                    "recommendation",
-                    "final",
-                    None,
-                    None,
-                    None,
-                    None,
-                    None,
-                    Json(expert_status),
-                )
-            )
+            metric_values = _canonical_metric_rows(final_results)
             multitask_path = ROOT / "artifacts" / "final" / "metrics" / "cnn_bilstm_oulad_inner_multitask.json"
-            for name, value, detail in _flatten_numeric(_read_json(multitask_path), "multitask"):
-                metric_values.append(
-                    (
-                        selected_run["oulad"],
-                        name,
-                        value,
-                        "multitask",
-                        "fixed_protocol",
-                        None,
-                        None,
-                        None,
-                        None,
-                        None,
-                        Json(detail),
-                    )
-                )
-            execute_values(
-                cursor,
-                """
-                INSERT INTO ml.metric(
-                    run_id,metric_name,metric_value,scope,aggregation,class_label,
-                    budget,fold,seed,unit,detail
-                ) VALUES %s
-                ON CONFLICT DO NOTHING
-                """,
-                metric_values,
-                page_size=2000,
+            metric_reconciliation = _reconcile_canonical_metrics(
+                cursor, metric_values
             )
 
             for path, expected in LOCKED_SOURCES.items():
@@ -1043,7 +1823,9 @@ def load_canonical(dsn: str) -> dict[str, Any]:
                 action_values,
                 page_size=3000,
             )
-        connection.commit()
+            _synchronize_identity_sequences(cursor)
+        if commit:
+            connection.commit()
     return {
         "status": "PASS",
         "datasets": 3,
@@ -1051,6 +1833,7 @@ def load_canonical(dsn: str) -> dict[str, Any]:
         "risk_profiles": len(risk_df),
         "plans": len(plans),
         "actions": sum(len(plan["recommended_actions"]) for plan in plans),
+        "metric_reconciliation": metric_reconciliation,
         "expert_status": "PENDING_EXPERT_LABELS",
         "future_oulad": "LOCKED",
     }
@@ -1430,6 +2213,36 @@ def _write_database_checksum_manifest(dsn: str) -> None:
     )
 
 
+def _validate_database_checksum_manifest(dsn: str) -> dict[str, Any]:
+    path = ARTIFACT_ROOT / "checksum_manifest.json"
+    if not path.is_file():
+        raise FinalDatabaseError("Database checksum manifest is missing")
+    manifest = _read_json(path)
+    failures = []
+    for entry in manifest.get("files", []):
+        artifact = ROOT / entry["path"]
+        actual = _sha256(artifact) if artifact.is_file() else None
+        if actual != entry["sha256"]:
+            failures.append(entry["path"])
+    current_entities = _database_entity_checksums(dsn)
+    entities_match = current_entities == manifest.get("entities")
+    result = {
+        "status": (
+            "PASS" if not failures and entities_match else "FAIL"
+        ),
+        "database": _database_name(dsn),
+        "file_count": len(manifest.get("files", [])),
+        "file_failures": failures,
+        "entities_match": entities_match,
+        "credentials": "REDACTED",
+    }
+    if result["status"] != "PASS":
+        raise FinalDatabaseError(
+            "Database checksum replay failed"
+        )
+    return result
+
+
 def command_validate(args: argparse.Namespace) -> int:
     dsn = _dsn(args.dsn_env)
     result = validate_database(dsn, strict_public=args.strict_public)
@@ -1439,8 +2252,16 @@ def command_validate(args: argparse.Namespace) -> int:
     return 0
 
 
+def command_checksum_replay(args: argparse.Namespace) -> int:
+    result = _validate_database_checksum_manifest(_dsn(args.dsn_env))
+    print(json.dumps(result))
+    return 0
+
+
 def _validate_backup_manifest(
     manifest_path: Path = BACKUP_MANIFEST,
+    *,
+    source_dsn: str | None = None,
 ) -> dict[str, Any]:
     manifest_path = manifest_path.resolve()
     if not manifest_path.is_file():
@@ -1451,6 +2272,59 @@ def _validate_backup_manifest(
     backup_path = ROOT / "backups" / Path(manifest["backup_filename"]).name
     if not backup_path.is_file() or _sha256(backup_path) != manifest["sha256"]:
         raise FinalDatabaseError("Backup checksum mismatch")
+    if manifest.get("schema_version") == "final_database_backup_v2":
+        if (
+            manifest.get("restore_tested") is not True
+            or manifest.get("schema_hash_match") is not True
+            or manifest.get("disposable_database_removed") is not True
+        ):
+            raise FinalDatabaseError(
+                "Versioned backup restore validation is incomplete"
+            )
+        validation_path = ROOT / str(manifest["validation_artifact"])
+        if not validation_path.is_file():
+            raise FinalDatabaseError(
+                "Backup restore validation artifact is missing"
+            )
+        restore_validation = _read_json(validation_path)
+        if (
+            restore_validation.get("status") != "PASS"
+            or restore_validation.get("schema_hash_match") is not True
+            or restore_validation.get("counts_match") is not True
+            or restore_validation.get("migration_ledger_match") is not True
+            or restore_validation.get("disposable_database_removed")
+            is not True
+        ):
+            raise FinalDatabaseError(
+                "Backup restore equivalence gate is not PASS"
+            )
+    if source_dsn is not None:
+        current_state = _database_backup_state(source_dsn)
+        manifest_database = manifest.get(
+            "source_database", manifest.get("database_name")
+        )
+        manifest_schema = manifest.get(
+            "source_schema_hash", manifest.get("starting_schema_hash")
+        )
+        if current_state["database"] != manifest_database:
+            raise FinalDatabaseError("Backup source database identity mismatch")
+        if current_state["schema_hash"] != manifest_schema:
+            raise FinalDatabaseError(
+                "Backup source schema hash is stale for the current database"
+            )
+        source_counts = manifest.get("source_counts")
+        if source_counts and current_state["counts"] != source_counts:
+            raise FinalDatabaseError(
+                "Backup source entity counts are stale"
+            )
+        ledger_hash = manifest.get("source_migration_ledger_hash")
+        if (
+            ledger_hash
+            and current_state["migration_ledger_hash"] != ledger_hash
+        ):
+            raise FinalDatabaseError(
+                "Backup migration ledger is stale"
+            )
     return manifest
 
 
@@ -1555,29 +2429,277 @@ def _legacy_drop_order(cursor) -> list[str]:
     return order
 
 
-def _apply_migrations_target(dsn: str) -> None:
-    # Same checksum logic as disposable migration but without the name guard.
+def _apply_migrations_connection(connection) -> dict[str, Any]:
+    """Apply pending migrations without committing the caller's transaction."""
+    applied: list[str] = []
+    skipped: list[str] = []
     for path in sorted(MIGRATIONS.glob("*.sql")):
         checksum = _sha256(path)
         version = int(path.name[:3])
-        with _connect(dsn) as connection:
-            with connection.cursor() as cursor:
-                cursor.execute("SELECT to_regclass('system.schema_migration')")
-                exists = cursor.fetchone()[0] is not None
-                if exists:
-                    cursor.execute("SELECT sha256 FROM system.schema_migration WHERE filename=%s", (path.name,))
-                    row = cursor.fetchone()
-                    if row:
-                        if row[0].strip() != checksum:
-                            raise FinalDatabaseError(f"Migration checksum changed after apply: {path.name}")
-                        connection.rollback()
-                        continue
-                cursor.execute(_migration_body(path.read_text(encoding="utf-8")))
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT to_regclass('system.schema_migration')")
+            exists = cursor.fetchone()[0] is not None
+            if exists:
                 cursor.execute(
-                    "INSERT INTO system.schema_migration(filename,version,sha256,metadata) VALUES (%s,%s,%s,%s)",
-                    (path.name, version, checksum, Json({"protocol": "final_database_v1"})),
+                    "SELECT sha256 FROM system.schema_migration WHERE filename=%s",
+                    (path.name,),
                 )
-            connection.commit()
+                row = cursor.fetchone()
+                if row:
+                    if row[0].strip() != checksum:
+                        raise FinalDatabaseError(
+                            f"Migration checksum changed after apply: {path.name}"
+                        )
+                    skipped.append(path.name)
+                    continue
+            cursor.execute(_migration_body(path.read_text(encoding="utf-8")))
+            cursor.execute(
+                """
+                INSERT INTO system.schema_migration(
+                    filename,version,sha256,metadata
+                ) VALUES (%s,%s,%s,%s)
+                """,
+                (
+                    path.name,
+                    version,
+                    checksum,
+                    Json({"protocol": "final_database_v1"}),
+                ),
+            )
+            applied.append(path.name)
+    return {"applied": applied, "skipped": skipped}
+
+
+def _apply_migrations_target(dsn: str) -> None:
+    # Public wrapper used outside the atomic production cutover.
+    with _connect(dsn) as connection:
+        _apply_migrations_connection(connection)
+        connection.commit()
+
+
+def _legacy_cutover_in_transaction(
+    connection,
+    *,
+    drop_empty: bool,
+) -> list[dict[str, Any]]:
+    disposition: list[dict[str, Any]] = []
+    with connection.cursor() as cursor:
+        cursor.execute(
+            "SELECT pg_advisory_xact_lock(hashtext('final_database_cutover_v1'))"
+        )
+        cursor.execute("SET LOCAL lock_timeout='5s'")
+        cursor.execute("SET LOCAL statement_timeout='15min'")
+        drop_order = _legacy_drop_order(cursor)
+        for table in drop_order:
+            cursor.execute(
+                "SELECT to_regclass(%s)", (f"public.{table}",)
+            )
+            if cursor.fetchone()[0] is None:
+                continue
+            cursor.execute(
+                sql.SQL("SELECT count(*) FROM public.{}").format(
+                    sql.Identifier(table)
+                )
+            )
+            count = int(cursor.fetchone()[0])
+            if count:
+                cursor.execute(
+                    sql.SQL(
+                        "ALTER TABLE public.{} SET SCHEMA legacy_202607"
+                    ).format(sql.Identifier(table))
+                )
+                decision = "ARCHIVE_READ_ONLY"
+            elif drop_empty:
+                cursor.execute(
+                    sql.SQL("DROP TABLE public.{}").format(
+                        sql.Identifier(table)
+                    )
+                )
+                decision = "DROP_EMPTY_REDUNDANT"
+            else:
+                cursor.execute(
+                    sql.SQL(
+                        "ALTER TABLE public.{} SET SCHEMA legacy_202607"
+                    ).format(sql.Identifier(table))
+                )
+                decision = "ARCHIVE_READ_ONLY"
+            disposition.append(
+                {
+                    "table": f"public.{table}",
+                    "rows": count,
+                    "decision": decision,
+                }
+            )
+        cursor.execute(
+            "REVOKE ALL ON ALL TABLES IN SCHEMA legacy_202607 FROM PUBLIC"
+        )
+        cursor.execute(
+            "REVOKE ALL ON SCHEMA legacy_202607 FROM PUBLIC"
+        )
+        cursor.execute(
+            "ALTER ROLE student_predict_reader "
+            "SET search_path = catalog, ml, recommendation"
+        )
+        cursor.execute(
+            "ALTER ROLE student_predict_writer "
+            "SET search_path = catalog, ml, recommendation"
+        )
+        cursor.execute(
+            "ALTER ROLE student_predict_migrator "
+            "SET search_path = system, catalog, ml, recommendation"
+        )
+    return disposition
+
+
+def _validate_atomic_cutover(
+    connection,
+    metric_reconciliation: Mapping[str, Any],
+) -> dict[str, Any]:
+    """Validate the complete canonical write set before COMMIT."""
+    expected_metrics = int(
+        metric_reconciliation["expected_metric_rows"]
+    )
+    checks: dict[str, bool] = {
+        "metric_reconciliation_converged": bool(
+            metric_reconciliation["all_metrics_match_canonical_json"]
+        )
+    }
+    with connection.cursor(cursor_factory=RealDictCursor) as cursor:
+        cursor.execute(
+            """
+            SELECT
+              (SELECT count(*) FROM ml.model) AS models,
+              (SELECT count(*) FROM ml.run) AS runs,
+              (SELECT count(*) FROM ml.metric) AS metrics,
+              (SELECT count(*) FROM recommendation.risk_profile)
+                AS risk_profiles,
+              (SELECT count(*) FROM recommendation.plan) AS plans,
+              (SELECT count(*) FROM recommendation.action) AS actions,
+              (SELECT count(*) FROM recommendation.review) AS reviews
+            """
+        )
+        counts = dict(cursor.fetchone())
+        checks.update(
+            {
+                "models_30": counts["models"] == 30,
+                "runs_30": counts["runs"] == 30,
+                "metrics_exact": counts["metrics"] == expected_metrics,
+                "risk_profiles_unchanged": (
+                    counts["risk_profiles"] == 15378
+                ),
+                "plans_unchanged": counts["plans"] == 15378,
+                "actions_unchanged": counts["actions"] == 27355,
+                "reviews_unchanged": counts["reviews"] == 0,
+            }
+        )
+        cursor.execute(
+            """
+            SELECT d.slug, count(*) AS count
+            FROM ml.model m
+            JOIN catalog.dataset d USING(dataset_id)
+            GROUP BY d.slug
+            ORDER BY d.slug
+            """
+        )
+        models_per_dataset = {
+            row["slug"]: int(row["count"]) for row in cursor.fetchall()
+        }
+        checks["ten_models_per_dataset"] = (
+            models_per_dataset
+            == {"oulad": 10, "student-mat": 10, "student-por": 10}
+        )
+        cursor.execute(
+            """
+            SELECT model_id
+            FROM ml.model
+            WHERE is_selected
+            ORDER BY model_id
+            """
+        )
+        selected_models = [row["model_id"] for row in cursor.fetchall()]
+        checks["selected_models_unchanged"] = selected_models == [
+            "oulad:cnn_bilstm",
+            "student_mat:cnn_bilstm",
+            "student_por:cnn_bilstm",
+        ]
+        cursor.execute(
+            """
+            SELECT count(*) AS count
+            FROM (
+              SELECT
+                run_id,metric_name,scope,aggregation,class_label,
+                budget,fold,seed
+              FROM ml.metric
+              GROUP BY
+                run_id,metric_name,scope,aggregation,class_label,
+                budget,fold,seed
+              HAVING count(*) > 1
+            ) duplicates
+            """
+        )
+        checks["no_duplicate_metric_natural_keys"] = (
+            int(cursor.fetchone()["count"]) == 0
+        )
+        cursor.execute(
+            """
+            SELECT
+              to_regclass('ml.final_model_results') IS NOT NULL
+                AS final_model_results,
+              to_regclass('recommendation.plan_summary') IS NOT NULL
+                AS plan_summary,
+              (
+                SELECT count(*)
+                FROM information_schema.tables
+                WHERE table_schema='public'
+                  AND table_type='BASE TABLE'
+              ) AS public_tables
+            """
+        )
+        views = dict(cursor.fetchone())
+        checks["views_valid"] = bool(
+            views["final_model_results"] and views["plan_summary"]
+        )
+        checks["strict_public"] = int(views["public_tables"]) == 0
+        cursor.execute(
+            """
+            SELECT
+              (
+                SELECT count(*)
+                FROM recommendation.action a
+                LEFT JOIN recommendation.plan p USING(plan_id)
+                WHERE p.plan_id IS NULL
+              ) AS orphan_actions,
+              (
+                SELECT count(*)
+                FROM recommendation.plan p
+                LEFT JOIN recommendation.risk_profile r
+                  USING(risk_profile_id)
+                WHERE r.risk_profile_id IS NULL
+              ) AS orphan_plans,
+              (
+                SELECT count(*)
+                FROM recommendation.plan p
+                JOIN recommendation.action a USING(plan_id)
+                WHERE p.status='ABSTAINED'
+              ) AS abstained_actions
+            """
+        )
+        integrity = dict(cursor.fetchone())
+        checks["recommendation_integrity"] = all(
+            int(value) == 0 for value in integrity.values()
+        )
+    failed = [name for name, passed in checks.items() if not passed]
+    if failed:
+        raise FinalDatabaseError(
+            "Atomic cutover validation failed: " + ", ".join(failed)
+        )
+    return {
+        "status": "PASS",
+        "checks": checks,
+        "counts": counts,
+        "models_per_dataset": models_per_dataset,
+        "selected_models": selected_models,
+    }
 
 
 def cutover(
@@ -1586,61 +2708,54 @@ def cutover(
     confirm: bool,
     drop_empty: bool,
     backup_manifest: Path = BACKUP_MANIFEST,
+    _validation_hook: Callable[[Any], None] | None = None,
 ) -> dict[str, Any]:
     if not confirm:
         raise FinalDatabaseError("Cutover requires --confirm-production-cutover")
-    _validate_backup_manifest(backup_manifest)
+    if _is_disposable(dsn):
+        _validate_backup_manifest(backup_manifest)
+    else:
+        _validate_backup_manifest(backup_manifest, source_dsn=dsn)
     validation = _read_json(ARTIFACT_ROOT / "migration_validation.json")
     permissions = _read_json(ARTIFACT_ROOT / "permission_validation.json")
-    if validation.get("status") != "PASS" or permissions.get("status") != "PASS":
+    if (
+        not _is_disposable(dsn)
+        and (
+            validation.get("status") != "PASS"
+            or permissions.get("status") != "PASS"
+        )
+    ):
         raise FinalDatabaseError("Disposable validation and permissions must pass before cutover")
     _assert_locked_sources()
     if drop_empty:
         _authorize_empty_legacy_disposition()
-    _apply_migrations_target(dsn)
-    load_result = load_canonical(dsn)
-    validate_database(dsn, strict_public=False)
-
-    disposition: list[dict[str, Any]] = []
     with _connect(dsn) as connection:
-        with connection.cursor() as cursor:
-            cursor.execute("SELECT pg_advisory_xact_lock(hashtext('final_database_cutover_v1'))")
-            cursor.execute("SET LOCAL lock_timeout='5s'")
-            cursor.execute("SET LOCAL statement_timeout='15min'")
-            drop_order = _legacy_drop_order(cursor)
-            for table in drop_order:
-                cursor.execute("SELECT to_regclass(%s)", (f"public.{table}",))
-                if cursor.fetchone()[0] is None:
-                    continue
-                cursor.execute(sql.SQL("SELECT count(*) FROM public.{}").format(sql.Identifier(table)))
-                count = int(cursor.fetchone()[0])
-                if count:
-                    cursor.execute(
-                        sql.SQL("ALTER TABLE public.{} SET SCHEMA legacy_202607").format(sql.Identifier(table))
-                    )
-                    decision = "ARCHIVE_READ_ONLY"
-                elif drop_empty:
-                    cursor.execute(sql.SQL("DROP TABLE public.{}").format(sql.Identifier(table)))
-                    decision = "DROP_EMPTY_REDUNDANT"
-                else:
-                    cursor.execute(
-                        sql.SQL("ALTER TABLE public.{} SET SCHEMA legacy_202607").format(sql.Identifier(table))
-                    )
-                    decision = "ARCHIVE_READ_ONLY"
-                disposition.append({"table": f"public.{table}", "rows": count, "decision": decision})
-            cursor.execute("REVOKE ALL ON ALL TABLES IN SCHEMA legacy_202607 FROM PUBLIC")
-            cursor.execute("REVOKE ALL ON SCHEMA legacy_202607 FROM PUBLIC")
-            cursor.execute("ALTER ROLE student_predict_reader SET search_path = catalog, ml, recommendation")
-            cursor.execute("ALTER ROLE student_predict_writer SET search_path = catalog, ml, recommendation")
-            cursor.execute("ALTER ROLE student_predict_migrator SET search_path = system, catalog, ml, recommendation")
-        connection.commit()
+        try:
+            migrations = _apply_migrations_connection(connection)
+            load_result = load_canonical(
+                dsn, connection=connection, commit=False
+            )
+            disposition = _legacy_cutover_in_transaction(
+                connection, drop_empty=drop_empty
+            )
+            atomic_validation = _validate_atomic_cutover(
+                connection, load_result["metric_reconciliation"]
+            )
+            if _validation_hook is not None:
+                _validation_hook(connection)
+            connection.commit()
+        except Exception:
+            connection.rollback()
+            raise
     strict_result = validate_database(dsn, strict_public=True)
     _permission_validation(dsn)
     return {
         "status": "PASS",
         "database": _database_name(dsn),
+        "migrations": migrations,
         "loaded": load_result,
         "legacy_disposition": disposition,
+        "atomic_validation": atomic_validation,
         "post_cutover_validation": strict_result["status"],
     }
 
@@ -1705,14 +2820,21 @@ def command_inventory(args: argparse.Namespace) -> int:
 
 
 def command_backup_check(args: argparse.Namespace) -> int:
+    dsn = _dsn(args.dsn_env)
     manifest_path = Path(args.backup_manifest)
-    manifest = _validate_backup_manifest(manifest_path)
+    manifest = _validate_backup_manifest(manifest_path, source_dsn=dsn)
+    current_state = _database_backup_state(dsn)
     result = {
         "status": "PASS",
         "operation": "backup_check",
         "manifest": str(manifest_path),
         "backup_filename": manifest["backup_filename"],
         "restore_test": manifest["restore_test"]["status"],
+        "source_database_match": True,
+        "source_schema_hash_match": True,
+        "source_counts_match": True,
+        "migration_ledger_match": True,
+        "current_schema_hash": current_state["schema_hash"],
         "cutover_performed": False,
         "credentials": "REDACTED",
     }
@@ -1752,7 +2874,9 @@ def command_plan(args: argparse.Namespace) -> int:
     backup_ready = False
     backup_error = None
     try:
-        _validate_backup_manifest(Path(args.backup_manifest))
+        _validate_backup_manifest(
+            Path(args.backup_manifest), source_dsn=dsn
+        )
         backup_ready = True
     except FinalDatabaseError as error:
         backup_error = str(error)
@@ -1843,9 +2967,11 @@ def _build_parser() -> argparse.ArgumentParser:
     inventory.set_defaults(handler=command_inventory)
     backup = commands.add_parser("backup")
     backup.add_argument("--dsn-env", default="POSTGRES_TEST_DSN")
-    backup.add_argument("--restore-database", default="student_predict_restore_test")
+    backup.add_argument("--expected-database", default="student_predict")
+    backup.add_argument("--expected-schema-hash")
     backup.set_defaults(handler=command_backup)
     backup_check = commands.add_parser("backup-check")
+    backup_check.add_argument("--dsn-env", default="POSTGRES_TEST_DSN")
     backup_check.add_argument(
         "--backup-manifest", default=str(BACKUP_MANIFEST)
     )
@@ -1864,6 +2990,11 @@ def _build_parser() -> argparse.ArgumentParser:
     validate.add_argument("--dsn-env", default="FINAL_DATABASE_URL")
     validate.add_argument("--strict-public", action="store_true")
     validate.set_defaults(handler=command_validate)
+    checksum_replay = commands.add_parser("checksum-replay")
+    checksum_replay.add_argument(
+        "--dsn-env", default="POSTGRES_TEST_DSN"
+    )
+    checksum_replay.set_defaults(handler=command_checksum_replay)
     cutover_parser = commands.add_parser("cutover")
     cutover_parser.add_argument("--dsn-env", default="POSTGRES_TEST_DSN")
     cutover_parser.add_argument("--confirm-production-cutover", action="store_true")

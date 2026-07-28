@@ -36,3 +36,20 @@ def test_backup_check_and_plan_commands_are_explicit():
     plan = parser.parse_args(["plan", "--dsn-env", "POSTGRES_TEST_DSN"])
     assert plan.command == "plan"
     assert plan.dsn_env == "POSTGRES_TEST_DSN"
+
+
+def test_versioned_backup_requires_explicit_source_contract():
+    parser = _build_parser()
+    backup = parser.parse_args(
+        [
+            "backup",
+            "--dsn-env",
+            "POSTGRES_TEST_DSN",
+            "--expected-database",
+            "student_predict",
+            "--expected-schema-hash",
+            "ae06a0afce55148dbe2b5452a9fe4efbf4d37860c5c05209fdb73799f40bf57e",
+        ]
+    )
+    assert backup.expected_database == "student_predict"
+    assert backup.expected_schema_hash.startswith("ae06a0")
