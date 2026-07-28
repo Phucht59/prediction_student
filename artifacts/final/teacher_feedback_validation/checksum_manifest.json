@@ -1,5 +1,5 @@
 {
-  "aggregate_sha256": "a353cd6e2b4a2ab0119abf4f3b23f5ea0559a0b140efa379cc0d7c91acbcfbe3",
+  "aggregate_sha256": "8a7dce638f01e34a8ac5a43df24fa43320779d371822fcbc622d921d9fcf59df",
   "files": {
     "artifacts/final/teacher_feedback_validation/baseline_revalidation.json": "83bb709f5280e79a9a057ff29cd04f1bc8a01fa7965a52e4b04d865c6ec225ef",
     "artifacts/final/teacher_feedback_validation/deep_timing_feasibility.json": "8728d05714be3989e66e602fb71fa91e708b86108a5d64b12ef004d0f5929404",
@@ -20,6 +20,7 @@
     "artifacts/final/teacher_feedback_validation/mlp_comparator/student_por/seed_predictions.parquet": "04cd48248f50d91389ec6f814d4807f6d1fdf48bdb6117c0a917aabb33f9fbd1",
     "artifacts/final/teacher_feedback_validation/paired_bootstrap_cnn_bilstm_vs_mlp.csv": "55a8555702274f078a689f84ab332c37c1f106bd0d47371f9b98dc8876b1e72f",
     "artifacts/final/teacher_feedback_validation/pre_closure_checksum_snapshot.json": "b0eb05d136bbb8013bbac0628bd5394686af6f549e094e14d44ea9fab53a9534",
+    "artifacts/final/teacher_feedback_validation/pre_merge_freeze.json": "02b25dc95131a80ee9bde6ab3946813bb84a8a3d8a2611909e1874d9717bf667",
     "artifacts/final/teacher_feedback_validation/regression_guard_after.json": "83885bfd975a5e67ab7161ca37a6cd858c8eeca8f066eaae2aceaedb44692ae4",
     "artifacts/final/teacher_feedback_validation/regression_guard_before.json": "7ca5ca65a03c5a643b1e78416375f9cf450dc1555b21f0d11cb770816c76425e",
     "artifacts/final/teacher_feedback_validation/run_summary.json": "a989bf7f9764613c6f817d81458b99d783c757652cd71669adf645c8b6f33a6c",

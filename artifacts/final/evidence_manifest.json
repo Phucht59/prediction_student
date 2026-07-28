@@ -1231,7 +1231,7 @@
     },
     {
       "path": "artifacts/final/teacher_feedback_validation/checksum_manifest.json",
-      "sha256": "269bb53590e79cbca6d28b25d133ce62868ed22f9b8e7172fc46cb814e01afc1"
+      "sha256": "b2b1d96c81ae0f12cdcae2c85759b0d00a515b9f2f1fc489cf1a9338fa363c73"
     },
     {
       "path": "artifacts/final/teacher_feedback_validation/deep_timing_feasibility.json",
@@ -1304,6 +1304,10 @@
     {
       "path": "artifacts/final/teacher_feedback_validation/pre_closure_checksum_snapshot.json",
       "sha256": "b0eb05d136bbb8013bbac0628bd5394686af6f549e094e14d44ea9fab53a9534"
+    },
+    {
+      "path": "artifacts/final/teacher_feedback_validation/pre_merge_freeze.json",
+      "sha256": "02b25dc95131a80ee9bde6ab3946813bb84a8a3d8a2611909e1874d9717bf667"
     },
     {
       "path": "artifacts/final/teacher_feedback_validation/regression_guard_after.json",

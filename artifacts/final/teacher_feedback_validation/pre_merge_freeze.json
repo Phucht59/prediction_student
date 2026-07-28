@@ -1,0 +1,62 @@
+{
+  "schema_version": "pre_merge_freeze_v1",
+  "status": "PASS",
+  "source_branch": "codex/teacher-feedback-completion",
+  "source_commit": "e7024b64d1bc06b518fd593da65126877dbeb980",
+  "captured_on": "2026-07-28",
+  "official_models": {
+    "student_mat": {
+      "model_id": "cnn_bilstm_mat",
+      "macro_f1": 0.9014601961315334
+    },
+    "student_por": {
+      "model_id": "cnn_bilstm_por",
+      "macro_f1": 0.8622587167738002
+    },
+    "oulad": {
+      "model_id": "cnn_bilstm_oulad",
+      "macro_f1": 0.8280835945631038
+    }
+  },
+  "standalone_mlp": {
+    "student_mat_macro_f1": 0.8595069898734821,
+    "student_por_macro_f1": 0.8303986867455508,
+    "oulad_macro_f1": 0.8282857900281345
+  },
+  "comparator_registry": {
+    "student_mat_model_count": 10,
+    "student_por_model_count": 10,
+    "oulad_model_count": 10,
+    "model_dataset_identity_total": 30
+  },
+  "database_expected_final": {
+    "model_dataset_identities": 30,
+    "risk_profiles": 15378,
+    "recommendation_plans": 15378,
+    "recommendation_actions": 27355
+  },
+  "locked_statuses": {
+    "future_oulad": "LOCKED_NOT_EXECUTED",
+    "expert_evaluation": "PENDING_EXPERT_LABELS",
+    "xapi": "ABSENT"
+  },
+  "checksums_before_snapshot_registration": {
+    "artifacts/final/final_results.json": "000c185fb2fd9ba4b528e79d98636fdb17ee4586dbad197e9990717164b3681b",
+    "artifacts/final/evidence_manifest.json": "0b549b8ec818df631335e1b3f5620a8be7978e62d0dd3e97aa7529c1ca5c8cb8"
+  },
+  "validation": {
+    "project_tests": 38,
+    "database_tests": 33,
+    "ruff": "PASS",
+    "final_status": "READY",
+    "final_report": "PASS",
+    "final_validate": "FINAL_COMPARATOR_COMPLETION_PASS",
+    "teacher_feedback": "PASS",
+    "release_checksum": "PASS",
+    "teacher_feedback_checksum": "PASS",
+    "timing_checksum": "PASS",
+    "evidence_manifest_entries_verified": 379
+  },
+  "scientific_results_changed": false,
+  "training_performed": false
+}
