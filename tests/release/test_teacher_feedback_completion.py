@@ -15,7 +15,9 @@ from src.studies.teacher_feedback import (
 
 
 TF_ROOT = ROOT / "artifacts" / "final" / "teacher_feedback_validation"
-TIMING_ROOT = ROOT / "artifacts" / "final" / "uci_timing_scenarios"
+TIMING_ROOT = (
+    ROOT / "artifacts" / "history" / "legacy_uci_separate_stage_v1"
+)
 
 
 def _sample_frame() -> pd.DataFrame:
@@ -215,11 +217,14 @@ def test_pre_closure_snapshot_freezes_canonical_state() -> None:
 def test_artifact_checksums_are_deterministic_and_valid() -> None:
     import hashlib
 
-    for manifest_path in (
-        TIMING_ROOT / "checksums.json",
-        TF_ROOT / "checksum_manifest.json",
-    ):
-        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-        for relative, expected in manifest["files"].items():
-            digest = hashlib.sha256((ROOT / relative).read_bytes()).hexdigest()
-            assert digest == expected
+    archive = json.loads(
+        (TIMING_ROOT / "archive_manifest.json").read_text(encoding="utf-8")
+    )
+    assert archive["status"] == "PASS"
+    assert all(row["sha256_preserved"] for row in archive["rows"])
+    manifest = json.loads(
+        (TF_ROOT / "checksum_manifest.json").read_text(encoding="utf-8")
+    )
+    for relative, expected in manifest["files"].items():
+        digest = hashlib.sha256((ROOT / relative).read_bytes()).hexdigest()
+        assert digest == expected

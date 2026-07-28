@@ -11,6 +11,7 @@ EXPECTED = {
     "ml.run",
     "ml.artifact",
     "ml.metric",
+    "ml.prediction",
     "recommendation.policy",
     "recommendation.risk_profile",
     "recommendation.plan",
@@ -22,7 +23,7 @@ EXPECTED = {
 }
 
 
-def test_expected_16_core_tables(final_connection):
+def test_expected_17_core_tables(final_connection):
     with final_connection.cursor() as cursor:
         cursor.execute(
             """

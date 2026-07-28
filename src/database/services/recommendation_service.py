@@ -9,9 +9,18 @@ class RecommendationService:
     def __init__(self, settings: DatabaseSettings):
         self.settings = settings
 
-    def plan_for_record(self, source_record_id: str) -> dict | None:
+    def recommend(
+        self, source_record_id: str, prediction_stage: str = "F2_MIDDLE"
+    ) -> dict | None:
         with transaction(self.settings) as connection:
-            return RecommendationRepository(connection).plan_for_record(source_record_id)
+            return RecommendationRepository(connection).plan_for_record(
+                source_record_id, prediction_stage
+            )
+
+    def plan_for_record(
+        self, source_record_id: str, prediction_stage: str = "F2_MIDDLE"
+    ) -> dict | None:
+        return self.recommend(source_record_id, prediction_stage)
 
     def add_advisor_review(
         self,

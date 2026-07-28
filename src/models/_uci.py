@@ -107,8 +107,38 @@ class _UCITemporalEncoder(nn.Module):
             values = self.activation(self.conv_norm(torch.cat(convolved, dim=2) + self.residual(projected)))
             values = values * mask.unsqueeze(-1)
         if self.recurrent is not None:
-            values, _ = self.recurrent(self.dropout(values))
-            values = values * mask.unsqueeze(-1)
+            # A bidirectional LSTM must never inspect an unavailable future
+            # timestep. Post-hoc multiplication is insufficient because its
+            # backward state has already consumed padding. Pack only the
+            # positive-length rows and scatter them back; zero-length S0 rows
+            # bypass the recurrent network entirely. The no-mask official
+            # path above remains byte-for-byte unchanged.
+            lengths = mask.sum(dim=1).to(dtype=torch.long)
+            recurrent_values = torch.zeros(
+                values.shape[0],
+                values.shape[1],
+                self.recurrent.hidden_size * 2,
+                dtype=values.dtype,
+                device=values.device,
+            )
+            positive = lengths > 0
+            if positive.any():
+                selected = self.dropout(values[positive])
+                selected_lengths = lengths[positive].cpu()
+                packed = nn.utils.rnn.pack_padded_sequence(
+                    selected,
+                    selected_lengths,
+                    batch_first=True,
+                    enforce_sorted=False,
+                )
+                encoded, _ = self.recurrent(packed)
+                unpacked, _ = nn.utils.rnn.pad_packed_sequence(
+                    encoded,
+                    batch_first=True,
+                    total_length=temporal.shape[1],
+                )
+                recurrent_values[positive] = unpacked
+            values = recurrent_values * mask.unsqueeze(-1)
         valid = mask.unsqueeze(-1)
         counts = valid.sum(dim=1).clamp_min(1.0)
         mean = (values * valid).sum(dim=1) / counts

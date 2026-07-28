@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0",
+  "status": "PASS",
+  "scope": "pre_unified_stage_aware_refactor",
+  "repository": "prediction_student",
+  "branch": "codex/unified-stage-aware-system",
+  "source_commit": "8de5e7bb957afadb213a5e485179435ec014ddda",
+  "inventory_counts": {
+    "tracked_files": 754,
+    "untracked_files_before_cleanup": 730,
+    "ignored_public_workspace_entries": 460
+  },
+  "largest_tracked_files": [
+    {
+      "path": "artifacts/final/recommendation/recommendation_plans.jsonl",
+      "bytes": 29773256,
+      "classification": "KEEP_CANONICAL"
+    },
+    {
+      "path": "artifacts/final/database/persisted_recommendation_plans.jsonl",
+      "bytes": 22325477,
+      "classification": "KEEP_CANONICAL"
+    },
+    {
+      "path": "artifacts/final/predictions/cnn_bilstm_oulad/seed_predictions.parquet",
+      "bytes": 16179305,
+      "classification": "KEEP_CANONICAL"
+    }
+  ],
+  "classifications": {
+    "KEEP_CANONICAL": [
+      "artifacts/final/",
+      "configs/final/",
+      "reports/final/",
+      "database/final/",
+      "src/final_release/",
+      "src/recommendation/",
+      "official checkpoints and prediction artifacts"
+    ],
+    "KEEP_UNTIL_REPLACEMENT_PASS": [
+      "artifacts/final/uci_timing_scenarios/",
+      "artifacts/final/uci_timing_scenarios/fold_cache/",
+      "existing separate-stage UCI reports and checksums"
+    ],
+    "LEGACY_ARCHIVE_AFTER_PASS": [
+      "separate-stage UCI timing evidence superseded by the unified system"
+    ],
+    "DELETE_LOCAL_CACHE": [
+      ".pytest_cache/",
+      ".ruff_cache/",
+      "__pycache__ directories outside virtual environments and test_lab",
+      "artifacts/experiments/early_warning_improvement_v1/",
+      "artifacts/experiments/student_mat_c4_paper_v1/"
+    ],
+    "DO_NOT_TOUCH": [
+      ".venv-oulad-v2/",
+      "test_lab/",
+      "backups/",
+      "data/raw/",
+      "ignored canonical final evidence",
+      "OULAD evidence",
+      "recommendation evidence",
+      "database evidence",
+      ".env",
+      "DOCX/PDF files"
+    ]
+  },
+  "cleanup_safety": {
+    "git_clean_preview_command": "git clean -ndX",
+    "git_clean_executed": false,
+    "reason": "The preview included virtual environments, raw data, backups, test_lab, processed data, saved models, and ignored final evidence; only exact cache paths may be removed.",
+    "credentials_recorded": false
+  }
+}

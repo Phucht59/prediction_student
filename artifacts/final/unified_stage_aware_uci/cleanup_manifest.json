@@ -1,0 +1,20 @@
+{
+  "broad_git_clean_executed": false,
+  "deleted_local_cache_categories": [
+    "pytest_cache",
+    "ruff_cache",
+    "untracked_exploratory_prediction_caches"
+  ],
+  "kept_until_replacement_pass": [
+    "artifacts/final/uci_timing_scenarios"
+  ],
+  "protected": [
+    "OULAD",
+    "recommendation",
+    "database",
+    "official checkpoints",
+    "DOCX/PDF"
+  ],
+  "schema_version": "unified_cleanup_v1",
+  "status": "PASS"
+}

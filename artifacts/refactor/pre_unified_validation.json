@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "status": "PASS",
+  "source_commit": "8de5e7bb957afadb213a5e485179435ec014ddda",
+  "pytest": {
+    "passed": 76,
+    "failed": 0
+  },
+  "ruff": "PASS",
+  "final_validate": "FINAL_COMPARATOR_COMPLETION_PASS",
+  "canonical_sha256": {
+    "artifacts/final/final_results.json": "000c185fb2fd9ba4b528e79d98636fdb17ee4586dbad197e9990717164b3681b",
+    "artifacts/final/final_results.csv": "d2271c48bc6ed65a2836ec3b2430eef0777ad9f2b83f0d16092f389e57148b0f",
+    "artifacts/final/evidence_manifest.json": "b1a5ccbd8f0401a4885f4afb52ca9f592529c32042c3aa7a0db61cf1b19f6840"
+  },
+  "official_macro_f1": {
+    "cnn_bilstm_mat": 0.9014601961315334,
+    "cnn_bilstm_por": 0.8622587167738002,
+    "cnn_bilstm_oulad": 0.8280835945631038
+  },
+  "future_oulad": "LOCKED_NOT_EXECUTED",
+  "training_performed": false
+}

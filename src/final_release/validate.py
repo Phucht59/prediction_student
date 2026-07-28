@@ -302,7 +302,9 @@ def validate() -> list[str]:
         "CLAIM_BOUNDARIES.md",
         "FINAL_PROJECT_REVIEW.md",
         "COMPARATOR_COMPLETION_REPORT.md",
-        "UCI_TIMING_SCENARIO_REPORT.md",
+        "UNIFIED_STAGE_AWARE_RESULTS.md",
+        "HYBRID_VS_ML_STAGE_MATRIX.md",
+        "UNIFIED_MODEL_SELECTION_REPORT.md",
         "MLP_COMPARATOR_REPORT.md",
         "TEACHER_FEEDBACK_COMPLETION.md",
         "UCI_BASELINE_REVALIDATION_REPORT.md",
@@ -315,16 +317,78 @@ def validate() -> list[str]:
         errors,
     )
     manifest_path = FINAL_ROOT / "checksum_manifest.json"
+    unified_root = FINAL_ROOT / "unified_stage_aware_uci"
     _assert(manifest_path.is_file(), "checksum manifest is missing", errors)
     if manifest_path.is_file():
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        legacy_manifest_path = (
+            ROOT
+            / "artifacts"
+            / "history"
+            / "legacy_uci_separate_stage_v1"
+            / "archive_manifest.json"
+        )
+        legacy_rows = {}
+        if legacy_manifest_path.is_file():
+            legacy_rows = {
+                row["original_path"]: row
+                for row in json.loads(
+                    legacy_manifest_path.read_text(encoding="utf-8")
+                )["rows"]
+            }
         for name, digest in manifest.get("files", {}).items():
+            if (
+                name == "reports/final/PROJECT_LOCK_REPORT.md"
+                and unified_root.is_dir()
+            ):
+                # The unified release owns this generated report and records
+                # its checksum in unified_stage_evidence_manifest.json.
+                continue
             path = ROOT / name
+            if not path.is_file() and name in legacy_rows:
+                path = ROOT / legacy_rows[name]["archived_path"]
             _assert(
                 path.is_file() and sha256(path) == digest,
                 f"release checksum mismatch: {name}",
                 errors,
             )
+    unified_validation = unified_root / "validation.json"
+    _assert(
+        unified_validation.is_file(),
+        "unified stage-aware validation is missing",
+        errors,
+    )
+    if unified_validation.is_file():
+        unified = json.loads(unified_validation.read_text(encoding="utf-8"))
+        _assert(unified.get("status") == "PASS", "unified validation failed", errors)
+        _assert(
+            unified.get("uci_model_identities") == 20
+            and unified.get("uci_stage_rows") == 60
+            and unified.get("one_estimator_all_stages") is True,
+            "unified model/stage identity contract failed",
+            errors,
+        )
+    stage_authority = FINAL_ROOT / "final_stage_results.csv"
+    overall_authority = FINAL_ROOT / "final_overall_results.csv"
+    _assert(
+        stage_authority.is_file() and overall_authority.is_file(),
+        "unified final authorities are missing",
+        errors,
+    )
+    if stage_authority.is_file() and overall_authority.is_file():
+        stage_rows = list(csv.DictReader(stage_authority.open(encoding="utf-8")))
+        overall_rows = list(csv.DictReader(overall_authority.open(encoding="utf-8")))
+        _assert(
+            sum(row["dataset"] in {"student_mat", "student_por"} for row in stage_rows)
+            == 60,
+            "unified stage authority must contain 60 UCI rows",
+            errors,
+        )
+        _assert(
+            len(overall_rows) == 30,
+            "unified overall authority must contain 30 model-dataset rows",
+            errors,
+        )
     return errors
 
 

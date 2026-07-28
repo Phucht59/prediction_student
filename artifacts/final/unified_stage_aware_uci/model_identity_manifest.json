@@ -1,0 +1,253 @@
+{
+  "grade_band_reference_is_model_identity": false,
+  "identities": [
+    {
+      "dataset": "student_mat",
+      "display_name": "Logistic Regression",
+      "identity_count": 1,
+      "model_family": "logistic_regression",
+      "model_id": "logistic_regression_mat",
+      "stages": [
+        "S0_EARLY_NO_GRADE",
+        "S1_MID_G1_ONLY",
+        "S2_LATE_G1_G2"
+      ]
+    },
+    {
+      "dataset": "student_mat",
+      "display_name": "Decision Tree",
+      "identity_count": 1,
+      "model_family": "decision_tree",
+      "model_id": "decision_tree_mat",
+      "stages": [
+        "S0_EARLY_NO_GRADE",
+        "S1_MID_G1_ONLY",
+        "S2_LATE_G1_G2"
+      ]
+    },
+    {
+      "dataset": "student_mat",
+      "display_name": "Random Forest",
+      "identity_count": 1,
+      "model_family": "random_forest",
+      "model_id": "random_forest_mat",
+      "stages": [
+        "S0_EARLY_NO_GRADE",
+        "S1_MID_G1_ONLY",
+        "S2_LATE_G1_G2"
+      ]
+    },
+    {
+      "dataset": "student_mat",
+      "display_name": "HistGradientBoosting",
+      "identity_count": 1,
+      "model_family": "hist_gradient_boosting",
+      "model_id": "hist_gradient_boosting_mat",
+      "stages": [
+        "S0_EARLY_NO_GRADE",
+        "S1_MID_G1_ONLY",
+        "S2_LATE_G1_G2"
+      ]
+    },
+    {
+      "dataset": "student_mat",
+      "display_name": "SVM",
+      "identity_count": 1,
+      "model_family": "svm",
+      "model_id": "svm_mat",
+      "stages": [
+        "S0_EARLY_NO_GRADE",
+        "S1_MID_G1_ONLY",
+        "S2_LATE_G1_G2"
+      ]
+    },
+    {
+      "dataset": "student_mat",
+      "display_name": "XGBoost",
+      "identity_count": 1,
+      "model_family": "xgboost",
+      "model_id": "xgboost_mat",
+      "stages": [
+        "S0_EARLY_NO_GRADE",
+        "S1_MID_G1_ONLY",
+        "S2_LATE_G1_G2"
+      ]
+    },
+    {
+      "dataset": "student_mat",
+      "display_name": "MLP",
+      "identity_count": 1,
+      "model_family": "mlp",
+      "model_id": "mlp_mat",
+      "stages": [
+        "S0_EARLY_NO_GRADE",
+        "S1_MID_G1_ONLY",
+        "S2_LATE_G1_G2"
+      ]
+    },
+    {
+      "dataset": "student_mat",
+      "display_name": "CNN-only",
+      "identity_count": 1,
+      "model_family": "cnn_only",
+      "model_id": "cnn_only_mat",
+      "stages": [
+        "S0_EARLY_NO_GRADE",
+        "S1_MID_G1_ONLY",
+        "S2_LATE_G1_G2"
+      ]
+    },
+    {
+      "dataset": "student_mat",
+      "display_name": "BiLSTM-only",
+      "identity_count": 1,
+      "model_family": "bilstm_only",
+      "model_id": "bilstm_only_mat",
+      "stages": [
+        "S0_EARLY_NO_GRADE",
+        "S1_MID_G1_ONLY",
+        "S2_LATE_G1_G2"
+      ]
+    },
+    {
+      "dataset": "student_mat",
+      "display_name": "CNN-BiLSTM",
+      "identity_count": 1,
+      "model_family": "cnn_bilstm",
+      "model_id": "cnn_bilstm_mat",
+      "stages": [
+        "S0_EARLY_NO_GRADE",
+        "S1_MID_G1_ONLY",
+        "S2_LATE_G1_G2"
+      ]
+    },
+    {
+      "dataset": "student_por",
+      "display_name": "Logistic Regression",
+      "identity_count": 1,
+      "model_family": "logistic_regression",
+      "model_id": "logistic_regression_por",
+      "stages": [
+        "S0_EARLY_NO_GRADE",
+        "S1_MID_G1_ONLY",
+        "S2_LATE_G1_G2"
+      ]
+    },
+    {
+      "dataset": "student_por",
+      "display_name": "Decision Tree",
+      "identity_count": 1,
+      "model_family": "decision_tree",
+      "model_id": "decision_tree_por",
+      "stages": [
+        "S0_EARLY_NO_GRADE",
+        "S1_MID_G1_ONLY",
+        "S2_LATE_G1_G2"
+      ]
+    },
+    {
+      "dataset": "student_por",
+      "display_name": "Random Forest",
+      "identity_count": 1,
+      "model_family": "random_forest",
+      "model_id": "random_forest_por",
+      "stages": [
+        "S0_EARLY_NO_GRADE",
+        "S1_MID_G1_ONLY",
+        "S2_LATE_G1_G2"
+      ]
+    },
+    {
+      "dataset": "student_por",
+      "display_name": "HistGradientBoosting",
+      "identity_count": 1,
+      "model_family": "hist_gradient_boosting",
+      "model_id": "hist_gradient_boosting_por",
+      "stages": [
+        "S0_EARLY_NO_GRADE",
+        "S1_MID_G1_ONLY",
+        "S2_LATE_G1_G2"
+      ]
+    },
+    {
+      "dataset": "student_por",
+      "display_name": "SVM",
+      "identity_count": 1,
+      "model_family": "svm",
+      "model_id": "svm_por",
+      "stages": [
+        "S0_EARLY_NO_GRADE",
+        "S1_MID_G1_ONLY",
+        "S2_LATE_G1_G2"
+      ]
+    },
+    {
+      "dataset": "student_por",
+      "display_name": "XGBoost",
+      "identity_count": 1,
+      "model_family": "xgboost",
+      "model_id": "xgboost_por",
+      "stages": [
+        "S0_EARLY_NO_GRADE",
+        "S1_MID_G1_ONLY",
+        "S2_LATE_G1_G2"
+      ]
+    },
+    {
+      "dataset": "student_por",
+      "display_name": "MLP",
+      "identity_count": 1,
+      "model_family": "mlp",
+      "model_id": "mlp_por",
+      "stages": [
+        "S0_EARLY_NO_GRADE",
+        "S1_MID_G1_ONLY",
+        "S2_LATE_G1_G2"
+      ]
+    },
+    {
+      "dataset": "student_por",
+      "display_name": "CNN-only",
+      "identity_count": 1,
+      "model_family": "cnn_only",
+      "model_id": "cnn_only_por",
+      "stages": [
+        "S0_EARLY_NO_GRADE",
+        "S1_MID_G1_ONLY",
+        "S2_LATE_G1_G2"
+      ]
+    },
+    {
+      "dataset": "student_por",
+      "display_name": "BiLSTM-only",
+      "identity_count": 1,
+      "model_family": "bilstm_only",
+      "model_id": "bilstm_only_por",
+      "stages": [
+        "S0_EARLY_NO_GRADE",
+        "S1_MID_G1_ONLY",
+        "S2_LATE_G1_G2"
+      ]
+    },
+    {
+      "dataset": "student_por",
+      "display_name": "CNN-BiLSTM",
+      "identity_count": 1,
+      "model_family": "cnn_bilstm",
+      "model_id": "cnn_bilstm_por",
+      "stages": [
+        "S0_EARLY_NO_GRADE",
+        "S1_MID_G1_ONLY",
+        "S2_LATE_G1_G2"
+      ]
+    }
+  ],
+  "oulad": {
+    "retrained": false,
+    "stage": "F2_MIDDLE"
+  },
+  "schema_version": "unified_model_identity_v1",
+  "stage_result_rows_expected": 60,
+  "status": "PASS",
+  "uci_model_identities": 20
+}

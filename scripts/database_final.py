@@ -107,6 +107,7 @@ EXPECTED_TABLES = {
     "ml.run",
     "ml.artifact",
     "ml.metric",
+    "ml.prediction",
     "recommendation.policy",
     "recommendation.risk_profile",
     "recommendation.plan",
@@ -1023,6 +1024,7 @@ METRIC_NATURAL_KEY_COLUMNS = (
     "metric_name",
     "scope",
     "aggregation",
+    "prediction_stage",
     "class_label",
     "budget",
     "fold",
@@ -1037,9 +1039,10 @@ def normalize_metric_natural_key(
 ) -> tuple[Any, ...]:
     """Return the registered metric key with deterministic NULL semantics."""
     if isinstance(row, Mapping):
-        values = [row[column] for column in METRIC_NATURAL_KEY_COLUMNS]
+        values = [row.get(column) for column in METRIC_NATURAL_KEY_COLUMNS]
     else:
         values = [row[index] for index in _METRIC_TUPLE_KEY_INDEXES]
+        values.insert(4, None)
     return tuple(_NULL_KEY if value is None else _clean(value) for value in values)
 
 
@@ -1143,6 +1146,7 @@ target.run_id = source.run_id
 AND target.metric_name = source.metric_name
 AND target.scope = source.scope
 AND target.aggregation = source.aggregation
+AND target.prediction_stage IS NULL
 AND target.class_label IS NOT DISTINCT FROM source.class_label
 AND target.budget IS NOT DISTINCT FROM source.budget
 AND target.fold IS NOT DISTINCT FROM source.fold
@@ -1267,7 +1271,8 @@ def _reconcile_canonical_metrics(
         FROM canonical_metric_stage
         WHERE true
         ON CONFLICT (
-            run_id,metric_name,scope,aggregation,class_label,budget,fold,seed
+            run_id,metric_name,scope,aggregation,prediction_stage,
+            class_label,budget,fold,seed
         ) DO UPDATE SET
             metric_value = EXCLUDED.metric_value,
             unit = EXCLUDED.unit,
@@ -1887,7 +1892,7 @@ def validate_database(dsn: str, *, strict_public: bool) -> dict[str, Any]:
             )
             tables = {row["name"] for row in cursor.fetchall()}
             checks["expected_16_core_tables"] = tables == EXPECTED_TABLES
-            checks["final_base_table_count_at_most_18"] = len(tables) <= 18
+            checks["final_base_table_count_at_most_19"] = len(tables) <= 19
             cursor.execute(
                 """
                 SELECT count(*) AS count FROM information_schema.views
@@ -2214,7 +2219,14 @@ def _write_database_checksum_manifest(dsn: str) -> None:
 
 
 def _validate_database_checksum_manifest(dsn: str) -> dict[str, Any]:
-    path = ARTIFACT_ROOT / "checksum_manifest.json"
+    path = (
+        ROOT
+        / "artifacts"
+        / "refactor"
+        / "unified_database_checksum_manifest.json"
+        if "unified_replacement" in _database_name(dsn)
+        else ARTIFACT_ROOT / "checksum_manifest.json"
+    )
     if not path.is_file():
         raise FinalDatabaseError("Database checksum manifest is missing")
     manifest = _read_json(path)

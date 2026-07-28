@@ -65,6 +65,7 @@ def test_metric_natural_key_normalizes_nullable_fields():
         "<NULL>",
         "<NULL>",
         "<NULL>",
+        "<NULL>",
     )
     assert db.normalize_metric_natural_key(sequence) == (
         db.normalize_metric_natural_key(mapping)

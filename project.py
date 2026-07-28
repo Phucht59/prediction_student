@@ -101,19 +101,20 @@ def command_teacher_feedback_validate(_args: argparse.Namespace) -> int:
     return 0 if result["status"] == "PASS" else 1
 
 
-def command_early_warning(args: argparse.Namespace) -> int:
-    from src.studies import early_warning
+def command_unified_stage(args: argparse.Namespace) -> int:
+    from src.studies import unified_stage
 
     handlers = {
-        "prepare": early_warning.prepare,
-        "run": early_warning.run,
-        "validate": early_warning.validate,
-        "report": lambda: (early_warning.report() or {"status": "PASS"}),
-        "all": early_warning.all_steps,
+        "prepare": unified_stage.prepare,
+        "train": unified_stage.train,
+        "evaluate": unified_stage.evaluate,
+        "report": unified_stage.report,
+        "validate": unified_stage.validate,
+        "all": unified_stage.all_steps,
     }
-    result = handlers[args.early_warning_command]()
+    result = handlers[args.unified_stage_command]()
     print(json.dumps(result, indent=2))
-    return 0 if result.get("status") in {"PASS", "PREREGISTERED_BEFORE_OUTER_SCORING"} else 1
+    return 0 if result.get("status") == "PASS" else 1
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -156,15 +157,16 @@ def build_parser() -> argparse.ArgumentParser:
         "validate", help="Validate already-generated teacher-feedback evidence."
     )
     study_validate.set_defaults(handler=command_teacher_feedback_validate)
-    early = study_commands.add_parser(
-        "early-warning", help="Unified fair UCI timing benchmark."
+    unified = study_commands.add_parser(
+        "unified-stage",
+        help="One-estimator, three-stage UCI authority.",
     )
-    early_commands = early.add_subparsers(
-        dest="early_warning_command", required=True
+    unified_commands = unified.add_subparsers(
+        dest="unified_stage_command", required=True
     )
-    for name in ("prepare", "run", "validate", "report", "all"):
-        command = early_commands.add_parser(name)
-        command.set_defaults(handler=command_early_warning)
+    for name in ("prepare", "train", "evaluate", "report", "validate", "all"):
+        command = unified_commands.add_parser(name)
+        command.set_defaults(handler=command_unified_stage)
     return parser
 
 

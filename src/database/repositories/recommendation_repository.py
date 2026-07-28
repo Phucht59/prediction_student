@@ -6,16 +6,18 @@ from .base import Repository
 
 
 class RecommendationRepository(Repository):
-    def plan_for_record(self, source_record_id: str) -> dict | None:
+    def plan_for_record(
+        self, source_record_id: str, prediction_stage: str = "F2_MIDDLE"
+    ) -> dict | None:
         with self.connection.cursor(cursor_factory=RealDictCursor) as cursor:
             cursor.execute(
                 """
                 SELECT ps.*,p.payload
                 FROM recommendation.plan_summary ps
                 JOIN recommendation.plan p USING(plan_id)
-                WHERE ps.source_record_id=%s
+                WHERE ps.source_record_id=%s AND ps.prediction_stage=%s
                 """,
-                (source_record_id,),
+                (source_record_id, prediction_stage),
             )
             row = cursor.fetchone()
             return dict(row) if row else None
