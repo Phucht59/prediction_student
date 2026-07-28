@@ -167,6 +167,51 @@ def test_future_oulad_locked_expert_pending_and_xapi_absent() -> None:
     assert "xapi" not in payload["datasets"]
 
 
+def test_deep_timing_is_not_misrepresented() -> None:
+    payload = json.loads(
+        (TF_ROOT / "deep_timing_feasibility.json").read_text(encoding="utf-8")
+    )
+    assert payload["status"] == "NOT_RUN_ARCHITECTURE_NOT_COMPARABLE"
+    assert payload["decision"] == "CASE_B"
+    assert payload["findings"]["official_temporal_length"] == 2
+    assert payload["findings"]["explicit_timestep_mask_supported"] is False
+    assert payload["prohibited_actions_confirmed"]["fake_zero_filled_G2_used"] is False
+    assert (
+        payload["prohibited_actions_confirmed"][
+            "context_only_model_called_cnn_bilstm"
+        ]
+        is False
+    )
+
+
+def test_safe_baseline_revalidation_is_fully_disclosed() -> None:
+    payload = json.loads(
+        (TF_ROOT / "baseline_revalidation.json").read_text(encoding="utf-8")
+    )
+    assert payload["status"] == "PASS"
+    assert len(payload["rows"]) == 12
+    assert payload["protocol"]["same_frozen_outer_splits"] is True
+    assert payload["protocol"]["preprocessing_fit_training_only"] is True
+    assert payload["protocol"]["synthetic_resampling_used"] is False
+    assert payload["protocol"]["official_cnn_bilstm_affected"] is False
+
+
+def test_pre_closure_snapshot_freezes_canonical_state() -> None:
+    payload = json.loads(
+        (TF_ROOT / "pre_closure_checksum_snapshot.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    assert payload["closure_base_commit"] == (
+        "248ca8ca7f5f22a6e470dbc5dd1dc11c52231a31"
+    )
+    assert payload["comparator_contract"]["model_dataset_identities"] == 30
+    assert payload["recommendation"]["risk_profiles"] == 15378
+    assert payload["recommendation"]["plan_objects"] == 15378
+    assert payload["recommendation"]["actions"] == 27355
+    assert payload["future_oulad"] == "LOCKED_NOT_EXECUTED"
+
+
 def test_artifact_checksums_are_deterministic_and_valid() -> None:
     import hashlib
 

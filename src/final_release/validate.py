@@ -305,6 +305,9 @@ def validate() -> list[str]:
         "UCI_TIMING_SCENARIO_REPORT.md",
         "MLP_COMPARATOR_REPORT.md",
         "TEACHER_FEEDBACK_COMPLETION.md",
+        "UCI_BASELINE_REVALIDATION_REPORT.md",
+        "DATABASE_30_MODEL_CUTOVER_GUIDE.md",
+        "MERGE_READINESS.md",
     }
     _assert(
         required_reports <= {path.name for path in REPORT_ROOT.glob("*.md")},

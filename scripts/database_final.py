@@ -47,7 +47,7 @@ LOCKED_SOURCES = {
     FINAL_RESULTS: "000c185fb2fd9ba4b528e79d98636fdb17ee4586dbad197e9990717164b3681b",
     FINAL_RESULTS_CSV: "d2271c48bc6ed65a2836ec3b2430eef0777ad9f2b83f0d16092f389e57148b0f",
     MODEL_REGISTRY: "83415a32684557a970a7059a307ead51913562581e83c03e864550cd98bc268b",
-    FINAL_CHECKSUMS: "cc4fd84a6c26b27ea739dd9c59722f30511d5186578cc9af4e008f9ff547389b",
+    FINAL_CHECKSUMS: "32f5b10feeae6c70935c44746a51dbf1e64b038c4adef20432d9dc62f43914e9",
     RISK_PROFILES: "a0178477871e16b81eebc4ec50dd23567fa4df6ec5b9d75d9e75d14f7ebe5625",
     PLANS: "d34e61d0fbbaaa9a8db7299dba174caeb2bb92308bf99981788a05fb5ba06cc3",
     POLICY: "89f054fc62d035ec2d4789b4d65950363d5158d04396bff0c3c243bda7cb47d8",
@@ -1439,13 +1439,17 @@ def command_validate(args: argparse.Namespace) -> int:
     return 0
 
 
-def _validate_backup_manifest() -> dict[str, Any]:
-    if not BACKUP_MANIFEST.is_file():
-        raise FinalDatabaseError("Backup manifest missing")
-    manifest = _read_json(BACKUP_MANIFEST)
+def _validate_backup_manifest(
+    manifest_path: Path = BACKUP_MANIFEST,
+) -> dict[str, Any]:
+    manifest_path = manifest_path.resolve()
+    if not manifest_path.is_file():
+        raise FinalDatabaseError(f"Backup manifest missing: {manifest_path}")
+    manifest = _read_json(manifest_path)
     if manifest.get("status") != "PASS" or manifest.get("restore_test", {}).get("status") != "PASS":
         raise FinalDatabaseError("Backup/restore gate is not PASS")
-    if not BACKUP_PATH.is_file() or _sha256(BACKUP_PATH) != manifest["sha256"]:
+    backup_path = ROOT / "backups" / Path(manifest["backup_filename"]).name
+    if not backup_path.is_file() or _sha256(backup_path) != manifest["sha256"]:
         raise FinalDatabaseError("Backup checksum mismatch")
     return manifest
 
@@ -1576,10 +1580,16 @@ def _apply_migrations_target(dsn: str) -> None:
             connection.commit()
 
 
-def cutover(dsn: str, *, confirm: bool, drop_empty: bool) -> dict[str, Any]:
+def cutover(
+    dsn: str,
+    *,
+    confirm: bool,
+    drop_empty: bool,
+    backup_manifest: Path = BACKUP_MANIFEST,
+) -> dict[str, Any]:
     if not confirm:
         raise FinalDatabaseError("Cutover requires --confirm-production-cutover")
-    _validate_backup_manifest()
+    _validate_backup_manifest(backup_manifest)
     validation = _read_json(ARTIFACT_ROOT / "migration_validation.json")
     permissions = _read_json(ARTIFACT_ROOT / "permission_validation.json")
     if validation.get("status") != "PASS" or permissions.get("status") != "PASS":
@@ -1641,6 +1651,7 @@ def command_cutover(args: argparse.Namespace) -> int:
         dsn,
         confirm=args.confirm_production_cutover,
         drop_empty=args.confirm_drop_empty_legacy,
+        backup_manifest=Path(args.backup_manifest),
     )
     cutover_path = ARTIFACT_ROOT / "cutover_validation.json"
     if cutover_path.is_file() and not result["legacy_disposition"]:
@@ -1693,14 +1704,107 @@ def command_inventory(args: argparse.Namespace) -> int:
     return 0
 
 
-def command_plan(_args: argparse.Namespace) -> int:
-    mapping = yaml.safe_load((FINAL_ROOT / "LEGACY_TO_FINAL_MAPPING.yaml").read_text(encoding="utf-8"))
+def command_backup_check(args: argparse.Namespace) -> int:
+    manifest_path = Path(args.backup_manifest)
+    manifest = _validate_backup_manifest(manifest_path)
     result = {
         "status": "PASS",
+        "operation": "backup_check",
+        "manifest": str(manifest_path),
+        "backup_filename": manifest["backup_filename"],
+        "restore_test": manifest["restore_test"]["status"],
+        "cutover_performed": False,
+        "credentials": "REDACTED",
+    }
+    print(json.dumps(result))
+    return 0
+
+
+def command_plan(args: argparse.Namespace) -> int:
+    dsn = _dsn(args.dsn_env)
+    mapping = yaml.safe_load((FINAL_ROOT / "LEGACY_TO_FINAL_MAPPING.yaml").read_text(encoding="utf-8"))
+    with _connect(dsn, readonly=True) as connection:
+        with connection.cursor(cursor_factory=RealDictCursor) as cursor:
+            cursor.execute(
+                """
+                SELECT current_database() AS database,
+                       to_regclass('ml.model') IS NOT NULL AS final_schema_present,
+                       (SELECT count(*) FROM information_schema.tables
+                        WHERE table_type='BASE TABLE' AND table_schema='public')
+                           AS public_tables
+                """
+            )
+            database = dict(cursor.fetchone())
+            model_count = None
+            risk_profile_count = None
+            plan_count = None
+            action_count = None
+            if database["final_schema_present"]:
+                cursor.execute("SELECT count(*) AS count FROM ml.model")
+                model_count = int(cursor.fetchone()["count"])
+                cursor.execute("SELECT count(*) AS count FROM recommendation.risk_profile")
+                risk_profile_count = int(cursor.fetchone()["count"])
+                cursor.execute("SELECT count(*) AS count FROM recommendation.plan")
+                plan_count = int(cursor.fetchone()["count"])
+                cursor.execute("SELECT count(*) AS count FROM recommendation.action")
+                action_count = int(cursor.fetchone()["count"])
+        connection.rollback()
+    backup_ready = False
+    backup_error = None
+    try:
+        _validate_backup_manifest(Path(args.backup_manifest))
+        backup_ready = True
+    except FinalDatabaseError as error:
+        backup_error = str(error)
+    validation_ready = (
+        (ARTIFACT_ROOT / "migration_validation.json").is_file()
+        and _read_json(ARTIFACT_ROOT / "migration_validation.json").get("status")
+        == "PASS"
+    )
+    permissions_ready = (
+        (ARTIFACT_ROOT / "permission_validation.json").is_file()
+        and _read_json(ARTIFACT_ROOT / "permission_validation.json").get("status")
+        == "PASS"
+    )
+    result = {
+        "status": "PASS",
+        "operation": "dry_run_plan",
+        "dry_run": True,
+        "cutover_performed": False,
+        "cutover_authorized": False,
+        "database": database["database"],
+        "endpoint": _redacted(dsn),
+        "current": {
+            "final_schema_present": database["final_schema_present"],
+            "model_dataset_identities": model_count,
+            "risk_profiles": risk_profile_count,
+            "plan_objects": plan_count,
+            "actions": action_count,
+            "public_tables": int(database["public_tables"]),
+        },
+        "expected_after_cutover": {
+            "model_dataset_identities": 30,
+            "risk_profiles": 15378,
+            "plan_objects": 15378,
+            "actions": 27355,
+            "expert_reviews_fabricated": False,
+        },
+        "preconditions": {
+            "backup_restore_gate": "PASS" if backup_ready else "NOT_READY",
+            "backup_error": backup_error,
+            "disposable_migration_validation": (
+                "PASS" if validation_ready else "NOT_READY"
+            ),
+            "permission_validation": (
+                "PASS" if permissions_ready else "NOT_READY"
+            ),
+            "explicit_confirmation_required": True,
+        },
         "mapping_count": len(mapping["mappings"]),
         "core_tables": len(EXPECTED_TABLES),
         "views": 2,
         "protocol": "final_database_consolidation_v1",
+        "credentials": "REDACTED",
     }
     print(json.dumps(result))
     return 0
@@ -1741,7 +1845,14 @@ def _build_parser() -> argparse.ArgumentParser:
     backup.add_argument("--dsn-env", default="POSTGRES_TEST_DSN")
     backup.add_argument("--restore-database", default="student_predict_restore_test")
     backup.set_defaults(handler=command_backup)
+    backup_check = commands.add_parser("backup-check")
+    backup_check.add_argument(
+        "--backup-manifest", default=str(BACKUP_MANIFEST)
+    )
+    backup_check.set_defaults(handler=command_backup_check)
     plan = commands.add_parser("plan")
+    plan.add_argument("--dsn-env", default="POSTGRES_TEST_DSN")
+    plan.add_argument("--backup-manifest", default=str(BACKUP_MANIFEST))
     plan.set_defaults(handler=command_plan)
     migrate = commands.add_parser("migrate")
     migrate.add_argument("--dsn-env", default="FINAL_DATABASE_URL")

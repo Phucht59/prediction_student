@@ -55,7 +55,7 @@
     },
     {
       "path": "artifacts/final/checksum_manifest.json",
-      "sha256": "cc4fd84a6c26b27ea739dd9c59722f30511d5186578cc9af4e008f9ff547389b"
+      "sha256": "32f5b10feeae6c70935c44746a51dbf1e64b038c4adef20432d9dc62f43914e9"
     },
     {
       "path": "artifacts/final/checksums/checkpoint_manifest.json",
@@ -1226,8 +1226,16 @@
       "sha256": "ad697160b3b3b48da2a9743760c3f1dfa061a66dd433f7ffd28b942386ec000d"
     },
     {
+      "path": "artifacts/final/teacher_feedback_validation/baseline_revalidation.json",
+      "sha256": "83bb709f5280e79a9a057ff29cd04f1bc8a01fa7965a52e4b04d865c6ec225ef"
+    },
+    {
       "path": "artifacts/final/teacher_feedback_validation/checksum_manifest.json",
-      "sha256": "012a1e9e9ea35e1c504d4cb2e3557b0d773071265be22b65c3e611250f3a6104"
+      "sha256": "269bb53590e79cbca6d28b25d133ce62868ed22f9b8e7172fc46cb814e01afc1"
+    },
+    {
+      "path": "artifacts/final/teacher_feedback_validation/deep_timing_feasibility.json",
+      "sha256": "8728d05714be3989e66e602fb71fa91e708b86108a5d64b12ef004d0f5929404"
     },
     {
       "path": "artifacts/final/teacher_feedback_validation/evaluation_contract.json",
@@ -1292,6 +1300,10 @@
     {
       "path": "artifacts/final/teacher_feedback_validation/paired_bootstrap_cnn_bilstm_vs_mlp.csv",
       "sha256": "55a8555702274f078a689f84ab332c37c1f106bd0d47371f9b98dc8876b1e72f"
+    },
+    {
+      "path": "artifacts/final/teacher_feedback_validation/pre_closure_checksum_snapshot.json",
+      "sha256": "b0eb05d136bbb8013bbac0628bd5394686af6f549e094e14d44ea9fab53a9534"
     },
     {
       "path": "artifacts/final/teacher_feedback_validation/regression_guard_after.json",

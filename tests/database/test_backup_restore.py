@@ -2,6 +2,8 @@ import hashlib
 import json
 from pathlib import Path
 
+from scripts.database_final import _build_parser
+
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -22,3 +24,15 @@ def test_backup_restore_pass():
     )
     assert manifest["restore_test"]["status"] == "PASS"
     assert manifest["restore_test"]["schema_hash"] == manifest["starting_schema_hash"]
+
+
+def test_backup_check_and_plan_commands_are_explicit():
+    parser = _build_parser()
+    backup_check = parser.parse_args(
+        ["backup-check", "--backup-manifest", "custom-manifest.json"]
+    )
+    assert backup_check.command == "backup-check"
+    assert backup_check.backup_manifest == "custom-manifest.json"
+    plan = parser.parse_args(["plan", "--dsn-env", "POSTGRES_TEST_DSN"])
+    assert plan.command == "plan"
+    assert plan.dsn_env == "POSTGRES_TEST_DSN"

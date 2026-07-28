@@ -2123,31 +2123,45 @@ def write_reports() -> None:
 
     requirements = [
         (
-            "G3 definition",
+            "G3 is final grade 0-20",
             "teacher_feedback_validation/uci_target_contract.json",
             "PASS",
         ),
         (
-            "Low/Medium/High thresholds",
+            "Low 0-9",
             "teacher_feedback_validation/uci_target_contract.json",
             "PASS",
         ),
-        ("G3 leakage", "uci_timing_scenarios/leakage_validation.json", "PASS"),
-        ("Early no-G1/G2 scenario", "uci_timing_scenarios/", "PASS"),
-        ("G1-only scenario", "uci_timing_scenarios/", "PASS"),
-        ("G1+G2 scenario", "uci_timing_scenarios/", "PASS"),
         (
-            "MLP baseline MAT",
+            "Medium 10-14",
+            "teacher_feedback_validation/uci_target_contract.json",
+            "PASS",
+        ),
+        (
+            "High 15-20",
+            "teacher_feedback_validation/uci_target_contract.json",
+            "PASS",
+        ),
+        (
+            "G3 excluded from predictors",
+            "uci_timing_scenarios/leakage_validation.json",
+            "PASS",
+        ),
+        ("S0 no G1/G2", "uci_timing_scenarios/leakage_validation.json", "PASS"),
+        ("S1 G1 only", "uci_timing_scenarios/leakage_validation.json", "PASS"),
+        ("S2 G1+G2", "uci_timing_scenarios/leakage_validation.json", "PASS"),
+        (
+            "MLP MAT",
             "teacher_feedback_validation/mlp_comparator/student_mat/",
             "PASS",
         ),
         (
-            "MLP baseline POR",
+            "MLP POR",
             "teacher_feedback_validation/mlp_comparator/student_por/",
             "PASS",
         ),
         (
-            "MLP baseline OULAD",
+            "MLP OULAD",
             "teacher_feedback_validation/mlp_comparator/oulad/",
             "PASS",
         ),
@@ -2157,23 +2171,43 @@ def write_reports() -> None:
             "PASS",
         ),
         (
+            "outer not used for tuning",
+            "teacher_feedback_validation/evaluation_contract.json",
+            "PASS",
+        ),
+        (
             "train-only preprocessing",
             "teacher_feedback_validation/evaluation_contract.json",
             "PASS",
         ),
         (
-            "paired comparison",
+            "invalid ADASYN/SMOTE removed",
+            "teacher_feedback_validation/imbalance_safety_audit.json",
+            "PASS",
+        ),
+        (
+            "synthetic oversampling OULAD tensor",
+            "teacher_feedback_validation/imbalance_safety_audit.json",
+            "ABSENT",
+        ),
+        (
+            "CNN-vs-MLP bootstrap MAT",
             "teacher_feedback_validation/paired_bootstrap_cnn_bilstm_vs_mlp.csv",
             "PASS",
         ),
         (
-            "ADASYN categorical safety",
-            "teacher_feedback_validation/imbalance_safety_audit.json",
+            "CNN-vs-MLP bootstrap POR",
+            "teacher_feedback_validation/paired_bootstrap_cnn_bilstm_vs_mlp.csv",
             "PASS",
         ),
         (
-            "OULAD tensor oversampling",
-            "teacher_feedback_validation/imbalance_safety_audit.json",
+            "CNN-vs-MLP bootstrap OULAD",
+            "teacher_feedback_validation/paired_bootstrap_cnn_bilstm_vs_mlp.csv",
+            "PASS",
+        ),
+        (
+            "xAPI absent",
+            "teacher_feedback_validation/regression_guard_after.json",
             "PASS",
         ),
         (
@@ -2182,9 +2216,14 @@ def write_reports() -> None:
             "PASS",
         ),
         (
-            "xAPI absent from final",
-            "teacher_feedback_validation/regression_guard_after.json",
-            "PASS",
+            "expert labels pending",
+            "recommendation/expert_evaluation/expert_metrics.json",
+            "EXPECTED",
+        ),
+        (
+            "DEEP_TIMING_DIAGNOSTIC",
+            "teacher_feedback_validation/deep_timing_feasibility.json",
+            "NOT_RUN_ARCHITECTURE_NOT_COMPARABLE",
         ),
     ]
     completion_lines = [
@@ -2203,6 +2242,11 @@ def write_reports() -> None:
         "The historical unsafe plain-SMOTE/ADASYN UCI baseline path is disclosed "
         "in the imbalance audit and is not used by this completion evidence. "
         "Safe S2 classical revalidation uses no synthetic resampling.",
+        "",
+        "Deep timing is intentionally not run. The frozen UCI hybrid requires "
+        "exactly two grade timesteps and has no explicit availability mask; "
+        "manufacturing S0/S1 inputs would not be an architecture-comparable test. "
+        "The standalone MLP study is the registered information-availability diagnostic.",
     ]
     (report_root / "TEACHER_FEEDBACK_COMPLETION.md").write_text(
         "\n".join(completion_lines) + "\n",
@@ -2276,6 +2320,9 @@ def validate_study() -> dict[str, Any]:
         TF_ROOT / "split_equivalence.json",
         TF_ROOT / "evaluation_contract.json",
         TF_ROOT / "imbalance_safety_audit.json",
+        TF_ROOT / "pre_closure_checksum_snapshot.json",
+        TF_ROOT / "deep_timing_feasibility.json",
+        TF_ROOT / "baseline_revalidation.json",
         TF_ROOT / "paired_bootstrap_cnn_bilstm_vs_mlp.csv",
         TIMING_ROOT / "protocol.json",
         TIMING_ROOT / "student_mat_metrics.csv",
@@ -2297,6 +2344,25 @@ def validate_study() -> dict[str, Any]:
         )
         if imbalance["status"] != "PASS":
             errors.append("imbalance safety audit failed")
+        deep_timing = json.loads(
+            (TF_ROOT / "deep_timing_feasibility.json").read_text(encoding="utf-8")
+        )
+        if (
+            deep_timing.get("status")
+            != "NOT_RUN_ARCHITECTURE_NOT_COMPARABLE"
+            or deep_timing.get("decision") != "CASE_B"
+        ):
+            errors.append("deep timing feasibility decision changed")
+        baseline = json.loads(
+            (TF_ROOT / "baseline_revalidation.json").read_text(encoding="utf-8")
+        )
+        if (
+            baseline.get("status") != "PASS"
+            or len(baseline.get("rows", [])) != 12
+            or baseline.get("protocol", {}).get("synthetic_resampling_used")
+            is not False
+        ):
+            errors.append("UCI baseline revalidation evidence failed")
         split = json.loads(
             (TF_ROOT / "split_equivalence.json").read_text(encoding="utf-8")
         )
