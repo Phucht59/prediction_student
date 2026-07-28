@@ -386,6 +386,162 @@ def build_payload() -> dict[str, Any]:
                     "source_checksums": item["source_checksums"],
                 }
             )
+        teacher_root = FINAL_ROOT / "teacher_feedback_validation"
+        feature_contracts = load_json(completion_root / "feature_contract.json")[
+            "contracts"
+        ]
+        split_hashes = load_json(
+            completion_root / "split_manifest_checksums.json"
+        )
+
+        def teacher_row(
+            raw: dict[str, Any],
+            prediction_path: Path,
+            seed_path: Path,
+            *,
+            evidence_origin: str,
+        ) -> dict[str, Any]:
+            model_id = raw["model_id"]
+            labels = (
+                ["Not-at-risk", "At-risk"]
+                if dataset == "oulad"
+                else ["Low", "Medium", "High"]
+            )
+            protocol_path = ROOT / "configs" / "final" / "mlp_comparator.yaml"
+            if dataset != "oulad" and model_id != "mlp":
+                protocol_path = (
+                    ROOT / "configs" / "final" / "uci_timing_scenarios.yaml"
+                )
+            provenance = {
+                "calculation_method": (
+                    "recomputed_from_record_aligned_ensemble_probability"
+                ),
+                "feature_contract_hash": feature_contracts[dataset]["sha256"],
+                "protocol_hash": sha256(protocol_path),
+                "source_artifact": relative(prediction_path),
+                "source_checksum": sha256(prediction_path),
+                "split_manifest_hash": split_hashes[dataset],
+            }
+            metric_values = {
+                name: {"value": raw[name], **provenance}
+                for name in (
+                    "accuracy",
+                    "balanced_accuracy",
+                    "macro_precision",
+                    "macro_recall",
+                    "macro_f1",
+                    "weighted_f1",
+                    "pr_auc",
+                    "roc_auc",
+                    "brier",
+                    "nll",
+                    "ece",
+                )
+            }
+            if dataset == "oulad":
+                at_risk = raw["per_class"]["At-risk"]
+                metric_values.update(
+                    {
+                        "risk_precision": {
+                            "value": at_risk["precision"],
+                            **provenance,
+                        },
+                        "risk_recall": {
+                            "value": at_risk["recall"],
+                            **provenance,
+                        },
+                        "risk_f1": {"value": at_risk["f1"], **provenance},
+                    }
+                )
+            class_values = [
+                {
+                    "class": label,
+                    **{
+                        name: {
+                            "value": raw["per_class"][label][name],
+                            **provenance,
+                        }
+                        for name in ("precision", "recall", "f1", "support")
+                    },
+                }
+                for label in labels
+            ]
+            top_k: list[dict[str, Any]] = []
+            if dataset == "oulad":
+                prediction = pd.read_parquet(prediction_path)
+                for budget in (0.01, 0.05, 0.10):
+                    values = top_k_metrics(
+                        prediction["true_label"].to_numpy(dtype=int),
+                        prediction["p_at_risk"].to_numpy(dtype=float),
+                        prediction["record_id"].to_numpy(),
+                        budget,
+                    )
+                    top_k.append(
+                        {
+                            "budget": budget,
+                            "k": int(math.ceil(len(prediction) * budget)),
+                            **{
+                                key: {
+                                    "value": float(values[source]),
+                                    **provenance,
+                                }
+                                for key, source in (
+                                    ("precision", "precision"),
+                                    ("recall", "recall"),
+                                    ("f1", "f1"),
+                                    ("ndcg", "ndcg"),
+                                )
+                            },
+                        }
+                    )
+            sources = [prediction_path, seed_path, protocol_path]
+            return {
+                "model_id": model_id,
+                "model": raw["model"],
+                "result_scope": "FINAL_PROBABILITY_ENSEMBLE",
+                "metrics": metric_values,
+                "per_class": class_values,
+                "confusion_matrix": {
+                    "value": raw["confusion_matrix"],
+                    **provenance,
+                },
+                "top_k": top_k,
+                "seed_stability": raw["seed_stability"],
+                "evidence_origin": evidence_origin,
+                "protocol_id": "teacher-feedback-completion-20260728-v1",
+                "source_artifacts": [relative(path) for path in sources],
+                "source_checksums": {
+                    relative(path): sha256(path) for path in sources
+                },
+            }
+
+        if dataset in {"student_mat", "student_por"}:
+            safe_root = teacher_root / "safe_uci_comparators" / dataset
+            safe = load_json(safe_root / "metrics.json")
+            safe_rows = {
+                item["model_id"]: teacher_row(
+                    item,
+                    safe_root / "oof_predictions.parquet",
+                    safe_root / "seed_predictions.parquet",
+                    evidence_origin="teacher_feedback_safe_revalidation",
+                )
+                for item in safe["models"]
+            }
+            rows = [
+                safe_rows.get(row["model_id"], row)
+                for row in rows
+            ]
+            rows.append(safe_rows["mlp"])
+        else:
+            mlp_root = teacher_root / "mlp_comparator" / "oulad"
+            rows.append(
+                teacher_row(
+                    load_json(mlp_root / "metrics.json"),
+                    mlp_root / "oof_predictions.parquet",
+                    mlp_root / "seed_predictions.parquet",
+                    evidence_origin="teacher_feedback_mlp_completion",
+                )
+            )
         expected = [model_id for model_id, _ in COMPARISON_MODELS]
         if [row["model_id"] for row in rows] != expected:
             raise RuntimeError(f"{dataset} completed model order mismatch")
@@ -503,6 +659,18 @@ def build_registry() -> dict[str, Any]:
             / "recommendation"
             / "recommendation_technical_validation.json"
         ),
+    }
+    registry["comparator_catalog"] = {
+        model_id: {
+            "model_id": model_id,
+            "display_name": display_name,
+            "role": "official_selected_family"
+            if model_id == "cnn_bilstm"
+            else "standalone_comparator",
+            "datasets": ["student_mat", "student_por", "oulad"],
+            "selected": model_id == "cnn_bilstm",
+        }
+        for model_id, display_name in COMPARISON_MODELS
     }
     write_text_lf(
         FINAL_ROOT / "model_registry.json",

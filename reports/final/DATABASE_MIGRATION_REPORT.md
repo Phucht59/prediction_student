@@ -25,8 +25,8 @@
 | Datasets | final release JSON | `catalog.dataset` | 3 | PASS |
 | Dataset versions | checksummed OOF contracts | `catalog.dataset_version` | 3 | PASS |
 | Cohort records | record-aligned OOF/risk artifacts | `catalog.record` | 16,422 | PASS |
-| Model–dataset identities | final results | `ml.model` | 27 | PASS |
-| Final runs | final results | `ml.run` | 27 | PASS |
+| Model–dataset identities | final results | `ml.model` | 30 | PASS |
+| Final runs | final results | `ml.run` | 30 | PASS |
 | Artifacts | locked source registries | `ml.artifact` | 81 | PASS |
 | Metrics | overall/class/Top-k/multitask/recommendation | `ml.metric` | 891 | PASS |
 | Risk profiles | risk profile parquet | `recommendation.risk_profile` | 15,378 | PASS |

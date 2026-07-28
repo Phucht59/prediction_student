@@ -59,5 +59,117 @@
     "source_commit": "9611bfc1e7ff594f64f19fe3144a105216388954",
     "source_artifact_path": "artifacts/final/recommendation/recommendation_technical_validation.json",
     "source_checksum": "7bc8ccc48ad1bc8bfdddd74377ba184ef8fc535f4f686e07ee5ff15f6a2f1123"
+  },
+  "comparator_catalog": {
+    "cnn_bilstm": {
+      "model_id": "cnn_bilstm",
+      "display_name": "CNN-BiLSTM",
+      "role": "official_selected_family",
+      "datasets": [
+        "student_mat",
+        "student_por",
+        "oulad"
+      ],
+      "selected": true
+    },
+    "cnn_only": {
+      "model_id": "cnn_only",
+      "display_name": "CNN-only",
+      "role": "standalone_comparator",
+      "datasets": [
+        "student_mat",
+        "student_por",
+        "oulad"
+      ],
+      "selected": false
+    },
+    "bilstm_only": {
+      "model_id": "bilstm_only",
+      "display_name": "BiLSTM-only",
+      "role": "standalone_comparator",
+      "datasets": [
+        "student_mat",
+        "student_por",
+        "oulad"
+      ],
+      "selected": false
+    },
+    "logistic_regression": {
+      "model_id": "logistic_regression",
+      "display_name": "Logistic Regression",
+      "role": "standalone_comparator",
+      "datasets": [
+        "student_mat",
+        "student_por",
+        "oulad"
+      ],
+      "selected": false
+    },
+    "decision_tree": {
+      "model_id": "decision_tree",
+      "display_name": "Decision Tree",
+      "role": "standalone_comparator",
+      "datasets": [
+        "student_mat",
+        "student_por",
+        "oulad"
+      ],
+      "selected": false
+    },
+    "random_forest": {
+      "model_id": "random_forest",
+      "display_name": "Random Forest",
+      "role": "standalone_comparator",
+      "datasets": [
+        "student_mat",
+        "student_por",
+        "oulad"
+      ],
+      "selected": false
+    },
+    "hist_gradient_boosting": {
+      "model_id": "hist_gradient_boosting",
+      "display_name": "HistGradientBoosting",
+      "role": "standalone_comparator",
+      "datasets": [
+        "student_mat",
+        "student_por",
+        "oulad"
+      ],
+      "selected": false
+    },
+    "svm": {
+      "model_id": "svm",
+      "display_name": "SVM",
+      "role": "standalone_comparator",
+      "datasets": [
+        "student_mat",
+        "student_por",
+        "oulad"
+      ],
+      "selected": false
+    },
+    "xgboost": {
+      "model_id": "xgboost",
+      "display_name": "XGBoost",
+      "role": "standalone_comparator",
+      "datasets": [
+        "student_mat",
+        "student_por",
+        "oulad"
+      ],
+      "selected": false
+    },
+    "mlp": {
+      "model_id": "mlp",
+      "display_name": "MLP",
+      "role": "standalone_comparator",
+      "datasets": [
+        "student_mat",
+        "student_por",
+        "oulad"
+      ],
+      "selected": false
+    }
   }
 }

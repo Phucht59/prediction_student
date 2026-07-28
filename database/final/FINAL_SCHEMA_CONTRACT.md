@@ -2,7 +2,7 @@
 
 Contract ID: `final_database_v1`
 
-The active application database contains exactly four schemas, 13 core base
+The active application database contains exactly four schemas, 16 core base
 tables, and two ordinary views. Large predictions, probability matrices,
 checkpoints, split members, feature snapshots, and bootstrap samples remain
 file artifacts; PostgreSQL stores their path, checksum, size, row count, and
@@ -16,7 +16,7 @@ metadata.
 | catalog | dataset | slug | Three canonical datasets |
 | catalog | dataset_version | dataset + version label | Sealed input contract |
 | catalog | record | dataset version + source record ID | Final cohort record |
-| ml | model | dataset + model key | 27 model–dataset identities |
+| ml | model | dataset + model key | 30 model–dataset identities |
 | ml | run | model + dataset version + result scope | Final/evaluation run |
 | ml | artifact | run + kind + path | One checksummed artifact registry |
 | ml | metric | run + metric dimensions | Overall, class, top-k and calibration metrics |
@@ -25,11 +25,14 @@ metadata.
 | recommendation | plan | risk profile + revision | Final recommendation plan |
 | recommendation | action | plan + action code + week + priority | Ordered interventions |
 | recommendation | review | plan/action + review identity | Advisor, expert, follow-up, validation review |
+| recommendation | expert_review_case | case ID | Prepared expert-evaluation case without labels |
+| recommendation | expert_plan_review | case + reviewer | Future real expert plan label |
+| recommendation | expert_action_review | case + reviewer + action | Future real expert action label |
 
 ## Required counts and state
 
 - `catalog.dataset`: 3.
-- `ml.model`: 27, exactly nine models per dataset.
+- `ml.model`: 30, exactly ten models per dataset.
 - `recommendation.risk_profile`: 15,378.
 - `recommendation.plan`: 15,378.
 - `recommendation.action`: exact count from the locked plan artifact.

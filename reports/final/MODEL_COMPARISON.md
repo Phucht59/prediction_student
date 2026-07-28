@@ -1,6 +1,6 @@
 # Model Comparison
 
-The unified nine-model tables in `FINAL_MODEL_RESULTS.md` are final comparator
+The unified ten-model tables in `FINAL_MODEL_RESULTS.md` are final comparator
 evidence. CNN-only and BiLSTM-only are final architecture comparators.
 
 The engineered XGBoost operational cross-check has Macro-F1

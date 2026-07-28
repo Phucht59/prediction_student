@@ -11,12 +11,13 @@ Precision and Recall in the overall table are macro averages.
 | CNN-BiLSTM | 0.8911 | 0.9021 | 0.9031 | 0.9021 | 0.9015 | 0.8917 | 0.9442 | 0.9679 | 0.2072 | 0.3635 | 0.1305 |
 | CNN-only | 0.8658 | 0.8778 | 0.8648 | 0.8778 | 0.8708 | 0.8656 | 0.9300 | 0.9631 | 0.2278 | 0.3892 | 0.1222 |
 | BiLSTM-only | 0.8354 | 0.8517 | 0.8330 | 0.8517 | 0.8397 | 0.8347 | 0.8950 | 0.9468 | 0.3069 | 0.5101 | 0.1808 |
-| Logistic Regression | 0.8734 | 0.8777 | 0.8810 | 0.8777 | 0.8793 | 0.8735 | 0.9500 | 0.9699 | 0.1813 | 0.2952 | 0.0224 |
-| Decision Tree | 0.8987 | 0.9041 | 0.9128 | 0.9041 | 0.9067 | 0.8993 | 0.8609 | 0.9300 | 0.1816 | 0.4272 | 0.0128 |
-| Random Forest | 0.8937 | 0.9027 | 0.9028 | 0.9027 | 0.9014 | 0.8940 | 0.9550 | 0.9720 | 0.1669 | 0.2799 | 0.0328 |
-| HistGradientBoosting | 0.8709 | 0.8776 | 0.8799 | 0.8776 | 0.8785 | 0.8711 | 0.9318 | 0.9609 | 0.1889 | 0.3593 | 0.0594 |
-| SVM | 0.8101 | 0.8126 | 0.8162 | 0.8126 | 0.8143 | 0.8101 | 0.8827 | 0.9316 | 0.2702 | 0.4449 | 0.0491 |
-| XGBoost | 0.8785 | 0.8828 | 0.8942 | 0.8828 | 0.8880 | 0.8790 | 0.9506 | 0.9689 | 0.1730 | 0.2961 | 0.0381 |
+| Logistic Regression | 0.8861 | 0.8977 | 0.8929 | 0.8977 | 0.8952 | 0.8859 | 0.9612 | 0.9736 | 0.1707 | 0.2728 | 0.0369 |
+| Decision Tree | 0.8937 | 0.9018 | 0.9055 | 0.9018 | 0.9024 | 0.8942 | 0.9144 | 0.9539 | 0.1765 | 1.0421 | 0.0477 |
+| Random Forest | 0.8911 | 0.8939 | 0.9073 | 0.8939 | 0.8998 | 0.8917 | 0.9625 | 0.9761 | 0.1594 | 0.2672 | 0.0321 |
+| HistGradientBoosting | 0.8608 | 0.8673 | 0.8722 | 0.8673 | 0.8697 | 0.8609 | 0.9354 | 0.9593 | 0.2383 | 0.5281 | 0.1014 |
+| SVM | 0.8633 | 0.8747 | 0.8676 | 0.8747 | 0.8710 | 0.8631 | 0.9508 | 0.9687 | 0.1855 | 0.3039 | 0.0300 |
+| XGBoost | 0.8734 | 0.8785 | 0.8849 | 0.8785 | 0.8815 | 0.8737 | 0.9500 | 0.9711 | 0.1705 | 0.2814 | 0.0375 |
+| MLP | 0.8532 | 0.8621 | 0.8570 | 0.8621 | 0.8595 | 0.8531 | 0.9503 | 0.9687 | 0.1985 | 0.3385 | 0.0797 |
 
 ## Per-class results
 
@@ -32,23 +33,26 @@ Precision and Recall in the overall table are macro averages.
 | BiLSTM-only | Medium | 0.8757 | 0.7708 | 0.8199 | 192 |
 | BiLSTM-only | High | 0.8312 | 0.8767 | 0.8533 | 73 |
 | Logistic Regression | Low | 0.8605 | 0.8538 | 0.8571 | 130 |
-| Logistic Regression | Medium | 0.8660 | 0.8750 | 0.8705 | 192 |
-| Logistic Regression | High | 0.9167 | 0.9041 | 0.9103 | 73 |
-| Decision Tree | Low | 0.8356 | 0.9385 | 0.8841 | 130 |
-| Decision Tree | Medium | 0.9176 | 0.8698 | 0.8930 | 192 |
-| Decision Tree | High | 0.9851 | 0.9041 | 0.9429 | 73 |
-| Random Forest | Low | 0.8345 | 0.9308 | 0.8800 | 130 |
-| Random Forest | Medium | 0.9167 | 0.8594 | 0.8871 | 192 |
-| Random Forest | High | 0.9571 | 0.9178 | 0.9371 | 73 |
-| HistGradientBoosting | Low | 0.8370 | 0.8692 | 0.8528 | 130 |
-| HistGradientBoosting | Medium | 0.8730 | 0.8594 | 0.8661 | 192 |
+| Logistic Regression | Medium | 0.8848 | 0.8802 | 0.8825 | 192 |
+| Logistic Regression | High | 0.9333 | 0.9589 | 0.9459 | 73 |
+| Decision Tree | Low | 0.8333 | 0.9231 | 0.8759 | 130 |
+| Decision Tree | Medium | 0.9121 | 0.8646 | 0.8877 | 192 |
+| Decision Tree | High | 0.9710 | 0.9178 | 0.9437 | 73 |
+| Random Forest | Low | 0.8467 | 0.8923 | 0.8689 | 130 |
+| Random Forest | Medium | 0.8901 | 0.8854 | 0.8877 | 192 |
+| Random Forest | High | 0.9851 | 0.9041 | 0.9429 | 73 |
+| HistGradientBoosting | Low | 0.8321 | 0.8385 | 0.8352 | 130 |
+| HistGradientBoosting | Medium | 0.8549 | 0.8594 | 0.8571 | 192 |
 | HistGradientBoosting | High | 0.9296 | 0.9041 | 0.9167 | 73 |
-| SVM | Low | 0.8160 | 0.7846 | 0.8000 | 130 |
-| SVM | Medium | 0.7970 | 0.8177 | 0.8072 | 192 |
-| SVM | High | 0.8356 | 0.8356 | 0.8356 | 73 |
-| XGBoost | Low | 0.8370 | 0.8692 | 0.8528 | 130 |
-| XGBoost | Medium | 0.8750 | 0.8750 | 0.8750 | 192 |
-| XGBoost | High | 0.9706 | 0.9041 | 0.9362 | 73 |
+| SVM | Low | 0.8450 | 0.8385 | 0.8417 | 130 |
+| SVM | Medium | 0.8632 | 0.8542 | 0.8586 | 192 |
+| SVM | High | 0.8947 | 0.9315 | 0.9128 | 73 |
+| XGBoost | Low | 0.8421 | 0.8615 | 0.8517 | 130 |
+| XGBoost | Medium | 0.8698 | 0.8698 | 0.8698 | 192 |
+| XGBoost | High | 0.9429 | 0.9041 | 0.9231 | 73 |
+| MLP | Low | 0.8385 | 0.8385 | 0.8385 | 130 |
+| MLP | Medium | 0.8526 | 0.8438 | 0.8482 | 192 |
+| MLP | High | 0.8800 | 0.9041 | 0.8919 | 73 |
 
 ## Confusion matrices
 
@@ -80,30 +84,30 @@ Precision and Recall in the overall table are macro averages.
 
 ```text
 111 19 0
-18 168 6
-0 7 66
+18 169 5
+0 3 70
 ```
 
 ### Decision Tree
 
 ```text
-122 8 0
-24 167 1
-0 7 66
+120 10 0
+24 166 2
+0 6 67
 ```
 
 ### Random Forest
 
 ```text
-121 9 0
-24 165 3
-0 6 67
+116 14 0
+21 170 1
+0 7 66
 ```
 
 ### HistGradientBoosting
 
 ```text
-113 17 0
+109 21 0
 22 165 5
 0 7 66
 ```
@@ -111,19 +115,28 @@ Precision and Recall in the overall table are macro averages.
 ### SVM
 
 ```text
-102 28 0
-23 157 12
-0 12 61
+109 21 0
+20 164 8
+0 5 68
 ```
 
 ### XGBoost
 
 ```text
-113 17 0
-22 168 2
+112 18 0
+21 167 4
+0 7 66
+```
+
+### MLP
+
+```text
+109 21 0
+21 162 9
 0 7 66
 ```
 
 ## Evidence sources
 
 - `artifacts/final/comparator_completion/student_mat/oof_predictions.parquet` — SHA-256 `d7810e249a44d05230579db7362e49407874f0374b6f6e788978411ea7c8e76c`
+- `artifacts/final/teacher_feedback_validation/safe_uci_comparators/student_mat/oof_predictions.parquet` — SHA-256 `a3741ec9cc8519c279369dc73f7b6eca949483767defbf83793c0ca3b20b828e`

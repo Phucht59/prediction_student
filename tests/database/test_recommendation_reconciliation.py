@@ -8,7 +8,7 @@ ROOT = Path(__file__).resolve().parents[2]
 def _expected_actions() -> int:
     total = 0
     with (
-        ROOT / "artifacts/final/recommendation/recommendation_plans.jsonl"
+        ROOT / "artifacts/final/database/persisted_recommendation_plans.jsonl"
     ).open(encoding="utf-8") as handle:
         for line in handle:
             total += len(json.loads(line)["recommended_actions"])

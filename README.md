@@ -47,6 +47,27 @@ pytest
 Các lệnh final chỉ dựng lại báo cáo từ bằng chứng đã đóng băng, kiểm checksum,
 checkpoint và replay; không train hoặc tune model.
 
+## Teacher-feedback evidence
+
+The final comparator catalog contains 10 models per dataset, including the
+standalone tabular `MLP` baseline. UCI timing diagnostics compare:
+
+- `S0_EARLY_NO_GRADE`: context only, without G1/G2;
+- `S1_MID_G1_ONLY`: context plus G1;
+- `S2_LATE_G1_G2`: the frozen final UCI information contract.
+
+The generated evidence is stored in
+`artifacts/final/uci_timing_scenarios/` and
+`artifacts/final/teacher_feedback_validation/`. Training is explicit:
+
+```powershell
+python project.py study teacher-feedback all
+python project.py study teacher-feedback validate
+```
+
+`python project.py final validate` remains read-only and never trains a model.
+Recommendation expert evaluation remains `PENDING_EXPERT_LABELS`.
+
 ## Repository structure
 
 - `src/data`, `src/models`, `src/training`, `src/evaluation`: prediction stack.

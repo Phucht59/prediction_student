@@ -10,6 +10,7 @@ COMPARISON_MODELS = (
     ("hist_gradient_boosting", "HistGradientBoosting"),
     ("svm", "SVM"),
     ("xgboost", "XGBoost"),
+    ("mlp", "MLP"),
 )
 
 OFFICIAL_MODELS = {

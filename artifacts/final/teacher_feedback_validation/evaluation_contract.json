@@ -1,0 +1,14 @@
+{
+  "future_oulad": "LOCKED_NOT_EXECUTED",
+  "new_random_outer_split_created": false,
+  "oulad_outer_folds": 3,
+  "oulad_outer_group": "id_student",
+  "outer_validation_used_for_tuning": false,
+  "paired_comparison_record_alignment": true,
+  "preprocessing_fit": "outer_train_or_inner_train_only",
+  "schema_version": "locked_outer_evaluation_contract_v1",
+  "selection_partition": "inner_training_only",
+  "status": "PASS",
+  "student_mat_outer_folds": 5,
+  "student_por_outer_folds": 5
+}

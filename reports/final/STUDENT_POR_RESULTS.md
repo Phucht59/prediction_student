@@ -11,12 +11,13 @@ Precision and Recall in the overall table are macro averages.
 | CNN-BiLSTM | 0.8891 | 0.8676 | 0.8573 | 0.8676 | 0.8623 | 0.8896 | 0.9147 | 0.9628 | 0.1725 | 0.3079 | 0.0537 |
 | CNN-only | 0.8767 | 0.8518 | 0.8420 | 0.8518 | 0.8468 | 0.8773 | 0.9215 | 0.9636 | 0.1686 | 0.2959 | 0.0441 |
 | BiLSTM-only | 0.8259 | 0.7986 | 0.7725 | 0.7986 | 0.7843 | 0.8262 | 0.8649 | 0.9418 | 0.2384 | 0.3952 | 0.0841 |
-| Logistic Regression | 0.8521 | 0.8348 | 0.8081 | 0.8348 | 0.8205 | 0.8534 | 0.9125 | 0.9555 | 0.1945 | 0.3383 | 0.0385 |
-| Decision Tree | 0.8706 | 0.8800 | 0.8283 | 0.8800 | 0.8487 | 0.8743 | 0.8966 | 0.9576 | 0.1777 | 0.3589 | 0.0319 |
-| Random Forest | 0.8921 | 0.8836 | 0.8568 | 0.8836 | 0.8692 | 0.8933 | 0.9309 | 0.9689 | 0.1569 | 0.2722 | 0.0306 |
-| HistGradientBoosting | 0.8829 | 0.8439 | 0.8578 | 0.8439 | 0.8506 | 0.8822 | 0.9023 | 0.9566 | 0.1790 | 0.3617 | 0.0553 |
-| SVM | 0.8382 | 0.7612 | 0.8127 | 0.7612 | 0.7825 | 0.8332 | 0.8297 | 0.9103 | 0.2507 | 0.4872 | 0.0364 |
-| XGBoost | 0.8952 | 0.8606 | 0.8731 | 0.8606 | 0.8664 | 0.8943 | 0.9361 | 0.9689 | 0.1512 | 0.2631 | 0.0281 |
+| Logistic Regression | 0.8644 | 0.8581 | 0.8218 | 0.8581 | 0.8379 | 0.8666 | 0.9148 | 0.9550 | 0.1987 | 0.3374 | 0.0351 |
+| Decision Tree | 0.8829 | 0.8295 | 0.8664 | 0.8295 | 0.8461 | 0.8807 | 0.8920 | 0.9432 | 0.1673 | 0.6404 | 0.0379 |
+| Random Forest | 0.8798 | 0.8612 | 0.8424 | 0.8612 | 0.8514 | 0.8803 | 0.9291 | 0.9675 | 0.1609 | 0.2759 | 0.0321 |
+| HistGradientBoosting | 0.8767 | 0.8433 | 0.8448 | 0.8433 | 0.8441 | 0.8767 | 0.8937 | 0.9533 | 0.1984 | 0.4732 | 0.0796 |
+| SVM | 0.8829 | 0.8466 | 0.8543 | 0.8466 | 0.8502 | 0.8821 | 0.9192 | 0.9629 | 0.1695 | 0.2897 | 0.0237 |
+| XGBoost | 0.8952 | 0.8657 | 0.8698 | 0.8657 | 0.8677 | 0.8949 | 0.9211 | 0.9605 | 0.1688 | 0.3067 | 0.0486 |
+| MLP | 0.8706 | 0.8190 | 0.8461 | 0.8190 | 0.8304 | 0.8680 | 0.9147 | 0.9602 | 0.1735 | 0.3022 | 0.0475 |
 
 ## Per-class results
 
@@ -31,28 +32,31 @@ Precision and Recall in the overall table are macro averages.
 | BiLSTM-only | Low | 0.6176 | 0.6300 | 0.6238 | 100 |
 | BiLSTM-only | Medium | 0.8822 | 0.8421 | 0.8617 | 418 |
 | BiLSTM-only | High | 0.8176 | 0.9237 | 0.8674 | 131 |
-| Logistic Regression | Low | 0.6789 | 0.7400 | 0.7081 | 100 |
-| Logistic Regression | Medium | 0.9025 | 0.8636 | 0.8826 | 418 |
-| Logistic Regression | High | 0.8429 | 0.9008 | 0.8708 | 131 |
-| Decision Tree | Low | 0.6515 | 0.8600 | 0.7414 | 100 |
-| Decision Tree | Medium | 0.9372 | 0.8565 | 0.8950 | 418 |
-| Decision Tree | High | 0.8963 | 0.9237 | 0.9098 | 131 |
-| Random Forest | Low | 0.7477 | 0.8300 | 0.7867 | 100 |
-| Random Forest | Medium | 0.9328 | 0.8971 | 0.9146 | 418 |
-| Random Forest | High | 0.8897 | 0.9237 | 0.9064 | 131 |
-| HistGradientBoosting | Low | 0.7579 | 0.7200 | 0.7385 | 100 |
-| HistGradientBoosting | Medium | 0.9014 | 0.9187 | 0.9100 | 418 |
-| HistGradientBoosting | High | 0.9141 | 0.8931 | 0.9035 | 131 |
-| SVM | Low | 0.7105 | 0.5400 | 0.6136 | 100 |
-| SVM | Medium | 0.8486 | 0.9115 | 0.8789 | 418 |
-| SVM | High | 0.8790 | 0.8321 | 0.8549 | 131 |
-| XGBoost | Low | 0.8043 | 0.7400 | 0.7708 | 100 |
-| XGBoost | Medium | 0.9127 | 0.9258 | 0.9192 | 418 |
-| XGBoost | High | 0.9023 | 0.9160 | 0.9091 | 131 |
+| Logistic Regression | Low | 0.6780 | 0.8000 | 0.7339 | 100 |
+| Logistic Regression | Medium | 0.9188 | 0.8660 | 0.8916 | 418 |
+| Logistic Regression | High | 0.8686 | 0.9084 | 0.8881 | 131 |
+| Decision Tree | Low | 0.7882 | 0.6700 | 0.7243 | 100 |
+| Decision Tree | Medium | 0.8904 | 0.9330 | 0.9112 | 418 |
+| Decision Tree | High | 0.9206 | 0.8855 | 0.9027 | 131 |
+| Random Forest | Low | 0.7308 | 0.7600 | 0.7451 | 100 |
+| Random Forest | Medium | 0.9187 | 0.8923 | 0.9053 | 418 |
+| Random Forest | High | 0.8777 | 0.9313 | 0.9037 | 131 |
+| HistGradientBoosting | Low | 0.7300 | 0.7300 | 0.7300 | 100 |
+| HistGradientBoosting | Medium | 0.9045 | 0.9067 | 0.9056 | 418 |
+| HistGradientBoosting | High | 0.9000 | 0.8931 | 0.8966 | 131 |
+| SVM | Low | 0.7553 | 0.7100 | 0.7320 | 100 |
+| SVM | Medium | 0.9052 | 0.9139 | 0.9095 | 418 |
+| SVM | High | 0.9023 | 0.9160 | 0.9091 | 131 |
+| XGBoost | Low | 0.7835 | 0.7600 | 0.7716 | 100 |
+| XGBoost | Medium | 0.9167 | 0.9211 | 0.9189 | 418 |
+| XGBoost | High | 0.9091 | 0.9160 | 0.9125 | 131 |
+| MLP | Low | 0.7711 | 0.6400 | 0.6995 | 100 |
+| MLP | Medium | 0.8866 | 0.9163 | 0.9012 | 418 |
+| MLP | High | 0.8806 | 0.9008 | 0.8906 | 131 |
 
 ## Low-class analysis
 
-CNN-BiLSTM Low precision/recall/F1 are 0.7429/0.7800/0.7610. Its frozen confusion matrix records 22 Low→Medium and 27 Medium→Low errors. Decision Tree and Random Forest Low-class results are shown in the same per-class table (0.7414 and 0.7867 F1 respectively).
+CNN-BiLSTM Low precision/recall/F1 are 0.7429/0.7800/0.7610. Its frozen confusion matrix records 22 Low→Medium and 27 Medium→Low errors. Decision Tree and Random Forest Low-class results are shown in the same per-class table (0.7243 and 0.7451 F1 respectively).
 
 ## Confusion matrices
 
@@ -83,51 +87,60 @@ CNN-BiLSTM Low precision/recall/F1 are 0.7429/0.7800/0.7610. Its frozen confusio
 ### Logistic Regression
 
 ```text
-74 26 0
-35 361 22
-0 13 118
+80 20 0
+38 362 18
+0 12 119
 ```
 
 ### Decision Tree
 
 ```text
-86 14 0
-46 358 14
-0 10 121
+67 33 0
+18 390 10
+0 15 116
 ```
 
 ### Random Forest
 
 ```text
-83 17 0
-28 375 15
-0 10 121
+76 24 0
+28 373 17
+0 9 122
 ```
 
 ### HistGradientBoosting
 
 ```text
-72 28 0
-23 384 11
-0 14 117
+73 27 0
+26 379 13
+1 13 117
 ```
 
 ### SVM
 
 ```text
-54 46 0
-22 381 15
-0 22 109
+71 29 0
+23 382 13
+0 11 120
 ```
 
 ### XGBoost
 
 ```text
-74 26 0
-18 387 13
+76 24 0
+21 385 12
 0 11 120
+```
+
+### MLP
+
+```text
+64 36 0
+19 383 16
+0 13 118
 ```
 
 ## Evidence sources
 
 - `artifacts/final/comparator_completion/student_por/oof_predictions.parquet` — SHA-256 `14258e818e14c9cf5b5bd21077453f85869bc5605984b17b03dfd4b818d72670`
+- `artifacts/final/teacher_feedback_validation/safe_uci_comparators/student_por/oof_predictions.parquet` — SHA-256 `1cc57e92c2c5625d3728bae6db0fd9b778356ba80d2c7f64e38c30b85120877e`

@@ -1,0 +1,38 @@
+{
+  "current_executable_sampler_matches": [],
+  "historical_finding": {
+    "description": "Archived UCI baseline research included plain SMOTE/ADASYN after one-hot categorical preprocessing.",
+    "found": true,
+    "official_cnn_bilstm_affected": false,
+    "remediation": "Historical affected UCI classical rows are superseded by safe S2 revalidation with no synthetic resampling.",
+    "teacher_feedback_authority_uses_historical_unsafe_rows": false
+  },
+  "new_study": {
+    "oulad_tensor_supplied_to_mlp": false,
+    "plain_adasyn": false,
+    "plain_smote": false,
+    "preprocessing_fit": "training_partition_only",
+    "sampler": "none"
+  },
+  "questions": {
+    "plain_smote_or_adasyn_on_mixed_label_coded_uci_in_current_final_code": {
+      "answer": false,
+      "status": "PASS"
+    },
+    "resampling_before_train_validation_split_in_current_final_code": {
+      "answer": false,
+      "status": "PASS"
+    },
+    "synthetic_oversampling_on_raw_oulad_temporal_tensor": {
+      "answer": false,
+      "status": "PASS"
+    },
+    "validation_used_to_fit_sampler_in_current_final_code": {
+      "answer": false,
+      "status": "PASS"
+    }
+  },
+  "schema_version": "imbalance_safety_audit_v1",
+  "scope": "tracked executable final code plus provenance audit",
+  "status": "PASS"
+}

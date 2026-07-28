@@ -44,10 +44,10 @@ POLICY = ROOT / "artifacts" / "final" / "recommendation" / "policy_registry.json
 RELOCATION_MANIFEST = ROOT / "artifacts" / "final" / "checksums" / "relocation_manifest.json"
 
 LOCKED_SOURCES = {
-    FINAL_RESULTS: "1e3356900e8b1cf440f2797c2aecb4d8c8acf2e119f3e5e79b910531e53a3f19",
-    FINAL_RESULTS_CSV: "4915e52a57532c239a55ee1c3c6fe9b4aa4a402326fe69f784797c094d65f69d",
-    MODEL_REGISTRY: "5cae9c5e67391fce12bf6dbc0147ce5f05dc73dede6feeb07573c44986830494",
-    FINAL_CHECKSUMS: "3b5a733e197f137ed0fe1c3f692e46c29fb5cde2f57992b6450a3e5f37ec4749",
+    FINAL_RESULTS: "000c185fb2fd9ba4b528e79d98636fdb17ee4586dbad197e9990717164b3681b",
+    FINAL_RESULTS_CSV: "d2271c48bc6ed65a2836ec3b2430eef0777ad9f2b83f0d16092f389e57148b0f",
+    MODEL_REGISTRY: "83415a32684557a970a7059a307ead51913562581e83c03e864550cd98bc268b",
+    FINAL_CHECKSUMS: "cc4fd84a6c26b27ea739dd9c59722f30511d5186578cc9af4e008f9ff547389b",
     RISK_PROFILES: "a0178477871e16b81eebc4ec50dd23567fa4df6ec5b9d75d9e75d14f7ebe5625",
     PLANS: "d34e61d0fbbaaa9a8db7299dba174caeb2bb92308bf99981788a05fb5ba06cc3",
     POLICY: "89f054fc62d035ec2d4789b4d65950363d5158d04396bff0c3c243bda7cb47d8",
@@ -105,6 +105,9 @@ EXPECTED_TABLES = {
     "recommendation.plan",
     "recommendation.action",
     "recommendation.review",
+    "recommendation.expert_review_case",
+    "recommendation.expert_plan_review",
+    "recommendation.expert_action_review",
 }
 
 DISPOSABLE_MARKERS = ("test", "dev", "disposable", "final_dev")
@@ -807,8 +810,8 @@ def load_canonical(dsn: str) -> dict[str, Any]:
                                 Json({"evidence_origin": model["evidence_origin"]}),
                             )
                         )
-            if model_count != 27:
-                raise FinalDatabaseError(f"Expected 27 model–dataset rows, found {model_count}")
+            if model_count != 30:
+                raise FinalDatabaseError(f"Expected 30 model–dataset rows, found {model_count}")
 
             recommendation_metrics = final_results["recommendation"]["metrics"]
             for name, payload in recommendation_metrics.items():
@@ -1044,7 +1047,7 @@ def load_canonical(dsn: str) -> dict[str, Any]:
     return {
         "status": "PASS",
         "datasets": 3,
-        "models": 27,
+        "models": 30,
         "risk_profiles": len(risk_df),
         "plans": len(plans),
         "actions": sum(len(plan["recommended_actions"]) for plan in plans),
@@ -1100,8 +1103,8 @@ def validate_database(dsn: str, *, strict_public: bool) -> dict[str, Any]:
                 """
             )
             tables = {row["name"] for row in cursor.fetchall()}
-            checks["expected_13_core_tables"] = tables == EXPECTED_TABLES
-            checks["final_base_table_count_at_most_15"] = len(tables) <= 15
+            checks["expected_16_core_tables"] = tables == EXPECTED_TABLES
+            checks["final_base_table_count_at_most_18"] = len(tables) <= 18
             cursor.execute(
                 """
                 SELECT count(*) AS count FROM information_schema.views
@@ -1129,11 +1132,11 @@ def validate_database(dsn: str, *, strict_public: bool) -> dict[str, Any]:
                   AND NOT i.indisprimary
                 """
             )
-            checks["non_pk_indexes_at_most_twenty"] = cursor.fetchone()["count"] <= 20
+            checks["non_pk_indexes_at_most_twenty_four"] = cursor.fetchone()["count"] <= 24
             cursor.execute("SELECT count(*) AS count FROM catalog.dataset")
             checks["three_datasets_loaded"] = cursor.fetchone()["count"] == 3
             cursor.execute("SELECT count(*) AS count FROM ml.model")
-            checks["twenty_seven_model_dataset_results"] = cursor.fetchone()["count"] == 27
+            checks["thirty_model_dataset_results"] = cursor.fetchone()["count"] == 30
             cursor.execute("SELECT count(*) AS count FROM recommendation.risk_profile")
             risk_count = cursor.fetchone()["count"]
             checks["risk_profile_count"] = risk_count == 15378
@@ -1249,7 +1252,7 @@ def validate_database(dsn: str, *, strict_public: bool) -> dict[str, Any]:
 
     row_reconciliation = [
         {"entity": "datasets", "source_rows": 3, "migrated_rows": 3, "rejected_rows": 0, "duplicate_rows": 0, "status": "PASS"},
-        {"entity": "models", "source_rows": 27, "migrated_rows": 27, "rejected_rows": 0, "duplicate_rows": 0, "status": "PASS"},
+        {"entity": "models", "source_rows": 30, "migrated_rows": 30, "rejected_rows": 0, "duplicate_rows": 0, "status": "PASS"},
         {"entity": "risk_profiles", "source_rows": 15378, "migrated_rows": risk_count, "rejected_rows": 0, "duplicate_rows": 0, "status": "PASS" if risk_count == 15378 else "FAIL"},
         {"entity": "plans", "source_rows": 15378, "migrated_rows": plan_count, "rejected_rows": 0, "duplicate_rows": 0, "status": "PASS" if plan_count == 15378 else "FAIL"},
         {"entity": "actions", "source_rows": expected_actions, "migrated_rows": action_count, "rejected_rows": 0, "duplicate_rows": 0, "status": "PASS" if action_count == expected_actions else "FAIL"},

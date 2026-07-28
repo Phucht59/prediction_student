@@ -1,0 +1,22 @@
+{
+  "aggregate_sha256": "16c90d8177cc8a8035777b38004d1f1a9a0440f357874a01fcab76ac9a4a2908",
+  "files": {
+    "artifacts/final/uci_timing_scenarios/leakage_validation.json": "9348af008d01725e389bfe6411e2c3d410674dea17d12bf0db0ed72a2b1616c0",
+    "artifacts/final/uci_timing_scenarios/protocol.json": "e02cd7c87dd598dd1e336474d1777134e864bb7865286aadaa4263f703759fc3",
+    "artifacts/final/uci_timing_scenarios/scenario_comparison.json": "1d38e43b92848180ffad98b552375fc09141126860efd6b6180601b22c662b40",
+    "artifacts/final/uci_timing_scenarios/split_validation.json": "a832a9261f1847e4196b9035923514b84f14d2e9f110e31035ccf32a533c705a",
+    "artifacts/final/uci_timing_scenarios/student_mat_metrics.csv": "fb3f52db86b06bbd6a4ebb76f26c3b2e20eafe0d61979c47479a497b8a5222e6",
+    "artifacts/final/uci_timing_scenarios/student_mat_predictions.parquet": "b099c6669d527aac1f8e42c5c95e51d1ed4aa7420727cb5501ce164d193dfc3e",
+    "artifacts/final/uci_timing_scenarios/student_mat_runtime.csv": "7fac707f478766780d37a3b15a5750873c03f97923d6e2ea6d93c9bd82c6cbff",
+    "artifacts/final/uci_timing_scenarios/student_mat_search_trials.csv": "dcadf212bfeb95730a54906f64899e7138427d5bf48dcd1ac504e1d472d87146",
+    "artifacts/final/uci_timing_scenarios/student_mat_seed_predictions.parquet": "396618d69b22083244441de94a2490cc0e4d49e2d8ed687ef2357670ef929262",
+    "artifacts/final/uci_timing_scenarios/student_mat_selected_configs.csv": "3b292c41a239d6650a62ac06f05b58c508a6a2c797af731d171b35764fd3b859",
+    "artifacts/final/uci_timing_scenarios/student_por_metrics.csv": "6ce86f68be9cc6211b2cb5470cff2c2ebf238c7ae98f36638e7218a624017fda",
+    "artifacts/final/uci_timing_scenarios/student_por_predictions.parquet": "0cc4ee38b78f076257fd49d9c6691cb042da2b23eaf7c274eef08b4e28e7823c",
+    "artifacts/final/uci_timing_scenarios/student_por_runtime.csv": "16e2dbade67218a7b3746bf3ca010f606e466d73ad062f0d56c33c8d7e50233a",
+    "artifacts/final/uci_timing_scenarios/student_por_search_trials.csv": "736dcb451e7cbebc25090fe6809ede6ebe079dbcfd8d83a2e1400d572d27db03",
+    "artifacts/final/uci_timing_scenarios/student_por_seed_predictions.parquet": "0f8b00c581e0bc893b1b29762666e905d9ea16b566f807777d85607c0fedeffd",
+    "artifacts/final/uci_timing_scenarios/student_por_selected_configs.csv": "c9294ba42066085db6f2cdf0447c947d85eed1c5b53711b72c0a94d9c96d9630"
+  },
+  "schema_version": "sha256_manifest_v1"
+}

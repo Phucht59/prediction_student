@@ -1,14 +1,14 @@
 # Database Index Justification
 
-Post-cutover count: **20 non-primary indexes**, including indexes that enforce
+Post-cutover count: **24 non-primary indexes**, including indexes that enforce
 UNIQUE contracts. No speculative index was added.
 
 | Index group | Query/use | Selectivity |
 |---|---|---|
 | Dataset slug; dataset/version | Resolve one canonical dataset/version | 1 of 3 |
 | Record version/source; student key | Resolve a final record or student history | 1 of 16,422 |
-| Model dataset/key | Resolve one of nine models per dataset | 1 of 27 |
-| Run model/status; dataset version; natural key | Locate final completed runs | 1 of 27 |
+| Model dataset/key | Resolve one of ten models per dataset | 1 of 30 |
+| Run model/status; dataset version; natural key | Locate final completed runs | 1 of 30 |
 | Artifact run/path; dataset | Verify evidence for a run/dataset | 1 of 81 |
 | Metric natural dimensions | Exact overall/class/Top-k lookup | 1 of 891 |
 | Risk profile run/record and record/run helpers | Resolve one profile | 1 of 15,378 |
