@@ -235,6 +235,29 @@ Paired bootstrap CNN-BiLSTM so với MLP:
 
 Không dùng từ “tương đương” chỉ vì CI chứa 0.
 
+### 6.1 Bảng so sánh ML chính thức
+
+| Model | MAT Macro-F1 | MAT BA | POR Macro-F1 | POR BA | OULAD Macro-F1 | OULAD BA |
+|---|---:|---:|---:|---:|---:|---:|
+| Logistic Regression | 0.8952 | 0.8977 | 0.8379 | 0.8581 | 0.8247 | 0.8193 |
+| Decision Tree | 0.9024 | 0.9018 | 0.8461 | 0.8295 | 0.8061 | 0.8007 |
+| Random Forest | 0.8998 | 0.8939 | 0.8514 | 0.8612 | 0.8220 | 0.8161 |
+| HistGradientBoosting | 0.8697 | 0.8673 | 0.8441 | 0.8433 | 0.8241 | 0.8203 |
+| SVM | 0.8710 | 0.8747 | 0.8502 | 0.8466 | 0.8250 | 0.8186 |
+| XGBoost | 0.8815 | 0.8785 | 0.8677 | 0.8657 | 0.8259 | 0.8222 |
+| MLP | 0.8595 | 0.8621 | 0.8304 | 0.8190 | 0.8283 | 0.8219 |
+| **CNN-BiLSTM** | **0.9015** | **0.9021** | **0.8623** | **0.8676** | **0.8281** | **0.8203** |
+
+PR-AUC tương ứng được lưu trong `final_results.csv/json`. Kết quả này bắt buộc
+được diễn giải trung thực:
+
+- Decision Tree có Macro-F1 MAT cao hơn CNN-BiLSTM khoảng 0.0010.
+- XGBoost có Macro-F1 POR cao hơn CNN-BiLSTM khoảng 0.0054.
+- MLP có Macro-F1 OULAD cao hơn khoảng 0.0002, nhưng paired-bootstrap CI đi qua
+  0 nên chưa đủ bằng chứng về khác biệt.
+- CNN-BiLSTM là model chính theo thiết kế khóa luận và protocol tổng thể, không
+  phải vì thắng tuyệt đối mọi comparator.
+
 ## 7. Kết quả stage-aware UCI
 
 ### 7.1 Student-Mat
@@ -257,6 +280,22 @@ Diễn giải: G1 tạo bước tăng lớn; G2 tiếp tục cải thiện. S0 c
 context đơn thuần còn hạn chế, vì vậy không được quảng bá kết quả S2 như chất
 lượng cảnh báo đầu kỳ.
 
+### 7.3 ML comparison theo stage
+
+| Model | MAT S0 | MAT S1 | MAT S2 | POR S0 | POR S1 | POR S2 |
+|---|---:|---:|---:|---:|---:|---:|
+| Logistic Regression | .3979 | .7224 | .8754 | .4351 | .7572 | .8404 |
+| Decision Tree | .4104 | .7310 | .8623 | .4312 | .7198 | .7954 |
+| Random Forest | .4296 | .7118 | .8893 | .5082 | .7835 | .8571 |
+| HistGradientBoosting | .4379 | .7014 | .8542 | .4586 | .6833 | .8182 |
+| SVM | .4523 | .7245 | .8501 | .4493 | .7529 | .7998 |
+| XGBoost | .4116 | .7092 | .8741 | .4533 | .7648 | .8428 |
+| MLP | .4219 | .7306 | .8547 | .4002 | .7523 | .8520 |
+| CNN-BiLSTM | .4136 | .7438 | .8461 | .5089 | .7542 | .8519 |
+
+Đây là fair stage-aware benchmark dùng cùng base record, frozen fold và lượng
+thông tin hợp lệ. Nó không thay thế bảng model authority chính thức ở mục 6.
+
 ## 8. Kết quả stage-aware OULAD
 
 ### 8.1 CNN-BiLSTM
@@ -274,6 +313,21 @@ Comparator tốt nhất có thể thay đổi theo stage. Evidence hiện tại 
 có thể cao hơn CNN-BiLSTM ở một số thời điểm; vì vậy luận văn chỉ kết luận kiến
 trúc hybrid là mô hình chính được lựa chọn theo protocol chính thức, không kết
 luận nó thống trị phổ quát.
+
+| Model | E1 20% | E2 35% | M1 50% | L1 75% |
+|---|---:|---:|---:|---:|
+| Logistic Regression | .6984 | .7444 | .7886 | .8253 |
+| Decision Tree | .6125 | .6899 | .7547 | .8046 |
+| Random Forest | .6969 | .7422 | .7897 | .8304 |
+| HistGradientBoosting | .7020 | .7524 | .7938 | .8284 |
+| SVM | .7032 | .7481 | .7922 | .8324 |
+| XGBoost | .7070 | .7524 | .7911 | .8320 |
+| MLP | .6993 | .7495 | .7930 | .8271 |
+| CNN-BiLSTM | .7003 | .7435 | .7852 | .8062 |
+
+Đây là Macro-F1 tại threshold inner-OOF stage-specific. `stage_metrics.csv`
+cũng giữ FIXED_0_5 để audit sensitivity, còn canonical
+`final_stage_results.csv` dùng policy đã đăng ký.
 
 Headline OULAD 0.8281 và bảng stage-aware trả lời hai câu hỏi khác nhau:
 headline là model authority khóa luận; bảng stage là khả năng vận hành theo

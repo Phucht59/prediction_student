@@ -111,6 +111,59 @@ Kết quả ML được giữ vì CNN-BiLSTM không được tuyên bố là lu�
 pháp ML ở mọi stage. Tất cả comparator dùng outer folds đóng băng, preprocessing
 fit trên training partition và không tune bằng outer validation.
 
+### So sánh ML với mô hình chính thức
+
+Macro-F1 trên evaluation authority chính thức:
+
+| Model | Student-Mat | Student-Por | OULAD |
+|---|---:|---:|---:|
+| Logistic Regression | 0.8952 | 0.8379 | 0.8247 |
+| Decision Tree | **0.9024** | 0.8461 | 0.8061 |
+| Random Forest | 0.8998 | 0.8514 | 0.8220 |
+| HistGradientBoosting | 0.8697 | 0.8441 | 0.8241 |
+| SVM | 0.8710 | 0.8502 | 0.8250 |
+| XGBoost | 0.8815 | **0.8677** | 0.8259 |
+| MLP | 0.8595 | 0.8304 | **0.8283** |
+| **CNN-BiLSTM** | **0.9015** | **0.8623** | **0.8281** |
+
+Các giá trị in đậm cho thấy model tốt nhất không giống nhau ở mọi dataset:
+Decision Tree nhỉnh hơn ở MAT, XGBoost nhỉnh hơn ở POR và MLP gần như ngang
+CNN-BiLSTM ở OULAD. CNN-BiLSTM vẫn là model chính được lựa chọn theo toàn bộ
+protocol, kiến trúc và evidence của khóa luận; không có claim universal
+superiority.
+
+### Macro-F1 theo thời điểm UCI
+
+| Model | MAT S0 | MAT S1 | MAT S2 | POR S0 | POR S1 | POR S2 |
+|---|---:|---:|---:|---:|---:|---:|
+| Logistic Regression | 0.3979 | 0.7224 | 0.8754 | 0.4351 | 0.7572 | 0.8404 |
+| Decision Tree | 0.4104 | 0.7310 | 0.8623 | 0.4312 | 0.7198 | 0.7954 |
+| Random Forest | 0.4296 | 0.7118 | **0.8893** | 0.5082 | **0.7835** | **0.8571** |
+| HistGradientBoosting | 0.4379 | 0.7014 | 0.8542 | 0.4586 | 0.6833 | 0.8182 |
+| SVM | **0.4523** | 0.7245 | 0.8501 | 0.4493 | 0.7529 | 0.7998 |
+| XGBoost | 0.4116 | 0.7092 | 0.8741 | 0.4533 | 0.7648 | 0.8428 |
+| MLP | 0.4219 | 0.7306 | 0.8547 | 0.4002 | 0.7523 | 0.8520 |
+| **CNN-BiLSTM** | 0.4136 | **0.7438** | 0.8461 | **0.5089** | 0.7542 | 0.8519 |
+
+### Macro-F1 theo thời điểm OULAD
+
+Các hàng dưới dùng threshold được chọn bằng inner-OOF, không dùng outer label:
+
+| Model | E1 20% | E2 35% | M1 50% | L1 75% |
+|---|---:|---:|---:|---:|
+| Logistic Regression | 0.6984 | 0.7444 | 0.7886 | 0.8253 |
+| Decision Tree | 0.6125 | 0.6899 | 0.7547 | 0.8046 |
+| Random Forest | 0.6969 | 0.7422 | 0.7897 | 0.8304 |
+| HistGradientBoosting | 0.7020 | **0.7524** | **0.7938** | 0.8284 |
+| SVM | 0.7032 | 0.7481 | 0.7922 | **0.8324** |
+| XGBoost | **0.7070** | **0.7524** | 0.7911 | 0.8320 |
+| MLP | 0.6993 | 0.7495 | 0.7930 | 0.8271 |
+| **CNN-BiLSTM** | 0.7003 | 0.7435 | 0.7852 | 0.8062 |
+
+Accuracy, Balanced Accuracy, PR-AUC, ECE, per-class/risk metrics và confusion
+matrix đầy đủ nằm trong `artifacts/final/final_stage_results.csv` và các thư
+mục stage evidence.
+
 ## Khuyến nghị
 
 Mô-đun khuyến nghị biến dự báo rủi ro thành kế hoạch có kiểm soát:
