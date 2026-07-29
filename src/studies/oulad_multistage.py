@@ -680,6 +680,31 @@ def _ensure_amended_svm_inner(
             rows.append(current)
         pooled = pd.concat(rows, ignore_index=True)
         _write_parquet(output, pooled)
+    trials = trials.loc[trials.model_family.ne("svm")].copy()
+    amended_trials = []
+    for (outer, inner), group in pooled.groupby(["outer_fold", "inner_fold"]):
+        stage_scores = group.groupby("prediction_stage").apply(
+            lambda current: f1_score(
+                current.target,
+                current.probability >= 0.5,
+                average="macro",
+            ),
+            include_groups=False,
+        )
+        amended_trials.append(
+            {
+                "model_family": "svm",
+                "outer_fold": int(outer),
+                "inner_fold": int(inner),
+                "config_id": "svm_runtime_protocol_amendment_v1",
+                "mean_stage_macro_f1_operational": float(stage_scores.mean()),
+                "worst_stage_macro_f1": float(stage_scores.min()),
+                "runtime_seconds": 0.0,
+                "outer_labels_used": False,
+            }
+        )
+    trials = pd.concat([trials, pd.DataFrame(amended_trials)], ignore_index=True)
+    _write_csv(OUT / "inner_trials.csv", trials)
     policies = policies.loc[policies.model_family.ne("svm")].copy()
     amended = []
     for (outer, stage), group in pooled.groupby(["outer_fold", "prediction_stage"]):
