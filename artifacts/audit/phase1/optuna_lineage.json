@@ -1,0 +1,43 @@
+{
+  "conclusion": "FINAL ARCHITECTURE IS NOT FULLY OPTUNA-TUNED",
+  "historical_study": {
+    "architecture_coverage": {
+      "current_architecture_factory": false,
+      "gated_residual_fusion": false,
+      "masked_mean_max_pooling": false,
+      "multi_kernel_cnn_2_3_5": false,
+      "multitask_weights": false,
+      "single_kernel_cnn": true
+    },
+    "candidate_family": [
+      "V2-MLF",
+      "V2-H2F",
+      "V2-H2T",
+      "V2-A0",
+      "V2-T0",
+      "V2-H3C"
+    ],
+    "complete_trials": 72,
+    "forecast": "F2_MIDDLE",
+    "inner_folds": 2,
+    "outer_folds": 3,
+    "protocol_version": "oulad_deep_v2_protocol_v1",
+    "pruning": "none recorded; all 72 trials COMPLETE",
+    "run_id": "oulad-deep-v2-f2-20260716-v1",
+    "selection_signal": "validation_nll",
+    "source_branch": "feature/study-b-oulad-extension",
+    "source_commit": "fccaef8b3e73a375f2a9d1bca2cc5897345242bd",
+    "trial_ranking": "pooled_inner_oof_macro_f1",
+    "trials": 72
+  },
+  "schema_version": "phase1_optuna_lineage_v1",
+  "unified_stage_aware": {
+    "config_id_values": [
+      "frozen_default",
+      "svm_runtime_protocol_amendment_v1"
+    ],
+    "deep_search": "one frozen_default, no Optuna",
+    "max_epochs": 4,
+    "patience": 2
+  }
+}
