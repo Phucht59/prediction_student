@@ -29,6 +29,9 @@ OUT = ROOT / "artifacts" / "final" / "unified_stage_aware_oulad"
 ARCHIVE = ROOT / "artifacts" / "history" / "partial_svm_probability_true_20260729"
 REPORT = ROOT / "reports" / "refactor" / "OULAD_SVM_RUNTIME_PROTOCOL_AMENDMENT.md"
 BASE = "ef40acf8de12aae8a66c2df84e5466c9c42ea4ef"
+DETACHED_FIX_BASE = "f75f2122bb04addcf12352b4e2c202dbb812df09"
+EXPECTED_BRANCH = "codex/unified-oulad-stage-aware-system"
+EXPECTED_INTERPRETER = ROOT / ".venv-oulad-v2" / "Scripts" / "python.exe"
 
 
 def _sha(path: Path) -> str:
@@ -62,12 +65,47 @@ def checkpoint_counts() -> dict[str, int]:
     }
 
 
+def _tracked_source_changes() -> list[str]:
+    """Return only tracked source/config changes that make a run non-reproducible."""
+    output = _git("status", "--porcelain=v1", "--untracked-files=no")
+    protected_prefixes = (
+        "src/",
+        "scripts/",
+        "configs/",
+        "tests/",
+        "database/",
+    )
+    protected_files = {"project.py", "requirements.txt", "requirements-lock.txt"}
+    changed: list[str] = []
+    for line in output.splitlines():
+        if len(line) < 4:
+            continue
+        path = line[3:].split(" -> ")[-1].replace("\\", "/")
+        if path in protected_files or path.startswith(protected_prefixes):
+            changed.append(path)
+    return sorted(changed)
+
+
 def preflight() -> dict[str, Any]:
     branch = _git("branch", "--show-current")
     ancestor = subprocess.run(
-        ["git", "merge-base", "--is-ancestor", BASE, "HEAD"], cwd=ROOT
+        ["git", "merge-base", "--is-ancestor", DETACHED_FIX_BASE, "HEAD"], cwd=ROOT
     ).returncode == 0
+    interpreter = Path(sys.executable).resolve()
+    expected_interpreter = EXPECTED_INTERPRETER.resolve()
+    tracked_source_changes = _tracked_source_changes()
     uci = ROOT / "artifacts" / "final" / "unified_stage_aware_uci" / "checksums.json"
+    required_paths = {
+        "repository": ROOT / ".git",
+        "project": ROOT / "project.py",
+        "interpreter": EXPECTED_INTERPRETER,
+        "raw_student_vle": ROOT / "data" / "raw" / "studentVle.csv",
+        "processed_data": ROOT / "data" / "processed",
+    }
+    required_available = {
+        name: path.exists() for name, path in required_paths.items()
+    }
+    free_bytes = shutil.disk_usage(ROOT).free
     protected = [
         path
         for suffix in ("*.docx", "*.pdf")
@@ -75,22 +113,52 @@ def preflight() -> dict[str, Any]:
         if ".git" not in path.parts
         and not any(part.startswith(".venv") for part in path.parts)
     ]
+    errors = []
+    if Path.cwd().resolve() != ROOT.resolve():
+        errors.append(f"wrong working directory: {Path.cwd()}")
+    if branch != EXPECTED_BRANCH:
+        errors.append(f"wrong branch: {branch}")
+    if not ancestor:
+        errors.append(f"expected commit is not an ancestor: {DETACHED_FIX_BASE}")
+    if interpreter != expected_interpreter:
+        errors.append(
+            f"wrong interpreter: expected {expected_interpreter}, got {interpreter}"
+        )
+    errors.extend(
+        f"missing required path: {name}"
+        for name, available in required_available.items()
+        if not available
+    )
+    if free_bytes < 20 * 1024**3:
+        errors.append(f"insufficient disk space: {free_bytes} bytes free")
+    if tracked_source_changes:
+        errors.append(
+            "tracked source changes are not committed: "
+            + ", ".join(tracked_source_changes)
+        )
     result = {
-        "status": "PASS"
-        if branch == "codex/unified-oulad-stage-aware-system" and ancestor
-        else "FAIL",
+        "status": "PASS" if not errors else "FAIL",
         "branch": branch,
         "head": _git("rev-parse", "HEAD"),
         "base_ancestor": ancestor,
+        "expected_ancestor": DETACHED_FIX_BASE,
+        "working_directory": str(Path.cwd().resolve()),
+        "expected_working_directory": str(ROOT.resolve()),
+        "tracked_source_changes": tracked_source_changes,
+        "ignored_runtime_files_allowed": True,
+        "generated_final_artifacts_allowed": True,
         "checkpoint_counts": checkpoint_counts(),
-        "free_bytes": shutil.disk_usage(ROOT).free,
-        "interpreter": os.sys.executable,
-        "raw_data_available": (ROOT / "data" / "raw" / "studentVle.csv").is_file(),
+        "free_bytes": free_bytes,
+        "interpreter": str(interpreter),
+        "expected_interpreter": str(expected_interpreter),
+        "required_paths": required_available,
+        "raw_data_available": required_available["raw_student_vle"],
         "uci_checksum_snapshot": _sha(uci) if uci.is_file() else None,
         "document_checksums": {
             path.relative_to(ROOT).as_posix(): _sha(path) for path in protected
         },
         "canonical_database_modified": False,
+        "errors": errors,
         "credentials": "REDACTED",
     }
     _json(OUT / "detached_preflight.json", result)
@@ -228,25 +296,37 @@ def audit() -> dict[str, Any]:
 
 
 def gpu() -> dict[str, Any]:
-    available = torch.cuda.is_available()
-    properties = torch.cuda.get_device_properties(0) if available else None
-    free, total = torch.cuda.mem_get_info(0) if available else (0, 0)
-    result = {
-        "schema_version": "oulad_gpu_runtime_audit_v1",
-        "status": "PASS" if available else "BLOCKED_GPU",
-        "torch_version": torch.__version__,
-        "cuda_build": torch.version.cuda,
-        "cuda_available": available,
-        "cuda_device_count": torch.cuda.device_count(),
-        "device_name": torch.cuda.get_device_name(0) if available else None,
-        "total_vram_bytes": int(properties.total_memory) if properties else 0,
-        "free_vram_bytes": int(free),
-        "selected_device": "cuda:0" if available else None,
-        "deterministic_settings": {
-            "fixed_seeds": list(study.SEEDS),
-            "best_seed_selection": False,
-        },
-    }
+    try:
+        available = torch.cuda.is_available()
+        properties = torch.cuda.get_device_properties(0) if available else None
+        free, _total = torch.cuda.mem_get_info(0) if available else (0, 0)
+        result = {
+            "schema_version": "oulad_gpu_runtime_audit_v1",
+            "status": "GPU_PASS" if available else "BLOCKED_GPU",
+            "torch_version": torch.__version__,
+            "cuda_build": torch.version.cuda,
+            "cuda_available": available,
+            "cuda_device_count": torch.cuda.device_count(),
+            "device_name": torch.cuda.get_device_name(0) if available else None,
+            "total_vram_bytes": int(properties.total_memory) if properties else 0,
+            "free_vram_bytes": int(free),
+            "selected_device": "cuda:0" if available else None,
+            "deterministic_settings": {
+                "fixed_seeds": list(study.SEEDS),
+                "best_seed_selection": False,
+            },
+        }
+    except Exception as exc:  # pragma: no cover - hardware/runtime dependent
+        result = {
+            "schema_version": "oulad_gpu_runtime_audit_v1",
+            "status": "GPU_CHECK_ERROR",
+            "torch_version": torch.__version__,
+            "cuda_build": torch.version.cuda,
+            "cuda_available": False,
+            "cuda_device_count": 0,
+            "device_name": None,
+            "error": f"{type(exc).__name__}: {exc}",
+        }
     _json(OUT / "gpu_runtime_audit.json", result)
     return result
 
@@ -320,7 +400,13 @@ def main() -> int:
     args = parser.parse_args()
     result = globals()[args.command]()
     print(json.dumps(result, indent=2))
-    return 0 if result["status"] == "PASS" else 21
+    if result["status"] in {"PASS", "GPU_PASS"}:
+        return 0
+    if result["status"] == "BLOCKED_GPU":
+        return 20
+    if result["status"] == "GPU_CHECK_ERROR":
+        return 21
+    return 1
 
 
 if __name__ == "__main__":

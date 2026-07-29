@@ -1,4 +1,6 @@
-param()
+param(
+    [switch]$PreflightOnly
+)
 
 $ErrorActionPreference = "Stop"
 $Repo = "C:\hufit\kltn"
@@ -14,6 +16,8 @@ $script:CurrentStderr = ""
 $script:CurrentStep = "STARTING"
 $script:StepIndex = 0
 $script:LastCompleted = ""
+$script:FailureExitCode = $null
+$script:FailureSummary = $null
 
 Set-Location -LiteralPath $Repo
 New-Item -ItemType Directory -Force -Path $Root | Out-Null
@@ -55,7 +59,7 @@ function Write-Status {
         state = $State
         step = $script:CurrentStep
         step_index = $script:StepIndex
-        step_total = 14
+        step_total = 15
         started_at = $StartedAt.ToString("o")
         heartbeat_at = [DateTimeOffset]::UtcNow.ToString("o")
         wrapper_pid = $PID
@@ -97,7 +101,18 @@ function Stop-ChildSafely {
     }
 }
 
-function Invoke-Step {
+function Get-LastMeaningfulLine {
+    param([string]$Path)
+    if (!(Test-Path -LiteralPath $Path)) { return $null }
+    $line = Get-Content -LiteralPath $Path -ErrorAction SilentlyContinue |
+        Where-Object { ![string]::IsNullOrWhiteSpace($_) } |
+        ForEach-Object { [string]$_ } |
+        Select-Object -Last 1
+    if ($null -eq $line) { return $null }
+    return [string]$line
+}
+
+function Invoke-ExternalCommand {
     param(
         [int]$Index,
         [string]$Name,
@@ -109,7 +124,17 @@ function Invoke-Step {
     $script:CurrentStep = $Name
     $script:CurrentStdout = Join-Path $Root "$LogPrefix.stdout.log"
     $script:CurrentStderr = Join-Path $Root "$LogPrefix.stderr.log"
+    $commandRecordPath = Join-Path $Root "$LogPrefix.command.json"
+    $commandStartedAt = [DateTimeOffset]::UtcNow
     Write-Status -State "RUNNING"
+    $resolvedCommand = Get-Command -Name $Executable -ErrorAction SilentlyContinue
+    if (!(Test-Path -LiteralPath $Executable) -and !$resolvedCommand) {
+        $detail = "executable not found: $Executable"
+        $script:FailureExitCode = 127
+        $script:FailureSummary = "$Name failed: command=$Executable; exit_code=127; detail=$detail"
+        Write-Status -State "FAILED" -ExitCode 127 -ErrorSummary $script:FailureSummary
+        throw $script:FailureSummary
+    }
     $process = Start-Process -FilePath $Executable -ArgumentList $Arguments `
         -WorkingDirectory $Repo -RedirectStandardOutput $script:CurrentStdout `
         -RedirectStandardError $script:CurrentStderr -WindowStyle Hidden -PassThru
@@ -133,26 +158,88 @@ function Invoke-Step {
             $lastHeartbeat = Get-Date
         }
     }
+    # WaitForExit(timeout) can report completion before PowerShell has materialized
+    # ExitCode and drained redirected streams. The parameterless call is required.
+    $process.WaitForExit()
+    $exitCode = [int]$process.ExitCode
     $script:ChildPid = 0
-    if ($process.ExitCode -ne 0) {
-        if ($Name -eq "GPU_GATE" -and $process.ExitCode -eq 21) {
-            Write-Status -State "BLOCKED_GPU" -ExitCode 21 -ErrorSummary "CUDA gate failed"
+    $commandEndedAt = [DateTimeOffset]::UtcNow
+    $lastStderr = Get-LastMeaningfulLine -Path $script:CurrentStderr
+    $lastStdout = Get-LastMeaningfulLine -Path $script:CurrentStdout
+    $detail = if ($lastStderr) { $lastStderr } elseif ($lastStdout) { $lastStdout } else { "no output" }
+    [ordered]@{
+        command = $Executable
+        arguments = @($Arguments)
+        started_at = $commandStartedAt.ToString("o")
+        ended_at = $commandEndedAt.ToString("o")
+        duration_seconds = [Math]::Round(($commandEndedAt - $commandStartedAt).TotalSeconds, 3)
+        exit_code = $exitCode
+        stdout_path = $script:CurrentStdout
+        stderr_path = $script:CurrentStderr
+        last_non_empty_stderr_line = $lastStderr
+        last_non_empty_stdout_line = $lastStdout
+    } | ConvertTo-Json -Depth 6 | Set-Content -LiteralPath $commandRecordPath -Encoding UTF8
+
+    if ($exitCode -ne 0) {
+        $script:FailureExitCode = $exitCode
+        $script:FailureSummary = "$Name failed: command=$Executable; exit_code=$exitCode; detail=$detail"
+        if ($Name -eq "GPU_GATE" -and $exitCode -eq 20) {
+            Write-Status -State "BLOCKED_GPU" -ExitCode 20 -ErrorSummary $script:FailureSummary
             throw "BLOCKED_GPU"
         }
-        Write-Status -State "FAILED" -ExitCode $process.ExitCode -ErrorSummary "$Name failed"
-        throw "$Name failed with exit code $($process.ExitCode)"
+        if ($Name -eq "GPU_GATE" -and $exitCode -eq 21) {
+            Write-Status -State "GPU_CHECK_ERROR" -ExitCode 21 -ErrorSummary $script:FailureSummary
+            throw "GPU_CHECK_ERROR"
+        }
+        Write-Status -State "FAILED" -ExitCode $exitCode -ErrorSummary $script:FailureSummary
+        throw $script:FailureSummary
     }
     $script:LastCompleted = $Name
     Write-Status -State "RUNNING" -ExitCode 0
 }
 
-if (Test-Path -LiteralPath $Lock) {
-    $existingPidPath = Join-Path $Root "wrapper.pid"
-    $existingPid = if (Test-Path $existingPidPath) { [int](Get-Content $existingPidPath -Raw) } else { 0 }
-    if ($existingPid -gt 0 -and (Get-Process -Id $existingPid -ErrorAction SilentlyContinue)) {
-        throw "An active detached OULAD wrapper already exists"
+$existingPidPath = Join-Path $Root "wrapper.pid"
+$existingPid = if (Test-Path $existingPidPath) { [int](Get-Content $existingPidPath -Raw) } else { 0 }
+$existingAlive = $existingPid -gt 0 -and
+    $null -ne (Get-Process -Id $existingPid -ErrorAction SilentlyContinue)
+if ($existingAlive) {
+    throw "An active detached OULAD wrapper already exists"
+}
+if (Test-Path -LiteralPath $StatusPath) {
+    $priorStatus = Get-Content -LiteralPath $StatusPath -Raw | ConvertFrom-Json
+    if ($priorStatus.state -in @("FAILED", "BLOCKED_GPU", "GPU_CHECK_ERROR")) {
+        $recoveryTimestamp = [DateTimeOffset]::UtcNow.ToString("yyyyMMddTHHmmssZ")
+        $priorChecksum = (Get-FileHash -LiteralPath $StatusPath -Algorithm SHA256).Hash.ToLowerInvariant()
+        $archiveRoot = Join-Path $Repo "artifacts\history\partial_svm_probability_true_20260729"
+        $checkpointSnapshot = Get-CheckpointSnapshot
+        [ordered]@{
+            schema_version = "oulad_detached_recovery_v1"
+            recorded_at = [DateTimeOffset]::UtcNow.ToString("o")
+            prior_state = $priorStatus.state
+            prior_step = $priorStatus.step
+            prior_wrapper_pid = [int]$priorStatus.wrapper_pid
+            pid_alive = $existingAlive
+            stale_lock_action = if (Test-Path -LiteralPath $Lock) { "REMOVED_STALE_LOCK" } else { "NO_LOCK_PRESENT" }
+            stale_pid_action = "REMOVED_DEAD_PID_MARKERS"
+            old_status_sha256 = $priorChecksum
+            archive_state = [ordered]@{
+                path = $archiveRoot
+                checkpoint_count = @(Get-ChildItem -LiteralPath $archiveRoot -Recurse -Filter *.joblib -ErrorAction SilentlyContinue).Count
+                readme_present = Test-Path -LiteralPath (Join-Path $archiveRoot "README.txt")
+                manifest_present = Test-Path -LiteralPath (Join-Path $archiveRoot "manifest.json")
+            }
+            checkpoint_counts = $checkpointSnapshot.counts
+        } | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath (Join-Path $Root "recovery_$recoveryTimestamp.json") -Encoding UTF8
     }
+}
+if (Test-Path -LiteralPath $Lock) {
     Remove-Item -LiteralPath $Lock -Force
+}
+foreach ($markerName in @("launcher.pid", "wrapper.pid", "child.pid")) {
+    $markerPath = Join-Path $Root $markerName
+    if (Test-Path -LiteralPath $markerPath) {
+        Remove-Item -LiteralPath $markerPath -Force
+    }
 }
 New-Item -ItemType File -Path $Lock -ErrorAction Stop | Out-Null
 Set-Content -LiteralPath (Join-Path $Root "wrapper.pid") -Value $PID
@@ -161,25 +248,32 @@ $script:CudaAvailable = $null
 $script:GpuName = $null
 
 try {
-    Invoke-Step 0 "PREFLIGHT" $Python @("scripts/oulad_multistage_runtime.py", "preflight") "00_preflight"
-    Invoke-Step 1 "SVM_AMENDMENT" $Python @("scripts/oulad_multistage_runtime.py", "amendment") "01_svm_amendment"
-    Invoke-Step 2 "CHECKPOINT_AUDIT" $Python @("scripts/oulad_multistage_runtime.py", "audit") "02_checkpoint_audit"
-    Invoke-Step 3 "GPU_GATE" $Python @("scripts/oulad_multistage_runtime.py", "gpu") "03_smoke"
+    Invoke-ExternalCommand 0 "PREFLIGHT" $Python @("scripts/oulad_multistage_runtime.py", "preflight") "00_preflight"
+    Invoke-ExternalCommand 1 "GPU_GATE" $Python @("scripts/oulad_multistage_runtime.py", "gpu") "01_gpu_gate"
     $gpuAudit = Get-Content (Join-Path $Repo "artifacts\final\unified_stage_aware_oulad\gpu_runtime_audit.json") -Raw | ConvertFrom-Json
     $script:CudaAvailable = [bool]$gpuAudit.cuda_available
     $script:GpuName = $gpuAudit.device_name
-    Invoke-Step 3 "SMOKE_TEST" $Python @("scripts/oulad_multistage_runtime.py", "smoke") "03_smoke"
-    Invoke-Step 4 "FULL_TRAIN_RESUME" $Python @("project.py", "study", "oulad-multistage", "train", "--resume") "04_train"
-    Invoke-Step 5 "EVALUATE" $Python @("project.py", "study", "oulad-multistage", "evaluate") "05_evaluate"
-    Invoke-Step 6 "BOOTSTRAP" $Python @("project.py", "study", "oulad-multistage", "bootstrap") "06_bootstrap"
-    Invoke-Step 7 "REPORT" $Python @("project.py", "study", "oulad-multistage", "report") "07_report"
-    Invoke-Step 8 "OULAD_VALIDATE" $Python @("project.py", "study", "oulad-multistage", "validate") "08_validate"
-    Invoke-Step 9 "PYTEST" $Python @("-m", "pytest") "09_pytest"
-    Invoke-Step 10 "RUFF" $Python @("-m", "ruff", "check", ".") "10_ruff"
-    Invoke-Step 11 "FINAL_VALIDATE" $Python @("project.py", "final", "validate") "11_final_validate"
-    Invoke-Step 12 "DATABASE_REPLACEMENT_VALIDATE" $Python @("scripts/oulad_multistage_database.py") "12_database_validate"
+    if ($PreflightOnly) {
+        $script:CurrentStep = "PREFLIGHT_ONLY_COMPLETE"
+        $script:LastCompleted = "GPU_GATE"
+        Write-Status -State "PREFLIGHT_PASS" -ExitCode 0
+        exit 0
+    }
 
-    $script:StepIndex = 13
+    Invoke-ExternalCommand 2 "SVM_AMENDMENT" $Python @("scripts/oulad_multistage_runtime.py", "amendment") "02_svm_amendment"
+    Invoke-ExternalCommand 3 "CHECKPOINT_AUDIT" $Python @("scripts/oulad_multistage_runtime.py", "audit") "03_checkpoint_audit"
+    Invoke-ExternalCommand 4 "SMOKE_TEST" $Python @("scripts/oulad_multistage_runtime.py", "smoke") "04_smoke"
+    Invoke-ExternalCommand 5 "FULL_TRAIN_RESUME" $Python @("project.py", "study", "oulad-multistage", "train", "--resume") "05_train"
+    Invoke-ExternalCommand 6 "EVALUATE" $Python @("project.py", "study", "oulad-multistage", "evaluate") "06_evaluate"
+    Invoke-ExternalCommand 7 "BOOTSTRAP" $Python @("project.py", "study", "oulad-multistage", "bootstrap") "07_bootstrap"
+    Invoke-ExternalCommand 8 "REPORT" $Python @("project.py", "study", "oulad-multistage", "report") "08_report"
+    Invoke-ExternalCommand 9 "OULAD_VALIDATE" $Python @("project.py", "study", "oulad-multistage", "validate") "09_validate"
+    Invoke-ExternalCommand 10 "PYTEST" $Python @("-m", "pytest") "10_pytest"
+    Invoke-ExternalCommand 11 "RUFF" $Python @("-m", "ruff", "check", ".") "11_ruff"
+    Invoke-ExternalCommand 12 "FINAL_VALIDATE" $Python @("project.py", "final", "validate") "12_final_validate"
+    Invoke-ExternalCommand 13 "DATABASE_REPLACEMENT_VALIDATE" $Python @("scripts/oulad_multistage_database.py") "13_database_validate"
+
+    $script:StepIndex = 14
     $script:CurrentStep = "FINAL_AUDIT_COMMIT_PUSH"
     $script:CurrentStdout = Join-Path $Root "13_git.stdout.log"
     $script:CurrentStderr = Join-Path $Root "13_git.stderr.log"
@@ -191,7 +285,7 @@ git push origin codex/unified-oulad-stage-aware-system
 '@
     $gitPath = Join-Path $Root "final_git_step.ps1"
     Set-Content -LiteralPath $gitPath -Value $gitScript -Encoding UTF8
-    Invoke-Step 13 "FINAL_AUDIT_COMMIT_PUSH" "powershell.exe" @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $gitPath) "13_git"
+    Invoke-ExternalCommand 14 "FINAL_AUDIT_COMMIT_PUSH" "powershell.exe" @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $gitPath) "14_git"
 
     $snapshot = Get-CheckpointSnapshot
     $done = [ordered]@{
@@ -232,16 +326,25 @@ catch [System.OperationCanceledException] {
 }
 catch {
     $summary = $_.Exception.Message
-    if (!(Test-Path -LiteralPath (Join-Path $Root "FAILED.json")) -and $summary -ne "BLOCKED_GPU") {
+    if ($summary -eq "BLOCKED_GPU") {
+        exit 20
+    }
+    if ($summary -eq "GPU_CHECK_ERROR") {
+        exit 21
+    }
+    if (!(Test-Path -LiteralPath (Join-Path $Root "FAILED.json"))) {
+        $failureCode = if ($null -ne $script:FailureExitCode) { [int]$script:FailureExitCode } else { 1 }
+        $failureSummary = if ($script:FailureSummary) { $script:FailureSummary } else { $summary }
         @{
             state = "FAILED"
             failed_at = [DateTimeOffset]::UtcNow.ToString("o")
             step = $script:CurrentStep
-            error_summary = $summary
+            exit_code = $failureCode
+            error_summary = $failureSummary
         } | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $Root "FAILED.json") -Encoding UTF8
-        Write-Status -State "FAILED" -ExitCode 1 -ErrorSummary $summary
+        Write-Status -State "FAILED" -ExitCode $failureCode -ErrorSummary $failureSummary
     }
-    exit 1
+    exit $(if ($null -ne $script:FailureExitCode) { [int]$script:FailureExitCode } else { 1 })
 }
 finally {
     if (Test-Path -LiteralPath $Lock) {
