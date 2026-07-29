@@ -1,0 +1,103 @@
+{
+  "checkpoint_count": 8,
+  "rows": [
+    {
+      "byte_count": 32233286,
+      "created_at": "2026-07-28T19:14:50.632695+00:00",
+      "estimator": "sklearn.svm.SVC(probability=True)",
+      "final_authority": false,
+      "outer_fold": 0,
+      "path": "artifacts/history/partial_svm_probability_true_20260729/svm_oulad/outer_fold_0/seed_1201.joblib",
+      "reason": "superseded_by_inner_oof_external_sigmoid_calibration",
+      "scientific_use": false,
+      "seed": 1201,
+      "sha256": "559d8d866fb726c8d5bc7b92c9f1f26ad849fe7ee13e0f5e71f36a8ccbad51ed"
+    },
+    {
+      "byte_count": 32233286,
+      "created_at": "2026-07-28T20:36:32.377578+00:00",
+      "estimator": "sklearn.svm.SVC(probability=True)",
+      "final_authority": false,
+      "outer_fold": 0,
+      "path": "artifacts/history/partial_svm_probability_true_20260729/svm_oulad/outer_fold_0/seed_2026.joblib",
+      "reason": "superseded_by_inner_oof_external_sigmoid_calibration",
+      "scientific_use": false,
+      "seed": 2026,
+      "sha256": "55af0a3b7443262619a514e7aea09e81aa8488f78f443a3dc7958fd92241dc9d"
+    },
+    {
+      "byte_count": 32233286,
+      "created_at": "2026-07-28T21:58:43.599952+00:00",
+      "estimator": "sklearn.svm.SVC(probability=True)",
+      "final_authority": false,
+      "outer_fold": 0,
+      "path": "artifacts/history/partial_svm_probability_true_20260729/svm_oulad/outer_fold_0/seed_3407.joblib",
+      "reason": "superseded_by_inner_oof_external_sigmoid_calibration",
+      "scientific_use": false,
+      "seed": 3407,
+      "sha256": "7f59660cec373202e98ecde86edb4ecccca06fbbc86d94bf202fe2259bcf5cb3"
+    },
+    {
+      "byte_count": 32233270,
+      "created_at": "2026-07-28T17:48:48.056544+00:00",
+      "estimator": "sklearn.svm.SVC(probability=True)",
+      "final_authority": false,
+      "outer_fold": 0,
+      "path": "artifacts/history/partial_svm_probability_true_20260729/svm_oulad/outer_fold_0/seed_42.joblib",
+      "reason": "superseded_by_inner_oof_external_sigmoid_calibration",
+      "scientific_use": false,
+      "seed": 42,
+      "sha256": "4cfc5980e667d2476d34c46c8cd6361fde051bb9bfeecddbd9c2dfbae1e9bdb4"
+    },
+    {
+      "byte_count": 32233286,
+      "created_at": "2026-07-28T23:20:54.772724+00:00",
+      "estimator": "sklearn.svm.SVC(probability=True)",
+      "final_authority": false,
+      "outer_fold": 0,
+      "path": "artifacts/history/partial_svm_probability_true_20260729/svm_oulad/outer_fold_0/seed_7319.joblib",
+      "reason": "superseded_by_inner_oof_external_sigmoid_calibration",
+      "scientific_use": false,
+      "seed": 7319,
+      "sha256": "5fee101f60c87989d93c75f3888f01b3324c6d1f1220c3b30605219ada22f1a2"
+    },
+    {
+      "byte_count": 31831862,
+      "created_at": "2026-07-29T02:02:38.202119+00:00",
+      "estimator": "sklearn.svm.SVC(probability=True)",
+      "final_authority": false,
+      "outer_fold": 1,
+      "path": "artifacts/history/partial_svm_probability_true_20260729/svm_oulad/outer_fold_1/seed_1201.joblib",
+      "reason": "superseded_by_inner_oof_external_sigmoid_calibration",
+      "scientific_use": false,
+      "seed": 1201,
+      "sha256": "553cacc9683e29679eb1872871e4896e6c7c5376c7fa6ae9e8bd46de24eece32"
+    },
+    {
+      "byte_count": 31831862,
+      "created_at": "2026-07-29T03:23:35.468815+00:00",
+      "estimator": "sklearn.svm.SVC(probability=True)",
+      "final_authority": false,
+      "outer_fold": 1,
+      "path": "artifacts/history/partial_svm_probability_true_20260729/svm_oulad/outer_fold_1/seed_2026.joblib",
+      "reason": "superseded_by_inner_oof_external_sigmoid_calibration",
+      "scientific_use": false,
+      "seed": 2026,
+      "sha256": "ce2d7abacc77398614430e6376b4467efa6adb8eced264ad4f7bf2753e7383c4"
+    },
+    {
+      "byte_count": 31831846,
+      "created_at": "2026-07-29T00:41:40.814360+00:00",
+      "estimator": "sklearn.svm.SVC(probability=True)",
+      "final_authority": false,
+      "outer_fold": 1,
+      "path": "artifacts/history/partial_svm_probability_true_20260729/svm_oulad/outer_fold_1/seed_42.joblib",
+      "reason": "superseded_by_inner_oof_external_sigmoid_calibration",
+      "scientific_use": false,
+      "seed": 42,
+      "sha256": "23447447cd171e84f645250c33a0ad50c83a10750b28473527ddbd4ba64fdd1a"
+    }
+  ],
+  "schema_version": "partial_svm_archive_v1",
+  "status": "PASS"
+}

@@ -1,0 +1,20 @@
+{
+  "base_ancestor": true,
+  "branch": "codex/unified-oulad-stage-aware-system",
+  "canonical_database_modified": false,
+  "checkpoint_counts": {
+    "decision_tree_oulad": 15,
+    "hist_gradient_boosting_oulad": 15,
+    "logistic_regression_oulad": 15,
+    "random_forest_oulad": 15,
+    "svm_oulad": 0
+  },
+  "credentials": "REDACTED",
+  "document_checksums": {},
+  "free_bytes": 188015071232,
+  "head": "ef40acf8de12aae8a66c2df84e5466c9c42ea4ef",
+  "interpreter": "C:\\hufit\\kltn\\.venv-oulad-v2\\Scripts\\python.exe",
+  "raw_data_available": true,
+  "status": "PASS",
+  "uci_checksum_snapshot": "13c90e092a4231e040983fe5b2ff1d1314eb66fb240c33b0aeb9ec3ca188c216"
+}

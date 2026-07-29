@@ -285,6 +285,8 @@ def _load_stage_authority(dsn: str) -> dict[str, int]:
                         "artifacts/final/unified_stage_aware_uci/predictions.parquet",
                         source_sha,
                         Json({"model_id": row["model_id"]}),
+                        "OPERATIONAL_RISK_SET",
+                        "RAW_PROBABILITY",
                     )
                 )
             execute_values(
@@ -292,9 +294,10 @@ def _load_stage_authority(dsn: str) -> dict[str, int]:
                 """
                 INSERT INTO ml.prediction(
                     run_id,record_pk,prediction_stage,predicted_label,probabilities,
-                    outer_fold,aggregation,source_artifact,source_sha256,detail
+                    outer_fold,aggregation,source_artifact,source_sha256,detail,
+                    cohort,threshold_policy
                 ) VALUES %s
-                ON CONFLICT(run_id,record_pk,prediction_stage) DO UPDATE SET
+                ON CONFLICT(run_id,record_pk,prediction_stage,cohort,threshold_policy) DO UPDATE SET
                     predicted_label=EXCLUDED.predicted_label,
                     probabilities=EXCLUDED.probabilities,
                     outer_fold=EXCLUDED.outer_fold,
@@ -352,9 +355,11 @@ def _load_stage_authority(dsn: str) -> dict[str, int]:
                             ),
                             int(row["outer_fold"]),
                             "mean_across_all_fixed_seeds",
-                            relative,
-                            digest,
-                            Json({"frozen": True}),
+                        relative,
+                        digest,
+                        Json({"frozen": True}),
+                        "OPERATIONAL_RISK_SET",
+                        "RAW_PROBABILITY",
                         )
                     )
             execute_values(
@@ -362,9 +367,10 @@ def _load_stage_authority(dsn: str) -> dict[str, int]:
                 """
                 INSERT INTO ml.prediction(
                     run_id,record_pk,prediction_stage,predicted_label,probabilities,
-                    outer_fold,aggregation,source_artifact,source_sha256,detail
+                    outer_fold,aggregation,source_artifact,source_sha256,detail,
+                    cohort,threshold_policy
                 ) VALUES %s
-                ON CONFLICT(run_id,record_pk,prediction_stage) DO UPDATE SET
+                ON CONFLICT(run_id,record_pk,prediction_stage,cohort,threshold_policy) DO UPDATE SET
                     predicted_label=EXCLUDED.predicted_label,
                     probabilities=EXCLUDED.probabilities,
                     outer_fold=EXCLUDED.outer_fold,

@@ -310,6 +310,10 @@ def validate() -> list[str]:
         "UCI_BASELINE_REVALIDATION_REPORT.md",
         "DATABASE_30_MODEL_CUTOVER_GUIDE.md",
         "MERGE_READINESS.md",
+        "OULAD_UNIFIED_MULTI_STAGE_RESULTS.md",
+        "OULAD_EARLY_WARNING_RESULTS.md",
+        "OULAD_MODEL_SELECTION_REPORT.md",
+        "OULAD_HYBRID_VS_ML_STAGE_MATRIX.md",
     }
     _assert(
         required_reports <= {path.name for path in REPORT_ROOT.glob("*.md")},
@@ -368,6 +372,27 @@ def validate() -> list[str]:
             "unified model/stage identity contract failed",
             errors,
         )
+    oulad_unified_root = FINAL_ROOT / "unified_stage_aware_oulad"
+    oulad_unified_validation = oulad_unified_root / "validation.json"
+    _assert(
+        oulad_unified_validation.is_file(),
+        "unified OULAD multi-stage validation is missing",
+        errors,
+    )
+    if oulad_unified_validation.is_file():
+        oulad_unified = json.loads(oulad_unified_validation.read_text(encoding="utf-8"))
+        _assert(
+            oulad_unified.get("status") == "PASS"
+            and oulad_unified.get("model_identities") == 10
+            and oulad_unified.get("stage_rows") == 40
+            and oulad_unified.get("final_training_runs") == 150
+            and oulad_unified.get("project_stage_rows") == 100
+            and oulad_unified.get("project_overall_rows") == 30
+            and oulad_unified.get("future_oulad") == "LOCKED_NOT_EXECUTED"
+            and oulad_unified.get("canonical_database_modified") is False,
+            "unified OULAD multi-stage authority contract failed",
+            errors,
+        )
     stage_authority = FINAL_ROOT / "final_stage_results.csv"
     overall_authority = FINAL_ROOT / "final_overall_results.csv"
     _assert(
@@ -382,6 +407,16 @@ def validate() -> list[str]:
             sum(row["dataset"] in {"student_mat", "student_por"} for row in stage_rows)
             == 60,
             "unified stage authority must contain 60 UCI rows",
+            errors,
+        )
+        _assert(
+            sum(row["dataset"] == "oulad" for row in stage_rows) == 40,
+            "unified stage authority must contain 40 OULAD rows",
+            errors,
+        )
+        _assert(
+            len(stage_rows) == 100,
+            "unified stage authority must contain 100 total rows",
             errors,
         )
         _assert(

@@ -216,6 +216,14 @@ reports/benchmark_v2/v2_1/
 /test_lab/
 test_lab/**
 
+# Resumable local materialization cache; final OULAD authority stores only
+# checksummed checkpoints and evidence, never the raw reconstructed bundle.
+/artifacts/final/unified_stage_aware_oulad/.runtime_cache/
+
+# Superseded probability=True SVM binaries are retained locally for forensic
+# audit; the compact manifest and checksums remain versioned.
+/artifacts/history/partial_svm_probability_true_20260729/svm_oulad/
+
 # Local non-selected experiment snapshots retained outside the public release
 /configs/v5_2/
 /configs/v5_3/

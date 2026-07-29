@@ -1,0 +1,22 @@
+{
+  "cuda_available": true,
+  "cuda_build": "11.8",
+  "cuda_device_count": 1,
+  "deterministic_settings": {
+    "best_seed_selection": false,
+    "fixed_seeds": [
+      42,
+      1201,
+      2026,
+      3407,
+      7319
+    ]
+  },
+  "device_name": "NVIDIA GeForce RTX 2060",
+  "free_vram_bytes": 5350883328,
+  "schema_version": "oulad_gpu_runtime_audit_v1",
+  "selected_device": "cuda:0",
+  "status": "PASS",
+  "torch_version": "2.7.1+cu118",
+  "total_vram_bytes": 6442123264
+}

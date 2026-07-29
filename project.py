@@ -117,6 +117,24 @@ def command_unified_stage(args: argparse.Namespace) -> int:
     return 0 if result.get("status") == "PASS" else 1
 
 
+def command_oulad_multistage(args: argparse.Namespace) -> int:
+    from src.studies import oulad_multistage
+
+    handlers = {
+        "prepare": oulad_multistage.prepare,
+        "smoke": oulad_multistage.smoke,
+        "train": lambda: oulad_multistage.train(resume=args.resume),
+        "evaluate": oulad_multistage.evaluate,
+        "bootstrap": oulad_multistage.bootstrap,
+        "report": oulad_multistage.report,
+        "validate": oulad_multistage.validate,
+        "all": lambda: oulad_multistage.all_steps(resume=args.resume),
+    }
+    result = handlers[args.oulad_multistage_command]()
+    print(json.dumps(result, indent=2))
+    return 0 if result.get("status") == "PASS" else 1
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description="Canonical student prediction release."
@@ -167,6 +185,17 @@ def build_parser() -> argparse.ArgumentParser:
     for name in ("prepare", "train", "evaluate", "report", "validate", "all"):
         command = unified_commands.add_parser(name)
         command.set_defaults(handler=command_unified_stage)
+    oulad = study_commands.add_parser(
+        "oulad-multistage", help="One-estimator, four-stage OULAD authority."
+    )
+    oulad_commands = oulad.add_subparsers(
+        dest="oulad_multistage_command", required=True
+    )
+    for name in ("prepare", "smoke", "train", "evaluate", "bootstrap", "report", "validate", "all"):
+        command = oulad_commands.add_parser(name)
+        if name in {"train", "all"}:
+            command.add_argument("--resume", action="store_true")
+        command.set_defaults(handler=command_oulad_multistage)
     return parser
 
 
