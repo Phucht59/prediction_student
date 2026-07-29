@@ -1,0 +1,29 @@
+{
+  "group_key": "id_student",
+  "inner_folds": 2,
+  "outer_folds": [
+    {
+      "outer_fold": 0,
+      "train_base_records": 11057,
+      "train_students_sha256": "a36058bb1b6cbf9fc5732c3ff413ab5d4219d42331e13763b7885e36f52eebcb",
+      "validation_base_records": 5515,
+      "validation_students_sha256": "98181a4d1ca749980cfe08cba9fa8c06264561fb7b7d44f52e44c38552f2a6e9"
+    },
+    {
+      "outer_fold": 1,
+      "train_base_records": 11055,
+      "train_students_sha256": "3b407c3a926021624753dc3f8bbafefebe276713ff7021f0b6627693f01167ee",
+      "validation_base_records": 5517,
+      "validation_students_sha256": "85dd5d001e39f6971cd97fbf27715a39d8a81dec6484f6e2ea24edbccd24fd2a"
+    },
+    {
+      "outer_fold": 2,
+      "train_base_records": 11032,
+      "train_students_sha256": "9c51fc80b57c29719b03be37188e112f03b849f7de2af02b98ee526f4a7487d1",
+      "validation_base_records": 5540,
+      "validation_students_sha256": "2d761afec92d9b01f4c6f973ea08b1350430617a889249208e2403c7bc8ff270"
+    }
+  ],
+  "stages_share_base_fold": true,
+  "status": "PASS"
+}

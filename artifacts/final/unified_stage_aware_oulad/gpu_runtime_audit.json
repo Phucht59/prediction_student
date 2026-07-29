@@ -16,7 +16,7 @@
   "free_vram_bytes": 5350883328,
   "schema_version": "oulad_gpu_runtime_audit_v1",
   "selected_device": "cuda:0",
-  "status": "PASS",
+  "status": "GPU_PASS",
   "torch_version": "2.7.1+cu118",
   "total_vram_bytes": 6442123264
 }

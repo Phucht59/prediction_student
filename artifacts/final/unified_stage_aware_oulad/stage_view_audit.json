@@ -1,0 +1,9 @@
+{
+  "M1_rule": "floor(module_presentation_length * 0.50)",
+  "future_oulad": "LOCKED_NOT_EXECUTED",
+  "legacy_f2_sequence_sha256": "04ba62019047feb092ef4aaa0a5426060c1afb0ca1f543b84a64cfc42bff0ea5",
+  "m1_is_exact_cutoff_compatibility_anchor": true,
+  "score_values_excluded_without_availability_timestamp": true,
+  "split_before_stage_expansion": true,
+  "status": "PASS"
+}

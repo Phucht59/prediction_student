@@ -68,3 +68,10 @@ The pre-refactor canonical artifacts remain byte-identical:
 ## Status
 
 `UNIFIED_STAGE_AWARE_SYSTEM_READY_FOR_REVIEW`
+
+## OULAD unified multi-stage authority
+
+- 10 OULAD model identities; 40 operational stage rows; 10 OULAD overall summaries.
+- One estimator/checkpoint is reused across E1, E2, M1 and L1 for every `(model, outer_fold, seed)` run.
+- M1 uses the exact historical F2 cutoff, but unified multi-stage results are a replacement authority and are not asserted to reproduce the frozen single-cutoff score.
+- Canonical frozen F2 artifacts remain historical compatibility evidence.

@@ -1,0 +1,705 @@
+{
+  "files": [
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/architecture_freeze_audit.json",
+      "sha256": "18b50dd0794ed5d09936954a7e065e2c31bbc72395fd6e7ac258fec87a895ab5"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/bootstrap_overall.csv",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/bootstrap_stage.csv",
+      "sha256": "c733f4944e1b66888b96ba71f6c792a71718af14e5a6dba11856b91632c961e4"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoint_stage_mapping.json",
+      "sha256": "de420af7b7647c648b3582f871642dc9c81460ee5eafbb1f27985200b43fa27e"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/bilstm_only_oulad/outer_fold_0/seed_1201.pt",
+      "sha256": "04918b4d7c46a827b5c388210e2416bea4f0a5af32b1e310ebad65d6e852f3f2"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/bilstm_only_oulad/outer_fold_0/seed_2026.pt",
+      "sha256": "c71727f90abdec7096c52435565a73302817733b908d2828d998574f3d893e8f"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/bilstm_only_oulad/outer_fold_0/seed_3407.pt",
+      "sha256": "13f7eb146430dd82be89f4cefa6e5bb41b46c45e196d194e1d298bf01a115242"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/bilstm_only_oulad/outer_fold_0/seed_42.pt",
+      "sha256": "21b6b8918a2dd3c8344483142064192c9a66cd7fe030c5daee6e61a6536ff164"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/bilstm_only_oulad/outer_fold_0/seed_7319.pt",
+      "sha256": "bbd82e1c2b4e10c83daf4383279e0c2da5a47a2cca14decc4fccad8fd0905636"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/bilstm_only_oulad/outer_fold_1/seed_1201.pt",
+      "sha256": "352c438efb0021e336cfbaa383650958e1054b20db03eeb5d1b9509fa6a8dab8"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/bilstm_only_oulad/outer_fold_1/seed_2026.pt",
+      "sha256": "62eed376d3ff2e0873f7e6ae1ed7cd6cd0bcc7f6b1d3adb818024add1e00eecc"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/bilstm_only_oulad/outer_fold_1/seed_3407.pt",
+      "sha256": "f419b8dffe2df4a4fe77aa9670909f1b05d79ede3610de53c6698add5ca7c51d"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/bilstm_only_oulad/outer_fold_1/seed_42.pt",
+      "sha256": "b03c6daf680d723d4e1ba24ce600e9fcd4f9174c1ab8dfc5cac0099d60049f02"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/bilstm_only_oulad/outer_fold_1/seed_7319.pt",
+      "sha256": "96b67a7ec9c109b0d80749c1727f7a15ff68d0878292ab37957bc8d036ad0606"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/bilstm_only_oulad/outer_fold_2/seed_1201.pt",
+      "sha256": "5d3df505b956bd89cc23f78d6137c257fbd89c781f55df674295e74c4678068b"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/bilstm_only_oulad/outer_fold_2/seed_2026.pt",
+      "sha256": "e9e8f63436b438ef06affcf1b0c62cde0c374be3b9314110c753e789a3b37ab2"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/bilstm_only_oulad/outer_fold_2/seed_3407.pt",
+      "sha256": "7e35365a447cb63b2b5245dfcc6d27c2fcff2a80f348b5c184afaaaf65863a50"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/bilstm_only_oulad/outer_fold_2/seed_42.pt",
+      "sha256": "00e3d6a276c8fa4a697333b4036a6303b0502d6a9a81929750022fa051eabdfe"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/bilstm_only_oulad/outer_fold_2/seed_7319.pt",
+      "sha256": "532d6e22da19c9b9525cd5d84636d20583af3a82fed6d8ce64cba6ab58bb6d36"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_bilstm_oulad/outer_fold_0/seed_1201.pt",
+      "sha256": "bd2c5ae5c41410e308d94f660827077a89d8be4302276748ea1afd2b9e01d3ee"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_bilstm_oulad/outer_fold_0/seed_2026.pt",
+      "sha256": "010711a3e74f0f5ae79f03dcad87eb011fb8e96cae78183cf3bbced3b36d2a12"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_bilstm_oulad/outer_fold_0/seed_3407.pt",
+      "sha256": "e3c973d893ce4d455fac482c80c1c714eaf28c1eb9e0140aa3c47c8ac44c926d"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_bilstm_oulad/outer_fold_0/seed_42.pt",
+      "sha256": "104596c79bd704e5f587d3943e11cc112a30ccafcb2f1cf8b35bf20aee78c8fe"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_bilstm_oulad/outer_fold_0/seed_7319.pt",
+      "sha256": "03214f706afdf155e0b66620ae10a6db5860cef491eb5536b2233d27bf793f11"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_bilstm_oulad/outer_fold_1/seed_1201.pt",
+      "sha256": "4e1f1e976afe103a1f146954ad78fd4fe044c6f6993e5b3ec88ae1eb621b6302"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_bilstm_oulad/outer_fold_1/seed_2026.pt",
+      "sha256": "c0f18902f9b800360856995f9ad8222bfed803b31490cfa5c5532b7e7d28b8af"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_bilstm_oulad/outer_fold_1/seed_3407.pt",
+      "sha256": "ae56dca4353f8770207e28455adb69a6a0a5c7ad81ecf4d476cfbb9361d70d3d"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_bilstm_oulad/outer_fold_1/seed_42.pt",
+      "sha256": "e3f8ab27b0bbad31afeb2eea7523bdc518d9e9207d1c544d7b3f0b2481b5808a"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_bilstm_oulad/outer_fold_1/seed_7319.pt",
+      "sha256": "645167a2437ba5155d6ed220fe6e5e53a12432726acdccbe016e25ba28383972"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_bilstm_oulad/outer_fold_2/seed_1201.pt",
+      "sha256": "1e09857e71476c0c6a75077bad6031a0ceb1a789c32bbdcfc9b9355c1ae7c001"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_bilstm_oulad/outer_fold_2/seed_2026.pt",
+      "sha256": "9721ebb54e04c95ca476773ae1f841f6bbf28cbb2191db8fcef389f6a12c88b7"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_bilstm_oulad/outer_fold_2/seed_3407.pt",
+      "sha256": "293f618402a41288af321832847293d09ae969de3540a829a14a3a9f29f0b0d4"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_bilstm_oulad/outer_fold_2/seed_42.pt",
+      "sha256": "1390929a4d86ec232a469f2e91869fafe53c6c5bc4c91e7ffa4b2251844942f2"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_bilstm_oulad/outer_fold_2/seed_7319.pt",
+      "sha256": "00a1cbfa37cd94d730aea9568d78603bf1d216a06c28636b8a5cadd8d9095773"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_only_oulad/outer_fold_0/seed_1201.pt",
+      "sha256": "135898de6a98c326657ee8310eb79e5bfe8f51774af3c9003f10770d92b704ca"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_only_oulad/outer_fold_0/seed_2026.pt",
+      "sha256": "d332f03c98d7fadd97161b3c6c02ef5e41492043e82cede51d3bab8761c3569a"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_only_oulad/outer_fold_0/seed_3407.pt",
+      "sha256": "642e5030f9c6d8d6d325764ae6185350588d27c0eab0f1372283da02c63c0c43"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_only_oulad/outer_fold_0/seed_42.pt",
+      "sha256": "0287f1ba3dd756ddcba70c083476222d72e5cc2400d42f5b7010dbc55e65e867"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_only_oulad/outer_fold_0/seed_7319.pt",
+      "sha256": "b20539c087e941ef74177b74c57ebc800c3bdef70877e2f71d6410edc388b85a"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_only_oulad/outer_fold_1/seed_1201.pt",
+      "sha256": "bc09278f4e57a2da9288e008efdf3580912408d6333be232f9b6b3061b2dce9c"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_only_oulad/outer_fold_1/seed_2026.pt",
+      "sha256": "9a4cf511036e4d9358e0eb1f06042a4feea8855adcefbdf1f6c2b4d7f0cd6cac"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_only_oulad/outer_fold_1/seed_3407.pt",
+      "sha256": "efe9af6305f86806209b08c6140a96cc8ead573e2c788f036053c443256c0ba7"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_only_oulad/outer_fold_1/seed_42.pt",
+      "sha256": "83209e7db39ad612bfd830cf4f0a5f1958130f79bef62dcd7e6bafce5b22dbee"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_only_oulad/outer_fold_1/seed_7319.pt",
+      "sha256": "80609ebfac328dce3187838ca2f21838e09c33efa847b87ca1882a1090cbec3c"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_only_oulad/outer_fold_2/seed_1201.pt",
+      "sha256": "0214287c91cdacad558d51ea8a362266cee8c24896432b5148baadd1c8146f01"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_only_oulad/outer_fold_2/seed_2026.pt",
+      "sha256": "e2e23be5768fde1e9626ae3320f5553784711f502795d03434bad2e7576e62a1"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_only_oulad/outer_fold_2/seed_3407.pt",
+      "sha256": "b182ac0b99a7417196963259739d6dd8adaf5963c5fd381eae98152ecd1d48fa"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_only_oulad/outer_fold_2/seed_42.pt",
+      "sha256": "615c166f2f02f2e5deb6d5d016f12038edecead2361f1aa7d231c507eda4723d"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_only_oulad/outer_fold_2/seed_7319.pt",
+      "sha256": "eba24c3ae7afcb687b091d3f20da02ac00992c6c941160b529453c56136416f9"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/decision_tree_oulad/outer_fold_0/seed_1201.joblib",
+      "sha256": "070379c45cdcabe07333f8b5e2ce13006d7e891c88807c48cfd0506559c0cdf0"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/decision_tree_oulad/outer_fold_0/seed_2026.joblib",
+      "sha256": "8be6737a60939aa70fb1ae7931a2fd539ac107df957c198726549e1e71d64721"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/decision_tree_oulad/outer_fold_0/seed_3407.joblib",
+      "sha256": "819ab1278dbbea5676416724eac3f0fd8af14e0d0df236e01cda5fa4d077ebd8"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/decision_tree_oulad/outer_fold_0/seed_42.joblib",
+      "sha256": "2e3ad256448580624190dc9a6e0434aa1087a18cb36f0f99cb7036c8f6f524b0"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/decision_tree_oulad/outer_fold_0/seed_7319.joblib",
+      "sha256": "f3e6b043a0d559097d768e84f1206158ef270996be407c413b06d08b920424e1"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/decision_tree_oulad/outer_fold_1/seed_1201.joblib",
+      "sha256": "525088d9ce7bd7b4788d24301ded7286e3ae286f5c8907503007d55ed8cac2b1"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/decision_tree_oulad/outer_fold_1/seed_2026.joblib",
+      "sha256": "6abe89ee01bb20e671492cd4893f8266a00d78f591ad9b452be09b67ca35169d"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/decision_tree_oulad/outer_fold_1/seed_3407.joblib",
+      "sha256": "815e34034796b9d57f33a7c64322414aaa4910c09b84d9f0aa0569aaecfa0bc6"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/decision_tree_oulad/outer_fold_1/seed_42.joblib",
+      "sha256": "64342c76285b099e1d0bd162d3fef91e4110206422183620bcc83729eadd6f08"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/decision_tree_oulad/outer_fold_1/seed_7319.joblib",
+      "sha256": "bae674449dec6c7b45946c2d19de6a4be684d6db4d391ef6e5ef0a6a2075bf6a"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/decision_tree_oulad/outer_fold_2/seed_1201.joblib",
+      "sha256": "e4c69f1b0ff22879ff8ee370012c90e97d3bb04f9d2d612c79a45669691a593f"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/decision_tree_oulad/outer_fold_2/seed_2026.joblib",
+      "sha256": "be47ba3b971359bc868293d0e7f6de607b2a3eb949b61a8cee85607da398f35a"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/decision_tree_oulad/outer_fold_2/seed_3407.joblib",
+      "sha256": "d646c28a743a51d46258554c57e15ac2effdb557e12c47aa7ce01c0620d18253"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/decision_tree_oulad/outer_fold_2/seed_42.joblib",
+      "sha256": "bfaf37277ee1f3f4babf47670cd922f671a40876aeb0e8ba5bc0f6c5c3675b96"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/decision_tree_oulad/outer_fold_2/seed_7319.joblib",
+      "sha256": "2681933d44e456c21c1ecf34521f7ccac0486553b9108270d4974cad6915426b"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/hist_gradient_boosting_oulad/outer_fold_0/seed_1201.joblib",
+      "sha256": "6f2e0df4d39c743adf0883f2bcd409f197666258a37184a7f8b03e7659011420"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/hist_gradient_boosting_oulad/outer_fold_0/seed_2026.joblib",
+      "sha256": "6dfdfe779eb633cb0926e15fe828e01f109725bcf307221a2a8dfd3cf75aa40a"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/hist_gradient_boosting_oulad/outer_fold_0/seed_3407.joblib",
+      "sha256": "4b9340d2ef41fdb7758391bc8ae8947fb46cb2be87e211265e819d61974296af"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/hist_gradient_boosting_oulad/outer_fold_0/seed_42.joblib",
+      "sha256": "f714cee356213b0668e89c0d61c158c4ca1b856721bf3cc5fa43d87a3b5ec3ae"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/hist_gradient_boosting_oulad/outer_fold_0/seed_7319.joblib",
+      "sha256": "ae7fc47b8db92ef442b91592ec29f9fde97f2bffadfa920d6ee176a44cbd7532"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/hist_gradient_boosting_oulad/outer_fold_1/seed_1201.joblib",
+      "sha256": "39dda5d8d3460bb7dceb0fe1d2e5e8caa8b251c260ac87709ea1c7dc18ea4130"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/hist_gradient_boosting_oulad/outer_fold_1/seed_2026.joblib",
+      "sha256": "369b9c20fdf72ab20a9c20389621b218b611c90304b7475124b93ed4bfd4bdf9"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/hist_gradient_boosting_oulad/outer_fold_1/seed_3407.joblib",
+      "sha256": "e4992adf41c7a0d01ad045a6645aacacb9d8acbfbed38ce5839feef511b3180c"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/hist_gradient_boosting_oulad/outer_fold_1/seed_42.joblib",
+      "sha256": "c2f48a44b7739c06b1c3decb69a258c337c22b7b53591bba27848aa87ad9f56c"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/hist_gradient_boosting_oulad/outer_fold_1/seed_7319.joblib",
+      "sha256": "beac1f2a9c558a690be8765ace00cc23a47965227c9a2b775d91e7b1c798d125"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/hist_gradient_boosting_oulad/outer_fold_2/seed_1201.joblib",
+      "sha256": "5ddbcc0428ce2eada5e50c374784e0d36fb70998252345294a9fdb438117a317"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/hist_gradient_boosting_oulad/outer_fold_2/seed_2026.joblib",
+      "sha256": "d9cdfe455c03265318cf972dab9d4675957b7662ea747492174e1b7fa6d56f41"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/hist_gradient_boosting_oulad/outer_fold_2/seed_3407.joblib",
+      "sha256": "619ba3f248264661beaddb351086812afbaa897d2029874cb7e8933f1083606a"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/hist_gradient_boosting_oulad/outer_fold_2/seed_42.joblib",
+      "sha256": "93c7d4a6e590cafdde43987bb7e65a392d07a9d9fea0175eea64ffe41d25d72b"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/hist_gradient_boosting_oulad/outer_fold_2/seed_7319.joblib",
+      "sha256": "181cd54a3989c3decbfbaab1c0d28d13eeb52d252cdf161aa1282a72a44d66e7"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/logistic_regression_oulad/outer_fold_0/seed_1201.joblib",
+      "sha256": "579936bc337fdc7761275208bb72cb0a7e1e0f09fc2f63529c03adfe9c812fc6"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/logistic_regression_oulad/outer_fold_0/seed_2026.joblib",
+      "sha256": "29f649c69b3730a1d783f97cda83d10a2d3ef932b55c618e1fc4ad68cca39ce8"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/logistic_regression_oulad/outer_fold_0/seed_3407.joblib",
+      "sha256": "6c03f6aab930a671870098457d5b68d8770bc5be0e05b7df486a120cf680966e"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/logistic_regression_oulad/outer_fold_0/seed_42.joblib",
+      "sha256": "b0c1563237eaccb5575ec416a76984fad8c412f73f8870a3c437f5dc5c2e4319"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/logistic_regression_oulad/outer_fold_0/seed_7319.joblib",
+      "sha256": "fb9cebf4c36bbf4b9909d515fa4f52cc9454de5b15ab6df2f3f078f65fd86f84"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/logistic_regression_oulad/outer_fold_1/seed_1201.joblib",
+      "sha256": "9489b269953747bfe0b3dd9874811f69e3f4ac0c9673c344f0863fed1c6c7bd1"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/logistic_regression_oulad/outer_fold_1/seed_2026.joblib",
+      "sha256": "efdce506f406220b9730f6e57b64df48138a6529ef09ec9532f9cacc3a03f207"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/logistic_regression_oulad/outer_fold_1/seed_3407.joblib",
+      "sha256": "cc372ac961f5beccff4b540e695f1576ce7fafca9333b33eb53d2b677d25b7d0"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/logistic_regression_oulad/outer_fold_1/seed_42.joblib",
+      "sha256": "b4aa231a51117be990e1376e6bd36834241193efa2a3baffa43cc05f92b56687"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/logistic_regression_oulad/outer_fold_1/seed_7319.joblib",
+      "sha256": "fd93c357ca238fed655f7043a50a51e121162446d58dad28506a71bbdde428a6"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/logistic_regression_oulad/outer_fold_2/seed_1201.joblib",
+      "sha256": "9bfb6c37650fa8158d44d31034b8b66e81dede23691ea08b047d23646bdb5409"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/logistic_regression_oulad/outer_fold_2/seed_2026.joblib",
+      "sha256": "804de80f40ac09098d7a1ad173477a5456edea5bd90674c6114cd84d911d312e"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/logistic_regression_oulad/outer_fold_2/seed_3407.joblib",
+      "sha256": "c1188cb77d6ed5890975b76d29cb2d5f86095993e95a13b755369e799d87debd"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/logistic_regression_oulad/outer_fold_2/seed_42.joblib",
+      "sha256": "af3054745fa0aebdb69e785954aa95f6b5e68791f38c37dc17e140a05c4d236d"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/logistic_regression_oulad/outer_fold_2/seed_7319.joblib",
+      "sha256": "2a9564b2aa977e21895764eca35919b5764d5fad1aa33d176754ea4d6e2f68b3"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/mlp_oulad/outer_fold_0/seed_1201.joblib",
+      "sha256": "551584f1cd4c430af8b3980ca4271286e3189caa5d344b4630b3bda34a6fd6f5"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/mlp_oulad/outer_fold_0/seed_2026.joblib",
+      "sha256": "0ac6c514ceb1e631095d08c658a5dfdc9e93a5e97874fb24073cb59bd27a744e"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/mlp_oulad/outer_fold_0/seed_3407.joblib",
+      "sha256": "448cff8d2fc6270b792de43f32a5f03c92a782b00b7750aa7299959497bab951"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/mlp_oulad/outer_fold_0/seed_42.joblib",
+      "sha256": "d32d3890a155a8d8687edfefce164e59e4d73c84f3f401ec8a0b18ffc40ff234"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/mlp_oulad/outer_fold_0/seed_7319.joblib",
+      "sha256": "2c538302f097f094a25aeb930db9d48c7d8b5d157caee0f925510e9b968c1873"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/mlp_oulad/outer_fold_1/seed_1201.joblib",
+      "sha256": "e8be0a3e945b98286ccfc5a647423b61cf4069a24c3c8cc0250cac1702c6ab53"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/mlp_oulad/outer_fold_1/seed_2026.joblib",
+      "sha256": "621d822b740bc2795e46403f89c0001d554be9a3cb4172145672d1b0973c5aa8"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/mlp_oulad/outer_fold_1/seed_3407.joblib",
+      "sha256": "875af4eba7bc25d085ec8198612c358277cf6ae6639da4d1602277af6caba8c7"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/mlp_oulad/outer_fold_1/seed_42.joblib",
+      "sha256": "1a68f2af371e428df52a1bbf2f959cc693adca6071a18d76abe20120e11ec9f9"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/mlp_oulad/outer_fold_1/seed_7319.joblib",
+      "sha256": "5b8e79e8a1ddc6a282dd7fbfe8d9995071db839412e1b2e327f32858435c391a"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/mlp_oulad/outer_fold_2/seed_1201.joblib",
+      "sha256": "2bc7bd109a4cd2780d7ff212b37c760d1119c94bc47eef8bfa229205d4cf5ca8"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/mlp_oulad/outer_fold_2/seed_2026.joblib",
+      "sha256": "f844e994f397f24a96d7dc16f3284e530464393414b3f3089f9ed82326db2310"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/mlp_oulad/outer_fold_2/seed_3407.joblib",
+      "sha256": "1cf2e1fcdb6c67fed74fbf14d16f5e714717c0cd10b677cafcd03caf309c75d0"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/mlp_oulad/outer_fold_2/seed_42.joblib",
+      "sha256": "66b155097d0695f3cb09dfe8f8058b64ee219c3a15575d803e7701642981a918"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/mlp_oulad/outer_fold_2/seed_7319.joblib",
+      "sha256": "75f31c7c62724145872decf740660480dfd9e5e92e2882d81d9969f1d992950d"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/random_forest_oulad/outer_fold_0/seed_1201.joblib",
+      "sha256": "11e04e85a5308fb21f40eabcfb5320550ec8c09d6b172a35aa41c68df4b0cb55"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/random_forest_oulad/outer_fold_0/seed_2026.joblib",
+      "sha256": "7569cc4ee9ddfdf1b3f536b5f6086febd06572bd0aa685b46a34559568364239"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/random_forest_oulad/outer_fold_0/seed_3407.joblib",
+      "sha256": "80aa7adbfb16164c89ab8a57c70e251a0e0591ff73c14ad62dd387b6144518c5"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/random_forest_oulad/outer_fold_0/seed_42.joblib",
+      "sha256": "b0600a79b59685e9d4a9d9005e2c9f5ff7ebbd2820c5300fb4a548e20754f1a1"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/random_forest_oulad/outer_fold_0/seed_7319.joblib",
+      "sha256": "9ca7032259c2de5de06165f3713d67fc4e0ab150b55ffed605de7ed9b8dfe4d9"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/random_forest_oulad/outer_fold_1/seed_1201.joblib",
+      "sha256": "da8b1f57b214aa3d4555fadffa029739bb14fa77bd85d41f1c98e4b24974239d"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/random_forest_oulad/outer_fold_1/seed_2026.joblib",
+      "sha256": "1ac952c5a7385a3d1a48a8e6708459d8d1d7e57b2498704e76800507debc154f"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/random_forest_oulad/outer_fold_1/seed_3407.joblib",
+      "sha256": "9a1fb279fb4c9e02b1a39367eb4cc3660c20b3678e014275e0422420400e3e34"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/random_forest_oulad/outer_fold_1/seed_42.joblib",
+      "sha256": "19bfea16a5b445db25a270c568e89be92c3fcd86d8e317cdfc9c5a42e97f538e"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/random_forest_oulad/outer_fold_1/seed_7319.joblib",
+      "sha256": "dd4193367e33f57794e858f0a2ea51514e7ee86d4955b90cc41ecb59823e1304"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/random_forest_oulad/outer_fold_2/seed_1201.joblib",
+      "sha256": "685d1545182eddd4a3f8d117bf8cebaa808daa34d496369b15b4e8c3c2766e85"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/random_forest_oulad/outer_fold_2/seed_2026.joblib",
+      "sha256": "599284ae8913d62736b9a89dc3385e02f6a9706a7e62d8702c49b6506337032d"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/random_forest_oulad/outer_fold_2/seed_3407.joblib",
+      "sha256": "efd0cb7032a196895275ca6d4fe28f4b0c4e5f3ce614492fe351057611d3a801"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/random_forest_oulad/outer_fold_2/seed_42.joblib",
+      "sha256": "4cf84b38d7ecfcba70653088622a80230b18295088911d77960f5febf25b8336"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/random_forest_oulad/outer_fold_2/seed_7319.joblib",
+      "sha256": "f249f9044add4bd84f667f982f5cf288f6566f02ddfa9e368c16a3277abd6ac8"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/svm_oulad/outer_fold_0/seed_1201.joblib",
+      "sha256": "90288d7ceda1ae3b6a936a92b2b098b81829501d8b71636d3b5a2eae734884fd"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/svm_oulad/outer_fold_0/seed_2026.joblib",
+      "sha256": "85892e920b9ecb5c34193249fddd90fab4117a4153c478f4eace2261b68fc332"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/svm_oulad/outer_fold_0/seed_3407.joblib",
+      "sha256": "47f4fe658e03b892e1902cf21b4872eee9ab402de6fcfc872d805c29c6df3eb3"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/svm_oulad/outer_fold_0/seed_42.joblib",
+      "sha256": "0ff6263706a4196791abd5ac0aca863118236de6388c863235bf4743449bfb1f"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/svm_oulad/outer_fold_0/seed_7319.joblib",
+      "sha256": "576e401c637a4c319c92e7581ebfabb0353b1d8a17e66d1f53f45f63aeab0c3c"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/svm_oulad/outer_fold_1/seed_1201.joblib",
+      "sha256": "daf18bfe4323455a863d578f3a76e0c2fba520c12550fef248a15be1e9f0b0ec"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/svm_oulad/outer_fold_1/seed_2026.joblib",
+      "sha256": "c94379a504de3def4570c8c4c2f5339be9e7728497590c5e43a34095eab1ae11"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/svm_oulad/outer_fold_1/seed_3407.joblib",
+      "sha256": "540054d52c967ec49c1f549438112ccdad29885c742781b348cfd88584da7efa"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/svm_oulad/outer_fold_1/seed_42.joblib",
+      "sha256": "bc7574e46f2e0767b9cb5fdf8b1eecfb4f65316200ff9520ca19d4b54acac245"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/svm_oulad/outer_fold_1/seed_7319.joblib",
+      "sha256": "08a1008639a237c59e0e4352ed6494897cd5eb7ff1b4988d3609f36dd668ab69"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/svm_oulad/outer_fold_2/seed_1201.joblib",
+      "sha256": "ce94743bb5de4a6a1946538a63347c23a50deff3cba77e5cecd86013aae40359"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/svm_oulad/outer_fold_2/seed_2026.joblib",
+      "sha256": "b6584caf15f93ddaf8f14462993c990c3e73600d5668ef1b8d295b14149680f9"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/svm_oulad/outer_fold_2/seed_3407.joblib",
+      "sha256": "6caf311dd5cfe6b3e04283c1e9d44d7a7b362bf978bafa4a599b5c3a71b68123"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/svm_oulad/outer_fold_2/seed_42.joblib",
+      "sha256": "f83c28e748ab419b09b42d795854f0d71145fa1e1607be641e3697962339dff9"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/svm_oulad/outer_fold_2/seed_7319.joblib",
+      "sha256": "191a3c6df3fa81c7f77d581888ff96a71fdb4fa6bc21f690b4d83565f964ad1e"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/xgboost_oulad/outer_fold_0/seed_1201.joblib",
+      "sha256": "28fe3f7ba4570ef039ef6f5d44195f4c20745fe8c865172a1c20e84eee0645dc"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/xgboost_oulad/outer_fold_0/seed_2026.joblib",
+      "sha256": "6f07beaf59ba132f14e062646bb159dd7ad5496227585e86f6fb90f4020c018c"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/xgboost_oulad/outer_fold_0/seed_3407.joblib",
+      "sha256": "4ed152e0ceb7b21f244457e9a19909db26f563e43875497025dfbbcd479a65c3"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/xgboost_oulad/outer_fold_0/seed_42.joblib",
+      "sha256": "540cbf864e094be6b2adf63cdee0236a955176f27fbbe723fabafca0d33a3473"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/xgboost_oulad/outer_fold_0/seed_7319.joblib",
+      "sha256": "6bb0afb68baa5958a3cdb8a47c84751bac6902a4118aefc528f1a4d85211fe28"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/xgboost_oulad/outer_fold_1/seed_1201.joblib",
+      "sha256": "7407040c1a67bab795fe6c38f24ecf8919a1990d1d7e0095854a7be83de1842e"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/xgboost_oulad/outer_fold_1/seed_2026.joblib",
+      "sha256": "fe3707067b304adadcdda70223b34a5d188922969279599c00da9588d485942b"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/xgboost_oulad/outer_fold_1/seed_3407.joblib",
+      "sha256": "f28b9fb61cfe65402e8beb9ccd47aae40c1a65e0f2c636b96e489f24cba5f0da"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/xgboost_oulad/outer_fold_1/seed_42.joblib",
+      "sha256": "cd4dcc2d16f64e461b86823df5c6e0d6d0277c6387427a9a841d1f9cc900cc76"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/xgboost_oulad/outer_fold_1/seed_7319.joblib",
+      "sha256": "066f3d49a414cabc47ae286c61c5ea427f360d66123019d1998f40366ecb4ef7"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/xgboost_oulad/outer_fold_2/seed_1201.joblib",
+      "sha256": "0353a75cea42d5d53aa65845ae8ccdb9c766a3d21c906a4b8a1e89fd9dffe222"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/xgboost_oulad/outer_fold_2/seed_2026.joblib",
+      "sha256": "5c6eec0f46f3a5e6350245d5f67aa54d6f294897b63d82d61d5ad8ed4e686d07"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/xgboost_oulad/outer_fold_2/seed_3407.joblib",
+      "sha256": "2c5a63b5fa5782e371586b784e6aaa4f0c71d0cc200ff801d07b2d46a287e514"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/xgboost_oulad/outer_fold_2/seed_42.joblib",
+      "sha256": "a7b458f05bd6f81b62bc3f98ec2e43f323f387e1f5e9bbb1b4880f1372c239b3"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/checkpoints/xgboost_oulad/outer_fold_2/seed_7319.joblib",
+      "sha256": "af6446fbeaa2012f0b684d319281c239250c1387db91d1f517dfb5156c88c6ca"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/common_cohort_metrics.csv",
+      "sha256": "2fbe9ecb3f1df4c162cb9516123cdfb8c669b16f1318e6fbe2225ff9ad1deec6"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/cutoff_manifest.csv",
+      "sha256": "82ee53f928d079891a2a0cf52e929e5772dcf13d0c43009fa369c19dc9a31aa9"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/detached_preflight.json",
+      "sha256": "3bc903fbbe92a72483f5f4b4e7ed5d6b5761fca9600262a6dbf100d44a1929b3"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/eligibility_manifest.parquet",
+      "sha256": "0df383149b0b65e307201f371aa9319e9e2d76f87219b3bee80ceddc19695ce0"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/feature_lineage.json",
+      "sha256": "bc35aa6d3da0008f415bb2870f8a97a498284da4bfcf0e77187a9aefa4f4a7cc"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/gpu_runtime_audit.json",
+      "sha256": "98ab68920e161b4d842b4c2f27fabdfb45758b8013adbc734e29d2695123e50e"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/inner_trials.csv",
+      "sha256": "669efaa6a012787f139059d0418a60c7550b70e097a2f6e97db7ef6132d88fb1"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/module_metrics.csv",
+      "sha256": "29f04ecf64550cff80e5cb49987127bb893216f810495b08b4f059449c7d580e"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/overall_metrics.csv",
+      "sha256": "d75b68fa691b55777a7037e1f5a04ccf8119d5a83960a691f9bc8f2bec2ec16c"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/per_class_metrics.csv",
+      "sha256": "777bf9e77ba83ec18fcb638b479a6bb59effa01f5c2ec214ba5965b744c9da8b"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/predictions.parquet",
+      "sha256": "2dbacd0fb3d5fe504729e78825680a1892c87eb20f72b358f457e9791b9d687e"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/resume_checkpoint_audit.json",
+      "sha256": "0ca0a2d00dff1e190299fc0f8b8ed0c9705a814b3cf509c972e5f685fdd14b5e"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/runtime.csv",
+      "sha256": "fa5c62f44a4c2204866296fce009b5c1096ee797318141cc5727014c3e84e570"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/seed_predictions.parquet",
+      "sha256": "a8ee97ab6337a56ce7e59f7ff761a7f8c3c5a096e3fe5f8180cbef2aac5df562"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/smoke_validation.json",
+      "sha256": "96fb00cc78fab4b0417707007c8d0a6965e0c651b8fbb97c5008523c1a9c82ad"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/split_manifest.json",
+      "sha256": "a460b77146b876f0dd3c91f4ec3d94f81792f43126875881adc7b9412c03226f"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/stage_metrics.csv",
+      "sha256": "b93afe3ca1770bd4b9b72b70c5c0507fa4580c2418611f997cee39a9fc71ba29"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/stage_view_audit.json",
+      "sha256": "6712a7d56904ccb5e6b5c2251c3305f9db178579fbba0937dee42b42de7555cb"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/svm_runtime_protocol_amendment.json",
+      "sha256": "637467fac580b2cc893c785e524cf8bd35dc4fc039cbfdf5bc4d9f39ddb3c98a"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/threshold_policies.csv",
+      "sha256": "ee4fdbbf5bae4ef30572d9b4f8e2ee256d46ca4a0b6ae5279c01846e03f03c3f"
+    },
+    {
+      "path": "artifacts/final/unified_stage_aware_oulad/training_run_manifest.json",
+      "sha256": "1478baffdde3aced7d4f41e043408aeed24b806e586f2d2f9bedf9d3387fda0c"
+    }
+  ],
+  "status": "PASS"
+}

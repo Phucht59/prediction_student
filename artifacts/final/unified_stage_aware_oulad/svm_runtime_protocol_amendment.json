@@ -7,7 +7,7 @@
   "partial_checkpoints_used_in_final_evidence": false,
   "probability": false,
   "reason": "SVC probability=True required prohibitively slow internal calibration on stage-expanded OULAD",
-  "registered_at": "2026-07-29T04:38:11.067877+00:00",
+  "registered_at": "2026-07-29T05:03:40.950644+00:00",
   "runtime_options": {
     "cache_size_mb": 4096,
     "class_weight": "balanced",
