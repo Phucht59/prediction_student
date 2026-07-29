@@ -1,7 +1,0 @@
-dataset,scenario,macro_f1_rank,low_recall_rank,low_f1_rank,pr_auc_rank,ece_rank,stability_rank,seed_std_macro_f1
-student_mat,S0_EARLY_NO_GRADE,4.0,8.0,5.0,6.0,2.0,7.0,0.01207585920319736
-student_mat,S1_MID_G1_ONLY,7.0,3.0,2.0,3.0,1.0,10.0,0.02249867671256597
-student_mat,S2_LATE_G1_G2,4.0,4.0,3.0,3.0,6.0,9.0,0.008682303015319037
-student_por,S0_EARLY_NO_GRADE,5.0,1.0,3.0,7.0,6.0,8.0,0.018113152648597128
-student_por,S1_MID_G1_ONLY,5.0,3.0,4.0,1.0,5.0,7.0,0.009314742032868282
-student_por,S2_LATE_G1_G2,6.0,1.0,3.0,2.0,3.0,7.0,0.003906324947176638

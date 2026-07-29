@@ -1,4 +1,5 @@
-"""Explicit, non-release study runners.
+"""Checkpoint compatibility imports.
 
-Nothing in this package is imported by ``project.py final validate``.
+Public pipelines live in :mod:`src.pipelines`.  The tiny modules retained here
+preserve the import paths embedded in immutable joblib checkpoints.
 """

@@ -1,22 +1,51 @@
-# Experiment Protocol
+# Experiment protocol
 
-## Final comparator completion
+## Frozen outer evaluation
 
-The complete nine-model release matrix is governed by
-`configs/final/comparator_completion_protocol.yaml` and
-`docs/COMPARATOR_COMPLETION_PROTOCOL.md`. The protocol was committed before
-any completion-model training.
+- Student-Mat và Student-Por: 5 outer folds, 3 inner folds.
+- OULAD: 3 grouped outer folds theo `id_student`.
+- Preprocessing, imputation, encoding và scaling chỉ fit trên training
+  partition hiện hành.
+- Inner validation chọn hyperparameter, epoch và threshold.
+- Outer rows không được dùng cho selection.
+- Five fixed seeds: 42, 1201, 2026, 3407, 7319.
+- Probability ensemble là mean qua toàn bộ seed; không chọn best seed.
 
-Only Student-Mat/Student-Por XGBoost and the six unified OULAD classical-ML
-comparators may be trained by this completion. All official CNN-BiLSTM
-checkpoints, predictions, thresholds, and selections remain immutable.
-Future OULAD remains `LOCKED_NOT_EXECUTED`.
+## Unified stage evaluation
 
-Comparator hyperparameters are selected exclusively by inner CV. Outer folds
-produce record-aligned OOF probabilities, and final metrics use the arithmetic
-mean probability across all registered seeds. OULAD thresholds are fit from
-inner-OOF ensemble probabilities separately for each outer fold.
+Một training run tạo một checkpoint phục vụ tất cả stage của cùng
+dataset/fold/seed:
 
-This release performs no experiment or training. It reuses registered frozen outer-fold predictions and probability ensembles. Hyperparameter screening, inner validation, best-fold results and best-seed results are excluded from final tables. Seed stability may be reported separately but is never relabeled as an ensemble.
+- UCI: S0 không G1/G2, S1 chỉ G1, S2 có G1+G2.
+- OULAD: E1 20%, E2 35%, M1 50%, L1 75%.
 
-Future OULAD is `LOCKED_NOT_EXECUTED`. The final recommendation audit is technical; expert-label metrics remain unavailable until labels are independently supplied.
+Availability mask/cutoff bảo đảm stage trước không đọc thông tin stage sau.
+G3 chỉ tạo target và không phải predictor.
+
+## Comparators
+
+Mười model family dùng chung outer partitions: Logistic Regression, Decision
+Tree, Random Forest, HistGradientBoosting, SVM, XGBoost, MLP, CNN-only,
+BiLSTM-only và CNN-BiLSTM. CNN-only/BiLSTM-only là ablation; model hybrid chính
+vẫn là CNN-BiLSTM.
+
+Không dùng plain SMOTE/ADASYN trên mixed categorical label-coded UCI và không
+synthetic oversample raw OULAD tensor.
+
+## Metrics
+
+UCI báo Accuracy, Balanced Accuracy, Macro/Weighted-F1, per-class
+Precision/Recall/F1, PR-AUC, ROC-AUC, Brier, NLL, ECE và confusion matrix.
+OULAD báo thêm Risk Precision/Recall/F1. Paired bootstrap có 5,000 replicate;
+OULAD resample theo student.
+
+## Freeze boundary
+
+Validation chỉ replay evidence. Không train lại official model, không mở Future
+OULAD, không tune bằng outer data và không thay recommendation semantics.
+
+Machine-readable contracts:
+
+- `configs/final/uci_prediction.yaml`
+- `configs/final/oulad_prediction.yaml`
+- `configs/final/recommendation.yaml`

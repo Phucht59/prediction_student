@@ -1,7 +1,4 @@
-# Historical experiment runners intentionally retain their compact, immutable
-# source form. V5.2 is clean under the full default rule set; the repository-wide
-# command waives only pre-existing formatting/import-noise classes while keeping
-# syntax errors, undefined names and other correctness-oriented E/F checks active.
+# Keep correctness-oriented E/F checks active across public source and tests.
 exclude = [
     ".git",
     ".pytest_cache",

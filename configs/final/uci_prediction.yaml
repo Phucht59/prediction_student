@@ -1,0 +1,71 @@
+schema_version: final_uci_prediction_v1
+status: PREREGISTERED_BEFORE_UNIFIED_OUTER_SCORING
+scope: FINAL_UNIFIED_STAGE_AWARE_UCI
+datasets: [student_mat, student_por]
+stages:
+  S0_EARLY_NO_GRADE: {mask: [0, 0], forbidden: [G1, G2, G3]}
+  S1_MID_G1_ONLY: {mask: [1, 0], forbidden: [G2, G3]}
+  S2_LATE_G1_G2: {mask: [1, 1], forbidden: [G3]}
+models:
+  - logistic_regression
+  - decision_tree
+  - random_forest
+  - hist_gradient_boosting
+  - svm
+  - xgboost
+  - mlp
+  - cnn_only
+  - bilstm_only
+  - cnn_bilstm
+training:
+  outer_folds: frozen_final_comparator_oof_fold_assignments
+  inner_folds: 3
+  inner_selection_seed: 42
+  outer_seeds: [42, 1201, 2026, 3407, 7319]
+  stage_balancing: one_view_per_stage_per_base_record
+  probability_aggregation: mean_across_all_fixed_seeds
+  outer_used_for_tuning: false
+  best_seed_selection: false
+  transfer_learning: prohibited
+  pretrained_checkpoint: prohibited
+  synthetic_resampling: NONE
+deep:
+  input_shape: [2, 7]
+  availability_mask_shape: [2]
+  shared_classification_head: true
+  auxiliary_heads_used: false
+  loss: mean_cross_entropy_across_S0_S1_S2
+  candidate_grid:
+    - {input_projection: 16, cnn_channels: 16, lstm_hidden: 16, context_hidden: 16, fusion_hidden: 16, dropout: 0.15, learning_rate: 0.001, weight_decay: 0.0001, batch_size: 64, max_epochs: 30, patience: 5, class_weight: balanced}
+    - {input_projection: 24, cnn_channels: 16, lstm_hidden: 24, context_hidden: 24, fusion_hidden: 24, dropout: 0.25, learning_rate: 0.0005, weight_decay: 0.001, batch_size: 64, max_epochs: 30, patience: 5, class_weight: none}
+selection:
+  objective: mean_stage_macro_f1
+  tie_breaks: [worst_stage_macro_f1, mean_stage_low_f1, lower_nll, lexical_config]
+metrics:
+  - accuracy
+  - balanced_accuracy
+  - macro_precision
+  - macro_recall
+  - macro_f1
+  - weighted_f1
+  - pr_auc
+  - roc_auc
+  - brier
+  - nll
+  - ece
+  - per_class
+  - confusion_matrix
+bootstrap:
+  replicates: 5000
+  confidence: 0.95
+  sampling: paired_stratified_base_record_joint_across_stages
+reference:
+  model_id: grade_band_reference
+  model_identity: false
+  selection_input: false
+oulad:
+  stage: F2_MIDDLE
+  retraining: prohibited
+  authority: unchanged
+future_oulad: LOCKED_NOT_EXECUTED
+xapi: ABSENT

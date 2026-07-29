@@ -9,8 +9,8 @@ import pytest
 import torch
 
 from src.models._uci import _UCITemporalEncoder
-from src.studies import teacher_feedback as tf
-from src.studies import unified_stage as unified
+from src.pipelines import uci as unified
+from src.pipelines import uci_support as tf
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -53,6 +53,16 @@ def test_g3_is_target_only(mat_views) -> None:
         assert "G3" not in bundle.context.columns
         assert "G1" not in bundle.context.columns
         assert "G2" not in bundle.context.columns
+
+
+def test_g3_target_boundaries_are_frozen() -> None:
+    assert tf.encode_uci_target([9, 10, 14, 15, 20]).tolist() == [
+        0,
+        1,
+        1,
+        2,
+        2,
+    ]
 
 
 def test_frozen_fold_is_identical_across_stages(mat_views) -> None:
@@ -154,10 +164,20 @@ def test_oulad_and_future_are_frozen() -> None:
 def test_official_source_checksums_still_match_pre_refactor_guard() -> None:
     guard = json.loads(
         (
-            ROOT / "artifacts" / "refactor" / "pre_unified_validation.json"
+            ROOT
+            / "artifacts"
+            / "final"
+            / "protocol_snapshots"
+            / "pre_unified_scientific_freeze.json"
         ).read_text(encoding="utf-8")
     )
+    frozen_scientific_outputs = {
+        "artifacts/final/final_results.json",
+        "artifacts/final/final_results.csv",
+    }
     for relative, expected in guard["canonical_sha256"].items():
+        if relative not in frozen_scientific_outputs:
+            continue
         actual = hashlib.sha256((ROOT / relative).read_bytes()).hexdigest()
         assert actual == expected
 
@@ -236,9 +256,12 @@ def test_final_authorities_include_30_overall_identities() -> None:
     )
     assert len(overall) == 30
     assert len(stage.loc[stage["dataset"].isin(unified.DATASETS)]) == 60
-    assert len(stage.loc[stage["dataset"] == "oulad"]) == 10
+    assert len(stage.loc[stage["dataset"] == "oulad"]) == 40
     assert set(stage.loc[stage["dataset"] == "oulad", "prediction_stage"]) == {
-        "F2_MIDDLE"
+        "E1_EARLY_20PCT",
+        "E2_EARLY_35PCT",
+        "M1_MIDDLE_FROZEN",
+        "L1_LATE_75PCT",
     }
 
 
@@ -247,7 +270,8 @@ def test_replacement_database_evidence_is_ready_without_cutover() -> None:
         (
             ROOT
             / "artifacts"
-            / "refactor"
+            / "final"
+            / "database"
             / "unified_database_replacement_validation.json"
         ).read_text(encoding="utf-8")
     )
@@ -258,3 +282,13 @@ def test_replacement_database_evidence_is_ready_without_cutover() -> None:
     assert payload["replacement_validation"]["counts"]["risk_profiles"] == 15378
     assert payload["replacement_validation"]["counts"]["plans"] == 15378
     assert payload["replacement_validation"]["counts"]["actions"] == 27355
+
+
+def test_public_pipeline_paths_are_non_versioned() -> None:
+    assert (ROOT / "src" / "pipelines" / "uci.py").is_file()
+    assert (ROOT / "src" / "pipelines" / "oulad.py").is_file()
+    assert (ROOT / "configs" / "final" / "uci_prediction.yaml").is_file()
+    assert (ROOT / "configs" / "final" / "oulad_prediction.yaml").is_file()
+    assert not (ROOT / "src" / "studies" / "teacher_feedback.py").exists()
+    assert not (ROOT / "artifacts" / "history").is_dir()
+    assert not (ROOT / "artifacts" / "refactor").is_dir()

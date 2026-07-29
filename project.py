@@ -67,70 +67,36 @@ def command_validate(_args: argparse.Namespace) -> int:
     return int(main())
 
 
-def command_teacher_feedback_prepare(_args: argparse.Namespace) -> int:
-    from src.studies.teacher_feedback import prepare_regression_guard
-
-    result = prepare_regression_guard()
-    print(
-        json.dumps(
-            {
-                "status": "PASS",
-                "guard": "artifacts/final/teacher_feedback_validation/regression_guard_before.json",
-                "official_macro_f1": result["official_macro_f1"],
-                "training_performed": False,
-            },
-            indent=2,
-        )
-    )
-    return 0
-
-
-def command_teacher_feedback_all(_args: argparse.Namespace) -> int:
-    from src.studies.teacher_feedback import run_all
-
-    result = run_all()
-    print(json.dumps(result, indent=2))
-    return 0 if result["status"] == "PASS" else 1
-
-
-def command_teacher_feedback_validate(_args: argparse.Namespace) -> int:
-    from src.studies.teacher_feedback import validate_study
-
-    result = validate_study()
-    print(json.dumps(result, indent=2))
-    return 0 if result["status"] == "PASS" else 1
-
-
-def command_unified_stage(args: argparse.Namespace) -> int:
-    from src.studies import unified_stage
+def command_uci_pipeline(args: argparse.Namespace) -> int:
+    from src.pipelines import uci
 
     handlers = {
-        "prepare": unified_stage.prepare,
-        "train": unified_stage.train,
-        "evaluate": unified_stage.evaluate,
-        "report": unified_stage.report,
-        "validate": unified_stage.validate,
-        "all": unified_stage.all_steps,
+        "prepare": uci.prepare,
+        "train": uci.train,
+        "evaluate": uci.evaluate,
+        "report": uci.report,
+        "validate": uci.validate,
+        "all": uci.all_steps,
     }
-    result = handlers[args.unified_stage_command]()
+    result = handlers[args.pipeline_action]()
     print(json.dumps(result, indent=2))
     return 0 if result.get("status") == "PASS" else 1
 
 
-def command_oulad_multistage(args: argparse.Namespace) -> int:
-    from src.studies import oulad_multistage
+def command_oulad_pipeline(args: argparse.Namespace) -> int:
+    from src.pipelines import oulad
 
     handlers = {
-        "prepare": oulad_multistage.prepare,
-        "smoke": oulad_multistage.smoke,
-        "train": lambda: oulad_multistage.train(resume=args.resume),
-        "evaluate": oulad_multistage.evaluate,
-        "bootstrap": oulad_multistage.bootstrap,
-        "report": oulad_multistage.report,
-        "validate": oulad_multistage.validate,
-        "all": lambda: oulad_multistage.all_steps(resume=args.resume),
+        "prepare": oulad.prepare,
+        "smoke": oulad.smoke,
+        "train": lambda: oulad.train(resume=args.resume),
+        "evaluate": oulad.evaluate,
+        "bootstrap": oulad.bootstrap,
+        "report": oulad.report,
+        "validate": oulad.validate,
+        "all": lambda: oulad.all_steps(resume=args.resume),
     }
-    result = handlers[args.oulad_multistage_command]()
+    result = handlers[args.pipeline_action]()
     print(json.dumps(result, indent=2))
     return 0 if result.get("status") == "PASS" else 1
 
@@ -152,50 +118,37 @@ def build_parser() -> argparse.ArgumentParser:
         "validate", help="Validate evidence, tables and checksums."
     )
     validate.set_defaults(handler=command_validate)
-    study = root.add_parser(
-        "study", help="Explicit training/diagnostic studies; never implicit."
+    pipeline = root.add_parser(
+        "pipeline", help="Explicit final prediction pipelines; never implicit."
     )
-    study_commands = study.add_subparsers(dest="study_command", required=True)
-    teacher = study_commands.add_parser(
-        "teacher-feedback", help="Teacher-feedback evidence completion."
+    pipeline_commands = pipeline.add_subparsers(dest="pipeline_name", required=True)
+    uci = pipeline_commands.add_parser(
+        "uci", help="One-estimator, three-stage UCI pipeline."
     )
-    teacher_commands = teacher.add_subparsers(
-        dest="teacher_feedback_command", required=True
-    )
-    prepare = teacher_commands.add_parser(
-        "prepare", help="Freeze the official regression guard without training."
-    )
-    prepare.set_defaults(handler=command_teacher_feedback_prepare)
-    run_all = teacher_commands.add_parser(
-        "all",
-        help="Explicitly train missing timing/MLP comparators on frozen folds.",
-    )
-    run_all.set_defaults(handler=command_teacher_feedback_all)
-    study_validate = teacher_commands.add_parser(
-        "validate", help="Validate already-generated teacher-feedback evidence."
-    )
-    study_validate.set_defaults(handler=command_teacher_feedback_validate)
-    unified = study_commands.add_parser(
-        "unified-stage",
-        help="One-estimator, three-stage UCI authority.",
-    )
-    unified_commands = unified.add_subparsers(
-        dest="unified_stage_command", required=True
-    )
+    uci_commands = uci.add_subparsers(dest="pipeline_action", required=True)
     for name in ("prepare", "train", "evaluate", "report", "validate", "all"):
-        command = unified_commands.add_parser(name)
-        command.set_defaults(handler=command_unified_stage)
-    oulad = study_commands.add_parser(
-        "oulad-multistage", help="One-estimator, four-stage OULAD authority."
+        command = uci_commands.add_parser(name)
+        command.set_defaults(handler=command_uci_pipeline)
+    oulad = pipeline_commands.add_parser(
+        "oulad", help="One-estimator, four-stage OULAD pipeline."
     )
     oulad_commands = oulad.add_subparsers(
-        dest="oulad_multistage_command", required=True
+        dest="pipeline_action", required=True
     )
-    for name in ("prepare", "smoke", "train", "evaluate", "bootstrap", "report", "validate", "all"):
+    for name in (
+        "prepare",
+        "smoke",
+        "train",
+        "evaluate",
+        "bootstrap",
+        "report",
+        "validate",
+        "all",
+    ):
         command = oulad_commands.add_parser(name)
         if name in {"train", "all"}:
             command.add_argument("--resume", action="store_true")
-        command.set_defaults(handler=command_oulad_multistage)
+        command.set_defaults(handler=command_oulad_pipeline)
     return parser
 
 

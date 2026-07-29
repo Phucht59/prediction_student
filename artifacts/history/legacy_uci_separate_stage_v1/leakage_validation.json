@@ -1,9 +1,0 @@
-{
-  "G3_feature_lineage_occurrences": 0,
-  "S0_grade_information_occurrences": 0,
-  "S1_G2_information_occurrences": 0,
-  "outer_rows_used_for_tuning": 0,
-  "schema_version": "uci_timing_leakage_v2",
-  "status": "PASS",
-  "transfer_rows_used": 0
-}

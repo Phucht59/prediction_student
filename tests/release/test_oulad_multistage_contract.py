@@ -7,14 +7,14 @@ import joblib
 import numpy as np
 import yaml
 
-from src.studies import oulad_multistage as study
+from src.pipelines import oulad as study
 
 
 ROOT = Path(__file__).resolve().parents[2]
 
 
 def test_preregistered_four_stage_contract() -> None:
-    protocol = yaml.safe_load((ROOT / "configs/final/unified_stage_aware_oulad.yaml").read_text())
+    protocol = yaml.safe_load((ROOT / "configs/final/oulad_prediction.yaml").read_text())
     assert protocol["stages"].keys() == set(study.STAGES)
     assert protocol["training"]["outer_folds"] == 3
     assert protocol["training"]["inner_folds"] == 2

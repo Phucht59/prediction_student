@@ -73,7 +73,9 @@ class _UCITemporalEncoder(nn.Module):
         self, temporal: torch.Tensor, availability_mask: torch.Tensor | None = None
     ) -> torch.Tensor:
         if temporal.ndim != 3 or temporal.shape[1] != 2:
-            raise ValueError("UCI V5.1 temporal input must have shape [batch,2,channels]")
+            raise ValueError(
+                "UCI temporal input must have shape [batch,2,channels]"
+            )
         if availability_mask is None:
             # Preserve the frozen official forward path byte-for-byte.
             projected = self.activation(

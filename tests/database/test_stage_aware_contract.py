@@ -37,7 +37,9 @@ def test_recommendation_provenance_defaults_to_frozen_oulad_stage() -> None:
 
 
 def test_database_replacement_never_targets_canonical_for_writes() -> None:
-    source = (ROOT / "scripts/unified_database.py").read_text(encoding="utf-8")
+    source = (ROOT / "scripts/database_replacement.py").read_text(
+        encoding="utf-8"
+    )
     assert "source_opened_read_only" in source
     assert "canonical_database_modified" in source
     assert "CREATE DATABASE" in source

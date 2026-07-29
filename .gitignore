@@ -1,255 +1,90 @@
+# Python caches and tooling
 __pycache__/
 **/__pycache__/
-*.pyc
+*.py[cod]
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
-.ipynb_checkpoints/
 .coverage
 coverage.xml
 htmlcov/
 
-.env
+# Virtual environments and local agents
 .venv/
 .venv*/
-.venv-oulad-v2/
 venv/
-.vscode/
-.vs/
-.idea/
 .agents/
-.DS_Store
-tmp/
-temp/
-wandb/
-lightning_logs/
+
+# Secrets and machine-local configuration
+.env
+.env.*
+!.env.example
 *.pid
 *.lock
 
-data/raw/*
-data/processed/*
-models/saved/*
-reports/results/*
-reports/figures/*
-reports/tables/*
-reports/phase*/
-reports/final/explanations/
-reports/final/manifests/
-reports/final/metrics/
-reports/final/predictions/
-reports/final/recommendations/
-reports/final/student-mat_3class_final_report.txt
-reports/final/optimization_protocol_audit.md
-reports/final/nested_model_selection/*
-!reports/final/nested_model_selection/SMOKE_RUN.md
-artifacts/final/student-mat-*/
-artifacts/model_selection/nested-preflight-*/
-archive/
-logs/
-scratch/
-results/
-outputs/experiments/
-outputs/v27/
-notebooks/
-backup_git/
-optuna/
-db_backups/
-*.log
+# IDE and operating-system files
+.idea/
+.vscode/
+.vs/
+.DS_Store
 
-# Local PostgreSQL safety backups are never committed.
-/backups/
-*.dump
-*.backup
-*.tmp
-*.inspect.ndjson
+# JavaScript dependencies
 node_modules/
-*.bak
-*.dump
-*.backup
+
+# Temporary/runtime output
+tmp/
+temp/
+scratch/
+logs/
+outputs/
+results/
+wandb/
+lightning_logs/
 reports/runtime/
 reports/debug/
 artifacts/smoke/
 artifacts/preflight/
+artifacts/experiments/
+*.log
+*.tmp
+*.inspect.ndjson
 
-# Scientific extension: keep raw/large derived data ignored, version only compact evidence.
-!reports/extension_execution/
-!reports/extension_execution/**
-!artifacts/study_b_student_por/
-!artifacts/study_b_student_por/**
-!artifacts/study_c_oulad/
-!artifacts/study_c_oulad/**
-artifacts/study_b_student_por/**/*.pt
-artifacts/study_b_student_por/**/*.pth
-artifacts/study_b_student_por/**/*.parquet
-artifacts/study_c_oulad/**/*.pt
-artifacts/study_c_oulad/**/*.pth
-artifacts/study_c_oulad/**/*.parquet
-artifacts/study_c_oulad/**/*.pkl
-artifacts/study_c_oulad_v2/**/*.pt
-artifacts/study_c_oulad_v2/**/*.pth
-artifacts/study_c_oulad_v2/**/*.pkl
-artifacts/study_c_oulad_v2/**/*.parquet
-reports/study_c_oulad_v2/**/*.parquet
-artifacts/study_c_oulad_v2/**/job_cache/
-artifacts/study_c_oulad_v2/**/search_cache/
-artifacts/study_c_oulad_v2/**/preprocessors/
-
-# OULAD Deep V3 runtime caches and large checkpoint bundles remain local.
-.venv-oulad-v3/
-artifacts/study_c_oulad_v3/**/*.pt
-artifacts/study_c_oulad_v3/**/*.pth
-artifacts/study_c_oulad_v3/**/*.joblib
-artifacts/study_c_oulad_v3/**/job_cache/
-artifacts/study_c_oulad_v3/**/search_cache/
-artifacts/study_c_oulad_v3_closure/**/threshold_replay_cache/
-artifacts/study_c_oulad_v3/**/preprocessors/
-reports/study_c_oulad_v3/**/*.pt
-reports/study_c_oulad_v3/**/*.pth
-reports/study_c_oulad_v3/**/*.joblib
-artifacts/study_c_oulad/**/split_manifest.csv
-artifacts/study_c_oulad/**/future_test_manifest.csv
-reports/study_c_oulad/**/*.parquet
-reports/study_c_oulad/**/split_manifest.csv
-reports/study_c_oulad/**/future_test_manifest.csv
-
-# Thesis-friendly evidence namespace. Preserve the same runtime exclusions after
-# moving tracked evidence out of the historical Study/V2/V3 folder names.
-artifacts/oulad/baseline/**/*.pt
-artifacts/oulad/baseline/**/*.pth
-artifacts/oulad/baseline/**/*.parquet
-artifacts/oulad/baseline/**/*.pkl
-artifacts/oulad/baseline/**/split_manifest.csv
-artifacts/oulad/baseline/**/future_test_manifest.csv
-reports/oulad/baseline/**/*.parquet
-reports/oulad/baseline/**/split_manifest.csv
-reports/oulad/baseline/**/future_test_manifest.csv
-
-artifacts/oulad/tuning/**/*.pt
-artifacts/oulad/tuning/**/*.pth
-artifacts/oulad/tuning/**/*.pkl
-artifacts/oulad/tuning/**/*.parquet
-artifacts/oulad/tuning/**/job_cache/
-artifacts/oulad/tuning/**/search_cache/
-artifacts/oulad/tuning/**/preprocessors/
-reports/oulad/tuning/**/*.parquet
-
-artifacts/oulad/temporal/**/*.pt
-artifacts/oulad/temporal/**/*.pth
-artifacts/oulad/temporal/**/*.joblib
-artifacts/oulad/temporal/**/job_cache/
-artifacts/oulad/temporal/**/search_cache/
-artifacts/oulad/temporal/**/preprocessors/
-reports/oulad/temporal/**/*.pt
-reports/oulad/temporal/**/*.pth
-reports/oulad/temporal/**/*.joblib
-
-artifacts/oulad/final/**/threshold_replay_cache/
-
-# OULAD V4: compact reports are versioned; large resumable runtime ledgers stay local.
-.venv-oulad-v4/
-artifacts/oulad/v4/**/*.pt
-artifacts/oulad/v4/**/*.pth
-artifacts/oulad/v4/**/*.joblib
-artifacts/oulad/v4/**/*.parquet
-artifacts/oulad/v4/**/search_cache/
-artifacts/oulad/v4/**/job_cache/
-artifacts/oulad/v4/**/imbalance_cache/
-artifacts/oulad/v4/**/optuna.db
-# Per-record recommendation runtime outputs remain local; only compact policy/audit summaries are versioned.
-artifacts/oulad/v4/**/recommendation_audit.csv
-artifacts/oulad/v4/**/recommendation_drafts.jsonl
-reports/oulad/v4/**/*.pt
-reports/oulad/v4/**/*.pth
-reports/oulad/v4/**/*.joblib
-reports/oulad/v4/**/*.parquet
-
-# V5 runtime state: keep compact evidence, not databases, checkpoints or caches.
-artifacts/v5/**/*.pt
-artifacts/v5/**/*.pth
-artifacts/v5/**/*.joblib
-artifacts/v5/**/runtime_cache/
-artifacts/v5/**/optuna.db
-artifacts/v5/**/*.parquet
-reports/v5/**/*.parquet
-artifacts/v5/*.log
-# Official V5 replay checkpoints and OOF probabilities are compact release evidence.
-!artifacts/v5/**/checkpoints/
-!artifacts/v5/**/checkpoints/*.pt
-!artifacts/v5/oulad/oof_predictions.parquet
-
-# V5.1: retain compact predictions and replay checkpoints, keep resumable/runtime
-# state local. Registries preserve hashes for every selected release checkpoint.
-artifacts/v5_1/**/*.joblib
-artifacts/v5_1/**/ml_models/
-artifacts/v5_1/**/optuna.db
-artifacts/v5_1/**/*.log
-artifacts/v5_1/**/runtime_cache/
-database/v5/volume/
-database/v5/backups/
-*.sql.gz
-
-# Benchmark V2 run outputs are immutable runtime evidence, not source files.
-# Protocol definitions and selected audit reports below remain versioned.
-artifacts/benchmark_v2/
-artifacts/baseline_comparison/
-artifacts/reconciliation/
-reports/benchmark_v2/*
-reports/benchmark_v2/v2_1/
-!reports/benchmark_v2/compute_estimate.md
-!reports/benchmark_v2/preflight_audit.md
-!reports/benchmark_v2/preflight_probfix_20260713.md
-!reports/benchmark_v2/probability_contract_root_cause.md
-!reports/benchmark_v2/probability_contract_tests.md
-!reports/benchmark_v2/probability_fix_changelog.md
-!reports/benchmark_v2/invalid_runs_registry.json
-
+# Local data and model materialization
+data/raw/*
+data/processed/*
 !data/raw/.gitkeep
 !data/processed/.gitkeep
-!data/manifests/
-!data/manifests/extension_raw_manifest.json
+models/saved/*
 !models/saved/.gitkeep
-!reports/results/.gitkeep
-!reports/figures/.gitkeep
-!reports/tables/.gitkeep
+**/runtime_cache/
+**/.runtime_cache/
+**/job_cache/
+**/search_cache/
+**/preprocessors/
+**/threshold_replay_cache/
+**/optuna.db
 
-# Local experimental laboratory (never part of the final release)
+# Database volumes and safety backups
+database/**/volume/
+database/**/backups/
+backups/
+db_backups/
+*.dump
+*.backup
+*.sql.gz
+
+# Local research history; never a release dependency
 /test_lab/
-test_lab/**
-
-# Resumable local materialization cache; final OULAD authority stores only
-# checksummed checkpoints and evidence, never the raw reconstructed bundle.
-/artifacts/final/unified_stage_aware_oulad/.runtime_cache/
-
-# Superseded probability=True SVM binaries are retained locally for forensic
-# audit; the compact manifest and checksums remain versioned.
-/artifacts/history/partial_svm_probability_true_20260729/svm_oulad/
-
-# Local non-selected experiment snapshots retained outside the public release
-/configs/v5_2/
-/configs/v5_3/
-/configs/v5_4/
-/src/studies/v5_2/
-/src/studies/v5_3/
-/src/studies/v5_4/
-/scripts/v5_2/
-/scripts/v5_3/
-/scripts/v5_4/
-/artifacts/v5_2/
-/artifacts/v5_3/
-/artifacts/v5_4/
-/reports/v5_2/
-/reports/v5_3/
-/reports/v5_4/
-/tests/v5_2/
-/tests/v5_3/
-/tests/v5_4/
-/artifacts/oulad/v4/
-/src/studies/oulad_v4/
-/configs/oulad_v4_protocol.yaml
-/scripts/*v4*.py
-/tests/*v4*.py
-/requirements-v4.txt
-/reports/oulad/v4/
-/docs/OULAD_V4_RUNBOOK.md
-/database/migrations/008_v5_2_recommendation_evaluation.sql
-/database/migrations/rollback/008_v5_2_recommendation_evaluation.rollback.sql
+/notebooks/
+/backup_git/
+/archive/
+/artifacts/history/
+/artifacts/refactor/
+/reports/history/
+/reports/refactor/
+/reports/final/explanations/
+/reports/final/manifests/
+/reports/final/metrics/
+/reports/final/predictions/
+/reports/final/recommendations/
+/reports/final/student-mat_3class_final_report.txt

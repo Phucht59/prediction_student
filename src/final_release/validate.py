@@ -325,21 +325,6 @@ def validate() -> list[str]:
     _assert(manifest_path.is_file(), "checksum manifest is missing", errors)
     if manifest_path.is_file():
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-        legacy_manifest_path = (
-            ROOT
-            / "artifacts"
-            / "history"
-            / "legacy_uci_separate_stage_v1"
-            / "archive_manifest.json"
-        )
-        legacy_rows = {}
-        if legacy_manifest_path.is_file():
-            legacy_rows = {
-                row["original_path"]: row
-                for row in json.loads(
-                    legacy_manifest_path.read_text(encoding="utf-8")
-                )["rows"]
-            }
         for name, digest in manifest.get("files", {}).items():
             if (
                 name == "reports/final/PROJECT_LOCK_REPORT.md"
@@ -349,8 +334,6 @@ def validate() -> list[str]:
                 # its checksum in unified_stage_evidence_manifest.json.
                 continue
             path = ROOT / name
-            if not path.is_file() and name in legacy_rows:
-                path = ROOT / legacy_rows[name]["archived_path"]
             _assert(
                 path.is_file() and sha256(path) == digest,
                 f"release checksum mismatch: {name}",
