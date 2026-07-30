@@ -1,0 +1,38 @@
+[
+  {
+    "architecture_id": "M0_MLP",
+    "fusion_a0_changed": false,
+    "hidden_layers": [
+      64,
+      32
+    ],
+    "implementation": "sklearn.neural_network.MLPClassifier",
+    "parameter_count": null,
+    "parameter_count_status": "FIT_DEPENDENT_ONE_HOT_DIMENSION",
+    "temporal_cnn_changed": false
+  },
+  {
+    "architecture_hash": "93c060bf13b44b3d794abc1c941eb9847f2851c8bf2f6142809649e571e480c4",
+    "architecture_id": "H0_CURRENT_HYBRID",
+    "delta_vs_h0": 0,
+    "fusion_a0_changed": false,
+    "implementation": "src.models.oulad_multitask.CNNBiLSTMOULAD",
+    "parameter_count": 150202,
+    "percentage_delta": 0.0,
+    "temporal_backbone_hash": "367b30a4f4cbc58ef380d2735fb1e8ff0efafcac1172db7b3695f4a0bdedcf46",
+    "temporal_cnn_changed": false,
+    "within_fifteen_percent": true
+  },
+  {
+    "architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+    "architecture_id": "H1_TABULAR_RESIDUAL_EXPERT",
+    "delta_vs_h0": 10290,
+    "fusion_a0_changed": false,
+    "implementation": "src.models.oulad_tabular_residual.CNNBiLSTMTabularResidualOULAD",
+    "parameter_count": 160492,
+    "percentage_delta": 6.850774290621962,
+    "temporal_backbone_hash": "367b30a4f4cbc58ef380d2735fb1e8ff0efafcac1172db7b3695f4a0bdedcf46",
+    "temporal_cnn_changed": false,
+    "within_fifteen_percent": true
+  }
+]

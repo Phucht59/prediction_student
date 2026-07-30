@@ -1,0 +1,11 @@
+{
+  "architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+  "candidate": "H1_TABULAR_RESIDUAL_EXPERT",
+  "checkpoint_roundtrip": true,
+  "forward_loss_backward": true,
+  "future_masking_covered_by_unit_test": true,
+  "outer_labels_used": false,
+  "parameter_count": 160492,
+  "research_threshold_path": "pooled_inner_oof_only",
+  "status": "PASS"
+}
