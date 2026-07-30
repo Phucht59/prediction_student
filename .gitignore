@@ -68,6 +68,10 @@ models/saved/*
 /artifacts/audit/phase5/runtime/predictions/
 /artifacts/final/h1_final/runtime/checkpoints/
 /artifacts/final/h1_final/seed_predictions.parquet
+/artifacts/audit/phase7/optuna/*.db
+/artifacts/audit/phase7/runtime/checkpoints/
+/artifacts/audit/phase7/runtime/predictions/
+/artifacts/audit/phase7/runtime/endpoint_smoke_checkpoint.pt
 
 # Database volumes and safety backups
 database/**/volume/

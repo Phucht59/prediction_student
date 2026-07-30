@@ -1,0 +1,34 @@
+{
+  "aggregate_shape": [
+    15378,
+    165
+  ],
+  "aggregate_stage_safe": true,
+  "auxiliary_outcome_role": "training-only supervised head target; absent from forward inputs",
+  "auxiliary_survival_role": "training-only supervised head target; absent from forward inputs",
+  "date_unregistration_as_predictor": false,
+  "endpoint": "F2_MIDDLE_OFFICIAL_SINGLE_CUTOFF",
+  "final_outcome_as_predictor": false,
+  "future_timesteps_zero_masked": true,
+  "label_shape": [
+    15378
+  ],
+  "outer_labels_used_for_tuning": false,
+  "predictor_forbidden_intersection": [],
+  "preprocessing_fit_scope": "inner_train_or_outer_train_only",
+  "sequence_event_rule": "0 <= event_day < cutoff_day",
+  "sequence_shape": [
+    15378,
+    20,
+    47
+  ],
+  "static_source_columns": [
+    "code_module",
+    "presentation_season",
+    "num_of_prev_attempts",
+    "studied_credits",
+    "registration_lead_time",
+    "module_presentation_length"
+  ],
+  "status": "PASS"
+}
