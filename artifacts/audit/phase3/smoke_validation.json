@@ -1,0 +1,13 @@
+{
+  "checkpoint": "artifacts/audit/phase3/runtime/smoke_checkpoint.pt",
+  "checkpoint_exists": true,
+  "database": "artifacts/audit/phase3/optuna/smoke.db",
+  "disposable_runtime_cleaned_after_validation": true,
+  "outer_labels_used": false,
+  "resume_did_not_duplicate": true,
+  "resume_trial_count": 1,
+  "smoke_only": true,
+  "status": "PASS",
+  "status_and_sentinel_interface": true,
+  "trial_count": 1
+}
