@@ -1,0 +1,85 @@
+{
+  "accuracy": 0.8134190281429545,
+  "aggregated_epoch": 7,
+  "architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+  "balanced_accuracy": 0.7881905192613701,
+  "brier": 0.13286191435299366,
+  "config": {
+    "batch_size": 128,
+    "dropout": 0.155828039595897,
+    "learning_rate": 0.001263093016126881,
+    "loss_policy": "standard_bce",
+    "outcome_weight": 0.2,
+    "pos_weight_strategy": "not_applicable",
+    "survival_weight": 0.1,
+    "weight_decay": 0.00039352199757291135
+  },
+  "config_hash": "9fa9d402e90b46cb76feb097ff80a02fc5828a8676bf965d7f37175e10d4b1f2",
+  "coverage": 1.0,
+  "ece": 0.017706843467870232,
+  "eligible_count": 10269,
+  "endpoint_id": "F2_MIDDLE_OFFICIAL_SINGLE_CUTOFF",
+  "fn": 1376,
+  "fp": 540,
+  "inner_best_nll": [
+    0.42048209785925905,
+    0.4047323128905951
+  ],
+  "inner_epochs_trained": [
+    10,
+    13
+  ],
+  "inner_positive_weights": [
+    1.0,
+    1.0
+  ],
+  "inner_selected_epochs": [
+    5,
+    8
+  ],
+  "macro_f1": 0.7970180683738464,
+  "macro_precision": 0.8189841144292139,
+  "macro_recall": 0.7881905192613701,
+  "negative_count": 6176,
+  "nll": 0.4126079727282386,
+  "not_risk_f1": 0.8547164088565362,
+  "not_risk_precision": 0.8037649743297205,
+  "not_risk_recall": 0.9125647668393783,
+  "operational_threshold": {
+    "eligible_for_checkpoint_selection": false,
+    "minimum_precision": 0.75,
+    "outer_labels_used": false,
+    "policy": "INNER_OOF_OPERATIONAL_RECALL_AT_PRECISION",
+    "precision": 0.7506808615994058,
+    "recall": 0.7407769362325922,
+    "source": "pooled_inner_oof",
+    "status": "PRECISION_CONSTRAINT_MET",
+    "threshold": 0.3806012272834778
+  },
+  "outer_fold": 1,
+  "outer_labels_used": false,
+  "parameter_count": 160492,
+  "positive_count": 4093,
+  "pr_auc": 0.8597434755060266,
+  "prediction_path": "artifacts/audit/phase7/runtime/predictions/stability_TUNED_outer1_seed1201.parquet",
+  "research_threshold": {
+    "macro_f1": 0.7970180683738464,
+    "outer_labels_used": false,
+    "policy": "INNER_OOF_RESEARCH_MACRO_F1",
+    "source": "pooled_inner_oof",
+    "threshold": 0.4997026324272156
+  },
+  "research_threshold_scope": "pooled_inner_endpoint_oof_only",
+  "risk_f1": 0.7393197278911564,
+  "risk_precision": 0.8342032545287074,
+  "risk_recall": 0.6638162716833619,
+  "roc_auc": 0.8714234637299371,
+  "runtime_seconds": 66.92214210001111,
+  "smoke_only": false,
+  "specificity": 0.9125647668393783,
+  "temporal_backbone_hash": "367b30a4f4cbc58ef380d2735fb1e8ff0efafcac1172db7b3695f4a0bdedcf46",
+  "tn": 5636,
+  "tp": 2717,
+  "training_seed": 1201,
+  "weighted_f1": 0.808721802254988
+}

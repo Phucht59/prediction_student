@@ -11,7 +11,19 @@ danh triển khai là:
 |---|---|---|---:|
 | Student-Mat | CNN-BiLSTM MAT | Low / Medium / High | **0.9015** |
 | Student-Por | CNN-BiLSTM POR | Low / Medium / High | **0.8623** |
-| OULAD | CNN-BiLSTM OULAD | At-risk / Not-at-risk | **0.8281** |
+| OULAD | H1 CNN-BiLSTM + Tabular Residual | At-risk / Not-at-risk | **0.7984** |
+
+OULAD now has two explicitly separate evidence tracks:
+
+- **Main final endpoint:** the frozen H1 architecture trained for
+  `F2_MIDDLE_OFFICIAL_SINGLE_CUTOFF`, Macro-F1 **0.7984**.
+- **Secondary early warning:** the frozen shared-checkpoint evaluation at
+  20%, 35%, 50% and 75%; its stage metrics remain unchanged.
+
+The historical H0 CNN-BiLSTM endpoint result (**0.8281**) and MLP result
+(**0.8283**) remain protocol-matched comparators. Phase 7 found that H1 did
+not improve either comparator at the final endpoint; no post-test tuning was
+performed.
 
 Các con số trên là kết quả khóa luận đã đóng băng. Pipeline validation không
 train lại, không chọn seed tốt nhất và không thay đổi checkpoint.
@@ -82,14 +94,16 @@ stage.
 
 | Stage | Tiến trình quan sát | Accuracy | Balanced Acc. | Macro-F1 |
 |---|---:|---:|---:|---:|
-| E1 | 20% | 0.7168 | 0.6992 | 0.7003 |
-| E2 | 35% | 0.7573 | 0.7398 | 0.7435 |
-| M1 | 50% | 0.7926 | 0.7877 | 0.7852 |
-| L1 | 75% | 0.8130 | 0.8213 | 0.8062 |
+| E1 | 20% | 0.7194 | 0.7126 | 0.7136 |
+| E2 | 35% | 0.7606 | 0.7480 | 0.7506 |
+| M1 | 50% | 0.8063 | 0.7894 | 0.7940 |
+| L1 | 75% | 0.8664 | 0.8385 | 0.8503 |
 
-Mô hình chính thức OULAD vẫn có Macro-F1 **0.8281**, Balanced Accuracy
-**0.8203**, PR-AUC **0.8934**, Risk Precision **0.8522**, Risk Recall
-**0.7236**, Risk F1 **0.7826** và ECE **0.0087**.
+Kết quả **main final endpoint** của H1 có Macro-F1 **0.7984**, Balanced
+Accuracy **0.7922**, PR-AUC **0.8630**, Risk Precision **0.8045**, Risk Recall
+**0.6961**, Risk F1 **0.7464** và ECE **0.0120**. Kết quả H0 **0.8281** bên
+dưới được giữ dưới vai trò comparator lịch sử cùng protocol, không phải kết
+quả H1.
 
 ## Mô hình so sánh
 
@@ -124,12 +138,13 @@ Macro-F1 trên evaluation authority chính thức:
 | SVM | 0.8710 | 0.8502 | 0.8250 |
 | XGBoost | 0.8815 | **0.8677** | 0.8259 |
 | MLP | 0.8595 | 0.8304 | **0.8283** |
-| **CNN-BiLSTM** | **0.9015** | **0.8623** | **0.8281** |
+| CNN-BiLSTM H0 (historical endpoint comparator) | — | — | 0.8281 |
+| **Final CNN-BiLSTM family (H1 on OULAD)** | **0.9015** | **0.8623** | **0.7984** |
 
 Các giá trị in đậm cho thấy model tốt nhất không giống nhau ở mọi dataset:
-Decision Tree nhỉnh hơn ở MAT, XGBoost nhỉnh hơn ở POR và MLP gần như ngang
-CNN-BiLSTM ở OULAD. CNN-BiLSTM vẫn là model chính được lựa chọn theo toàn bộ
-protocol, kiến trúc và evidence của khóa luận; không có claim universal
+Decision Tree nhỉnh hơn ở MAT, XGBoost nhỉnh hơn ở POR và MLP tốt hơn H1 ở
+OULAD endpoint. H1 vẫn là kiến trúc hybrid được đánh giá theo protocol đã đóng
+băng; kết quả Phase 7 được báo cáo trung thực và không có claim universal
 superiority.
 
 ### Macro-F1 theo thời điểm UCI

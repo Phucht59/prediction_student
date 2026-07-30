@@ -20,6 +20,7 @@ from src.training.phase7_endpoint import (
     EndpointRunner,
     _architecture_identity,
     _endpoint_metrics,
+    _outer_fold_key,
     audit_endpoint_protocol,
     audit_feature_leakage,
     early_warning_checksums,
@@ -155,3 +156,21 @@ def test_seed_and_early_warning_freeze_contract() -> None:
         ).read_text(encoding="utf-8")
     )
     assert phase6["status"] == "PASS"
+
+
+def test_outer_fold_manifest_key_normalizes_pandas_float() -> None:
+    assert _outer_fold_key(0) == "0"
+    assert _outer_fold_key(np.float64(0.0)) == "0"
+
+
+def test_final_integrity_firewall_flags_are_expected_false() -> None:
+    from src.training import phase7_endpoint
+
+    source = inspect.getsource(phase7_endpoint.run_final_supervisor)
+    assert '"outer_labels_used_for_tuning",' in source
+    assert '"post_outer_tuning",' in source
+    assert "expected_false_checks" in source
+    freeze_source = inspect.getsource(phase7_endpoint._validate_freeze_commit)
+    assert "safe_resume" in freeze_source
+    assert 'run_manifest["freeze_commit"] == head' in freeze_source
+    assert 'run_manifest["run_count"] == 15' in freeze_source

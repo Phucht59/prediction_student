@@ -134,6 +134,11 @@ def _write_csv(path: Path, rows: list[dict[str, Any]]) -> None:
     temporary.replace(path)
 
 
+def _outer_fold_key(value: Any) -> str:
+    """Normalize pandas numeric fold scalars to manifest string keys."""
+    return str(int(value))
+
+
 def prepare_directories() -> None:
     for path in (
         OUT,
@@ -1291,6 +1296,32 @@ def run_development_supervisor() -> int:
 def _validate_freeze_commit() -> tuple[dict[str, Any], str]:
     freeze = json.loads(FREEZE_PATH.read_text(encoding="utf-8"))
     science = freeze["scientific_configuration"]
+    head = git_head()
+    final_predictions = OUT / "endpoint_final_predictions.parquet"
+    safe_resume = False
+    run_manifest_path = OUT / "endpoint_final_run_manifest.json"
+    if final_predictions.exists() and run_manifest_path.exists():
+        try:
+            run_manifest = json.loads(
+                run_manifest_path.read_text(encoding="utf-8")
+            )
+            safe_resume = (
+                run_manifest["freeze_commit"] == head
+                and run_manifest["run_count"] == 15
+                and run_manifest["unique_architecture_hash_count"] == 1
+                and run_manifest["unique_parameter_count"] == 1
+                and all(
+                    row["architecture_hash"] == freeze["architecture_hash"]
+                    and row["parameter_count"] == freeze["parameter_count"]
+                    and row["endpoint_candidate_hash"]
+                    == freeze["endpoint_candidate_hash"]
+                    and not row["outer_labels_used_for_epoch_selection"]
+                    and not row["outer_labels_used_for_threshold_selection"]
+                    for row in run_manifest["runs"]
+                )
+            )
+        except (KeyError, TypeError, json.JSONDecodeError):
+            safe_resume = False
     checks = {
         "candidate_hash": (
             stable_hash(science) == freeze["endpoint_candidate_hash"]
@@ -1302,11 +1333,10 @@ def _validate_freeze_commit() -> tuple[dict[str, Any], str]:
         "early_warning_unchanged": (
             early_warning_checksums() == freeze["early_warning_checksums"]
         ),
-        "outer_not_previously_evaluated": (
-            not (OUT / "endpoint_final_predictions.parquet").exists()
+        "outer_not_previously_evaluated_or_safe_resume": (
+            not final_predictions.exists() or safe_resume
         ),
     }
-    head = git_head()
     message = subprocess.check_output(
         ["git", "show", "-s", "--format=%s", "HEAD"],
         cwd=ROOT,
@@ -1800,7 +1830,7 @@ def run_final_supervisor() -> int:
         )
         averaged["threshold"] = averaged.outer_fold.map(
             lambda fold: science["research_thresholds_by_outer_fold"][
-                str(fold)
+                _outer_fold_key(fold)
             ]
         )
         averaged.to_parquet(
@@ -1811,7 +1841,9 @@ def run_final_supervisor() -> int:
             ["outer_fold", "seed"]
         ):
             threshold = float(
-                science["research_thresholds_by_outer_fold"][str(fold)]
+                science["research_thresholds_by_outer_fold"][
+                    _outer_fold_key(fold)
+                ]
             )
             seed_metric_rows.append(
                 {
@@ -1979,11 +2011,17 @@ def run_final_supervisor() -> int:
             )
             < 1e-12,
         }
+        expected_false_checks = {
+            "outer_labels_used_for_tuning",
+            "post_outer_tuning",
+        }
         if not all(
             value == 1
             if key in {"architecture_hash_count", "parameter_count_count"}
             else value == 0
             if key == "optuna_trials_after_freeze"
+            else value is False
+            if key in expected_false_checks
             else bool(value)
             for key, value in integrity.items()
             if key != "status"
@@ -2013,6 +2051,8 @@ def run_final_supervisor() -> int:
             current_outer_fold=None,
             current_seed=None,
             failed_runs=0,
+            failure_type=None,
+            failure_reason=None,
             exit_code=0,
         )
         set_sentinel(

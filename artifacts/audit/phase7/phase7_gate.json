@@ -1,15 +1,13 @@
 {
   "checks": {
-    "architecture_hash_count": 1,
+    "all_endpoint_runs_complete": true,
+    "comparator_protocol_matched": true,
     "early_warning_unchanged": true,
-    "endpoint_protocol_pass": true,
-    "failed_trials": 0,
-    "feature_leakage_pass": true,
-    "outer_endpoint_evaluated": false,
-    "outer_labels_used_for_selection": false,
-    "parameter_count_count": 1,
-    "scheduled_trials": 54,
-    "stability_complete": true
+    "endpoint_hyperparameters_inner_only": true,
+    "freeze_precedes_outer": true,
+    "h1_architecture_unchanged": true,
+    "integrity_pass": true,
+    "no_post_test_tuning": true
   },
-  "status": "DEVELOPMENT_COMPLETE_PENDING_FREEZE_COMMIT"
+  "status": "PASS"
 }
