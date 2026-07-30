@@ -1,0 +1,13 @@
+{
+  "completed_runs": 42,
+  "current_candidate": null,
+  "current_stage": "complete",
+  "distillation_triggered": true,
+  "exit_code": 0,
+  "failed_runs": 0,
+  "finished_at": "2026-07-30T14:00:56.326893+00:00",
+  "microtune_triggered": false,
+  "pid": 18984,
+  "started_at": "2026-07-30T11:08:21.763168+00:00",
+  "state": "COMPLETE"
+}

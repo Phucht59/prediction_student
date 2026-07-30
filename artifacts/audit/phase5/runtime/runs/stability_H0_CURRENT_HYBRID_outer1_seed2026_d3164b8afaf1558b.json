@@ -1,0 +1,80 @@
+{
+  "aggregated_epoch": 7,
+  "architecture_hash": "93c060bf13b44b3d794abc1c941eb9847f2851c8bf2f6142809649e571e480c4",
+  "candidate": "H0_CURRENT_HYBRID",
+  "config": {
+    "batch_size": 256,
+    "dropout": 0.24970281620434753,
+    "learning_rate": 0.0009342889927929933,
+    "loss_policy": "standard_bce",
+    "outcome_weight": 0.0,
+    "pos_weight_strategy": "not_applicable",
+    "survival_weight": 0.15,
+    "weight_decay": 2.33364982516221e-05
+  },
+  "config_hash": "215c846aba5d356cff789659736a6f993280c5915f454a8ce4511765aa5d72b1",
+  "diagnostics": [],
+  "distill_lambda": 0.0,
+  "inner_selected_epochs": [
+    11,
+    2
+  ],
+  "mean_stage_brier": 0.14707772449189058,
+  "mean_stage_ece": 0.01679582265339235,
+  "mean_stage_macro_f1": 0.7732123539697829,
+  "mean_stage_nll": 0.4484690186042256,
+  "mean_stage_pr_auc": 0.8280469918273915,
+  "oof_count": 41725,
+  "operational_threshold_used": false,
+  "outer_fold": 1,
+  "outer_labels_used": false,
+  "parameter_count": 150202,
+  "phase": "stability",
+  "predictions_path": "artifacts\\audit\\phase5\\runtime\\predictions\\H0_CURRENT_HYBRID_outer1_seed2026_lambda0.00.parquet",
+  "research_threshold_scope": "pooled_inner_oof_only",
+  "research_thresholds": {
+    "E1_EARLY_20PCT": 0.4563208818435669,
+    "E2_EARLY_35PCT": 0.47080549597740173,
+    "L1_LATE_75PCT": 0.5360645651817322,
+    "M1_MIDDLE_FROZEN": 0.43211501836776733
+  },
+  "run_id": "stability_H0_CURRENT_HYBRID_outer1_seed2026_d3164b8afaf1558b",
+  "runtime_seconds": 156.09031840000534,
+  "smoke_only": false,
+  "stage_metrics": {
+    "E1_EARLY_20PCT": {
+      "brier": 0.19077707217041107,
+      "ece": 0.014700875398805727,
+      "macro_f1": 0.7034275095827327,
+      "nll": 0.5626034085798856,
+      "pr_auc": 0.7489606618268114,
+      "roc_auc": 0.7686492077578055
+    },
+    "E2_EARLY_35PCT": {
+      "brier": 0.16483887677237968,
+      "ece": 0.02193002380593093,
+      "macro_f1": 0.7442913456653701,
+      "nll": 0.4958744113952873,
+      "pr_auc": 0.8040963651786852,
+      "roc_auc": 0.820418191857121
+    },
+    "L1_LATE_75PCT": {
+      "brier": 0.09779064220299856,
+      "ece": 0.014361076484449571,
+      "macro_f1": 0.8540542891943623,
+      "nll": 0.31824408467073734,
+      "pr_auc": 0.9032486260671858,
+      "roc_auc": 0.9153746429149705
+    },
+    "M1_MIDDLE_FROZEN": {
+      "brier": 0.13490430682177296,
+      "ece": 0.01619131492438317,
+      "macro_f1": 0.7910762714366667,
+      "nll": 0.41715416977099223,
+      "pr_auc": 0.8558823142368835,
+      "roc_auc": 0.8693572306566627
+    }
+  },
+  "training_seed": 2026,
+  "worst_stage_macro_f1": 0.7034275095827327
+}

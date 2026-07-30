@@ -1,0 +1,10 @@
+{
+  "alpha_mean": 0.07072869719316559,
+  "alpha_std_across_records": 5.587935447692871e-09,
+  "class_change_fraction": 0.09028292019573962,
+  "hybrid_logit_abs_mean": 1.1058969752242167,
+  "logit_correlation": 0.7613112700283643,
+  "magnitude_ratio": 0.6969636195437691,
+  "residual_logit_abs_mean": 0.7707699586947759,
+  "tabular_expert_domination": false
+}

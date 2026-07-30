@@ -263,6 +263,18 @@ def _teacher_oof(train: tuple, seed: int) -> np.ndarray:
     return output
 
 
+def distillation_loss(
+    student_logits: torch.Tensor,
+    teacher_probability: torch.Tensor,
+    distill_lambda: float,
+) -> torch.Tensor:
+    if not 0.0 <= distill_lambda <= 1.0:
+        raise ValueError("distill_lambda must be within [0, 1]")
+    return distill_lambda * F.binary_cross_entropy_with_logits(
+        student_logits, teacher_probability
+    )
+
+
 @dataclass
 class InnerResult:
     prediction: pd.DataFrame
@@ -443,8 +455,8 @@ def _train_deep_inner(
                 outcome_weight=float(config["outcome_weight"]),
             )
             if distill_lambda > 0:
-                loss = loss + distill_lambda * F.binary_cross_entropy_with_logits(
-                    output["binary_logit"], teacher_probability
+                loss = loss + distillation_loss(
+                    output["binary_logit"], teacher_probability, distill_lambda
                 )
             if not torch.isfinite(loss):
                 raise FloatingPointError("non-finite loss")
@@ -1070,4 +1082,3 @@ def status() -> dict[str, Any]:
     if not STATUS_PATH.is_file():
         return {"state": "PENDING", "status_file": False}
     return json.loads(STATUS_PATH.read_text(encoding="utf-8"))
-

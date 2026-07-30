@@ -3,7 +3,9 @@ from __future__ import annotations
 import inspect
 
 import numpy as np
+import pytest
 import torch
+from torch.nn import functional as F
 
 from src.models.oulad_multitask import CNNBiLSTMOULAD
 from src.models.oulad_tabular_residual import CNNBiLSTMTabularResidualOULAD
@@ -15,6 +17,7 @@ from src.training.phase5_mlp_gap import (
     _selected_configs,
     _teacher_oof,
     architecture_registry,
+    distillation_loss,
     make_model,
     status_payload,
 )
@@ -167,3 +170,12 @@ def test_cross_fitted_teacher_contract_and_teacher_absent_at_inference() -> None
     parameters = inspect.signature(CNNBiLSTMTabularResidualOULAD.forward).parameters
     assert "teacher_probability" not in parameters
     assert not np.array_equal(np.zeros(2), np.ones(2))
+
+
+def test_distillation_loss_is_bounded_weighted_teacher_bce() -> None:
+    logits = torch.tensor([-1.0, 0.5, 2.0])
+    teacher = torch.tensor([0.1, 0.7, 0.9])
+    expected = 0.1 * F.binary_cross_entropy_with_logits(logits, teacher)
+    torch.testing.assert_close(distillation_loss(logits, teacher, 0.1), expected)
+    with pytest.raises(ValueError):
+        distillation_loss(logits, teacher, 1.1)

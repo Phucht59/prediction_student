@@ -1,0 +1,13 @@
+{
+  "checks": {
+    "bounded_protocol": true,
+    "fusion_a0_unchanged": true,
+    "h0_reproduced": true,
+    "h1_within_budget": true,
+    "outer_labels_unused": true,
+    "phase4_pass": true,
+    "required_outputs_present": true,
+    "temporal_cnn_unchanged": true
+  },
+  "status": "PASS"
+}
