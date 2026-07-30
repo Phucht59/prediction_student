@@ -66,6 +66,8 @@ models/saved/*
 /artifacts/audit/phase4/runtime/smoke_*.pt
 /artifacts/audit/phase5/runtime/smoke_*.pt
 /artifacts/audit/phase5/runtime/predictions/
+/artifacts/final/h1_final/runtime/checkpoints/
+/artifacts/final/h1_final/seed_predictions.parquet
 
 # Database volumes and safety backups
 database/**/volume/

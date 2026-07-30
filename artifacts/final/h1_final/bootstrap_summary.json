@@ -1,0 +1,38 @@
+{
+  "H0_CURRENT_HYBRID": {
+    "base_candidate": "H1_TABULAR_RESIDUAL_EXPERT",
+    "bootstrap_mean_delta": 0.0018328985298423995,
+    "ci_95_high": 0.003852702334591159,
+    "ci_95_low": -0.00025302853157027204,
+    "comparator": "H0_CURRENT_HYBRID",
+    "interval_crosses_zero": true,
+    "metric": "mean_stage_macro_f1",
+    "population_point_delta": 0.0018339501272516268,
+    "replicates": 5000,
+    "resampling_unit": "id_student",
+    "stage_point_deltas": {
+      "E1_EARLY_20PCT": 0.002794285219861803,
+      "E2_EARLY_35PCT": 0.005604859503242743,
+      "L1_LATE_75PCT": -0.0021005613952949087,
+      "M1_MIDDLE_FROZEN": 0.00103721718119687
+    }
+  },
+  "M0_MLP": {
+    "base_candidate": "H1_TABULAR_RESIDUAL_EXPERT",
+    "bootstrap_mean_delta": -0.00042038385158738354,
+    "ci_95_high": 0.0018579890744244583,
+    "ci_95_low": -0.0027780230657370917,
+    "comparator": "M0_MLP",
+    "interval_crosses_zero": true,
+    "metric": "mean_stage_macro_f1",
+    "population_point_delta": -0.00043015701532642114,
+    "replicates": 5000,
+    "resampling_unit": "id_student",
+    "stage_point_deltas": {
+      "E1_EARLY_20PCT": 0.0018780380201310898,
+      "E2_EARLY_35PCT": 0.0012418403890761542,
+      "L1_LATE_75PCT": -0.003330750214961986,
+      "M1_MIDDLE_FROZEN": -0.0015097562555509425
+    }
+  }
+}

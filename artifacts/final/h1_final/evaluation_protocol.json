@@ -1,0 +1,60 @@
+{
+  "base_protocol_id": "final_oulad_prediction_v1",
+  "bootstrap": {
+    "grouped_by": "id_student",
+    "paired": true,
+    "replicates": 5000,
+    "seed": 7319
+  },
+  "candidate_count_h1": 1,
+  "comparator_reuse": "RECOMPUTE_PROTOCOL_MATCHED",
+  "comparators": [
+    "H0_CURRENT_HYBRID",
+    "M0_MLP"
+  ],
+  "final_seeds": [
+    42,
+    1201,
+    2026,
+    3407,
+    7319
+  ],
+  "inner_folds": 2,
+  "one_checkpoint_all_stages": true,
+  "operational_threshold": {
+    "affects_scientific_comparison": false,
+    "objective": "maximize_risk_recall_subject_to_precision>=0.75",
+    "role": "deployment_analysis_only"
+  },
+  "optuna_trials": 0,
+  "outer_folds": 3,
+  "post_outer_development": "PROHIBITED",
+  "protocol_id": "h1_final_outer_v1",
+  "research_threshold": {
+    "objective": "maximize_macro_f1",
+    "outer_labels_used": false,
+    "source": "Phase5 pooled inner OOF seed42",
+    "topology": "candidate_outer_fold_stage"
+  },
+  "seed_aggregation": "record_aligned_mean_probability_all_fixed_seeds",
+  "stage_policy_version": "one_estimator_four_cutoffs_v1",
+  "stages": {
+    "E1_EARLY_20PCT": {
+      "cutoff_rule": "floor(length * 0.20)",
+      "target_progress_fraction": 0.2
+    },
+    "E2_EARLY_35PCT": {
+      "cutoff_rule": "floor(length * 0.35)",
+      "target_progress_fraction": 0.35
+    },
+    "L1_LATE_75PCT": {
+      "cutoff_rule": "floor(length * 0.75)",
+      "outcome_guard_days": 14,
+      "target_progress_fraction": 0.75
+    },
+    "M1_MIDDLE_FROZEN": {
+      "cutoff_rule": "exact_legacy_F2_MIDDLE",
+      "target_progress_fraction": 0.5
+    }
+  }
+}

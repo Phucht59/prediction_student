@@ -1,0 +1,13 @@
+{
+  "completed_runs": 45,
+  "current_candidate": null,
+  "current_outer_fold": null,
+  "current_seed": null,
+  "current_stage": "complete",
+  "exit_code": 0,
+  "failed_runs": 0,
+  "finished_at": "2026-07-30T14:52:08.791476+00:00",
+  "pid": 24988,
+  "started_at": "2026-07-30T14:28:14.216535+00:00",
+  "state": "COMPLETE"
+}
