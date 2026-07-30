@@ -131,6 +131,74 @@ class DenseBranch(nn.Module):
         return self.network(values.float())
 
 
+class VectorGateFusion(nn.Module):
+    """Parameter-efficient feature-wise residual gates."""
+
+    def __init__(self, fusion_dim: int, bottleneck: int = 16):
+        super().__init__()
+        self.network = nn.Sequential(
+            nn.Linear(fusion_dim * 3, bottleneck),
+            nn.GELU(),
+            nn.Linear(bottleneck, fusion_dim * 2),
+            nn.Sigmoid(),
+        )
+
+    def forward(
+        self, temporal: torch.Tensor, aggregate: torch.Tensor, static: torch.Tensor
+    ) -> tuple[torch.Tensor, dict[str, torch.Tensor]]:
+        gate = self.network(torch.cat([temporal, aggregate, static], dim=1))
+        aggregate_gate, static_gate = gate.chunk(2, dim=1)
+        fused = temporal + aggregate_gate * aggregate + static_gate * static
+        return fused, {
+            "gate": gate,
+            "aggregate_gate": aggregate_gate,
+            "static_gate": static_gate,
+        }
+
+
+class ConcatMLPFusion(nn.Module):
+    """Small two-transform fusion MLP with a fixed downstream dimension."""
+
+    def __init__(self, fusion_dim: int, dropout: float, bottleneck: int = 48):
+        super().__init__()
+        self.network = nn.Sequential(
+            nn.LayerNorm(fusion_dim * 3),
+            nn.Linear(fusion_dim * 3, bottleneck),
+            nn.GELU(),
+            nn.Dropout(dropout),
+            nn.Linear(bottleneck, fusion_dim),
+        )
+
+    def forward(
+        self, temporal: torch.Tensor, aggregate: torch.Tensor, static: torch.Tensor
+    ) -> tuple[torch.Tensor, dict[str, torch.Tensor]]:
+        fused = self.network(torch.cat([temporal, aggregate, static], dim=1))
+        return fused, {}
+
+
+class FiLMFusion(nn.Module):
+    """Context-conditioned temporal modulation initialized as identity."""
+
+    def __init__(self, fusion_dim: int, bottleneck: int = 16):
+        super().__init__()
+        self.context = nn.Sequential(
+            nn.Linear(fusion_dim * 2, bottleneck),
+            nn.GELU(),
+            nn.Linear(bottleneck, fusion_dim * 2),
+        )
+        final = self.context[-1]
+        assert isinstance(final, nn.Linear)
+        nn.init.zeros_(final.weight)
+        nn.init.zeros_(final.bias)
+
+    def forward(
+        self, temporal: torch.Tensor, aggregate: torch.Tensor, static: torch.Tensor
+    ) -> tuple[torch.Tensor, dict[str, torch.Tensor]]:
+        gamma, beta = self.context(torch.cat([aggregate, static], dim=1)).chunk(2, dim=1)
+        fused = temporal * (1.0 + gamma) + beta
+        return fused, {"gamma": gamma, "beta": beta}
+
+
 class _OULADCNNBiLSTMBackbone(nn.Module):
     def __init__(
         self,
@@ -151,8 +219,21 @@ class _OULADCNNBiLSTMBackbone(nn.Module):
         self.static = DenseBranch(static_dim, int(config.get("static_hidden", 32)), fusion_dim, dropout)
         self.fusion_name = str(config.get("fusion", "gated_residual"))
         self.branch_dropout = float(config.get("branch_dropout", 0.1))
-        if self.fusion_name == "gated_residual":
+        self.fusion_module: nn.Module | None = None
+        if self.fusion_name in {"gated_residual", "scalar_gate"}:
             self.gates = nn.Sequential(nn.Linear(fusion_dim * 3, 2), nn.Sigmoid())
+            head_input = fusion_dim
+        elif self.fusion_name == "vector_gate":
+            self.gates = None
+            self.fusion_module = VectorGateFusion(fusion_dim)
+            head_input = fusion_dim
+        elif self.fusion_name == "concat_mlp":
+            self.gates = None
+            self.fusion_module = ConcatMLPFusion(fusion_dim, dropout)
+            head_input = fusion_dim
+        elif self.fusion_name == "film":
+            self.gates = None
+            self.fusion_module = FiLMFusion(fusion_dim)
             head_input = fusion_dim
         elif self.fusion_name == "concatenation":
             self.gates = None
@@ -174,6 +255,38 @@ class _OULADCNNBiLSTMBackbone(nn.Module):
         keep = torch.rand((values.shape[0], 1), device=values.device) >= self.branch_dropout
         return values * keep / (1.0 - self.branch_dropout)
 
+    def encode_branches(
+        self,
+        sequence: torch.Tensor,
+        lengths: torch.Tensor,
+        mask: torch.Tensor,
+        aggregate: torch.Tensor,
+        static: torch.Tensor,
+    ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor | None, torch.Tensor | None]:
+        temporal, attention, entropy = self.temporal(sequence, lengths, mask)
+        temporal = self.temporal_projection(temporal)
+        aggregate_embedding = self._drop_branch(self.aggregate(aggregate))
+        static_embedding = self._drop_branch(self.static(static))
+        return temporal, aggregate_embedding, static_embedding, attention, entropy
+
+    def fuse(
+        self,
+        temporal: torch.Tensor,
+        aggregate: torch.Tensor,
+        static: torch.Tensor,
+    ) -> tuple[torch.Tensor, dict[str, torch.Tensor]]:
+        if self.fusion_module is not None:
+            return self.fusion_module(temporal, aggregate, static)
+        if self.gates is not None:
+            gate = self.gates(torch.cat([temporal, aggregate, static], dim=1))
+            fused = temporal + gate[:, 0:1] * aggregate + gate[:, 1:2] * static
+            return fused, {
+                "gate": gate,
+                "aggregate_gate": gate[:, 0:1],
+                "static_gate": gate[:, 1:2],
+            }
+        return torch.cat([temporal, aggregate, static], dim=1), {}
+
     def forward(
         self,
         sequence: torch.Tensor,
@@ -184,23 +297,19 @@ class _OULADCNNBiLSTMBackbone(nn.Module):
         *,
         return_diagnostics: bool = False,
     ) -> torch.Tensor | tuple[torch.Tensor, dict[str, torch.Tensor | None]]:
-        temporal, attention, entropy = self.temporal(sequence, lengths, mask)
-        temporal = self.temporal_projection(temporal)
-        aggregate_embedding = self._drop_branch(self.aggregate(aggregate))
-        static_embedding = self._drop_branch(self.static(static))
-        gate: torch.Tensor | None = None
-        if self.gates is None:
-            fused = torch.cat([temporal, aggregate_embedding, static_embedding], dim=1)
-        else:
-            gate = self.gates(torch.cat([temporal, aggregate_embedding, static_embedding], dim=1))
-            fused = temporal + gate[:, 0:1] * aggregate_embedding + gate[:, 1:2] * static_embedding
+        temporal, aggregate_embedding, static_embedding, attention, entropy = (
+            self.encode_branches(sequence, lengths, mask, aggregate, static)
+        )
+        fused, fusion_diagnostics = self.fuse(
+            temporal, aggregate_embedding, static_embedding
+        )
         logits = self.head(fused).squeeze(1)
         if not return_diagnostics:
             return logits
         return logits, {
             "attention": attention,
             "attention_entropy": entropy,
-            "gate": gate,
+            **fusion_diagnostics,
             "temporal_norm": temporal.norm(dim=1),
             "aggregate_norm": aggregate_embedding.norm(dim=1),
             "static_norm": static_embedding.norm(dim=1),
@@ -213,6 +322,9 @@ def count_parameters(model: nn.Module) -> int:
 
 __all__ = [
     "DenseBranch",
+    "ConcatMLPFusion",
+    "FiLMFusion",
+    "VectorGateFusion",
     "_OULADCNNBiLSTMBackbone",
     "_OULADTemporalEncoder",
     "attention_entropy",

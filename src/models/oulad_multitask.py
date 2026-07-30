@@ -41,16 +41,15 @@ class CNNBiLSTMOULAD(nn.Module):
         aggregate: torch.Tensor,
         static: torch.Tensor,
     ) -> torch.Tensor:
-        temporal, _, _ = self.backbone.temporal(sequence, lengths, mask)
-        temporal = self.backbone.temporal_projection(temporal)
-        aggregate_embedding = self.backbone._drop_branch(self.backbone.aggregate(aggregate))
-        static_embedding = self.backbone._drop_branch(self.backbone.static(static))
-        if self.backbone.gates is None:
-            return torch.cat([temporal, aggregate_embedding, static_embedding], dim=1)
-        gate = self.backbone.gates(
-            torch.cat([temporal, aggregate_embedding, static_embedding], dim=1)
+        temporal, aggregate_embedding, static_embedding, _, _ = (
+            self.backbone.encode_branches(
+                sequence, lengths, mask, aggregate, static
+            )
         )
-        return temporal + gate[:, 0:1] * aggregate_embedding + gate[:, 1:2] * static_embedding
+        fused, _ = self.backbone.fuse(
+            temporal, aggregate_embedding, static_embedding
+        )
+        return fused
 
     def forward(
         self,
@@ -67,3 +66,35 @@ class CNNBiLSTMOULAD(nn.Module):
             "outcome_logit": self.outcome_head(representation),
             "student_state_embedding": representation,
         }
+
+    def forward_with_diagnostics(
+        self,
+        sequence: torch.Tensor,
+        lengths: torch.Tensor,
+        mask: torch.Tensor,
+        aggregate: torch.Tensor,
+        static: torch.Tensor,
+    ) -> tuple[dict[str, torch.Tensor], dict[str, torch.Tensor | None]]:
+        temporal, aggregate_embedding, static_embedding, attention, entropy = (
+            self.backbone.encode_branches(
+                sequence, lengths, mask, aggregate, static
+            )
+        )
+        representation, fusion_diagnostics = self.backbone.fuse(
+            temporal, aggregate_embedding, static_embedding
+        )
+        output = {
+            "binary_logit": self.backbone.head(representation).squeeze(1),
+            "hazard_logit": self.survival_head(representation),
+            "outcome_logit": self.outcome_head(representation),
+            "student_state_embedding": representation,
+        }
+        diagnostics: dict[str, torch.Tensor | None] = {
+            "attention": attention,
+            "attention_entropy": entropy,
+            **fusion_diagnostics,
+            "temporal_norm": temporal.norm(dim=1),
+            "aggregate_norm": aggregate_embedding.norm(dim=1),
+            "static_norm": static_embedding.norm(dim=1),
+        }
+        return output, diagnostics

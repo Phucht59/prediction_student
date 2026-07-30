@@ -1,0 +1,15 @@
+{
+  "architecture_hash_count": 4,
+  "architectures": [
+    "A0_SCALAR_GATE",
+    "A1_VECTOR_GATE",
+    "A2_CONCAT_MLP",
+    "A3_FILM"
+  ],
+  "backbone_hash_count": 1,
+  "checkpoint_roundtrip": true,
+  "forward_loss_backward": true,
+  "metric_serialization": true,
+  "outer_labels_used": false,
+  "status": "PASS"
+}
