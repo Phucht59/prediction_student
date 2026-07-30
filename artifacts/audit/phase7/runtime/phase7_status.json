@@ -1,0 +1,15 @@
+{
+  "completed_runs": 0,
+  "completed_trials": 27,
+  "current_outer_fold": null,
+  "current_seed": null,
+  "current_stage": "awaiting_freeze_commit",
+  "exit_code": 0,
+  "failed_runs": 0,
+  "failed_trials": 0,
+  "finished_at": "2026-07-30T16:46:16.766744+00:00",
+  "pid": 18868,
+  "pruned_trials": 27,
+  "started_at": "2026-07-30T15:56:07.373227+00:00",
+  "state": "DEVELOPMENT_COMPLETE"
+}

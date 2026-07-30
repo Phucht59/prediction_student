@@ -1,0 +1,14 @@
+{
+  "architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+  "architecture_id": "H1_TABULAR_RESIDUAL_EXPERT",
+  "delta_vs_h0": 10290,
+  "fusion_a0_changed": false,
+  "implementation": "src.models.oulad_tabular_residual.CNNBiLSTMTabularResidualOULAD",
+  "parameter_count": 160492,
+  "percentage_delta": 6.850774290621962,
+  "temporal_backbone_hash": "367b30a4f4cbc58ef380d2735fb1e8ff0efafcac1172db7b3695f4a0bdedcf46",
+  "temporal_cnn_changed": false,
+  "unique_architecture_hash_count_required": 1,
+  "unique_parameter_count_required": 1,
+  "within_fifteen_percent": true
+}
