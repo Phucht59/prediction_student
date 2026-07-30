@@ -1,0 +1,230 @@
+{
+  "files": [
+    {
+      "bytes": 103644,
+      "path": "artifacts/audit/phase3/all_trials.csv",
+      "sha256": "38603ee0d9c7282d7cf5173e872222695364b79ee877227b3028cb1708f85f20"
+    },
+    {
+      "bytes": 169249,
+      "path": "artifacts/audit/phase3/all_trials.json",
+      "sha256": "37a77bb130eab38fcb1ad1c217108dd934ddb1d05c5f41a48f197a45ef02258b"
+    },
+    {
+      "bytes": 2562,
+      "path": "artifacts/audit/phase3/control_outer0.json",
+      "sha256": "fef81d9a4c5bb2a00c76cdd618f495acc870a8fe8c21f8258c9b86ad58f2dc0a"
+    },
+    {
+      "bytes": 2566,
+      "path": "artifacts/audit/phase3/control_outer1.json",
+      "sha256": "49cef79c5734421f08ce3eee18da21234587aa34b775086b3a4fc17bc59a2d47"
+    },
+    {
+      "bytes": 2571,
+      "path": "artifacts/audit/phase3/control_outer2.json",
+      "sha256": "cf8c462db89f860a02f8f2a84ba0fb46c1d8f636dd2697a2afe358991a9c9bcc"
+    },
+    {
+      "bytes": 2875,
+      "path": "artifacts/audit/phase3/control_trials.csv",
+      "sha256": "f642cd443590efee81c26a798311c96d4d81abb0cccdf4a60aceae4de527719e"
+    },
+    {
+      "bytes": 643,
+      "path": "artifacts/audit/phase3/convergence_summary.json",
+      "sha256": "61db09a893ebb86a98e5779833c8c5526016446b11fd5ae831346985d2c924ce"
+    },
+    {
+      "bytes": 27256,
+      "path": "artifacts/audit/phase3/failure_summary.json",
+      "sha256": "d4f2c4ca530a0b039589a1a2935cb0ef98746102faa3176641b859e49203c21c"
+    },
+    {
+      "bytes": 2994,
+      "path": "artifacts/audit/phase3/logs/outer0.log",
+      "sha256": "007563203a44a88b12313302d5f012ac3fbb1932212488d64596e903e32f6ee0"
+    },
+    {
+      "bytes": 2916,
+      "path": "artifacts/audit/phase3/logs/outer1.log",
+      "sha256": "140a8dd83745fdca7ec3fe07eaab0a7f07d42c594d7aafcd6e46cc0137fe4d07"
+    },
+    {
+      "bytes": 2919,
+      "path": "artifacts/audit/phase3/logs/outer2.log",
+      "sha256": "3da91f811189c2803ed7e15a619d9ae559cc9dd5b9183016c556e37890dbc023"
+    },
+    {
+      "bytes": 2072,
+      "path": "artifacts/audit/phase3/logs/smoke.log",
+      "sha256": "ada68a6c5b3ec630e4a1d8c67753e863a26b977eb31ca44c1160f2779929538e"
+    },
+    {
+      "bytes": 1584,
+      "path": "artifacts/audit/phase3/logs/stability.log",
+      "sha256": "7d9d9a3ed60a77809db8bdfc1c34b541ce59416be2ba868d6bd38286228ddb9c"
+    },
+    {
+      "bytes": 18958,
+      "path": "artifacts/audit/phase3/logs/supervisor.stderr.log",
+      "sha256": "c6c574e992dc58d4fc0528eb2a4a9ddd4435b556c7fed0e8aa922c471a2d6a15"
+    },
+    {
+      "bytes": 0,
+      "path": "artifacts/audit/phase3/logs/supervisor.stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 208896,
+      "path": "artifacts/audit/phase3/optuna/outer0.db",
+      "sha256": "88681601dcb4f0fea494406f139e575e0b6e71bb491ae46532f17f5d4e29fdb1"
+    },
+    {
+      "bytes": 217088,
+      "path": "artifacts/audit/phase3/optuna/outer1.db",
+      "sha256": "74eddc9fdc0d499d78c7cfa86560e9233e80ba294b2d7dce63edb9eb16be0d46"
+    },
+    {
+      "bytes": 208896,
+      "path": "artifacts/audit/phase3/optuna/outer2.db",
+      "sha256": "421a9e9641b8cdffadd90a357b16c1fb4c95c0c91c5dc601e69455c4cd3ff2b0"
+    },
+    {
+      "bytes": 1152,
+      "path": "artifacts/audit/phase3/parameter_importance.json",
+      "sha256": "94f4c7329f9f6d927ee58c705f34644a772e8e490c2acc4641f68447cb84c0c3"
+    },
+    {
+      "bytes": 837,
+      "path": "artifacts/audit/phase3/phase3_gate.json",
+      "sha256": "165b71394da00a561afb437750e7e63fc685fe3cca4fb1ef4618d25d4bf726cb"
+    },
+    {
+      "bytes": 11544,
+      "path": "artifacts/audit/phase3/postrun_analysis.json",
+      "sha256": "ddede3098c772461e83b5a5a3e48c21b0e35220b422754e385099a1e95e24654"
+    },
+    {
+      "bytes": 531,
+      "path": "artifacts/audit/phase3/precondition_validation.json",
+      "sha256": "f9c2d0a0a4cb28c8839182328998728b83128cc972bffb0a752e2358016cf530"
+    },
+    {
+      "bytes": 228,
+      "path": "artifacts/audit/phase3/runtime/PHASE3_COMPLETE",
+      "sha256": "5757e87e6c44d2bd0b479cb2cb9602df97d9697aff2a59499f5acd8d6f946fe9"
+    },
+    {
+      "bytes": 334,
+      "path": "artifacts/audit/phase3/runtime/phase3_status.json",
+      "sha256": "a3c69cd6317ac9a23358c72150bf4ea26a91221e5539c5e3044874ef226b235e"
+    },
+    {
+      "bytes": 1261,
+      "path": "artifacts/audit/phase3/search_space.json",
+      "sha256": "6d102e813bc9e5fa4ec13e53607f7850b83d794dbeeee7ec944a66f28070c83f"
+    },
+    {
+      "bytes": 7248,
+      "path": "artifacts/audit/phase3/selected_configs.json",
+      "sha256": "8d01cb3c9bbf1020e9b00e01e2cd1614c33f6c08fcc850abad9d44d7ee7a0199"
+    },
+    {
+      "bytes": 409,
+      "path": "artifacts/audit/phase3/smoke_validation.json",
+      "sha256": "ce650325129c4c8ddcbd06bf6ee9596b03788d845476d426779321742b834b31"
+    },
+    {
+      "bytes": 5927,
+      "path": "artifacts/audit/phase3/stability_results.csv",
+      "sha256": "27728ffb75d5165b1849cd0745cb16294163933630d2d3e07bcb35605fd65bcd"
+    },
+    {
+      "bytes": 11584,
+      "path": "artifacts/audit/phase3/stability_results.json",
+      "sha256": "07e2fef33ea51a2de788c8c4fe6d796a787a66b5f4e1eb51eec4c1f4686ba654"
+    },
+    {
+      "bytes": 3684,
+      "path": "artifacts/audit/phase3/stage_metrics.csv",
+      "sha256": "1893da35d980cdf12700c3026058ac69a00a4b370013be8ec6c5b84f1619ff4c"
+    },
+    {
+      "bytes": 994,
+      "path": "artifacts/audit/phase3/study_manifest.json",
+      "sha256": "a2fec8dab06b3728d72ef9310bb79257c7e808475933a693af3265a6782a4fd9"
+    },
+    {
+      "bytes": 1352,
+      "path": "artifacts/audit/phase3/threshold_summary.csv",
+      "sha256": "a40968e55cdc281e4407f7e591d031bc591bd980cb4e11085c2ec147117cf329"
+    },
+    {
+      "bytes": 655,
+      "path": "reports/audit/phase3/PHASE3_CONTROL_VS_TUNED.md",
+      "sha256": "09f6b8b3b5e3f30fa74251a0a843b554e0393883a70b5d1a75171dacab2e819d"
+    },
+    {
+      "bytes": 501,
+      "path": "reports/audit/phase3/PHASE3_CONVERGENCE.md",
+      "sha256": "949b841d0fc00a2c1510412f51978a7a6033912bf15cd7ee1b416a1c997ff4b2"
+    },
+    {
+      "bytes": 663,
+      "path": "reports/audit/phase3/PHASE3_GATE.md",
+      "sha256": "0aa27ed68edc63125974694234ba9b135ad4e3a9b430ebbbc7603a28a520975a"
+    },
+    {
+      "bytes": 957,
+      "path": "reports/audit/phase3/PHASE3_OPTUNA_RESULTS.md",
+      "sha256": "04497af20dcc0413340fc2269cb8d0e8c963573f4b6ccd5d566f8f4ffcf6173a"
+    },
+    {
+      "bytes": 521,
+      "path": "reports/audit/phase3/PHASE3_PARAMETER_IMPORTANCE.md",
+      "sha256": "995319c3ee7638dcd70501d0001ad4be031a2079cd7e45847a36a8d822ecf571"
+    },
+    {
+      "bytes": 880,
+      "path": "reports/audit/phase3/PHASE3_PROTOCOL.md",
+      "sha256": "c682c8878d25e7b0a4e56ced1328a2480df15a473981f3a08729e668f5184b2b"
+    },
+    {
+      "bytes": 559,
+      "path": "reports/audit/phase3/PHASE3_SEARCH_SPACE.md",
+      "sha256": "2be6b29dee17f498487455abb1adfa6b48633f3d36e87052fe39fab06a7bd812"
+    },
+    {
+      "bytes": 1041,
+      "path": "reports/audit/phase3/PHASE3_SELECTED_CONFIGS.md",
+      "sha256": "ddb8db8ccde90b8a45099f9679855bf9f9116adc24fc3eeafae8369bf8f12e9f"
+    },
+    {
+      "bytes": 592,
+      "path": "reports/audit/phase3/PHASE3_STABILITY.md",
+      "sha256": "e3ec9384f8eb58462964090f9d088b3a212adcc5777a2aadc29150cd670d9a04"
+    },
+    {
+      "bytes": 626,
+      "path": "reports/audit/phase3/PHASE3_STAGE_ANALYSIS.md",
+      "sha256": "a6277b7a09f627d394c5220ef0c954bbbae45e9e0e545a7b9032e5effee0f0be"
+    },
+    {
+      "bytes": 994,
+      "path": "reports/audit/phase3/PHASE3_SUMMARY.md",
+      "sha256": "84837077515ed698f7badb5fbf52b300b8cb53cbe37bd04cf43cb4d1a722c345"
+    },
+    {
+      "bytes": 552,
+      "path": "reports/audit/phase3/PHASE3_THRESHOLD_CALIBRATION.md",
+      "sha256": "6cae0cc950d218cdaeacaab3210e3b2ca611b3d575f2e1b794e964d899429dd8"
+    },
+    {
+      "bytes": 561,
+      "path": "reports/audit/phase3/PHASE3_VALIDATION.md",
+      "sha256": "a873531ac68a728384826e0810ea87a7f172988199fc076b212a61b77c081c9f"
+    }
+  ],
+  "status": "PASS"
+}

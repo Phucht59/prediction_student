@@ -1,0 +1,13 @@
+{
+  "completed_trials": 46,
+  "current_stage": "complete",
+  "exit_code": 0,
+  "failed_trials": 0,
+  "finished_at": "2026-07-30T05:06:03.511165+00:00",
+  "last_successful_outer_fold": 2,
+  "oom_trials": 0,
+  "pid": 12780,
+  "pruned_trials": 26,
+  "started_at": "2026-07-30T02:13:13.014457+00:00",
+  "state": "COMPLETE"
+}

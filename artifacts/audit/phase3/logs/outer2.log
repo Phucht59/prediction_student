@@ -1,0 +1,24 @@
+{"at": "2026-07-30T03:50:58.524076+00:00", "objective": 0.7717287780556804, "runtime_seconds": 172.016214700001, "state": "COMPLETE", "trial": 0}
+{"at": "2026-07-30T03:54:01.153375+00:00", "objective": 0.7737116774340569, "runtime_seconds": 182.25772040000447, "state": "COMPLETE", "trial": 1}
+{"at": "2026-07-30T03:57:54.263967+00:00", "objective": 0.7730173863997986, "runtime_seconds": 232.7358813999963, "state": "COMPLETE", "trial": 2}
+{"at": "2026-07-30T04:00:10.398736+00:00", "objective": 0.7718812933861866, "runtime_seconds": 135.76505270000052, "state": "COMPLETE", "trial": 3}
+{"at": "2026-07-30T04:03:41.060675+00:00", "objective": 0.7678333630664214, "runtime_seconds": 210.28619379999873, "state": "COMPLETE", "trial": 4}
+{"at": "2026-07-30T04:06:33.470138+00:00", "objective": 0.7685142469273398, "runtime_seconds": 172.02296470000147, "state": "COMPLETE", "trial": 5}
+{"at": "2026-07-30T04:09:41.164175+00:00", "objective": 0.7731911258314277, "runtime_seconds": 187.32557739999902, "state": "COMPLETE", "trial": 6}
+{"at": "2026-07-30T04:12:42.570566+00:00", "objective": 0.772631733905118, "runtime_seconds": 181.03113219999796, "state": "COMPLETE", "trial": 7}
+{"at": "2026-07-30T04:12:52.462263+00:00", "state": "PRUNED", "trial": 8}
+{"at": "2026-07-30T04:13:07.594203+00:00", "state": "PRUNED", "trial": 9}
+{"at": "2026-07-30T04:13:17.195119+00:00", "state": "PRUNED", "trial": 10}
+{"at": "2026-07-30T04:13:32.203942+00:00", "state": "PRUNED", "trial": 11}
+{"at": "2026-07-30T04:16:32.692256+00:00", "objective": 0.7714286722947462, "runtime_seconds": 180.10490729999583, "state": "COMPLETE", "trial": 12}
+{"at": "2026-07-30T04:16:47.849287+00:00", "state": "PRUNED", "trial": 13}
+{"at": "2026-07-30T04:17:02.908715+00:00", "state": "PRUNED", "trial": 14}
+{"at": "2026-07-30T04:20:00.284245+00:00", "objective": 0.7752430053751549, "runtime_seconds": 176.91708700000163, "state": "COMPLETE", "trial": 15}
+{"at": "2026-07-30T04:21:03.537656+00:00", "state": "PRUNED", "trial": 16}
+{"at": "2026-07-30T04:23:41.333189+00:00", "objective": 0.7748484148813133, "runtime_seconds": 157.32903729999816, "state": "COMPLETE", "trial": 17}
+{"at": "2026-07-30T04:23:51.101835+00:00", "state": "PRUNED", "trial": 18}
+{"at": "2026-07-30T04:24:54.883126+00:00", "state": "PRUNED", "trial": 19}
+{"at": "2026-07-30T04:27:56.345313+00:00", "objective": 0.7732763866478151, "runtime_seconds": 181.06944010000007, "state": "COMPLETE", "trial": 20}
+{"at": "2026-07-30T04:30:43.982620+00:00", "objective": 0.7728100026334591, "runtime_seconds": 167.2570812999984, "state": "COMPLETE", "trial": 21}
+{"at": "2026-07-30T04:33:30.929717+00:00", "objective": 0.7741429902604916, "runtime_seconds": 166.50413030000345, "state": "COMPLETE", "trial": 22}
+{"at": "2026-07-30T04:36:18.809807+00:00", "objective": 0.7740361983653019, "runtime_seconds": 167.49953509999614, "state": "COMPLETE", "trial": 23}

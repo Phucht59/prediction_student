@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import inspect
+import json
 from pathlib import Path
 
 import numpy as np
@@ -181,3 +182,32 @@ def test_loss_positive_weight_uses_passed_inner_train_labels_only() -> None:
     assert full == 3.0
     assert square_root == np.sqrt(3.0)
     assert standard == 1.0
+
+
+def test_completed_phase3_evidence_satisfies_firewall_and_budget() -> None:
+    gate_path = phase3.OUT / "phase3_gate.json"
+    if not gate_path.is_file():
+        return
+    gate = json.loads(gate_path.read_text(encoding="utf-8"))
+    trials = json.loads(
+        (phase3.OUT / "all_trials.json").read_text(encoding="utf-8")
+    )
+    complete = [row for row in trials if row["state"] == "COMPLETE"]
+    assert gate["status"] == "PASS"
+    assert gate["scheduled_trials"] == 72
+    assert gate["completed_trials"] + gate["pruned_trials"] == 72
+    assert gate["failed_trials"] == gate["oom_trials"] == 0
+    assert {row["architecture_hash"] for row in complete} == {
+        phase3.architecture_contract()["architecture_hash"]
+    }
+    assert {row["parameter_count"] for row in complete} == {150202}
+    assert not any(row["outer_labels_used"] for row in complete)
+    assert not any(row["pretraining_executed"] for row in complete)
+    stability = json.loads(
+        (phase3.OUT / "stability_results.json").read_text(encoding="utf-8")
+    )
+    assert len(stability) == 12
+    assert all(
+        (phase3.OPTUNA_DIR / f"outer{fold}.db").is_file()
+        for fold in range(3)
+    )
