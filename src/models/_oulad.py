@@ -159,6 +159,7 @@ class _OULADCNNBiLSTMBackbone(nn.Module):
             head_input = fusion_dim * 3
         else:
             raise ValueError(f"Unknown fusion: {self.fusion_name}")
+        self.representation_dim = head_input
         self.head = nn.Sequential(
             nn.LayerNorm(head_input),
             nn.Dropout(dropout),

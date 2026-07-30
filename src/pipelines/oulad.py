@@ -48,6 +48,17 @@ from torch.utils.data import DataLoader, TensorDataset
 
 from src.models._oulad import _OULADCNNBiLSTMBackbone, count_parameters
 from src.models.oulad_multitask import CNNBiLSTMOULAD
+from src.training.config_authority import (
+    architecture_metadata,
+    load_config_authority,
+    resolved_deep_config,
+)
+from src.training.control import (
+    TrainingRunIdentity,
+    finalize_training_metadata,
+    select_operational_threshold,
+    select_refit_epoch,
+)
 
 try:
     from xgboost import XGBClassifier
@@ -58,6 +69,7 @@ except ImportError:  # pragma: no cover - environment guard
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "artifacts" / "final" / "unified_stage_aware_oulad"
 CONFIG = ROOT / "configs" / "final" / "oulad_prediction.yaml"
+CONFIG_AUTHORITY = ROOT / "configs" / "registry" / "oulad_unified_stage_aware_v2.yaml"
 LOG_ROOT = ROOT / "logs" / "oulad_multistage"
 REFRACTOR = ROOT / "artifacts" / "refactor"
 LEGACY = ROOT / "artifacts" / "history" / "legacy_oulad_single_cutoff_f2"
@@ -756,8 +768,8 @@ class _DeepPreprocessor:
 
 
 def _deep_config(protocol: dict[str,Any]) -> dict[str,Any]:
-    d=protocol["training"]["deep"]
-    return {"input_projection":48,"conv_channels":32,"kernels":[2,3,5],"lstm_hidden":64,"lstm_layers":1,"pooling":"masked_mean_max","pooling_projection":64,"aggregate_hidden":64,"static_hidden":32,"fusion_hidden":64,"dropout":d["dropout"],"fusion":"gated_residual","branch_dropout":.1,"learning_rate":d["learning_rate"],"weight_decay":d["weight_decay"],"batch_size":d["batch_size"],"max_epochs":d["max_epochs"],"patience":d["patience"]}
+    del protocol  # retained in the signature for compatibility with pipeline callers
+    return resolved_deep_config(load_config_authority(CONFIG_AUTHORITY))
 
 
 def _deep_model(kind:str, aggregate_dim:int, static_dim:int, config:dict[str,Any]) -> nn.Module:
@@ -772,7 +784,61 @@ def _deep_probability(model:nn.Module, tensors:tuple[torch.Tensor,...], kind:str
     return torch.sigmoid(logits)
 
 
-def _fit_deep(kind:str, train:tuple, validation:tuple, seed:int, protocol:dict[str,Any], selected_epoch:int|None=None) -> tuple[dict[str,Any],np.ndarray,int]:
+def _mean_stage_nll(
+    frame: pd.DataFrame, labels: np.ndarray, probabilities: np.ndarray
+) -> float:
+    values = []
+    for stage in STAGES:
+        selected = frame.prediction_stage.eq(stage).to_numpy()
+        if selected.any():
+            values.append(
+                log_loss(
+                    labels[selected],
+                    np.clip(probabilities[selected], 1e-7, 1 - 1e-7),
+                    labels=[0, 1],
+                )
+            )
+    if not values:
+        raise ValueError("no recognized OULAD stages in validation frame")
+    return float(np.mean(values))
+
+
+def _multitask_loss(
+    output: torch.Tensor | dict[str, torch.Tensor],
+    target: torch.Tensor,
+    sample_weight: torch.Tensor,
+    outcome: torch.Tensor,
+    cutoff: torch.Tensor,
+    course_end: torch.Tensor,
+    unregistration: torch.Tensor,
+    risk_loss: nn.Module,
+    *,
+    survival_weight: float,
+    outcome_weight: float,
+) -> tuple[torch.Tensor, dict[str, torch.Tensor]]:
+    logits=output["binary_logit"] if isinstance(output,dict) else output
+    risk=(risk_loss(logits,target)*sample_weight).sum()/sample_weight.sum().clamp_min(1e-8)
+    components={"risk":risk}
+    loss=risk
+    if isinstance(output,dict):
+        outcome_loss=nn.functional.cross_entropy(output["outcome_logit"],outcome)
+        horizon=output["hazard_logit"].shape[1]; offsets=torch.arange(horizon,device=target.device)[None,:]
+        observed=(offsets*7 < (course_end-cutoff).unsqueeze(1)).float()
+        event=((unregistration-cutoff).unsqueeze(1) >= 0) & ((unregistration-cutoff).unsqueeze(1) >= offsets*7) & ((unregistration-cutoff).unsqueeze(1) < (offsets+1)*7)
+        hazard=event.float(); survival=nn.functional.binary_cross_entropy_with_logits(output["hazard_logit"],hazard,reduction="none"); survival=(survival*observed).sum()/observed.sum().clamp_min(1.0)
+        loss=loss+survival_weight*survival+outcome_weight*outcome_loss
+        components.update({"survival":survival,"outcome":outcome_loss})
+    return loss,components
+
+
+def _fit_deep(
+    kind:str,
+    train:tuple,
+    validation:tuple,
+    seed:int,
+    protocol:dict[str,Any],
+    fixed_epochs:int|None=None,
+) -> tuple[dict[str,Any],np.ndarray,int]:
     torch.manual_seed(seed); np.random.seed(seed)
     frame,seq,length,mask,agg,y,w=train; vf,vseq,vlen,vmask,vagg,vy,_=validation
     pre=_DeepPreprocessor().fit(frame,agg); agg,static=pre.transform(frame,agg); vagg,vstatic=pre.transform(vf,vagg)
@@ -785,31 +851,26 @@ def _fit_deep(kind:str, train:tuple, validation:tuple, seed:int, protocol:dict[s
     pos=float((y==0).sum()/max((y==1).sum(),1)); risk=nn.BCEWithLogitsLoss(pos_weight=torch.tensor(pos,device=device),reduction="none")
     data=TensorDataset(torch.from_numpy(seq),torch.from_numpy(length.astype(np.int64)),torch.from_numpy(mask.astype(np.float32)),torch.from_numpy(agg),torch.from_numpy(static),torch.from_numpy(y.astype(np.float32)),torch.from_numpy(w.astype(np.float32)),torch.from_numpy(frame.outcome_aux.to_numpy(dtype=np.int64)),torch.from_numpy(frame.cutoff_day.to_numpy(dtype=np.int64)),torch.from_numpy(frame.module_presentation_length.to_numpy(dtype=np.int64)),torch.from_numpy(frame.date_unregistration.fillna(-1).to_numpy(dtype=np.int64)))
     loader=DataLoader(data,batch_size=config["batch_size"],shuffle=True,generator=torch.Generator().manual_seed(seed))
-    fixed=selected_epoch or config["max_epochs"]; best=float("-inf"); best_state=None; best_epoch=1; wait=0
-    for epoch in range(1,fixed+1):
+    epoch_limit=fixed_epochs or config["max_epochs"]; best=float("inf"); best_state=None; best_epoch=1; wait=0; epochs_trained=0
+    for epoch in range(1,epoch_limit+1):
+        epochs_trained=epoch
         model.train()
         for b in loader:
             s,length_tensor,m,a,st,t,wt,out,cut,end,unreg=(v.to(device) for v in b); opt.zero_grad()
             output=model(s,length_tensor,m,a,st)
-            logits=output["binary_logit"] if isinstance(output,dict) else output
-            loss=(risk(logits,t)*wt).sum()/wt.sum().clamp_min(1e-8)
-            if isinstance(output,dict):
-                outcome_loss=nn.functional.cross_entropy(output["outcome_logit"],out)
-                horizon=output["hazard_logit"].shape[1]; offsets=torch.arange(horizon,device=device)[None,:]
-                observed=(offsets*7 < (end-cut).unsqueeze(1)).float()
-                event=((unreg-cut).unsqueeze(1) >= 0) & ((unreg-cut).unsqueeze(1) >= offsets*7) & ((unreg-cut).unsqueeze(1) < (offsets+1)*7)
-                hazard=event.float(); surv=nn.functional.binary_cross_entropy_with_logits(output["hazard_logit"],hazard,reduction="none"); surv=(surv*observed).sum()/observed.sum().clamp_min(1.0)
-                loss=loss+.15*surv+.15*outcome_loss
+            loss,_=_multitask_loss(output,t,wt,out,cut,end,unreg,risk,survival_weight=float(config["survival_weight"]),outcome_weight=float(config["outcome_weight"]))
             loss.backward(); torch.nn.utils.clip_grad_norm_(model.parameters(),1.0); opt.step()
-        if selected_epoch is not None: continue
-        prob=_predict_deep(model,vseq,vlen,vmask,vagg,vstatic,kind,device); score=f1_score(vy,prob>=.5,average="macro")
-        if score>best+1e-8: best=score; best_state={k:v.detach().cpu().clone() for k,v in model.state_dict().items()}; best_epoch=epoch; wait=0
+        if fixed_epochs is not None: continue
+        prob=_predict_deep(model,vseq,vlen,vmask,vagg,vstatic,kind,device); score=_mean_stage_nll(vf,vy,prob)
+        if score<best-float(config["min_delta"]): best=score; best_state={k:v.detach().cpu().clone() for k,v in model.state_dict().items()}; best_epoch=epoch; wait=0
         else: wait+=1
         if wait>=config["patience"]: break
-    if selected_epoch is None and best_state is not None: model.load_state_dict(best_state)
+    if fixed_epochs is None and best_state is not None: model.load_state_dict(best_state)
     probability=_predict_deep(model,vseq,vlen,vmask,vagg,vstatic,kind,device)
-    payload={"state_dict":model.cpu().state_dict(),"preprocessor":pre.state(),"config":config,"kind":kind,"aggregate_dim":int(agg.shape[1]),"static_dim":int(static.shape[1]),"selected_epoch":best_epoch,"parameter_count":count_parameters(model),"temporal_channel_order":list(CHANNELS),"aggregate_feature_order":[f"aggregate_{i:03d}" for i in range(165)],"static_feature_order":list(STATIC_COLUMNS),"stage_context_feature_order":["cutoff_day","progress_fraction","remaining_days","observed_weeks"],"seed":int(seed),"cuda_device":torch.cuda.get_device_name(0),"deterministic_metadata":{"fixed_seed":int(seed),"best_seed_selection":False}}
-    return payload,probability,best_epoch
+    control=finalize_training_metadata(fixed_epochs=fixed_epochs,epochs_trained=epochs_trained,selected_epoch=best_epoch,monitor="mean_stage_validation_nll")
+    authority=load_config_authority(CONFIG_AUTHORITY); metadata=architecture_metadata(model,authority=authority,aggregate_dim=int(agg.shape[1]),static_dim=int(static.shape[1]))
+    payload={"state_dict":model.cpu().state_dict(),"preprocessor":pre.state(),"config":config,"kind":kind,"aggregate_dim":int(agg.shape[1]),"static_dim":int(static.shape[1]),**control,**metadata,"pretraining":authority["pretraining"],"parameter_count":count_parameters(model),"temporal_channel_order":list(CHANNELS),"aggregate_feature_order":[f"aggregate_{i:03d}" for i in range(165)],"static_feature_order":list(STATIC_COLUMNS),"stage_context_feature_order":["cutoff_day","progress_fraction","remaining_days","observed_weeks"],"seed":int(seed),"cuda_device":torch.cuda.get_device_name(0),"deterministic_metadata":{"fixed_seed":int(seed),"best_seed_selection":False}}
+    return payload,probability,int(control["selected_epoch"])
 
 
 def _predict_deep(model:nn.Module,seq:np.ndarray,length:np.ndarray,mask:np.ndarray,agg:np.ndarray,static:np.ndarray,kind:str,device:torch.device) -> np.ndarray:
@@ -836,14 +897,8 @@ def _inner_splits(base:pd.DataFrame,outer:int) -> Iterable[tuple[set[str],set[st
 
 
 def _threshold(y:np.ndarray,p:np.ndarray) -> tuple[float,str]:
-    candidates=np.unique(np.r_[np.linspace(.05,.95,181),p])
-    rows=[]
-    for t in candidates:
-        pred=p>=t; precision=precision_recall_fscore_support(y,pred,average="binary",zero_division=0)[0]; recall=precision_recall_fscore_support(y,pred,average="binary",zero_division=0)[1]
-        rows.append((float(t),float(precision),float(recall)))
-    qualified=[r for r in rows if r[1]>=.75]
-    if qualified: return max(qualified,key=lambda r:(r[2],r[1]))[0],"PRECISION_CONSTRAINT_MET"
-    return min(rows,key=lambda r:abs(r[1]-.75))[0],"CONSTRAINT_NOT_REACHED"
+    result=select_operational_threshold(y,p,minimum_precision=.75)
+    return float(result["threshold"]),str(result["status"])
 
 
 def _ensure_inner(bundle:Bundle,protocol:dict[str,Any]) -> tuple[pd.DataFrame,pd.DataFrame]:
@@ -861,11 +916,12 @@ def _ensure_inner(bundle:Bundle,protocol:dict[str,Any]) -> tuple[pd.DataFrame,pd
                 if model in TABULAR:
                     estimator,payload=_fit_tabular(model,tr,va,42)
                     prob=payload["probability"]
+                    selected_epoch=None
                 else:
-                    _,prob,_=_fit_deep(model,tr,va,42,protocol)
+                    _,prob,selected_epoch=_fit_deep(model,tr,va,42,protocol)
                 frame=va[0].loc[:,["base_record_id","id_student","prediction_stage","target"]].copy(); frame["probability"]=prob; frame["model_family"]=model; frame["outer_fold"]=outer; frame["inner_fold"]=inner; oof.append(frame)
                 stage_scores=frame.groupby("prediction_stage").apply(lambda g:f1_score(g.target,g.probability>=.5,average="macro"),include_groups=False)
-                rows.append({"model_family":model,"outer_fold":outer,"inner_fold":inner,"config_id":"frozen_default","mean_stage_macro_f1_operational":float(stage_scores.mean()),"worst_stage_macro_f1":float(stage_scores.min()),"runtime_seconds":time.perf_counter()-start,"outer_labels_used":False})
+                rows.append({"model_family":model,"outer_fold":outer,"inner_fold":inner,"config_id":"oulad_unified_stage_aware_v2" if model in DEEP else "frozen_default","mean_stage_macro_f1_operational":float(stage_scores.mean()),"worst_stage_macro_f1":float(stage_scores.min()),"selected_epoch":selected_epoch,"epoch_selection_monitor":"mean_stage_validation_nll" if model in DEEP else None,"runtime_seconds":time.perf_counter()-start,"outer_labels_used":False})
     oof_frame=pd.concat(oof,ignore_index=True); _write_parquet(oof_path,oof_frame); trials=pd.DataFrame(rows); _write_csv(trial_path,trials)
     policies=[]
     for (model,outer,stage),g in oof_frame.groupby(["model_family","outer_fold","prediction_stage"]):
@@ -898,7 +954,51 @@ def _expected_run_config_hash(model: str) -> str:
                 "calibration": "inner_oof_platt_logistic_regression",
             }
         )
+    if model in DEEP:
+        authority=load_config_authority(CONFIG_AUTHORITY)
+        return architecture_metadata(
+            _deep_model(model,165,13,resolved_deep_config(authority)),
+            authority=authority,
+            aggregate_dim=165,
+            static_dim=13,
+        )["config_hash"]
     return _stable({"model": model, "config": "frozen_default"})
+
+
+def _training_identity(
+    model: str, outer: int, seed: int, *, training_mode: str
+) -> TrainingRunIdentity:
+    authority=load_config_authority(CONFIG_AUTHORITY)
+    return TrainingRunIdentity(
+        dataset="oulad",
+        model_family=model,
+        outer_fold=int(outer),
+        seed=int(seed),
+        protocol_id=str(authority["protocol_id"]),
+        stage_policy_version=str(authority["stage_policy_version"]),
+        config_hash=_expected_run_config_hash(model),
+        training_mode=training_mode,
+    )
+
+
+def _refit_epoch_details(
+    trials: pd.DataFrame, model: str, outer: int
+) -> dict[str, Any]:
+    selected=trials.loc[
+        trials.model_family.eq(model) & trials.outer_fold.eq(outer), "selected_epoch"
+    ].dropna()
+    if selected.empty:
+        raise RuntimeError(
+            f"no inner-only selected_epoch available for {model} outer fold {outer}; "
+            "run corrected inner selection before outer refit"
+        )
+    candidates=selected.astype(int).tolist()
+    return {
+        "inner_epoch_selection_policy": "median",
+        "inner_epoch_candidates": candidates,
+        "selected_refit_epoch": select_refit_epoch(candidates,policy="median"),
+        "outer_labels_used": False,
+    }
 
 
 def _resume_checkpoint_valid(
@@ -953,11 +1053,13 @@ def _resume_checkpoint_valid(
 
 def train(resume:bool=True) -> dict[str,Any]:
     bundle=_build_bundle(); protocol=_protocol(); _ensure_inner(bundle,protocol)
+    trials=pd.read_csv(OUT/"inner_trials.csv")
     base=bundle.base[["base_record_id","outer_fold"]].drop_duplicates(); rows=[]; mapping=[]; runtime=[]
     for model in MODELS:
         for outer in sorted(base.outer_fold.unique()):
             fit_ids=set(base.loc[base.outer_fold.ne(outer),"base_record_id"]); val_ids=set(base.loc[base.outer_fold.eq(outer),"base_record_id"]); tr=_stage_rows(bundle,fit_ids); va=_stage_rows(bundle,val_ids)
-            selected_epoch=int(pd.read_csv(OUT/"inner_trials.csv").query("model_family == @model and outer_fold == @outer")["mean_stage_macro_f1_operational"].shape[0] and _protocol()["training"]["deep"]["max_epochs"])
+            epoch_details=_refit_epoch_details(trials,model,int(outer)) if model in DEEP else None
+            selected_epoch=epoch_details["selected_refit_epoch"] if epoch_details else None
             for seed in SEEDS:
                 path=OUT/"checkpoints"/f"{model}_oulad"/f"outer_fold_{int(outer)}"/(f"seed_{seed}.joblib" if model in TABULAR else f"seed_{seed}.pt")
                 start=time.perf_counter()
@@ -983,18 +1085,27 @@ def train(resume:bool=True) -> dict[str,Any]:
                         estimator,_=_fit_tabular(model,tr,va,int(seed)); joblib.dump(estimator,path)
                         epoch=None; params=None
                     else:
-                        payload,_,epoch=_fit_deep(model,tr,va,int(seed),protocol,selected_epoch=selected_epoch)
+                        payload,_,epoch=_fit_deep(model,tr,va,int(seed),protocol,fixed_epochs=selected_epoch)
                         payload["outer_fold"]=int(outer)
                         payload["model_id"]=f"{model}_oulad"
-                        payload["training_run_id"]=_stable({"dataset":"oulad","model":model,"outer":int(outer),"seed":int(seed),"config":"frozen_default"})[:24]
-                        payload["config_hash"]=_stable({"model":model,"config":"frozen_default"})
-                        payload["checkpoint_id"]=_stable({"run":payload["training_run_id"],"selected_epoch":epoch})[:24]
+                        identity=_training_identity(model,int(outer),int(seed),training_mode="fixed_epoch_refit")
+                        payload["training_run_identity"]=identity.fields
+                        payload["training_run_id"]=identity.run_id
+                        payload["config_hash"]=identity.config_hash
+                        payload["checkpoint_id"]=identity.checkpoint_id(epoch)
                         torch.save(payload,path); params=payload["parameter_count"]
                 else:
-                    epoch=None; params=None
-                run_id=_stable({"dataset":"oulad","model":model,"outer":int(outer),"seed":int(seed),"config_hash":_expected_run_config_hash(model)})[:24]
-                rows.append({"dataset":"oulad","model_id":f"{model}_oulad","model_family":model,"outer_fold":int(outer),"seed":int(seed),"config_hash":_expected_run_config_hash(model),"training_run_id":run_id,"checkpoint":path.relative_to(ROOT).as_posix(),"checkpoint_sha256":_sha(path),"status":"RESUMED" if resumed else "COMPLETE","selected_epoch":epoch,"parameter_count":params})
-                for stage in STAGES: mapping.append({"training_run_id":run_id,"model_id":f"{model}_oulad","outer_fold":int(outer),"seed":int(seed),"prediction_stage":stage,"checkpoint":path.relative_to(ROOT).as_posix(),"checkpoint_sha256":_sha(path)})
+                    if model in DEEP:
+                        restored=torch.load(path,map_location="cpu",weights_only=False)
+                        epoch=restored.get("selected_epoch"); params=restored.get("parameter_count")
+                    else:
+                        epoch=None; params=None
+                training_mode="fixed_epoch_refit" if model in DEEP else "single_fit"
+                identity=_training_identity(model,int(outer),int(seed),training_mode=training_mode)
+                run_id=identity.run_id
+                checkpoint_id=identity.checkpoint_id(epoch)
+                rows.append({"dataset":"oulad","model_id":f"{model}_oulad","model_family":model,"outer_fold":int(outer),"seed":int(seed),"protocol_id":identity.protocol_id,"stage_policy_version":identity.stage_policy_version,"training_mode":training_mode,"config_hash":identity.config_hash,"training_run_id":run_id,"checkpoint_id":checkpoint_id,"checkpoint":path.relative_to(ROOT).as_posix(),"checkpoint_sha256":_sha(path),"status":"RESUMED" if resumed else "COMPLETE","selected_epoch":epoch,"checkpoint_epoch":epoch,"inner_epoch_selection_policy":epoch_details["inner_epoch_selection_policy"] if epoch_details else None,"inner_epoch_candidates":epoch_details["inner_epoch_candidates"] if epoch_details else None,"selected_refit_epoch":selected_epoch,"outer_labels_used_for_epoch_selection":False,"parameter_count":params})
+                for stage in STAGES: mapping.append({"training_run_id":run_id,"checkpoint_id":checkpoint_id,"model_id":f"{model}_oulad","outer_fold":int(outer),"seed":int(seed),"prediction_stage":stage,"checkpoint":path.relative_to(ROOT).as_posix(),"checkpoint_sha256":_sha(path)})
                 runtime.append({"model_family":model,"outer_fold":int(outer),"seed":int(seed),"runtime_seconds":time.perf_counter()-start,"cache_hit":resumed})
     manifest=pd.DataFrame(rows); _write_json(OUT/"training_run_manifest.json",{"status":"PASS","training_run_count":len(manifest),"runs":manifest.to_dict("records")}); _write_json(OUT/"checkpoint_stage_mapping.json",{"status":"PASS","mapping_count":len(mapping),"same_checkpoint_all_stages":True,"rows":mapping}); _write_csv(OUT/"runtime.csv",pd.DataFrame(runtime))
     return {"status":"PASS","training_runs":len(manifest),"checkpoints":len(manifest)}

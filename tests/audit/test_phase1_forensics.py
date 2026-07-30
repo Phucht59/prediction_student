@@ -141,18 +141,20 @@ def test_oulad_supported_gated_fusion_forwards() -> None:
     assert output["outcome_logit"].shape == (2, 3)
 
 
-def test_oulad_concatenation_has_confirmed_latent_aux_head_bug() -> None:
+def test_oulad_concatenation_aux_heads_forward_after_phase2_repair() -> None:
     model = CNNBiLSTMOULAD(
         47, 5, 3, _oulad_config("concatenation")
     ).eval()
-    with pytest.raises(RuntimeError, match="mat1 and mat2 shapes cannot be multiplied"):
-        model(
-            torch.zeros(2, 3, 47),
-            torch.tensor([2, 2]),
-            torch.tensor([[1.0, 1.0, 0.0]] * 2),
-            torch.zeros(2, 5),
-            torch.zeros(2, 3),
-        )
+    output = model(
+        torch.zeros(2, 3, 47),
+        torch.tensor([2, 2]),
+        torch.tensor([[1.0, 1.0, 0.0]] * 2),
+        torch.zeros(2, 5),
+        torch.zeros(2, 3),
+    )
+    assert output["binary_logit"].shape == (2,)
+    assert output["hazard_logit"].shape == (2, 20)
+    assert output["outcome_logit"].shape == (2, 3)
 
 
 @pytest.mark.parametrize("fusion", ["concatenation", "gated", "film_residual"])

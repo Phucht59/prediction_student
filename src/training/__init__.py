@@ -1,1 +1,1 @@
-"""Frozen training protocol utilities; release commands never train."""
+"""Shared training-control utilities."""

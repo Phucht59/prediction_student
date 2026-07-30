@@ -29,9 +29,9 @@ class CNNBiLSTMOULAD(nn.Module):
         self.backbone = _OULADCNNBiLSTMBackbone(
             sequence_channels, aggregate_dim, static_dim, config, "cnn_bilstm"
         )
-        fusion = int(config.get("fusion_hidden", 64))
-        self.survival_head = nn.Linear(fusion, HORIZON_WEEKS)
-        self.outcome_head = nn.Linear(fusion, 3)
+        self.representation_dim = self.backbone.representation_dim
+        self.survival_head = nn.Linear(self.representation_dim, HORIZON_WEEKS)
+        self.outcome_head = nn.Linear(self.representation_dim, 3)
 
     def representation(
         self,

@@ -1,0 +1,164 @@
+{
+  "status": "PASS",
+  "authority_file": "configs/registry/oulad_unified_stage_aware_v2.yaml",
+  "authority": {
+    "config_version": "oulad_unified_stage_aware_v2",
+    "protocol_id": "final_oulad_prediction_v1",
+    "stage_policy_version": "one_estimator_four_cutoffs_v1",
+    "authority_scope": "unified_stage_aware_oulad",
+    "legacy_official_config": "configs/final/cnn_bilstm_oulad.yaml",
+    "dataset_schema": {
+      "dataset": "oulad",
+      "temporal_channels": 47,
+      "aggregate_features": 165,
+      "static_raw_features": 6,
+      "static_runtime_dimension": 13,
+      "categorical_encoding": "train_fit_one_hot",
+      "stages": [
+        "E1_EARLY_20PCT",
+        "E2_EARLY_35PCT",
+        "M1_MIDDLE_FROZEN",
+        "L1_LATE_75PCT"
+      ]
+    },
+    "architecture": {
+      "model_class": "src.models.oulad_multitask.CNNBiLSTMOULAD",
+      "sequence_channels": 47,
+      "input_projection": 48,
+      "conv_channels": 32,
+      "kernels": [
+        2,
+        3,
+        5
+      ],
+      "dilation": 1,
+      "residual": true,
+      "lstm_hidden": 64,
+      "lstm_layers": 1,
+      "pooling": "masked_mean_max",
+      "pooling_projection": 64,
+      "aggregate_hidden": 64,
+      "static_hidden": 32,
+      "fusion_hidden": 64,
+      "fusion": "gated_residual",
+      "branch_dropout": 0.1,
+      "auxiliary_heads": [
+        "survival",
+        "outcome"
+      ]
+    },
+    "training": {
+      "optimizer": "AdamW",
+      "dropout": 0.2,
+      "learning_rate": 0.0005,
+      "weight_decay": 1e-05,
+      "batch_size": 256,
+      "max_epochs": 15,
+      "patience": 5,
+      "monitor": "mean_stage_validation_nll",
+      "monitor_mode": "min",
+      "min_delta": 1e-06,
+      "gradient_clip_norm": 1.0,
+      "refit_epoch_policy": "median",
+      "phase3_epoch_search_min": 1,
+      "phase3_epoch_search_max": 15,
+      "scheduler": null,
+      "augmentation": null
+    },
+    "loss": {
+      "risk": "weighted_bce",
+      "survival_weight": 0.15,
+      "outcome_weight": 0.15
+    },
+    "thresholds": {
+      "monitor_threshold": 0.5,
+      "research": "INNER_OOF_RESEARCH_MACRO_F1",
+      "operational": "INNER_OOF_OPERATIONAL_RECALL_AT_PRECISION",
+      "operational_minimum_precision": 0.75
+    },
+    "pretraining": {
+      "requested": false,
+      "executed": false,
+      "checkpoint": null,
+      "strategy": null
+    }
+  },
+  "unified_runtime": {
+    "config_version": "oulad_unified_stage_aware_v2",
+    "model_class": "src.models.oulad_multitask.CNNBiLSTMOULAD",
+    "architecture": {
+      "model_class": "src.models.oulad_multitask.CNNBiLSTMOULAD",
+      "sequence_channels": 47,
+      "input_projection": 48,
+      "conv_channels": 32,
+      "kernels": [
+        2,
+        3,
+        5
+      ],
+      "dilation": 1,
+      "residual": true,
+      "lstm_hidden": 64,
+      "lstm_layers": 1,
+      "pooling": "masked_mean_max",
+      "pooling_projection": 64,
+      "aggregate_hidden": 64,
+      "static_hidden": 32,
+      "fusion_hidden": 64,
+      "fusion": "gated_residual",
+      "branch_dropout": 0.1,
+      "auxiliary_heads": [
+        "survival",
+        "outcome"
+      ]
+    },
+    "sequence_channels": 47,
+    "aggregate_dim": 165,
+    "static_dim": 13,
+    "representation_dim": 64,
+    "auxiliary_heads": [
+      "survival",
+      "outcome"
+    ],
+    "parameter_count": 150202,
+    "loss": {
+      "risk": "weighted_bce",
+      "survival_weight": 0.15,
+      "outcome_weight": 0.15
+    },
+    "pretraining": {
+      "requested": false,
+      "executed": false,
+      "checkpoint": null,
+      "strategy": null
+    },
+    "dataset_schema": {
+      "dataset": "oulad",
+      "temporal_channels": 47,
+      "aggregate_features": 165,
+      "static_raw_features": 6,
+      "static_runtime_dimension": 13,
+      "categorical_encoding": "train_fit_one_hot",
+      "stages": [
+        "E1_EARLY_20PCT",
+        "E2_EARLY_35PCT",
+        "M1_MIDDLE_FROZEN",
+        "L1_LATE_75PCT"
+      ]
+    },
+    "source_commit": "78b188d8aa3f17210e03b315067f5b1048187d93",
+    "config_hash": "4033e0a96522ad3b5d23719f1aa73e56793d4f205fde4478ec7aec6b2f15226a",
+    "architecture_hash": "305cbeb49ae04c65a4de81e40b12fbf72cee2b7a6171136cee3a19047a407eff"
+  },
+  "legacy_official": {
+    "config": "configs/final/cnn_bilstm_oulad.yaml",
+    "parameter_count": 100938,
+    "scope": "official frozen single-cutoff model",
+    "modified": false
+  },
+  "distinction": "Legacy official and unified stage-aware configurations are separate authorities.",
+  "parameter_delta": 49264,
+  "source_base_commit": "78b188d8aa3f17210e03b315067f5b1048187d93",
+  "diagnostic_code_snapshot_hash": "2f8d1150e8344f462cdf2e336909c19fc779e53b9bd013cdd0acde7a1a8829a6",
+  "generation_worktree_had_phase2_changes": true
+}
