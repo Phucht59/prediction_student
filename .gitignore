@@ -63,6 +63,7 @@ models/saved/*
 **/preprocessors/
 **/threshold_replay_cache/
 **/optuna.db
+/artifacts/audit/phase4/runtime/smoke_*.pt
 
 # Database volumes and safety backups
 database/**/volume/

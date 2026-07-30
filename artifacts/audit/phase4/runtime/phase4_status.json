@@ -1,0 +1,13 @@
+{
+  "completed_runs": 30,
+  "current_stage": "complete",
+  "exit_code": 0,
+  "failed_runs": 0,
+  "finished_at": "2026-07-30T09:12:55.969026+00:00",
+  "microtune_triggered": false,
+  "pid": 1528,
+  "numerical_stability_winner": "A1_VECTOR_GATE",
+  "selected_architecture": "A0_SCALAR_GATE",
+  "started_at": "2026-07-30T07:50:58.155684+00:00",
+  "state": "COMPLETE"
+}

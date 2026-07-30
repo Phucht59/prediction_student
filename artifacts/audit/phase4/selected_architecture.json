@@ -1,0 +1,23 @@
+{
+  "architecture_hash": "6a74c9970877cd74dd20ed44a5670f62c073c5d1e261458df12a7f8c05dedc81",
+  "architecture_id": "A0_SCALAR_GATE",
+  "backbone_hash": "ddc6800df7975a4689af94eef76daf134e78ffb3452b4ed662a743ae00e97b20",
+  "delta_vs_control": 0,
+  "fusion": "gated_residual",
+  "fusion_parameters": 386,
+  "head_parameters": 5848,
+  "microtune_triggered": false,
+  "numerical_macro_f1_delta_vs_control": 0.0004417460242542859,
+  "numerical_stability_winner": "A1_VECTOR_GATE",
+  "outer_labels_used": false,
+  "percentage_delta": 0.0,
+  "recommended_frozen_architecture": "A0_SCALAR_GATE",
+  "representation_dim": 64,
+  "selection_reason": "Retain control: the numerical gain is negligible and every secondary metric is worse.",
+  "selection_source": "inner_stability_evidence_with_preregistered_materiality",
+  "stage_conditioning_status": "EXPLICIT_STAGE_CONDITIONING_REDUNDANT",
+  "temporal_backbone_parameters": 126432,
+  "total_parameter_count": 150202,
+  "trainable_parameter_count": 150202,
+  "within_ten_percent": true
+}

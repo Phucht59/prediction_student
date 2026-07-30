@@ -1,6 +1,6 @@
 {
   "checkpoint_policy": "minimize_mean_stage_validation_nll",
-  "commit_sha": "fcaee199a4e80955eb12d0332eae5bc93acfb846",
+  "commit_sha": "89272ed8bd58f85e3486a00efd0fe3187725f5ab",
   "concurrency": 1,
   "device": "NVIDIA GeForce RTX 2060",
   "gpu_count": 1,

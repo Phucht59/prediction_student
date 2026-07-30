@@ -699,6 +699,29 @@ def _rank(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
     )
 
 
+def select_stable_architecture(rows: list[dict[str, Any]]) -> tuple[str, str]:
+    """Apply primary ranking, then the preregistered materiality/secondary review."""
+    ranked = _rank(rows)
+    numerical = ranked[0]
+    control = next(row for row in rows if row["architecture_id"] == "A0_SCALAR_GATE")
+    gain = numerical["mean_stage_macro_f1"] - control["mean_stage_macro_f1"]
+    secondary_worse = (
+        numerical["worst_stage_macro_f1"] < control["worst_stage_macro_f1"]
+        and numerical["mean_stage_pr_auc"] < control["mean_stage_pr_auc"]
+        and numerical["mean_stage_nll"] > control["mean_stage_nll"]
+        and numerical["mean_stage_brier"] > control["mean_stage_brier"]
+        and numerical["mean_stage_ece"] > control["mean_stage_ece"]
+    )
+    retained = (
+        "A0_SCALAR_GATE"
+        if numerical["architecture_id"] != "A0_SCALAR_GATE"
+        and abs(gain) < 0.002
+        and secondary_worse
+        else numerical["architecture_id"]
+    )
+    return str(numerical["architecture_id"]), str(retained)
+
+
 def _diagnostic_rows(results: list[dict[str, Any]], phase: str) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
     for result in results:
@@ -886,7 +909,7 @@ def run_supervisor() -> int:
                     )
         stability = _aggregate_results(stability_raw)
         _write_csv(OUT / "stability_results.csv", stability)
-        stable_winner = _rank(stability)[0]["architecture_id"]
+        numerical_winner, stable_winner = select_stable_architecture(stability)
         status_payload(state="STAGE_CONDITIONING", current_stage="stage_conditioning")
         stage_conditioning_status = "EXPLICIT_STAGE_CONDITIONING_REDUNDANT"
         stage_conditioning = [
@@ -941,6 +964,8 @@ def run_supervisor() -> int:
             OUT / "selected_architecture.json",
             {
                 **winner_identity,
+                "numerical_stability_winner": numerical_winner,
+                "recommended_frozen_architecture": stable_winner,
                 "selection_source": "inner_stability_evidence",
                 "outer_labels_used": False,
                 "stage_conditioning_status": stage_conditioning_status,
@@ -998,4 +1023,3 @@ def status() -> dict[str, Any]:
     if not STATUS_PATH.is_file():
         return {"state": "PENDING", "status_file": False}
     return json.loads(STATUS_PATH.read_text(encoding="utf-8"))
-

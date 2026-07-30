@@ -1,0 +1,9 @@
+{
+  "at": "2026-07-30T09:12:55.978574+00:00",
+  "finished_at": "2026-07-30T09:12:55.969026+00:00",
+  "gate": "PASS",
+  "preconditions": "PASS",
+  "smoke": "PASS",
+  "started_at": "2026-07-30T07:50:58.155684+00:00",
+  "state": "COMPLETE"
+}

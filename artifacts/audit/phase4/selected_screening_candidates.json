@@ -1,0 +1,16 @@
+{
+  "control": "A0_SCALAR_GATE",
+  "outer_labels_used": false,
+  "ranking_rule": [
+    "mean_stage_macro_f1",
+    "worst_stage_macro_f1",
+    "mean_stage_pr_auc",
+    "mean_stage_nll",
+    "mean_stage_brier",
+    "parameter_efficiency"
+  ],
+  "selected_noncontrol": [
+    "A1_VECTOR_GATE",
+    "A2_CONCAT_MLP"
+  ]
+}

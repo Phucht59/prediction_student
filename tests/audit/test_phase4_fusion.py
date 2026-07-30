@@ -16,6 +16,7 @@ from src.training.phase4_fusion import (
     _model,
     _selected_configs,
     architecture_registry,
+    select_stable_architecture,
 )
 
 
@@ -132,3 +133,30 @@ def test_research_threshold_implementation_is_inner_oof_only() -> None:
     assert '"research_threshold_scope": "pooled_inner_oof_only"' in source
     assert '"outer_labels_used": False' in source
     assert not np.array_equal(np.zeros(3), np.ones(3))
+
+
+def test_negligible_primary_gain_with_all_secondary_metrics_worse_retains_control() -> None:
+    control = {
+        "architecture_id": "A0_SCALAR_GATE",
+        "mean_stage_macro_f1": 0.7731,
+        "worst_stage_macro_f1": 0.7055,
+        "mean_stage_pr_auc": 0.8292,
+        "mean_stage_nll": 0.4481,
+        "mean_stage_brier": 0.1470,
+        "mean_stage_ece": 0.0185,
+        "total_parameter_count": 150_202,
+    }
+    candidate = {
+        "architecture_id": "A1_VECTOR_GATE",
+        "mean_stage_macro_f1": 0.7736,
+        "worst_stage_macro_f1": 0.7047,
+        "mean_stage_pr_auc": 0.8291,
+        "mean_stage_nll": 0.4488,
+        "mean_stage_brier": 0.1472,
+        "mean_stage_ece": 0.0213,
+        "total_parameter_count": 155_080,
+    }
+    assert select_stable_architecture([control, candidate]) == (
+        "A1_VECTOR_GATE",
+        "A0_SCALAR_GATE",
+    )
