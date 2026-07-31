@@ -11,19 +11,24 @@ danh triển khai là:
 |---|---|---|---:|
 | Student-Mat | CNN-BiLSTM MAT | Low / Medium / High | **0.9015** |
 | Student-Por | CNN-BiLSTM POR | Low / Medium / High | **0.8623** |
-| OULAD | H1 CNN-BiLSTM + Tabular Residual | At-risk / Not-at-risk | **0.7984** |
+| OULAD | See dual endpoint authority below | At-risk / Not-at-risk | **0.8281 legacy / 0.7984 strict** |
 
-OULAD now has two explicitly separate evidence tracks:
+OULAD now has explicitly separate endpoint authorities and early-warning evidence:
 
-- **Main final endpoint:** the frozen H1 architecture trained for
-  `F2_MIDDLE_OFFICIAL_SINGLE_CUTOFF`, Macro-F1 **0.7984**.
+- **Legacy endpoint authority:** H0 CNN-BiLSTM, Macro-F1 **0.8281**, using a
+  conservative score-availability proxy whose exact release-time validity
+  cannot be fully verified from OULAD.
+- **Strict endpoint authority:** the frozen H1 architecture at
+  `F2_MIDDLE_OFFICIAL_SINGLE_CUTOFF`, Macro-F1 **0.7984**, excluding
+  unverifiable score-progress values.
 - **Secondary early warning:** the frozen shared-checkpoint evaluation at
   20%, 35%, 50% and 75%; its stage metrics remain unchanged.
 
 The historical H0 CNN-BiLSTM endpoint result (**0.8281**) and MLP result
-(**0.8283**) remain protocol-matched comparators. Phase 7 found that H1 did
-not improve either comparator at the final endpoint; no post-test tuning was
-performed.
+(**0.8283**) remain legacy endpoint evidence under the score proxy. They share
+the target, population and outer folds with H1, but not the strict feature-
+availability protocol. Phase 7 found that H1 did not improve either historical
+comparator at the endpoint; no post-test tuning was performed.
 
 Các con số trên là kết quả khóa luận đã đóng băng. Pipeline validation không
 train lại, không chọn seed tốt nhất và không thay đổi checkpoint.
@@ -99,11 +104,11 @@ stage.
 | M1 | 50% | 0.8063 | 0.7894 | 0.7940 |
 | L1 | 75% | 0.8664 | 0.8385 | 0.8503 |
 
-Kết quả **main final endpoint** của H1 có Macro-F1 **0.7984**, Balanced
+Kết quả **strict final endpoint** của H1 có Macro-F1 **0.7984**, Balanced
 Accuracy **0.7922**, PR-AUC **0.8630**, Risk Precision **0.8045**, Risk Recall
 **0.6961**, Risk F1 **0.7464** và ECE **0.0120**. Kết quả H0 **0.8281** bên
-dưới được giữ dưới vai trò comparator lịch sử cùng protocol, không phải kết
-quả H1.
+dưới được giữ dưới vai trò legacy endpoint theo score-availability proxy,
+không thuộc strict feature protocol và không phải kết quả H1.
 
 ## Mô hình so sánh
 
@@ -139,7 +144,7 @@ Macro-F1 trên evaluation authority chính thức:
 | XGBoost | 0.8815 | **0.8677** | 0.8259 |
 | MLP | 0.8595 | 0.8304 | **0.8283** |
 | CNN-BiLSTM H0 (historical endpoint comparator) | — | — | 0.8281 |
-| **Final CNN-BiLSTM family (H1 on OULAD)** | **0.9015** | **0.8623** | **0.7984** |
+| **Final CNN-BiLSTM family (strict H1 on OULAD)** | **0.9015** | **0.8623** | **0.7984** |
 
 Các giá trị in đậm cho thấy model tốt nhất không giống nhau ở mọi dataset:
 Decision Tree nhỉnh hơn ở MAT, XGBoost nhỉnh hơn ở POR và MLP tốt hơn H1 ở

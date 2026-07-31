@@ -7,6 +7,7 @@
     "configs/final/cnn_bilstm_mat.yaml": "3ec5452d5539fb96ce0982838c229c9317cf3a6acedb23e3eaf9de3ef9f27a69",
     "configs/final/cnn_bilstm_oulad.yaml": "fcca253af167b3405e5000d88f0f5a286fd235b7075fcbf05e162e0a92f86756",
     "configs/final/cnn_bilstm_por.yaml": "6c4c9f85c5b494e662d2dfe4e186841df332523d868411f602f266903a6c59d1",
+    "configs/final/final_model_authority.yaml": "1a4c47ffeafc3639055923143d9eb4f4acc1b4c017f1704c5fd478e151142d86",
     "configs/final/mlp_comparator.yaml": "1e264c08e5692607fc14d947323a3b2f809bba624899dc2cefb70a37ecd2c3f7",
     "configs/final/model_registry.yaml": "b76354699316cbc5cd96c540c38bd835541d22fabd5bc5b2e54d0803e9f6e238",
     "configs/final/oulad_prediction.yaml": "f9029db46c408fed4c98bdd8b310071b8003b7d86c0571c367777714ef420497",
