@@ -80,6 +80,9 @@ models/saved/*
 /artifacts/canonical_v3/predictions/runs/
 /artifacts/canonical_v3/runtime/canonical_bundle.joblib
 /artifacts/canonical_v3/runtime/runs/
+/artifacts/canonical_v3/runtime/*
+!/artifacts/canonical_v3/runtime/phase11_status.json
+!/artifacts/canonical_v3/runtime/PHASE11_COMPLETE
 
 # Database volumes and safety backups
 database/**/volume/
