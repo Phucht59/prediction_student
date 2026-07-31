@@ -663,7 +663,8 @@ def run_supervisor() -> int:
     _status(state="RUNNING", started_at=started, current_stage="audit", completed_runs=0, failed_runs=0)
     _sentinel("RUNNING")
     try:
-        if json.loads(PHASE8_GATE.read_text(encoding="utf-8")).get("status") != "PASS":
+        phase8_gate = json.loads(PHASE8_GATE.read_text(encoding="utf-8"))
+        if phase8_gate.get("gate", phase8_gate.get("status")) != "PASS":
             raise RuntimeError("Phase 8 gate is not PASS")
         if not torch.cuda.is_available() or torch.cuda.device_count() != 1:
             raise RuntimeError("Phase 9 requires exactly one CUDA GPU")
