@@ -1,0 +1,22 @@
+{
+  "status": "HISTORICAL_DEVELOPMENT_CONTEXT_ONLY",
+  "selection_use": false,
+  "scope": "historical outer-training fold 0, three inner folds, seed 42",
+  "comparability": "PARTIAL: same F2 endpoint population family, but historical candidates used the score proxy rejected by Phase 9",
+  "h0_p1_masked_and_next_week": {
+    "macro_f1_mean": 0.8244426413333333,
+    "pr_auc_mean": 0.8916520246333334,
+    "brier_mean": 0.11553907006666667,
+    "source": "git:da25cf5:artifacts/v6/prediction/pretraining/fold_metrics.json"
+  },
+  "mlp_tabular_full": {
+    "macro_f1": 0.8299203794201985,
+    "pr_auc": 0.8894426609115126,
+    "roc_auc": 0.9025252893321398,
+    "nll": 0.37460948804735245,
+    "brier": 0.11684814687053419,
+    "ece": 0.029457358589029464,
+    "source": "git:da25cf5:artifacts/v5_3/oulad/screening/screening_result.json"
+  },
+  "warning": "These values explain the historical endpoint region but cannot be treated as a fair score-free Phase 9 benchmark. They did not select A0/A1 or trigger tuning."
+}

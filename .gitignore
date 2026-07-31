@@ -72,6 +72,9 @@ models/saved/*
 /artifacts/audit/phase7/runtime/checkpoints/
 /artifacts/audit/phase7/runtime/predictions/
 /artifacts/audit/phase7/runtime/endpoint_smoke_checkpoint.pt
+/artifacts/audit/phase9/runtime/predictions/
+/artifacts/audit/phase9/runtime/pretraining/
+/artifacts/audit/phase9/runtime/runs/
 
 # Database volumes and safety backups
 database/**/volume/

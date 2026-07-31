@@ -1,0 +1,63 @@
+{
+  "R0": {
+    "name": "Phase7 recipe",
+    "valid": true
+  },
+  "R1": {
+    "name": "H0 endpoint feature schema",
+    "score_features": "REJECTED",
+    "valid_subset": "score-free compact 49 mapped into frozen H1 165-input contract"
+  },
+  "R2": {
+    "name": "H0 sequence preprocessing",
+    "policy": "masked train-only mean/std",
+    "valid": true
+  },
+  "R3": {
+    "name": "H0 pretraining",
+    "rejected": [
+      "masked_score_availability",
+      "next_score_state_transition"
+    ],
+    "valid_subset": [
+      "masked_activity_band",
+      "masked_active_state",
+      "masked_submission_band",
+      "masked_inactivity_transition",
+      "next_active_state",
+      "next_activity_direction",
+      "next_submission_band",
+      "next_inactivity_transition"
+    ]
+  },
+  "R4": {
+    "name": "H0 loss/auxiliary",
+    "valid": true,
+    "weights": {
+      "outcome": 0.15,
+      "survival": 0.15
+    }
+  },
+  "R5": {
+    "fixed_epochs": 8,
+    "name": "H0 epoch/checkpoint",
+    "valid": true
+  },
+  "R6": {
+    "name": "threshold",
+    "policy": "pooled inner OOF Macro-F1",
+    "valid": true
+  },
+  "architecture": {
+    "architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+    "architecture_id": "H1_TABULAR_RESIDUAL_EXPERT",
+    "delta_vs_h0": 10290,
+    "fusion_a0_changed": false,
+    "implementation": "src.models.oulad_tabular_residual.CNNBiLSTMTabularResidualOULAD",
+    "parameter_count": 160492,
+    "percentage_delta": 6.850774290621962,
+    "temporal_backbone_hash": "367b30a4f4cbc58ef380d2735fb1e8ff0efafcac1172db7b3695f4a0bdedcf46",
+    "temporal_cnn_changed": false,
+    "within_fifteen_percent": true
+  }
+}

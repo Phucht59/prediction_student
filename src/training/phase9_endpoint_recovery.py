@@ -660,7 +660,16 @@ def _skipped_optuna_db() -> None:
 
 def run_supervisor() -> int:
     _directories(); started = utc_now(); before = early_warning_checksums()
-    _status(state="RUNNING", started_at=started, current_stage="audit", completed_runs=0, failed_runs=0)
+    _status(
+        state="RUNNING",
+        started_at=started,
+        finished_at=None,
+        current_stage="audit",
+        completed_runs=0,
+        failed_runs=0,
+        exit_code=None,
+        pid=os.getpid(),
+    )
     _sentinel("RUNNING")
     try:
         phase8_gate = json.loads(PHASE8_GATE.read_text(encoding="utf-8"))
@@ -746,6 +755,11 @@ def run_supervisor() -> int:
         # Select A1 only when it improves; tuned R2 only when triggered.
         selected_name = "H1_R2_TUNED_VALID_H0_RECIPE" if tune_trigger else ("H1_R1_VALID_H0_RECIPE" if a1["macro_f1"] > a0["macro_f1"] else "H1_R0_PHASE7_CONTROL")
         selected_recipe = "A1_VALID_H0_RECIPE" if selected_name != "H1_R0_PHASE7_CONTROL" else "A0_PHASE7_H1_CONTROL"
+        selected_frozen_configs = (
+            {fold: control_config(fold) for fold in OUTER_FOLDS}
+            if selected_name == "H1_R0_PHASE7_CONTROL"
+            else selected_config_by_fold
+        )
         # Stability uses exactly two predefined seeds across all three partitions; compare A0 and finalist.
         _status(current_stage="stability", current_candidate=selected_name)
         stability: list[dict[str, Any]] = []
@@ -793,7 +807,7 @@ def run_supervisor() -> int:
         recovery_class = "STRONG_RECOVERY" if finalist["macro_f1"] >= 0.83 else "SUBSTANTIAL_RECOVERY" if finalist["macro_f1"] >= 0.82 else "PARTIAL_RECOVERY" if finalist["macro_f1"] >= 0.81 else "FAILED_RECOVERY"
         selected = {
             "candidate_id": selected_name, "architecture_id": ARCHITECTURE_ID, "architecture_hash": identity["architecture_hash"], "temporal_backbone_hash": identity["temporal_backbone_hash"], "parameter_count": PARAMETER_COUNT,
-            "recipe": selected_recipe, "configs_by_outer_fold": selected_config_by_fold, "score_proxy_decision": SCORE_DECISION,
+            "recipe": selected_recipe, "configs_by_outer_fold": selected_frozen_configs, "score_proxy_decision": SCORE_DECISION,
             "stability": finalist, "recovery_classification": recovery_class, "outer_labels_used": False,
             "true_untouched_holdout_available": False, "claim_scope": "RECOVERY_DEVELOPMENT_EVIDENCE",
         }

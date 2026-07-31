@@ -51,6 +51,7 @@ def test_phase9_budget_and_architecture_contract() -> None:
     source = inspect.getsource(phase9.run_supervisor)
     assert "H1_TABULAR_RESIDUAL_EXPERT" not in source  # fixed via module constant
     assert "outer_labels_used\": False" in source
+    assert "selected_frozen_configs" in source
 
 
 def test_h1_forward_loss_backward_and_branch_connections() -> None:

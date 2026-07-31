@@ -1,0 +1,7 @@
+{
+  "artifacts/audit/phase5/phase5_gate.json": "014ab412ecd853be1d1d18cb595cc9e8884ab266e1db975dd657dacc34da21dd",
+  "artifacts/final/h1_final/comparator_summary.csv": "de34907143a49024add8e8c7f43def4dd540292962e52897570f84a0a1d295ab",
+  "artifacts/final/h1_final/phase6_gate.json": "6132284bf883f6e92cd3d2e89d56764db2120f9adbdeb93e84dac2cdd5d77a38",
+  "artifacts/final/h1_final/predictions.parquet": "821eef864fdcd0edacbb71e226884f6a77b0152cda7436d9ee5c3327acaf008a",
+  "artifacts/final/h1_final/stage_metrics.csv": "c3e60cf502d4a2e18e8f31397aa36bfb6aff4252b9d86abe9a599a22f85c67a2"
+}
