@@ -1,0 +1,109 @@
+{
+  "H0": {
+    "at_0_5": {
+      "accuracy": 0.839315905839511,
+      "balanced_accuracy": 0.8179930587573263,
+      "brier": 0.11335526438611301,
+      "ece_10_bin": 0.00868338922803935,
+      "ece_15_bin": 0.009462555042264651,
+      "fn": 1752,
+      "fp": 719,
+      "macro_f1": 0.8265298053831073,
+      "nll": 0.3587775601633183,
+      "pr_auc": 0.893354764945997,
+      "predicted_positive_rate": 0.33066718689036284,
+      "risk_f1": 0.7794340801571008,
+      "risk_precision": 0.8586037364798427,
+      "risk_recall": 0.7136319058515855,
+      "roc_auc": 0.908155801278951,
+      "specificity": 0.922354211663067,
+      "tn": 8541,
+      "tp": 4366
+    },
+    "diagnostic_outer_oracle": {
+      "macro_f1": 0.8279929029275828,
+      "scope": "DIAGNOSTIC_OUTER_ORACLE_NOT_FOR_SELECTION",
+      "threshold": 0.4406863033771515
+    },
+    "registered": {
+      "accuracy": 0.840096241383795,
+      "balanced_accuracy": 0.8203325597306252,
+      "brier": 0.11335526438611301,
+      "ece_10_bin": 0.00868338922803935,
+      "ece_15_bin": 0.009462555042264651,
+      "fn": 1691,
+      "fp": 768,
+      "macro_f1": 0.8280835945631038,
+      "nll": 0.3587775601633183,
+      "pr_auc": 0.893354764945997,
+      "predicted_positive_rate": 0.33782026271296656,
+      "risk_f1": 0.7826394413506585,
+      "risk_precision": 0.8521655437921078,
+      "risk_recall": 0.7236024844720497,
+      "roc_auc": 0.908155801278951,
+      "specificity": 0.9170626349892008,
+      "tn": 8492,
+      "tp": 4427
+    },
+    "registered_thresholds": [
+      0.45500000000000007,
+      0.49500000000000005,
+      0.5
+    ]
+  },
+  "H1": {
+    "at_0_5": {
+      "accuracy": 0.8135648328781376,
+      "balanced_accuracy": 0.7876261281902286,
+      "brier": 0.13070167240041966,
+      "ece_10_bin": 0.011987802941613291,
+      "ece_15_bin": 0.011987802941613264,
+      "fn": 2076,
+      "fp": 791,
+      "macro_f1": 0.796718000504923,
+      "nll": 0.4062919196580419,
+      "pr_auc": 0.8630392629373055,
+      "predicted_positive_rate": 0.314280140460398,
+      "risk_f1": 0.7381974248927039,
+      "risk_precision": 0.8363335402441547,
+      "risk_recall": 0.6606734226871527,
+      "roc_auc": 0.8761419406813589,
+      "specificity": 0.9145788336933045,
+      "tn": 8469,
+      "tp": 4042
+    },
+    "diagnostic_outer_oracle": {
+      "macro_f1": 0.7991071305972848,
+      "scope": "DIAGNOSTIC_OUTER_ORACLE_NOT_FOR_SELECTION",
+      "threshold": 0.4327070116996765
+    },
+    "registered": {
+      "accuracy": 0.8118090779034985,
+      "balanced_accuracy": 0.7921857359616526,
+      "brier": 0.13070167240041966,
+      "ece_10_bin": 0.011987802941613291,
+      "ece_15_bin": 0.011987802941613264,
+      "fn": 1859,
+      "fp": 1035,
+      "macro_f1": 0.7984000886272689,
+      "nll": 0.4062919196580419,
+      "pr_auc": 0.8630392629373055,
+      "predicted_positive_rate": 0.3442580309533099,
+      "risk_f1": 0.7464072905713284,
+      "risk_precision": 0.8044956554590103,
+      "risk_recall": 0.69614253023864,
+      "roc_auc": 0.8761419406813589,
+      "specificity": 0.8882289416846653,
+      "tn": 8225,
+      "tp": 4259
+    },
+    "registered_thresholds": [
+      0.44037243723869324,
+      0.4476509690284729,
+      0.4511343240737915
+    ]
+  },
+  "interpretation": "Ranking/calibration metrics regress and a diagnostic threshold oracle recovers less than 0.001 H1 Macro-F1.",
+  "outer_labels_used_for_selection": false,
+  "status": "THRESHOLD_NOT_PRIMARY_CAUSE"
+}
