@@ -75,6 +75,11 @@ models/saved/*
 /artifacts/audit/phase9/runtime/predictions/
 /artifacts/audit/phase9/runtime/pretraining/
 /artifacts/audit/phase9/runtime/runs/
+/artifacts/canonical_v3/checkpoints/
+/artifacts/canonical_v3/logs/
+/artifacts/canonical_v3/predictions/runs/
+/artifacts/canonical_v3/runtime/canonical_bundle.joblib
+/artifacts/canonical_v3/runtime/runs/
 
 # Database volumes and safety backups
 database/**/volume/
