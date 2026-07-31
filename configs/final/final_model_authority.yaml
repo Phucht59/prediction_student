@@ -1,38 +1,65 @@
-schema_version: final_model_authority_v1
-status: FROZEN
+schema_version: final_model_authority_v2
+authority_id: FINAL_THESIS_MODEL_AUTHORITY
+status: RELEASE_FROZEN
 model_development_closed: true
+training_enabled_in_release: false
+architecture_search: false
+optuna_trials_in_release: 0
 
-student_mat:
-  main_model: cnn_bilstm
-  primary_task: final_grade_classification
-  macro_f1: 0.9014601961315334
-  stage_aware_task: secondary_early_warning_S0_S1_S2
-  source: artifacts/final/recommendation/canonical_classification_results.csv
-
-student_por:
-  main_model: cnn_bilstm
-  primary_task: final_grade_classification
-  macro_f1: 0.8622587167738002
-  stage_aware_task: secondary_early_warning_S0_S1_S2
-  source: artifacts/final/recommendation/canonical_classification_results.csv
+uci:
+  architecture_family: CNN_BILSTM_UCI_FROZEN
+  architecture_count: 1
+  information_policy: UCI_FEATURE_POLICY
+  target: three_class_final_grade
+  classes: [Low, Medium, High]
+  G3_as_predictor: prohibited
+  fold_policy: frozen_v5_1_five_outer_folds
+  seed_policy: [42, 1201, 2026, 3407, 7319]
+  student_mat:
+    macro_f1: 0.9014601961315334
+    checkpoint_directory: artifacts/final/models/cnn_bilstm_mat
+    prediction_artifact: artifacts/final/comparator_completion/student_mat/oof_predictions.parquet
+    configuration: configs/final/cnn_bilstm_mat.yaml
+    metric_artifact: artifacts/final/metrics/cnn_bilstm_mat.json
+  student_por:
+    macro_f1: 0.8622587167738002
+    checkpoint_directory: artifacts/final/models/cnn_bilstm_por
+    prediction_artifact: artifacts/final/comparator_completion/student_por/oof_predictions.parquet
+    configuration: configs/final/cnn_bilstm_por.yaml
+    metric_artifact: artifacts/final/metrics/cnn_bilstm_por.json
 
 oulad:
+  architecture_family: H1_TABULAR_RESIDUAL_EXPERT
+  architecture_count: 1
+  information_policy: STRICT_REAL_TIME
+  score_values: excluded
+  score_derived_aggregates: excluded
   target: at_risk_vs_not_at_risk
-  legacy_endpoint:
-    model: h0_cnn_bilstm
-    macro_f1: 0.8280835945631038
-    status: LEGACY_ENDPOINT_AUTHORITY_WITH_SCORE_PROXY_CAVEAT
-    score_availability: conservative_proxy_not_fully_timestamp_verifiable
-    source: artifacts/audit/phase8/h0_endpoint_profile.json
-  strict_endpoint:
-    model: h1_tabular_residual_expert
-    macro_f1: 0.7984000886272689
-    status: STRICT_NO_UNVERIFIED_SCORE_ENDPOINT_RESULT
-    score_features: excluded_when_release_time_unverifiable
-    source: artifacts/audit/phase7/endpoint_final_metrics.json
-  early_warning:
-    model: h1_tabular_residual_expert
-    status: FROZEN_VALID_DO_NOT_MODIFY
-    stages: [E1_EARLY_20PCT, E2_EARLY_35PCT, M1_MIDDLE_FROZEN, L1_LATE_75PCT]
-    endpoint_equivalence: false
-    source: artifacts/final/h1_final/stage_metrics.csv
+  stages: [E1_EARLY_20PCT, E2_EARLY_35PCT, M1_MIDDLE_50PCT, L1_LATE_75PCT, FINAL]
+  feature_monotonicity: F20_subset_F35_subset_F50_subset_F75_subset_FFINAL
+  stage_75:
+    macro_f1: 0.8524909688936928
+  final:
+    accuracy: 0.907674
+    balanced_accuracy: 0.879360
+    macro_precision: 0.917557
+    macro_recall: 0.879360
+    macro_f1: 0.8940709888551659
+    weighted_f1: 0.905470
+    pr_auc: 0.934988
+    roc_auc: 0.944963
+    nll: 0.242288
+    brier: 0.071513
+    ece: 0.007871
+    risk_precision: 0.941290
+    risk_recall: 0.785069
+    risk_f1: 0.856111
+    specificity: 0.973650
+  prediction_artifact: artifacts/canonical_v3/predictions/oulad_oof_predictions.parquet
+  freeze_manifest: artifacts/canonical_v3/CANONICAL_BENCHMARK_FREEZE.json
+
+historical_context:
+  phase11_uci_re_evaluation: CANONICAL_V3_HISTORICAL_NOT_FINAL_UCI_AUTHORITY
+  phase7_h1_0_798400: HISTORICAL_INCOMPATIBLE_EARLIER_CUTOFF_NOT_CURRENT_FINAL
+  h0_0_828084: HISTORICAL_LEGACY_ENDPOINT_NOT_CURRENT_FINAL
+  development_ablations: DEVELOPMENT_ONLY_NOT_FINAL_ENDPOINT_METRICS
