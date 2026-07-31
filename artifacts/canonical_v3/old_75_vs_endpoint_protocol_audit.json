@@ -1,0 +1,14 @@
+{
+  "directly_comparable_as_75_vs_final": false,
+  "early_warning_75_stage": "L1_LATE_75PCT",
+  "early_warning_score_policy": "score values excluded because raw OULAD lacks a score-release timestamp; score_missing_mask=1",
+  "endpoint_cutoff_fraction": 0.5,
+  "endpoint_id": "F2_MIDDLE_OFFICIAL_SINGLE_CUTOFF",
+  "endpoint_score_policy": "score values excluded; identical strict policy",
+  "reason": "Phase 7 endpoint is F2 at 50%, not an observation point after 75%; it also uses a separately trained checkpoint.",
+  "root_cause_classification": [
+    "G_OLD_STAGE_EVIDENCE_NOT_PROTOCOL_COMPATIBLE",
+    "C_SEPARATE_TRAINING_MISMATCH"
+  ],
+  "same_score_policy": true
+}

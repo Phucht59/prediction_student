@@ -1,0 +1,99 @@
+{
+  "architecture_search": false,
+  "authority_id": "UNIFIED_CANONICAL_BENCHMARK_V3",
+  "benchmark_label": "CANONICAL_NESTED_CV_BENCHMARK",
+  "canonical_benchmark_hash": "74004abf54f74c5a051b45836dbfa30cae4037467be55958b81cffd191b8edaf",
+  "feature_monotonicity_hash": "37a06b2a3bf0366ff85d2afb07f139364451e21fe9e658268396a90b4a2b9aef",
+  "fold_hashes": {
+    "oulad_by_stage": {
+      "E1_EARLY_20PCT": "4fe5bd1005dd3f3885ed7fc3f00af4525d8610c735b58993f4193cc10d4b08dc",
+      "E2_EARLY_35PCT": "847f54e51a90fefe47c2bb65b9891ec93cd94a9e2754b32ca82416c787853329",
+      "FINAL": "30d54fccc4f761e2039f5a535aaea93074b706de7190f705723761161ac8e52b",
+      "L1_LATE_75PCT": "f8223d9ea98a33f15004072be7468871bbae6609831523467db2625bec6014dc",
+      "M1_MIDDLE_50PCT": "54db90e7fcf383db7e576c53ede9d6214750db57b08b1daa08a886aeb3fabc32"
+    },
+    "uci": {
+      "student_mat": "9bcd2ca9a1d7c6a495a19d40049f874b993bcf192a9d8cce64160cd817715738",
+      "student_por": "4dfd81bea0a4752999c025e58dabd019b97e227f61f5dd8bbb53e63235d505ef"
+    }
+  },
+  "new_benchmark_metrics_observed_before_freeze": false,
+  "oulad_architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+  "oulad_parameter_count": 160492,
+  "oulad_temporal_backbone_hash": "367b30a4f4cbc58ef380d2735fb1e8ff0efafcac1172db7b3695f4a0bdedcf46",
+  "outer_labels_used_to_define_policy": false,
+  "parent_authority_commit": "020e445d1e01a35ea2ad7343c7f781be156cbfa3",
+  "phase3_training_configs": {
+    "0": {
+      "config": {
+        "batch_size": 256,
+        "dropout": 0.2368400954250437,
+        "learning_rate": 0.0011484568466276783,
+        "loss_policy": "standard_bce",
+        "outcome_weight": 0.2,
+        "pos_weight_strategy": "not_applicable",
+        "survival_weight": 0.0,
+        "weight_decay": 1.3278646414039475e-06
+      },
+      "config_hash": "a6c77dcd632281985f6d1acc66c28e40277fc515d450ba8f79c922d100b16d22"
+    },
+    "1": {
+      "config": {
+        "batch_size": 256,
+        "dropout": 0.24970281620434753,
+        "learning_rate": 0.0009342889927929933,
+        "loss_policy": "standard_bce",
+        "outcome_weight": 0.0,
+        "pos_weight_strategy": "not_applicable",
+        "survival_weight": 0.15,
+        "weight_decay": 2.33364982516221e-05
+      },
+      "config_hash": "215c846aba5d356cff789659736a6f993280c5915f454a8ce4511765aa5d72b1"
+    },
+    "2": {
+      "config": {
+        "batch_size": 128,
+        "dropout": 0.14788186212273952,
+        "learning_rate": 0.001427490474468405,
+        "loss_policy": "standard_bce",
+        "outcome_weight": 0.15,
+        "pos_weight_strategy": "not_applicable",
+        "survival_weight": 0.0,
+        "weight_decay": 1.0731619628337453e-07
+      },
+      "config_hash": "fd7e93437d2c2c073aa84ec3eeb76924df15dd2a5bd219ebee3a5c1575befb8b"
+    }
+  },
+  "policy_hash": "406fd462ffe4ca324360f2d409d09e8347f0eef6fe50103601816289ba07f84d",
+  "post_result_tuning": "PROHIBITED",
+  "protocol_hash": "bff28690539d5332499244cd6048bb4a750c03535b78eb8b06aead3c67a030c6",
+  "schema_version": "canonical_benchmark_freeze_v3",
+  "search_space_hash": "3aa4bc88fde22b2c445d8c6eaef3e3a9647e4eb818dd058c26827ad25b2c0153",
+  "seeds": {
+    "oulad": [
+      42,
+      1201,
+      2026,
+      3407,
+      7319
+    ],
+    "uci": [
+      42,
+      1201,
+      2026,
+      3407,
+      7319
+    ]
+  },
+  "source_hashes": {
+    "benchmark_protocol": "2ea32431a8155fa82147b9f6bf7ea95aedcff0683b63d12ca6beecaa81342b9e",
+    "information_policy": "7e36a41a0f53c0aa88cb5023d1e14ebb804fdfff9452892f09d1a1e8f1e61905",
+    "old_h1_predictions": "821eef864fdcd0edacbb71e226884f6a77b0152cda7436d9ee5c3327acaf008a",
+    "old_oulad_predictions": "2dbacd0fb3d5fe504729e78825680a1892c87eb20f72b358f457e9791b9d687e",
+    "old_uci_predictions": "9045113553efc22f4f235559075625fe885377f918422fa1fae84c1fa294a30c",
+    "raw_manifest": "cd6f397b7ffad59c66fcbc5d01e85824d2f55bcfbca6ef91dad8b85492c08585",
+    "search_spaces": "afa9f89c0c30c051ca774191440acefa850d2137bc8217075b514d23aa7f4b7d"
+  },
+  "status": "IMMUTABLE_PRE_BENCHMARK",
+  "uci_topology_hash": "e66b5691a61a2033b29b241e92ba2c75332a3aa501e7bcf70f38fcbd2c58487e"
+}

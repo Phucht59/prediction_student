@@ -1,0 +1,32 @@
+schema_version: canonical_v3_search_spaces_v1
+status: FROZEN_BEFORE_BENCHMARK
+architecture_search: false
+
+oulad_final_tabular:
+  logistic_regression:
+    - {C: 0.1, class_weight: balanced}
+    - {C: 1.0, class_weight: balanced}
+    - {C: 10.0, class_weight: balanced}
+  decision_tree:
+    - {max_depth: 6, min_samples_leaf: 10, class_weight: balanced}
+    - {max_depth: 12, min_samples_leaf: 5, class_weight: balanced}
+    - {max_depth: null, min_samples_leaf: 10, class_weight: balanced}
+  random_forest:
+    - {n_estimators: 300, max_depth: 12, min_samples_leaf: 3, class_weight: balanced_subsample}
+    - {n_estimators: 500, max_depth: null, min_samples_leaf: 2, class_weight: balanced_subsample}
+  hist_gradient_boosting:
+    - {learning_rate: 0.05, max_iter: 250, max_leaf_nodes: 31, l2_regularization: 0.0}
+    - {learning_rate: 0.08, max_iter: 200, max_leaf_nodes: 15, l2_regularization: 0.001}
+  svm:
+    - {C: 1.0, kernel: rbf, gamma: scale, class_weight: balanced}
+    - {C: 0.5, kernel: rbf, gamma: scale, class_weight: balanced}
+  xgboost:
+    - {n_estimators: 300, max_depth: 4, learning_rate: 0.05, subsample: 0.9, colsample_bytree: 0.9}
+    - {n_estimators: 500, max_depth: 3, learning_rate: 0.03, subsample: 0.9, colsample_bytree: 0.9}
+  mlp:
+    - {hidden_layer_sizes: [128, 64], alpha: 0.0001, learning_rate_init: 0.001, max_iter: 300}
+    - {hidden_layer_sizes: [96, 48], alpha: 0.001, learning_rate_init: 0.0005, max_iter: 300}
+
+hybrid_training:
+  uci: single_frozen_training_recipe_in_benchmark_protocol
+  oulad: exact_phase3_inner_selected_per_outer_fold_configs
