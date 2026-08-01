@@ -1,0 +1,84 @@
+{
+  "library": "snorkel.labeling.model.LabelModel",
+  "models": [
+    {
+      "cardinality": 3,
+      "dataset": "student_mat",
+      "fit_scope": "train_only",
+      "lf_ids": [
+        "LF_ACTION_APPLICABILITY_V1",
+        "LF_EVIDENCE_AVAILABILITY_V1",
+        "LF_PUBLISHED_EVIDENCE_V1",
+        "LF_PREDICTION_UNCERTAINTY_V1",
+        "LF_HUMAN_REVIEW_SAFETY_V1",
+        "LF_UCI_STATE_ACTION_V1",
+        "LF_OULAD_STATE_ACTION_V1"
+      ],
+      "seed": 2026,
+      "train_rows": 12195,
+      "weights": [
+        0.6250062601386203,
+        0.3943619738543291,
+        0.6914875068885565,
+        0.6624172967107104,
+        0.4392964852739777,
+        0.7321557956557135,
+        1.0
+      ],
+      "weights_sha256": "1b6d79e0f7a19dc87f1c627bbc38397ab564af5d5f5a3a6c34356609a5fd57dc"
+    },
+    {
+      "cardinality": 3,
+      "dataset": "student_por",
+      "fit_scope": "train_only",
+      "lf_ids": [
+        "LF_ACTION_APPLICABILITY_V1",
+        "LF_EVIDENCE_AVAILABILITY_V1",
+        "LF_PUBLISHED_EVIDENCE_V1",
+        "LF_PREDICTION_UNCERTAINTY_V1",
+        "LF_HUMAN_REVIEW_SAFETY_V1",
+        "LF_UCI_STATE_ACTION_V1",
+        "LF_OULAD_STATE_ACTION_V1"
+      ],
+      "seed": 2026,
+      "train_rows": 20925,
+      "weights": [
+        0.6250062601386203,
+        0.3395424685647801,
+        0.7038906165021359,
+        0.7358766108747208,
+        0.3811749699665061,
+        0.7673917484247444,
+        1.0
+      ],
+      "weights_sha256": "d79887c2bc56b96031c2cd7d2ab6c81aae77ecccfcb4b0919af872055c92b0d6"
+    },
+    {
+      "cardinality": 3,
+      "dataset": "oulad",
+      "fit_scope": "train_only",
+      "lf_ids": [
+        "LF_ACTION_APPLICABILITY_V1",
+        "LF_EVIDENCE_AVAILABILITY_V1",
+        "LF_PUBLISHED_EVIDENCE_V1",
+        "LF_PREDICTION_UNCERTAINTY_V1",
+        "LF_HUMAN_REVIEW_SAFETY_V1",
+        "LF_UCI_STATE_ACTION_V1",
+        "LF_OULAD_STATE_ACTION_V1"
+      ],
+      "seed": 2026,
+      "train_rows": 654180,
+      "weights": [
+        0.7916220927288515,
+        0.42348250259307185,
+        0.7142853689452462,
+        0.5820698899779934,
+        0.37200668161899936,
+        1.0,
+        0.6939944624110789
+      ],
+      "weights_sha256": "31b02291b24430b634bd593cc74005cd060fcc442ea3b751a1158c7f51736095"
+    }
+  ],
+  "schema_version": "phase2_label_models_v1"
+}

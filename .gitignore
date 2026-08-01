@@ -83,6 +83,8 @@ models/saved/*
 /artifacts/canonical_v3/runtime/*
 !/artifacts/canonical_v3/runtime/phase11_status.json
 !/artifacts/canonical_v3/runtime/PHASE11_COMPLETE
+/artifacts/recommend_hybrid/scientific_labeling/candidates.parquet
+/artifacts/recommend_hybrid/scientific_labeling/silver_labels.parquet
 
 # Database volumes and safety backups
 database/**/volume/

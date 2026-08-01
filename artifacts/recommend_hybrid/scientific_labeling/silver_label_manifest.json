@@ -1,0 +1,60 @@
+{
+  "dataset_metrics": {
+    "oulad": {
+      "abstained": 66132,
+      "candidate_rows": 937875,
+      "conflict_rate": 0.4202553645208583,
+      "coverage": 0.9294874050379848,
+      "evidence_gap_rate": 0.13333333333333333,
+      "human_review_action_rate": 0.26666666666666666,
+      "label_distribution": {
+        "0": 394835,
+        "1": 158458,
+        "2": 318450
+      },
+      "mean_confidence": 0.8972488874335622,
+      "retained": 871743
+    },
+    "student_mat": {
+      "abstained": 124,
+      "candidate_rows": 17775,
+      "conflict_rate": 0.43032348804500703,
+      "coverage": 0.9930239099859353,
+      "evidence_gap_rate": 0.13333333333333333,
+      "human_review_action_rate": 0.26666666666666666,
+      "label_distribution": {
+        "0": 9480,
+        "1": 3046,
+        "2": 5125
+      },
+      "mean_confidence": 0.905300714435625,
+      "retained": 17651
+    },
+    "student_por": {
+      "abstained": 88,
+      "candidate_rows": 29205,
+      "conflict_rate": 0.4196199280945044,
+      "coverage": 0.9969868173258004,
+      "evidence_gap_rate": 0.13333333333333333,
+      "human_review_action_rate": 0.26666666666666666,
+      "label_distribution": {
+        "0": 15576,
+        "1": 5106,
+        "2": 8435
+      },
+      "mean_confidence": 0.9135154376585897,
+      "retained": 29117
+    }
+  },
+  "fit_scope": "train_only",
+  "policy": {
+    "confidence_threshold": 0.75,
+    "minimum_independent_families": 2,
+    "selection_basis": "validation_only_maximum_coverage_subject_to_safety_and_class_diversity",
+    "status": "LOCKED_PHASE2"
+  },
+  "rows": 984855,
+  "schema_version": "phase2_silver_labels_v1",
+  "silver_sha256": "ab32c3778e1ada7f8ed2ecb8edda612d2c8a8718048954ed104fea8b1d644e7c",
+  "test_used_for_fit_or_tuning": false
+}

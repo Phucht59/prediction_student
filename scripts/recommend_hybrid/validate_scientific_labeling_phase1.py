@@ -48,8 +48,8 @@ def validate(root: Path = ROOT) -> dict:
         raise ValueError("LF abstain must be -1 and separate from target labels")
     if set(config["ranking_relevance_grades"].values()) != RELEVANCE_VALUES:
         raise ValueError("ranking relevance grades must be exactly 0/1/2")
-    if config["thresholds"]["status"] != "PROVISIONAL_NOT_TUNED":
-        raise ValueError("untuned thresholds must remain provisional")
+    if config["thresholds"]["status"] not in {"PROVISIONAL_NOT_TUNED", "LOCKED_PHASE2"}:
+        raise ValueError("scientific-labeling threshold status is invalid")
     if set(config["required_prediction_authorities"]) != {
         dataset.value for dataset in PREDICTION_AUTHORITIES
     }:

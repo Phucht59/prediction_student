@@ -11,9 +11,9 @@ ranking_relevance_grades:
   CONDITIONAL: 1
   APPROPRIATE: 2
 thresholds:
-  status: PROVISIONAL_NOT_TUNED
-  confidence: null
-  minimum_coverage: null
+  status: LOCKED_PHASE2
+  confidence: 0.75
+  minimum_coverage: 2
 datasets:
   student_mat: {stages: [S0, S1, S2], outcome_only_fields: [G3]}
   student_por: {stages: [S0, S1, S2], outcome_only_fields: [G3]}

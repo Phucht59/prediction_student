@@ -11,3 +11,4 @@ xgboost
 PyYAML
 matplotlib
 openpyxl>=3.1,<4
+snorkel==0.9.9

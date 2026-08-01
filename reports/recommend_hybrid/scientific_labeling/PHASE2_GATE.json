@@ -1,0 +1,67 @@
+{
+  "candidate_rows": 984855,
+  "checksums": {
+    "candidates.parquet": "417f4abf2f599357ce30d65a89cfa60452eb86c050b9a339443b50b25150a844",
+    "label_model_manifest.json": "1d11b1ef9ee160fd6df32624c5639638810783771370aa7c1be7aca9eceb299e",
+    "quality_metrics.json": "d149aad9f8863b31e0bf317b200b64503ca07355058e1048c74330462717af56",
+    "silver_labels.parquet": "ab32c3778e1ada7f8ed2ecb8edda612d2c8a8718048954ed104fea8b1d644e7c"
+  },
+  "gate": "RECOMMEND_SCIENTIFIC_LABELING_PHASE2_PASS",
+  "largest_family_ablation_change": 0.052,
+  "silver_rows": 984855,
+  "snorkel": "0.9.9",
+  "split_overlap_violations": 0,
+  "stability": {
+    "oulad": {
+      "bootstrap_repeats": 1,
+      "seeds": [
+        42,
+        1201,
+        2026,
+        3407,
+        7319
+      ],
+      "weight_replay_hashes": [
+        "21db48454eadf76049350a2e432fe921ca52c91f262125340335397c8537984f",
+        "10da1861610e12a8ddc5d2bb400c9618fe79aa5893dff68430be0bd64b882cff",
+        "d18913010b425cf3bfa208de4d2ddfcadd55ff511d2c75769df7d5f5671899f9",
+        "43c872afa1b21908bec7420880c33780df37fd9f45b33333338e4b61f6d0d235",
+        "4f74a41a4fe5af32af6b794b78c11639be8c514cd1bd62e60dab22af6af77dea"
+      ]
+    },
+    "student_mat": {
+      "bootstrap_repeats": 1,
+      "seeds": [
+        42,
+        1201,
+        2026,
+        3407,
+        7319
+      ],
+      "weight_replay_hashes": [
+        "0dd877cbb13f2277c88a84dd342c50853ab25bef24b094b141e227a8114fd94d",
+        "ea744764178cca55c170cbd31234cf1b3d90792cc2b83e286ab71123983607af",
+        "9cfd344fd22904a9d480b4f74d55d5524c6d02bd4588d1fc2fc94f0a2ff5eeff",
+        "c658032deef4526b8ccc9a837f1c75fede61394ae576a9ab5447011ab0736514",
+        "a269eadeacb103f41c0def0993e169f4f0bcfd92a12e68ee99f9540071b9f781"
+      ]
+    },
+    "student_por": {
+      "bootstrap_repeats": 1,
+      "seeds": [
+        42,
+        1201,
+        2026,
+        3407,
+        7319
+      ],
+      "weight_replay_hashes": [
+        "917e810a0e7d4b2549fac8fa44e3973fe63e91de3857fd5f919134c730786c38",
+        "c8bdc8bca485b562bc9ee05c38955f7ae8d93ac5c76635c8468fa549c59b6dab",
+        "5c881696f7df7ad3ae04a3daabbeeab06bb2e1182e0069e00ded7a2441aa104e",
+        "1046252529e7b0b0d65774897229018360b74c23d1458aa4d0d8047d0d321855",
+        "10967d5c0f552806412baf1d8286b4e5e524d644b12e4aee0b1648012c51b71d"
+      ]
+    }
+  }
+}
