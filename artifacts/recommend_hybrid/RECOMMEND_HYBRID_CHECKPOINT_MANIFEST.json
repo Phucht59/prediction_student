@@ -1,0 +1,912 @@
+{
+  "schema_version": "recommend_hybrid_checkpoint_manifest_v1",
+  "manifest_id": "RECOMMEND_HYBRID_CHECKPOINT_MANIFEST",
+  "authority_id": "RECOMMEND_HYBRID_MODEL_AUTHORITY",
+  "status": "RELEASE_FROZEN",
+  "checkpoint_set_status": "COMPLETE_MULTI_STAGE_CHECKPOINT_SET",
+  "created_at_utc": "2026-08-01T12:19:54.003793+00:00",
+  "architecture_family": "HYBRID_CNN_BILSTM_RECOMMENDER",
+  "prediction_backbone": "FROZEN_HYBRID_CNN_BILSTM",
+  "architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+  "parameter_count": 160492,
+  "expected_checkpoint_files": 30,
+  "found_checkpoint_files": 30,
+  "expected_stage_fold_seed_mappings": 75,
+  "checkpoint_set_sha256": "759e417f6c1b90c794bae2fe533cda91e9627d219a3995c17f21fe2d24b896d2",
+  "missing_checkpoints": [],
+  "invalid_checkpoints": [],
+  "provenance": {
+    "historical_source_alias": "H1_TABULAR_RESIDUAL_EXPERT",
+    "legacy_experiment_id": "UNIFIED_CANONICAL_BENCHMARK_V3",
+    "source_commit": "020e445d1e01a35ea2ad7343c7f781be156cbfa3",
+    "source_artifact": "artifacts/canonical_v3/CANONICAL_BENCHMARK_FREEZE.json",
+    "source_training_authority": "artifacts/canonical_v3/oulad_h1_training_authority.json"
+  },
+  "checkpoints": [
+    {
+      "checkpoint_id": "recommend_hybrid_evaluation_outer_0_seed_42",
+      "usage": "EVALUATION_ONLY",
+      "stages": [
+        "FINAL_EVALUATION"
+      ],
+      "outer_fold": 0,
+      "seed": 42,
+      "sha256": "d1dce6339748d181689657ae0b2683fee6d4fd863334ff16e7abe351021e8af0",
+      "architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+      "parameter_count": 160492,
+      "config_reference": "configs/recommend_hybrid/model_authority.yaml#provenance",
+      "existence_status": "FOUND",
+      "load_validation_status": "PASS",
+      "provenance": {
+        "historical_source_alias": "H1_TABULAR_RESIDUAL_EXPERT",
+        "legacy_experiment_id": "UNIFIED_CANONICAL_BENCHMARK_V3",
+        "source_checkpoint_path": "artifacts/canonical_v3/checkpoints/oulad_h1_final/outer0_seed42.pt",
+        "source_config_reference": "artifacts/canonical_v3/oulad_h1_training_authority.json#/endpoint_final/0",
+        "source_config_hash": "a6c77dcd632281985f6d1acc66c28e40277fc515d450ba8f79c922d100b16d22",
+        "source_fixed_epochs": 11,
+        "source_stage_aliases": [
+          "FINAL"
+        ]
+      }
+    },
+    {
+      "checkpoint_id": "recommend_hybrid_evaluation_outer_0_seed_1201",
+      "usage": "EVALUATION_ONLY",
+      "stages": [
+        "FINAL_EVALUATION"
+      ],
+      "outer_fold": 0,
+      "seed": 1201,
+      "sha256": "f5fc11b98010ac088651468d654d3eb32a1ef1f8ca6f0bb1738a3e4c99fdee70",
+      "architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+      "parameter_count": 160492,
+      "config_reference": "configs/recommend_hybrid/model_authority.yaml#provenance",
+      "existence_status": "FOUND",
+      "load_validation_status": "PASS",
+      "provenance": {
+        "historical_source_alias": "H1_TABULAR_RESIDUAL_EXPERT",
+        "legacy_experiment_id": "UNIFIED_CANONICAL_BENCHMARK_V3",
+        "source_checkpoint_path": "artifacts/canonical_v3/checkpoints/oulad_h1_final/outer0_seed1201.pt",
+        "source_config_reference": "artifacts/canonical_v3/oulad_h1_training_authority.json#/endpoint_final/0",
+        "source_config_hash": "a6c77dcd632281985f6d1acc66c28e40277fc515d450ba8f79c922d100b16d22",
+        "source_fixed_epochs": 11,
+        "source_stage_aliases": [
+          "FINAL"
+        ]
+      }
+    },
+    {
+      "checkpoint_id": "recommend_hybrid_evaluation_outer_0_seed_2026",
+      "usage": "EVALUATION_ONLY",
+      "stages": [
+        "FINAL_EVALUATION"
+      ],
+      "outer_fold": 0,
+      "seed": 2026,
+      "sha256": "ca0f0f1e645f46c37a769faf806df0b7a20d08f2113e3e275b6dda4a93f1ae17",
+      "architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+      "parameter_count": 160492,
+      "config_reference": "configs/recommend_hybrid/model_authority.yaml#provenance",
+      "existence_status": "FOUND",
+      "load_validation_status": "PASS",
+      "provenance": {
+        "historical_source_alias": "H1_TABULAR_RESIDUAL_EXPERT",
+        "legacy_experiment_id": "UNIFIED_CANONICAL_BENCHMARK_V3",
+        "source_checkpoint_path": "artifacts/canonical_v3/checkpoints/oulad_h1_final/outer0_seed2026.pt",
+        "source_config_reference": "artifacts/canonical_v3/oulad_h1_training_authority.json#/endpoint_final/0",
+        "source_config_hash": "a6c77dcd632281985f6d1acc66c28e40277fc515d450ba8f79c922d100b16d22",
+        "source_fixed_epochs": 11,
+        "source_stage_aliases": [
+          "FINAL"
+        ]
+      }
+    },
+    {
+      "checkpoint_id": "recommend_hybrid_evaluation_outer_0_seed_3407",
+      "usage": "EVALUATION_ONLY",
+      "stages": [
+        "FINAL_EVALUATION"
+      ],
+      "outer_fold": 0,
+      "seed": 3407,
+      "sha256": "a8fe8dcb5e58ac596107a345487a7fc5295180801e18d2de7c4313c5c6ecaba1",
+      "architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+      "parameter_count": 160492,
+      "config_reference": "configs/recommend_hybrid/model_authority.yaml#provenance",
+      "existence_status": "FOUND",
+      "load_validation_status": "PASS",
+      "provenance": {
+        "historical_source_alias": "H1_TABULAR_RESIDUAL_EXPERT",
+        "legacy_experiment_id": "UNIFIED_CANONICAL_BENCHMARK_V3",
+        "source_checkpoint_path": "artifacts/canonical_v3/checkpoints/oulad_h1_final/outer0_seed3407.pt",
+        "source_config_reference": "artifacts/canonical_v3/oulad_h1_training_authority.json#/endpoint_final/0",
+        "source_config_hash": "a6c77dcd632281985f6d1acc66c28e40277fc515d450ba8f79c922d100b16d22",
+        "source_fixed_epochs": 11,
+        "source_stage_aliases": [
+          "FINAL"
+        ]
+      }
+    },
+    {
+      "checkpoint_id": "recommend_hybrid_evaluation_outer_0_seed_7319",
+      "usage": "EVALUATION_ONLY",
+      "stages": [
+        "FINAL_EVALUATION"
+      ],
+      "outer_fold": 0,
+      "seed": 7319,
+      "sha256": "9a8303d8566f8c54815d471d3d750a5ee05afe3cfec9d5f33d368971721424f5",
+      "architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+      "parameter_count": 160492,
+      "config_reference": "configs/recommend_hybrid/model_authority.yaml#provenance",
+      "existence_status": "FOUND",
+      "load_validation_status": "PASS",
+      "provenance": {
+        "historical_source_alias": "H1_TABULAR_RESIDUAL_EXPERT",
+        "legacy_experiment_id": "UNIFIED_CANONICAL_BENCHMARK_V3",
+        "source_checkpoint_path": "artifacts/canonical_v3/checkpoints/oulad_h1_final/outer0_seed7319.pt",
+        "source_config_reference": "artifacts/canonical_v3/oulad_h1_training_authority.json#/endpoint_final/0",
+        "source_config_hash": "a6c77dcd632281985f6d1acc66c28e40277fc515d450ba8f79c922d100b16d22",
+        "source_fixed_epochs": 11,
+        "source_stage_aliases": [
+          "FINAL"
+        ]
+      }
+    },
+    {
+      "checkpoint_id": "recommend_hybrid_evaluation_outer_1_seed_42",
+      "usage": "EVALUATION_ONLY",
+      "stages": [
+        "FINAL_EVALUATION"
+      ],
+      "outer_fold": 1,
+      "seed": 42,
+      "sha256": "34533b74b10ab50b53084266d4b6851e86aea8f1cd5426e6d1457fb39e88b389",
+      "architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+      "parameter_count": 160492,
+      "config_reference": "configs/recommend_hybrid/model_authority.yaml#provenance",
+      "existence_status": "FOUND",
+      "load_validation_status": "PASS",
+      "provenance": {
+        "historical_source_alias": "H1_TABULAR_RESIDUAL_EXPERT",
+        "legacy_experiment_id": "UNIFIED_CANONICAL_BENCHMARK_V3",
+        "source_checkpoint_path": "artifacts/canonical_v3/checkpoints/oulad_h1_final/outer1_seed42.pt",
+        "source_config_reference": "artifacts/canonical_v3/oulad_h1_training_authority.json#/endpoint_final/1",
+        "source_config_hash": "215c846aba5d356cff789659736a6f993280c5915f454a8ce4511765aa5d72b1",
+        "source_fixed_epochs": 9,
+        "source_stage_aliases": [
+          "FINAL"
+        ]
+      }
+    },
+    {
+      "checkpoint_id": "recommend_hybrid_evaluation_outer_1_seed_1201",
+      "usage": "EVALUATION_ONLY",
+      "stages": [
+        "FINAL_EVALUATION"
+      ],
+      "outer_fold": 1,
+      "seed": 1201,
+      "sha256": "6f65586c3053db1f7d601ca52b154a55e16c681ff96405f0f2f74a739741ece7",
+      "architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+      "parameter_count": 160492,
+      "config_reference": "configs/recommend_hybrid/model_authority.yaml#provenance",
+      "existence_status": "FOUND",
+      "load_validation_status": "PASS",
+      "provenance": {
+        "historical_source_alias": "H1_TABULAR_RESIDUAL_EXPERT",
+        "legacy_experiment_id": "UNIFIED_CANONICAL_BENCHMARK_V3",
+        "source_checkpoint_path": "artifacts/canonical_v3/checkpoints/oulad_h1_final/outer1_seed1201.pt",
+        "source_config_reference": "artifacts/canonical_v3/oulad_h1_training_authority.json#/endpoint_final/1",
+        "source_config_hash": "215c846aba5d356cff789659736a6f993280c5915f454a8ce4511765aa5d72b1",
+        "source_fixed_epochs": 9,
+        "source_stage_aliases": [
+          "FINAL"
+        ]
+      }
+    },
+    {
+      "checkpoint_id": "recommend_hybrid_evaluation_outer_1_seed_2026",
+      "usage": "EVALUATION_ONLY",
+      "stages": [
+        "FINAL_EVALUATION"
+      ],
+      "outer_fold": 1,
+      "seed": 2026,
+      "sha256": "c3d96f70fbd181e98b07e1ded8746de264f89b8d027d41019234266f5a5d8e58",
+      "architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+      "parameter_count": 160492,
+      "config_reference": "configs/recommend_hybrid/model_authority.yaml#provenance",
+      "existence_status": "FOUND",
+      "load_validation_status": "PASS",
+      "provenance": {
+        "historical_source_alias": "H1_TABULAR_RESIDUAL_EXPERT",
+        "legacy_experiment_id": "UNIFIED_CANONICAL_BENCHMARK_V3",
+        "source_checkpoint_path": "artifacts/canonical_v3/checkpoints/oulad_h1_final/outer1_seed2026.pt",
+        "source_config_reference": "artifacts/canonical_v3/oulad_h1_training_authority.json#/endpoint_final/1",
+        "source_config_hash": "215c846aba5d356cff789659736a6f993280c5915f454a8ce4511765aa5d72b1",
+        "source_fixed_epochs": 9,
+        "source_stage_aliases": [
+          "FINAL"
+        ]
+      }
+    },
+    {
+      "checkpoint_id": "recommend_hybrid_evaluation_outer_1_seed_3407",
+      "usage": "EVALUATION_ONLY",
+      "stages": [
+        "FINAL_EVALUATION"
+      ],
+      "outer_fold": 1,
+      "seed": 3407,
+      "sha256": "8d2f6c6837d6171ae3da299f80c01e9253485e09bb64f625ffdd0bf9a148dcd3",
+      "architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+      "parameter_count": 160492,
+      "config_reference": "configs/recommend_hybrid/model_authority.yaml#provenance",
+      "existence_status": "FOUND",
+      "load_validation_status": "PASS",
+      "provenance": {
+        "historical_source_alias": "H1_TABULAR_RESIDUAL_EXPERT",
+        "legacy_experiment_id": "UNIFIED_CANONICAL_BENCHMARK_V3",
+        "source_checkpoint_path": "artifacts/canonical_v3/checkpoints/oulad_h1_final/outer1_seed3407.pt",
+        "source_config_reference": "artifacts/canonical_v3/oulad_h1_training_authority.json#/endpoint_final/1",
+        "source_config_hash": "215c846aba5d356cff789659736a6f993280c5915f454a8ce4511765aa5d72b1",
+        "source_fixed_epochs": 9,
+        "source_stage_aliases": [
+          "FINAL"
+        ]
+      }
+    },
+    {
+      "checkpoint_id": "recommend_hybrid_evaluation_outer_1_seed_7319",
+      "usage": "EVALUATION_ONLY",
+      "stages": [
+        "FINAL_EVALUATION"
+      ],
+      "outer_fold": 1,
+      "seed": 7319,
+      "sha256": "af3457e385d76a359d413717ea89a2e6d8f8c492e10cb832f51ac5a35b46b698",
+      "architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+      "parameter_count": 160492,
+      "config_reference": "configs/recommend_hybrid/model_authority.yaml#provenance",
+      "existence_status": "FOUND",
+      "load_validation_status": "PASS",
+      "provenance": {
+        "historical_source_alias": "H1_TABULAR_RESIDUAL_EXPERT",
+        "legacy_experiment_id": "UNIFIED_CANONICAL_BENCHMARK_V3",
+        "source_checkpoint_path": "artifacts/canonical_v3/checkpoints/oulad_h1_final/outer1_seed7319.pt",
+        "source_config_reference": "artifacts/canonical_v3/oulad_h1_training_authority.json#/endpoint_final/1",
+        "source_config_hash": "215c846aba5d356cff789659736a6f993280c5915f454a8ce4511765aa5d72b1",
+        "source_fixed_epochs": 9,
+        "source_stage_aliases": [
+          "FINAL"
+        ]
+      }
+    },
+    {
+      "checkpoint_id": "recommend_hybrid_evaluation_outer_2_seed_42",
+      "usage": "EVALUATION_ONLY",
+      "stages": [
+        "FINAL_EVALUATION"
+      ],
+      "outer_fold": 2,
+      "seed": 42,
+      "sha256": "4621a8d446c17712e4dce3f822b3227e851140309852879f030e5f4f1537cbdb",
+      "architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+      "parameter_count": 160492,
+      "config_reference": "configs/recommend_hybrid/model_authority.yaml#provenance",
+      "existence_status": "FOUND",
+      "load_validation_status": "PASS",
+      "provenance": {
+        "historical_source_alias": "H1_TABULAR_RESIDUAL_EXPERT",
+        "legacy_experiment_id": "UNIFIED_CANONICAL_BENCHMARK_V3",
+        "source_checkpoint_path": "artifacts/canonical_v3/checkpoints/oulad_h1_final/outer2_seed42.pt",
+        "source_config_reference": "artifacts/canonical_v3/oulad_h1_training_authority.json#/endpoint_final/2",
+        "source_config_hash": "fd7e93437d2c2c073aa84ec3eeb76924df15dd2a5bd219ebee3a5c1575befb8b",
+        "source_fixed_epochs": 8,
+        "source_stage_aliases": [
+          "FINAL"
+        ]
+      }
+    },
+    {
+      "checkpoint_id": "recommend_hybrid_evaluation_outer_2_seed_1201",
+      "usage": "EVALUATION_ONLY",
+      "stages": [
+        "FINAL_EVALUATION"
+      ],
+      "outer_fold": 2,
+      "seed": 1201,
+      "sha256": "574089233da2facdeeb49ab4c312c4367d26fe1599985476c0409ec773066477",
+      "architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+      "parameter_count": 160492,
+      "config_reference": "configs/recommend_hybrid/model_authority.yaml#provenance",
+      "existence_status": "FOUND",
+      "load_validation_status": "PASS",
+      "provenance": {
+        "historical_source_alias": "H1_TABULAR_RESIDUAL_EXPERT",
+        "legacy_experiment_id": "UNIFIED_CANONICAL_BENCHMARK_V3",
+        "source_checkpoint_path": "artifacts/canonical_v3/checkpoints/oulad_h1_final/outer2_seed1201.pt",
+        "source_config_reference": "artifacts/canonical_v3/oulad_h1_training_authority.json#/endpoint_final/2",
+        "source_config_hash": "fd7e93437d2c2c073aa84ec3eeb76924df15dd2a5bd219ebee3a5c1575befb8b",
+        "source_fixed_epochs": 8,
+        "source_stage_aliases": [
+          "FINAL"
+        ]
+      }
+    },
+    {
+      "checkpoint_id": "recommend_hybrid_evaluation_outer_2_seed_2026",
+      "usage": "EVALUATION_ONLY",
+      "stages": [
+        "FINAL_EVALUATION"
+      ],
+      "outer_fold": 2,
+      "seed": 2026,
+      "sha256": "6bb2b38923d701cc50bcaccd8c861beb1d9de9c9f02dc1ebbb24563c43030ce5",
+      "architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+      "parameter_count": 160492,
+      "config_reference": "configs/recommend_hybrid/model_authority.yaml#provenance",
+      "existence_status": "FOUND",
+      "load_validation_status": "PASS",
+      "provenance": {
+        "historical_source_alias": "H1_TABULAR_RESIDUAL_EXPERT",
+        "legacy_experiment_id": "UNIFIED_CANONICAL_BENCHMARK_V3",
+        "source_checkpoint_path": "artifacts/canonical_v3/checkpoints/oulad_h1_final/outer2_seed2026.pt",
+        "source_config_reference": "artifacts/canonical_v3/oulad_h1_training_authority.json#/endpoint_final/2",
+        "source_config_hash": "fd7e93437d2c2c073aa84ec3eeb76924df15dd2a5bd219ebee3a5c1575befb8b",
+        "source_fixed_epochs": 8,
+        "source_stage_aliases": [
+          "FINAL"
+        ]
+      }
+    },
+    {
+      "checkpoint_id": "recommend_hybrid_evaluation_outer_2_seed_3407",
+      "usage": "EVALUATION_ONLY",
+      "stages": [
+        "FINAL_EVALUATION"
+      ],
+      "outer_fold": 2,
+      "seed": 3407,
+      "sha256": "3570ad653c3ca34d6c4406764ad0af828fd7db607399b6e26ddcb1897fef5214",
+      "architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+      "parameter_count": 160492,
+      "config_reference": "configs/recommend_hybrid/model_authority.yaml#provenance",
+      "existence_status": "FOUND",
+      "load_validation_status": "PASS",
+      "provenance": {
+        "historical_source_alias": "H1_TABULAR_RESIDUAL_EXPERT",
+        "legacy_experiment_id": "UNIFIED_CANONICAL_BENCHMARK_V3",
+        "source_checkpoint_path": "artifacts/canonical_v3/checkpoints/oulad_h1_final/outer2_seed3407.pt",
+        "source_config_reference": "artifacts/canonical_v3/oulad_h1_training_authority.json#/endpoint_final/2",
+        "source_config_hash": "fd7e93437d2c2c073aa84ec3eeb76924df15dd2a5bd219ebee3a5c1575befb8b",
+        "source_fixed_epochs": 8,
+        "source_stage_aliases": [
+          "FINAL"
+        ]
+      }
+    },
+    {
+      "checkpoint_id": "recommend_hybrid_evaluation_outer_2_seed_7319",
+      "usage": "EVALUATION_ONLY",
+      "stages": [
+        "FINAL_EVALUATION"
+      ],
+      "outer_fold": 2,
+      "seed": 7319,
+      "sha256": "a403178275a16b6464c4a330dc01320d0fe783bf1b8ead61ef8b567ce810e5b5",
+      "architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+      "parameter_count": 160492,
+      "config_reference": "configs/recommend_hybrid/model_authority.yaml#provenance",
+      "existence_status": "FOUND",
+      "load_validation_status": "PASS",
+      "provenance": {
+        "historical_source_alias": "H1_TABULAR_RESIDUAL_EXPERT",
+        "legacy_experiment_id": "UNIFIED_CANONICAL_BENCHMARK_V3",
+        "source_checkpoint_path": "artifacts/canonical_v3/checkpoints/oulad_h1_final/outer2_seed7319.pt",
+        "source_config_reference": "artifacts/canonical_v3/oulad_h1_training_authority.json#/endpoint_final/2",
+        "source_config_hash": "fd7e93437d2c2c073aa84ec3eeb76924df15dd2a5bd219ebee3a5c1575befb8b",
+        "source_fixed_epochs": 8,
+        "source_stage_aliases": [
+          "FINAL"
+        ]
+      }
+    },
+    {
+      "checkpoint_id": "recommend_hybrid_intervention_outer_0_seed_42",
+      "usage": "INTERVENTION_STAGE_SHARED",
+      "stages": [
+        "EARLY_20",
+        "EARLY_35",
+        "MIDDLE_50",
+        "LATE_75"
+      ],
+      "outer_fold": 0,
+      "seed": 42,
+      "sha256": "623cf15c2d08b275054632e379c67b85619f5e84068dcd3bcb1a679d80549c53",
+      "architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+      "parameter_count": 160492,
+      "config_reference": "configs/recommend_hybrid/model_authority.yaml#provenance",
+      "existence_status": "FOUND",
+      "load_validation_status": "PASS",
+      "provenance": {
+        "historical_source_alias": "H1_TABULAR_RESIDUAL_EXPERT",
+        "legacy_experiment_id": "UNIFIED_CANONICAL_BENCHMARK_V3",
+        "source_checkpoint_path": "artifacts/canonical_v3/checkpoints/oulad_h1_shared/outer0_seed42.pt",
+        "source_config_reference": "artifacts/canonical_v3/oulad_h1_training_authority.json#/shared_stage/0",
+        "source_config_hash": "a6c77dcd632281985f6d1acc66c28e40277fc515d450ba8f79c922d100b16d22",
+        "source_fixed_epochs": 6,
+        "source_stage_aliases": [
+          "E1_EARLY_20PCT",
+          "E2_EARLY_35PCT",
+          "FINAL",
+          "L1_LATE_75PCT",
+          "M1_MIDDLE_50PCT"
+        ]
+      }
+    },
+    {
+      "checkpoint_id": "recommend_hybrid_intervention_outer_0_seed_1201",
+      "usage": "INTERVENTION_STAGE_SHARED",
+      "stages": [
+        "EARLY_20",
+        "EARLY_35",
+        "MIDDLE_50",
+        "LATE_75"
+      ],
+      "outer_fold": 0,
+      "seed": 1201,
+      "sha256": "e605f51f4ea9bc10709985f00203bbd4a31ee137bad36f9ef944bdbf2471e243",
+      "architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+      "parameter_count": 160492,
+      "config_reference": "configs/recommend_hybrid/model_authority.yaml#provenance",
+      "existence_status": "FOUND",
+      "load_validation_status": "PASS",
+      "provenance": {
+        "historical_source_alias": "H1_TABULAR_RESIDUAL_EXPERT",
+        "legacy_experiment_id": "UNIFIED_CANONICAL_BENCHMARK_V3",
+        "source_checkpoint_path": "artifacts/canonical_v3/checkpoints/oulad_h1_shared/outer0_seed1201.pt",
+        "source_config_reference": "artifacts/canonical_v3/oulad_h1_training_authority.json#/shared_stage/0",
+        "source_config_hash": "a6c77dcd632281985f6d1acc66c28e40277fc515d450ba8f79c922d100b16d22",
+        "source_fixed_epochs": 6,
+        "source_stage_aliases": [
+          "E1_EARLY_20PCT",
+          "E2_EARLY_35PCT",
+          "FINAL",
+          "L1_LATE_75PCT",
+          "M1_MIDDLE_50PCT"
+        ]
+      }
+    },
+    {
+      "checkpoint_id": "recommend_hybrid_intervention_outer_0_seed_2026",
+      "usage": "INTERVENTION_STAGE_SHARED",
+      "stages": [
+        "EARLY_20",
+        "EARLY_35",
+        "MIDDLE_50",
+        "LATE_75"
+      ],
+      "outer_fold": 0,
+      "seed": 2026,
+      "sha256": "3fa3e66bd16067243d97afc74a5bc92456e69a56dc299c9cef380e38feed934a",
+      "architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+      "parameter_count": 160492,
+      "config_reference": "configs/recommend_hybrid/model_authority.yaml#provenance",
+      "existence_status": "FOUND",
+      "load_validation_status": "PASS",
+      "provenance": {
+        "historical_source_alias": "H1_TABULAR_RESIDUAL_EXPERT",
+        "legacy_experiment_id": "UNIFIED_CANONICAL_BENCHMARK_V3",
+        "source_checkpoint_path": "artifacts/canonical_v3/checkpoints/oulad_h1_shared/outer0_seed2026.pt",
+        "source_config_reference": "artifacts/canonical_v3/oulad_h1_training_authority.json#/shared_stage/0",
+        "source_config_hash": "a6c77dcd632281985f6d1acc66c28e40277fc515d450ba8f79c922d100b16d22",
+        "source_fixed_epochs": 6,
+        "source_stage_aliases": [
+          "E1_EARLY_20PCT",
+          "E2_EARLY_35PCT",
+          "FINAL",
+          "L1_LATE_75PCT",
+          "M1_MIDDLE_50PCT"
+        ]
+      }
+    },
+    {
+      "checkpoint_id": "recommend_hybrid_intervention_outer_0_seed_3407",
+      "usage": "INTERVENTION_STAGE_SHARED",
+      "stages": [
+        "EARLY_20",
+        "EARLY_35",
+        "MIDDLE_50",
+        "LATE_75"
+      ],
+      "outer_fold": 0,
+      "seed": 3407,
+      "sha256": "a2464db1f1ce3d1c9bb7b9d8dab13532544faa05a679126d1467aa1abd678fe4",
+      "architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+      "parameter_count": 160492,
+      "config_reference": "configs/recommend_hybrid/model_authority.yaml#provenance",
+      "existence_status": "FOUND",
+      "load_validation_status": "PASS",
+      "provenance": {
+        "historical_source_alias": "H1_TABULAR_RESIDUAL_EXPERT",
+        "legacy_experiment_id": "UNIFIED_CANONICAL_BENCHMARK_V3",
+        "source_checkpoint_path": "artifacts/canonical_v3/checkpoints/oulad_h1_shared/outer0_seed3407.pt",
+        "source_config_reference": "artifacts/canonical_v3/oulad_h1_training_authority.json#/shared_stage/0",
+        "source_config_hash": "a6c77dcd632281985f6d1acc66c28e40277fc515d450ba8f79c922d100b16d22",
+        "source_fixed_epochs": 6,
+        "source_stage_aliases": [
+          "E1_EARLY_20PCT",
+          "E2_EARLY_35PCT",
+          "FINAL",
+          "L1_LATE_75PCT",
+          "M1_MIDDLE_50PCT"
+        ]
+      }
+    },
+    {
+      "checkpoint_id": "recommend_hybrid_intervention_outer_0_seed_7319",
+      "usage": "INTERVENTION_STAGE_SHARED",
+      "stages": [
+        "EARLY_20",
+        "EARLY_35",
+        "MIDDLE_50",
+        "LATE_75"
+      ],
+      "outer_fold": 0,
+      "seed": 7319,
+      "sha256": "f9592dbc744d13eaaedd70cbfe65efd456a862d63de3af107fe1fbb296475372",
+      "architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+      "parameter_count": 160492,
+      "config_reference": "configs/recommend_hybrid/model_authority.yaml#provenance",
+      "existence_status": "FOUND",
+      "load_validation_status": "PASS",
+      "provenance": {
+        "historical_source_alias": "H1_TABULAR_RESIDUAL_EXPERT",
+        "legacy_experiment_id": "UNIFIED_CANONICAL_BENCHMARK_V3",
+        "source_checkpoint_path": "artifacts/canonical_v3/checkpoints/oulad_h1_shared/outer0_seed7319.pt",
+        "source_config_reference": "artifacts/canonical_v3/oulad_h1_training_authority.json#/shared_stage/0",
+        "source_config_hash": "a6c77dcd632281985f6d1acc66c28e40277fc515d450ba8f79c922d100b16d22",
+        "source_fixed_epochs": 6,
+        "source_stage_aliases": [
+          "E1_EARLY_20PCT",
+          "E2_EARLY_35PCT",
+          "FINAL",
+          "L1_LATE_75PCT",
+          "M1_MIDDLE_50PCT"
+        ]
+      }
+    },
+    {
+      "checkpoint_id": "recommend_hybrid_intervention_outer_1_seed_42",
+      "usage": "INTERVENTION_STAGE_SHARED",
+      "stages": [
+        "EARLY_20",
+        "EARLY_35",
+        "MIDDLE_50",
+        "LATE_75"
+      ],
+      "outer_fold": 1,
+      "seed": 42,
+      "sha256": "358dfdfba0932d4149aa986f2a822a1c67212b800c3f9b0a4fa9037ad1fac372",
+      "architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+      "parameter_count": 160492,
+      "config_reference": "configs/recommend_hybrid/model_authority.yaml#provenance",
+      "existence_status": "FOUND",
+      "load_validation_status": "PASS",
+      "provenance": {
+        "historical_source_alias": "H1_TABULAR_RESIDUAL_EXPERT",
+        "legacy_experiment_id": "UNIFIED_CANONICAL_BENCHMARK_V3",
+        "source_checkpoint_path": "artifacts/canonical_v3/checkpoints/oulad_h1_shared/outer1_seed42.pt",
+        "source_config_reference": "artifacts/canonical_v3/oulad_h1_training_authority.json#/shared_stage/1",
+        "source_config_hash": "215c846aba5d356cff789659736a6f993280c5915f454a8ce4511765aa5d72b1",
+        "source_fixed_epochs": 7,
+        "source_stage_aliases": [
+          "E1_EARLY_20PCT",
+          "E2_EARLY_35PCT",
+          "FINAL",
+          "L1_LATE_75PCT",
+          "M1_MIDDLE_50PCT"
+        ]
+      }
+    },
+    {
+      "checkpoint_id": "recommend_hybrid_intervention_outer_1_seed_1201",
+      "usage": "INTERVENTION_STAGE_SHARED",
+      "stages": [
+        "EARLY_20",
+        "EARLY_35",
+        "MIDDLE_50",
+        "LATE_75"
+      ],
+      "outer_fold": 1,
+      "seed": 1201,
+      "sha256": "124bf20f3ffdb18cc97d69b1f76b7693b1629a1b01dbc57c61c87341c666162a",
+      "architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+      "parameter_count": 160492,
+      "config_reference": "configs/recommend_hybrid/model_authority.yaml#provenance",
+      "existence_status": "FOUND",
+      "load_validation_status": "PASS",
+      "provenance": {
+        "historical_source_alias": "H1_TABULAR_RESIDUAL_EXPERT",
+        "legacy_experiment_id": "UNIFIED_CANONICAL_BENCHMARK_V3",
+        "source_checkpoint_path": "artifacts/canonical_v3/checkpoints/oulad_h1_shared/outer1_seed1201.pt",
+        "source_config_reference": "artifacts/canonical_v3/oulad_h1_training_authority.json#/shared_stage/1",
+        "source_config_hash": "215c846aba5d356cff789659736a6f993280c5915f454a8ce4511765aa5d72b1",
+        "source_fixed_epochs": 7,
+        "source_stage_aliases": [
+          "E1_EARLY_20PCT",
+          "E2_EARLY_35PCT",
+          "FINAL",
+          "L1_LATE_75PCT",
+          "M1_MIDDLE_50PCT"
+        ]
+      }
+    },
+    {
+      "checkpoint_id": "recommend_hybrid_intervention_outer_1_seed_2026",
+      "usage": "INTERVENTION_STAGE_SHARED",
+      "stages": [
+        "EARLY_20",
+        "EARLY_35",
+        "MIDDLE_50",
+        "LATE_75"
+      ],
+      "outer_fold": 1,
+      "seed": 2026,
+      "sha256": "f32d1d2dc60976f5513d16bccdd86fc54400ba88c803795b57fa4399612c2b0f",
+      "architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+      "parameter_count": 160492,
+      "config_reference": "configs/recommend_hybrid/model_authority.yaml#provenance",
+      "existence_status": "FOUND",
+      "load_validation_status": "PASS",
+      "provenance": {
+        "historical_source_alias": "H1_TABULAR_RESIDUAL_EXPERT",
+        "legacy_experiment_id": "UNIFIED_CANONICAL_BENCHMARK_V3",
+        "source_checkpoint_path": "artifacts/canonical_v3/checkpoints/oulad_h1_shared/outer1_seed2026.pt",
+        "source_config_reference": "artifacts/canonical_v3/oulad_h1_training_authority.json#/shared_stage/1",
+        "source_config_hash": "215c846aba5d356cff789659736a6f993280c5915f454a8ce4511765aa5d72b1",
+        "source_fixed_epochs": 7,
+        "source_stage_aliases": [
+          "E1_EARLY_20PCT",
+          "E2_EARLY_35PCT",
+          "FINAL",
+          "L1_LATE_75PCT",
+          "M1_MIDDLE_50PCT"
+        ]
+      }
+    },
+    {
+      "checkpoint_id": "recommend_hybrid_intervention_outer_1_seed_3407",
+      "usage": "INTERVENTION_STAGE_SHARED",
+      "stages": [
+        "EARLY_20",
+        "EARLY_35",
+        "MIDDLE_50",
+        "LATE_75"
+      ],
+      "outer_fold": 1,
+      "seed": 3407,
+      "sha256": "11d6199d754e115e175b1e5a917c1121e1a638b7b270c738b3efb060cf95b34f",
+      "architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+      "parameter_count": 160492,
+      "config_reference": "configs/recommend_hybrid/model_authority.yaml#provenance",
+      "existence_status": "FOUND",
+      "load_validation_status": "PASS",
+      "provenance": {
+        "historical_source_alias": "H1_TABULAR_RESIDUAL_EXPERT",
+        "legacy_experiment_id": "UNIFIED_CANONICAL_BENCHMARK_V3",
+        "source_checkpoint_path": "artifacts/canonical_v3/checkpoints/oulad_h1_shared/outer1_seed3407.pt",
+        "source_config_reference": "artifacts/canonical_v3/oulad_h1_training_authority.json#/shared_stage/1",
+        "source_config_hash": "215c846aba5d356cff789659736a6f993280c5915f454a8ce4511765aa5d72b1",
+        "source_fixed_epochs": 7,
+        "source_stage_aliases": [
+          "E1_EARLY_20PCT",
+          "E2_EARLY_35PCT",
+          "FINAL",
+          "L1_LATE_75PCT",
+          "M1_MIDDLE_50PCT"
+        ]
+      }
+    },
+    {
+      "checkpoint_id": "recommend_hybrid_intervention_outer_1_seed_7319",
+      "usage": "INTERVENTION_STAGE_SHARED",
+      "stages": [
+        "EARLY_20",
+        "EARLY_35",
+        "MIDDLE_50",
+        "LATE_75"
+      ],
+      "outer_fold": 1,
+      "seed": 7319,
+      "sha256": "fbd654fda245e238be33a6875e3f84f9e61f2a8da52feb2701011031c2fc69d6",
+      "architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+      "parameter_count": 160492,
+      "config_reference": "configs/recommend_hybrid/model_authority.yaml#provenance",
+      "existence_status": "FOUND",
+      "load_validation_status": "PASS",
+      "provenance": {
+        "historical_source_alias": "H1_TABULAR_RESIDUAL_EXPERT",
+        "legacy_experiment_id": "UNIFIED_CANONICAL_BENCHMARK_V3",
+        "source_checkpoint_path": "artifacts/canonical_v3/checkpoints/oulad_h1_shared/outer1_seed7319.pt",
+        "source_config_reference": "artifacts/canonical_v3/oulad_h1_training_authority.json#/shared_stage/1",
+        "source_config_hash": "215c846aba5d356cff789659736a6f993280c5915f454a8ce4511765aa5d72b1",
+        "source_fixed_epochs": 7,
+        "source_stage_aliases": [
+          "E1_EARLY_20PCT",
+          "E2_EARLY_35PCT",
+          "FINAL",
+          "L1_LATE_75PCT",
+          "M1_MIDDLE_50PCT"
+        ]
+      }
+    },
+    {
+      "checkpoint_id": "recommend_hybrid_intervention_outer_2_seed_42",
+      "usage": "INTERVENTION_STAGE_SHARED",
+      "stages": [
+        "EARLY_20",
+        "EARLY_35",
+        "MIDDLE_50",
+        "LATE_75"
+      ],
+      "outer_fold": 2,
+      "seed": 42,
+      "sha256": "48a70af3aa207e56f6f999c6ecf32ff1fc5f67b9b4ae545a36a2528d1dff08e0",
+      "architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+      "parameter_count": 160492,
+      "config_reference": "configs/recommend_hybrid/model_authority.yaml#provenance",
+      "existence_status": "FOUND",
+      "load_validation_status": "PASS",
+      "provenance": {
+        "historical_source_alias": "H1_TABULAR_RESIDUAL_EXPERT",
+        "legacy_experiment_id": "UNIFIED_CANONICAL_BENCHMARK_V3",
+        "source_checkpoint_path": "artifacts/canonical_v3/checkpoints/oulad_h1_shared/outer2_seed42.pt",
+        "source_config_reference": "artifacts/canonical_v3/oulad_h1_training_authority.json#/shared_stage/2",
+        "source_config_hash": "fd7e93437d2c2c073aa84ec3eeb76924df15dd2a5bd219ebee3a5c1575befb8b",
+        "source_fixed_epochs": 4,
+        "source_stage_aliases": [
+          "E1_EARLY_20PCT",
+          "E2_EARLY_35PCT",
+          "FINAL",
+          "L1_LATE_75PCT",
+          "M1_MIDDLE_50PCT"
+        ]
+      }
+    },
+    {
+      "checkpoint_id": "recommend_hybrid_intervention_outer_2_seed_1201",
+      "usage": "INTERVENTION_STAGE_SHARED",
+      "stages": [
+        "EARLY_20",
+        "EARLY_35",
+        "MIDDLE_50",
+        "LATE_75"
+      ],
+      "outer_fold": 2,
+      "seed": 1201,
+      "sha256": "c49d3375a3c5d0ffb4b9a2d4a0c37606d006699b7c3742b4c1b9d738fe7f2368",
+      "architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+      "parameter_count": 160492,
+      "config_reference": "configs/recommend_hybrid/model_authority.yaml#provenance",
+      "existence_status": "FOUND",
+      "load_validation_status": "PASS",
+      "provenance": {
+        "historical_source_alias": "H1_TABULAR_RESIDUAL_EXPERT",
+        "legacy_experiment_id": "UNIFIED_CANONICAL_BENCHMARK_V3",
+        "source_checkpoint_path": "artifacts/canonical_v3/checkpoints/oulad_h1_shared/outer2_seed1201.pt",
+        "source_config_reference": "artifacts/canonical_v3/oulad_h1_training_authority.json#/shared_stage/2",
+        "source_config_hash": "fd7e93437d2c2c073aa84ec3eeb76924df15dd2a5bd219ebee3a5c1575befb8b",
+        "source_fixed_epochs": 4,
+        "source_stage_aliases": [
+          "E1_EARLY_20PCT",
+          "E2_EARLY_35PCT",
+          "FINAL",
+          "L1_LATE_75PCT",
+          "M1_MIDDLE_50PCT"
+        ]
+      }
+    },
+    {
+      "checkpoint_id": "recommend_hybrid_intervention_outer_2_seed_2026",
+      "usage": "INTERVENTION_STAGE_SHARED",
+      "stages": [
+        "EARLY_20",
+        "EARLY_35",
+        "MIDDLE_50",
+        "LATE_75"
+      ],
+      "outer_fold": 2,
+      "seed": 2026,
+      "sha256": "ee5644d2c7e0eb42077c1763f4bb1d17c06d4c4422e87d5b191c600377bdf6ef",
+      "architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+      "parameter_count": 160492,
+      "config_reference": "configs/recommend_hybrid/model_authority.yaml#provenance",
+      "existence_status": "FOUND",
+      "load_validation_status": "PASS",
+      "provenance": {
+        "historical_source_alias": "H1_TABULAR_RESIDUAL_EXPERT",
+        "legacy_experiment_id": "UNIFIED_CANONICAL_BENCHMARK_V3",
+        "source_checkpoint_path": "artifacts/canonical_v3/checkpoints/oulad_h1_shared/outer2_seed2026.pt",
+        "source_config_reference": "artifacts/canonical_v3/oulad_h1_training_authority.json#/shared_stage/2",
+        "source_config_hash": "fd7e93437d2c2c073aa84ec3eeb76924df15dd2a5bd219ebee3a5c1575befb8b",
+        "source_fixed_epochs": 4,
+        "source_stage_aliases": [
+          "E1_EARLY_20PCT",
+          "E2_EARLY_35PCT",
+          "FINAL",
+          "L1_LATE_75PCT",
+          "M1_MIDDLE_50PCT"
+        ]
+      }
+    },
+    {
+      "checkpoint_id": "recommend_hybrid_intervention_outer_2_seed_3407",
+      "usage": "INTERVENTION_STAGE_SHARED",
+      "stages": [
+        "EARLY_20",
+        "EARLY_35",
+        "MIDDLE_50",
+        "LATE_75"
+      ],
+      "outer_fold": 2,
+      "seed": 3407,
+      "sha256": "178a288ebc985036862b12f93c42087b900aa7c9e66716acd2162792c68eeb3e",
+      "architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+      "parameter_count": 160492,
+      "config_reference": "configs/recommend_hybrid/model_authority.yaml#provenance",
+      "existence_status": "FOUND",
+      "load_validation_status": "PASS",
+      "provenance": {
+        "historical_source_alias": "H1_TABULAR_RESIDUAL_EXPERT",
+        "legacy_experiment_id": "UNIFIED_CANONICAL_BENCHMARK_V3",
+        "source_checkpoint_path": "artifacts/canonical_v3/checkpoints/oulad_h1_shared/outer2_seed3407.pt",
+        "source_config_reference": "artifacts/canonical_v3/oulad_h1_training_authority.json#/shared_stage/2",
+        "source_config_hash": "fd7e93437d2c2c073aa84ec3eeb76924df15dd2a5bd219ebee3a5c1575befb8b",
+        "source_fixed_epochs": 4,
+        "source_stage_aliases": [
+          "E1_EARLY_20PCT",
+          "E2_EARLY_35PCT",
+          "FINAL",
+          "L1_LATE_75PCT",
+          "M1_MIDDLE_50PCT"
+        ]
+      }
+    },
+    {
+      "checkpoint_id": "recommend_hybrid_intervention_outer_2_seed_7319",
+      "usage": "INTERVENTION_STAGE_SHARED",
+      "stages": [
+        "EARLY_20",
+        "EARLY_35",
+        "MIDDLE_50",
+        "LATE_75"
+      ],
+      "outer_fold": 2,
+      "seed": 7319,
+      "sha256": "321e9d31f70275fa482d890cc4659cf3a1896f7d8b770dbce38ee3bbfed795bd",
+      "architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+      "parameter_count": 160492,
+      "config_reference": "configs/recommend_hybrid/model_authority.yaml#provenance",
+      "existence_status": "FOUND",
+      "load_validation_status": "PASS",
+      "provenance": {
+        "historical_source_alias": "H1_TABULAR_RESIDUAL_EXPERT",
+        "legacy_experiment_id": "UNIFIED_CANONICAL_BENCHMARK_V3",
+        "source_checkpoint_path": "artifacts/canonical_v3/checkpoints/oulad_h1_shared/outer2_seed7319.pt",
+        "source_config_reference": "artifacts/canonical_v3/oulad_h1_training_authority.json#/shared_stage/2",
+        "source_config_hash": "fd7e93437d2c2c073aa84ec3eeb76924df15dd2a5bd219ebee3a5c1575befb8b",
+        "source_fixed_epochs": 4,
+        "source_stage_aliases": [
+          "E1_EARLY_20PCT",
+          "E2_EARLY_35PCT",
+          "FINAL",
+          "L1_LATE_75PCT",
+          "M1_MIDDLE_50PCT"
+        ]
+      }
+    }
+  ]
+}
