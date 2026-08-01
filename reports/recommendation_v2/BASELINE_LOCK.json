@@ -1,0 +1,146 @@
+{
+  "schema_version": "recommendation_v2_baseline_lock_v1",
+  "repository_commit": "4f77182c4db11ee5f722651a77d202b2b641a28b",
+  "branch": "codex/recommendation-v2-phase1-audit",
+  "created_at_utc": "2026-08-01T11:22:54.5459488Z",
+  "prediction_system": "hybrid_cnn_bilstm",
+  "official_entrypoints": [
+    {
+      "path": "project.py",
+      "command": "python project.py final validate",
+      "authority": "primary CLI",
+      "finding": "validates the legacy 65-checkpoint CNN-BiLSTM registry"
+    },
+    {
+      "path": "scripts/final/validate_final_release.py",
+      "command": "python scripts/final/validate_final_release.py",
+      "authority": "newer standalone final-release validator",
+      "finding": "validates final_model_authority_v2 with OULAD H1 tabular residual expert"
+    },
+    {
+      "path": "src/pipelines/uci.py",
+      "command": "python project.py pipeline uci validate",
+      "authority": "stage-aware UCI pipeline"
+    },
+    {
+      "path": "src/canonical_v3/benchmark.py",
+      "command": "NOT_RUN_PHASE_1",
+      "authority": "canonical V3 OULAD evidence builder"
+    }
+  ],
+  "official_configs": [
+    "configs/final/final_model_authority.yaml",
+    "configs/final/model_registry.yaml",
+    "configs/final/cnn_bilstm_mat.yaml",
+    "configs/final/cnn_bilstm_por.yaml",
+    "configs/final/h1_tabular_residual_oulad.yaml",
+    "CONFLICTING_EVIDENCE: configs/final/cnn_bilstm_oulad.yaml is historical but the primary CLI registry still treats cnn_bilstm_oulad as selected"
+  ],
+  "official_checkpoints": [
+    {
+      "model_name": "cnn_bilstm_mat",
+      "dataset": "student_mat",
+      "path": "artifacts/final/models/cnn_bilstm_mat",
+      "count": 25,
+      "folds": [0, 1, 2, 3, 4],
+      "seeds": [42, 1201, 2026, 3407, 7319],
+      "stage": "main frozen V5.1; stage protocol is separately revalidated",
+      "checkpoint_set_sha256": "e6a141a4d7624685827209edc1b57efdb51eba03930c29b6f2de370f4588955b",
+      "checksum_manifest": "artifacts/final/checksums/checkpoint_manifest.json",
+      "config_reference": "configs/final/cnn_bilstm_mat.yaml",
+      "validation_reference": "src/final_release/validate.py"
+    },
+    {
+      "model_name": "cnn_bilstm_por",
+      "dataset": "student_por",
+      "path": "artifacts/final/models/cnn_bilstm_por",
+      "count": 25,
+      "folds": [0, 1, 2, 3, 4],
+      "seeds": [42, 1201, 2026, 3407, 7319],
+      "stage": "main frozen V5.1; stage protocol is separately revalidated",
+      "checkpoint_set_sha256": "d9aed570c884d909645723afe1acb5001a4aa07e86ed79daca8bc2f2cce1f774",
+      "checksum_manifest": "artifacts/final/checksums/checkpoint_manifest.json",
+      "config_reference": "configs/final/cnn_bilstm_por.yaml",
+      "validation_reference": "src/final_release/validate.py"
+    },
+    {
+      "model_name": "h1_tabular_residual_oulad",
+      "dataset": "oulad",
+      "path": "artifacts/canonical_v3/checkpoints/oulad_h1_final",
+      "count": 15,
+      "folds": [0, 1, 2],
+      "seeds": [42, 1201, 2026, 3407, 7319],
+      "stage": "FINAL",
+      "checkpoint_set_sha256": "4e5c5a2966472f848befa847bf630824be795388f7ff51966ec4371e1bdc863b",
+      "checksum_manifest": "MISSING",
+      "config_reference": "configs/final/h1_tabular_residual_oulad.yaml",
+      "validation_reference": "scripts/final/validate_final_release.py"
+    },
+    {
+      "model_name": "cnn_bilstm_oulad",
+      "dataset": "oulad",
+      "path": "artifacts/final/models/cnn_bilstm_oulad",
+      "count": 15,
+      "folds": [0, 1, 2],
+      "seeds": [42, 1201, 2026, 3407, 7319],
+      "stage": "F2_MIDDLE historical",
+      "checkpoint_set_sha256": "CHECKSUMS_IN_artifacts/final/checksums/checkpoint_manifest.json",
+      "config_reference": "configs/final/cnn_bilstm_oulad.yaml",
+      "validation_reference": "src/final_release/validate.py",
+      "status": "CONFLICTING_EVIDENCE"
+    }
+  ],
+  "architecture_hashes": [
+    {
+      "model": "h1_tabular_residual_oulad",
+      "hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+      "source": "artifacts/canonical_v3/CANONICAL_BENCHMARK_FREEZE.json"
+    },
+    {
+      "model": "cnn_bilstm_mat",
+      "hash": "UNKNOWN",
+      "note": "no official architecture hash is stored; five fold-specific state-dict topologies are present"
+    },
+    {
+      "model": "cnn_bilstm_por",
+      "hash": "UNKNOWN",
+      "note": "no official architecture hash is stored; five fold-specific state-dict topologies are present"
+    }
+  ],
+  "parameter_counts": [
+    {"model": "cnn_bilstm_mat", "by_fold": {"0": 32164, "1": 30724, "2": 40276, "3": 86164, "4": 44356}},
+    {"model": "cnn_bilstm_por", "by_fold": {"0": 43110, "1": 51286, "2": 163606, "3": 105398, "4": 31494}},
+    {"model": "h1_tabular_residual_oulad", "count": 160492},
+    {"model": "cnn_bilstm_oulad_historical_unified", "count": 150202, "status": "NOT_FINAL_AUTHORITY"}
+  ],
+  "datasets": ["student_mat", "student_por", "oulad"],
+  "folds": [0, 1, 2, 3, 4],
+  "seeds": [42, 1201, 2026, 3407, 7319],
+  "stages": [
+    "S0_EARLY_NO_GRADE", "S1_MID_G1_ONLY", "S2_LATE_G1_G2",
+    "E1_EARLY_20PCT", "E2_EARLY_35PCT", "M1_MIDDLE_50PCT", "L1_LATE_75PCT", "FINAL",
+    "F2_MIDDLE historical recommendation lineage"
+  ],
+  "official_result_artifacts": [
+    "artifacts/final/metrics/cnn_bilstm_mat.json",
+    "artifacts/final/metrics/cnn_bilstm_por.json",
+    "artifacts/canonical_v3/oulad_full_metrics_aggregate.csv",
+    "artifacts/canonical_v3/predictions/oulad_oof_predictions.parquet",
+    "artifacts/final/final_results.json",
+    "artifacts/final/recommendation/recommendation_technical_validation.json"
+  ],
+  "validation_commands": [
+    "python project.py final status",
+    "python project.py final validate",
+    "python scripts/final/validate_final_release.py",
+    "pytest -q tests/release tests/unit/test_public_registry.py",
+    "pytest -q tests/database/test_recommendation_reconciliation.py"
+  ],
+  "baseline_status": "CONFLICTING_EVIDENCE",
+  "notes": [
+    "No prediction checkpoint or production model code was modified.",
+    "Primary CLI validates cnn_bilstm_oulad historical checkpoints; final_model_authority_v2 selects H1 tabular residual OULAD.",
+    "Recommendation artifacts consume a frozen V6 F2_MIDDLE risk profile, not canonical V3 FINAL predictions.",
+    "The OULAD H1 final checkpoint directory lacks a dedicated checked-in per-checkpoint checksum manifest; hashes can be recomputed but Phase 1 does not rewrite protected evidence."
+  ]
+}
