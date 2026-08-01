@@ -1,0 +1,30 @@
+{
+  "schema_version": "recommend_hybrid_plan_validation_v1",
+  "status": "PHASE_4_PASS",
+  "planning_version": "recommend_hybrid_constrained_planning_v1",
+  "architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+  "parameter_count": 160492,
+  "checkpoint_count": 30,
+  "checkpoint_set_sha256": "759e417f6c1b90c794bae2fe533cda91e9627d219a3995c17f21fe2d24b896d2",
+  "prediction_baseline_changed": false,
+  "checkpoint_bytes_changed": false,
+  "max_actions_per_plan": 4,
+  "max_minutes_per_period": 180,
+  "violations": {
+    "action_cap": 0,
+    "workload": 0,
+    "duplicate": 0,
+    "prerequisite": 0,
+    "contraindication": 0,
+    "cross_dataset": 0,
+    "post_cutoff": 0,
+    "future_anchor": 0,
+    "g3": 0,
+    "final_intervention": 0,
+    "abstain_action": 0
+  },
+  "explanation_lineage_completeness": 1.0,
+  "persistence_round_trip": "PASS",
+  "legacy_data_unchanged": true,
+  "deterministic_replay": "PASS"
+}

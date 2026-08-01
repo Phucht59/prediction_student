@@ -7,6 +7,8 @@ from .policy_contracts import (
     Priority,
     RecommendationRequest,
 )
+from .constraints import HybridConstraintSolver
+from .plan_contracts import LearningPlan, PlanStatus, SelectedAction
 
 __all__ = [
     "AutomationStatus",
@@ -14,4 +16,8 @@ __all__ = [
     "PolicyRecommendationResult",
     "Priority",
     "RecommendationRequest",
+    "HybridConstraintSolver",
+    "LearningPlan",
+    "PlanStatus",
+    "SelectedAction",
 ]

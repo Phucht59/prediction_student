@@ -1,0 +1,66 @@
+schema_version: recommend_hybrid_planning_v1
+planning_version: recommend_hybrid_constrained_planning_v1
+policy_source: artifacts/recommend_hybrid/phase3/POLICY_MANIFEST.json
+constraint_basis: conservative_operational_defaults_not_empirical_optima
+max_actions_per_plan: 4
+max_minutes_per_period: 180
+priority_order: [CRITICAL, HIGH, MEDIUM, LOW]
+final_stages: [FINAL_EVALUATION]
+human_contact_actions: [INSTRUCTOR_CONTACT, ADVISOR_SUPPORT, ADVISOR_ESCALATION]
+conflicting_action_pairs: []
+dataset_actions:
+  student_mat: [STUDY_SCHEDULE, ATTENDANCE_IMPROVEMENT, TARGETED_REVISION, PRACTICE_EXERCISES, ASSESSMENT_PREPARATION, INSTRUCTOR_CONTACT, ADVISOR_SUPPORT, PROGRESS_MONITORING, LEARNING_CONSOLIDATION]
+  student_por: [STUDY_SCHEDULE, ATTENDANCE_IMPROVEMENT, TARGETED_REVISION, PRACTICE_EXERCISES, ASSESSMENT_PREPARATION, INSTRUCTOR_CONTACT, ADVISOR_SUPPORT, PROGRESS_MONITORING, LEARNING_CONSOLIDATION]
+  oulad: [VLE_ENGAGEMENT, ASSESSMENT_COMPLETION, TARGETED_PRACTICE, DIAGNOSTIC_CHECK, RETRIEVAL_PRACTICE, STUDY_SCHEDULE, INSTRUCTOR_CONTACT, ADVISOR_ESCALATION, PROGRESS_MONITORING, LEARNING_CONSOLIDATION]
+uci:
+  periods: [CURRENT_PERIOD, NEXT_ASSESSMENT, FOLLOW_UP]
+  stage_actions:
+    S0: [STUDY_SCHEDULE, ATTENDANCE_IMPROVEMENT, ADVISOR_SUPPORT, PROGRESS_MONITORING]
+    S1: [STUDY_SCHEDULE, ATTENDANCE_IMPROVEMENT, TARGETED_REVISION, PRACTICE_EXERCISES, ASSESSMENT_PREPARATION, INSTRUCTOR_CONTACT, ADVISOR_SUPPORT, PROGRESS_MONITORING]
+    S2: [STUDY_SCHEDULE, ATTENDANCE_IMPROVEMENT, TARGETED_REVISION, PRACTICE_EXERCISES, ASSESSMENT_PREPARATION, INSTRUCTOR_CONTACT, ADVISOR_SUPPORT, PROGRESS_MONITORING, LEARNING_CONSOLIDATION]
+  stage_urgency: {S0: 0, S1: 1, S2: 2}
+  period_preferences:
+    human_support: CURRENT_PERIOD
+    attendance: CURRENT_PERIOD
+    planning: CURRENT_PERIOD
+    revision: NEXT_ASSESSMENT
+    practice: NEXT_ASSESSMENT
+    assessment: NEXT_ASSESSMENT
+    monitoring: FOLLOW_UP
+    consolidation: FOLLOW_UP
+oulad:
+  periods: [IMMEDIATE, SHORT_TERM, FOLLOW_UP]
+  stage_actions:
+    EARLY_20: [VLE_ENGAGEMENT, ASSESSMENT_COMPLETION, DIAGNOSTIC_CHECK, STUDY_SCHEDULE, ADVISOR_ESCALATION, PROGRESS_MONITORING]
+    EARLY_35: [VLE_ENGAGEMENT, ASSESSMENT_COMPLETION, TARGETED_PRACTICE, DIAGNOSTIC_CHECK, RETRIEVAL_PRACTICE, STUDY_SCHEDULE, INSTRUCTOR_CONTACT, ADVISOR_ESCALATION, PROGRESS_MONITORING]
+    MIDDLE_50: [VLE_ENGAGEMENT, ASSESSMENT_COMPLETION, TARGETED_PRACTICE, DIAGNOSTIC_CHECK, RETRIEVAL_PRACTICE, STUDY_SCHEDULE, INSTRUCTOR_CONTACT, ADVISOR_ESCALATION, PROGRESS_MONITORING, LEARNING_CONSOLIDATION]
+    LATE_75: [VLE_ENGAGEMENT, ASSESSMENT_COMPLETION, TARGETED_PRACTICE, DIAGNOSTIC_CHECK, RETRIEVAL_PRACTICE, STUDY_SCHEDULE, INSTRUCTOR_CONTACT, ADVISOR_ESCALATION, PROGRESS_MONITORING, LEARNING_CONSOLIDATION]
+  minimum_remaining_percent:
+    SHORT_TERM: 10
+    FOLLOW_UP: 25
+  stage_urgency: {EARLY_20: 0, EARLY_35: 1, MIDDLE_50: 2, LATE_75: 3}
+  period_preferences:
+    human_support: IMMEDIATE
+    assessment: IMMEDIATE
+    diagnostic: IMMEDIATE
+    engagement: SHORT_TERM
+    planning: SHORT_TERM
+    practice: SHORT_TERM
+    monitoring: FOLLOW_UP
+    consolidation: FOLLOW_UP
+action_metadata:
+  STUDY_SCHEDULE: {weekly_minutes: 30, category: planning, prerequisites: [], contraindications: [ACUTE_PERSONAL_CIRCUMSTANCE], directness: 2, success_criterion: A feasible study schedule is recorded for the next review cycle.}
+  ATTENDANCE_IMPROVEMENT: {weekly_minutes: 45, category: attendance, prerequisites: [], contraindications: [], directness: 3, success_criterion: Attendance barriers and the next attendance target are documented.}
+  TARGETED_REVISION: {weekly_minutes: 90, category: revision, prerequisites: [], contraindications: [ASSESSMENT_OVERLOAD], directness: 3, success_criterion: The identified assessed topics are revised before the next assessment.}
+  PRACTICE_EXERCISES: {weekly_minutes: 75, category: practice, prerequisites: [], contraindications: [NO_PRACTICE_MATERIAL], directness: 3, success_criterion: Assigned practice exercises are completed and errors reviewed.}
+  ASSESSMENT_PREPARATION: {weekly_minutes: 90, category: assessment, prerequisites: [], contraindications: [NO_OPEN_ASSESSMENT], directness: 3, success_criterion: A preparation checklist is completed before the next assessment.}
+  INSTRUCTOR_CONTACT: {weekly_minutes: 30, category: human_support, prerequisites: [], contraindications: [CONTACT_ALREADY_OPEN], directness: 3, success_criterion: The instructor acknowledges a specific support request.}
+  ADVISOR_SUPPORT: {weekly_minutes: 30, category: human_support, prerequisites: [], contraindications: [ACTIVE_ADVISOR_CASE], directness: 3, success_criterion: An advisor reviews the evidence and records a disposition.}
+  PROGRESS_MONITORING: {weekly_minutes: 20, category: monitoring, prerequisites: [], contraindications: [], directness: 1, success_criterion: The observed indicators are reviewed at the next checkpoint.}
+  LEARNING_CONSOLIDATION: {weekly_minutes: 90, category: consolidation, prerequisites: [], contraindications: [ASSESSMENT_OVERLOAD], directness: 2, success_criterion: A structured summary of the current material is completed.}
+  VLE_ENGAGEMENT: {weekly_minutes: 90, category: engagement, prerequisites: [], contraindications: [NO_VLE_ACCESS], directness: 3, success_criterion: Three purposeful VLE sessions are completed before review.}
+  ASSESSMENT_COMPLETION: {weekly_minutes: 150, category: assessment, prerequisites: [], contraindications: [NO_OPEN_ASSESSMENT, EXTENSION_PENDING], directness: 3, success_criterion: Selected due assessments are submitted by verified deadlines.}
+  TARGETED_PRACTICE: {weekly_minutes: 120, category: practice, prerequisites: [DIAGNOSTIC_CHECK], contraindications: [NO_PRACTICE_MATERIAL], directness: 3, success_criterion: Targeted practice is completed and corrected errors are documented.}
+  DIAGNOSTIC_CHECK: {weekly_minutes: 45, category: diagnostic, prerequisites: [], contraindications: [ASSESSMENT_OVERLOAD], directness: 3, success_criterion: A diagnostic is completed and produces topic-level evidence.}
+  RETRIEVAL_PRACTICE: {weekly_minutes: 75, category: practice, prerequisites: [], contraindications: [NO_STUDY_MATERIAL], directness: 3, success_criterion: Three retrieval sessions are completed and accuracy is recorded.}
+  ADVISOR_ESCALATION: {weekly_minutes: 30, category: human_support, prerequisites: [], contraindications: [ACTIVE_ADVISOR_CASE], directness: 3, success_criterion: An advisor reviews the evidence and records a safe disposition.}
