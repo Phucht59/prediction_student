@@ -1,15 +1,19 @@
 {
-  "schema_version": "recommend_hybrid_expert_data_status_v1",
-  "expert_status": "PENDING_REAL_EXPERT_LABELS",
-  "reviewer_count": 0,
-  "reviewer_templates": [
-    "expert_01",
-    "expert_02"
-  ],
-  "pilot_cases_exported": 60,
-  "cases_scored": 0,
-  "action_ratings": 0,
+  "schema_version": "recommend_hybrid_expert_data_status_v2",
+  "expert_evaluation_requirement": "OPTIONAL",
+  "expert_labels_available": false,
+  "expert_pipeline_role": "FUTURE_EXTENSION",
+  "neural_ranker_enabled": false,
+  "recommendation_training_required": false,
+  "phase3_blocked_by_expert_labels": false,
+  "training_status": "NOT_APPLICABLE",
+  "pilot_cases_available": 60,
+  "planned_independent_reviewers": 2,
+  "minimum_case_review_target": 120,
+  "real_reviewer_count": 0,
+  "real_case_reviews": 0,
+  "real_action_ratings": 0,
   "fabricated_labels": 0,
-  "training_status": "BLOCKED",
-  "phase3_training_status": "BLOCKED"
+  "historical_phase2_status": "PENDING_REAL_EXPERT_LABELS",
+  "note": "Phase 2 templates remain unchanged. Expert review is optional future evaluation and is not a Phase 3 policy dependency."
 }

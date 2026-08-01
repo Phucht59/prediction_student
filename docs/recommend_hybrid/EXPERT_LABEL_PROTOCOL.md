@@ -1,27 +1,17 @@
-# recommend_hybrid expert-label protocol
+# recommend_hybrid optional expert-evaluation protocol
 
-Current status: `PENDING_REAL_EXPERT_LABELS`; Phase 3 training status: `BLOCKED`. Phase 2 exported 60 real-data pilot cases and blank templates for `expert_01` and `expert_02`; reviewer count, scored cases, action ratings and fabricated labels remain zero.
+## Current status
 
-## Blinding and export
+Expert evaluation is `OPTIONAL` and the Phase 2 pipeline is retained as `FUTURE_EXTENSION`. Expert labels are unavailable; real reviewers, completed case reviews and action ratings are all zero. Recommendation training is `NOT_APPLICABLE`, and Phase 3 is not blocked by expert labels.
 
-Cases are sampled from canonical five-seed hybrid predictions at `MIDDLE_50` and reconstructed from real OULAD events satisfying `event_day < cutoff_day`. HMAC case IDs use an unpersisted 256-bit export secret. Student identity, course identity, fold, seed, checkpoint filename, internal model alias, outer/future label, protected attributes and future outcome are absent.
+The existing pilot has 60 cases and two blank independent-reviewer templates. If future expert evaluation is authorized, its minimum intended case-review volume is 60 × 2 = 120 independent case reviews. Templates remain unmodified and contain no fabricated rating.
 
-The approved Phase 1 protocol withholds exact probability, so reviewers receive risk/confidence/uncertainty/disagreement bands. This resolves the broader Phase 2 case description in favor of the locked blinding authority. Candidate order is independently randomized per reviewer. The source export and two reviewer templates are immutable inputs to later real review; templates contain no prefilled ratings.
+## Preserved future protocol
 
-## Rating schema
+Cases remain blinded to identity, outcome, model internals and exact probability. Each future action rating uses the ordinal scale 3, 2, 1, 0, -1 and requires action/case/expert identity, approval, missing-action, safety, escalation, reason and comment fields. An unsafe -1 rating requires a safety concern and adjudication.
 
-Each real action rating requires `case_id`, `action_id`, `expert_id`, `relevance_score`, `approval_status`, `missing_action`, `safety_concern`, `escalation_required`, `reason_support`, and `comment`.
+The importer continues to validate approved expert IDs, known case/action pairs, completeness, duplicate records, score/status vocabularies, safety consistency and raw-file immutability. These records may support later optional evaluation, but must not be converted into pseudo-labels or presented as current evidence.
 
-- 3: highly suitable
-- 2: suitable
-- 1: may be considered
-- 0: unsuitable
-- -1: unsafe; requires `safety_concern=true` and adjudication
+## Phase 3 boundary
 
-Action approval is `APPROVE`, `PARTIAL`, `UNSURE`, or `REJECT`. Case-plan status is `APPROVED`, `MODIFIED`, `REJECTED`, or `NEEDS_MORE_EVIDENCE`.
-
-## Import and training gate
-
-The importer validates approved experts, known case/action pairs, required fields, score/status vocabularies, duplicate `(case_id, action_id, expert_id)` records, unsafe-score consistency and contradictory approval. It hashes the raw file before and after and writes a separate normalized artifact; raw review files are never edited.
-
-Rules, model predictions, test fixtures and language-model judgments are not expert labels. Training remains blocked until real reviewer submissions, overlap/agreement analysis, safety adjudication and immutable raw/adjudicated manifests pass the later phase gate.
+The evidence-based policy uses versioned domain rules, observed pre-cutoff evidence and frozen CNN-BiLSTM prediction context. It does not import expert files, train a ranker, compute expert approval rate, or claim user satisfaction/causal effectiveness.

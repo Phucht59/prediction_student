@@ -6,49 +6,47 @@
 - Vietnamese name: **Mô hình khuyến nghị hỗ trợ học tập dựa trên CNN-BiLSTM hybrid**
 - Architecture family: `HYBRID_CNN_BILSTM_RECOMMENDER`
 - Prediction backbone: `FROZEN_HYBRID_CNN_BILSTM`
-- Recommendation component: `HYBRID_ACTION_RANKER`
-- Plan component: `HYBRID_LEARNING_PLAN_BUILDER`
-- Authority: `RECOMMEND_HYBRID_MODEL_AUTHORITY`
+- Recommendation component: `EVIDENCE_BASED_KNOWLEDGE_RECOMMENDATION_POLICY`
+- Neural action ranker: disabled
+- Recommendation training: not applicable
+- Prediction authority: `RECOMMEND_HYBRID_MODEL_AUTHORITY`
 
-## Architecture
+## Current architecture
 
 ```text
-Pre-cutoff student data
-  -> Frozen hybrid CNN-BiLSTM
-       -> prediction class and probabilities
-       -> calibrated confidence and uncertainty
-       -> 64-D student-state embedding
-       -> 32-D tabular-expert embedding
-  + Observed learning state with evidence mask and lineage
-  -> recommendation adapter
-  -> hybrid action ranker
-  -> hybrid constraint solver
-  -> hybrid multi-week learning-plan builder
-  -> advisor review
+RECOMMEND_HYBRID
+├── RecommendHybridUCI
+│   ├── student_mat policy/config
+│   ├── student_por policy/config
+│   ├── G1/G2 availability stage router
+│   ├── UCI evidence severity
+│   └── UCI-only evidence-action policy
+├── RecommendHybridOULAD
+│   ├── arbitrary requested-cutoff router
+│   ├── past-only validated prediction anchor
+│   ├── requested-cutoff observed evidence
+│   └── OULAD-only evidence-action policy
+└── Shared core
+    ├── typed contracts and ordinal priorities
+    ├── uncertainty reduction and abstention
+    ├── evidence lineage and explanations
+    └── deterministic scientific validation
 ```
 
-The prediction checkpoint is immutable. Recommendation training cannot alter model weights, parameter count, architecture semantics, cutoff policy or prediction results. The recommendation component only ranks actions; it does not predict academic outcome again.
+Both branches consume class/probabilities/uncertainty from the frozen CNN-BiLSTM authority. They share output contracts and safety controls, but never share business rules, severity thresholds, or dataset-only actions. The policy returns eligible considerations with `CRITICAL/HIGH/MEDIUM/LOW`; it returns no relevance probability, learned action score, Top-K plan, or educational-effectiveness claim.
 
-## Stage-aware behavior
+## Representation boundary
 
-`EARLY_20` is screening with evidence-gated recommendations; `EARLY_35` allows early intervention; `MIDDLE_50` is the primary recommendation stage; `LATE_75` supports late intervention/escalation; `FINAL_EVALUATION` is evaluation-only and cannot generate a new plan. One shared canonical checkpoint per fold/seed covers the four intervention stages. Dedicated endpoint checkpoints are used only for final evaluation.
+The existing 64-D student-state and 32-D tabular-expert representations remain in lineage for reproducibility and future research. Phase 3 decision modules do not read either representation. Without independent action labels, embeddings cannot determine eligibility or priority.
 
-## Frozen outputs
+## Routing and information safety
 
-Read the 64-D fused student-state representation and 32-D tabular-expert representation already returned by the model. Probabilities include the complete hybrid risk path, including the bounded tabular residual contribution. Do not recompute the prediction from an incomplete embedding. Ensemble disagreement across five locked seeds is the principal uncertainty input; calibrated confidence requires its own versioned calibration provenance.
+UCI stage is determined only by actual G1/G2 availability: S0 has neither, S1 has G1, and S2 has G1/G2. G3 is forbidden. MAT and POR use separate configs.
 
-## Future components, not implemented in Phase 1
+OULAD routes an arbitrary request to the nearest validated anchor in the past. Observed evidence may extend to the actual requested cutoff, but prediction validation is claimed only at the anchor. Requests before 20% abstain; 100% is evaluation-only. Every OULAD event must be strictly earlier than the requested cutoff.
 
-`HybridPredictionAdapter` will expose detached frozen outputs. `HybridStudentRepresentation` will combine embeddings, probabilities, uncertainty and cutoff-safe observed state. `HybridActionEncoder` and `HybridActionRanker` will score candidate relevance using only real expert labels. `HybridConstraintSolver` will enforce evidence, workload, action caps, uniqueness, prerequisites, incompatibility, abstention and escalation. `HybridLearningPlanBuilder` will schedule safe selected actions with goals, rationale, success criteria and review points. `HybridRecommendationService` and `HybridRecommendationValidator` are later integration components.
+## Historical phase boundary
 
-## Thesis description
+Phase 1 froze prediction authority and originally documented a possible future neural ranker. Phase 2 created an optional expert-review pipeline. The user-approved Phase 3 decision supersedes that recommendation-training path: expert review is now a future extension, not a dependency. Frozen prediction/checkpoint authority and all Phase 1/2 historical reports remain unchanged.
 
-“Mô hình Hybrid CNN-BiLSTM Learning Support Recommender là mô hình khuyến nghị hỗ trợ học tập được xây dựng trực tiếp trên biểu diễn sinh viên và kết quả dự đoán của mô hình hybrid CNN-BiLSTM. Mô hình sử dụng xác suất rủi ro, độ bất định, biểu diễn ẩn của sinh viên và trạng thái học tập quan sát được trước thời điểm dự báo để xếp hạng các hành động hỗ trợ. Các hành động được kiểm tra bằng những ràng buộc về khối lượng học tập, điều kiện tiên quyết, tính an toàn và độ đầy đủ của bằng chứng trước khi được sắp xếp thành lộ trình học tập theo từng giai đoạn.”
-
-Historical experiment aliases and paths appear only in provenance metadata; they are not production names, authority IDs or scientific conclusions.
-
-## Phase 2 foundation status
-
-Phase 2 implements only the frozen-output adapter, immutable data contracts, cutoff-safe observed-state builder, controlled action catalog, eligibility-only candidate generator, and blinded expert-label export/import boundary. It does not implement or train `HybridActionRanker`, select Top-K actions, solve plan constraints, build a learning plan, or change a production API/database.
-
-The adapter reads `binary_logit`, `student_state_embedding`, and `tabular_expert_embedding` already returned by the frozen forward path. For the locked five-seed ensemble it averages seed probabilities, reports population standard deviation as seed disagreement, computes binary predictive entropy from the mean risk probability, and averages the two representation tensors across the same seeds. Raw maximum class probability is exposed as classification confidence with `confidence_source=RAW_MAX_CLASS_PROBABILITY`; it is not mislabeled as calibrated confidence because no recommender-specific calibrator provenance is frozen.
+Phase 3 ends at eligible actions and ordinal priority. Final selection, workload constraints, multi-week plans, API/database integration and outcome evaluation remain outside this phase.

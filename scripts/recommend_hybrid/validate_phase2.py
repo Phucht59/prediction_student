@@ -366,9 +366,16 @@ def main() -> int:
     write_action_inventory(loaded_catalog)
     candidates = validate_candidates(loaded_catalog)
     expert = _expert_validation()
-    _write(
-        ROOT / "reports/recommend_hybrid/EXPERT_DATA_STATUS.json",
-        {
+    expert_status_path = ROOT / "reports/recommend_hybrid/EXPERT_DATA_STATUS.json"
+    existing_expert_status = (
+        json.loads(expert_status_path.read_text(encoding="utf-8"))
+        if expert_status_path.is_file()
+        else {}
+    )
+    if existing_expert_status.get("schema_version") != "recommend_hybrid_expert_data_status_v2":
+        _write(
+            expert_status_path,
+            {
             "schema_version": "recommend_hybrid_expert_data_status_v1",
             "expert_status": "PENDING_REAL_EXPERT_LABELS",
             "reviewer_count": 0,
@@ -379,8 +386,8 @@ def main() -> int:
             "fabricated_labels": 0,
             "training_status": "BLOCKED",
             "phase3_training_status": "BLOCKED",
-        },
-    )
+            },
+        )
     _write(PHASE2 / "ACTION_CATALOG_VALIDATION.json", {**catalog, "candidate_generator": candidates})
     errors = [
         name

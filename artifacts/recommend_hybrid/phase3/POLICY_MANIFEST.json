@@ -1,0 +1,45 @@
+{
+  "schema_version": "recommend_hybrid_policy_manifest_v1",
+  "policy_version": "recommend_hybrid_evidence_policy_v1",
+  "policy_type": "EVIDENCE_BASED_KNOWLEDGE_RECOMMENDATION_POLICY",
+  "datasets": [
+    "student_mat",
+    "student_por",
+    "oulad"
+  ],
+  "config_sha256": {
+    "configs/recommend_hybrid/policy_common.yaml": "8041a1fd6df8393b2041bdeb168ac9144ac173c4b323266d26083f99e31e687d",
+    "configs/recommend_hybrid/policy_uci_mat.yaml": "d54d9b3d3c401ad9dd04b3620bf6aa731eb2d8ff9c1902763b47f9d5d1fd5733",
+    "configs/recommend_hybrid/policy_uci_por.yaml": "d8752e28723573ca36e7271a0b37b7205473ea30d834a3b890e578eee525bab8",
+    "configs/recommend_hybrid/policy_oulad.yaml": "96cd0a927f2233fe834a95a63340fd6e6aa5312ceb243c360d3e82bc6a4b35dc"
+  },
+  "architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+  "checkpoint_set_sha256": "759e417f6c1b90c794bae2fe533cda91e9627d219a3995c17f21fe2d24b896d2",
+  "prediction_baseline_changed": false,
+  "checkpoint_bytes_changed": false,
+  "neural_ranker_enabled": false,
+  "expert_label_dependency": false,
+  "embedding_decision_use": false,
+  "validation_checks": {
+    "phase1_authority": true,
+    "phase2_foundation": true,
+    "checkpoint_immutability": true,
+    "uci_mat_por_separate": true,
+    "future_anchor_zero": true,
+    "g3_usage_zero": true,
+    "post_cutoff_zero": true,
+    "cross_dataset_zero": true,
+    "unsupported_action_zero": true,
+    "no_action_score": true,
+    "no_neural_ranker": true,
+    "embedding_decision_use_prohibited": true,
+    "no_expert_dependency": true,
+    "no_expert_import_in_policy": true,
+    "scenario_tests": true,
+    "monotonicity_zero": true,
+    "explanation_lineage": true,
+    "deterministic_replay": true
+  },
+  "status": "PHASE_3_PASS",
+  "errors": []
+}

@@ -1,0 +1,6 @@
+suite,scenario_count,passed,failed,status
+uci_controlled_scenarios,20,20,0,PASS
+oulad_controlled_scenarios,30,30,0,PASS
+cutoff_boundaries,12,12,0,PASS
+metamorphic_and_resolution,6,6,0,PASS
+cross_dataset_isolation,4,4,0,PASS

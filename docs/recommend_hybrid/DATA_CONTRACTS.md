@@ -20,3 +20,9 @@ Every available or missing observed feature has `source_table`, `source_column`,
 ## Adapter contract
 
 The adapter input is the frozen model's native five tensors (`sequence`, `lengths`, `mask`, `aggregate`, `static`). Its output contains logits, probabilities, class, confidence, predictive entropy, seed disagreement, both embeddings, stage, fold, seeds, checkpoint references and architecture hash. Under the same CPU/float32 path, Phase 2 requires exact equality (`tolerance=0`) with direct frozen-model execution.
+
+## Phase 3 policy contracts
+
+`common/policy_contracts.py` adds immutable `RecommendationRequest`, `PolicyPredictionContext`, `PredictionAnchor`, `EvidenceItem`, `PolicyActionDecision`, `ActionExplanation`, and `PolicyRecommendationResult` contracts. Eligibility and priority are separate: only `ELIGIBLE` or `REQUIRES_HUMAN_CONTACT` may have an ordinal priority; all other statuses must use `NOT_APPLICABLE`.
+
+Every supporting `EvidenceItem` carries observed value, severity, availability, source lineage, observation end and requested cutoff. Explanations are constructed from those exact items. Action decisions contain no score, probability of suitability, rank, or embedding value.

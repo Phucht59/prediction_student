@@ -1,0 +1,7 @@
+{
+  "schema_version": "recommend_hybrid_monotonicity_validation_v1",
+  "checks": 6,
+  "monotonicity_violations": 0,
+  "metamorphic_test_pass_rate": 1.0,
+  "status": "PASS"
+}

@@ -1,0 +1,7 @@
+check,dataset,violations,status
+absence_non_decreasing_priority,student_mat,0,PASS
+study_time_worsening_non_decreasing_priority,student_mat,0,PASS
+inactivity_non_decreasing_priority,oulad,0,PASS
+completion_worsening_non_decreasing_priority,oulad,0,PASS
+resolved_assessment_reduces_action,oulad,0,PASS
+uncertainty_never_increases_automation,shared,0,PASS
