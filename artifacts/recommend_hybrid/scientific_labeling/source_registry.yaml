@@ -1,0 +1,74 @@
+schema_version: recommend_scientific_source_registry_v1
+sources:
+  - source_id: SNORKEL_VLDB_2017
+    title: "Snorkel: Rapid Training Data Creation with Weak Supervision"
+    organization_or_authors: "Alexander Ratner, Stephen H. Bach, Henry Ehrenberg, Jason Fries, Sen Wu, Christopher Re"
+    publication_year_or_version: "2017"
+    source_type: PEER_REVIEWED_METHOD_PAPER
+    url: https://www.vldb.org/pvldb/vol11/p269-ratner.pdf
+    retrieved_at: "2026-08-02"
+    target_population: Machine-learning development workflows; not an educational intervention population
+    supported_action_ids: []
+    evidence_summary: Labeling functions may overlap, conflict, or abstain; a generative label model can combine their outputs into probabilistic labels.
+    applicability_limits: Supports the weak-supervision method only and supplies no evidence that any educational action is effective.
+    verification_status: VERIFIED
+  - source_id: WWC_STUDY_2007
+    title: Organizing Instruction and Study to Improve Student Learning
+    organization_or_authors: What Works Clearinghouse, Institute of Education Sciences
+    publication_year_or_version: "2007"
+    source_type: OFFICIAL_PRACTICE_GUIDE
+    url: https://ies.ed.gov/ncee/wwc/PracticeGuide/1
+    retrieved_at: "2026-08-02"
+    target_population: K-12 and postsecondary learners in content-learning settings
+    supported_action_ids: [TARGETED_PRACTICE, RETRIEVAL_PRACTICE, STUDY_SCHEDULE, PROGRESS_MONITORING, LEARNING_CONSOLIDATION, TARGETED_REVISION, PRACTICE_EXERCISES, ASSESSMENT_PREPARATION]
+    evidence_summary: Supports spaced study, active retrieval, quizzes to identify learning needs, and prompts for deeper explanation.
+    applicability_limits: Recommendations are group-level practice guidance; they do not prove suitability or benefit for a particular predicted-risk student.
+    verification_status: VERIFIED
+  - source_id: WWC_TECH_POSTSECONDARY_2019
+    title: Using Technology to Support Postsecondary Student Learning
+    organization_or_authors: What Works Clearinghouse, Institute of Education Sciences
+    publication_year_or_version: "2019"
+    source_type: OFFICIAL_PRACTICE_GUIDE
+    url: https://ies.ed.gov/ncee/wwc/PracticeGuide/25
+    retrieved_at: "2026-08-02"
+    target_population: Students and staff at two- and four-year postsecondary institutions
+    supported_action_ids: [VLE_ENGAGEMENT, DIAGNOSTIC_CHECK, PROGRESS_MONITORING]
+    evidence_summary: Supports technology-mediated interaction, self-regulated learning strategies, and timely targeted feedback.
+    applicability_limits: Evidence levels vary and implementation must be adapted; the guide does not validate automated individualized recommendations.
+    verification_status: VERIFIED
+  - source_id: WWC_ADVISING_2021
+    title: Effective Advising for Postsecondary Students
+    organization_or_authors: What Works Clearinghouse, Institute of Education Sciences
+    publication_year_or_version: "2021"
+    source_type: OFFICIAL_PRACTICE_GUIDE
+    url: https://ies.ed.gov/ncee/wwc/practiceguide/28
+    retrieved_at: "2026-08-02"
+    target_population: Postsecondary students, advisors, faculty, and institutional staff
+    supported_action_ids: [INSTRUCTOR_CONTACT, ADVISOR_ESCALATION, ADVISOR_SUPPORT]
+    evidence_summary: Supports comprehensive advising, sustained personalized relationships, mentoring, and coaching in postsecondary settings.
+    applicability_limits: Supports human advising structures, not autonomous escalation or guaranteed improvement for an individual student.
+    verification_status: VERIFIED
+  - source_id: JISC_LEARNING_ANALYTICS_CODE_2023
+    title: Code of practice for learning analytics
+    organization_or_authors: Jisc; Niall Sclater and Paul Bailey
+    publication_year_or_version: "2015, updated 2023"
+    source_type: OFFICIAL_ETHICS_CODE
+    url: https://www.jisc.ac.uk/guides/code-of-practice-for-learning-analytics
+    retrieved_at: "2026-08-02"
+    target_population: Educational institutions implementing learning analytics
+    supported_action_ids: [INSTRUCTOR_CONTACT, ADVISOR_ESCALATION, ADVISOR_SUPPORT, PROGRESS_MONITORING]
+    evidence_summary: Requires responsibility, transparency, privacy, validity, positive interventions, minimization of adverse impact, and data stewardship.
+    applicability_limits: Ethical and operational guidance; it does not establish action effectiveness or causal impact.
+    verification_status: VERIFIED
+  - source_id: EEF_METACOGNITION_2026
+    title: Metacognition and self-regulation
+    organization_or_authors: Education Endowment Foundation
+    publication_year_or_version: "Toolkit page accessed 2026"
+    source_type: EVIDENCE_TOOLKIT_SUPPLEMENT
+    url: https://educationendowmentfoundation.org.uk/education-evidence/teaching-learning-toolkit/metacognition-and-self-regulation
+    retrieved_at: "2026-08-02"
+    target_population: Primarily school-age learners and educators
+    supported_action_ids: [STUDY_SCHEDULE, PROGRESS_MONITORING, LEARNING_CONSOLIDATION]
+    evidence_summary: Supports explicit planning, monitoring, evaluating, reflection, and scaffolded self-regulation strategies.
+    applicability_limits: Primarily school-context group evidence; transfer to UCI/OULAD postsecondary contexts is indirect and requires human judgment.
+    verification_status: VERIFIED
