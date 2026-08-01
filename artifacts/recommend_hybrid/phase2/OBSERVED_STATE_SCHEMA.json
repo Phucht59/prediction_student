@@ -1,0 +1,32 @@
+{
+  "schema_version": "recommend_hybrid_observed_state_schema_v1",
+  "contract": "ObservedLearningState",
+  "fields": [
+    "activity_level",
+    "assessment_progress",
+    "assessments_completed",
+    "assessments_due",
+    "available_evidence",
+    "average_activity",
+    "course_progress",
+    "cutoff_day",
+    "feature_lineage",
+    "grade_trend",
+    "inactivity_streak",
+    "missing_evidence",
+    "recent_activity",
+    "recent_activity_trend",
+    "stage",
+    "total_activity"
+  ],
+  "required_fields_present": true,
+  "cutoff_rule": "event_day < cutoff_day",
+  "grade_release_rule": "release timestamp required before cutoff",
+  "missing_representation": "None plus explicit missing_evidence and lineage status",
+  "missing_values_zero_imputed": false,
+  "post_cutoff_violations": 0,
+  "sensitive_feature_violations": 0,
+  "empty_activity_is_none": true,
+  "lineage_complete": true,
+  "status": "PASS"
+}

@@ -1,0 +1,11 @@
+action_id,category,weekly_minutes,applicable_stages,required_evidence,prerequisites,contraindications,requires_human_review,active,validation_status
+VLE_ENGAGEMENT,engagement,90,EARLY_20|EARLY_35|MIDDLE_50|LATE_75,activity_level|inactivity_streak,,NO_VLE_ACCESS,false,true,PASS
+ASSESSMENT_COMPLETION,assessment,150,EARLY_20|EARLY_35|MIDDLE_50|LATE_75,assessment_progress|assessments_due,,NO_OPEN_ASSESSMENT|EXTENSION_PENDING,false,true,PASS
+TARGETED_PRACTICE,practice,120,EARLY_35|MIDDLE_50|LATE_75,assessment_progress,DIAGNOSTIC_CHECK,NO_PRACTICE_MATERIAL,false,true,PASS
+DIAGNOSTIC_CHECK,diagnostic,45,EARLY_20|EARLY_35|MIDDLE_50|LATE_75,course_progress,,ASSESSMENT_OVERLOAD,false,true,PASS
+RETRIEVAL_PRACTICE,practice,75,EARLY_20|EARLY_35|MIDDLE_50|LATE_75,course_progress,,NO_STUDY_MATERIAL,false,true,PASS
+STUDY_SCHEDULE,planning,30,EARLY_20|EARLY_35|MIDDLE_50|LATE_75,course_progress,,ACUTE_PERSONAL_CIRCUMSTANCE,false,true,PASS
+INSTRUCTOR_CONTACT,human_support,30,EARLY_35|MIDDLE_50|LATE_75,course_progress,,CONTACT_ALREADY_OPEN,true,true,PASS
+ADVISOR_ESCALATION,human_support,30,EARLY_20|EARLY_35|MIDDLE_50|LATE_75,course_progress,,ACTIVE_ADVISOR_CASE,true,true,PASS
+PROGRESS_MONITORING,monitoring,20,EARLY_20|EARLY_35|MIDDLE_50|LATE_75,course_progress,,,false,true,PASS
+LEARNING_CONSOLIDATION,consolidation,90,MIDDLE_50|LATE_75,course_progress|activity_level,,ASSESSMENT_OVERLOAD,false,true,PASS

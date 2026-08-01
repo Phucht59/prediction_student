@@ -46,3 +46,9 @@ Read the 64-D fused student-state representation and 32-D tabular-expert represe
 “Mô hình Hybrid CNN-BiLSTM Learning Support Recommender là mô hình khuyến nghị hỗ trợ học tập được xây dựng trực tiếp trên biểu diễn sinh viên và kết quả dự đoán của mô hình hybrid CNN-BiLSTM. Mô hình sử dụng xác suất rủi ro, độ bất định, biểu diễn ẩn của sinh viên và trạng thái học tập quan sát được trước thời điểm dự báo để xếp hạng các hành động hỗ trợ. Các hành động được kiểm tra bằng những ràng buộc về khối lượng học tập, điều kiện tiên quyết, tính an toàn và độ đầy đủ của bằng chứng trước khi được sắp xếp thành lộ trình học tập theo từng giai đoạn.”
 
 Historical experiment aliases and paths appear only in provenance metadata; they are not production names, authority IDs or scientific conclusions.
+
+## Phase 2 foundation status
+
+Phase 2 implements only the frozen-output adapter, immutable data contracts, cutoff-safe observed-state builder, controlled action catalog, eligibility-only candidate generator, and blinded expert-label export/import boundary. It does not implement or train `HybridActionRanker`, select Top-K actions, solve plan constraints, build a learning plan, or change a production API/database.
+
+The adapter reads `binary_logit`, `student_state_embedding`, and `tabular_expert_embedding` already returned by the frozen forward path. For the locked five-seed ensemble it averages seed probabilities, reports population standard deviation as seed disagreement, computes binary predictive entropy from the mean risk probability, and averages the two representation tensors across the same seeds. Raw maximum class probability is exposed as classification confidence with `confidence_source=RAW_MAX_CLASS_PROBABILITY`; it is not mislabeled as calibrated confidence because no recommender-specific calibrator provenance is frozen.

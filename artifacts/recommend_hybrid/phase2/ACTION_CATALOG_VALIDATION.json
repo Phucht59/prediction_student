@@ -1,0 +1,15 @@
+{
+  "schema_version": "recommend_hybrid_action_catalog_validation_v1",
+  "catalog_version": "recommend_hybrid_actions_v1",
+  "active_actions": 10,
+  "invalid_actions": 0,
+  "final_evaluation_interventions": 0,
+  "status": "PASS",
+  "candidate_generator": {
+    "candidate_count": 10,
+    "eligible_final_intervention_count": 0,
+    "contains_score_field": false,
+    "all_reason_codes_present": true,
+    "status": "PASS"
+  }
+}

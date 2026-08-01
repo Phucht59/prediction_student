@@ -1,0 +1,153 @@
+schema_version: recommend_hybrid_action_catalog_v1
+catalog_version: recommend_hybrid_actions_v1
+actions:
+  - action_id: VLE_ENGAGEMENT
+    category: engagement
+    title_vi: Tái tham gia môi trường học tập trực tuyến
+    title_en: Re-engage with the virtual learning environment
+    description_vi: Thực hiện các phiên học ngắn, có mục tiêu trên VLE.
+    description_en: Complete short, purposeful VLE study sessions.
+    weekly_minutes: 90
+    applicable_stages: [EARLY_20, EARLY_35, MIDDLE_50, LATE_75]
+    required_evidence: [activity_level, inactivity_streak]
+    prerequisites: []
+    contraindications: [NO_VLE_ACCESS]
+    requires_human_review: false
+    success_criterion: At least three purposeful VLE sessions before the next review.
+    active: true
+    catalog_version: recommend_hybrid_actions_v1
+  - action_id: ASSESSMENT_COMPLETION
+    category: assessment
+    title_vi: Hoàn thành bài đánh giá đến hạn
+    title_en: Complete due assessments
+    description_vi: Lập kế hoạch hoàn thành các bài đánh giá đã đến hạn và còn hợp lệ.
+    description_en: Plan completion of due assessments that remain open and valid.
+    weekly_minutes: 150
+    applicable_stages: [EARLY_20, EARLY_35, MIDDLE_50, LATE_75]
+    required_evidence: [assessment_progress, assessments_due]
+    prerequisites: []
+    contraindications: [NO_OPEN_ASSESSMENT, EXTENSION_PENDING]
+    requires_human_review: false
+    success_criterion: All selected due assessments are submitted by their verified deadline.
+    active: true
+    catalog_version: recommend_hybrid_actions_v1
+  - action_id: TARGETED_PRACTICE
+    category: practice
+    title_vi: Luyện tập có mục tiêu
+    title_en: Targeted practice
+    description_vi: Luyện tập các nội dung có bằng chứng cho thấy cần củng cố.
+    description_en: Practise topics for which observed evidence shows a learning gap.
+    weekly_minutes: 120
+    applicable_stages: [EARLY_35, MIDDLE_50, LATE_75]
+    required_evidence: [assessment_progress]
+    prerequisites: [DIAGNOSTIC_CHECK]
+    contraindications: [NO_PRACTICE_MATERIAL]
+    requires_human_review: false
+    success_criterion: Complete the assigned practice set and document corrected errors.
+    active: true
+    catalog_version: recommend_hybrid_actions_v1
+  - action_id: DIAGNOSTIC_CHECK
+    category: diagnostic
+    title_vi: Kiểm tra chẩn đoán
+    title_en: Diagnostic knowledge check
+    description_vi: Thực hiện bài kiểm tra ngắn để xác định nội dung cần hỗ trợ.
+    description_en: Complete a short diagnostic to identify support needs.
+    weekly_minutes: 45
+    applicable_stages: [EARLY_20, EARLY_35, MIDDLE_50, LATE_75]
+    required_evidence: [course_progress]
+    prerequisites: []
+    contraindications: [ASSESSMENT_OVERLOAD]
+    requires_human_review: false
+    success_criterion: Diagnostic is completed and produces topic-level evidence.
+    active: true
+    catalog_version: recommend_hybrid_actions_v1
+  - action_id: RETRIEVAL_PRACTICE
+    category: practice
+    title_vi: Luyện tập truy hồi
+    title_en: Retrieval practice
+    description_vi: Ôn tập bằng câu hỏi truy hồi ngắn theo nội dung đã học.
+    description_en: Use short retrieval questions on already studied material.
+    weekly_minutes: 75
+    applicable_stages: [EARLY_20, EARLY_35, MIDDLE_50, LATE_75]
+    required_evidence: [course_progress]
+    prerequisites: []
+    contraindications: [NO_STUDY_MATERIAL]
+    requires_human_review: false
+    success_criterion: Complete three retrieval sessions and record accuracy.
+    active: true
+    catalog_version: recommend_hybrid_actions_v1
+  - action_id: STUDY_SCHEDULE
+    category: planning
+    title_vi: Thiết lập lịch học
+    title_en: Establish a study schedule
+    description_vi: Xây dựng lịch học khả thi dựa trên thời gian và minh chứng hiện có.
+    description_en: Establish a feasible study schedule using available evidence.
+    weekly_minutes: 30
+    applicable_stages: [EARLY_20, EARLY_35, MIDDLE_50, LATE_75]
+    required_evidence: [course_progress]
+    prerequisites: []
+    contraindications: [ACUTE_PERSONAL_CIRCUMSTANCE]
+    requires_human_review: false
+    success_criterion: A feasible weekly schedule is recorded and followed for one review cycle.
+    active: true
+    catalog_version: recommend_hybrid_actions_v1
+  - action_id: INSTRUCTOR_CONTACT
+    category: human_support
+    title_vi: Liên hệ giảng viên
+    title_en: Contact the instructor
+    description_vi: Chuẩn bị yêu cầu hỗ trợ cụ thể để giảng viên xem xét.
+    description_en: Prepare a specific support request for instructor review.
+    weekly_minutes: 30
+    applicable_stages: [EARLY_35, MIDDLE_50, LATE_75]
+    required_evidence: [course_progress]
+    prerequisites: []
+    contraindications: [CONTACT_ALREADY_OPEN]
+    requires_human_review: true
+    success_criterion: Instructor acknowledges the request and records a follow-up action.
+    active: true
+    catalog_version: recommend_hybrid_actions_v1
+  - action_id: ADVISOR_ESCALATION
+    category: human_support
+    title_vi: Chuyển cố vấn xem xét
+    title_en: Escalate for advisor review
+    description_vi: Chuyển bằng chứng hiện có cho cố vấn để quyết định hỗ trợ an toàn.
+    description_en: Escalate available evidence for an advisor's safe support decision.
+    weekly_minutes: 30
+    applicable_stages: [EARLY_20, EARLY_35, MIDDLE_50, LATE_75]
+    required_evidence: [course_progress]
+    prerequisites: []
+    contraindications: [ACTIVE_ADVISOR_CASE]
+    requires_human_review: true
+    success_criterion: Advisor reviews the evidence and records a disposition.
+    active: true
+    catalog_version: recommend_hybrid_actions_v1
+  - action_id: PROGRESS_MONITORING
+    category: monitoring
+    title_vi: Theo dõi tiến độ
+    title_en: Monitor learning progress
+    description_vi: Theo dõi lại các chỉ báo quan sát được tại mốc đánh giá kế tiếp.
+    description_en: Recheck observed learning indicators at the next review point.
+    weekly_minutes: 20
+    applicable_stages: [EARLY_20, EARLY_35, MIDDLE_50, LATE_75]
+    required_evidence: [course_progress]
+    prerequisites: []
+    contraindications: []
+    requires_human_review: false
+    success_criterion: Predefined indicators are reviewed at the next checkpoint.
+    active: true
+    catalog_version: recommend_hybrid_actions_v1
+  - action_id: LEARNING_CONSOLIDATION
+    category: consolidation
+    title_vi: Củng cố kiến thức
+    title_en: Consolidate learning
+    description_vi: Tổng hợp và liên kết các nội dung đã học bằng ghi chú có cấu trúc.
+    description_en: Consolidate studied material with structured summaries and connections.
+    weekly_minutes: 90
+    applicable_stages: [MIDDLE_50, LATE_75]
+    required_evidence: [course_progress, activity_level]
+    prerequisites: []
+    contraindications: [ASSESSMENT_OVERLOAD]
+    requires_human_review: false
+    success_criterion: Produce a structured consolidation summary for the current unit.
+    active: true
+    catalog_version: recommend_hybrid_actions_v1
