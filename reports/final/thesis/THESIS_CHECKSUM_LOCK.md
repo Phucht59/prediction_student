@@ -4,7 +4,7 @@ Status: **PASS**
 
 Protected files: **176**
 
-Aggregate SHA-256: `f031fdf36f6e525960f899c0b52ae46be5655a241fe5f80e700022bb3c4bad38`
+Aggregate SHA-256: `5ea32fbfa425a53afedf0eec8fb19f04807e4990f421ed4df0a86e10dc6e5465`
 
 The machine-readable per-file manifest is
 `artifacts/final/thesis/thesis_evidence_checksums.json`. The manifest and this

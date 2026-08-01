@@ -1,5 +1,6 @@
+status: HISTORICAL_NOT_FINAL_AUTHORITY
 model_id: cnn_bilstm_oulad
-display_name: CNN-BiLSTM OULAD
+display_name: CNN-BiLSTM OULAD historical F2
 dataset: oulad
 task: binary_student_risk
 input_contract:
@@ -45,4 +46,4 @@ artifacts:
 provenance:
   source_version: v6
   original_candidate: C_TEMPORAL_MULTITASK_W0
-  role: canonical_prediction_and_risk_profile
+  role: historical_phase7_context_only

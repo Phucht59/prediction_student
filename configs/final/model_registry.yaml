@@ -8,8 +8,8 @@ cnn_bilstm_por:
   display_name: CNN-BiLSTM POR
   dataset: student_por
   config: configs/final/cnn_bilstm_por.yaml
-cnn_bilstm_oulad:
-  model_id: cnn_bilstm_oulad
-  display_name: CNN-BiLSTM OULAD
+h1_tabular_residual_oulad:
+  model_id: h1_tabular_residual_oulad
+  display_name: H1 Tabular Residual CNN-BiLSTM OULAD
   dataset: oulad
-  config: configs/final/cnn_bilstm_oulad.yaml
+  config: configs/final/h1_tabular_residual_oulad.yaml

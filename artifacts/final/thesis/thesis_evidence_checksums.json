@@ -1,5 +1,5 @@
 {
-  "aggregate_sha256": "f031fdf36f6e525960f899c0b52ae46be5655a241fe5f80e700022bb3c4bad38",
+  "aggregate_sha256": "5ea32fbfa425a53afedf0eec8fb19f04807e4990f421ed4df0a86e10dc6e5465",
   "file_count": 176,
   "files": {
     "artifacts/audit/phase5/architecture_registry.json": "bce28ff1ae2ad54fc2d3b2c00a25fc4a4b2e542a904fa51df24fa6fe663d8c20",
@@ -106,7 +106,7 @@
     "artifacts/final/thesis/uci_stage_metrics.csv": "0d2ad411106cfb8d41e8406359885452ea4664b825ca49b7a477b1d77a0265e1",
     "artifacts/final/thesis/validation_summary.json": "d8e285db7ac80fc2aa8bda24fd1182a4e0c35a50c84c6cd08a8a0f3cfcfa3893",
     "artifacts/final_candidate_freeze/FINAL_H1_FREEZE_MANIFEST.json": "a5149c182f72c5b9273c193d57456de1b345c0765c13dfd77e9f3130310fa75f",
-    "configs/final/final_model_authority.yaml": "4a5c681d203a37ed9e86bcc056b3e81bfa232861c850f621859427118f8215d0",
+    "configs/archive/final_model_authority_phase10.yaml": "4a5c681d203a37ed9e86bcc056b3e81bfa232861c850f621859427118f8215d0",
     "reports/audit/phase5/PHASE5_DISTILLATION.md": "499ac30137f4d5dd8003018566c5be88090320e890f5ca32a0a913f2d938368e",
     "reports/audit/phase5/PHASE5_GATE.md": "d75f1a556565c7682784c87c034a35f702cd79a2236dd44b69efc05472f63130",
     "reports/audit/phase5/PHASE5_HYBRID_EXPERT_DESIGN.md": "659539a6e2defcb8b8316aa92486f4b1c6c2379ece8c8b75dc66ccb07040ed8d",

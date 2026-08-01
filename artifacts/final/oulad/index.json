@@ -15,6 +15,6 @@
     "source_artifact_path": "artifacts/final/metrics/cnn_bilstm_oulad.json",
     "source_checksum": "17110c49f9cde7d82d1583b051e9c13f2520062030e4954778b0196162c0067a",
     "checkpoint_checksum": "44fc5f5502abcbef00cdabdefabdbe20900c4c77dafbd382ac1a836e70b10fcc",
-    "feature_contract_checksum": "fcca253af167b3405e5000d88f0f5a286fd235b7075fcbf05e162e0a92f86756"
+    "feature_contract_checksum": "f871fdb30374840aeabdc915de02d1e71c230a3d16ade1737c42b04f74341802"
   }
 }

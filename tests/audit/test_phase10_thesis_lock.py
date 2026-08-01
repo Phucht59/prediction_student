@@ -13,7 +13,7 @@ REPORT = ROOT / "reports" / "final" / "thesis"
 
 
 def test_final_model_authority_is_dual_track() -> None:
-    registry = yaml.safe_load((ROOT / "configs/final/final_model_authority.yaml").read_text(encoding="utf-8"))
+    registry = yaml.safe_load((ROOT / "configs/archive/final_model_authority_phase10.yaml").read_text(encoding="utf-8"))
     assert registry["student_mat"]["macro_f1"] == 0.9014601961315334
     assert registry["student_por"]["macro_f1"] == 0.8622587167738002
     assert registry["oulad"]["legacy_endpoint"]["macro_f1"] == 0.8280835945631038

@@ -612,7 +612,7 @@ def build_checksum_lock() -> dict[str, Any]:
         ROOT / "artifacts/audit/phase9/selected_candidate.json",
         ROOT / "artifacts/audit/phase9/score_feature_authority.json",
         ROOT / "artifacts/audit/phase9/phase9_gate.json",
-        REGISTRY,
+        ROOT / "configs/archive/final_model_authority_phase10.yaml",
         *sorted(path for path in REPORT.glob("*.md") if path.name != "THESIS_CHECKSUM_LOCK.md"),
         *sorted(path for path in ART.glob("*.csv")),
         *sorted(path for path in ART.glob("*.json") if path.name not in {"thesis_evidence_checksums.json"}),
