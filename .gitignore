@@ -47,6 +47,13 @@ artifacts/preflight/
 artifacts/experiments/
 *.log
 *.tmp
+*.temp
+Thumbs.db
+.ipynb_checkpoints/
+artifacts/**/runtime/
+artifacts/**/failed_checkpoints/
+artifacts/**/debug/
+reports/**/scratch/
 *.inspect.ndjson
 
 # Local data and model materialization
@@ -99,7 +106,9 @@ db_backups/
 /test_lab/
 /notebooks/
 /backup_git/
-/archive/
+/archive/*
+!/archive/non_release_research/
+!/archive/non_release_research/**
 /artifacts/history/
 /artifacts/refactor/
 /reports/history/

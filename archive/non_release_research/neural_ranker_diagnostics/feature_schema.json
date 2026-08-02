@@ -1,0 +1,51 @@
+{
+  "numeric": [
+    "prediction_risk",
+    "uncertainty",
+    "absences",
+    "study_time",
+    "previous_failures",
+    "G1",
+    "G2",
+    "activity_level",
+    "recent_activity_trend",
+    "inactivity_streak",
+    "assessment_progress",
+    "assessments_due",
+    "grade_trend",
+    "knowledge_gap",
+    "course_progress"
+  ],
+  "feature_dim": 33,
+  "action_ids": [
+    "ADVISOR_ESCALATION",
+    "ADVISOR_SUPPORT",
+    "ASSESSMENT_COMPLETION",
+    "ASSESSMENT_PREPARATION",
+    "ATTENDANCE_IMPROVEMENT",
+    "DIAGNOSTIC_CHECK",
+    "INSTRUCTOR_CONTACT",
+    "LEARNING_CONSOLIDATION",
+    "PRACTICE_EXERCISES",
+    "PROGRESS_MONITORING",
+    "RETRIEVAL_PRACTICE",
+    "STUDY_SCHEDULE",
+    "TARGETED_PRACTICE",
+    "TARGETED_REVISION",
+    "VLE_ENGAGEMENT"
+  ],
+  "datasets": [
+    "oulad",
+    "student_mat",
+    "student_por"
+  ],
+  "stages": [
+    "EARLY_20",
+    "EARLY_35",
+    "LATE_75",
+    "MIDDLE_50",
+    "S0",
+    "S1",
+    "S2"
+  ]
+}

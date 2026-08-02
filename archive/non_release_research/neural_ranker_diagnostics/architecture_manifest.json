@@ -1,0 +1,19 @@
+{
+  "architecture": "HYBRID_CNN_BILSTM_EVIDENCE_GATED_RECOMMENDER",
+  "prediction_backbone": "Frozen Hybrid CNN-BiLSTM context",
+  "parameters": 58423,
+  "seeds": [
+    42,
+    1201,
+    2026,
+    3407,
+    7319
+  ],
+  "checkpoints": [
+    "artifacts\\recommend_hybrid\\scientific_model\\checkpoints\\seed_42.pt",
+    "artifacts\\recommend_hybrid\\scientific_model\\checkpoints\\seed_1201.pt",
+    "artifacts\\recommend_hybrid\\scientific_model\\checkpoints\\seed_2026.pt",
+    "artifacts\\recommend_hybrid\\scientific_model\\checkpoints\\seed_3407.pt",
+    "artifacts\\recommend_hybrid\\scientific_model\\checkpoints\\seed_7319.pt"
+  ]
+}
