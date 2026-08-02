@@ -1,0 +1,27 @@
+name: HYBRID_CNN_BILSTM_EVIDENCE_GATED_RECOMMENDER
+phase: 4
+diagnostic_split: DIAGNOSTIC_SEEN_V1
+folds:
+  outer: 3
+  inner: 3
+  group_key: student_key
+  construction_seed: 20260802
+  dataset_aware_balancing: true
+seeds: [42, 1201, 2026, 3407, 7319]
+search:
+  max_completed_configurations: 18
+  max_epochs: 40
+  early_stopping_patience: 6
+selection_order:
+  - safety_and_leakage_pass
+  - conditional_f1_positive
+  - macro_ndcg_at_3
+  - macro_f1
+  - conditional_f1
+  - worst_dataset_ndcg_at_3
+  - low_ece
+  - smaller_model
+constraints:
+  evidence_gap_cap_actions: [ASSESSMENT_COMPLETION, ATTENDANCE_IMPROVEMENT]
+  no_diagnostic_tuning: true
+  no_outer_tuning: true

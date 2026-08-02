@@ -1,0 +1,12 @@
+# This file is intentionally not a deployment authority until PHASE4_GATE.json passes.
+inherits: scientific_model_phase4.yaml
+release_status: PENDING_NESTED_CV_GATE
+*** Add File: artifacts/recommend_hybrid/scientific_model/diagnostic_seen_v1/README.md
+# DIAGNOSTIC_SEEN_V1
+
+The former Phase 3 test split has been inspected and is retained solely for root-cause
+diagnostics.  It is not an inner-validation split, outer-held-out split, calibration
+set, configuration-selection set, or deployment metric authority for Phase 4.
+
+The prior training/evaluation implementation is preserved as failed diagnostic code;
+its checkpoints are explicitly excluded from the final model registry.
