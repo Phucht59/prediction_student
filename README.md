@@ -222,6 +222,19 @@ sự cần tái lập nghiên cứu, phải gọi rõ qua `pipeline uci train` h
 `project.py` được giữ lại vì đây là CLI điều phối validation, evidence và
 database — không phải file viết luận văn.
 
+## Where is the code?
+
+| Need | Location |
+| --- | --- |
+| Frozen prediction authority | `configs/final/final_model_authority.yaml` |
+| Final recommendation runtime | `src/recommend_hybrid/` |
+| Recommendation CLI | `scripts/recommend_hybrid/generate_plan.py` |
+| Final validation | `scripts/recommend_hybrid/validate_final_evidence_recommender.py` |
+| Final registry and metrics | `artifacts/final/recommendation/`, `artifacts/recommend_hybrid/final/` |
+| Repository map | `docs/project_map/PROJECT_CODE_MAP.md` |
+
+The final recommendation component is an evidence-based deterministic policy consuming frozen Hybrid CNN-BiLSTM predictions. Weak supervision and the neural ranker are scientific diagnostics only.
+
 ## Cấu trúc repository
 
 ```text
