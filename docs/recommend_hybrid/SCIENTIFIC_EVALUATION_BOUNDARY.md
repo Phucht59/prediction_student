@@ -1,7 +1,15 @@
 # Scientific evaluation boundary
 
-Phase 3 validates policy correctness, not recommendation effectiveness. Permitted outputs are scenario/metamorphic pass rates, violation counts, explanation-lineage completeness and deterministic replay.
+The final authority is the Hybrid CNN-BiLSTM Evidence-Based Learning Support
+Recommender. It uses frozen Hybrid CNN-BiLSTM prediction outputs together with a
+deterministic, evidence-based policy and a safety constraint solver.
 
-The project must not report Recommendation Accuracy, Precision@K, Recall@K, NDCG@K, MRR, R², RMSE, expert approval rate, user satisfaction or causal effectiveness for Phase 3. There is no independent action ground truth, real expert review or user study.
+Technical evaluation establishes routing, temporal safety, evidence/source lineage,
+constraint compliance, serialization, and deterministic replay. It does not estimate
+ranking accuracy, educational effectiveness, causal impact, expert agreement, or user
+acceptance because independent relevance labels and deployment observations are not
+available.
 
-Scenario fixtures are controlled software tests, not labels. Ordinal priority expresses declared policy urgency, not probability that an action is suitable or effective. Any later educational-effectiveness claim requires an appropriately designed independent study and belongs outside this phase.
+The silver-label neural-ranker investigation is a `NON_RELEASE_RESEARCH_DIAGNOSTIC`.
+It is excluded because shortcut-confounded targets do not support a student-specific
+ranking claim. No neural-ranker checkpoint or prediction is part of the final registry.

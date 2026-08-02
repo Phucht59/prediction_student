@@ -1,7 +1,13 @@
-system_id: student_risk_recommendation_system
-official_name: Student Risk-Based Recommendation System
-status: selected
-expert_status: PENDING_EXPERT_LABELS
+system_id: hybrid_cnn_bilstm_evidence_recommender
+official_name: Hybrid CNN-BiLSTM Evidence-Based Learning Support Recommender
+status: FINAL_RELEASE
+prediction_backbone: FROZEN_HYBRID_CNN_BILSTM
+recommendation_component: EVIDENCE_BASED_KNOWLEDGE_RECOMMENDATION_POLICY
+neural_ranker_enabled: false
+neural_ranker_status: NON_RELEASE_RESEARCH_DIAGNOSTIC
+recommendation_training_enabled: false
+silver_labels_role: SCIENTIFIC_DIAGNOSTIC_ONLY
+expert_status: NOT_AVAILABLE
+deployment_status: NOT_DEPLOYED
 causal_effectiveness_claimed: false
-training_enabled: false
-source_artifact_path: artifacts/final/recommendation/recommendation_technical_validation.json
+source_artifact_path: artifacts/recommend_hybrid/final/FINAL_RELEASE_MANIFEST.json

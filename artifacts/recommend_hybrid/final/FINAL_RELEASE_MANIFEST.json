@@ -14,23 +14,23 @@
   "evaluation_artifact_hashes": {
     "artifacts/recommend_hybrid/final/ABLATION_SUMMARY.json": "6d3066b198df1e5ceef63097ed29dfe269c25460f251a8fc2987b4a45913df04",
     "artifacts/recommend_hybrid/final/BOOTSTRAP_CONFIDENCE_INTERVALS.json": "9e3b35a52b46787f93a3071473448f5cffb76b32ef31223b801cc3c7927cff93",
-    "artifacts/recommend_hybrid/final/FINAL_METRICS.json": "56ef92ac384aef2565da67b16f49db6f39d9a3508ecf00abad4eaf8db14585e1",
-    "docs/recommend_hybrid/MODEL_CARD.md": "6cdcc5054128c12d38f2006f957cc441ce3e9d4e175481281f802fc843903bdd",
-    "docs/recommend_hybrid/THESIS_RECOMMENDATION_SYSTEM.md": "5f3f1cddec4d114d4eb7fdd0cb2ee9a6300e9020aeae17c322243061f4d791b7",
+    "artifacts/recommend_hybrid/final/FINAL_METRICS.json": "25e1b2c5da73f293786408b8286c07669d91c70530dd3b2b9997b16e0d0d14f3",
+    "docs/recommend_hybrid/MODEL_CARD.md": "0d763c7cc373beb8fc9fb5956d7f7fece4c48ea34f885fbf719fd3f8b40f386f",
+    "docs/recommend_hybrid/THESIS_RECOMMENDATION_SYSTEM.md": "ba332ff3b600b6d1186a57d56f8557cbd07a839bb3806d47b565cef5554b59a9",
     "reports/recommend_hybrid/ABLATION_RESULTS.csv": "5878ff68824a7313f3d5d203a50ff8e4e0995cba325e5338ca5cef690e8c12f5",
     "reports/recommend_hybrid/DATASET_STAGE_RESULTS.csv": "2d31e95073f3677b065b8a81b8d3324ccf2ddd973804acf3ec9baf27243483ba",
-    "reports/recommend_hybrid/FINAL_RESULTS.md": "1cbf7fbddadc8af6a457c9e698533d230228b973fb5b23919f04751ee930f5dd",
-    "reports/recommend_hybrid/FINAL_VALIDATION.md": "cb08255c8e89dec464da932343597296213796e7e3d080dc310cf9001541f4e0",
-    "reports/recommend_hybrid/SCIENTIFIC_CLAIM_BOUNDARY.md": "d9154009da7ed5a56556dd2d360ba36d025c585567377631440c0c619aee2fb3"
+    "reports/recommend_hybrid/FINAL_RESULTS.md": "5de68bb7c0812e0ccf8adbb0d9d5c484f8f5fd476a53aa395c765d6437b3a74e",
+    "reports/recommend_hybrid/FINAL_VALIDATION.md": "43bf142b6534fba54ba0dbbb09fdf802accd0aa5de1f83c0cdf170528310c0b0",
+    "reports/recommend_hybrid/SCIENTIFIC_CLAIM_BOUNDARY.md": "7a8fd2587b9b8e5740e98dcf0d550f8a6fe0ec52de56508c4d7979572f11dff6"
   },
   "model_authority": "RECOMMEND_HYBRID_MODEL_AUTHORITY",
   "parameter_count": 160492,
-  "planning_config_sha256": "150b704f853351b283249c67a51a0494fd0345d63e5a684acfc97516046cca54",
+  "planning_config_sha256": "a7cb3e8f23f0d4ef76a30737d3a82312ac880f2d3ac77c4d7cba70cb70a2e78b",
   "policy_hashes": {
-    "configs/recommend_hybrid/policy_common.yaml": "8041a1fd6df8393b2041bdeb168ac9144ac173c4b323266d26083f99e31e687d",
-    "configs/recommend_hybrid/policy_oulad.yaml": "96cd0a927f2233fe834a95a63340fd6e6aa5312ceb243c360d3e82bc6a4b35dc",
-    "configs/recommend_hybrid/policy_uci_mat.yaml": "d54d9b3d3c401ad9dd04b3620bf6aa731eb2d8ff9c1902763b47f9d5d1fd5733",
-    "configs/recommend_hybrid/policy_uci_por.yaml": "d8752e28723573ca36e7271a0b37b7205473ea30d834a3b890e578eee525bab8"
+    "configs/recommend_hybrid/policy_common.yaml": "dae66b09238f14d0ad0452ea7cfdf8c6d8ffaf29b3c92ce04998add6ba1d86ad",
+    "configs/recommend_hybrid/policy_oulad.yaml": "db90b27b056d9323eda0f4311ef513fb42f3c2ca30779fafa6549c3b300a6d83",
+    "configs/recommend_hybrid/policy_uci_mat.yaml": "cc49358be287a2d3e25381d8b77200587cdf4ac1e1fdc7330c1cba360477d210",
+    "configs/recommend_hybrid/policy_uci_por.yaml": "841fe4ff4fa89ef93f9afc7e4c3f6ff098a99cc334d698c739aef85a68193b23"
   },
   "prediction_baseline_changed": false,
   "repository_commit": "c419afa5406d9c5907aa4554118bed552901939a",
