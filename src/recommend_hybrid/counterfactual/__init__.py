@@ -10,7 +10,17 @@ from .contracts import (
     UtilityStatus,
 )
 from .effects import CounterfactualEffectCatalog
-from .ranker import CounterfactualUtilityConfig, CounterfactualUtilityRanker, RiskPredictor
+from .oulad_tensor import (
+    FrozenHybridTensorRiskPredictor,
+    OULADCounterfactualScorer,
+    OULADTensorCounterfactualSimulator,
+    OULADTensorEffectCatalog,
+)
+from .ranker import (
+    CounterfactualUtilityConfig,
+    CounterfactualUtilityRanker,
+    RiskPredictor,
+)
 from .simulator import CounterfactualStateSimulator
 
 __all__ = [
@@ -22,6 +32,10 @@ __all__ = [
     "CounterfactualUtilityConfig",
     "CounterfactualUtilityRanker",
     "FeatureChange",
+    "FrozenHybridTensorRiskPredictor",
+    "OULADCounterfactualScorer",
+    "OULADTensorCounterfactualSimulator",
+    "OULADTensorEffectCatalog",
     "RiskEstimate",
     "RiskPredictor",
     "SimulationStatus",
