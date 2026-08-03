@@ -1,0 +1,55 @@
+{
+  "action_policy_hash": "aa2217f453f92cc3646bf1efb21a0cf1510877e7a5af27b921e2818bf85f835d",
+  "authority_architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+  "authority_parameter_count": 160492,
+  "checkpoint_release_manifest": {
+    "path": "artifacts/recommend_hybrid/RESIDUAL_CHECKPOINT_RELEASE_MANIFEST.json",
+    "sha256": "000cd11870aacdbf2dacbbd24c77add570dd50265e99c6e80311f7f1fde87711"
+  },
+  "claim_boundary": "MODEL_ESTIMATED_RISK_REDUCTION_NOT_CAUSAL_EFFECT",
+  "code_tree_hash": "7e0727fe8b7224532540de22b21c39e77fd776c7abaf6fb16593ba5fff2ee013",
+  "config_hash": "841653576db6a144d2ecf06698a25a8726437cf0fd3e5236322e2518c6d37e0a",
+  "created_at_utc": "2026-08-03T16:53:19.069525Z",
+  "evaluation_command": {
+    "bootstrap_replicates": 1000,
+    "folds": [
+      0,
+      1,
+      2
+    ],
+    "max_records_per_fold_stage": null,
+    "script": "scripts/recommend_hybrid/evaluate_counterfactual_recommender.py",
+    "seeds": [
+      42,
+      1201,
+      2026,
+      3407,
+      7319
+    ],
+    "stages": [
+      "E1_EARLY_20PCT",
+      "E2_EARLY_35PCT",
+      "M1_MIDDLE_FROZEN",
+      "L1_LATE_75PCT"
+    ]
+  },
+  "preprocessor_hashes": [
+    "107740eaf348b5af13e329675d1ae772baafc4bc428d2422b3e98c4bc54d486e",
+    "741e3510c97f1d09d1bdd4ee8fed2936055affd224a03afceb4c5036c61424e3",
+    "9fb91aaea0c59c28deb65d8ee0d0ed75181d38d8a191f3a53d27273faeeec97b",
+    "a80d12db5dff6b1274a8b1f3a89ff9923707ef9fa0b0e3ac26a1e7e520e38813",
+    "b53f72b9f67484aa1b76e6c48624ac772599aeb9c746ae9e6d06dc1786510088",
+    "c32f20cf7f8d277257947f0ec6d2cb4d5a996db9a641d61e04e44d1b535d24a5"
+  ],
+  "raw_manifest": {
+    "path": "data/manifests/extension_raw_manifest.json",
+    "sha256": "cd6f397b7ffad59c66fcbc5d01e85824d2f55bcfbca6ef91dad8b85492c08585"
+  },
+  "recommendation_manifest_sha256": "4d5af44c89628e7f2ba9d13205af95efe7d8a5307a51e3d4602de746b16fc52e",
+  "schema_version": "full_evaluation_input_registry_v1",
+  "source_commit": "851e169340e23fd9af75e8f6ee0fd4232e079e7d",
+  "split_manifest": {
+    "path": "data/processed/study_c_oulad/manifests/split_manifest.csv",
+    "sha256": "5e5e4d9ab48a6049f86cdf2451f4302bc44f2896a2f23a23494bc95f549b97d4"
+  }
+}

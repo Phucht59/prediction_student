@@ -1,0 +1,23 @@
+{
+  "completed_at": "2026-08-03T18:25:28.765892Z",
+  "completed_batch_count": 12,
+  "completed_batches": [
+    "fold_0__E1_EARLY_20PCT",
+    "fold_1__E1_EARLY_20PCT",
+    "fold_2__E1_EARLY_20PCT",
+    "fold_0__E2_EARLY_35PCT",
+    "fold_1__E2_EARLY_35PCT",
+    "fold_2__E2_EARLY_35PCT",
+    "fold_0__M1_MIDDLE_FROZEN",
+    "fold_1__M1_MIDDLE_FROZEN",
+    "fold_2__M1_MIDDLE_FROZEN",
+    "fold_0__L1_LATE_75PCT",
+    "fold_1__L1_LATE_75PCT",
+    "fold_2__L1_LATE_75PCT"
+  ],
+  "errors": [],
+  "full_cohort_record_count": 62525,
+  "schema_version": "full_cohort_progress_v1",
+  "started_at": "2026-08-03T16:53:19.182245Z",
+  "status": "PASS"
+}

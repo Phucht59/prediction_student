@@ -1,0 +1,46 @@
+# Counterfactual Success Metric Audit
+
+{
+  "schema_version": "success_metric_audit_v1",
+  "status": "PASS",
+  "claim_boundary": "MODEL_ESTIMATED_RISK_REDUCTION_NOT_CAUSAL_EFFECT",
+  "thresholds": {
+    "Success@0.00": 1.0,
+    "Success@0.01": 1.0,
+    "Success@0.02": 0.8767119984567902,
+    "Success@0.03": 0.785108024691358,
+    "Success@0.05": 0.6363088348765432,
+    "Success@0.10": 0.39035976080246915
+  },
+  "counts": {
+    "denominator_scored_records": 41472,
+    "successful_records": {
+      "0.00": 41472,
+      "0.01": 41472,
+      "0.02": 36359,
+      "0.03": 32560,
+      "0.05": 26389,
+      "0.10": 16189
+    },
+    "fallback_records": 21053,
+    "abstain_records": 8303,
+    "no_candidate_records": 12750,
+    "negative_risk_reduction_records": 0,
+    "zero_risk_reduction_records": 0,
+    "between_zero_and_0_01_records": 0,
+    "at_least_0_01_records": 41472
+  },
+  "checks": {
+    "denominator_is_model_scorable_only": true,
+    "fallbacks_excluded_from_success_denominator": true,
+    "direct_baseline_minus_counterfactual_difference": true,
+    "top_action_join_coverage": 1.0,
+    "duplicate_record_count": 0,
+    "risk_values_not_rounded_before_metric": true,
+    "candidate_threshold_from_frozen_config": 0.01,
+    "all_scored_records_meet_minimum_threshold": true,
+    "leakage_fields_present": [],
+    "max_over_candidates_is_per_record_estimand": true
+  },
+  "interpretation": "Success metrics describe the proportion of model-scored rows whose selected counterfactual risk reduction crosses each threshold. They do not estimate treatment success or causal effectiveness."
+}

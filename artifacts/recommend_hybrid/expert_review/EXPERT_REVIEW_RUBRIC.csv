@@ -1,0 +1,11 @@
+criterion_id,criterion,scale
+C01,Tín hiệu quan sát trước cutoff có nhất quán với đề xuất không?,1=không nhất quán; 5=rất nhất quán
+C02,Mức độ phù hợp của hành động với bối cảnh học tập,1=không phù hợp; 5=rất phù hợp
+C03,Tính khả thi về thời lượng/công sức,1=không khả thi; 5=rất khả thi
+C04,Tính rõ ràng của lý do/candidate evidence,1=không rõ; 5=rất rõ
+C05,Mức độ cần xem xét của con người trước khi áp dụng,1=không cần; 5=phải xem xét
+C06,Rủi ro gây quá tải hoặc khuyến nghị không phù hợp,1=rủi ro cao; 5=rủi ro thấp
+C07,"Nếu fallback/abstain, quyết định không hành động có hợp lý không?",1=không hợp lý; 5=rất hợp lý
+C08,Tính đa dạng và ưu tiên của candidate set,1=không phù hợp; 5=rất phù hợp
+C09,Mức độ tin cậy để dùng như hỗ trợ quyết định (không phải nguyên nhân nhân quả),1=không tin cậy; 5=có thể hỗ trợ
+C10,Đánh giá tổng thể,1=không chấp nhận; 5=chấp nhận

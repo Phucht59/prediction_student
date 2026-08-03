@@ -17,7 +17,7 @@
     },
     {
       "path": "artifacts\\recommend_hybrid\\counterfactual\\validation.json",
-      "sha256": "ab78bcd34bfb359a1629b9cb308ce126e35f24e8babb828971eaa190edc0ee77",
+      "sha256": "5a34791628100c2ab5fdac5fbf4370f389b9ed9319d427ede4c3375ad21f77c4",
       "size_bytes": 2229
     },
     {
@@ -42,7 +42,7 @@
     },
     {
       "path": "reports\\recommend_hybrid\\COUNTERFACTUAL_VALIDATION.md",
-      "sha256": "542247ad0a835ef6b34d9cd36520b6a0016fb31d7ac557462e0700af722cc6db",
+      "sha256": "9f5381942dbd1813d71fd8451fb3bfec593dc81b9387da95278af60d77f6d49c",
       "size_bytes": 977
     },
     {
@@ -105,6 +105,34 @@
   "prediction_backbone": "FROZEN_HYBRID_CNN_BILSTM",
   "recommendation_component": "CONSTRAINED_COUNTERFACTUAL_RISK_REDUCTION_RECOMMENDER",
   "release_status": "CANDIDATE_VALIDATED_PENDING_EXPERT_REVIEW",
+  "full_cohort_evaluation": {
+    "artifact_root": "artifacts/recommend_hybrid/counterfactual/full_cohort",
+    "status": "PASS",
+    "record_count": 62525,
+    "scored_count": 41472,
+    "scored_coverage": 0.6632866853258697,
+    "fallback_count": 21053,
+    "fallback_rate": 0.33671331467413035,
+    "mean_top_risk_reduction": 0.11139249478619151,
+    "median_top_risk_reduction": 0.07388505339622489,
+    "success_at_0_01": 1.0,
+    "success_at_0_05": 0.6363088348765432,
+    "threshold_crossing_rate": 0.2005888446649583,
+    "top_action_share": 0.5804398148148148,
+    "action_diversity": 5,
+    "success_metric_audit": "PASS",
+    "coverage_audit": "PASS",
+    "stability_audit": "PASS_DESCRIPTIVE_ENSEMBLE_ONLY",
+    "baseline_comparison": "PASS",
+    "deterministic_replay": "PASS"
+  },
+  "expert_review": {
+    "status": "PREPARED_NOT_COMPLETED",
+    "case_count": 160,
+    "artifact_root": "artifacts/recommend_hybrid/expert_review",
+    "future_outcomes_included": false,
+    "protected_attributes_included": false
+  },
   "schema_version": "counterfactual_candidate_release_v1",
   "scientific_guards": {
     "causal_effect_claimed": false,

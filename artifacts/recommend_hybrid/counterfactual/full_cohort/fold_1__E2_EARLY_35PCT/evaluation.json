@@ -1,0 +1,105 @@
+{
+  "claim_boundary": "MODEL_ESTIMATED_RISK_REDUCTION_NOT_CAUSAL_EFFECT",
+  "configuration": {
+    "bootstrap_replicates": 1000,
+    "bundle_stages": [
+      "E2_EARLY_35PCT"
+    ],
+    "folds": [
+      1
+    ],
+    "max_records_per_fold_stage": null,
+    "reference_scope": "TRAINING_FOLD_COURSE_STAGE_ONLY",
+    "reporting_stage_aliases": {
+      "E2_EARLY_35PCT": "E2_EARLY_35PCT"
+    },
+    "sampling": "deterministic_course_round_robin",
+    "seeds": [
+      42,
+      1201,
+      2026,
+      3407,
+      7319
+    ]
+  },
+  "generated_at": "2026-08-03T17:27:43.454633Z",
+  "grouped": {
+    "fold_1:EARLY_35": {
+      "claim_boundary": "MODEL_ESTIMATED_RISK_REDUCTION_NOT_CAUSAL_EFFECT",
+      "fallback_count": 1991,
+      "fallback_rate": 0.3755186721991701,
+      "mean_selected_actions": 2.3464730290456433,
+      "mean_selected_workload_minutes": 121.90022632968692,
+      "mean_top_risk_reduction": 0.11821977813972587,
+      "mean_top_utility_score": 0.0100937428946961,
+      "median_top_risk_reduction": 0.09075427055358887,
+      "outcome_labels_used_for_ranking": false,
+      "record_count": 5302,
+      "scored_count": 3311,
+      "scored_coverage": 0.6244813278008299,
+      "status_frequency": {
+        "COUNTERFACTUAL_SCORED": 3311,
+        "POLICY_FALLBACK": 1991
+      },
+      "success_at_0_01": 1.0,
+      "success_at_0_05": 0.7160978556327393,
+      "threshold_crossing_denominator": 1578,
+      "threshold_crossing_rate": 0.21419518377693283,
+      "top_action_frequency": {
+        "ASSESSMENT_COMPLETION": 95,
+        "RETRIEVAL_PRACTICE": 109,
+        "STUDY_SCHEDULE": 1871,
+        "VLE_ENGAGEMENT": 1236
+      },
+      "top_action_share": 0.5650860767139837,
+      "unique_top_actions": 4
+    }
+  },
+  "overall": {
+    "claim_boundary": "MODEL_ESTIMATED_RISK_REDUCTION_NOT_CAUSAL_EFFECT",
+    "fallback_count": 1991,
+    "fallback_rate": 0.3755186721991701,
+    "mean_risk_reduction_bootstrap_95": {
+      "lower_95": 0.11433704388365869,
+      "mean": 0.11821977813972587,
+      "replicates": 1000,
+      "upper_95": 0.12193999036531125
+    },
+    "mean_selected_actions": 2.3464730290456433,
+    "mean_selected_workload_minutes": 121.90022632968692,
+    "mean_top_risk_reduction": 0.11821977813972587,
+    "mean_top_utility_score": 0.0100937428946961,
+    "median_top_risk_reduction": 0.09075427055358887,
+    "outcome_labels_used_for_ranking": false,
+    "record_count": 5302,
+    "scored_count": 3311,
+    "scored_coverage": 0.6244813278008299,
+    "status_frequency": {
+      "COUNTERFACTUAL_SCORED": 3311,
+      "POLICY_FALLBACK": 1991
+    },
+    "success_at_0_01": 1.0,
+    "success_at_0_05": 0.7160978556327393,
+    "threshold_crossing_denominator": 1578,
+    "threshold_crossing_rate": 0.21419518377693283,
+    "top_action_frequency": {
+      "ASSESSMENT_COMPLETION": 95,
+      "RETRIEVAL_PRACTICE": 109,
+      "STUDY_SCHEDULE": 1871,
+      "VLE_ENGAGEMENT": 1236
+    },
+    "top_action_share": 0.5650860767139837,
+    "unique_top_actions": 4
+  },
+  "schema_version": "counterfactual_oulad_evaluation_v2",
+  "scientific_guards": {
+    "causal_effect_claimed": false,
+    "date_unregistration_used_for_ranking": false,
+    "expert_labels_required": false,
+    "final_result_used_for_ranking": false,
+    "outer_validation_labels_used_for_tuning": false,
+    "silver_labels_used": false,
+    "target_used_for_ranking": false
+  },
+  "status": "PASS"
+}
