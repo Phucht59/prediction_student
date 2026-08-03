@@ -2,27 +2,27 @@
   "artifacts": [
     {
       "path": "artifacts\\recommend_hybrid\\counterfactual\\preflight.json",
-      "sha256": "25a8daa6b24b00621d5b07a7e4a026472600187df54fa65df9d9e31893a8f6fe",
+      "sha256": "5cdca672db7c1ffc86f5b30043907e5111e8f8a624d9da4b73eaf7af02a007fd",
       "size_bytes": 221190
     },
     {
       "path": "artifacts\\recommend_hybrid\\counterfactual\\checkpoint_authority_validation.json",
-      "sha256": "5fea8dfdad61da13c8ac19e9675d243b4d03df76f0d166f0e4b63a8e8ebd3844",
+      "sha256": "799eabb42a2777e1a5aceff3a08b98c49535c40afd053216b0c64fa0fa347b77",
       "size_bytes": 193511
     },
     {
       "path": "artifacts\\recommend_hybrid\\counterfactual\\real_checkpoint_smoke.json",
-      "sha256": "e2f199ad928e7ff3339125a0742bf24ddd1fb45fdf8bda803f115729b8e333b9",
+      "sha256": "f3b62833869066cd207f40dd7681bedea6ff0cf0a5e84ec86c8635796378efe3",
       "size_bytes": 6854
     },
     {
       "path": "artifacts\\recommend_hybrid\\counterfactual\\validation.json",
-      "sha256": "9e7880cf02fc054526d8f91a26ddf397cfb8061920090bc1a1c221528b190172",
+      "sha256": "ab78bcd34bfb359a1629b9cb308ce126e35f24e8babb828971eaa190edc0ee77",
       "size_bytes": 2229
     },
     {
       "path": "artifacts\\recommend_hybrid\\counterfactual\\evaluation.json",
-      "sha256": "9d5d57b72bafbf3c975b1e40732b8bd040fc859bb84053b6e8a4db35152ff4d3",
+      "sha256": "9b27ec27e1df82be4f68efd26496ee353300baacf845fbf4ead5e7a5972ca9cd",
       "size_bytes": 15546
     },
     {
@@ -42,7 +42,7 @@
     },
     {
       "path": "reports\\recommend_hybrid\\COUNTERFACTUAL_VALIDATION.md",
-      "sha256": "2b1ce240bdd1fb932d8f911d4f28702389fee4883507405b39dc37471f7c2abc",
+      "sha256": "542247ad0a835ef6b34d9cd36520b6a0016fb31d7ac557462e0700af722cc6db",
       "size_bytes": 977
     },
     {
@@ -62,7 +62,7 @@
     },
     {
       "path": "artifacts\\recommend_hybrid\\counterfactual\\historical_trajectory.json",
-      "sha256": "16b98d8d337a4a28704e82bccac486bcd301181723d4009ff690797260959d94",
+      "sha256": "6ad787e9f51e2695e49e492ba146cb1889226a94f94217272cda3680d4459eaa",
       "size_bytes": 7802
     },
     {
@@ -101,7 +101,7 @@
     ],
     "verify_hashes": true
   },
-  "generated_at": "2026-08-03T16:37:19.021157Z",
+  "generated_at": "2026-08-03T16:45:02.632317Z",
   "prediction_backbone": "FROZEN_HYBRID_CNN_BILSTM",
   "recommendation_component": "CONSTRAINED_COUNTERFACTUAL_RISK_REDUCTION_RECOMMENDER",
   "release_status": "CANDIDATE_VALIDATED_PENDING_EXPERT_REVIEW",

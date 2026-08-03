@@ -1,6 +1,6 @@
 # Checkpoint Authority Validation
 
-- Generated: `2026-08-03T16:40:28.283608+00:00`
+- Generated: `2026-08-03T16:42:35.502474+00:00`
 - Status: **PASS**
 - Release namespace: `artifacts/recommend_hybrid/checkpoints/residual_cnn_bilstm`
 - Recommendation manifest: `artifacts\recommend_hybrid\RECOMMEND_HYBRID_CHECKPOINT_MANIFEST.json`

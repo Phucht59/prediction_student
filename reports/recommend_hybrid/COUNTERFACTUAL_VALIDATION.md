@@ -1,7 +1,7 @@
 # Counterfactual recommender validation
 
 - Status: `PASS`
-- Generated at: `2026-08-03T16:37:50.051865Z`
+- Generated at: `2026-08-03T16:42:47.923632Z`
 - Claim boundary: `MODEL_ESTIMATED_RISK_REDUCTION_NOT_CAUSAL_EFFECT`
 - Counterfactual tests passed: `31`
 - Static validation: `PASS`

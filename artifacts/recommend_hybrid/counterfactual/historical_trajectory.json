@@ -139,7 +139,7 @@
     }
   },
   "claim_boundary": "OBSERVATIONAL_ASSOCIATION_ONLY_NOT_CAUSAL_EFFECT",
-  "generated_at": "2026-08-03T16:37:18.440386Z",
+  "generated_at": "2026-08-03T16:45:02.027577Z",
   "overall": {
     "aligned_favorable_outcome_rate": 0.6949152542372882,
     "aligned_mean_next_stage_risk": 0.2880290431712391,

@@ -185,7 +185,7 @@
   "decision_threshold": 0.49262160062789917,
   "fold": 0,
   "frozen_preprocessor_hash": "c32f20cf7f8d277257947f0ec6d2cb4d5a996db9a641d61e04e44d1b535d24a5",
-  "generated_at": "2026-08-03T16:35:08.484867Z",
+  "generated_at": "2026-08-03T16:42:52.714615Z",
   "ranked_action_count": 2,
   "rejected_action_count": 2,
   "release_checkpoint_path": "artifacts\\recommend_hybrid\\checkpoints\\residual_cnn_bilstm\\shared\\outer0_seed42.pt",

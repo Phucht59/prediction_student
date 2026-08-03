@@ -5523,7 +5523,7 @@
       "status": "PASS"
     }
   ],
-  "generated_at": "2026-08-03T16:40:28.275033Z",
+  "generated_at": "2026-08-03T16:42:35.494847Z",
   "recommendation_manifest": "artifacts\\recommend_hybrid\\RECOMMEND_HYBRID_CHECKPOINT_MANIFEST.json",
   "release_model_class": "src.models.oulad_multitask.CNNBiLSTMOULAD",
   "release_namespace": "artifacts/recommend_hybrid/checkpoints/residual_cnn_bilstm",
