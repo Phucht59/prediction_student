@@ -34,6 +34,7 @@ from src.recommend_hybrid.counterfactual.oulad_tensor import (
     OULADTensorCounterfactualSimulator,
     OULADTensorEffectCatalog,
 )
+from src.recommend_hybrid.checkpoint_authority import validate_checkpoint_authority
 from src.recommend_hybrid.prediction_adapter import (
     AGGREGATE_DIMENSION,
     ARCHITECTURE_HASH,
@@ -201,6 +202,25 @@ def _synthetic_model_inputs(
 
 
 def main() -> int:
+    authority = validate_checkpoint_authority(ROOT)
+    if authority["status"] != "PASS":
+        payload = {
+            "schema_version": "real_checkpoint_counterfactual_smoke_v3",
+            "generated_at": _utc_now(),
+            "status": "FAIL",
+            "claim_boundary": CLAIM_BOUNDARY,
+            "failure_reason": "structural checkpoint authority did not PASS",
+            "checkpoint_authority_status": authority["status"],
+            "failed_gate_count": authority["failed_gate_count"],
+            "scientific_guards": {
+                "raw_oulad_data_used": False,
+                "educational_effect_claimed": False,
+                "failed_closed_before_scoring": True,
+            },
+        }
+        _write_json(OUT, payload)
+        print(json.dumps(payload, indent=2, sort_keys=True))
+        return 1
     adapter = _release_adapter()
     inputs = _synthetic_model_inputs(adapter)
     baseline = adapter.predict(inputs)
