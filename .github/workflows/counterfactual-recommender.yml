@@ -11,8 +11,11 @@ on:
       - "configs/recommend_hybrid/planning.yaml"
       - "tests/recommend_hybrid/counterfactual/**"
       - "scripts/recommend_hybrid/validate_counterfactual.py"
+      - "scripts/recommend_hybrid/preflight_counterfactual_evaluation.py"
       - "scripts/recommend_hybrid/evaluate_counterfactual_recommender.py"
       - "scripts/recommend_hybrid/evaluate_historical_trajectories.py"
+      - "scripts/recommend_hybrid/build_counterfactual_candidate_release.py"
+      - "scripts/recommend_hybrid/smoke_real_checkpoint_counterfactual.py"
       - "docs/recommend_hybrid/COUNTERFACTUAL_RECOMMENDER.md"
       - ".github/workflows/counterfactual-recommender.yml"
   workflow_dispatch:
@@ -46,11 +49,14 @@ jobs:
       - name: Validate counterfactual recommender
         run: python scripts/recommend_hybrid/validate_counterfactual.py
 
-      - name: Compile evaluation entrypoints
+      - name: Compile release and evaluation entrypoints
         run: |
           python -m py_compile \
+            scripts/recommend_hybrid/preflight_counterfactual_evaluation.py \
             scripts/recommend_hybrid/evaluate_counterfactual_recommender.py \
-            scripts/recommend_hybrid/evaluate_historical_trajectories.py
+            scripts/recommend_hybrid/evaluate_historical_trajectories.py \
+            scripts/recommend_hybrid/build_counterfactual_candidate_release.py \
+            scripts/recommend_hybrid/smoke_real_checkpoint_counterfactual.py
 
       - name: Upload validation evidence
         if: always()
