@@ -12,6 +12,8 @@ on:
       - "tests/recommend_hybrid/counterfactual/**"
       - "scripts/recommend_hybrid/validate_counterfactual.py"
       - "scripts/recommend_hybrid/evaluate_counterfactual_recommender.py"
+      - "scripts/recommend_hybrid/evaluate_historical_trajectories.py"
+      - "docs/recommend_hybrid/COUNTERFACTUAL_RECOMMENDER.md"
       - ".github/workflows/counterfactual-recommender.yml"
   workflow_dispatch:
 
@@ -44,8 +46,11 @@ jobs:
       - name: Validate counterfactual recommender
         run: python scripts/recommend_hybrid/validate_counterfactual.py
 
-      - name: Compile outer-fold evaluator
-        run: python -m py_compile scripts/recommend_hybrid/evaluate_counterfactual_recommender.py
+      - name: Compile evaluation entrypoints
+        run: |
+          python -m py_compile \
+            scripts/recommend_hybrid/evaluate_counterfactual_recommender.py \
+            scripts/recommend_hybrid/evaluate_historical_trajectories.py
 
       - name: Upload validation evidence
         if: always()
