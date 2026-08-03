@@ -48,7 +48,7 @@ def _write_report(payload: dict[str, Any]) -> None:
     ]
     if failed:
         lines.extend(
-            f"- `{gate.get('name')}` — {gate.get('detail', '')}"
+            f"- `{gate.get('name')}` — {str(gate.get('detail', '')).rstrip()}"
             for gate in failed
         )
     else:

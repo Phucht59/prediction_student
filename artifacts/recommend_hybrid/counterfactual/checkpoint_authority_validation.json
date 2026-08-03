@@ -2498,7 +2498,7 @@
       "status": "FAIL"
     }
   ],
-  "generated_at": "2026-08-03T15:43:01.020991Z",
+  "generated_at": "2026-08-03T15:43:55.273798Z",
   "recommendation_manifest": "artifacts\\recommend_hybrid\\RECOMMEND_HYBRID_CHECKPOINT_MANIFEST.json",
   "release_mapping": "artifacts\\final\\unified_stage_aware_oulad\\checkpoint_stage_mapping.json",
   "release_model_class": "src.models.oulad_multitask.CNNBiLSTMOULAD",

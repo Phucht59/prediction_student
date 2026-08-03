@@ -1,6 +1,6 @@
 # Checkpoint Authority Validation
 
-- Generated: `2026-08-03T15:43:01.028010+00:00`
+- Generated: `2026-08-03T15:43:55.277819+00:00`
 - Status: **FAIL**
 - Release mapping: `artifacts\final\unified_stage_aware_oulad\checkpoint_stage_mapping.json`
 - Recommendation manifest: `artifacts\recommend_hybrid\RECOMMEND_HYBRID_CHECKPOINT_MANIFEST.json`
@@ -14,49 +14,49 @@ This is technical checkpoint authority validation only. It does not establish ed
 ## Gate failures
 
 - `authority_model_strict_load` — RuntimeError: Error(s) in loading state_dict for CNNBiLSTMTabularResidualOULAD:
-	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias". 
+	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias".
 - `parameter_count` — actual=150202 expected=160492
 - `authority_model_strict_load` — RuntimeError: Error(s) in loading state_dict for CNNBiLSTMTabularResidualOULAD:
-	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias". 
+	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias".
 - `parameter_count` — actual=150202 expected=160492
 - `authority_model_strict_load` — RuntimeError: Error(s) in loading state_dict for CNNBiLSTMTabularResidualOULAD:
-	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias". 
+	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias".
 - `parameter_count` — actual=150202 expected=160492
 - `authority_model_strict_load` — RuntimeError: Error(s) in loading state_dict for CNNBiLSTMTabularResidualOULAD:
-	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias". 
+	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias".
 - `parameter_count` — actual=150202 expected=160492
 - `authority_model_strict_load` — RuntimeError: Error(s) in loading state_dict for CNNBiLSTMTabularResidualOULAD:
-	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias". 
+	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias".
 - `parameter_count` — actual=150202 expected=160492
 - `authority_model_strict_load` — RuntimeError: Error(s) in loading state_dict for CNNBiLSTMTabularResidualOULAD:
-	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias". 
+	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias".
 - `parameter_count` — actual=150202 expected=160492
 - `authority_model_strict_load` — RuntimeError: Error(s) in loading state_dict for CNNBiLSTMTabularResidualOULAD:
-	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias". 
+	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias".
 - `parameter_count` — actual=150202 expected=160492
 - `authority_model_strict_load` — RuntimeError: Error(s) in loading state_dict for CNNBiLSTMTabularResidualOULAD:
-	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias". 
+	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias".
 - `parameter_count` — actual=150202 expected=160492
 - `authority_model_strict_load` — RuntimeError: Error(s) in loading state_dict for CNNBiLSTMTabularResidualOULAD:
-	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias". 
+	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias".
 - `parameter_count` — actual=150202 expected=160492
 - `authority_model_strict_load` — RuntimeError: Error(s) in loading state_dict for CNNBiLSTMTabularResidualOULAD:
-	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias". 
+	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias".
 - `parameter_count` — actual=150202 expected=160492
 - `authority_model_strict_load` — RuntimeError: Error(s) in loading state_dict for CNNBiLSTMTabularResidualOULAD:
-	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias". 
+	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias".
 - `parameter_count` — actual=150202 expected=160492
 - `authority_model_strict_load` — RuntimeError: Error(s) in loading state_dict for CNNBiLSTMTabularResidualOULAD:
-	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias". 
+	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias".
 - `parameter_count` — actual=150202 expected=160492
 - `authority_model_strict_load` — RuntimeError: Error(s) in loading state_dict for CNNBiLSTMTabularResidualOULAD:
-	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias". 
+	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias".
 - `parameter_count` — actual=150202 expected=160492
 - `authority_model_strict_load` — RuntimeError: Error(s) in loading state_dict for CNNBiLSTMTabularResidualOULAD:
-	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias". 
+	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias".
 - `parameter_count` — actual=150202 expected=160492
 - `authority_model_strict_load` — RuntimeError: Error(s) in loading state_dict for CNNBiLSTMTabularResidualOULAD:
-	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias". 
+	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias".
 - `parameter_count` — actual=150202 expected=160492
 - `recommendation_authority_matches_release` — release_classes=['src.models.oulad_multitask.CNNBiLSTMOULAD'] release_parameter_counts=[150202] expected_class=src.models.oulad_tabular_residual.CNNBiLSTMTabularResidualOULAD expected_parameter_count=160492
 

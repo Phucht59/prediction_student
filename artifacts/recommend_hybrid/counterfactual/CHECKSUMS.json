@@ -3,17 +3,17 @@
   "files": [
     {
       "path": "artifacts\\recommend_hybrid\\counterfactual\\CANDIDATE_RELEASE_REGISTRY.json",
-      "sha256": "5368390c96b504f8fc9e74ff1eb716046ad1ea5a83dbac5a34688f6d97cdc157",
+      "sha256": "0ae051660fc414c14afe9f179ef84a9d6b6cfc1d6029dbd201f7f4964e50afac",
       "size_bytes": 2967
     },
     {
       "path": "artifacts\\recommend_hybrid\\counterfactual\\checkpoint_authority_validation.json",
-      "sha256": "086485ce1e8413c8057e59a1b3d68d7c3f5b3abc32b1bb727546e4b195024e53",
+      "sha256": "47538a5cfe3d951eb22267f4f328b12e70ab43351eae075eeb5e50ad275acbc1",
       "size_bytes": 98137
     },
     {
       "path": "artifacts\\recommend_hybrid\\counterfactual\\preflight.json",
-      "sha256": "78fc97ea2846ba68bd9479f2f4f528042a3e41c1bb2d55a3535eb5661e184ac1",
+      "sha256": "0ecbf513017b918580e182c9dfc2a87f18c367c11b36f15bcbe59cf8eb2dd35d",
       "size_bytes": 119078
     },
     {
