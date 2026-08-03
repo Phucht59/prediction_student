@@ -11,6 +11,7 @@ from src.recommend_hybrid.exceptions import ContractValidationError
 from .contracts import (
     ActionUtility,
     CounterfactualRankingResult,
+    CounterfactualScenario,
     RiskEstimate,
     SimulationStatus,
     StateValue,
@@ -46,7 +47,7 @@ class CounterfactualUtilityConfig:
 class CounterfactualUtilityRanker:
     def __init__(
         self,
-        simulator: CounterfactualStateSimulator,
+        simulator: CounterfactualStateSimulator | None = None,
         config: CounterfactualUtilityConfig | None = None,
     ) -> None:
         self.simulator = simulator
@@ -62,8 +63,45 @@ class CounterfactualUtilityRanker:
         workload_minutes: Mapping[str, int],
         evidence_strength: Mapping[str, float] | None = None,
     ) -> CounterfactualRankingResult:
+        if self.simulator is None:
+            raise ContractValidationError(
+                "state rank requires a CounterfactualStateSimulator"
+            )
         unique_ids = tuple(dict.fromkeys(candidate_action_ids))
         baseline = predictor.predict_risk(baseline_state)
+        scenarios: dict[str, CounterfactualScenario] = {}
+        estimates: dict[str, RiskEstimate] = {}
+        for action_id in unique_ids:
+            scenario = self.simulator.simulate(
+                action_id,
+                baseline_state,
+                reference_values,
+            )
+            scenarios[action_id] = scenario
+            if scenario.status is SimulationStatus.SIMULATED:
+                estimates[action_id] = predictor.predict_risk(
+                    scenario.simulated_mapping()
+                )
+        return self.rank_precomputed(
+            candidate_action_ids=unique_ids,
+            baseline_estimate=baseline,
+            scenarios=scenarios,
+            counterfactual_estimates=estimates,
+            workload_minutes=workload_minutes,
+            evidence_strength=evidence_strength,
+        )
+
+    def rank_precomputed(
+        self,
+        *,
+        candidate_action_ids: Sequence[str],
+        baseline_estimate: RiskEstimate,
+        scenarios: Mapping[str, CounterfactualScenario],
+        counterfactual_estimates: Mapping[str, RiskEstimate],
+        workload_minutes: Mapping[str, int],
+        evidence_strength: Mapping[str, float] | None = None,
+    ) -> CounterfactualRankingResult:
+        unique_ids = tuple(dict.fromkeys(candidate_action_ids))
         strengths = evidence_strength or {}
         ranked: list[ActionUtility] = []
         rejected: list[ActionUtility] = []
@@ -71,42 +109,47 @@ class CounterfactualUtilityRanker:
         for action_id in unique_ids:
             if action_id not in workload_minutes:
                 raise ContractValidationError(f"missing workload for {action_id}")
+            if action_id not in scenarios:
+                raise ContractValidationError(f"missing scenario for {action_id}")
+            scenario = scenarios[action_id]
+            if scenario.action_id != action_id:
+                raise ContractValidationError(
+                    f"scenario action mismatch for {action_id}"
+                )
             evidence = float(strengths.get(action_id, 1.0))
             if not 0.0 <= evidence <= 1.0:
                 raise ContractValidationError(
                     f"invalid evidence strength for {action_id}"
                 )
-            scenario = self.simulator.simulate(
-                action_id,
-                baseline_state,
-                reference_values,
-            )
+            workload = int(workload_minutes[action_id])
             if scenario.status is not SimulationStatus.SIMULATED:
                 rejected.append(
                     self._rejected_without_prediction(
                         action_id=action_id,
-                        baseline=baseline,
-                        workload=int(workload_minutes[action_id]),
+                        baseline=baseline_estimate,
+                        workload=workload,
                         evidence=evidence,
                         reasons=scenario.reason_codes,
                     )
                 )
                 continue
+            if action_id not in counterfactual_estimates:
+                raise ContractValidationError(
+                    f"missing counterfactual estimate for {action_id}"
+                )
 
-            counterfactual = predictor.predict_risk(
-                scenario.simulated_mapping()
-            )
+            counterfactual = counterfactual_estimates[action_id]
             reduction = (
-                baseline.risk_probability - counterfactual.risk_probability
+                baseline_estimate.risk_probability
+                - counterfactual.risk_probability
             )
             uncertainty_penalty = 1.0 - max(
-                baseline.uncertainty,
+                baseline_estimate.uncertainty,
                 counterfactual.uncertainty,
             )
             positive_reduction = max(0.0, reduction)
             workload_factor = 1.0 + (
-                int(workload_minutes[action_id])
-                / self.config.workload_scale_minutes
+                workload / self.config.workload_scale_minutes
             )
             utility = (
                 positive_reduction
@@ -129,12 +172,12 @@ class CounterfactualUtilityRanker:
             item = ActionUtility(
                 action_id=action_id,
                 status=status,
-                baseline_risk=baseline.risk_probability,
+                baseline_risk=baseline_estimate.risk_probability,
                 counterfactual_risk=counterfactual.risk_probability,
                 risk_reduction=reduction,
                 evidence_strength=evidence,
                 uncertainty_penalty=uncertainty_penalty,
-                workload_minutes=int(workload_minutes[action_id]),
+                workload_minutes=workload,
                 utility_score=utility,
                 changes=scenario.changes,
                 reason_codes=tuple(reasons),
@@ -154,7 +197,7 @@ class CounterfactualUtilityRanker:
         )
         rejected.sort(key=lambda item: item.action_id)
         return CounterfactualRankingResult(
-            baseline_estimate=baseline,
+            baseline_estimate=baseline_estimate,
             ranked_actions=tuple(ranked),
             rejected_actions=tuple(rejected),
             ranker_version=self.config.version,
