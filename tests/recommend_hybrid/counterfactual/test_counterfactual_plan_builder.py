@@ -21,6 +21,14 @@ from src.recommend_hybrid.oulad.policy import RecommendHybridOULAD
 class ClickRiskAuthority:
     fold = 0
 
+    @staticmethod
+    def transform_aggregate(raw_aggregate):
+        return np.asarray(raw_aggregate, dtype=np.float32)
+
+    @staticmethod
+    def inverse_transform_aggregate(transformed_aggregate):
+        return np.asarray(transformed_aggregate, dtype=np.float32)
+
     def predict(self, inputs):
         total_index = BASE_CHANNELS.index("total_clicks")
         clicks = float(inputs["sequence"][0, :, total_index].sum().item())
