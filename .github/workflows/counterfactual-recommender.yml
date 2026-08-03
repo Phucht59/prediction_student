@@ -4,12 +4,14 @@ on:
   pull_request:
     paths:
       - "src/recommend_hybrid/counterfactual/**"
+      - "src/recommend_hybrid/prediction_adapter.py"
       - "src/recommend_hybrid/__init__.py"
       - "configs/recommend_hybrid/counterfactual_oulad*.yaml"
       - "configs/recommend_hybrid/actions.yaml"
       - "configs/recommend_hybrid/planning.yaml"
       - "tests/recommend_hybrid/counterfactual/**"
       - "scripts/recommend_hybrid/validate_counterfactual.py"
+      - "scripts/recommend_hybrid/evaluate_counterfactual_recommender.py"
       - ".github/workflows/counterfactual-recommender.yml"
   workflow_dispatch:
 
@@ -41,6 +43,9 @@ jobs:
 
       - name: Validate counterfactual recommender
         run: python scripts/recommend_hybrid/validate_counterfactual.py
+
+      - name: Compile outer-fold evaluator
+        run: python -m py_compile scripts/recommend_hybrid/evaluate_counterfactual_recommender.py
 
       - name: Upload validation evidence
         if: always()
