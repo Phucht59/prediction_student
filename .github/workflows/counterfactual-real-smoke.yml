@@ -5,8 +5,10 @@ on:
     paths:
       - "src/recommend_hybrid/counterfactual/**"
       - "src/recommend_hybrid/prediction_adapter.py"
+      - "src/recommend_hybrid/checkpoint_authority.py"
       - "configs/recommend_hybrid/counterfactual_oulad_tensor.yaml"
       - "scripts/recommend_hybrid/smoke_real_checkpoint_counterfactual.py"
+      - "scripts/recommend_hybrid/validate_checkpoint_authority.py"
       - ".github/workflows/counterfactual-real-smoke.yml"
   workflow_dispatch:
 
@@ -48,6 +50,9 @@ jobs:
             fi
             echo "Found frozen authority: $path"
           done
+
+      - name: Validate structural checkpoint authority
+        run: python scripts/recommend_hybrid/validate_checkpoint_authority.py
 
       - name: Run real checkpoint counterfactual smoke
         run: python scripts/recommend_hybrid/smoke_real_checkpoint_counterfactual.py

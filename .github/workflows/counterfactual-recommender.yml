@@ -5,6 +5,7 @@ on:
     paths:
       - "src/recommend_hybrid/counterfactual/**"
       - "src/recommend_hybrid/prediction_adapter.py"
+      - "src/recommend_hybrid/checkpoint_authority.py"
       - "src/recommend_hybrid/__init__.py"
       - "configs/recommend_hybrid/counterfactual_oulad*.yaml"
       - "configs/recommend_hybrid/actions.yaml"
@@ -16,6 +17,7 @@ on:
       - "scripts/recommend_hybrid/evaluate_historical_trajectories.py"
       - "scripts/recommend_hybrid/build_counterfactual_candidate_release.py"
       - "scripts/recommend_hybrid/smoke_real_checkpoint_counterfactual.py"
+      - "scripts/recommend_hybrid/validate_checkpoint_authority.py"
       - "docs/recommend_hybrid/COUNTERFACTUAL_RECOMMENDER.md"
       - ".github/workflows/counterfactual-recommender.yml"
   workflow_dispatch:
@@ -56,7 +58,8 @@ jobs:
             scripts/recommend_hybrid/evaluate_counterfactual_recommender.py \
             scripts/recommend_hybrid/evaluate_historical_trajectories.py \
             scripts/recommend_hybrid/build_counterfactual_candidate_release.py \
-            scripts/recommend_hybrid/smoke_real_checkpoint_counterfactual.py
+            scripts/recommend_hybrid/smoke_real_checkpoint_counterfactual.py \
+            scripts/recommend_hybrid/validate_checkpoint_authority.py
 
       - name: Upload validation evidence
         if: always()
