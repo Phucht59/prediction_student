@@ -302,6 +302,8 @@ def evaluate(
     stages: tuple[str, ...],
     seeds: tuple[int, ...],
     bootstrap_replicates: int,
+    output_dir: Path = OUT,
+    report_path: Path = REPORT,
 ) -> dict[str, Any]:
     bundle = _build_bundle()
     assessment_dates = _load_assessment_dates()
@@ -490,17 +492,21 @@ def evaluate(
         },
         "status": "PASS" if evaluation_rows else "FAIL",
     }
-    _write_json(OUT / "evaluation.json", payload)
+    _write_json(output_dir / "evaluation.json", payload)
     _write_csv(
-        OUT / "evaluation_rows.csv",
+        output_dir / "evaluation_rows.csv",
         [row.to_dict() for row in evaluation_rows],
     )
-    _write_csv(OUT / "action_scores.csv", action_rows)
-    _write_report(payload)
+    _write_csv(output_dir / "action_scores.csv", action_rows)
+    _write_report(payload, report_path=report_path)
     return payload
 
 
-def _write_report(payload: dict[str, Any]) -> None:
+def _write_report(
+    payload: dict[str, Any],
+    *,
+    report_path: Path = REPORT,
+) -> None:
     overall = payload["overall"]
     bootstrap = overall["mean_risk_reduction_bootstrap_95"]
     lines = [
@@ -527,8 +533,8 @@ def _write_report(payload: dict[str, Any]) -> None:
         "not a causal treatment-effect estimate.",
         "",
     ]
-    REPORT.parent.mkdir(parents=True, exist_ok=True)
-    REPORT.write_text("\n".join(lines), encoding="utf-8")
+    report_path.parent.mkdir(parents=True, exist_ok=True)
+    report_path.write_text("\n".join(lines), encoding="utf-8")
 
 
 def _parse_int_tuple(value: str) -> tuple[int, ...]:
@@ -558,6 +564,12 @@ def main() -> int:
         default="42,1201,2026,3407,7319",
     )
     parser.add_argument("--bootstrap-replicates", type=int, default=1000)
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=OUT,
+        help="Write evaluation artifacts to this directory.",
+    )
     args = parser.parse_args()
     limit = (
         None
@@ -572,6 +584,10 @@ def main() -> int:
         stages=_parse_stage_tuple(args.stages),
         seeds=_parse_int_tuple(args.seeds),
         bootstrap_replicates=args.bootstrap_replicates,
+        output_dir=args.output_dir,
+        report_path=(
+            REPORT if args.output_dir == OUT else args.output_dir / "evaluation.md"
+        ),
     )
     print(json.dumps(payload, indent=2, sort_keys=True))
     return 0 if payload["status"] == "PASS" else 1
