@@ -16,6 +16,12 @@ from .oulad_tensor import (
     OULADTensorCounterfactualSimulator,
     OULADTensorEffectCatalog,
 )
+from .pipeline import RecommendHybridCounterfactualPipeline
+from .plan_builder import (
+    CounterfactualPlanResult,
+    CounterfactualPlanStatus,
+    OULADCounterfactualPlanBuilder,
+)
 from .ranker import (
     CounterfactualUtilityConfig,
     CounterfactualUtilityRanker,
@@ -26,11 +32,15 @@ from .reference_profile import (
     OULADReferenceProfileBuilder,
     ReferenceStatistic,
 )
+from .selector import CounterfactualActionSelector
 from .simulator import CounterfactualStateSimulator
 
 __all__ = [
     "ActionUtility",
+    "CounterfactualActionSelector",
     "CounterfactualEffectCatalog",
+    "CounterfactualPlanResult",
+    "CounterfactualPlanStatus",
     "CounterfactualRankingResult",
     "CounterfactualScenario",
     "CounterfactualStateSimulator",
@@ -38,11 +48,13 @@ __all__ = [
     "CounterfactualUtilityRanker",
     "FeatureChange",
     "FrozenHybridTensorRiskPredictor",
+    "OULADCounterfactualPlanBuilder",
     "OULADCounterfactualScorer",
     "OULADReferenceProfile",
     "OULADReferenceProfileBuilder",
     "OULADTensorCounterfactualSimulator",
     "OULADTensorEffectCatalog",
+    "RecommendHybridCounterfactualPipeline",
     "ReferenceStatistic",
     "RiskEstimate",
     "RiskPredictor",
