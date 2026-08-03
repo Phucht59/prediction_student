@@ -9,6 +9,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
+import numpy as np
 import torch
 
 from src.models.oulad_tabular_residual import CNNBiLSTMTabularResidualOULAD
@@ -18,6 +19,7 @@ from .exceptions import AuthorityValidationError
 
 ARCHITECTURE_HASH = "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e"
 PARAMETER_COUNT = 160_492
+AGGREGATE_DIMENSION = 165
 
 
 @dataclass(frozen=True)
@@ -59,6 +61,13 @@ def parameter_sha256(model: torch.nn.Module) -> str:
     return digest.hexdigest()
 
 
+def _preprocessor_sha256(mean: np.ndarray, scale: np.ndarray) -> str:
+    digest = hashlib.sha256()
+    digest.update(mean.astype(np.float64, copy=False).tobytes())
+    digest.update(scale.astype(np.float64, copy=False).tobytes())
+    return digest.hexdigest()
+
+
 class HybridPredictionAdapter:
     """Expose existing model outputs without changing model state or prediction path."""
 
@@ -70,6 +79,8 @@ class HybridPredictionAdapter:
         stage: Stage,
         fold: int,
         decision_threshold: float = 0.5,
+        aggregate_mean: np.ndarray | None = None,
+        aggregate_scale: np.ndarray | None = None,
     ) -> None:
         if not models or len(models) != len(checkpoint_references):
             raise AuthorityValidationError("models and checkpoint references must align")
@@ -87,6 +98,31 @@ class HybridPredictionAdapter:
         for model in self._models:
             if sum(parameter.numel() for parameter in model.parameters()) != PARAMETER_COUNT:
                 raise AuthorityValidationError("model parameter count is not frozen authority")
+        if (aggregate_mean is None) != (aggregate_scale is None):
+            raise AuthorityValidationError(
+                "aggregate mean and scale must be supplied together"
+            )
+        self._aggregate_mean: np.ndarray | None = None
+        self._aggregate_scale: np.ndarray | None = None
+        if aggregate_mean is not None and aggregate_scale is not None:
+            mean = np.asarray(aggregate_mean, dtype=np.float64).reshape(-1)
+            scale = np.asarray(aggregate_scale, dtype=np.float64).reshape(-1)
+            if mean.shape != (AGGREGATE_DIMENSION,) or scale.shape != (
+                AGGREGATE_DIMENSION,
+            ):
+                raise AuthorityValidationError(
+                    "frozen aggregate preprocessor must have 165 features"
+                )
+            if not np.isfinite(mean).all() or not np.isfinite(scale).all():
+                raise AuthorityValidationError(
+                    "aggregate preprocessor contains non-finite values"
+                )
+            if np.any(scale <= 0.0):
+                raise AuthorityValidationError(
+                    "aggregate preprocessor scale must be positive"
+                )
+            self._aggregate_mean = mean.copy()
+            self._aggregate_scale = scale.copy()
 
     @classmethod
     def from_manifest(
@@ -133,6 +169,9 @@ class HybridPredictionAdapter:
         decision_threshold = float(authority_row["thresholds"][source_stage])
         models: list[torch.nn.Module] = []
         references: list[CheckpointReference] = []
+        preprocessor_hash: str | None = None
+        aggregate_mean: np.ndarray | None = None
+        aggregate_scale: np.ndarray | None = None
         for row in rows:
             checkpoint_path = root / row["provenance"]["source_checkpoint_path"]
             if file_sha256(checkpoint_path) != row["sha256"]:
@@ -142,8 +181,29 @@ class HybridPredictionAdapter:
                 raise AuthorityValidationError("checkpoint architecture hash mismatch")
             if int(payload.get("parameter_count", -1)) != PARAMETER_COUNT:
                 raise AuthorityValidationError("checkpoint parameter count mismatch")
+            if int(payload.get("aggregate_dim", -1)) != AGGREGATE_DIMENSION:
+                raise AuthorityValidationError("checkpoint aggregate dimension mismatch")
+            preprocessor = payload.get("preprocessor")
+            if not isinstance(preprocessor, Mapping):
+                raise AuthorityValidationError(
+                    "checkpoint aggregate preprocessor is missing"
+                )
+            current_mean = np.asarray(preprocessor.get("mean"), dtype=np.float64)
+            current_scale = np.asarray(preprocessor.get("scale"), dtype=np.float64)
+            current_hash = _preprocessor_sha256(current_mean, current_scale)
+            if preprocessor_hash is None:
+                preprocessor_hash = current_hash
+                aggregate_mean = current_mean
+                aggregate_scale = current_scale
+            elif current_hash != preprocessor_hash:
+                raise AuthorityValidationError(
+                    "seed checkpoints disagree on aggregate preprocessor"
+                )
             model = CNNBiLSTMTabularResidualOULAD(
-                47, int(payload["aggregate_dim"]), int(payload["static_dim"]), payload["config"]
+                47,
+                int(payload["aggregate_dim"]),
+                int(payload["static_dim"]),
+                payload["config"],
             )
             model.load_state_dict(payload["state_dict"], strict=True)
             model.eval()
@@ -163,6 +223,8 @@ class HybridPredictionAdapter:
             stage=stage,
             fold=fold,
             decision_threshold=decision_threshold,
+            aggregate_mean=aggregate_mean,
+            aggregate_scale=aggregate_scale,
         )
 
     @property
@@ -172,6 +234,57 @@ class HybridPredictionAdapter:
     @property
     def checkpoint_references(self) -> tuple[CheckpointReference, ...]:
         return self._references
+
+    @property
+    def has_aggregate_preprocessor(self) -> bool:
+        return self._aggregate_mean is not None and self._aggregate_scale is not None
+
+    @property
+    def aggregate_preprocessor_hash(self) -> str | None:
+        if not self.has_aggregate_preprocessor:
+            return None
+        assert self._aggregate_mean is not None
+        assert self._aggregate_scale is not None
+        return _preprocessor_sha256(
+            self._aggregate_mean,
+            self._aggregate_scale,
+        )
+
+    def transform_aggregate(self, raw_aggregate: np.ndarray) -> np.ndarray:
+        if not self.has_aggregate_preprocessor:
+            raise AuthorityValidationError(
+                "adapter has no frozen aggregate preprocessor"
+            )
+        assert self._aggregate_mean is not None
+        assert self._aggregate_scale is not None
+        values = np.asarray(raw_aggregate, dtype=np.float64)
+        if values.ndim != 2 or values.shape[1] != AGGREGATE_DIMENSION:
+            raise AuthorityValidationError("raw aggregate must be [N, 165]")
+        return np.nan_to_num(
+            (values - self._aggregate_mean) / self._aggregate_scale,
+            nan=0.0,
+            posinf=0.0,
+            neginf=0.0,
+        ).astype(np.float32)
+
+    def inverse_transform_aggregate(
+        self,
+        transformed_aggregate: np.ndarray,
+    ) -> np.ndarray:
+        if not self.has_aggregate_preprocessor:
+            raise AuthorityValidationError(
+                "adapter has no frozen aggregate preprocessor"
+            )
+        assert self._aggregate_mean is not None
+        assert self._aggregate_scale is not None
+        values = np.asarray(transformed_aggregate, dtype=np.float64)
+        if values.ndim != 2 or values.shape[1] != AGGREGATE_DIMENSION:
+            raise AuthorityValidationError(
+                "transformed aggregate must be [N, 165]"
+            )
+        return (values * self._aggregate_scale + self._aggregate_mean).astype(
+            np.float32
+        )
 
     def predict(self, inputs: Mapping[str, torch.Tensor]) -> HybridPredictionOutput:
         required = {"sequence", "lengths", "mask", "aggregate", "static"}
@@ -219,6 +332,7 @@ class HybridPredictionAdapter:
 
 
 __all__ = [
+    "AGGREGATE_DIMENSION",
     "ARCHITECTURE_HASH",
     "PARAMETER_COUNT",
     "HybridPredictionAdapter",
