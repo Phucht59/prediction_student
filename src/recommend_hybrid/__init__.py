@@ -2,24 +2,36 @@
 
 from .action_catalog import ActionCatalog
 from .candidate_generator import HybridCandidateGenerator
-from .contracts import ObservedLearningState, PredictionContext, StudentRepresentation
-from .prediction_adapter import HybridPredictionAdapter
-from .pipeline import OULADPlanRequest, RecommendHybridPipeline, UCIPlanRequest
 from .common.service import HybridRecommendationService
+from .contracts import ObservedLearningState, PredictionContext, StudentRepresentation
+from .counterfactual import (
+    CounterfactualPlanResult,
+    CounterfactualPlanStatus,
+    OULADReferenceProfile,
+    OULADReferenceProfileBuilder,
+    RecommendHybridCounterfactualPipeline,
+)
 from .oulad.policy import RecommendHybridOULAD
+from .pipeline import OULADPlanRequest, RecommendHybridPipeline, UCIPlanRequest
+from .prediction_adapter import HybridPredictionAdapter
 from .uci.policy import RecommendHybridUCI
 
 __all__ = [
     "ActionCatalog",
+    "CounterfactualPlanResult",
+    "CounterfactualPlanStatus",
     "HybridCandidateGenerator",
     "HybridPredictionAdapter",
     "HybridRecommendationService",
-    "RecommendHybridPipeline",
-    "RecommendHybridOULAD",
-    "RecommendHybridUCI",
+    "OULADPlanRequest",
+    "OULADReferenceProfile",
+    "OULADReferenceProfileBuilder",
     "ObservedLearningState",
     "PredictionContext",
+    "RecommendHybridCounterfactualPipeline",
+    "RecommendHybridOULAD",
+    "RecommendHybridPipeline",
+    "RecommendHybridUCI",
     "StudentRepresentation",
-    "OULADPlanRequest",
     "UCIPlanRequest",
 ]
