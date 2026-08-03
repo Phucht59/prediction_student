@@ -1,10 +1,9 @@
-"""Smoke-test counterfactual scoring with a real frozen checkpoint.
+"""Smoke-test counterfactual scoring with a real frozen release checkpoint.
 
-Raw OULAD tables are intentionally excluded from Git. This smoke therefore
-constructs one deterministic, contract-valid synthetic OULAD tensor, transforms
-it with the real frozen fold preprocessor, and runs it through the real Hybrid
-CNN-BiLSTM checkpoint and counterfactual scorer. It validates integration and
-scientific plumbing only; it is not an educational-effect evaluation.
+Raw OULAD tables are intentionally excluded from Git. This smoke constructs one
+deterministic contract-valid OULAD tensor, transforms it with the real frozen
+fold preprocessor, and runs it through a release Hybrid CNN-BiLSTM checkpoint.
+It validates integration only; it is not educational-effect evidence.
 """
 
 from __future__ import annotations
@@ -14,7 +13,7 @@ import math
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Mapping
 
 import numpy as np
 import torch
@@ -23,8 +22,9 @@ ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from src.models.oulad_tabular_residual import CNNBiLSTMTabularResidualOULAD
 from src.pipelines.oulad import BASE_CHANNELS, _aggregate, _dynamic
-from src.recommend_hybrid.contracts import Stage
+from src.recommend_hybrid.contracts import CheckpointReference, Stage
 from src.recommend_hybrid.counterfactual.feature_authority import (
     PreprocessedOULADFeatureAuthority,
 )
@@ -34,10 +34,25 @@ from src.recommend_hybrid.counterfactual.oulad_tensor import (
     OULADTensorCounterfactualSimulator,
     OULADTensorEffectCatalog,
 )
-from src.recommend_hybrid.prediction_adapter import HybridPredictionAdapter
+from src.recommend_hybrid.prediction_adapter import (
+    AGGREGATE_DIMENSION,
+    ARCHITECTURE_HASH,
+    PARAMETER_COUNT,
+    STATIC_DIMENSION,
+    HybridPredictionAdapter,
+    file_sha256,
+)
 
 OUT = ROOT / "artifacts/recommend_hybrid/counterfactual/real_checkpoint_smoke.json"
 CLAIM_BOUNDARY = "INTEGRATION_SMOKE_ONLY_NOT_EDUCATIONAL_EFFECT_EVIDENCE"
+RELEASE_MODEL_ID = "cnn_bilstm_oulad"
+RELEASE_CHECKPOINT = Path(
+    "artifacts/final/unified_stage_aware_oulad/checkpoints/"
+    "cnn_bilstm_oulad/outer_fold_0/seed_42.pt"
+)
+RELEASE_MAPPING = Path(
+    "artifacts/final/unified_stage_aware_oulad/checkpoint_stage_mapping.json"
+)
 
 
 def _utc_now() -> str:
@@ -52,6 +67,96 @@ def _write_json(path: Path, payload: Any) -> None:
         encoding="utf-8",
     )
     temporary.replace(path)
+
+
+def _registered_release_hash() -> str:
+    mapping = json.loads((ROOT / RELEASE_MAPPING).read_text(encoding="utf-8"))
+    matching = [
+        row
+        for row in mapping["rows"]
+        if row["model_id"] == RELEASE_MODEL_ID
+        and int(row["outer_fold"]) == 0
+        and int(row["seed"]) == 42
+        and row["prediction_stage"] == "E1_EARLY_20PCT"
+    ]
+    if len(matching) != 1:
+        raise RuntimeError(
+            "release mapping does not uniquely identify the smoke checkpoint"
+        )
+    return str(matching[0]["checkpoint_sha256"])
+
+
+def _decision_threshold() -> float:
+    authority = json.loads(
+        (
+            ROOT / "artifacts/canonical_v3/oulad_h1_training_authority.json"
+        ).read_text(encoding="utf-8")
+    )
+    row = next(
+        item
+        for item in authority["shared_stage"]
+        if int(item["outer_fold"]) == 0
+    )
+    return float(row["thresholds"]["E1_EARLY_20PCT"])
+
+
+def _release_adapter() -> HybridPredictionAdapter:
+    checkpoint_path = ROOT / RELEASE_CHECKPOINT
+    if not checkpoint_path.is_file():
+        raise FileNotFoundError(checkpoint_path)
+    actual_hash = file_sha256(checkpoint_path)
+    expected_hash = _registered_release_hash()
+    if actual_hash != expected_hash:
+        raise RuntimeError("release checkpoint SHA-256 mismatch")
+
+    payload = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
+    if not isinstance(payload, Mapping):
+        raise RuntimeError("release checkpoint payload is not a mapping")
+    if payload.get("architecture_hash") != ARCHITECTURE_HASH:
+        raise RuntimeError(
+            "release checkpoint architecture does not match recommendation authority: "
+            f"expected={ARCHITECTURE_HASH} actual={payload.get('architecture_hash')}"
+        )
+    if int(payload.get("parameter_count", -1)) != PARAMETER_COUNT:
+        raise RuntimeError(
+            "release checkpoint parameter count does not match authority"
+        )
+    if int(payload.get("aggregate_dim", -1)) != AGGREGATE_DIMENSION:
+        raise RuntimeError("release checkpoint aggregate dimension mismatch")
+    if int(payload.get("static_dim", -1)) != STATIC_DIMENSION:
+        raise RuntimeError("release checkpoint static dimension mismatch")
+    preprocessor = payload.get("preprocessor")
+    if not isinstance(preprocessor, Mapping):
+        raise RuntimeError("release checkpoint preprocessor is missing")
+
+    model = CNNBiLSTMTabularResidualOULAD(
+        47,
+        int(payload["aggregate_dim"]),
+        int(payload["static_dim"]),
+        payload["config"],
+    )
+    model.load_state_dict(payload["state_dict"], strict=True)
+    model.eval()
+    reference = CheckpointReference(
+        checkpoint_id="release_cnn_bilstm_oulad_outer0_seed42",
+        path=str(RELEASE_CHECKPOINT),
+        sha256=actual_hash,
+        fold=0,
+        seed=42,
+    )
+    return HybridPredictionAdapter(
+        (model,),
+        (reference,),
+        stage=Stage.EARLY_20,
+        fold=0,
+        decision_threshold=_decision_threshold(),
+        aggregate_mean=np.asarray(preprocessor["mean"]),
+        aggregate_scale=np.asarray(preprocessor["scale"]),
+        static_num_cols=tuple(preprocessor["num_cols"]),
+        static_num_mean=np.asarray(preprocessor["num_mean"]),
+        static_num_scale=np.asarray(preprocessor["num_scale"]),
+        static_categories=dict(preprocessor["categories"]),
+    )
 
 
 def _synthetic_model_inputs(
@@ -91,18 +196,12 @@ def _synthetic_model_inputs(
         "lengths": torch.from_numpy(lengths),
         "mask": torch.from_numpy(mask.astype(np.float32)),
         "aggregate": torch.from_numpy(transformed_aggregate),
-        # Zero is the standardized/one-hot reference point and is valid model space.
-        "static": torch.zeros((1, 13), dtype=torch.float32),
+        "static": torch.zeros((1, STATIC_DIMENSION), dtype=torch.float32),
     }
 
 
 def main() -> int:
-    adapter = HybridPredictionAdapter.from_manifest(
-        ROOT,
-        stage=Stage.EARLY_20,
-        fold=0,
-        seeds=(42,),
-    )
+    adapter = _release_adapter()
     inputs = _synthetic_model_inputs(adapter)
     baseline = adapter.predict(inputs)
     baseline_risk = float(
@@ -166,10 +265,12 @@ def main() -> int:
         raise RuntimeError("real checkpoint smoke produced invalid action scores")
 
     payload = {
-        "schema_version": "real_checkpoint_counterfactual_smoke_v1",
+        "schema_version": "real_checkpoint_counterfactual_smoke_v2",
         "generated_at": _utc_now(),
         "status": "PASS",
         "claim_boundary": CLAIM_BOUNDARY,
+        "release_model_id": RELEASE_MODEL_ID,
+        "release_checkpoint_path": str(RELEASE_CHECKPOINT),
         "checkpoint_ids": [
             reference.checkpoint_id
             for reference in adapter.checkpoint_references
@@ -187,7 +288,9 @@ def main() -> int:
         "scientific_guards": {
             "raw_oulad_data_used": False,
             "synthetic_contract_valid_input_used": True,
-            "real_checkpoint_used": True,
+            "registered_release_checkpoint_used": True,
+            "release_checkpoint_sha_verified": True,
+            "architecture_authority_verified": True,
             "real_frozen_preprocessor_used": True,
             "educational_effect_claimed": False,
         },
