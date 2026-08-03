@@ -1,0 +1,68 @@
+name: Counterfactual Real Checkpoint Smoke
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/counterfactual-real-smoke.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  real-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - name: Checkout repository and LFS objects
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install evaluation dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install \
+            numpy pandas pyarrow scikit-learn joblib \
+            torch PyYAML
+
+      - name: Verify real evaluation authorities
+        run: |
+          test -f data/raw/studentInfo.csv
+          test -f data/raw/studentVle.csv
+          test -f artifacts/recommend_hybrid/RECOMMEND_HYBRID_CHECKPOINT_MANIFEST.json
+          test -f artifacts/canonical_v3/predictions/oulad_oof_predictions.parquet
+
+      - name: Run one-record real-checkpoint evaluation
+        run: |
+          python scripts/recommend_hybrid/evaluate_counterfactual_recommender.py \
+            --folds 0 \
+            --stages E1_EARLY_20PCT \
+            --seeds 42 \
+            --max-records-per-fold-stage 1 \
+            --bootstrap-replicates 20
+
+      - name: Run observational trajectory smoke
+        run: python scripts/recommend_hybrid/evaluate_historical_trajectories.py
+
+      - name: Upload real smoke evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: counterfactual-real-smoke
+          path: |
+            artifacts/recommend_hybrid/counterfactual/evaluation.json
+            artifacts/recommend_hybrid/counterfactual/evaluation_rows.csv
+            artifacts/recommend_hybrid/counterfactual/action_scores.csv
+            artifacts/recommend_hybrid/counterfactual/historical_trajectory.json
+            artifacts/recommend_hybrid/counterfactual/historical_trajectory_rows.csv
+            reports/recommend_hybrid/COUNTERFACTUAL_EVALUATION.md
+            reports/recommend_hybrid/HISTORICAL_TRAJECTORY_VALIDATION.md
+          if-no-files-found: warn
