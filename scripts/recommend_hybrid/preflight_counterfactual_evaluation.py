@@ -14,6 +14,8 @@ ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from src.recommend_hybrid.checkpoint_authority import validate_checkpoint_authority
+
 OUT = ROOT / "artifacts/recommend_hybrid/counterfactual/preflight.json"
 RAW_MANIFEST = ROOT / "data/manifests/extension_raw_manifest.json"
 CHECKPOINT_MANIFEST = (
@@ -26,6 +28,10 @@ OOF_PREDICTIONS = (
     ROOT / "artifacts/canonical_v3/predictions/oulad_oof_predictions.parquet"
 )
 TRAINING_AUTHORITY = ROOT / "artifacts/canonical_v3/oulad_h1_training_authority.json"
+RELEASE_STAGE_MAPPING = (
+    ROOT / "artifacts/final/unified_stage_aware_oulad/checkpoint_stage_mapping.json"
+)
+RELEASE_CHECKSUMS = ROOT / "artifacts/final/unified_stage_aware_oulad/checksums.json"
 
 
 def _utc_now() -> str:
@@ -116,6 +122,17 @@ def evaluate(*, verify_hashes: bool) -> dict[str, Any]:
             )
         )
 
+    release_mapping_sha = None
+    if RELEASE_CHECKSUMS.is_file():
+        checksum_payload = json.loads(RELEASE_CHECKSUMS.read_text(encoding="utf-8"))
+        release_mapping_sha = next(
+            (
+                str(row["sha256"])
+                for row in checksum_payload.get("files", [])
+                if row.get("path") == str(RELEASE_STAGE_MAPPING.relative_to(ROOT)).replace("\\", "/")
+            ),
+            None,
+        )
     authority_checks = [
         _file_check(
             SPLIT_MANIFEST,
@@ -129,9 +146,17 @@ def evaluate(*, verify_hashes: bool) -> dict[str, Any]:
             TRAINING_AUTHORITY,
             verify_hashes=False,
         ),
+        _file_check(
+            RELEASE_STAGE_MAPPING,
+            expected_sha256=release_mapping_sha,
+            verify_hashes=verify_hashes,
+        ),
     ]
+    checkpoint_authority = validate_checkpoint_authority(ROOT)
     all_checks = (*raw_checks, *checkpoint_checks, *authority_checks)
     failed = [row["path"] for row in all_checks if row["status"] != "PASS"]
+    if checkpoint_authority["status"] != "PASS":
+        failed.append("checkpoint_authority_validation")
     payload = {
         "schema_version": "counterfactual_evaluation_preflight_v1",
         "generated_at": _utc_now(),
@@ -139,6 +164,7 @@ def evaluate(*, verify_hashes: bool) -> dict[str, Any]:
         "raw_oulad": raw_checks,
         "frozen_checkpoints": checkpoint_checks,
         "evaluation_authorities": authority_checks,
+        "checkpoint_authority": checkpoint_authority,
         "summary": {
             "raw_file_count": len(raw_checks),
             "checkpoint_file_count": len(checkpoint_checks),

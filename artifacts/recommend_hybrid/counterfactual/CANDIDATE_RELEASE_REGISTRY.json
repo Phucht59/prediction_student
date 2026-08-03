@@ -1,0 +1,94 @@
+{
+  "artifacts": [
+    {
+      "path": "artifacts\\recommend_hybrid\\counterfactual\\preflight.json",
+      "sha256": "78fc97ea2846ba68bd9479f2f4f528042a3e41c1bb2d55a3535eb5661e184ac1",
+      "size_bytes": 119078
+    },
+    {
+      "path": "artifacts\\recommend_hybrid\\counterfactual\\checkpoint_authority_validation.json",
+      "sha256": "086485ce1e8413c8057e59a1b3d68d7c3f5b3abc32b1bb727546e4b195024e53",
+      "size_bytes": 98137
+    },
+    {
+      "path": "artifacts\\recommend_hybrid\\counterfactual\\real_checkpoint_smoke.json",
+      "sha256": "ee8fcb5b9da65ba1dad279deb36e25be55b2064cb08e7e7aa37b26c58ce0020e",
+      "size_bytes": 509
+    },
+    {
+      "path": "artifacts\\recommend_hybrid\\counterfactual\\validation.json",
+      "sha256": "8df0ca296f5e6c7c6de72496331e39c54d355a6c0b79197e85a4e6a09c5757c5",
+      "size_bytes": 2229
+    },
+    {
+      "path": "reports\\recommend_hybrid\\COUNTERFACTUAL_VALIDATION.md",
+      "sha256": "9d3a29bf38f88dd1335da71a53b75f7ad130783df4aec4d8fa32e8c872aee073",
+      "size_bytes": 977
+    },
+    {
+      "path": "reports\\recommend_hybrid\\COUNTERFACTUAL_CANDIDATE_RELEASE.md",
+      "sha256": "7425384294a3c4f5882bc56ac863a58a08b5b971891e8b496c219ad1e530a67c",
+      "size_bytes": 581
+    }
+  ],
+  "claim_boundary": "MODEL_ESTIMATED_RISK_REDUCTION_NOT_CAUSAL_EFFECT",
+  "configuration": {
+    "bootstrap_replicates": 1000,
+    "folds": [
+      0,
+      1,
+      2
+    ],
+    "max_records_per_fold_stage": 100,
+    "seeds": [
+      42,
+      1201,
+      2026,
+      3407,
+      7319
+    ],
+    "skip_historical": true,
+    "stages": [
+      "E1_EARLY_20PCT",
+      "E2_EARLY_35PCT",
+      "M1_MIDDLE_FROZEN",
+      "L1_LATE_75PCT"
+    ],
+    "verify_hashes": true
+  },
+  "generated_at": "2026-08-03T15:43:05.703234Z",
+  "prediction_backbone": "FROZEN_HYBRID_CNN_BILSTM",
+  "recommendation_component": "CONSTRAINED_COUNTERFACTUAL_RISK_REDUCTION_RECOMMENDER",
+  "release_status": "CANDIDATE_FAILED_GATE",
+  "schema_version": "counterfactual_candidate_release_v1",
+  "scientific_guards": {
+    "causal_effect_claimed": false,
+    "expert_labels_required": false,
+    "final_release_promoted": false,
+    "outcome_labels_used_for_ranking": false,
+    "silver_labels_used": false
+  },
+  "status": "FAIL",
+  "steps": [
+    {
+      "command": [
+        "C:\\hufit\\kltn\\.venv-oulad-v2\\Scripts\\python.exe",
+        "scripts/recommend_hybrid/validate_checkpoint_authority.py"
+      ],
+      "name": "checkpoint_authority",
+      "return_code": 1,
+      "status": "FAIL"
+    },
+    {
+      "command": [
+        "C:\\hufit\\kltn\\.venv-oulad-v2\\Scripts\\python.exe",
+        "scripts/recommend_hybrid/preflight_counterfactual_evaluation.py",
+        "--verify-hashes"
+      ],
+      "name": "preflight",
+      "return_code": 1,
+      "status": "FAIL"
+    }
+  ],
+  "system_id": "hybrid_cnn_bilstm_counterfactual_recommender"
+}

@@ -14,6 +14,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "artifacts/recommend_hybrid/counterfactual"
 REGISTRY = OUT / "CANDIDATE_RELEASE_REGISTRY.json"
+CHECKSUMS = OUT / "CHECKSUMS.json"
 
 
 def _utc_now() -> str:
@@ -68,6 +69,32 @@ def _artifact_registry(paths: list[Path]) -> list[dict[str, Any]]:
     return rows
 
 
+def _write_checksums(paths: list[Path], *, status: str) -> None:
+    rows = []
+    missing = []
+    for path in [*paths, REGISTRY]:
+        if path.is_file():
+            rows.append(
+                {
+                    "path": str(path.relative_to(ROOT)),
+                    "size_bytes": path.stat().st_size,
+                    "sha256": _sha256(path),
+                }
+            )
+        else:
+            missing.append(str(path.relative_to(ROOT)))
+    _write_json(
+        CHECKSUMS,
+        {
+            "schema_version": "counterfactual_candidate_checksums_v1",
+            "status": status,
+            "claim_boundary": "TECHNICAL_ARTIFACT_INTEGRITY_ONLY_NOT_CAUSAL_EFFECT",
+            "files": sorted(rows, key=lambda row: row["path"]),
+            "missing_required_files": sorted(missing),
+        },
+    )
+
+
 def build(
     *,
     max_records_per_fold_stage: int,
@@ -83,15 +110,26 @@ def build(
     if verify_hashes:
         preflight.append("--verify-hashes")
     steps = [
-        _run("preflight", preflight),
         _run(
-            "technical_validation",
-            [
-                python,
-                "scripts/recommend_hybrid/validate_counterfactual.py",
-            ],
+            "checkpoint_authority",
+            [python, "scripts/recommend_hybrid/validate_checkpoint_authority.py"],
         ),
+        _run("preflight", preflight),
     ]
+    if all(step["status"] == "PASS" for step in steps):
+        steps.append(
+            _run(
+                "technical_validation",
+                [python, "scripts/recommend_hybrid/validate_counterfactual.py"],
+            )
+        )
+    if all(step["status"] == "PASS" for step in steps):
+        steps.append(
+            _run(
+                "real_checkpoint_smoke",
+                [python, "scripts/recommend_hybrid/smoke_real_checkpoint_counterfactual.py"],
+            )
+        )
     if all(step["status"] == "PASS" for step in steps):
         steps.append(
             _run(
@@ -131,12 +169,15 @@ def build(
 
     expected = [
         OUT / "preflight.json",
+        OUT / "checkpoint_authority_validation.json",
+        OUT / "real_checkpoint_smoke.json",
         OUT / "validation.json",
         OUT / "evaluation.json",
         OUT / "evaluation_rows.csv",
         OUT / "action_scores.csv",
         ROOT / "reports/recommend_hybrid/COUNTERFACTUAL_VALIDATION.md",
         ROOT / "reports/recommend_hybrid/COUNTERFACTUAL_EVALUATION.md",
+        ROOT / "reports/recommend_hybrid/COUNTERFACTUAL_CANDIDATE_RELEASE.md",
     ]
     if not skip_historical:
         expected.extend(
@@ -147,12 +188,41 @@ def build(
                 / "reports/recommend_hybrid/HISTORICAL_TRAJECTORY_VALIDATION.md",
             ]
         )
+    candidate_report = ROOT / "reports/recommend_hybrid/COUNTERFACTUAL_CANDIDATE_RELEASE.md"
+    report_lines = [
+        "# Counterfactual Candidate Release",
+        "",
+        f"- Status: **{'PASS' if all(step['status'] == 'PASS' for step in steps) else 'FAIL'}**",
+        "- Candidate state: `CANDIDATE_VALIDATED_PENDING_EXPERT_REVIEW` only when every release gate passes.",
+        "- Claim boundary: `MODEL_ESTIMATED_RISK_REDUCTION_NOT_CAUSAL_EFFECT`.",
+        "",
+        "## Steps",
+        "",
+    ]
+    report_lines.extend(
+        f"- `{step['name']}`: **{step['status']}** (return code `{step['return_code']}`)"
+        for step in steps
+    )
+    if any(step["status"] != "PASS" for step in steps):
+        report_lines.extend(
+            [
+                "",
+                "## Remaining blockers",
+                "",
+                "- Do not merge or promote this candidate until the failed authority gate is repaired and rerun with the real release checkpoint.",
+                "- No causal effectiveness, grade improvement, or expert-validation claim is made.",
+            ]
+        )
+    candidate_report.parent.mkdir(parents=True, exist_ok=True)
+    candidate_report.write_text("\n".join(report_lines) + "\n", encoding="utf-8")
     status = "PASS" if all(step["status"] == "PASS" for step in steps) else "FAIL"
     registry = {
         "schema_version": "counterfactual_candidate_release_v1",
         "generated_at": _utc_now(),
         "release_status": (
-            "CANDIDATE_VALIDATED" if status == "PASS" else "CANDIDATE_FAILED"
+            "CANDIDATE_VALIDATED_PENDING_EXPERT_REVIEW"
+            if status == "PASS"
+            else "CANDIDATE_FAILED_GATE"
         ),
         "status": status,
         "system_id": "hybrid_cnn_bilstm_counterfactual_recommender",
@@ -188,6 +258,7 @@ def build(
         },
     }
     _write_json(REGISTRY, registry)
+    _write_checksums(expected, status=status)
     return registry
 
 

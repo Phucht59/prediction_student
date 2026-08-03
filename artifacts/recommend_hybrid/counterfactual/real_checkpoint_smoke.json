@@ -1,0 +1,14 @@
+{
+  "checkpoint_authority_status": "FAIL",
+  "claim_boundary": "INTEGRATION_SMOKE_ONLY_NOT_EDUCATIONAL_EFFECT_EVIDENCE",
+  "failed_gate_count": 31,
+  "failure_reason": "structural checkpoint authority did not PASS",
+  "generated_at": "2026-08-03T15:37:56.697254Z",
+  "schema_version": "real_checkpoint_counterfactual_smoke_v3",
+  "scientific_guards": {
+    "educational_effect_claimed": false,
+    "failed_closed_before_scoring": true,
+    "raw_oulad_data_used": false
+  },
+  "status": "FAIL"
+}

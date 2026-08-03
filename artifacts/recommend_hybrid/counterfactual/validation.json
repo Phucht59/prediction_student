@@ -1,0 +1,76 @@
+{
+  "claim_boundary": "MODEL_ESTIMATED_RISK_REDUCTION_NOT_CAUSAL_EFFECT",
+  "generated_at": "2026-08-03T15:30:34.338285Z",
+  "pytest": {
+    "command": [
+      "C:\\hufit\\kltn\\.venv-oulad-v2\\Scripts\\python.exe",
+      "-m",
+      "pytest",
+      "tests/recommend_hybrid/counterfactual",
+      "-q"
+    ],
+    "output": "...............................                                          [100%]\n31 passed in 1.82s\n",
+    "passed": 31,
+    "return_code": 0,
+    "status": "PASS"
+  },
+  "schema_version": "counterfactual_validation_v2",
+  "static_validation": {
+    "action_count": 10,
+    "checks": {
+      "claim_boundary_locked": true,
+      "evaluation_contract_has_no_outcome_label": true,
+      "frozen_aggregate_preprocessor_api": true,
+      "frozen_static_preprocessor_api": true,
+      "mutable_protected_disjoint": true,
+      "outer_fold_evaluator_present": true,
+      "preprocessed_feature_authority_api": true,
+      "state_actions_known": true,
+      "tensor_actions_cover_planned_oulad": true,
+      "tensor_actions_known": true,
+      "tensor_references_available": true
+    },
+    "configured_reference_keys": [
+      "active_days_p50",
+      "assessment_related_clicks_p50",
+      "content_clicks_p50",
+      "content_clicks_p65",
+      "quiz_clicks_p50",
+      "quiz_clicks_p65",
+      "total_clicks_p50",
+      "total_clicks_p65",
+      "unique_sites_p50"
+    ],
+    "evaluation_fields": [
+      "baseline_risk",
+      "course_key",
+      "decision_threshold",
+      "fallback_reasons",
+      "fold",
+      "reference_profile_id",
+      "selected_action_count",
+      "selected_workload_minutes",
+      "stage",
+      "status",
+      "student_key",
+      "top_action_id",
+      "top_counterfactual_risk",
+      "top_risk_reduction",
+      "top_utility_score"
+    ],
+    "reference_keys": [
+      "active_days_p50",
+      "assessment_related_clicks_p50",
+      "content_clicks_p50",
+      "content_clicks_p65",
+      "quiz_clicks_p50",
+      "quiz_clicks_p65",
+      "total_clicks_p50",
+      "total_clicks_p65",
+      "unique_sites_p50"
+    ],
+    "status": "PASS",
+    "tensor_action_count": 10
+  },
+  "status": "PASS"
+}
