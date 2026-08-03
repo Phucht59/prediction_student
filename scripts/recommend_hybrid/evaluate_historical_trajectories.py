@@ -30,10 +30,13 @@ from src.recommend_hybrid.counterfactual.historical_validation import (
 
 OUT = ROOT / "artifacts/recommend_hybrid/counterfactual"
 REPORT = ROOT / "reports/recommend_hybrid/HISTORICAL_TRAJECTORY_VALIDATION.md"
+
+# The canonical bundle uses M1_MIDDLE_FROZEN. OOF prediction artifacts use the
+# reporting alias M1_MIDDLE_50PCT, so the two namespaces remain explicit.
 STAGE_PATH = {
     "EARLY_20": ("E1_EARLY_20PCT", "E2_EARLY_35PCT"),
-    "EARLY_35": ("E2_EARLY_35PCT", "M1_MIDDLE_50PCT"),
-    "MIDDLE_50": ("M1_MIDDLE_50PCT", "L1_LATE_75PCT"),
+    "EARLY_35": ("E2_EARLY_35PCT", "M1_MIDDLE_FROZEN"),
+    "MIDDLE_50": ("M1_MIDDLE_FROZEN", "L1_LATE_75PCT"),
     "LATE_75": ("L1_LATE_75PCT", None),
 }
 NEXT_OOF_STAGE = {
@@ -280,12 +283,16 @@ def evaluate() -> dict[str, Any]:
         for stage in sorted({row.stage for row in rows})
     }
     payload = {
-        "schema_version": "counterfactual_historical_trajectory_v1",
+        "schema_version": "counterfactual_historical_trajectory_v2",
         "generated_at": _utc_now(),
         "claim_boundary": HISTORICAL_CLAIM_BOUNDARY,
         "overall": overall,
         "by_action": by_action,
         "by_stage": by_stage,
+        "stage_namespaces": {
+            "bundle_middle_stage": "M1_MIDDLE_FROZEN",
+            "oof_middle_stage": "M1_MIDDLE_50PCT",
+        },
         "scientific_guards": {
             "historical_outcomes_used_for_action_ranking": False,
             "historical_outcomes_used_for_action_selection": False,
@@ -319,8 +326,6 @@ def _write_report(payload: dict[str, Any]) -> None:
         f"`{overall['observed_next_stage_risk_difference']}`",
         f"- Observed favorable-outcome difference: "
         f"`{overall['observed_favorable_outcome_difference']}`",
-        "",
-        "## Interpretation boundary",
         "",
         "These values describe observational associations. Students who later "
         "changed behavior may differ from other students for many unmeasured "
