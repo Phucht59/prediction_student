@@ -4,26 +4,37 @@ Repository chính thức của khóa luận:
 
 > **Xây dựng mô hình học kết hợp để dự đoán thành tích học tập sinh viên**
 
-Đề tài xây dựng và đánh giá họ mô hình **Hybrid CNN–BiLSTM** trên ba bộ dữ liệu giáo dục, đồng thời so sánh công bằng với các mô hình Machine Learning truyền thống. Hệ thống phục vụ hai mục tiêu:
+Đề tài xây dựng họ mô hình **Hybrid CNN–BiLSTM** để dự đoán kết quả học tập và phát hiện sớm sinh viên có nguy cơ. Mô hình được đánh giá trên ba bộ dữ liệu:
 
-1. **Dự đoán kết quả học tập cuối cùng** của sinh viên.
-2. **Cảnh báo sớm theo từng giai đoạn**, khi lượng thông tin quan sát được còn hạn chế.
+- **Student-Mat**: dự đoán kết quả môn Toán theo ba mức `Low / Medium / High`.
+- **Student-Por**: dự đoán kết quả môn Tiếng Bồ Đào Nha theo ba mức `Low / Medium / High`.
+- **OULAD**: dự đoán sinh viên `At-risk / Not-at-risk` từ hành vi học tập theo thời gian.
 
-Hybrid CNN–BiLSTM là đóng góp trung tâm của khóa luận. Tuy nhiên, repository không tuyên bố mô hình Hybrid luôn vượt mọi mô hình ML. Kết luận khoa học phù hợp là:
+Hybrid CNN–BiLSTM là mô hình trung tâm của khóa luận. Kết luận của đề tài không phải là Hybrid luôn thắng mọi mô hình Machine Learning, mà là:
 
-> Hybrid đạt hiệu năng cạnh tranh với nhóm mô hình tốt nhất, nằm trong top 3 trên cả ba dataset, vượt các biến thể CNN-only/BiLSTM-only trong thí nghiệm UCI và thể hiện rõ giá trị ở bài toán cảnh báo sớm OULAD.
+> **Hybrid đạt hiệu năng cạnh tranh với nhóm mô hình tốt nhất, nằm trong top 3 trên cả ba dataset, vượt các biến thể CNN-only và BiLSTM-only trong thí nghiệm UCI, đồng thời thể hiện rõ giá trị ở bài toán cảnh báo sớm OULAD.**
 
 ---
 
-## 1. Kết quả dự đoán chính thức
+## 1. Kết quả mô hình cuối
 
-Đây là các **endpoint authority** chính thức dùng để báo cáo kết quả cuối của khóa luận:
+Các kết quả dưới đây là **authority chính thức** dùng để báo cáo kết quả cuối của khóa luận.
 
-| Dataset | Kiến trúc Hybrid chính thức | Bài toán | Macro-F1 |
-|---|---|---|---:|
-| Student-Mat | Frozen UCI CNN–BiLSTM | Low / Medium / High | **0.901460** |
-| Student-Por | Frozen UCI CNN–BiLSTM | Low / Medium / High | **0.862259** |
-| OULAD FINAL | H1 Tabular Residual CNN–BiLSTM | At-risk / Not-at-risk | **0.894071** |
+| Dataset | Mô hình Hybrid chính thức | Accuracy | Balanced Accuracy | Macro-F1 | PR-AUC |
+|---|---|---:|---:|---:|---:|
+| Student-Mat | Frozen UCI CNN–BiLSTM | 0.891139 | 0.902089 | **0.901460** | 0.944184 |
+| Student-Por | Frozen UCI CNN–BiLSTM | 0.889060 | 0.867576 | **0.862259** | 0.914679 |
+| OULAD FINAL | H1 Tabular Residual CNN–BiLSTM | 0.907674 | 0.879360 | **0.894071** | 0.934988 |
+
+Đối với OULAD, mô hình cuối còn đạt:
+
+- Risk Precision: **0.941290**.
+- Risk Recall: **0.785069**.
+- Risk F1: **0.856111**.
+- Specificity: **0.973650**.
+- ECE: **0.007871**.
+
+Các kết quả OULAD cũ như `0.7984` và `0.828084` chỉ còn là dữ liệu lịch sử, không phải kết quả cuối hiện tại.
 
 Nguồn authority:
 
@@ -31,284 +42,189 @@ Nguồn authority:
 - `reports/final/thesis_v3/01_FINAL_MAIN_RESULTS.md`
 - `reports/final/thesis_v3/02_FULL_ML_VS_HYBRID.md`
 
-Các kết quả OULAD cũ như `0.7984` và `0.828084` chỉ còn là **historical context**, không phải authority cuối hiện tại.
-
 ---
 
-## 2. Phải tách endpoint chính thức và stage phụ
+## 2. Kiến trúc mô hình Hybrid cuối
 
-Kết quả endpoint và stage không được đặt cạnh nhau mà không giải thích vì chúng thuộc các authority/checkpoint khác nhau và trả lời các câu hỏi nghiên cứu khác nhau.
+### 2.1. Hybrid CNN–BiLSTM cho Student-Mat và Student-Por
 
-Ví dụ Student-Mat:
-
-| Kết quả | Macro-F1 | Ý nghĩa |
-|---|---:|---|
-| Endpoint chính thức | **0.901460** | Mô hình chính thức cho nhiệm vụ dự đoán kết quả cuối |
-| Stage S2 | **0.846139** | Mô hình stage-aware dùng chung cơ chế S0–S1–S2 |
-
-Hai số này **không thể được diễn giải là mô hình giảm từ 0.9015 xuống 0.8461**.
-
-- Endpoint `0.901460` trả lời: mô hình cuối dự đoán thành tích tốt đến đâu khi được đánh giá theo authority chính thức?
-- Stage S2 `0.846139` trả lời: trong hệ thống cảnh báo theo giai đoạn, khi đã quan sát G1 và G2, mô hình dùng chung cho S0–S1–S2 hoạt động tốt đến đâu?
-
-Stage experiment được thiết kế để đánh giá sự cải thiện khi thông tin xuất hiện dần, không thay thế endpoint chính thức.
-
----
-
-## 3. Bộ dữ liệu và nhiệm vụ dự đoán
-
-### UCI Student Performance
-
-Hai bộ dữ liệu có cấu trúc đặc trưng tương đồng:
-
-- `Student-Mat`: kết quả môn Toán, 395 sinh viên.
-- `Student-Por`: kết quả môn Tiếng Bồ Đào Nha, 649 sinh viên.
-
-Nhãn chính được tạo từ điểm cuối `G3`:
-
-- `Low`: `0 <= G3 < 10`
-- `Medium`: `10 <= G3 < 15`
-- `High`: `15 <= G3 <= 20`
-
-`G3` chỉ được dùng để tạo nhãn và **bị cấm làm predictor**.
-
-### OULAD
-
-OULAD là dữ liệu học tập trực tuyến theo thời gian. Bài toán chính là phân loại nhị phân:
-
-- `At-risk`: sinh viên có nguy cơ.
-- `Not-at-risk`: sinh viên không thuộc nhóm nguy cơ.
-
-OULAD sử dụng chính sách `STRICT_REAL_TIME`:
-
-- 47 kênh temporal.
-- 165 đặc trưng aggregate.
-- Loại trừ giá trị điểm số.
-- Loại trừ các aggregate được suy ra từ điểm số.
-- Mỗi feature phải tồn tại trước cutoff của stage tương ứng.
-
----
-
-## 4. Pipeline tổng quát
+Mô hình UCI nhận hai nhóm thông tin.
 
 ```text
-Dữ liệu gốc
-    ↓
-Kiểm tra schema và làm sạch
-    ↓
-Tạo nhãn dự đoán
-    ↓
-Áp dụng chính sách feature theo thời điểm
-    ↓
-Chia outer cross-validation
-    ↓
-Fit preprocessing chỉ trên tập train
-    ↓
-Tạo nhánh temporal và nhánh tabular/context
-    ↓
-CNN trích xuất mẫu cục bộ
-    ↓
-BiLSTM học quan hệ theo trình tự
-    ↓
-Fusion với đặc trưng tĩnh/aggregate
-    ↓
-Đầu phân loại tạo xác suất
-    ↓
-Chọn checkpoint bằng inner validation
-    ↓
-Ensemble nhiều seed
-    ↓
-Ghép out-of-fold predictions
-    ↓
-Tính Macro-F1, Balanced Accuracy, PR-AUC và các metric khác
-    ↓
-Sinh risk profile và khuyến nghị có kiểm soát
+Điểm theo tiến trình G1, G2
+        ↓
+      CNN
+        ↓
+     BiLSTM
+        ↓
+Biểu diễn quá trình học ──────────────┐
+                                      ├→ Fusion → Classification head
+Đặc trưng cá nhân, gia đình, hành vi ─┘
+        ↓
+      MLP
 ```
 
-Nguyên tắc quan trọng nhất là **outer test không được dùng để chọn mô hình, checkpoint, cấu hình hay threshold**.
+#### Nhánh thời gian
+
+- `G1` và `G2` được tổ chức thành chuỗi ngắn theo thứ tự học tập.
+- CNN nhận diện các mẫu cục bộ như điểm tăng, giảm hoặc duy trì.
+- BiLSTM học quan hệ theo trình tự giữa các thời điểm.
+
+#### Nhánh ngữ cảnh
+
+Các đặc trưng tĩnh như thông tin cá nhân, gia đình, thời gian học, số lần nghỉ, số lần trượt và hỗ trợ giáo dục được xử lý qua nhánh MLP.
+
+#### Fusion
+
+Biểu diễn từ nhánh thời gian và nhánh ngữ cảnh được kết hợp để dự đoán ba xác suất:
+
+```text
+P(Low), P(Medium), P(High)
+```
+
+Lớp có xác suất lớn nhất được chọn làm kết quả cuối.
+
+#### Transfer learning
+
+Họ mô hình UCI sử dụng phần thân dùng chung và đầu ra riêng theo từng môn học:
+
+```text
+Shared CNN–BiLSTM trunk
+          ↓
+Kiến thức chung về quá trình học tập
+       ┌──────────────┴──────────────┐
+MAT-specific head              POR-specific head
+```
+
+Transfer learning ở đây là chuyển hoặc dùng lại **trọng số và biểu diễn đã học**, không phải sao chép mẫu dữ liệu từ bộ này sang bộ kia. Dữ liệu test của mỗi bộ vẫn được giữ riêng và không được dùng để huấn luyện.
+
+### 2.2. H1 Tabular Residual CNN–BiLSTM cho OULAD
+
+OULAD có dữ liệu theo tuần nên phù hợp hơn với kiến trúc chuỗi thời gian.
+
+```text
+47 temporal channels → CNN → BiLSTM → Masked pooling ─┐
+                                                       ├→ Gated fusion → Risk probability
+165 aggregate features → Tabular residual expert ─────┤
+Static/context features ───────────────────────────────┘
+```
+
+Mô hình gồm:
+
+- Nhánh temporal học sự thay đổi hành vi học tập theo tuần.
+- CNN nhận diện mẫu hoạt động cục bộ.
+- BiLSTM học xu hướng dài hơn trong quá trình học.
+- Masked pooling chỉ tổng hợp các tuần đã được phép quan sát.
+- Nhánh tabular residual expert học phần thông tin mà nhánh temporal chưa giải thích tốt.
+- Gated residual fusion kết hợp temporal, aggregate và static features.
+- Các nhiệm vụ phụ survival/outcome hỗ trợ backbone học biểu diễn tốt hơn.
+
+Kiến trúc cuối có **160,492 tham số** và sử dụng chính sách `STRICT_REAL_TIME`.
 
 ---
 
-## 5. Pipeline UCI chi tiết
+## 3. Pipeline dự đoán UCI từng bước
 
 ### Bước 1 — Đọc và kiểm tra dữ liệu
 
-Mỗi dòng đại diện cho một sinh viên, gồm các nhóm thông tin:
+Mỗi dòng đại diện cho một sinh viên. Dữ liệu gồm thông tin cá nhân, gia đình, hành vi học tập, số lần nghỉ, điểm G1, G2 và điểm cuối G3.
 
-- Cá nhân và trường học.
-- Gia đình và hỗ trợ giáo dục.
-- Thời gian học, số lần trượt và số lần nghỉ.
-- Điểm quá trình G1, G2.
-- Điểm cuối G3 dùng để tạo nhãn.
+### Bước 2 — Tạo nhãn
 
-### Bước 2 — Tạo nhãn ba lớp
+G3 chỉ được dùng để tạo nhãn:
 
-`G3` được chuyển thành `Low`, `Medium`, `High`. Sau khi tạo nhãn, G3 không được đưa vào đầu vào mô hình để tránh target leakage.
+- `Low`: `0 <= G3 < 10`.
+- `Medium`: `10 <= G3 < 15`.
+- `High`: `15 <= G3 <= 20`.
 
-### Bước 3 — Chia dữ liệu theo outer folds
+**G3 bị cấm làm predictor**, vì sử dụng G3 để dự đoán chính nhãn tạo từ G3 sẽ gây data leakage.
 
-UCI sử dụng protocol đóng băng:
+### Bước 3 — Chia dữ liệu thành outer folds
 
-- 5 outer folds.
-- 5 seed cố định: `42, 1201, 2026, 3407, 7319`.
-- Dự đoán cuối được ghép từ các outer test folds.
+UCI sử dụng 5 outer folds. Mỗi vòng:
 
-Với Student-Mat, mỗi vòng gần đúng sử dụng bốn fold để train và một fold để test. Sau năm vòng, mỗi sinh viên được làm outer test đúng một lần.
+- 4 folds dùng để huấn luyện.
+- 1 fold giữ lại để đánh giá.
 
-### Bước 4 — Tiền xử lý chỉ trên tập train
+Sau 5 vòng, mỗi sinh viên được làm mẫu test đúng một lần.
 
-Encoder, scaler và các phép biến đổi chỉ được fit trên training partition của fold hiện tại:
+### Bước 4 — Fit preprocessing trên tập train
+
+Encoder, scaler và các phép biến đổi chỉ được học từ training partition của fold hiện tại.
 
 ```text
 Outer train → fit preprocessing
-Outer test  → transform bằng preprocessing đã học từ train
+Outer test  → transform bằng preprocessing đã fit
 ```
 
-Cách làm này ngăn dữ liệu test ảnh hưởng đến quá trình huấn luyện.
+Không fit preprocessing trên toàn bộ dataset trước khi chia fold.
 
-### Bước 5 — Tạo hai nhóm đầu vào
+### Bước 5 — Tạo hai nhánh đầu vào
 
-#### Nhánh temporal
-
-G1 và G2 được tổ chức thành chuỗi ngắn theo quá trình học:
-
-```text
-G1 → G2
-```
-
-#### Nhánh context
-
-Các đặc trưng tĩnh như thông tin cá nhân, gia đình, thời gian học, số lần nghỉ và số lần trượt được xử lý ở nhánh context/tabular.
+- G1, G2 tạo thành nhánh thời gian.
+- Các đặc trưng còn lại tạo thành nhánh context/tabular.
 
 ### Bước 6 — CNN trích xuất mẫu cục bộ
 
-CNN tìm các mẫu ngắn trong quá trình điểm số, chẳng hạn:
-
-- G1 thấp và G2 tăng.
-- G1 cao và G2 ổn định.
-- G1 trung bình nhưng G2 giảm.
-
-CNN có thể được hiểu là bộ lọc phát hiện các kiểu biến động gần nhau.
+CNN phát hiện các kiểu biến động ngắn trong chuỗi điểm.
 
 ### Bước 7 — BiLSTM học quan hệ theo trình tự
 
-BiLSTM xử lý chuỗi theo hai hướng để học quan hệ giữa các thời điểm. Mục tiêu là nhận diện xu hướng cải thiện, ổn định hoặc suy giảm.
+BiLSTM học cách G1 và G2 liên hệ với nhau và phản ánh xu hướng học tập.
 
-Do UCI chỉ có chuỗi G1–G2 rất ngắn, lợi thế thời gian của CNN–BiLSTM không được khai thác mạnh như trên OULAD. Đây cũng là lý do các mô hình cây vẫn rất cạnh tranh trên UCI.
+### Bước 8 — MLP xử lý đặc trưng tĩnh
 
-### Bước 8 — Fusion với đặc trưng context
+Thông tin cá nhân, gia đình và hành vi học tập được mã hóa thành biểu diễn ngữ cảnh.
 
-Biểu diễn temporal từ CNN–BiLSTM được kết hợp với biểu diễn context:
+### Bước 9 — Fusion và classification head
 
-```text
-G1, G2 → CNN → BiLSTM ───────┐
-                              ├→ Fusion → P(Low, Medium, High)
-Đặc trưng tĩnh → Context MLP ─┘
-```
-
-### Bước 9 — Transfer learning giữa hai môn
-
-Cấu hình UCI chính thức sử dụng:
-
-- `transfer_learning: true`
-- `shared_trunk: true`
-- `subject_specific_head: true`
-
-Cơ chế này chuyển **biểu diễn/trọng số đã học**, không chuyển trực tiếp các mẫu test giữa Student-Mat và Student-Por.
-
-```text
-Biểu diễn chung về hành vi học tập
-            ↓
-Shared CNN–BiLSTM trunk
-       ┌────┴────┐
-MAT-specific   POR-specific
-    head           head
-```
-
-Dữ liệu của từng môn vẫn được đánh giá theo fold và authority riêng. Không được hiểu transfer learning là trộn tập test hoặc sao chép sinh viên từ bộ này sang bộ kia.
+Hai nhánh được kết hợp để tạo xác suất cho ba lớp Low, Medium và High.
 
 ### Bước 10 — Chọn checkpoint bằng inner validation
 
-Trong mỗi outer training fold, inner validation được dùng để:
+Checkpoint và candidate được chọn trên inner validation. Outer test không được dùng để chọn epoch, threshold hoặc cấu hình mô hình.
 
-- Theo dõi chất lượng mô hình.
-- Chọn checkpoint.
-- Kiểm soát overfitting.
+### Bước 11 — Huấn luyện nhiều seed và ensemble
 
-Outer test chỉ được mở để đánh giá sau khi quá trình lựa chọn đã kết thúc.
-
-### Bước 11 — Ensemble nhiều seed
-
-Mỗi seed tạo một bộ xác suất. Dự đoán cuối lấy trung bình xác suất:
+Mỗi mô hình được đánh giá với các seed cố định:
 
 ```text
-Final probability = mean(probability_seed_1, ..., probability_seed_5)
+42, 1201, 2026, 3407, 7319
 ```
 
-Đây là `mean_probability ensemble`, giúp giảm ảnh hưởng của khởi tạo ngẫu nhiên. Ensemble không phải là oversampling và không tạo thêm sinh viên giả.
+Xác suất của các seed được lấy trung bình:
+
+```text
+Final probability = mean(probability của các seed)
+```
+
+Ensemble giúp giảm ảnh hưởng của khởi tạo ngẫu nhiên và làm dự đoán ổn định hơn.
 
 ### Bước 12 — Out-of-fold evaluation
 
-Các dự đoán outer test được ghép thành một tập OOF hoàn chỉnh để tính:
-
-- Accuracy.
-- Balanced Accuracy.
-- Macro Precision, Macro Recall, Macro-F1.
-- Weighted-F1.
-- PR-AUC và ROC-AUC.
-- NLL, Brier score và ECE.
-- Confusion matrix và metric từng lớp.
+Dự đoán của các outer test folds được ghép thành một tập OOF hoàn chỉnh để tính Accuracy, Balanced Accuracy, Macro-F1, PR-AUC, ROC-AUC, NLL, Brier score, ECE và confusion matrix.
 
 ---
 
-## 6. Pipeline OULAD chi tiết
+## 4. Pipeline dự đoán OULAD từng bước
 
-OULAD sử dụng kiến trúc **H1 Tabular Residual CNN–BiLSTM** với 160,492 tham số.
+### Bước 1 — Tạo dữ liệu theo thời gian
 
-### Đầu vào
+Hoạt động của sinh viên được gom theo tuần và tạo thành 47 temporal channels.
 
-```text
-Chuỗi hành vi theo tuần: 47 temporal channels
-Đặc trưng tổng hợp:      165 aggregate features
-Thông tin tĩnh:          static/context features
-```
+### Bước 2 — Tạo aggregate và static features
 
-### Nhánh temporal
+Hệ thống tạo 165 aggregate features cùng các đặc trưng tĩnh phù hợp với thời điểm quan sát.
 
-CNN và BiLSTM học diễn biến hành vi theo thời gian. Masked pooling bảo đảm mô hình chỉ tổng hợp các tuần đã quan sát tại stage hiện tại.
+### Bước 3 — Áp dụng cutoff thời gian
 
-### Nhánh tabular residual expert
+Các stage chỉ được sử dụng thông tin xuất hiện trước cutoff tương ứng:
 
-Đặc trưng aggregate/tabular được đưa qua một expert riêng. Expert này học phần thông tin mà nhánh temporal chưa giải thích tốt và hiệu chỉnh đầu ra bằng residual có giới hạn.
-
-```text
-Temporal CNN–BiLSTM → base risk logit ─┐
-                                       ├→ final risk probability
-Tabular residual expert → correction ──┘
-```
-
-### Fusion và auxiliary objectives
-
-Mô hình kết hợp các nhánh temporal, aggregate và static bằng gated residual fusion. Các nhiệm vụ phụ về survival/outcome hỗ trợ backbone học biểu diễn có ý nghĩa hơn, trong khi bài toán chính vẫn là dự đoán `At-risk / Not-at-risk`.
-
-### Protocol đánh giá
-
-- 3 outer folds.
-- 5 seed cố định.
-- Cấu trúc mô hình đã đóng băng.
-- Chọn mô hình bằng inner validation.
-- Threshold được chọn từ pooled inner-OOF để tối đa Macro-F1.
-- Outer label không được dùng để chọn threshold.
-
-### Chính sách strict real-time
-
-Các stage:
-
-- `E1`: quan sát 20% tiến trình.
-- `E2`: quan sát 35% tiến trình.
-- `M1`: quan sát 50% tiến trình.
-- `L1`: quan sát 75% tiến trình.
-- `FINAL`: authority cuối.
+- `E1`: 20% tiến trình.
+- `E2`: 35% tiến trình.
+- `M1`: 50% tiến trình.
+- `L1`: 75% tiến trình.
+- `FINAL`: dữ liệu cuối hợp lệ.
 
 Tập feature có tính lồng nhau:
 
@@ -316,51 +232,80 @@ Tập feature có tính lồng nhau:
 F20 ⊂ F35 ⊂ F50 ⊂ F75 ⊂ FFINAL
 ```
 
-Thông tin tương lai không được đi ngược vào stage sớm.
+Score values và score-derived aggregates không được sử dụng trong authority strict real-time.
+
+### Bước 4 — CNN và BiLSTM học hành vi theo tuần
+
+CNN tìm mẫu hoạt động cục bộ; BiLSTM học xu hướng dài hơn của quá trình tương tác học tập.
+
+### Bước 5 — Masked pooling
+
+Mô hình chỉ tổng hợp các tuần đã xuất hiện, ngăn thông tin của tương lai đi vào stage sớm.
+
+### Bước 6 — Tabular residual expert
+
+Nhánh expert xử lý aggregate features và tạo phần hiệu chỉnh residual cho dự đoán từ temporal backbone.
+
+### Bước 7 — Fusion và auxiliary objectives
+
+Các nhánh temporal, aggregate và static được kết hợp bằng gated residual fusion. Các nhiệm vụ phụ hỗ trợ học biểu diễn nhưng đầu ra chính vẫn là `At-risk / Not-at-risk`.
+
+### Bước 8 — Nested evaluation
+
+OULAD sử dụng:
+
+- 3 outer folds.
+- 5 seed cố định.
+- Chọn mô hình bằng inner validation.
+- Không dùng outer label để tuning.
+
+### Bước 9 — Chọn threshold
+
+Threshold được chọn từ pooled inner-OOF để tối đa Macro-F1, sau đó được khóa trước khi đánh giá outer test.
+
+### Bước 10 — Tính kết quả cuối
+
+Các outer predictions được ghép lại để tính Macro-F1, PR-AUC, Risk Precision, Risk Recall, Risk F1, Specificity và calibration metrics.
 
 ---
 
-## 7. Xử lý mất cân bằng lớp
+## 5. Kết quả cảnh báo theo từng thời điểm
 
-### Kết luận chính thức
+Các kết quả dưới đây dùng để trả lời câu hỏi:
 
-Authority/config cuối của repository **không khai báo SMOTE, random oversampling, undersampling hoặc weighted sampler**. Vì vậy README không tuyên bố nhóm đã tạo mẫu tổng hợp để cân bằng dữ liệu.
+> Khi hệ thống mới quan sát được một phần quá trình học, mô hình có thể cảnh báo sớm tốt đến đâu?
 
-Vấn đề mất cân bằng được kiểm soát chủ yếu ở ba mức sau.
+### 5.1. Student-Mat và Student-Por
 
-### 7.1. Mức đánh giá
+| Dataset | S0: chưa có G1/G2 | S1: có G1 | S2: có G1 và G2 |
+|---|---:|---:|---:|
+| Student-Mat | 0.413558 | 0.743811 | 0.846139 |
+| Student-Por | 0.508886 | 0.754180 | 0.851947 |
 
-Không chỉ dùng Accuracy. Các metric chính gồm:
+Các giá trị trên là Macro-F1 của nhánh nghiên cứu stage-aware. Mô hình stage-aware dùng một cơ chế chung qua S0, S1 và S2 để đo mức cải thiện khi thông tin xuất hiện dần.
 
-- **Macro-F1**: mỗi lớp có trọng số ngang nhau.
-- **Balanced Accuracy**: trung bình recall của các lớp.
-- **PR-AUC**: phù hợp khi quan tâm lớp thiểu số/nguy cơ.
-- Precision, Recall và F1 từng lớp.
-- Confusion matrix.
+Vì vậy, với Student-Mat:
 
-Macro-F1 được ưu tiên vì lớp ít mẫu vẫn đóng góp ngang với lớp nhiều mẫu:
+- `0.901460` là kết quả của mô hình endpoint chính thức cho nhiệm vụ dự đoán cuối.
+- `0.846139` là kết quả tại S2 của thí nghiệm stage-aware.
 
-```text
-Macro-F1 = (F1 lớp 1 + F1 lớp 2 + ... + F1 lớp K) / K
-```
+Hai kết quả thuộc hai evaluation authority/checkpoint khác nhau và trả lời hai câu hỏi khác nhau. `0.846139` không có nghĩa là mô hình chính thức bị giảm từ `0.901460`; nó cho biết một mô hình dùng chung cho toàn bộ S0–S1–S2 đạt hiệu quả thế nào khi đến stage S2.
 
-### 7.2. Mức lựa chọn mô hình
+### 5.2. OULAD
 
-Checkpoint/candidate được chọn bằng inner validation dựa trên metric cân bằng thay vì chỉ tối đa Accuracy. Outer test không được dùng để điều chỉnh mô hình.
+| Stage | Phần tiến trình quan sát | Macro-F1 Hybrid |
+|---|---:|---:|
+| E1 | 20% | 0.707682 |
+| E2 | 35% | 0.748207 |
+| M1 | 50% | 0.795071 |
+| L1 | 75% | 0.852491 |
+| FINAL | Cuối kỳ hợp lệ | 0.894071 |
 
-### 7.3. Mức quyết định của OULAD
-
-OULAD không mặc định cố định threshold `0.5`. Threshold được chọn trên pooled inner-OOF để tối đa Macro-F1, sau đó mới khóa và đánh giá trên outer test.
-
-Đây là xử lý mất cân bằng ở **mức ra quyết định**, không phải tạo thêm mẫu.
-
-Cách trả lời vấn đáp phù hợp:
-
-> Nhóm không sử dụng SMOTE trong authority chính thức. Mất cân bằng được kiểm soát bằng Macro-F1, Balanced Accuracy, PR-AUC, metric từng lớp và threshold được chọn trên inner validation đối với OULAD.
+Kết quả tăng dần cho thấy dữ liệu hành vi theo thời gian cung cấp thêm tín hiệu khi quá trình học diễn ra. Ở E1, Hybrid ưu tiên phát hiện sinh viên nguy cơ sớm hơn một số mô hình ML, nhưng đổi lại có thể tạo thêm false positive. Từ M1 đến L1, Hybrid đạt hiệu năng rõ ràng hơn khi chuỗi hành vi đã đủ dài.
 
 ---
 
-## 8. So sánh Machine Learning và Hybrid
+## 6. So sánh Hybrid với Machine Learning
 
 Macro-F1 trên endpoint authority chính thức:
 
@@ -375,137 +320,144 @@ Macro-F1 trên endpoint authority chính thức:
 | MLP | 0.859507 | 0.830399 | **0.895349** |
 | **Hybrid CNN–BiLSTM** | **0.901460** | **0.862259** | **0.894071** |
 
-### Diễn giải trung thực
+### Diễn giải
 
 - Student-Mat: Decision Tree cao nhất; Hybrid xếp thứ 2 và gần như ngang Random Forest.
 - Student-Por: Random Forest cao nhất; Hybrid xếp thứ 3 sau Random Forest và XGBoost.
-- OULAD: MLP cao nhất; Hybrid xếp thứ 2 với chênh lệch Macro-F1 rất nhỏ.
-- Hybrid là mô hình duy nhất nằm trong top 3 ở cả ba dataset.
+- OULAD: MLP cao nhất; Hybrid xếp thứ 2 với chênh lệch rất nhỏ.
+- Hybrid là mô hình duy nhất nằm trong top 3 trên cả ba dataset.
 
-Do đó, luận văn không dùng claim “Hybrid luôn thắng ML”. Claim phù hợp hơn là:
+Hybrid không luôn thắng ML vì:
 
-> Hybrid có hiệu năng ổn định và cạnh tranh trên nhiều loại dữ liệu, đồng thời cung cấp kiến trúc thống nhất để học cả đặc trưng thời gian và đặc trưng tabular.
+- UCI có số mẫu nhỏ và chuỗi thời gian chỉ gồm G1, G2 nên lợi thế của CNN–BiLSTM bị giới hạn.
+- Các mô hình cây rất mạnh với dữ liệu tabular và các ngưỡng điểm rõ ràng.
+- OULAD có dữ liệu hành vi theo tuần, phù hợp hơn với kiến trúc temporal Hybrid.
 
----
+Ý nghĩa chính của Hybrid không chỉ nằm ở việc đạt điểm cao nhất, mà còn ở khả năng kết hợp thống nhất:
 
-## 9. Kết quả UCI theo giai đoạn
-
-### Hybrid CNN–BiLSTM
-
-| Dataset | Stage | Thông tin được phép quan sát | Macro-F1 |
-|---|---|---|---:|
-| Student-Mat | S0 | Không có G1/G2 | 0.413558 |
-| Student-Mat | S1 | Chỉ có G1 | 0.743811 |
-| Student-Mat | S2 | Có G1 và G2 | 0.846139 |
-| Student-Por | S0 | Không có G1/G2 | 0.508886 |
-| Student-Por | S1 | Chỉ có G1 | 0.754180 |
-| Student-Por | S2 | Có G1 và G2 | 0.851947 |
-
-Ý nghĩa chính của bảng này là chất lượng dự đoán tăng khi thông tin học tập xuất hiện dần.
-
-- S0 khó nhất vì chưa có điểm quá trình.
-- G1 giúp kết quả tăng mạnh ở S1.
-- G2 bổ sung tín hiệu quan trọng ở S2.
-
-Các stage này là **secondary evidence**, không thay thế endpoint `0.901460` và `0.862259`.
+- Mẫu cục bộ từ CNN.
+- Quan hệ theo thời gian từ BiLSTM.
+- Đặc trưng tabular/context.
+- Cảnh báo theo nhiều thời điểm.
 
 ---
 
-## 10. Kết quả OULAD theo giai đoạn
+## 7. Xử lý mất cân bằng lớp
 
-| Stage | Tiến trình quan sát | Hybrid Macro-F1 |
-|---|---:|---:|
-| E1 | 20% | 0.707682 |
-| E2 | 35% | 0.748207 |
-| M1 | 50% | 0.795071 |
-| L1 | 75% | 0.852491 |
-| FINAL | Authority cuối | **0.894071** |
+Authority/config cuối không khai báo:
 
-Ở E1, Hybrid có Risk Recall cao hơn nhiều mô hình ML mạnh, cho thấy khả năng phát hiện sinh viên nguy cơ sớm tốt hơn nhưng phải chấp nhận nhiều cảnh báo sai hơn. Khi tiến trình học tăng, độ chính xác và Macro-F1 cải thiện rõ rệt.
+- SMOTE.
+- Random oversampling.
+- Random undersampling.
+- Weighted sampler.
 
-Tại FINAL:
+Do đó, repository không tuyên bố đã tạo thêm mẫu tổng hợp để cân bằng dữ liệu.
 
-| Metric | H1 Hybrid |
-|---|---:|
-| Accuracy | 0.907674 |
-| Balanced Accuracy | 0.879360 |
-| Macro-F1 | 0.894071 |
-| PR-AUC | 0.934988 |
-| ROC-AUC | 0.944963 |
-| Risk Precision | 0.941290 |
-| Risk Recall | 0.785069 |
-| Risk F1 | 0.856111 |
-| Specificity | 0.973650 |
-| ECE | 0.007871 |
+Mất cân bằng được kiểm soát chủ yếu ở các mức sau.
 
-Hybrid có Risk Precision và Specificity cao, nghĩa là mô hình khá thận trọng: khi phát cảnh báo nguy cơ thì thường chính xác, nhưng vẫn có thể bỏ sót một phần sinh viên at-risk.
+### Mức đánh giá
 
----
+- **Macro-F1**: mỗi lớp đóng góp ngang nhau.
+- **Balanced Accuracy**: trung bình recall của các lớp.
+- **PR-AUC**: quan trọng khi quan tâm lớp thiểu số hoặc lớp nguy cơ.
+- Precision, Recall và F1 từng lớp.
+- Confusion matrix.
 
-## 11. Ý nghĩa của từng nhóm mô hình
+### Mức lựa chọn mô hình
 
-- **Decision Tree:** mạnh trên Student-Mat, dễ giải thích và phù hợp với các ngưỡng điểm rõ ràng.
-- **Random Forest:** ổn định trên dữ liệu tabular nhỏ và tốt nhất trên Student-Por.
-- **XGBoost:** comparator mạnh, ổn định và có chất lượng xác suất tốt.
-- **Logistic Regression:** cạnh tranh trên OULAD, cho thấy feature engineering tạo tín hiệu gần tuyến tính đáng kể.
-- **MLP:** tốt nhất ở OULAD FINAL nhưng yếu hơn trên hai bộ UCI nhỏ.
-- **SVM:** yếu trên UCI nhưng cạnh tranh trên OULAD.
-- **CNN-only/BiLSTM-only:** dùng làm ablation để kiểm tra đóng góp của từng thành phần.
-- **Hybrid CNN–BiLSTM:** kết hợp pattern cục bộ, quan hệ thời gian và thông tin tabular; là kiến trúc trọng tâm của khóa luận.
+Checkpoint và candidate được chọn bằng inner validation dựa trên metric cân bằng, không chỉ dựa trên Accuracy.
+
+### Mức ra quyết định của OULAD
+
+Threshold được chọn trên pooled inner-OOF để tối đa Macro-F1. Đây là xử lý mất cân bằng ở mức quyết định, không phải tạo thêm mẫu.
+
+Cách mô tả chính xác:
+
+> Nhóm không sử dụng SMOTE trong authority chính thức. Ảnh hưởng của mất cân bằng lớp được kiểm soát bằng Macro-F1, Balanced Accuracy, PR-AUC, metric theo lớp và threshold được chọn trên inner validation đối với OULAD.
 
 ---
 
-## 12. Protocol khoa học và chống data leakage
+## 8. Kiểm soát data leakage và overfitting
 
-Repository tuân thủ các nguyên tắc:
+Pipeline áp dụng các nguyên tắc:
 
+- G3 chỉ dùng tạo nhãn, không dùng làm predictor.
 - Preprocessing chỉ fit trên training partition.
-- G3 không được dùng làm predictor.
-- OULAD loại bỏ score values và score-derived aggregates.
-- Outer test không dùng để chọn candidate/checkpoint/threshold.
-- UCI sử dụng five-fold OOF evaluation và nhiều seed cố định.
-- OULAD sử dụng 3 outer folds × 5 seeds.
-- Kết quả cuối được đóng băng bằng prediction artifact, checkpoint, config và checksum.
-- Validation release chỉ replay evidence, không âm thầm train lại.
+- Inner validation dùng để chọn model/checkpoint/threshold.
+- Outer test chỉ dùng để báo cáo kết quả.
+- Không chọn seed tốt nhất dựa trên outer test.
+- Stage sớm không được nhìn feature của stage sau.
+- OULAD strict real-time loại score values và score-derived aggregates.
+- Nhiều seed và mean-probability ensemble giúp giảm biến động ngẫu nhiên.
 
-Lưu ý: đây là nested cross-validation benchmark, không phải một external holdout hoàn toàn độc lập chưa từng xuất hiện trong quá trình phát triển.
-
----
-
-## 13. Hạn chế cần trình bày trung thực
-
-1. UCI có kích thước nhỏ và chuỗi temporal chỉ gồm G1–G2, nên lợi thế sequence modeling bị hạn chế.
-2. Các mô hình cây có thể khai thác rất tốt các quan hệ ngưỡng và phi tuyến trên dữ liệu tabular nhỏ.
-3. Student-Mat Hybrid có ECE cao hơn một số comparator; xác suất cần được diễn giải thận trọng nếu dùng để ra quyết định can thiệp.
-4. Pipeline chính thức không tuyên bố đã dùng SMOTE hoặc oversampling.
-5. Kết quả là bằng chứng dự đoán, không chứng minh quan hệ nhân quả giữa khuyến nghị và sự cải thiện học tập.
-6. Endpoint và stage phải luôn được báo cáo tách biệt.
+Kết quả hiện tại là nested cross-validation/OOF benchmark; repository chưa tuyên bố có một external holdout độc lập hoàn toàn ngoài protocol này.
 
 ---
 
-## 14. Mô-đun khuyến nghị
+## 9. Chỉ số đánh giá
 
-Mô-đun khuyến nghị tiêu thụ các prediction đã đóng băng để tạo:
+Chỉ số chính của bài toán phân loại là **Macro-F1** vì các lớp không hoàn toàn cân bằng.
+
+Ngoài ra còn sử dụng:
+
+- Accuracy.
+- Balanced Accuracy.
+- Macro Precision và Macro Recall.
+- Weighted-F1.
+- PR-AUC và ROC-AUC.
+- NLL và Brier score.
+- ECE để đánh giá calibration.
+- Confusion matrix.
+- Risk Precision, Risk Recall, Risk F1 và Specificity cho OULAD.
+
+RMSE và R² chỉ là chỉ số phụ cho nhánh phân tích điểm số UCI; không dùng để xếp hạng chung giữa UCI và OULAD vì OULAD là bài toán phân loại rủi ro.
+
+---
+
+## 10. Hạn chế cần lưu ý
+
+- Student-Mat và Student-Por có kích thước nhỏ đối với deep learning.
+- Chuỗi UCI chỉ có hai thời điểm G1 và G2 nên chưa khai thác hết khả năng của BiLSTM.
+- Mô hình Hybrid không đạt hạng nhất trên mọi dataset.
+- Xác suất Student-Mat có ECE cao hơn các mô hình cây; cần thận trọng nếu sử dụng trực tiếp xác suất để ra quyết định can thiệp.
+- OULAD phù hợp hơn để chứng minh giá trị của nhánh temporal vì có dữ liệu hành vi theo tuần.
+- Kết quả hiện tại là bằng chứng dự đoán, không phải bằng chứng rằng khuyến nghị can thiệp tạo ra hiệu quả nhân quả.
+
+---
+
+## 11. Luồng hệ thống hoàn chỉnh
 
 ```text
-Prediction
-    ↓
-Risk profile
-    ↓
-Recommendation plan
-    ↓
-Actions có ràng buộc
-    ↓
-PostgreSQL / evidence artifacts
+DATA
+  ↓
+VALIDATION + LABEL CREATION
+  ↓
+TRAIN-ONLY PREPROCESSING
+  ↓
+TEMPORAL / TABULAR FEATURE CONSTRUCTION
+  ↓
+HYBRID CNN–BiLSTM
+  ↓
+INNER MODEL SELECTION
+  ↓
+MULTI-SEED ENSEMBLE / THRESHOLD LOCK
+  ↓
+OUT-OF-FOLD PREDICTION
+  ↓
+RISK PROFILE
+  ↓
+RECOMMENDATION POLICY
+  ↓
+POSTGRESQL / EVIDENCE / REPORT
 ```
 
-Khuyến nghị là policy dựa trên evidence, không thay đổi checkpoint hoặc metric của mô hình dự đoán. Coverage của khuyến nghị không được gọi là Accuracy và chưa được diễn giải như hiệu quả nhân quả.
+Mô-đun khuyến nghị sử dụng các dự đoán đã đóng băng để tạo risk profile và kế hoạch hỗ trợ. Khuyến nghị là tầng sau mô hình dự đoán, không làm thay đổi authority của các metric dự đoán.
 
 ---
 
-## 15. Chạy validation
+## 12. Chạy validation
 
-Cài môi trường từ `requirements.txt` hoặc `requirements-lock.txt`, sau đó chạy:
+Cài đặt môi trường từ `requirements.txt` hoặc `requirements-lock.txt`, sau đó chạy:
 
 ```powershell
 python project.py final status
@@ -516,52 +468,44 @@ python project.py pipeline oulad validate
 pytest
 ```
 
-Các lệnh validation chỉ đọc/replay evidence cuối. Training chỉ chạy khi được gọi rõ qua pipeline train tương ứng.
+Các lệnh trên đọc và replay evidence đã đóng băng, không tự động train lại mô hình.
 
----
+Lệnh train chỉ được gọi khi cần tái lập nghiên cứu:
 
-## 16. Cấu trúc repository
-
-```text
-artifacts/final/          prediction, metric, checkpoint và checksum cuối
-artifacts/canonical_v3/   OULAD canonical predictions, metrics và checkpoints
-configs/final/            model authority và cấu hình đóng băng
-data/                     dữ liệu và manifest được phép sử dụng
-database/final/           PostgreSQL schema và migration cuối
-docs/                     tài liệu kiến trúc, protocol và project map
-reports/final/thesis_v3/  báo cáo authority dùng cho luận văn
-scripts/                  replay, validation và pipeline scripts
-src/                      model, training, evaluation và recommendation code
-tests/                    kiểm thử tự động
-project.py                CLI điều phối pipeline và validation
+```powershell
+python project.py pipeline uci train
+python project.py pipeline oulad train
 ```
 
 ---
 
-## 17. Các tệp authority quan trọng
+## 13. Vị trí mã nguồn và artefact
 
-| Mục đích | Đường dẫn |
+| Nội dung | Vị trí |
 |---|---|
 | Authority mô hình cuối | `configs/final/final_model_authority.yaml` |
-| Cấu hình Student-Mat | `configs/final/cnn_bilstm_mat.yaml` |
-| Cấu hình Student-Por | `configs/final/cnn_bilstm_por.yaml` |
+| Cấu hình UCI MAT | `configs/final/cnn_bilstm_mat.yaml` |
+| Cấu hình UCI POR | `configs/final/cnn_bilstm_por.yaml` |
 | Cấu hình OULAD H1 | `configs/final/h1_tabular_residual_oulad.yaml` |
-| Kết quả Hybrid chính thức | `reports/final/thesis_v3/01_FINAL_MAIN_RESULTS.md` |
+| Báo cáo kết quả chính | `reports/final/thesis_v3/01_FINAL_MAIN_RESULTS.md` |
 | So sánh ML và Hybrid | `reports/final/thesis_v3/02_FULL_ML_VS_HYBRID.md` |
 | Kết quả stage UCI | `reports/final/thesis_v3/03_UCI_STAGE_RESULTS.md` |
 | Kết quả stage OULAD | `reports/final/thesis_v3/04_OULAD_STAGE_RESULTS.md` |
-| Registry kiến trúc cuối | `reports/final/thesis_v3/10_FINAL_MODEL_ARCHITECTURES.md` |
-| Sơ đồ mã nguồn | `docs/project_map/PROJECT_CODE_MAP.md` |
+| Kiến trúc mô hình | `reports/final/thesis_v3/10_FINAL_MODEL_ARCHITECTURES.md` |
+| Prediction và metric cuối | `artifacts/final/`, `artifacts/canonical_v3/` |
+| Recommendation runtime | `src/recommend_hybrid/` |
+| Database cuối | `database/final/` |
+| Bản đồ repository | `docs/project_map/PROJECT_CODE_MAP.md` |
 
 ---
 
-## 18. Tuyên bố kết quả cuối
+## 14. Kết luận khoa học
 
-- Student-Mat Hybrid Macro-F1: **0.901460**.
-- Student-Por Hybrid Macro-F1: **0.862259**.
-- OULAD H1 Hybrid Macro-F1: **0.894071**.
-- Hybrid không luôn đứng hạng 1 nhưng nằm trong top 3 trên cả ba dataset.
-- Stage evidence không thay thế endpoint authority.
-- Transfer learning chuyển biểu diễn/trọng số, không trộn outer test samples.
-- Mất cân bằng được kiểm soát bằng metric, protocol lựa chọn và threshold; không tuyên bố sử dụng SMOTE.
-- Kết quả cuối được đóng băng và có thể replay/validate từ artifact hiện có.
+Kết quả cho thấy Hybrid CNN–BiLSTM là một mô hình ổn định và cạnh tranh trên nhiều loại dữ liệu giáo dục:
+
+- Trên UCI, Hybrid đạt kết quả gần nhóm mô hình ML tốt nhất dù dữ liệu nhỏ và chuỗi rất ngắn.
+- Trên OULAD, kiến trúc temporal kết hợp tabular residual expert thể hiện rõ hơn lợi thế trong cảnh báo theo tiến trình.
+- Hybrid vượt các biến thể CNN-only và BiLSTM-only trong thí nghiệm UCI, cho thấy việc kết hợp hai thành phần có giá trị hơn việc sử dụng từng thành phần riêng lẻ.
+- Mô hình không được tuyên bố là luôn tốt nhất, nhưng cung cấp một kiến trúc thống nhất cho dự đoán cuối, cảnh báo sớm và tích hợp với hệ thống khuyến nghị.
+
+> **Đóng góp chính của khóa luận là xây dựng và đánh giá một hệ thống Hybrid CNN–BiLSTM có protocol chống rò rỉ dữ liệu, hỗ trợ dự đoán theo nhiều thời điểm và duy trì hiệu năng cạnh tranh với các mô hình Machine Learning mạnh.**
