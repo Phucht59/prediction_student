@@ -47,7 +47,7 @@ Fallback breakdown: `NO_ACTION_MET_MINIMUM_RISK_REDUCTION` = 12.750; `POLICY_ABS
 - Fold stability: coverage lần lượt 67,1748% / 65,1442% / 66,6651%; mean reduction 0,110948 / 0,111150 / 0,112073.
 - Stage stability: coverage EARLY_20 = 57,1955%; EARLY_35 = 62,6552%; MIDDLE_50 = 75,3999%; LATE_75 = 71,1377%. Mean reduction tương ứng 0,103537 / 0,115526 / 0,108541 / 0,117751.
 - Seed stability: `DESCRIPTIVE_NOT_PER_SEED`. Evaluator dùng ensemble 5 seed đã đăng ký; không chạy single-seed thay thế vì sẽ làm thay đổi authority. Đây là limitation cần giữ trong luận văn.
-- Deterministic replay: **PASS** trên 12 batch atomic, thứ tự fold/stage/seed cố định, identity duplicate-free và checksum registry.
+- Deterministic replay: **PASS** theo checksum-and-aggregate replay trên 12 batch atomic, thứ tự fold/stage/seed cố định và identity duplicate-free. Sau khi authority commit thay đổi, runner đã chặn model rerun/resume không an toàn; verifier xác nhận lại toàn bộ checksum và metric aggregate, không chạy lại model.
 - Protected-feature violations: **0 phát hiện trong artifact audit**.
 - Leakage violations: **0 phát hiện trong artifact audit**.
 
@@ -80,6 +80,7 @@ Expert review chưa hoàn tất. Mỗi case cần ít nhất hai expert review �
 - `artifacts/recommend_hybrid/counterfactual/full_cohort/evaluation.json`
 - `artifacts/recommend_hybrid/counterfactual/full_cohort/bootstrap.json`
 - `artifacts/recommend_hybrid/counterfactual/full_cohort/CHECKSUMS.json`
+- `artifacts/recommend_hybrid/counterfactual/full_cohort/deterministic_replay.json`
 - `artifacts/recommend_hybrid/counterfactual/full_cohort/success_metric_audit.json`
 - `artifacts/recommend_hybrid/counterfactual/full_cohort/coverage_analysis.json`
 - `artifacts/recommend_hybrid/counterfactual/full_cohort/stability_analysis.json`

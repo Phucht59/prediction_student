@@ -1,0 +1,103 @@
+{
+  "aggregate_metric_checks": {
+    "fallback_count": true,
+    "fallback_rate": true,
+    "mean_top_risk_reduction": true,
+    "median_top_risk_reduction": true,
+    "record_count": true,
+    "scored_count": true,
+    "scored_coverage": true,
+    "success_at_0_01": true,
+    "success_at_0_05": true,
+    "threshold_crossing_rate": true
+  },
+  "batch_count": 12,
+  "batch_results": [
+    {
+      "batch_id": "fold_0__E1_EARLY_20PCT",
+      "checksum_match": true,
+      "row_count": 5513,
+      "status": "PASS"
+    },
+    {
+      "batch_id": "fold_1__E1_EARLY_20PCT",
+      "checksum_match": true,
+      "row_count": 5514,
+      "status": "PASS"
+    },
+    {
+      "batch_id": "fold_2__E1_EARLY_20PCT",
+      "checksum_match": true,
+      "row_count": 5539,
+      "status": "PASS"
+    },
+    {
+      "batch_id": "fold_0__E2_EARLY_35PCT",
+      "checksum_match": true,
+      "row_count": 5299,
+      "status": "PASS"
+    },
+    {
+      "batch_id": "fold_1__E2_EARLY_35PCT",
+      "checksum_match": true,
+      "row_count": 5302,
+      "status": "PASS"
+    },
+    {
+      "batch_id": "fold_2__E2_EARLY_35PCT",
+      "checksum_match": true,
+      "row_count": 5345,
+      "status": "PASS"
+    },
+    {
+      "batch_id": "fold_0__M1_MIDDLE_FROZEN",
+      "checksum_match": true,
+      "row_count": 5120,
+      "status": "PASS"
+    },
+    {
+      "batch_id": "fold_1__M1_MIDDLE_FROZEN",
+      "checksum_match": true,
+      "row_count": 5109,
+      "status": "PASS"
+    },
+    {
+      "batch_id": "fold_2__M1_MIDDLE_FROZEN",
+      "checksum_match": true,
+      "row_count": 5149,
+      "status": "PASS"
+    },
+    {
+      "batch_id": "fold_0__L1_LATE_75PCT",
+      "checksum_match": true,
+      "row_count": 4863,
+      "status": "PASS"
+    },
+    {
+      "batch_id": "fold_1__L1_LATE_75PCT",
+      "checksum_match": true,
+      "row_count": 4875,
+      "status": "PASS"
+    },
+    {
+      "batch_id": "fold_2__L1_LATE_75PCT",
+      "checksum_match": true,
+      "row_count": 4897,
+      "status": "PASS"
+    }
+  ],
+  "claim_boundary": "MODEL_ESTIMATED_RISK_REDUCTION_NOT_CAUSAL_EFFECT",
+  "current_commit": "329b26631ef9d2f6d337a36431930a281cb96283",
+  "duplicate_identity_count": 0,
+  "failures": [],
+  "global_record_count": 62525,
+  "model_rerun": false,
+  "original_source_commit": "851e169340e23fd9af75e8f6ee0fd4232e079e7d",
+  "passed_batch_count": 12,
+  "progress_status": "PASS",
+  "reason_model_rerun": "Existing atomic batches are immutable; authority guard prevents unsafe rerun/resume after source commit changes.",
+  "registry_source_commit": "258d82c6b540e466ff46f2c81b2dab4a60095ff3",
+  "schema_version": "full_cohort_deterministic_replay_v1",
+  "status": "PASS",
+  "verification_mode": "CHECKSUM_AND_AGGREGATE_REPLAY"
+}
