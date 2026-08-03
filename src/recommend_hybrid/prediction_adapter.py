@@ -20,6 +20,7 @@ from .exceptions import AuthorityValidationError
 ARCHITECTURE_HASH = "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e"
 PARAMETER_COUNT = 160_492
 AGGREGATE_DIMENSION = 165
+STATIC_DIMENSION = 13
 
 
 @dataclass(frozen=True)
@@ -61,11 +62,49 @@ def parameter_sha256(model: torch.nn.Module) -> str:
     return digest.hexdigest()
 
 
-def _preprocessor_sha256(mean: np.ndarray, scale: np.ndarray) -> str:
+def _array_sha256(*arrays: np.ndarray) -> str:
     digest = hashlib.sha256()
-    digest.update(mean.astype(np.float64, copy=False).tobytes())
-    digest.update(scale.astype(np.float64, copy=False).tobytes())
+    for array in arrays:
+        value = np.asarray(array, dtype=np.float64).reshape(-1)
+        digest.update(str(value.shape).encode("ascii"))
+        digest.update(value.tobytes())
     return digest.hexdigest()
+
+
+def _preprocessor_sha256(preprocessor: Mapping[str, Any]) -> str:
+    digest = hashlib.sha256()
+    for name in ("mean", "scale", "num_mean", "num_scale"):
+        value = np.asarray(preprocessor.get(name), dtype=np.float64).reshape(-1)
+        digest.update(name.encode("utf-8"))
+        digest.update(str(value.shape).encode("ascii"))
+        digest.update(value.tobytes())
+    digest.update(
+        json.dumps(
+            {
+                "num_cols": [str(item) for item in preprocessor.get("num_cols", ())],
+                "categories": {
+                    str(key): [str(item) for item in values]
+                    for key, values in dict(preprocessor.get("categories", {})).items()
+                },
+            },
+            sort_keys=True,
+            separators=(",", ":"),
+        ).encode("utf-8")
+    )
+    return digest.hexdigest()
+
+
+def _to_numeric(values: Sequence[Any]) -> np.ndarray:
+    converted: list[float] = []
+    for value in values:
+        try:
+            number = float(value)
+        except (TypeError, ValueError):
+            number = 0.0
+        if not math.isfinite(number):
+            number = 0.0
+        converted.append(number)
+    return np.asarray(converted, dtype=np.float64)
 
 
 class HybridPredictionAdapter:
@@ -81,6 +120,10 @@ class HybridPredictionAdapter:
         decision_threshold: float = 0.5,
         aggregate_mean: np.ndarray | None = None,
         aggregate_scale: np.ndarray | None = None,
+        static_num_cols: Sequence[str] | None = None,
+        static_num_mean: np.ndarray | None = None,
+        static_num_scale: np.ndarray | None = None,
+        static_categories: Mapping[str, Sequence[str]] | None = None,
     ) -> None:
         if not models or len(models) != len(checkpoint_references):
             raise AuthorityValidationError("models and checkpoint references must align")
@@ -98,6 +141,7 @@ class HybridPredictionAdapter:
         for model in self._models:
             if sum(parameter.numel() for parameter in model.parameters()) != PARAMETER_COUNT:
                 raise AuthorityValidationError("model parameter count is not frozen authority")
+
         if (aggregate_mean is None) != (aggregate_scale is None):
             raise AuthorityValidationError(
                 "aggregate mean and scale must be supplied together"
@@ -123,6 +167,66 @@ class HybridPredictionAdapter:
                 )
             self._aggregate_mean = mean.copy()
             self._aggregate_scale = scale.copy()
+
+        static_values = (
+            static_num_cols,
+            static_num_mean,
+            static_num_scale,
+            static_categories,
+        )
+        if any(value is not None for value in static_values) and not all(
+            value is not None for value in static_values
+        ):
+            raise AuthorityValidationError(
+                "static preprocessor state must be supplied together"
+            )
+        self._static_num_cols: tuple[str, ...] | None = None
+        self._static_num_mean: np.ndarray | None = None
+        self._static_num_scale: np.ndarray | None = None
+        self._static_categories: dict[str, tuple[str, ...]] | None = None
+        if all(value is not None for value in static_values):
+            assert static_num_cols is not None
+            assert static_num_mean is not None
+            assert static_num_scale is not None
+            assert static_categories is not None
+            columns = tuple(str(item) for item in static_num_cols)
+            num_mean = np.asarray(static_num_mean, dtype=np.float64).reshape(-1)
+            num_scale = np.asarray(static_num_scale, dtype=np.float64).reshape(-1)
+            categories = {
+                str(key): tuple(str(item) for item in values)
+                for key, values in static_categories.items()
+            }
+            if not columns or len(columns) != len(set(columns)):
+                raise AuthorityValidationError(
+                    "static numeric columns must be non-empty and unique"
+                )
+            if num_mean.shape != (len(columns),) or num_scale.shape != (
+                len(columns),
+            ):
+                raise AuthorityValidationError(
+                    "static numeric preprocessor dimensions are invalid"
+                )
+            if not np.isfinite(num_mean).all() or not np.isfinite(num_scale).all():
+                raise AuthorityValidationError(
+                    "static numeric preprocessor contains non-finite values"
+                )
+            if np.any(num_scale <= 0.0):
+                raise AuthorityValidationError(
+                    "static numeric preprocessor scale must be positive"
+                )
+            if not categories or any(not levels for levels in categories.values()):
+                raise AuthorityValidationError(
+                    "static categorical levels must be non-empty"
+                )
+            dimension = len(columns) + sum(len(levels) for levels in categories.values())
+            if dimension != STATIC_DIMENSION:
+                raise AuthorityValidationError(
+                    f"frozen static preprocessor must produce {STATIC_DIMENSION} features"
+                )
+            self._static_num_cols = columns
+            self._static_num_mean = num_mean.copy()
+            self._static_num_scale = num_scale.copy()
+            self._static_categories = categories
 
     @classmethod
     def from_manifest(
@@ -170,8 +274,7 @@ class HybridPredictionAdapter:
         models: list[torch.nn.Module] = []
         references: list[CheckpointReference] = []
         preprocessor_hash: str | None = None
-        aggregate_mean: np.ndarray | None = None
-        aggregate_scale: np.ndarray | None = None
+        frozen_preprocessor: Mapping[str, Any] | None = None
         for row in rows:
             checkpoint_path = root / row["provenance"]["source_checkpoint_path"]
             if file_sha256(checkpoint_path) != row["sha256"]:
@@ -183,21 +286,20 @@ class HybridPredictionAdapter:
                 raise AuthorityValidationError("checkpoint parameter count mismatch")
             if int(payload.get("aggregate_dim", -1)) != AGGREGATE_DIMENSION:
                 raise AuthorityValidationError("checkpoint aggregate dimension mismatch")
+            if int(payload.get("static_dim", -1)) != STATIC_DIMENSION:
+                raise AuthorityValidationError("checkpoint static dimension mismatch")
             preprocessor = payload.get("preprocessor")
             if not isinstance(preprocessor, Mapping):
                 raise AuthorityValidationError(
-                    "checkpoint aggregate preprocessor is missing"
+                    "checkpoint frozen preprocessor is missing"
                 )
-            current_mean = np.asarray(preprocessor.get("mean"), dtype=np.float64)
-            current_scale = np.asarray(preprocessor.get("scale"), dtype=np.float64)
-            current_hash = _preprocessor_sha256(current_mean, current_scale)
+            current_hash = _preprocessor_sha256(preprocessor)
             if preprocessor_hash is None:
                 preprocessor_hash = current_hash
-                aggregate_mean = current_mean
-                aggregate_scale = current_scale
+                frozen_preprocessor = preprocessor
             elif current_hash != preprocessor_hash:
                 raise AuthorityValidationError(
-                    "seed checkpoints disagree on aggregate preprocessor"
+                    "seed checkpoints disagree on frozen preprocessor"
                 )
             model = CNNBiLSTMTabularResidualOULAD(
                 47,
@@ -217,14 +319,20 @@ class HybridPredictionAdapter:
                     seed=int(row["seed"]),
                 )
             )
+        if frozen_preprocessor is None:
+            raise AuthorityValidationError("no frozen preprocessor was loaded")
         return cls(
             models,
             references,
             stage=stage,
             fold=fold,
             decision_threshold=decision_threshold,
-            aggregate_mean=aggregate_mean,
-            aggregate_scale=aggregate_scale,
+            aggregate_mean=np.asarray(frozen_preprocessor["mean"]),
+            aggregate_scale=np.asarray(frozen_preprocessor["scale"]),
+            static_num_cols=tuple(frozen_preprocessor["num_cols"]),
+            static_num_mean=np.asarray(frozen_preprocessor["num_mean"]),
+            static_num_scale=np.asarray(frozen_preprocessor["num_scale"]),
+            static_categories=dict(frozen_preprocessor["categories"]),
         )
 
     @property
@@ -240,14 +348,41 @@ class HybridPredictionAdapter:
         return self._aggregate_mean is not None and self._aggregate_scale is not None
 
     @property
+    def has_static_preprocessor(self) -> bool:
+        return (
+            self._static_num_cols is not None
+            and self._static_num_mean is not None
+            and self._static_num_scale is not None
+            and self._static_categories is not None
+        )
+
+    @property
     def aggregate_preprocessor_hash(self) -> str | None:
         if not self.has_aggregate_preprocessor:
             return None
         assert self._aggregate_mean is not None
         assert self._aggregate_scale is not None
+        return _array_sha256(self._aggregate_mean, self._aggregate_scale)
+
+    @property
+    def frozen_preprocessor_hash(self) -> str | None:
+        if not self.has_aggregate_preprocessor or not self.has_static_preprocessor:
+            return None
+        assert self._aggregate_mean is not None
+        assert self._aggregate_scale is not None
+        assert self._static_num_cols is not None
+        assert self._static_num_mean is not None
+        assert self._static_num_scale is not None
+        assert self._static_categories is not None
         return _preprocessor_sha256(
-            self._aggregate_mean,
-            self._aggregate_scale,
+            {
+                "mean": self._aggregate_mean,
+                "scale": self._aggregate_scale,
+                "num_cols": self._static_num_cols,
+                "num_mean": self._static_num_mean,
+                "num_scale": self._static_num_scale,
+                "categories": self._static_categories,
+            }
         )
 
     def transform_aggregate(self, raw_aggregate: np.ndarray) -> np.ndarray:
@@ -285,6 +420,54 @@ class HybridPredictionAdapter:
         return (values * self._aggregate_scale + self._aggregate_mean).astype(
             np.float32
         )
+
+    def transform_static(
+        self,
+        records: Mapping[str, Sequence[Any]],
+    ) -> np.ndarray:
+        if not self.has_static_preprocessor:
+            raise AuthorityValidationError(
+                "adapter has no frozen static preprocessor"
+            )
+        assert self._static_num_cols is not None
+        assert self._static_num_mean is not None
+        assert self._static_num_scale is not None
+        assert self._static_categories is not None
+        required = set(self._static_num_cols) | set(self._static_categories)
+        missing = sorted(required - set(records))
+        if missing:
+            raise AuthorityValidationError(
+                f"static records are missing columns: {missing}"
+            )
+        lengths = {len(records[column]) for column in required}
+        if len(lengths) != 1:
+            raise AuthorityValidationError(
+                "static record columns must have equal lengths"
+            )
+        row_count = lengths.pop()
+        if row_count <= 0:
+            raise AuthorityValidationError("static records cannot be empty")
+        numeric = np.column_stack(
+            [_to_numeric(records[column]) for column in self._static_num_cols]
+        )
+        numeric = (numeric - self._static_num_mean) / self._static_num_scale
+        categorical: list[np.ndarray] = []
+        for column, levels in self._static_categories.items():
+            values = np.asarray(
+                ["__MISSING__" if value is None else str(value) for value in records[column]],
+                dtype=object,
+            )
+            categorical.append(
+                np.column_stack(
+                    [(values == level).astype(np.float32) for level in levels]
+                )
+            )
+        result = np.concatenate([numeric, *categorical], axis=1).astype(np.float32)
+        if result.shape != (row_count, STATIC_DIMENSION):
+            raise AuthorityValidationError(
+                "frozen static transformation produced unexpected dimensions"
+            )
+        return result
 
     def predict(self, inputs: Mapping[str, torch.Tensor]) -> HybridPredictionOutput:
         required = {"sequence", "lengths", "mask", "aggregate", "static"}
@@ -335,6 +518,7 @@ __all__ = [
     "AGGREGATE_DIMENSION",
     "ARCHITECTURE_HASH",
     "PARAMETER_COUNT",
+    "STATIC_DIMENSION",
     "HybridPredictionAdapter",
     "HybridPredictionOutput",
     "file_sha256",
