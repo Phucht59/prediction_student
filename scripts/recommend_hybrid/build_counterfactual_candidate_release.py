@@ -153,6 +153,13 @@ def build(
                 ],
             )
         )
+    if all(step["status"] == "PASS" for step in steps):
+        steps.append(
+            _run(
+                "shortcut_diagnostic",
+                [python, "scripts/recommend_hybrid/audit_counterfactual_shortcut.py"],
+            )
+        )
     if (
         not skip_historical
         and all(step["status"] == "PASS" for step in steps)
@@ -175,8 +182,10 @@ def build(
         OUT / "evaluation.json",
         OUT / "evaluation_rows.csv",
         OUT / "action_scores.csv",
+        OUT / "shortcut_diagnostic.json",
         ROOT / "reports/recommend_hybrid/COUNTERFACTUAL_VALIDATION.md",
         ROOT / "reports/recommend_hybrid/COUNTERFACTUAL_EVALUATION.md",
+        ROOT / "reports/recommend_hybrid/COUNTERFACTUAL_SHORTCUT_DIAGNOSTIC.md",
         ROOT / "reports/recommend_hybrid/COUNTERFACTUAL_CANDIDATE_RELEASE.md",
     ]
     if not skip_historical:

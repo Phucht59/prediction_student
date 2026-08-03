@@ -28,10 +28,8 @@ OOF_PREDICTIONS = (
     ROOT / "artifacts/canonical_v3/predictions/oulad_oof_predictions.parquet"
 )
 TRAINING_AUTHORITY = ROOT / "artifacts/canonical_v3/oulad_h1_training_authority.json"
-RELEASE_STAGE_MAPPING = (
-    ROOT / "artifacts/final/unified_stage_aware_oulad/checkpoint_stage_mapping.json"
-)
-RELEASE_CHECKSUMS = ROOT / "artifacts/final/unified_stage_aware_oulad/checksums.json"
+RELEASE_MANIFEST = ROOT / "artifacts/recommend_hybrid/RESIDUAL_CHECKPOINT_RELEASE_MANIFEST.json"
+RELEASE_CHECKSUMS = ROOT / "artifacts/recommend_hybrid/RESIDUAL_CHECKPOINT_CHECKSUMS.json"
 
 
 def _utc_now() -> str:
@@ -114,25 +112,21 @@ def evaluate(*, verify_hashes: bool) -> dict[str, Any]:
             )
         unique_paths[source_path] = expected
     for source_path, expected in sorted(unique_paths.items()):
+        row = next(item for item in checkpoint_manifest["checkpoints"] if item["provenance"]["source_checkpoint_path"] == source_path)
+        release_dir = "final" if row["usage"] == "EVALUATION_ONLY" else "shared"
+        release_path = ROOT / "artifacts/recommend_hybrid/checkpoints/residual_cnn_bilstm" / release_dir / Path(source_path).name
         checkpoint_checks.append(
             _file_check(
-                ROOT / source_path,
+                release_path,
                 expected_sha256=expected,
                 verify_hashes=verify_hashes,
             )
         )
 
-    release_mapping_sha = None
+    release_manifest_sha = None
     if RELEASE_CHECKSUMS.is_file():
         checksum_payload = json.loads(RELEASE_CHECKSUMS.read_text(encoding="utf-8"))
-        release_mapping_sha = next(
-            (
-                str(row["sha256"])
-                for row in checksum_payload.get("files", [])
-                if row.get("path") == str(RELEASE_STAGE_MAPPING.relative_to(ROOT)).replace("\\", "/")
-            ),
-            None,
-        )
+        release_manifest_sha = checksum_payload.get("manifest_sha256")
     authority_checks = [
         _file_check(
             SPLIT_MANIFEST,
@@ -147,10 +141,11 @@ def evaluate(*, verify_hashes: bool) -> dict[str, Any]:
             verify_hashes=False,
         ),
         _file_check(
-            RELEASE_STAGE_MAPPING,
-            expected_sha256=release_mapping_sha,
+            RELEASE_MANIFEST,
+            expected_sha256=release_manifest_sha,
             verify_hashes=verify_hashes,
         ),
+        _file_check(RELEASE_CHECKSUMS, verify_hashes=False),
     ]
     checkpoint_authority = validate_checkpoint_authority(ROOT)
     all_checks = (*raw_checks, *checkpoint_checks, *authority_checks)

@@ -12,6 +12,9 @@ artifacts/final/unified_stage_aware_oulad/checkpoints/**/*.joblib filter=lfs dif
 artifacts/final/unified_stage_aware_oulad/checkpoints/**/*.pt filter=lfs diff=lfs merge=lfs -text
 artifacts/final/unified_stage_aware_oulad/**/*.parquet filter=lfs diff=lfs merge=lfs -text
 artifacts/canonical_v3/predictions/*.parquet filter=lfs diff=lfs merge=lfs -text
+# Frozen residual recommendation checkpoints are a separate authority from the
+# incompatible 150,202-parameter base release above.
+artifacts/recommend_hybrid/checkpoints/**/*.pt filter=lfs diff=lfs merge=lfs -text
 
 # Windows-generated Study B/C evidence is intentionally hashed with CRLF for
 # machine-readable text outputs. YAML protocols and JSONL decision logs remain LF.

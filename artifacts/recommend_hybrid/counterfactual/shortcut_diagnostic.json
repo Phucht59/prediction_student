@@ -1,0 +1,46 @@
+{
+  "action_identity": {
+    "action_mean_risk_reduction_range": 0.16322000860889377,
+    "max_action_mean_risk_reduction": 0.16322000860889377,
+    "min_action_mean_risk_reduction": 0.0,
+    "top_action_frequency": {
+      "ASSESSMENT_COMPLETION": 20,
+      "LEARNING_CONSOLIDATION": 19,
+      "RETRIEVAL_PRACTICE": 14,
+      "STUDY_SCHEDULE": 455,
+      "VLE_ENGAGEMENT": 272
+    },
+    "top_action_share": 0.5833333333333334,
+    "unique_top_actions": 5
+  },
+  "claim_boundary": "MODEL_ESTIMATED_RISK_REDUCTION_NOT_CAUSAL_EFFECT",
+  "gates": {
+    "action_identity_not_over_80_percent": true,
+    "multiple_top_actions_observed": true,
+    "risk_reduction_not_constant": true,
+    "risk_reduction_not_mostly_zero": true
+  },
+  "learner_state_and_stage_variation": {
+    "baseline_band_mean_range": 0.16088035893745914,
+    "baseline_band_mean_top_risk_reduction": {
+      "Q1": 0.029151035424990486,
+      "Q2": 0.0629500323381179,
+      "Q3": 0.12704201184022118,
+      "Q4": 0.19003139436244962
+    },
+    "stage_action_mean_risk_reduction_range": 0.22470058600107826,
+    "stage_top_action_entropy_bits": {
+      "EARLY_20": 1.1346785941295963,
+      "EARLY_35": 1.2343013398300062,
+      "LATE_75": 1.1940309575668968,
+      "MIDDLE_50": 1.5525047993270875
+    }
+  },
+  "records": 1200,
+  "schema_version": "counterfactual_shortcut_diagnostic_v1",
+  "scope_note": "This is a trace-level shortcut audit. It reports action/stage/baseline variation from frozen-model evaluation traces; it does not claim a causal effect and does not replace an input-level model permutation experiment.",
+  "scored_records": 780,
+  "source_action_scores": "artifacts/recommend_hybrid/counterfactual/action_scores.csv",
+  "source_evaluation_rows": "artifacts/recommend_hybrid/counterfactual/evaluation_rows.csv",
+  "status": "PASS"
+}

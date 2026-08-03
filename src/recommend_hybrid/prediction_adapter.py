@@ -275,38 +275,12 @@ class HybridPredictionAdapter:
         references: list[CheckpointReference] = []
         preprocessor_hash: str | None = None
         frozen_preprocessor: Mapping[str, Any] | None = None
-        release_stage = {
-            Stage.EARLY_20: "E1_EARLY_20PCT",
-            Stage.EARLY_35: "E2_EARLY_35PCT",
-            Stage.MIDDLE_50: "M1_MIDDLE_FROZEN",
-            Stage.LATE_75: "L1_LATE_75PCT",
-            Stage.FINAL_EVALUATION: "FINAL",
-        }[stage]
-        release_mapping_path = root / (
-            "artifacts/final/unified_stage_aware_oulad/"
-            "checkpoint_stage_mapping.json"
-        )
-        release_mapping = (
-            json.loads(release_mapping_path.read_text(encoding="utf-8"))
-            if release_mapping_path.is_file()
-            else {"rows": []}
-        )
         for row in rows:
             declared_path = root / row["provenance"]["source_checkpoint_path"]
-            release_rows = [
-                item
-                for item in release_mapping.get("rows", [])
-                if item.get("model_id") == "cnn_bilstm_oulad"
-                and int(item.get("outer_fold", -1)) == fold
-                and int(item.get("seed", -1)) == int(row["seed"])
-                and item.get("prediction_stage") == release_stage
-            ]
-            if len(release_rows) != 1:
-                raise AuthorityValidationError(
-                    "release checkpoint mapping does not uniquely identify fallback"
-                )
-            release_row = release_rows[0]
-            release_path = root / str(release_row["checkpoint"])
+            release_dir = "final" if row.get("usage") == "EVALUATION_ONLY" else "shared"
+            release_path = root / (
+                "artifacts/recommend_hybrid/checkpoints/residual_cnn_bilstm"
+            ) / release_dir / Path(row["provenance"]["source_checkpoint_path"]).name
 
             def structural_match(path: Path) -> bool:
                 try:
@@ -340,11 +314,7 @@ class HybridPredictionAdapter:
                 resolved = resolve_checkpoint_path(
                     declared_path,
                     release_path,
-                    expected_sha256=(
-                        str(row["sha256"])
-                        if declared_path.exists()
-                        else str(release_row["checkpoint_sha256"])
-                    ),
+                    expected_sha256=str(row["sha256"]),
                     structural_validator=structural_match,
                 )
             except (FileNotFoundError, ValueError) as exc:

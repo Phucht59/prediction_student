@@ -1,6 +1,6 @@
 {
   "claim_boundary": "MODEL_ESTIMATED_RISK_REDUCTION_NOT_CAUSAL_EFFECT",
-  "generated_at": "2026-08-03T15:30:34.338285Z",
+  "generated_at": "2026-08-03T16:37:50.051865Z",
   "pytest": {
     "command": [
       "C:\\hufit\\kltn\\.venv-oulad-v2\\Scripts\\python.exe",
@@ -9,7 +9,7 @@
       "tests/recommend_hybrid/counterfactual",
       "-q"
     ],
-    "output": "...............................                                          [100%]\n31 passed in 1.82s\n",
+    "output": "...............................                                          [100%]\n31 passed in 2.08s\n",
     "passed": 31,
     "return_code": 0,
     "status": "PASS"

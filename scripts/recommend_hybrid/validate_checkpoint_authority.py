@@ -34,7 +34,7 @@ def _write_report(payload: dict[str, Any]) -> None:
         "",
         f"- Generated: `{datetime.now(timezone.utc).isoformat()}`",
         f"- Status: **{payload['status']}**",
-        f"- Release mapping: `{payload['release_mapping']}`",
+        f"- Release namespace: `{payload['release_namespace']}`",
         f"- Recommendation manifest: `{payload['recommendation_manifest']}`",
         f"- Authority model class: `{payload['authority_model_class']}`",
         f"- Release model class: `{payload['release_model_class']}`",
@@ -67,7 +67,7 @@ def _write_report(payload: dict[str, Any]) -> None:
             "| {fold} | {seed} | {stage} | `{path}` | `{sha}` | `{state}` | `{pre}` |".format(
                 fold=row["fold"],
                 seed=row["seed"],
-                stage=row["stage"],
+                stage=",".join(row.get("stages", [])),
                 path=row["checkpoint_path"],
                 sha=row["sha256"] or "MISSING",
                 state=row["state_dict_fingerprint"] or "MISSING",

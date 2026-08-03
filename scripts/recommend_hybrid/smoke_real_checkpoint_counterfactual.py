@@ -46,13 +46,10 @@ from src.recommend_hybrid.prediction_adapter import (
 
 OUT = ROOT / "artifacts/recommend_hybrid/counterfactual/real_checkpoint_smoke.json"
 CLAIM_BOUNDARY = "INTEGRATION_SMOKE_ONLY_NOT_EDUCATIONAL_EFFECT_EVIDENCE"
-RELEASE_MODEL_ID = "cnn_bilstm_oulad"
+RELEASE_MODEL_ID = "H1_TABULAR_RESIDUAL_EXPERT"
 RELEASE_CHECKPOINT = Path(
-    "artifacts/final/unified_stage_aware_oulad/checkpoints/"
-    "cnn_bilstm_oulad/outer_fold_0/seed_42.pt"
-)
-RELEASE_MAPPING = Path(
-    "artifacts/final/unified_stage_aware_oulad/checkpoint_stage_mapping.json"
+    "artifacts/recommend_hybrid/checkpoints/residual_cnn_bilstm/"
+    "shared/outer0_seed42.pt"
 )
 
 
@@ -71,20 +68,13 @@ def _write_json(path: Path, payload: Any) -> None:
 
 
 def _registered_release_hash() -> str:
-    mapping = json.loads((ROOT / RELEASE_MAPPING).read_text(encoding="utf-8"))
-    matching = [
-        row
-        for row in mapping["rows"]
-        if row["model_id"] == RELEASE_MODEL_ID
-        and int(row["outer_fold"]) == 0
-        and int(row["seed"]) == 42
-        and row["prediction_stage"] == "E1_EARLY_20PCT"
-    ]
+    manifest = json.loads((ROOT / "artifacts/recommend_hybrid/RECOMMEND_HYBRID_CHECKPOINT_MANIFEST.json").read_text(encoding="utf-8"))
+    matching = [row for row in manifest["checkpoints"] if row["usage"] == "INTERVENTION_STAGE_SHARED" and int(row["outer_fold"]) == 0 and int(row["seed"]) == 42]
     if len(matching) != 1:
         raise RuntimeError(
-            "release mapping does not uniquely identify the smoke checkpoint"
+            "recommendation manifest does not uniquely identify the smoke checkpoint"
         )
-    return str(matching[0]["checkpoint_sha256"])
+    return str(matching[0]["sha256"])
 
 
 def _decision_threshold() -> float:

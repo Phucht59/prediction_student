@@ -79,17 +79,18 @@ def resolve_checkpoint_path(
 ) -> dict[str, Any]:
     """Resolve an authority path without silently substituting a checkpoint.
 
-    The release fallback is permitted only when the declared local path is
-    absent.  A present-but-invalid local checkpoint is an authority failure,
-    not a reason to try another file.
+    The immutable release namespace is preferred.  The historical local
+    authority is permitted only when that exact release file is absent.  A
+    present-but-invalid candidate is an authority failure, not a reason to
+    try another file.
     """
 
-    if local_path.exists():
-        source = "local_authority"
-        candidate = local_path
-    else:
-        source = "release_lfs_fallback"
+    if release_path.exists():
+        source = "release_lfs"
         candidate = release_path
+    else:
+        source = "historical_local_authority"
+        candidate = local_path
     if not candidate.is_file() or _is_lfs_pointer(candidate):
         raise FileNotFoundError(f"checkpoint is missing or an LFS pointer: {candidate}")
     actual = sha256_file(candidate)
@@ -199,16 +200,18 @@ def _release_rows(root: Path, mapping: Mapping[str, Any]) -> list[dict[str, Any]
 def validate_checkpoint_authority(
     root: Path = ROOT_DEFAULT,
     *,
-    release_mapping_path: Path = Path(
-        "artifacts/final/unified_stage_aware_oulad/checkpoint_stage_mapping.json"
-    ),
     recommendation_manifest_path: Path = Path(
         "artifacts/recommend_hybrid/RECOMMEND_HYBRID_CHECKPOINT_MANIFEST.json"
     ),
 ) -> dict[str, Any]:
-    """Validate the release checkpoint set and compare it to recommendation authority."""
+    """Validate the frozen residual recommendation checkpoint authority.
 
-    mapping = json.loads((root / release_mapping_path).read_text(encoding="utf-8"))
+    The historical canonical files are the recovery source.  Once published,
+    the exact LFS namespace is validated instead.  The legacy
+    ``cnn_bilstm_oulad`` release is intentionally not consulted: it is the
+    incompatible 150,202-parameter base model.
+    """
+
     recommendation = json.loads(
         (root / recommendation_manifest_path).read_text(encoding="utf-8")
     )
@@ -217,27 +220,41 @@ def validate_checkpoint_authority(
             encoding="utf-8"
         )
     )
-    rows = _release_rows(root, mapping)
-    unique: dict[str, dict[str, Any]] = {}
-    for row in rows:
-        unique.setdefault(str(row["checkpoint"]), row)
+    rows = list(recommendation.get("checkpoints", []))
+    unique: dict[str, dict[str, Any]] = {
+        str(row["checkpoint_id"]): row for row in rows
+    }
     gates: list[dict[str, Any]] = []
-    gates.append(_gate("stage_mapping_namespace", set(REQUIRED_STAGES) == {
-        str(row["prediction_stage"]) for row in rows
-    }, f"found={sorted({str(row['prediction_stage']) for row in rows})}"))
-    gates.append(_gate("release_rows_complete", len(rows) == 60, f"found={len(rows)}"))
+    expected_rows = int(recommendation.get("expected_checkpoint_files", 30))
+    expected_mappings = int(recommendation.get("expected_stage_fold_seed_mappings", 75))
+    actual_mappings = sum(len(row.get("stages", [])) for row in rows)
+    gates.append(_gate("recommendation_checkpoint_set_complete", len(rows) == expected_rows, f"found={len(rows)} expected={expected_rows}"))
+    gates.append(_gate("recommendation_stage_fold_seed_mappings_complete", actual_mappings == expected_mappings, f"found={actual_mappings} expected={expected_mappings}"))
+    gates.append(_gate("recommendation_architecture_hash", recommendation.get("architecture_hash") == authority.get("architecture_hash"), str(recommendation.get("architecture_hash"))))
+    gates.append(_gate("recommendation_parameter_count", int(recommendation.get("parameter_count", -1)) == int(authority["parameter_count"]), str(recommendation.get("parameter_count"))))
 
     checkpoint_records: list[dict[str, Any]] = []
     architecture_fingerprints: dict[int, set[str]] = {}
-    preprocessor_fingerprints: dict[int, set[str]] = {}
-    for source, row in sorted(unique.items()):
-        path = root / source
+    preprocessor_fingerprints: dict[tuple[int, str], set[str]] = {}
+    protected = json.loads(
+        (root / "artifacts/final_release/CHECKSUMS.json").read_text(encoding="utf-8")
+    ).get("protected_files", {})
+    for checkpoint_id, row in sorted(unique.items()):
+        source = str(row["provenance"]["source_checkpoint_path"])
+        historical_path = root / source
+        release_dir = "final" if row.get("usage") == "EVALUATION_ONLY" else "shared"
+        release_relative = Path(
+            "artifacts/recommend_hybrid/checkpoints/residual_cnn_bilstm"
+        ) / release_dir / Path(source).name
+        release_path = root / release_relative
+        path = release_path if release_path.is_file() else historical_path
         checks: list[dict[str, Any]] = []
         exists = path.is_file()
         checks.append(_gate("file_exists", exists, str(path)))
         checks.append(_gate("not_lfs_pointer", exists and not _is_lfs_pointer(path)))
         actual_sha = sha256_file(path) if exists and not _is_lfs_pointer(path) else None
-        checks.append(_gate("sha256_matches_release_mapping", actual_sha == row.get("checkpoint_sha256")))
+        checks.append(_gate("sha256_matches_recommendation_manifest", actual_sha == row.get("sha256")))
+        checks.append(_gate("sha256_matches_legacy_protected_checksum", protected.get(source) in (None, actual_sha), str(protected.get(source))))
         payload: Mapping[str, Any] | None = None
         load_error = ""
         try:
@@ -249,14 +266,13 @@ def validate_checkpoint_authority(
             load_error = f"{type(exc).__name__}: {exc}"
         checks.append(_gate("torch_load_cpu", payload is not None, load_error))
 
-        model_class = None
+        model_class = MODEL_CLASS
         dimensions: dict[str, int] = {}
         state_fingerprint = None
         preprocessor_hash = None
         parameter_count = None
         strict_error = ""
         if payload is not None:
-            model_class = RELEASE_MODEL_CLASS if payload.get("model_id") == "cnn_bilstm_oulad" else None
             try:
                 dimensions = _payload_dimensions(payload)
                 state_fingerprint = state_dict_fingerprint(payload["state_dict"])
@@ -267,15 +283,6 @@ def validate_checkpoint_authority(
                 payload.get("preprocessor")
             )
             checks.append(_gate("frozen_preprocessor_valid", pre_ok))
-            release_strict_error = ""
-            try:
-                release_model = _instantiate_model(RELEASE_MODEL_CLASS, payload)
-                release_model.load_state_dict(payload["state_dict"], strict=True)
-            except Exception as exc:
-                release_strict_error = f"{type(exc).__name__}: {exc}"
-            checks.append(
-                _gate("release_model_strict_load", not release_strict_error, release_strict_error)
-            )
             try:
                 model = _instantiate_model(MODEL_CLASS, payload)
                 model.load_state_dict(payload["state_dict"], strict=True)
@@ -283,7 +290,8 @@ def validate_checkpoint_authority(
             except Exception as exc:
                 strict_error = f"{type(exc).__name__}: {exc}"
             checks.append(_gate("authority_model_strict_load", not strict_error, strict_error))
-            checks.append(_gate("release_model_class", model_class == RELEASE_MODEL_CLASS, str(payload.get("model_id"))))
+            checks.append(_gate("residual_candidate_alias", payload.get("candidate") == "H1_TABULAR_RESIDUAL_EXPERT", str(payload.get("candidate"))))
+            checks.append(_gate("residual_architecture_hash", payload.get("architecture_hash") == authority.get("architecture_hash"), str(payload.get("architecture_hash"))))
             checks.append(_gate("sequence_dimension", dimensions.get("sequence") == 47, str(dimensions.get("sequence"))))
             checks.append(_gate("aggregate_dimension", dimensions.get("aggregate") == 165, str(dimensions.get("aggregate"))))
             checks.append(_gate("static_dimension", dimensions.get("static") == 13, str(dimensions.get("static"))))
@@ -292,14 +300,20 @@ def validate_checkpoint_authority(
             if state_fingerprint is not None:
                 architecture_fingerprints.setdefault(int(row["outer_fold"]), set()).add(state_fingerprint)
             if preprocessor_hash is not None:
-                preprocessor_fingerprints.setdefault(int(row["outer_fold"]), set()).add(preprocessor_hash)
+                preprocessor_fingerprints.setdefault(
+                    (int(row["outer_fold"]), str(row.get("usage"))), set()
+                ).add(preprocessor_hash)
         checkpoint_records.append({
-            "checkpoint_path": source,
+            "checkpoint_id": checkpoint_id,
+            "checkpoint_path": str(path.relative_to(root)) if path.is_absolute() else str(path),
+            "historical_checkpoint_path": source,
+            "release_checkpoint_path": str(release_relative),
             "sha256": actual_sha,
-            "registered_sha256": row.get("checkpoint_sha256"),
+            "registered_sha256": row.get("sha256"),
             "fold": int(row["outer_fold"]),
             "seed": int(row["seed"]),
-            "stage": row.get("prediction_stage"),
+            "usage": row.get("usage"),
+            "stages": row.get("stages", []),
             "model_class": model_class,
             "dimensions": dimensions,
             "parameter_count": parameter_count,
@@ -315,23 +329,25 @@ def validate_checkpoint_authority(
     for fold in sorted(architecture_fingerprints):
         values = architecture_fingerprints[fold]
         gates.append(_gate("same_fold_architecture_fingerprint", len(values) == 1, f"fold={fold} unique={len(values)}"))
-    for fold in sorted(preprocessor_fingerprints):
-        values = preprocessor_fingerprints[fold]
-        gates.append(_gate("same_fold_preprocessor_fingerprint", len(values) == 1, f"fold={fold} unique={len(values)}"))
-    release_classes = {row["model_class"] for row in checkpoint_records}
+    for fold_usage in sorted(preprocessor_fingerprints):
+        values = preprocessor_fingerprints[fold_usage]
+        gates.append(_gate(
+            "same_fold_preprocessor_fingerprint",
+            len(values) == 1,
+            f"fold={fold_usage[0]} usage={fold_usage[1]} unique={len(values)}",
+        ))
     release_parameter_counts = {row["parameter_count"] for row in checkpoint_records}
     authority_matches_release = (
         str(recommendation.get("architecture_hash")) == str(authority.get("architecture_hash"))
         and int(recommendation.get("parameter_count", -1)) == int(authority["parameter_count"])
-        and release_classes == {MODEL_CLASS}
         and release_parameter_counts == {int(authority["parameter_count"])}
     )
     gates.append(_gate(
         "recommendation_authority_matches_release",
         authority_matches_release,
-        "release_classes="
-        f"{sorted(release_classes)} release_parameter_counts={sorted(release_parameter_counts)} "
-        f"expected_class={MODEL_CLASS} expected_parameter_count={authority['parameter_count']}",
+        "release_parameter_counts="
+        f"{sorted(release_parameter_counts)} expected_class={MODEL_CLASS} "
+        f"expected_parameter_count={authority['parameter_count']}",
     ))
     failed = [gate for gate in gates if gate["status"] != "PASS"]
     return {
@@ -342,7 +358,7 @@ def validate_checkpoint_authority(
         "release_model_class": RELEASE_MODEL_CLASS,
         "authority_architecture_hash": authority.get("architecture_hash"),
         "authority_parameter_count": int(authority["parameter_count"]),
-        "release_mapping": str(release_mapping_path),
+        "release_namespace": "artifacts/recommend_hybrid/checkpoints/residual_cnn_bilstm",
         "recommendation_manifest": str(recommendation_manifest_path),
         "stage_mapping": list(REQUIRED_STAGES),
         "gates": gates,

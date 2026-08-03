@@ -1,81 +1,51 @@
 # Checkpoint Authority Validation
 
-- Generated: `2026-08-03T15:43:55.277819+00:00`
-- Status: **FAIL**
-- Release mapping: `artifacts\final\unified_stage_aware_oulad\checkpoint_stage_mapping.json`
+- Generated: `2026-08-03T16:40:28.283608+00:00`
+- Status: **PASS**
+- Release namespace: `artifacts/recommend_hybrid/checkpoints/residual_cnn_bilstm`
 - Recommendation manifest: `artifacts\recommend_hybrid\RECOMMEND_HYBRID_CHECKPOINT_MANIFEST.json`
 - Authority model class: `src.models.oulad_tabular_residual.CNNBiLSTMTabularResidualOULAD`
 - Release model class: `src.models.oulad_multitask.CNNBiLSTMOULAD`
 - Authority parameter count: `160492`
-- Failed gates: `31`
+- Failed gates: `0`
 
 This is technical checkpoint authority validation only. It does not establish educational, treatment, or causal effectiveness.
 
 ## Gate failures
 
-- `authority_model_strict_load` — RuntimeError: Error(s) in loading state_dict for CNNBiLSTMTabularResidualOULAD:
-	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias".
-- `parameter_count` — actual=150202 expected=160492
-- `authority_model_strict_load` — RuntimeError: Error(s) in loading state_dict for CNNBiLSTMTabularResidualOULAD:
-	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias".
-- `parameter_count` — actual=150202 expected=160492
-- `authority_model_strict_load` — RuntimeError: Error(s) in loading state_dict for CNNBiLSTMTabularResidualOULAD:
-	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias".
-- `parameter_count` — actual=150202 expected=160492
-- `authority_model_strict_load` — RuntimeError: Error(s) in loading state_dict for CNNBiLSTMTabularResidualOULAD:
-	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias".
-- `parameter_count` — actual=150202 expected=160492
-- `authority_model_strict_load` — RuntimeError: Error(s) in loading state_dict for CNNBiLSTMTabularResidualOULAD:
-	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias".
-- `parameter_count` — actual=150202 expected=160492
-- `authority_model_strict_load` — RuntimeError: Error(s) in loading state_dict for CNNBiLSTMTabularResidualOULAD:
-	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias".
-- `parameter_count` — actual=150202 expected=160492
-- `authority_model_strict_load` — RuntimeError: Error(s) in loading state_dict for CNNBiLSTMTabularResidualOULAD:
-	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias".
-- `parameter_count` — actual=150202 expected=160492
-- `authority_model_strict_load` — RuntimeError: Error(s) in loading state_dict for CNNBiLSTMTabularResidualOULAD:
-	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias".
-- `parameter_count` — actual=150202 expected=160492
-- `authority_model_strict_load` — RuntimeError: Error(s) in loading state_dict for CNNBiLSTMTabularResidualOULAD:
-	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias".
-- `parameter_count` — actual=150202 expected=160492
-- `authority_model_strict_load` — RuntimeError: Error(s) in loading state_dict for CNNBiLSTMTabularResidualOULAD:
-	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias".
-- `parameter_count` — actual=150202 expected=160492
-- `authority_model_strict_load` — RuntimeError: Error(s) in loading state_dict for CNNBiLSTMTabularResidualOULAD:
-	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias".
-- `parameter_count` — actual=150202 expected=160492
-- `authority_model_strict_load` — RuntimeError: Error(s) in loading state_dict for CNNBiLSTMTabularResidualOULAD:
-	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias".
-- `parameter_count` — actual=150202 expected=160492
-- `authority_model_strict_load` — RuntimeError: Error(s) in loading state_dict for CNNBiLSTMTabularResidualOULAD:
-	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias".
-- `parameter_count` — actual=150202 expected=160492
-- `authority_model_strict_load` — RuntimeError: Error(s) in loading state_dict for CNNBiLSTMTabularResidualOULAD:
-	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias".
-- `parameter_count` — actual=150202 expected=160492
-- `authority_model_strict_load` — RuntimeError: Error(s) in loading state_dict for CNNBiLSTMTabularResidualOULAD:
-	Missing key(s) in state_dict: "residual_alpha_logit", "tabular_expert.0.weight", "tabular_expert.0.bias", "tabular_expert.1.weight", "tabular_expert.1.bias", "tabular_expert.4.weight", "tabular_expert.4.bias", "tabular_risk_head.weight", "tabular_risk_head.bias".
-- `parameter_count` — actual=150202 expected=160492
-- `recommendation_authority_matches_release` — release_classes=['src.models.oulad_multitask.CNNBiLSTMOULAD'] release_parameter_counts=[150202] expected_class=src.models.oulad_tabular_residual.CNNBiLSTMTabularResidualOULAD expected_parameter_count=160492
+- None
 
 ## Checkpoint fingerprints
 
 | Fold | Seed | Stage | Path | SHA-256 | State-dict fingerprint | Preprocessor fingerprint |
 |---:|---:|---|---|---|---|---|
-| 0 | 1201 | E1_EARLY_20PCT | `artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_bilstm_oulad/outer_fold_0/seed_1201.pt` | `bd2c5ae5c41410e308d94f660827077a89d8be4302276748ea1afd2b9e01d3ee` | `ae5835cb29e5863109d3b1857c42cb4e090dc917278c3b721b76b45433bcc7cf` | `abf0456125a202ec453846ec68a006b7597cdba7089e531c369f60a894646229` |
-| 0 | 2026 | E1_EARLY_20PCT | `artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_bilstm_oulad/outer_fold_0/seed_2026.pt` | `010711a3e74f0f5ae79f03dcad87eb011fb8e96cae78183cf3bbced3b36d2a12` | `ae5835cb29e5863109d3b1857c42cb4e090dc917278c3b721b76b45433bcc7cf` | `abf0456125a202ec453846ec68a006b7597cdba7089e531c369f60a894646229` |
-| 0 | 3407 | E1_EARLY_20PCT | `artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_bilstm_oulad/outer_fold_0/seed_3407.pt` | `e3c973d893ce4d455fac482c80c1c714eaf28c1eb9e0140aa3c47c8ac44c926d` | `ae5835cb29e5863109d3b1857c42cb4e090dc917278c3b721b76b45433bcc7cf` | `abf0456125a202ec453846ec68a006b7597cdba7089e531c369f60a894646229` |
-| 0 | 42 | E1_EARLY_20PCT | `artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_bilstm_oulad/outer_fold_0/seed_42.pt` | `104596c79bd704e5f587d3943e11cc112a30ccafcb2f1cf8b35bf20aee78c8fe` | `ae5835cb29e5863109d3b1857c42cb4e090dc917278c3b721b76b45433bcc7cf` | `abf0456125a202ec453846ec68a006b7597cdba7089e531c369f60a894646229` |
-| 0 | 7319 | E1_EARLY_20PCT | `artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_bilstm_oulad/outer_fold_0/seed_7319.pt` | `03214f706afdf155e0b66620ae10a6db5860cef491eb5536b2233d27bf793f11` | `ae5835cb29e5863109d3b1857c42cb4e090dc917278c3b721b76b45433bcc7cf` | `abf0456125a202ec453846ec68a006b7597cdba7089e531c369f60a894646229` |
-| 1 | 1201 | E1_EARLY_20PCT | `artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_bilstm_oulad/outer_fold_1/seed_1201.pt` | `4e1f1e976afe103a1f146954ad78fd4fe044c6f6993e5b3ec88ae1eb621b6302` | `ae5835cb29e5863109d3b1857c42cb4e090dc917278c3b721b76b45433bcc7cf` | `9b4aa6056e5f5a761034ea86beb104bdf9d79b734a2b0f71acc1f5a2f8bc8c91` |
-| 1 | 2026 | E1_EARLY_20PCT | `artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_bilstm_oulad/outer_fold_1/seed_2026.pt` | `c0f18902f9b800360856995f9ad8222bfed803b31490cfa5c5532b7e7d28b8af` | `ae5835cb29e5863109d3b1857c42cb4e090dc917278c3b721b76b45433bcc7cf` | `9b4aa6056e5f5a761034ea86beb104bdf9d79b734a2b0f71acc1f5a2f8bc8c91` |
-| 1 | 3407 | E1_EARLY_20PCT | `artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_bilstm_oulad/outer_fold_1/seed_3407.pt` | `ae56dca4353f8770207e28455adb69a6a0a5c7ad81ecf4d476cfbb9361d70d3d` | `ae5835cb29e5863109d3b1857c42cb4e090dc917278c3b721b76b45433bcc7cf` | `9b4aa6056e5f5a761034ea86beb104bdf9d79b734a2b0f71acc1f5a2f8bc8c91` |
-| 1 | 42 | E1_EARLY_20PCT | `artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_bilstm_oulad/outer_fold_1/seed_42.pt` | `e3f8ab27b0bbad31afeb2eea7523bdc518d9e9207d1c544d7b3f0b2481b5808a` | `ae5835cb29e5863109d3b1857c42cb4e090dc917278c3b721b76b45433bcc7cf` | `9b4aa6056e5f5a761034ea86beb104bdf9d79b734a2b0f71acc1f5a2f8bc8c91` |
-| 1 | 7319 | E1_EARLY_20PCT | `artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_bilstm_oulad/outer_fold_1/seed_7319.pt` | `645167a2437ba5155d6ed220fe6e5e53a12432726acdccbe016e25ba28383972` | `ae5835cb29e5863109d3b1857c42cb4e090dc917278c3b721b76b45433bcc7cf` | `9b4aa6056e5f5a761034ea86beb104bdf9d79b734a2b0f71acc1f5a2f8bc8c91` |
-| 2 | 1201 | E1_EARLY_20PCT | `artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_bilstm_oulad/outer_fold_2/seed_1201.pt` | `1e09857e71476c0c6a75077bad6031a0ceb1a789c32bbdcfc9b9355c1ae7c001` | `ae5835cb29e5863109d3b1857c42cb4e090dc917278c3b721b76b45433bcc7cf` | `8237b52576dc9e555380513f37e5bb5c88962ff24d46a855af36d8f4070622c9` |
-| 2 | 2026 | E1_EARLY_20PCT | `artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_bilstm_oulad/outer_fold_2/seed_2026.pt` | `9721ebb54e04c95ca476773ae1f841f6bbf28cbb2191db8fcef389f6a12c88b7` | `ae5835cb29e5863109d3b1857c42cb4e090dc917278c3b721b76b45433bcc7cf` | `8237b52576dc9e555380513f37e5bb5c88962ff24d46a855af36d8f4070622c9` |
-| 2 | 3407 | E1_EARLY_20PCT | `artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_bilstm_oulad/outer_fold_2/seed_3407.pt` | `293f618402a41288af321832847293d09ae969de3540a829a14a3a9f29f0b0d4` | `ae5835cb29e5863109d3b1857c42cb4e090dc917278c3b721b76b45433bcc7cf` | `8237b52576dc9e555380513f37e5bb5c88962ff24d46a855af36d8f4070622c9` |
-| 2 | 42 | E1_EARLY_20PCT | `artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_bilstm_oulad/outer_fold_2/seed_42.pt` | `1390929a4d86ec232a469f2e91869fafe53c6c5bc4c91e7ffa4b2251844942f2` | `ae5835cb29e5863109d3b1857c42cb4e090dc917278c3b721b76b45433bcc7cf` | `8237b52576dc9e555380513f37e5bb5c88962ff24d46a855af36d8f4070622c9` |
-| 2 | 7319 | E1_EARLY_20PCT | `artifacts/final/unified_stage_aware_oulad/checkpoints/cnn_bilstm_oulad/outer_fold_2/seed_7319.pt` | `00a1cbfa37cd94d730aea9568d78603bf1d216a06c28636b8a5cadd8d9095773` | `ae5835cb29e5863109d3b1857c42cb4e090dc917278c3b721b76b45433bcc7cf` | `8237b52576dc9e555380513f37e5bb5c88962ff24d46a855af36d8f4070622c9` |
+| 0 | 1201 | FINAL_EVALUATION | `artifacts\recommend_hybrid\checkpoints\residual_cnn_bilstm\final\outer0_seed1201.pt` | `f5fc11b98010ac088651468d654d3eb32a1ef1f8ca6f0bb1738a3e4c99fdee70` | `81c1893d4d61b712e30a77506068310c59913f36c8e448a483202ef9cd2e0bb7` | `b53f72b9f67484aa1b76e6c48624ac772599aeb9c746ae9e6d06dc1786510088` |
+| 0 | 2026 | FINAL_EVALUATION | `artifacts\recommend_hybrid\checkpoints\residual_cnn_bilstm\final\outer0_seed2026.pt` | `ca0f0f1e645f46c37a769faf806df0b7a20d08f2113e3e275b6dda4a93f1ae17` | `81c1893d4d61b712e30a77506068310c59913f36c8e448a483202ef9cd2e0bb7` | `b53f72b9f67484aa1b76e6c48624ac772599aeb9c746ae9e6d06dc1786510088` |
+| 0 | 3407 | FINAL_EVALUATION | `artifacts\recommend_hybrid\checkpoints\residual_cnn_bilstm\final\outer0_seed3407.pt` | `a8fe8dcb5e58ac596107a345487a7fc5295180801e18d2de7c4313c5c6ecaba1` | `81c1893d4d61b712e30a77506068310c59913f36c8e448a483202ef9cd2e0bb7` | `b53f72b9f67484aa1b76e6c48624ac772599aeb9c746ae9e6d06dc1786510088` |
+| 0 | 42 | FINAL_EVALUATION | `artifacts\recommend_hybrid\checkpoints\residual_cnn_bilstm\final\outer0_seed42.pt` | `d1dce6339748d181689657ae0b2683fee6d4fd863334ff16e7abe351021e8af0` | `81c1893d4d61b712e30a77506068310c59913f36c8e448a483202ef9cd2e0bb7` | `b53f72b9f67484aa1b76e6c48624ac772599aeb9c746ae9e6d06dc1786510088` |
+| 0 | 7319 | FINAL_EVALUATION | `artifacts\recommend_hybrid\checkpoints\residual_cnn_bilstm\final\outer0_seed7319.pt` | `9a8303d8566f8c54815d471d3d750a5ee05afe3cfec9d5f33d368971721424f5` | `81c1893d4d61b712e30a77506068310c59913f36c8e448a483202ef9cd2e0bb7` | `b53f72b9f67484aa1b76e6c48624ac772599aeb9c746ae9e6d06dc1786510088` |
+| 1 | 1201 | FINAL_EVALUATION | `artifacts\recommend_hybrid\checkpoints\residual_cnn_bilstm\final\outer1_seed1201.pt` | `6f65586c3053db1f7d601ca52b154a55e16c681ff96405f0f2f74a739741ece7` | `81c1893d4d61b712e30a77506068310c59913f36c8e448a483202ef9cd2e0bb7` | `741e3510c97f1d09d1bdd4ee8fed2936055affd224a03afceb4c5036c61424e3` |
+| 1 | 2026 | FINAL_EVALUATION | `artifacts\recommend_hybrid\checkpoints\residual_cnn_bilstm\final\outer1_seed2026.pt` | `c3d96f70fbd181e98b07e1ded8746de264f89b8d027d41019234266f5a5d8e58` | `81c1893d4d61b712e30a77506068310c59913f36c8e448a483202ef9cd2e0bb7` | `741e3510c97f1d09d1bdd4ee8fed2936055affd224a03afceb4c5036c61424e3` |
+| 1 | 3407 | FINAL_EVALUATION | `artifacts\recommend_hybrid\checkpoints\residual_cnn_bilstm\final\outer1_seed3407.pt` | `8d2f6c6837d6171ae3da299f80c01e9253485e09bb64f625ffdd0bf9a148dcd3` | `81c1893d4d61b712e30a77506068310c59913f36c8e448a483202ef9cd2e0bb7` | `741e3510c97f1d09d1bdd4ee8fed2936055affd224a03afceb4c5036c61424e3` |
+| 1 | 42 | FINAL_EVALUATION | `artifacts\recommend_hybrid\checkpoints\residual_cnn_bilstm\final\outer1_seed42.pt` | `34533b74b10ab50b53084266d4b6851e86aea8f1cd5426e6d1457fb39e88b389` | `81c1893d4d61b712e30a77506068310c59913f36c8e448a483202ef9cd2e0bb7` | `741e3510c97f1d09d1bdd4ee8fed2936055affd224a03afceb4c5036c61424e3` |
+| 1 | 7319 | FINAL_EVALUATION | `artifacts\recommend_hybrid\checkpoints\residual_cnn_bilstm\final\outer1_seed7319.pt` | `af3457e385d76a359d413717ea89a2e6d8f8c492e10cb832f51ac5a35b46b698` | `81c1893d4d61b712e30a77506068310c59913f36c8e448a483202ef9cd2e0bb7` | `741e3510c97f1d09d1bdd4ee8fed2936055affd224a03afceb4c5036c61424e3` |
+| 2 | 1201 | FINAL_EVALUATION | `artifacts\recommend_hybrid\checkpoints\residual_cnn_bilstm\final\outer2_seed1201.pt` | `574089233da2facdeeb49ab4c312c4367d26fe1599985476c0409ec773066477` | `81c1893d4d61b712e30a77506068310c59913f36c8e448a483202ef9cd2e0bb7` | `a80d12db5dff6b1274a8b1f3a89ff9923707ef9fa0b0e3ac26a1e7e520e38813` |
+| 2 | 2026 | FINAL_EVALUATION | `artifacts\recommend_hybrid\checkpoints\residual_cnn_bilstm\final\outer2_seed2026.pt` | `6bb2b38923d701cc50bcaccd8c861beb1d9de9c9f02dc1ebbb24563c43030ce5` | `81c1893d4d61b712e30a77506068310c59913f36c8e448a483202ef9cd2e0bb7` | `a80d12db5dff6b1274a8b1f3a89ff9923707ef9fa0b0e3ac26a1e7e520e38813` |
+| 2 | 3407 | FINAL_EVALUATION | `artifacts\recommend_hybrid\checkpoints\residual_cnn_bilstm\final\outer2_seed3407.pt` | `3570ad653c3ca34d6c4406764ad0af828fd7db607399b6e26ddcb1897fef5214` | `81c1893d4d61b712e30a77506068310c59913f36c8e448a483202ef9cd2e0bb7` | `a80d12db5dff6b1274a8b1f3a89ff9923707ef9fa0b0e3ac26a1e7e520e38813` |
+| 2 | 42 | FINAL_EVALUATION | `artifacts\recommend_hybrid\checkpoints\residual_cnn_bilstm\final\outer2_seed42.pt` | `4621a8d446c17712e4dce3f822b3227e851140309852879f030e5f4f1537cbdb` | `81c1893d4d61b712e30a77506068310c59913f36c8e448a483202ef9cd2e0bb7` | `a80d12db5dff6b1274a8b1f3a89ff9923707ef9fa0b0e3ac26a1e7e520e38813` |
+| 2 | 7319 | FINAL_EVALUATION | `artifacts\recommend_hybrid\checkpoints\residual_cnn_bilstm\final\outer2_seed7319.pt` | `a403178275a16b6464c4a330dc01320d0fe783bf1b8ead61ef8b567ce810e5b5` | `81c1893d4d61b712e30a77506068310c59913f36c8e448a483202ef9cd2e0bb7` | `a80d12db5dff6b1274a8b1f3a89ff9923707ef9fa0b0e3ac26a1e7e520e38813` |
+| 0 | 1201 | EARLY_20,EARLY_35,MIDDLE_50,LATE_75 | `artifacts\recommend_hybrid\checkpoints\residual_cnn_bilstm\shared\outer0_seed1201.pt` | `e605f51f4ea9bc10709985f00203bbd4a31ee137bad36f9ef944bdbf2471e243` | `81c1893d4d61b712e30a77506068310c59913f36c8e448a483202ef9cd2e0bb7` | `c32f20cf7f8d277257947f0ec6d2cb4d5a996db9a641d61e04e44d1b535d24a5` |
+| 0 | 2026 | EARLY_20,EARLY_35,MIDDLE_50,LATE_75 | `artifacts\recommend_hybrid\checkpoints\residual_cnn_bilstm\shared\outer0_seed2026.pt` | `3fa3e66bd16067243d97afc74a5bc92456e69a56dc299c9cef380e38feed934a` | `81c1893d4d61b712e30a77506068310c59913f36c8e448a483202ef9cd2e0bb7` | `c32f20cf7f8d277257947f0ec6d2cb4d5a996db9a641d61e04e44d1b535d24a5` |
+| 0 | 3407 | EARLY_20,EARLY_35,MIDDLE_50,LATE_75 | `artifacts\recommend_hybrid\checkpoints\residual_cnn_bilstm\shared\outer0_seed3407.pt` | `a2464db1f1ce3d1c9bb7b9d8dab13532544faa05a679126d1467aa1abd678fe4` | `81c1893d4d61b712e30a77506068310c59913f36c8e448a483202ef9cd2e0bb7` | `c32f20cf7f8d277257947f0ec6d2cb4d5a996db9a641d61e04e44d1b535d24a5` |
+| 0 | 42 | EARLY_20,EARLY_35,MIDDLE_50,LATE_75 | `artifacts\recommend_hybrid\checkpoints\residual_cnn_bilstm\shared\outer0_seed42.pt` | `623cf15c2d08b275054632e379c67b85619f5e84068dcd3bcb1a679d80549c53` | `81c1893d4d61b712e30a77506068310c59913f36c8e448a483202ef9cd2e0bb7` | `c32f20cf7f8d277257947f0ec6d2cb4d5a996db9a641d61e04e44d1b535d24a5` |
+| 0 | 7319 | EARLY_20,EARLY_35,MIDDLE_50,LATE_75 | `artifacts\recommend_hybrid\checkpoints\residual_cnn_bilstm\shared\outer0_seed7319.pt` | `f9592dbc744d13eaaedd70cbfe65efd456a862d63de3af107fe1fbb296475372` | `81c1893d4d61b712e30a77506068310c59913f36c8e448a483202ef9cd2e0bb7` | `c32f20cf7f8d277257947f0ec6d2cb4d5a996db9a641d61e04e44d1b535d24a5` |
+| 1 | 1201 | EARLY_20,EARLY_35,MIDDLE_50,LATE_75 | `artifacts\recommend_hybrid\checkpoints\residual_cnn_bilstm\shared\outer1_seed1201.pt` | `124bf20f3ffdb18cc97d69b1f76b7693b1629a1b01dbc57c61c87341c666162a` | `81c1893d4d61b712e30a77506068310c59913f36c8e448a483202ef9cd2e0bb7` | `9fb91aaea0c59c28deb65d8ee0d0ed75181d38d8a191f3a53d27273faeeec97b` |
+| 1 | 2026 | EARLY_20,EARLY_35,MIDDLE_50,LATE_75 | `artifacts\recommend_hybrid\checkpoints\residual_cnn_bilstm\shared\outer1_seed2026.pt` | `f32d1d2dc60976f5513d16bccdd86fc54400ba88c803795b57fa4399612c2b0f` | `81c1893d4d61b712e30a77506068310c59913f36c8e448a483202ef9cd2e0bb7` | `9fb91aaea0c59c28deb65d8ee0d0ed75181d38d8a191f3a53d27273faeeec97b` |
+| 1 | 3407 | EARLY_20,EARLY_35,MIDDLE_50,LATE_75 | `artifacts\recommend_hybrid\checkpoints\residual_cnn_bilstm\shared\outer1_seed3407.pt` | `11d6199d754e115e175b1e5a917c1121e1a638b7b270c738b3efb060cf95b34f` | `81c1893d4d61b712e30a77506068310c59913f36c8e448a483202ef9cd2e0bb7` | `9fb91aaea0c59c28deb65d8ee0d0ed75181d38d8a191f3a53d27273faeeec97b` |
+| 1 | 42 | EARLY_20,EARLY_35,MIDDLE_50,LATE_75 | `artifacts\recommend_hybrid\checkpoints\residual_cnn_bilstm\shared\outer1_seed42.pt` | `358dfdfba0932d4149aa986f2a822a1c67212b800c3f9b0a4fa9037ad1fac372` | `81c1893d4d61b712e30a77506068310c59913f36c8e448a483202ef9cd2e0bb7` | `9fb91aaea0c59c28deb65d8ee0d0ed75181d38d8a191f3a53d27273faeeec97b` |
+| 1 | 7319 | EARLY_20,EARLY_35,MIDDLE_50,LATE_75 | `artifacts\recommend_hybrid\checkpoints\residual_cnn_bilstm\shared\outer1_seed7319.pt` | `fbd654fda245e238be33a6875e3f84f9e61f2a8da52feb2701011031c2fc69d6` | `81c1893d4d61b712e30a77506068310c59913f36c8e448a483202ef9cd2e0bb7` | `9fb91aaea0c59c28deb65d8ee0d0ed75181d38d8a191f3a53d27273faeeec97b` |
+| 2 | 1201 | EARLY_20,EARLY_35,MIDDLE_50,LATE_75 | `artifacts\recommend_hybrid\checkpoints\residual_cnn_bilstm\shared\outer2_seed1201.pt` | `c49d3375a3c5d0ffb4b9a2d4a0c37606d006699b7c3742b4c1b9d738fe7f2368` | `81c1893d4d61b712e30a77506068310c59913f36c8e448a483202ef9cd2e0bb7` | `107740eaf348b5af13e329675d1ae772baafc4bc428d2422b3e98c4bc54d486e` |
+| 2 | 2026 | EARLY_20,EARLY_35,MIDDLE_50,LATE_75 | `artifacts\recommend_hybrid\checkpoints\residual_cnn_bilstm\shared\outer2_seed2026.pt` | `ee5644d2c7e0eb42077c1763f4bb1d17c06d4c4422e87d5b191c600377bdf6ef` | `81c1893d4d61b712e30a77506068310c59913f36c8e448a483202ef9cd2e0bb7` | `107740eaf348b5af13e329675d1ae772baafc4bc428d2422b3e98c4bc54d486e` |
+| 2 | 3407 | EARLY_20,EARLY_35,MIDDLE_50,LATE_75 | `artifacts\recommend_hybrid\checkpoints\residual_cnn_bilstm\shared\outer2_seed3407.pt` | `178a288ebc985036862b12f93c42087b900aa7c9e66716acd2162792c68eeb3e` | `81c1893d4d61b712e30a77506068310c59913f36c8e448a483202ef9cd2e0bb7` | `107740eaf348b5af13e329675d1ae772baafc4bc428d2422b3e98c4bc54d486e` |
+| 2 | 42 | EARLY_20,EARLY_35,MIDDLE_50,LATE_75 | `artifacts\recommend_hybrid\checkpoints\residual_cnn_bilstm\shared\outer2_seed42.pt` | `48a70af3aa207e56f6f999c6ecf32ff1fc5f67b9b4ae545a36a2528d1dff08e0` | `81c1893d4d61b712e30a77506068310c59913f36c8e448a483202ef9cd2e0bb7` | `107740eaf348b5af13e329675d1ae772baafc4bc428d2422b3e98c4bc54d486e` |
+| 2 | 7319 | EARLY_20,EARLY_35,MIDDLE_50,LATE_75 | `artifacts\recommend_hybrid\checkpoints\residual_cnn_bilstm\shared\outer2_seed7319.pt` | `321e9d31f70275fa482d890cc4659cf3a1896f7d8b770dbce38ee3bbfed795bd` | `81c1893d4d61b712e30a77506068310c59913f36c8e448a483202ef9cd2e0bb7` | `107740eaf348b5af13e329675d1ae772baafc4bc428d2422b3e98c4bc54d486e` |

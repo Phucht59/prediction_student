@@ -1,14 +1,208 @@
 {
-  "checkpoint_authority_status": "FAIL",
+  "actions": [
+    {
+      "action_id": "STUDY_SCHEDULE",
+      "baseline_risk": 0.3734513521194458,
+      "changes": [
+        {
+          "after": 86.0,
+          "before": 34.0,
+          "feature_name": "sequence.total_clicks.observed_sum",
+          "operation": "canonical_tensor_rebuild",
+          "reference_key": null
+        },
+        {
+          "after": 13.0,
+          "before": 6.0,
+          "feature_name": "sequence.active_days.observed_sum",
+          "operation": "canonical_tensor_rebuild",
+          "reference_key": null
+        },
+        {
+          "after": 53.0,
+          "before": 19.0,
+          "feature_name": "sequence.content_clicks.observed_sum",
+          "operation": "canonical_tensor_rebuild",
+          "reference_key": null
+        },
+        {
+          "after": 0.0,
+          "before": 13.0,
+          "feature_name": "sequence.days_since_last_vle_activity.observed_sum",
+          "operation": "canonical_tensor_rebuild",
+          "reference_key": null
+        },
+        {
+          "after": 0.0,
+          "before": 1.0,
+          "feature_name": "sequence.weeks_without_activity.observed_sum",
+          "operation": "canonical_tensor_rebuild",
+          "reference_key": null
+        }
+      ],
+      "counterfactual_risk": 0.3268004357814789,
+      "evidence_strength": 1.0,
+      "reason_codes": [
+        "MODEL_ESTIMATED_RISK_REDUCTION"
+      ],
+      "risk_reduction": 0.04665091633796692,
+      "status": "RANKED",
+      "uncertainty_penalty": 0.046714612810124234,
+      "utility_score": 0.0014528529959770822,
+      "workload_minutes": 30
+    },
+    {
+      "action_id": "VLE_ENGAGEMENT",
+      "baseline_risk": 0.3734513521194458,
+      "changes": [
+        {
+          "after": 110.0,
+          "before": 34.0,
+          "feature_name": "sequence.total_clicks.observed_sum",
+          "operation": "canonical_tensor_rebuild",
+          "reference_key": null
+        },
+        {
+          "after": 13.0,
+          "before": 6.0,
+          "feature_name": "sequence.active_days.observed_sum",
+          "operation": "canonical_tensor_rebuild",
+          "reference_key": null
+        },
+        {
+          "after": 21.0,
+          "before": 11.0,
+          "feature_name": "sequence.unique_sites.observed_sum",
+          "operation": "canonical_tensor_rebuild",
+          "reference_key": null
+        },
+        {
+          "after": 53.0,
+          "before": 19.0,
+          "feature_name": "sequence.content_clicks.observed_sum",
+          "operation": "canonical_tensor_rebuild",
+          "reference_key": null
+        },
+        {
+          "after": 0.0,
+          "before": 13.0,
+          "feature_name": "sequence.days_since_last_vle_activity.observed_sum",
+          "operation": "canonical_tensor_rebuild",
+          "reference_key": null
+        },
+        {
+          "after": 0.0,
+          "before": 1.0,
+          "feature_name": "sequence.weeks_without_activity.observed_sum",
+          "operation": "canonical_tensor_rebuild",
+          "reference_key": null
+        }
+      ],
+      "counterfactual_risk": 0.32433271408081055,
+      "evidence_strength": 1.0,
+      "reason_codes": [
+        "MODEL_ESTIMATED_RISK_REDUCTION"
+      ],
+      "risk_reduction": 0.049118638038635254,
+      "status": "RANKED",
+      "uncertainty_penalty": 0.046714612810124234,
+      "utility_score": 0.0009178232630941944,
+      "workload_minutes": 90
+    },
+    {
+      "action_id": "ADVISOR_ESCALATION",
+      "baseline_risk": 0.3734513521194458,
+      "changes": [],
+      "counterfactual_risk": 0.3734513521194458,
+      "evidence_strength": 1.0,
+      "reason_codes": [
+        "HUMAN_SUPPORT_ACTION_REQUIRES_POLICY_FALLBACK"
+      ],
+      "risk_reduction": 0.0,
+      "status": "REJECTED",
+      "uncertainty_penalty": 0.046714612810124234,
+      "utility_score": 0.0,
+      "workload_minutes": 30
+    },
+    {
+      "action_id": "TARGETED_PRACTICE",
+      "baseline_risk": 0.3734513521194458,
+      "changes": [
+        {
+          "after": 110.0,
+          "before": 34.0,
+          "feature_name": "sequence.total_clicks.observed_sum",
+          "operation": "canonical_tensor_rebuild",
+          "reference_key": null
+        },
+        {
+          "after": 25.0,
+          "before": 6.0,
+          "feature_name": "sequence.quiz_clicks.observed_sum",
+          "operation": "canonical_tensor_rebuild",
+          "reference_key": null
+        },
+        {
+          "after": 21.0,
+          "before": 6.0,
+          "feature_name": "sequence.assessment_related_clicks.observed_sum",
+          "operation": "canonical_tensor_rebuild",
+          "reference_key": null
+        },
+        {
+          "after": 0.0,
+          "before": 13.0,
+          "feature_name": "sequence.days_since_last_vle_activity.observed_sum",
+          "operation": "canonical_tensor_rebuild",
+          "reference_key": null
+        },
+        {
+          "after": 0.0,
+          "before": 1.0,
+          "feature_name": "sequence.weeks_without_activity.observed_sum",
+          "operation": "canonical_tensor_rebuild",
+          "reference_key": null
+        }
+      ],
+      "counterfactual_risk": 0.4324137568473816,
+      "evidence_strength": 0.8,
+      "reason_codes": [
+        "MODEL_ESTIMATED_RISK_INCREASE"
+      ],
+      "risk_reduction": -0.05896240472793579,
+      "status": "REJECTED",
+      "uncertainty_penalty": 0.013220647589290424,
+      "utility_score": 0.0,
+      "workload_minutes": 120
+    }
+  ],
+  "architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+  "baseline_risk": 0.3734513521194458,
+  "checkpoint_ids": [
+    "release_cnn_bilstm_oulad_outer0_seed42"
+  ],
   "claim_boundary": "INTEGRATION_SMOKE_ONLY_NOT_EDUCATIONAL_EFFECT_EVIDENCE",
-  "failed_gate_count": 31,
-  "failure_reason": "structural checkpoint authority did not PASS",
-  "generated_at": "2026-08-03T15:37:56.697254Z",
-  "schema_version": "real_checkpoint_counterfactual_smoke_v3",
+  "decision_threshold": 0.49262160062789917,
+  "fold": 0,
+  "frozen_preprocessor_hash": "c32f20cf7f8d277257947f0ec6d2cb4d5a996db9a641d61e04e44d1b535d24a5",
+  "generated_at": "2026-08-03T16:35:08.484867Z",
+  "ranked_action_count": 2,
+  "rejected_action_count": 2,
+  "release_checkpoint_path": "artifacts\\recommend_hybrid\\checkpoints\\residual_cnn_bilstm\\shared\\outer0_seed42.pt",
+  "release_model_id": "H1_TABULAR_RESIDUAL_EXPERT",
+  "schema_version": "real_checkpoint_counterfactual_smoke_v2",
   "scientific_guards": {
+    "architecture_authority_verified": true,
     "educational_effect_claimed": false,
-    "failed_closed_before_scoring": true,
-    "raw_oulad_data_used": false
+    "raw_oulad_data_used": false,
+    "real_frozen_preprocessor_used": true,
+    "registered_release_checkpoint_used": true,
+    "release_checkpoint_sha_verified": true,
+    "synthetic_contract_valid_input_used": true
   },
-  "status": "FAIL"
+  "seeds": [
+    42
+  ],
+  "stage": "EARLY_20",
+  "status": "PASS"
 }

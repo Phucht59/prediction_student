@@ -2,33 +2,78 @@
   "artifacts": [
     {
       "path": "artifacts\\recommend_hybrid\\counterfactual\\preflight.json",
-      "sha256": "0ecbf513017b918580e182c9dfc2a87f18c367c11b36f15bcbe59cf8eb2dd35d",
-      "size_bytes": 119078
+      "sha256": "25a8daa6b24b00621d5b07a7e4a026472600187df54fa65df9d9e31893a8f6fe",
+      "size_bytes": 221190
     },
     {
       "path": "artifacts\\recommend_hybrid\\counterfactual\\checkpoint_authority_validation.json",
-      "sha256": "47538a5cfe3d951eb22267f4f328b12e70ab43351eae075eeb5e50ad275acbc1",
-      "size_bytes": 98137
+      "sha256": "5fea8dfdad61da13c8ac19e9675d243b4d03df76f0d166f0e4b63a8e8ebd3844",
+      "size_bytes": 193511
     },
     {
       "path": "artifacts\\recommend_hybrid\\counterfactual\\real_checkpoint_smoke.json",
-      "sha256": "ee8fcb5b9da65ba1dad279deb36e25be55b2064cb08e7e7aa37b26c58ce0020e",
-      "size_bytes": 509
+      "sha256": "e2f199ad928e7ff3339125a0742bf24ddd1fb45fdf8bda803f115729b8e333b9",
+      "size_bytes": 6854
     },
     {
       "path": "artifacts\\recommend_hybrid\\counterfactual\\validation.json",
-      "sha256": "8df0ca296f5e6c7c6de72496331e39c54d355a6c0b79197e85a4e6a09c5757c5",
+      "sha256": "9e7880cf02fc054526d8f91a26ddf397cfb8061920090bc1a1c221528b190172",
       "size_bytes": 2229
     },
     {
+      "path": "artifacts\\recommend_hybrid\\counterfactual\\evaluation.json",
+      "sha256": "9d5d57b72bafbf3c975b1e40732b8bd040fc859bb84053b6e8a4db35152ff4d3",
+      "size_bytes": 15546
+    },
+    {
+      "path": "artifacts\\recommend_hybrid\\counterfactual\\evaluation_rows.csv",
+      "sha256": "0721e174a15e8f7a94fe1479e6b4c3e72eabc6364288a0730cfef2e6dfaf179b",
+      "size_bytes": 305020
+    },
+    {
+      "path": "artifacts\\recommend_hybrid\\counterfactual\\action_scores.csv",
+      "sha256": "3ce7233d56250afb9a753cce95e12558ad5383dda643babcfc15370eeadb3858",
+      "size_bytes": 1044142
+    },
+    {
+      "path": "artifacts\\recommend_hybrid\\counterfactual\\shortcut_diagnostic.json",
+      "sha256": "1eaafe494e320047bb0b48c708bbc18f67368139087d443697fb9330e76fbf41",
+      "size_bytes": 1866
+    },
+    {
       "path": "reports\\recommend_hybrid\\COUNTERFACTUAL_VALIDATION.md",
-      "sha256": "9d3a29bf38f88dd1335da71a53b75f7ad130783df4aec4d8fa32e8c872aee073",
+      "sha256": "2b1ce240bdd1fb932d8f911d4f28702389fee4883507405b39dc37471f7c2abc",
       "size_bytes": 977
     },
     {
+      "path": "reports\\recommend_hybrid\\COUNTERFACTUAL_EVALUATION.md",
+      "sha256": "84dd5a1a550f879373c3dc46974396889364b8a2f88d7b1f59d504635540983e",
+      "size_bytes": 678
+    },
+    {
+      "path": "reports\\recommend_hybrid\\COUNTERFACTUAL_SHORTCUT_DIAGNOSTIC.md",
+      "sha256": "11d8345b7f75bc791a37e6ada72094418a364aa852a0318a025f4b2a9371e052",
+      "size_bytes": 640
+    },
+    {
       "path": "reports\\recommend_hybrid\\COUNTERFACTUAL_CANDIDATE_RELEASE.md",
-      "sha256": "7425384294a3c4f5882bc56ac863a58a08b5b971891e8b496c219ad1e530a67c",
-      "size_bytes": 581
+      "sha256": "5b3db25336ce3c9b150ce02cf56d4409ab33d0d536aaf9d6dcf4ada855ea6985",
+      "size_bytes": 624
+    },
+    {
+      "path": "artifacts\\recommend_hybrid\\counterfactual\\historical_trajectory.json",
+      "sha256": "16b98d8d337a4a28704e82bccac486bcd301181723d4009ff690797260959d94",
+      "size_bytes": 7802
+    },
+    {
+      "path": "artifacts\\recommend_hybrid\\counterfactual\\historical_trajectory_rows.csv",
+      "sha256": "4a7a329f48675111aae8858e8a7db61ad9cd007ece82a705d29e065396423ba7",
+      "size_bytes": 97264
+    },
+    {
+      "path": "reports\\recommend_hybrid\\HISTORICAL_TRAJECTORY_VALIDATION.md",
+      "sha256": "7b308d19d853340817aff3fd5e2a40aa72cc05c302add7314d2eedd9095da4e4",
+      "size_bytes": 603
     }
   ],
   "claim_boundary": "MODEL_ESTIMATED_RISK_REDUCTION_NOT_CAUSAL_EFFECT",
@@ -47,7 +92,7 @@
       3407,
       7319
     ],
-    "skip_historical": true,
+    "skip_historical": false,
     "stages": [
       "E1_EARLY_20PCT",
       "E2_EARLY_35PCT",
@@ -56,10 +101,10 @@
     ],
     "verify_hashes": true
   },
-  "generated_at": "2026-08-03T15:43:59.713420Z",
+  "generated_at": "2026-08-03T16:37:19.021157Z",
   "prediction_backbone": "FROZEN_HYBRID_CNN_BILSTM",
   "recommendation_component": "CONSTRAINED_COUNTERFACTUAL_RISK_REDUCTION_RECOMMENDER",
-  "release_status": "CANDIDATE_FAILED_GATE",
+  "release_status": "CANDIDATE_VALIDATED_PENDING_EXPERT_REVIEW",
   "schema_version": "counterfactual_candidate_release_v1",
   "scientific_guards": {
     "causal_effect_claimed": false,
@@ -68,7 +113,7 @@
     "outcome_labels_used_for_ranking": false,
     "silver_labels_used": false
   },
-  "status": "FAIL",
+  "status": "PASS",
   "steps": [
     {
       "command": [
@@ -76,8 +121,8 @@
         "scripts/recommend_hybrid/validate_checkpoint_authority.py"
       ],
       "name": "checkpoint_authority",
-      "return_code": 1,
-      "status": "FAIL"
+      "return_code": 0,
+      "status": "PASS"
     },
     {
       "command": [
@@ -86,8 +131,63 @@
         "--verify-hashes"
       ],
       "name": "preflight",
-      "return_code": 1,
-      "status": "FAIL"
+      "return_code": 0,
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "C:\\hufit\\kltn\\.venv-oulad-v2\\Scripts\\python.exe",
+        "scripts/recommend_hybrid/validate_counterfactual.py"
+      ],
+      "name": "technical_validation",
+      "return_code": 0,
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "C:\\hufit\\kltn\\.venv-oulad-v2\\Scripts\\python.exe",
+        "scripts/recommend_hybrid/smoke_real_checkpoint_counterfactual.py"
+      ],
+      "name": "real_checkpoint_smoke",
+      "return_code": 0,
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "C:\\hufit\\kltn\\.venv-oulad-v2\\Scripts\\python.exe",
+        "scripts/recommend_hybrid/evaluate_counterfactual_recommender.py",
+        "--folds",
+        "0,1,2",
+        "--stages",
+        "E1_EARLY_20PCT,E2_EARLY_35PCT,M1_MIDDLE_FROZEN,L1_LATE_75PCT",
+        "--seeds",
+        "42,1201,2026,3407,7319",
+        "--max-records-per-fold-stage",
+        "100",
+        "--bootstrap-replicates",
+        "1000"
+      ],
+      "name": "outer_fold_evaluation",
+      "return_code": 0,
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "C:\\hufit\\kltn\\.venv-oulad-v2\\Scripts\\python.exe",
+        "scripts/recommend_hybrid/audit_counterfactual_shortcut.py"
+      ],
+      "name": "shortcut_diagnostic",
+      "return_code": 0,
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "C:\\hufit\\kltn\\.venv-oulad-v2\\Scripts\\python.exe",
+        "scripts/recommend_hybrid/evaluate_historical_trajectories.py"
+      ],
+      "name": "historical_trajectory_validation",
+      "return_code": 0,
+      "status": "PASS"
     }
   ],
   "system_id": "hybrid_cnn_bilstm_counterfactual_recommender"
