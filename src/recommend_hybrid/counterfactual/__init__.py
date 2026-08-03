@@ -10,6 +10,7 @@ from .contracts import (
     UtilityStatus,
 )
 from .effects import CounterfactualEffectCatalog
+from .feature_authority import PreprocessedOULADFeatureAuthority
 from .oulad_tensor import (
     FrozenHybridTensorRiskPredictor,
     OULADCounterfactualScorer,
@@ -54,6 +55,7 @@ __all__ = [
     "OULADReferenceProfileBuilder",
     "OULADTensorCounterfactualSimulator",
     "OULADTensorEffectCatalog",
+    "PreprocessedOULADFeatureAuthority",
     "RecommendHybridCounterfactualPipeline",
     "ReferenceStatistic",
     "RiskEstimate",
