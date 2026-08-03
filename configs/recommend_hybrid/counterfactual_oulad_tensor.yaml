@@ -1,0 +1,113 @@
+version: counterfactual_oulad_tensor_effects_v1
+claim_boundary: MODEL_ESTIMATED_RISK_REDUCTION_NOT_CAUSAL_EFFECT
+reference_scope: TRAINING_FOLD_COURSE_STAGE_ONLY
+mutable_channels:
+  - total_clicks
+  - active_days
+  - unique_sites
+  - unique_activity_types
+  - content_clicks
+  - forum_clicks
+  - quiz_clicks
+  - assessment_related_clicks
+  - submitted_assessment_count
+  - days_since_last_vle_activity
+  - weeks_without_activity
+protected_channels:
+  - late_submission_count
+  - available_score_count
+  - cumulative_mean_score
+  - cumulative_weighted_score
+  - score_missing_mask
+utility:
+  version: counterfactual_tensor_utility_v1
+  minimum_risk_reduction: 0.01
+  workload_scale_minutes: 60.0
+actions:
+  - action_id: VLE_ENGAGEMENT
+    scorable: true
+    lookback_weeks: 2
+    effects:
+      - channel: total_clicks
+        operator: max_reference
+        reference_key: total_clicks_p65
+      - channel: active_days
+        operator: max_reference
+        reference_key: active_days_p50
+      - channel: content_clicks
+        operator: max_reference
+        reference_key: content_clicks_p50
+      - channel: unique_sites
+        operator: max_reference
+        reference_key: unique_sites_p50
+  - action_id: ASSESSMENT_COMPLETION
+    scorable: true
+    lookback_weeks: 1
+    effects:
+      - channel: submitted_assessment_count
+        operator: add
+        amount: 1.0
+      - channel: assessment_related_clicks
+        operator: max_reference
+        reference_key: assessment_related_clicks_p50
+  - action_id: STUDY_SCHEDULE
+    scorable: true
+    lookback_weeks: 2
+    effects:
+      - channel: total_clicks
+        operator: max_reference
+        reference_key: total_clicks_p50
+      - channel: active_days
+        operator: max_reference
+        reference_key: active_days_p50
+      - channel: content_clicks
+        operator: max_reference
+        reference_key: content_clicks_p50
+  - action_id: RETRIEVAL_PRACTICE
+    scorable: true
+    lookback_weeks: 2
+    effects:
+      - channel: total_clicks
+        operator: max_reference
+        reference_key: total_clicks_p50
+      - channel: quiz_clicks
+        operator: max_reference
+        reference_key: quiz_clicks_p50
+  - action_id: TARGETED_PRACTICE
+    scorable: true
+    lookback_weeks: 2
+    effects:
+      - channel: total_clicks
+        operator: max_reference
+        reference_key: total_clicks_p65
+      - channel: quiz_clicks
+        operator: max_reference
+        reference_key: quiz_clicks_p65
+      - channel: assessment_related_clicks
+        operator: max_reference
+        reference_key: assessment_related_clicks_p50
+  - action_id: LEARNING_CONSOLIDATION
+    scorable: true
+    lookback_weeks: 2
+    effects:
+      - channel: total_clicks
+        operator: max_reference
+        reference_key: total_clicks_p50
+      - channel: content_clicks
+        operator: max_reference
+        reference_key: content_clicks_p65
+      - channel: unique_sites
+        operator: max_reference
+        reference_key: unique_sites_p50
+  - action_id: DIAGNOSTIC_CHECK
+    scorable: false
+    non_scorable_reason: NO_DIRECT_MODEL_FEATURE_EFFECT
+  - action_id: PROGRESS_MONITORING
+    scorable: false
+    non_scorable_reason: FOLLOW_UP_ACTION_NOT_PRIMARY_INTERVENTION
+  - action_id: INSTRUCTOR_CONTACT
+    scorable: false
+    non_scorable_reason: HUMAN_SUPPORT_ACTION_REQUIRES_POLICY_FALLBACK
+  - action_id: ADVISOR_ESCALATION
+    scorable: false
+    non_scorable_reason: HUMAN_SUPPORT_ACTION_REQUIRES_POLICY_FALLBACK
