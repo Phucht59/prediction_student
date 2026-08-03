@@ -10,9 +10,9 @@ identity almost completely determined those labels. A neural ranker could
 therefore reproduce the labeling rules without learning whether an action was
 useful for a particular learner.
 
-The final candidate does not train another recommender from silver labels. It
-uses the frozen Hybrid CNN–BiLSTM prediction model as a read-only risk authority
-and ranks feasible learning actions by model-estimated risk reduction.
+The candidate implemented here does not train another recommender from silver
+labels. It uses the frozen Hybrid CNN–BiLSTM prediction model as a read-only risk
+authority and ranks feasible learning actions by model-estimated risk reduction.
 
 ## 2. Architecture
 
@@ -138,9 +138,24 @@ scientific input is missing, including:
 
 Fallback reasons are stored in the result contract.
 
-## 8. Evaluation
+## 8. Data and checkpoint availability
 
-### 8.1 Technical validation
+Raw OULAD tables and the generated stage bundle are intentionally excluded from
+Git. Full evaluation must run on the project machine that owns:
+
+- `data/raw/*.csv` registered in `data/manifests/extension_raw_manifest.json`;
+- `data/processed/study_c_oulad/manifests/split_manifest.csv`;
+- canonical training checkpoints referenced by the recommendation manifest;
+- OOF predictions required by historical trajectory validation.
+
+GitHub CI separately runs a real release-checkpoint smoke with a deterministic
+contract-valid synthetic tensor. That smoke validates checkpoint loading,
+architecture authority, frozen preprocessing and counterfactual scoring, but is
+not reported as educational-effect evidence.
+
+## 9. Validation and evaluation
+
+### 9.1 Technical validation
 
 ```bash
 python scripts/recommend_hybrid/validate_counterfactual.py
@@ -148,15 +163,28 @@ python scripts/recommend_hybrid/validate_counterfactual.py
 
 This runs focused unit/integration tests and static scientific gates.
 
-### 8.2 Outer-fold counterfactual evaluation
+### 9.2 Local authority preflight
+
+```bash
+python scripts/recommend_hybrid/preflight_counterfactual_evaluation.py \
+  --verify-hashes
+```
+
+The command fails before evaluation when raw data, the frozen split, checkpoint
+files, training authority or OOF predictions are missing or inconsistent.
+
+### 9.3 Outer-fold counterfactual evaluation
 
 ```bash
 python scripts/recommend_hybrid/evaluate_counterfactual_recommender.py \
   --folds 0,1,2 \
-  --stages E1_EARLY_20PCT,E2_EARLY_35PCT,M1_MIDDLE_50PCT,L1_LATE_75PCT \
+  --stages E1_EARLY_20PCT,E2_EARLY_35PCT,M1_MIDDLE_FROZEN,L1_LATE_75PCT \
   --seeds 42,1201,2026,3407,7319 \
   --max-records-per-fold-stage 100
 ```
+
+`M1_MIDDLE_FROZEN` is the canonical bundle key. The OOF/reporting alias remains
+`M1_MIDDLE_50PCT`; code and tests keep these namespaces separate.
 
 Main metrics:
 
@@ -168,7 +196,7 @@ Main metrics:
 - action frequency and concentration;
 - fixed-seed bootstrap confidence interval.
 
-### 8.3 Historical trajectory validation
+### 9.4 Historical trajectory validation
 
 ```bash
 python scripts/recommend_hybrid/evaluate_historical_trajectories.py
@@ -179,7 +207,23 @@ behavior moved in the recommended direction and those whose behavior did not.
 It is an observational association check only. Its outputs are not used to
 train, tune, score or select an action.
 
-## 9. Scientific claim boundary
+### 9.5 Candidate release build
+
+```bash
+python scripts/recommend_hybrid/build_counterfactual_candidate_release.py \
+  --verify-hashes \
+  --max-records-per-fold-stage 100 \
+  --bootstrap-replicates 1000
+```
+
+The runner executes preflight, technical validation, outer-fold evaluation and
+historical validation, then creates a checksum registry. A successful run is
+marked `CANDIDATE_VALIDATED`, not `FINAL_RELEASE`.
+
+Use `--max-records-per-fold-stage 0` only when a complete all-row evaluation is
+required and the available compute budget is sufficient.
+
+## 10. Scientific claim boundary
 
 Supported wording:
 
@@ -206,14 +250,16 @@ Historical analysis uses:
 OBSERVATIONAL_ASSOCIATION_ONLY_NOT_CAUSAL_EFFECT
 ```
 
-## 10. Release gate
+## 11. Release gate
 
 The module must remain an implementation candidate until all of the following
 are complete:
 
 1. focused CI passes;
-2. outer-fold evaluation artifacts are generated from real checkpoints and raw
+2. registered release-checkpoint smoke passes;
+3. local preflight passes with hashes verified;
+4. outer-fold evaluation artifacts are generated from real checkpoints and raw
    OULAD data;
-3. preprocessing, no-leakage and deterministic-replay checks pass;
-4. results are reviewed for degenerate action concentration;
-5. thesis claims are updated to the exact boundaries in this document.
+5. preprocessing, no-leakage and deterministic-replay checks pass;
+6. results are reviewed for degenerate action concentration;
+7. thesis claims are updated to the exact boundaries in this document.
