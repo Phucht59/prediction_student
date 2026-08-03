@@ -1,0 +1,53 @@
+name: Counterfactual Recommender
+
+on:
+  pull_request:
+    paths:
+      - "src/recommend_hybrid/counterfactual/**"
+      - "src/recommend_hybrid/__init__.py"
+      - "configs/recommend_hybrid/counterfactual_oulad*.yaml"
+      - "configs/recommend_hybrid/actions.yaml"
+      - "configs/recommend_hybrid/planning.yaml"
+      - "tests/recommend_hybrid/counterfactual/**"
+      - "scripts/recommend_hybrid/validate_counterfactual.py"
+      - ".github/workflows/counterfactual-recommender.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install focused dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install \
+            numpy pandas scikit-learn joblib \
+            torch PyYAML pytest
+
+      - name: Validate counterfactual recommender
+        run: python scripts/recommend_hybrid/validate_counterfactual.py
+
+      - name: Upload validation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: counterfactual-validation
+          path: |
+            artifacts/recommend_hybrid/counterfactual/validation.json
+            reports/recommend_hybrid/COUNTERFACTUAL_VALIDATION.md
+          if-no-files-found: warn
