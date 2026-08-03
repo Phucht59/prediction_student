@@ -22,6 +22,7 @@ from src.recommend_hybrid.exceptions import ContractValidationError
 from src.recommend_hybrid.oulad.plan_builder import OULADLearningPlanBuilder
 
 from .contracts import CounterfactualRankingResult
+from .feature_authority import PreprocessedOULADFeatureAuthority
 from .oulad_tensor import (
     FrozenHybridTensorRiskPredictor,
     OULADCounterfactualScorer,
@@ -176,8 +177,14 @@ class OULADCounterfactualPlanBuilder:
         tensor_catalog = OULADTensorEffectCatalog.load(
             self.tensor_catalog_path
         )
+        feature_authority = PreprocessedOULADFeatureAuthority(
+            prediction_authority
+        )
         scorer = OULADCounterfactualScorer(
-            OULADTensorCounterfactualSimulator(tensor_catalog),
+            OULADTensorCounterfactualSimulator(
+                tensor_catalog,
+                feature_authority,
+            ),
             FrozenHybridTensorRiskPredictor(prediction_authority),
         )
         ranking = scorer.score(
