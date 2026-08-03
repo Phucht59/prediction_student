@@ -7,6 +7,7 @@ import json
 import re
 import subprocess
 import sys
+from dataclasses import fields
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -21,12 +22,19 @@ from src.recommend_hybrid.action_catalog import ActionCatalog
 from src.recommend_hybrid.counterfactual.effects import (
     CounterfactualEffectCatalog,
 )
+from src.recommend_hybrid.counterfactual.evaluation import (
+    CounterfactualEvaluationRow,
+)
+from src.recommend_hybrid.counterfactual.feature_authority import (
+    PreprocessedOULADFeatureAuthority,
+)
 from src.recommend_hybrid.counterfactual.oulad_tensor import (
     OULADTensorEffectCatalog,
 )
 from src.recommend_hybrid.counterfactual.reference_profile import (
     REFERENCE_SPECS,
 )
+from src.recommend_hybrid.prediction_adapter import HybridPredictionAdapter
 
 OUT = ROOT / "artifacts/recommend_hybrid/counterfactual"
 REPORT = ROOT / "reports/recommend_hybrid/COUNTERFACTUAL_VALIDATION.md"
@@ -100,6 +108,14 @@ def _static_validation() -> dict[str, Any]:
         for effect in action.effects
         if effect.reference_key is not None
     }
+    evaluation_fields = {field.name for field in fields(CounterfactualEvaluationRow)}
+    forbidden_evaluation_fields = {
+        "target",
+        "label",
+        "final_result",
+        "date_unregistration",
+        "withdrawal_outcome",
+    }
     checks = {
         "state_actions_known": state_ids <= action_ids,
         "tensor_actions_known": tensor_ids <= action_ids,
@@ -110,6 +126,28 @@ def _static_validation() -> dict[str, Any]:
         "mutable_protected_disjoint": tensor_catalog.mutable_channels.isdisjoint(
             tensor_catalog.protected_channels
         ),
+        "frozen_aggregate_preprocessor_api": all(
+            hasattr(HybridPredictionAdapter, method)
+            for method in (
+                "transform_aggregate",
+                "inverse_transform_aggregate",
+            )
+        ),
+        "frozen_static_preprocessor_api": hasattr(
+            HybridPredictionAdapter,
+            "transform_static",
+        ),
+        "preprocessed_feature_authority_api": hasattr(
+            PreprocessedOULADFeatureAuthority,
+            "rebuild",
+        ),
+        "evaluation_contract_has_no_outcome_label": not (
+            evaluation_fields & forbidden_evaluation_fields
+        ),
+        "outer_fold_evaluator_present": (
+            ROOT
+            / "scripts/recommend_hybrid/evaluate_counterfactual_recommender.py"
+        ).is_file(),
         "claim_boundary_locked": CLAIM_BOUNDARY
         == "MODEL_ESTIMATED_RISK_REDUCTION_NOT_CAUSAL_EFFECT",
     }
@@ -120,6 +158,7 @@ def _static_validation() -> dict[str, Any]:
         "tensor_action_count": len(tensor_ids),
         "reference_keys": sorted(expected_references),
         "configured_reference_keys": sorted(configured_references),
+        "evaluation_fields": sorted(evaluation_fields),
     }
 
 
@@ -176,7 +215,7 @@ def main() -> int:
     tests_ok = tests["status"] in {"PASS", "SKIPPED"}
     status = "PASS" if static["status"] == "PASS" and tests_ok else "FAIL"
     payload = {
-        "schema_version": "counterfactual_validation_v1",
+        "schema_version": "counterfactual_validation_v2",
         "generated_at": _utc_now(),
         "claim_boundary": CLAIM_BOUNDARY,
         "static_validation": static,
