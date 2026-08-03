@@ -10,9 +10,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
-import math
 import sys
-from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -25,11 +23,7 @@ ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from src.pipelines.oulad import (
-    BASE_CHANNELS,
-    STATIC_COLUMNS,
-    _build_bundle,
-)
+from src.pipelines.oulad import BASE_CHANNELS, STATIC_COLUMNS, _build_bundle
 from src.recommend_hybrid.common.policy_contracts import (
     DatasetId,
     PolicyPredictionContext,
@@ -53,11 +47,14 @@ from src.recommend_hybrid.prediction_adapter import HybridPredictionAdapter
 OUT = ROOT / "artifacts/recommend_hybrid/counterfactual"
 REPORT = ROOT / "reports/recommend_hybrid/COUNTERFACTUAL_EVALUATION.md"
 CLAIM_BOUNDARY = "MODEL_ESTIMATED_RISK_REDUCTION_NOT_CAUSAL_EFFECT"
-STAGES = {
-    "E1_EARLY_20PCT": (Stage.EARLY_20, 20.0),
-    "E2_EARLY_35PCT": (Stage.EARLY_35, 35.0),
-    "M1_MIDDLE_50PCT": (Stage.MIDDLE_50, 50.0),
-    "L1_LATE_75PCT": (Stage.LATE_75, 75.0),
+
+# Bundle keys follow the frozen training pipeline. The middle-stage reporting
+# alias remains M1_MIDDLE_50PCT because that is the name used by OOF artifacts.
+STAGES: dict[str, tuple[Stage, float, str]] = {
+    "E1_EARLY_20PCT": (Stage.EARLY_20, 20.0, "E1_EARLY_20PCT"),
+    "E2_EARLY_35PCT": (Stage.EARLY_35, 35.0, "E2_EARLY_35PCT"),
+    "M1_MIDDLE_FROZEN": (Stage.MIDDLE_50, 50.0, "M1_MIDDLE_50PCT"),
+    "L1_LATE_75PCT": (Stage.LATE_75, 75.0, "L1_LATE_75PCT"),
 }
 
 
@@ -102,7 +99,7 @@ def _round_robin_indices(
     ordered = frame.sort_values(
         ["code_module", "code_presentation", "base_record_id"]
     )
-    groups = [
+    queues = [
         list(group.index)
         for _, group in ordered.groupby(
             ["code_module", "code_presentation"],
@@ -110,18 +107,18 @@ def _round_robin_indices(
         )
     ]
     selected: list[int] = []
-    offset = 0
-    while groups and (limit is None or len(selected) < limit):
-        next_groups: list[list[int]] = []
-        for group in groups:
-            if offset < len(group):
-                selected.append(int(group[offset]))
+    position = 0
+    while queues and (limit is None or len(selected) < limit):
+        retained: list[list[int]] = []
+        for queue in queues:
+            if position < len(queue):
+                selected.append(int(queue[position]))
                 if limit is not None and len(selected) >= limit:
                     break
-            if offset + 1 < len(group):
-                next_groups.append(group)
-        groups = next_groups
-        offset += 1
+            if position + 1 < len(queue):
+                retained.append(queue)
+        queues = retained
+        position += 1
     return selected
 
 
@@ -146,22 +143,20 @@ def _reference_profiles(
     data: Any,
     *,
     fold: int,
-    source_stage: str,
+    profile_stage: str,
     builder: OULADReferenceProfileBuilder,
 ) -> dict[str, OULADReferenceProfile]:
     frame = data.frame.copy()
     frame["course_key"] = _course_key(frame)
     profiles: dict[str, OULADReferenceProfile] = {}
-    for course_key, group in frame.loc[frame["outer_fold"].ne(fold)].groupby(
-        "course_key",
-        sort=True,
-    ):
+    training = frame.loc[frame["outer_fold"].ne(fold)]
+    for course_key, group in training.groupby("course_key", sort=True):
         indices = group.index.to_numpy(dtype=int)
         profiles[str(course_key)] = builder.build(
             sequence=data.sequence[indices],
             lengths=data.lengths[indices],
             fold=fold,
-            stage=source_stage,
+            stage=profile_stage,
             course_key=str(course_key),
             sample_role="TRAIN",
         )
@@ -204,12 +199,12 @@ def _observed_features(
     index = {name: position for position, name in enumerate(BASE_CHANNELS)}
     observed = sequence[:length]
     clicks = observed[:, index["total_clicks"]].astype(float)
-    days_observed = max(1, length * 7)
-    activity_level = float(clicks.sum() / days_observed)
+    activity_level = float(clicks.sum() / max(1, length * 7))
     recent_weeks = min(2, length)
-    recent_rate = float(clicks[-recent_weeks:].sum() / (recent_weeks * 7))
-    previous_start = max(0, length - 2 * recent_weeks)
-    previous = clicks[previous_start : length - recent_weeks]
+    recent_rate = float(
+        clicks[-recent_weeks:].sum() / max(1, recent_weeks * 7)
+    )
+    previous = clicks[max(0, length - 2 * recent_weeks) : length - recent_weeks]
     recent_activity_trend = (
         float(recent_rate - previous.sum() / (len(previous) * 7))
         if len(previous)
@@ -248,8 +243,9 @@ def _model_inputs(
     index: int,
     adapter: HybridPredictionAdapter,
 ) -> dict[str, torch.Tensor]:
-    raw_aggregate = data.aggregate[index : index + 1]
-    aggregate = adapter.transform_aggregate(raw_aggregate)
+    aggregate = adapter.transform_aggregate(
+        data.aggregate[index : index + 1]
+    )
     row = frame.loc[[index]]
     static = adapter.transform_static(
         {column: row[column].tolist() for column in STATIC_COLUMNS}
@@ -315,9 +311,9 @@ def evaluate(
     evaluation_rows: list[CounterfactualEvaluationRow] = []
     action_rows: list[dict[str, Any]] = []
 
-    for source_stage in stages:
-        canonical_stage, requested_cutoff = STAGES[source_stage]
-        data = bundle.stages[source_stage]
+    for bundle_stage in stages:
+        canonical_stage, requested_cutoff, profile_stage = STAGES[bundle_stage]
+        data = bundle.stages[bundle_stage]
         frame = data.frame.copy()
         frame["course_key"] = _course_key(frame)
         for fold in folds:
@@ -330,7 +326,7 @@ def evaluate(
             profiles = _reference_profiles(
                 data,
                 fold=fold,
-                source_stage=source_stage,
+                profile_stage=profile_stage,
                 builder=reference_builder,
             )
             validation = frame.loc[frame["outer_fold"].eq(fold)]
@@ -345,7 +341,7 @@ def evaluate(
                 if profile is None:
                     raise RuntimeError(
                         f"missing training reference profile: fold={fold} "
-                        f"stage={source_stage} course={course_key}"
+                        f"stage={bundle_stage} course={course_key}"
                     )
                 inputs = _model_inputs(data, frame, index, adapter)
                 baseline_output = adapter.predict(inputs)
@@ -424,37 +420,35 @@ def evaluate(
                         fallback_reasons=result.fallback_reasons,
                     )
                 )
-                if ranking is not None:
-                    selected_ids = {
-                        item.action_id for item in result.plan.selected_actions
-                    }
-                    for action in (
-                        *ranking.ranked_actions,
-                        *ranking.rejected_actions,
-                    ):
-                        action_rows.append(
-                            {
-                                "student_key": str(row["base_record_id"]),
-                                "course_key": course_key,
-                                "stage": canonical_stage.value,
-                                "fold": fold,
-                                "action_id": action.action_id,
-                                "utility_status": action.status.value,
-                                "baseline_risk": action.baseline_risk,
-                                "counterfactual_risk": action.counterfactual_risk,
-                                "risk_reduction": action.risk_reduction,
-                                "utility_score": action.utility_score,
-                                "evidence_strength": action.evidence_strength,
-                                "uncertainty_penalty": action.uncertainty_penalty,
-                                "workload_minutes": action.workload_minutes,
-                                "selected_in_plan": action.action_id
-                                in selected_ids,
-                                "reason_codes": "|".join(
-                                    action.reason_codes
-                                ),
-                                "reference_profile_id": profile.profile_id,
-                            }
-                        )
+                if ranking is None:
+                    continue
+                selected_ids = {
+                    item.action_id for item in result.plan.selected_actions
+                }
+                for action in (
+                    *ranking.ranked_actions,
+                    *ranking.rejected_actions,
+                ):
+                    action_rows.append(
+                        {
+                            "student_key": str(row["base_record_id"]),
+                            "course_key": course_key,
+                            "stage": canonical_stage.value,
+                            "fold": fold,
+                            "action_id": action.action_id,
+                            "utility_status": action.status.value,
+                            "baseline_risk": action.baseline_risk,
+                            "counterfactual_risk": action.counterfactual_risk,
+                            "risk_reduction": action.risk_reduction,
+                            "utility_score": action.utility_score,
+                            "evidence_strength": action.evidence_strength,
+                            "uncertainty_penalty": action.uncertainty_penalty,
+                            "workload_minutes": action.workload_minutes,
+                            "selected_in_plan": action.action_id in selected_ids,
+                            "reason_codes": "|".join(action.reason_codes),
+                            "reference_profile_id": profile.profile_id,
+                        }
+                    )
 
     metrics = aggregate_counterfactual_metrics(evaluation_rows)
     reductions = [
@@ -468,12 +462,15 @@ def evaluate(
         replicates=bootstrap_replicates,
     )
     payload = {
-        "schema_version": "counterfactual_oulad_evaluation_v1",
+        "schema_version": "counterfactual_oulad_evaluation_v2",
         "generated_at": _utc_now(),
         "claim_boundary": CLAIM_BOUNDARY,
         "configuration": {
             "folds": list(folds),
-            "stages": list(stages),
+            "bundle_stages": list(stages),
+            "reporting_stage_aliases": {
+                key: STAGES[key][2] for key in stages
+            },
             "seeds": list(seeds),
             "max_records_per_fold_stage": max_records_per_fold_stage,
             "bootstrap_replicates": bootstrap_replicates,
@@ -524,12 +521,10 @@ def _write_report(payload: dict[str, Any]) -> None:
         f"- Bootstrap mean 95% CI: "
         f"`[{bootstrap['lower_95']}, {bootstrap['upper_95']}]`",
         "",
-        "## Scientific boundary",
-        "",
         "The evaluator measures changes in risk predicted by the frozen "
-        "Hybrid CNN-BiLSTM under feasible input counterfactuals. It does not "
-        "establish that an intervention causes a real grade improvement. "
-        "Targets and post-cutoff outcomes are not used to rank actions.",
+        "Hybrid CNN–BiLSTM under feasible input counterfactuals. Targets and "
+        "post-cutoff outcomes are not used to rank actions, and the result is "
+        "not a causal treatment-effect estimate.",
         "",
     ]
     REPORT.parent.mkdir(parents=True, exist_ok=True)
@@ -544,7 +539,7 @@ def _parse_stage_tuple(value: str) -> tuple[str, ...]:
     stages = tuple(item.strip() for item in value.split(",") if item.strip())
     unknown = sorted(set(stages) - set(STAGES))
     if unknown:
-        raise ValueError(f"unknown stages: {unknown}")
+        raise ValueError(f"unknown bundle stages: {unknown}")
     return stages
 
 
@@ -557,10 +552,7 @@ def main() -> int:
         help="Use 0 for all outer-validation rows.",
     )
     parser.add_argument("--folds", default="0,1,2")
-    parser.add_argument(
-        "--stages",
-        default=",".join(STAGES),
-    )
+    parser.add_argument("--stages", default=",".join(STAGES))
     parser.add_argument(
         "--seeds",
         default="42,1201,2026,3407,7319",
