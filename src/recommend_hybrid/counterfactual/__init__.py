@@ -21,6 +21,11 @@ from .ranker import (
     CounterfactualUtilityRanker,
     RiskPredictor,
 )
+from .reference_profile import (
+    OULADReferenceProfile,
+    OULADReferenceProfileBuilder,
+    ReferenceStatistic,
+)
 from .simulator import CounterfactualStateSimulator
 
 __all__ = [
@@ -34,8 +39,11 @@ __all__ = [
     "FeatureChange",
     "FrozenHybridTensorRiskPredictor",
     "OULADCounterfactualScorer",
+    "OULADReferenceProfile",
+    "OULADReferenceProfileBuilder",
     "OULADTensorCounterfactualSimulator",
     "OULADTensorEffectCatalog",
+    "ReferenceStatistic",
     "RiskEstimate",
     "RiskPredictor",
     "SimulationStatus",
