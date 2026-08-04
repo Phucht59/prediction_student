@@ -8,6 +8,8 @@ import shutil
 from pathlib import Path
 from typing import Any
 
+import pandas as pd
+
 ROOT = Path(__file__).resolve().parents[3]
 OUT = ROOT / "artifacts/recommend_hybrid/outcome_grounded_v2_1"
 FINAL = OUT / "final_oof"
@@ -30,12 +32,44 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def validate_registered_trials(marker: dict[str, Any]) -> dict[str, Any]:
+    expected = int(marker.get("expected_trials_per_outer_fold") or 0)
+    if expected <= 0:
+        raise RuntimeError("Full-grid marker has no positive expected trial count")
+    summaries = []
+    for fold in [0, 1, 2]:
+        path = SELECTION / f"fold_{fold}_trials.csv"
+        if not path.exists():
+            raise RuntimeError(f"Missing registered trial table: {path}")
+        trials = pd.read_csv(path)
+        if len(trials) != expected:
+            raise RuntimeError(
+                f"Fold {fold} contains {len(trials)} registered trials; expected {expected}"
+            )
+        if "status" not in trials.columns:
+            raise RuntimeError(f"Fold {fold} trial table has no status column")
+        incomplete = trials[trials["status"].astype(str) != "COMPLETE"]
+        if len(incomplete):
+            raise RuntimeError(
+                f"Fold {fold} has {len(incomplete)} non-COMPLETE registered trials"
+            )
+        summaries.append(
+            {
+                "outer_fold": fold,
+                "registered_trials": int(len(trials)),
+                "complete_trials": int(len(trials)),
+            }
+        )
+    return {"expected_trials_per_outer_fold": expected, "folds": summaries}
+
+
 def current_model_authority() -> dict[str, Any]:
     if not FULL_MARKER.exists():
         raise RuntimeError("FULL_REGISTERED_SEARCH.json is missing")
     marker = json.loads(FULL_MARKER.read_text(encoding="utf-8"))
     if marker.get("status") != "COMPLETE":
         raise RuntimeError("Full registered search is not COMPLETE")
+    trial_validation = validate_registered_trials(marker)
     required = [FINAL / "NESTED_OOF_RESULTS.json"] + [
         SELECTION / f"fold_{fold}_selected.json" for fold in [0, 1, 2]
     ]
@@ -53,7 +87,7 @@ def current_model_authority() -> dict[str, Any]:
         "model_authority_sha256": combined,
         "files": files,
         "full_search_status": marker.get("status"),
-        "expected_trials_per_outer_fold": marker.get("expected_trials_per_outer_fold"),
+        **trial_validation,
     }
 
 
