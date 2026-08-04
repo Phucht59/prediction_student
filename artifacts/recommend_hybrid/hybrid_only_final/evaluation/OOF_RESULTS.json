@@ -1,0 +1,61 @@
+{
+  "additional_learned_model": false,
+  "folds": [
+    {
+      "action_diversity": 4,
+      "actionable_coverage": 0.5397946084724005,
+      "issued_groups": 4549,
+      "macro_action_precision": 0.23209895892701088,
+      "outer_fold": 0,
+      "positive_groups": 3116,
+      "precision_at_1": 0.2796218949219609,
+      "selected_config_id": "024ee54f2630b38f",
+      "selective_accuracy": 0.5127223831195697,
+      "top_action_concentration": 0.4976918003956914,
+      "total_groups": 9668,
+      "worst_stage_precision": 0.12197028928850664
+    },
+    {
+      "action_diversity": 4,
+      "actionable_coverage": 0.5286500485594043,
+      "issued_groups": 4569,
+      "macro_action_precision": 0.2538449900231648,
+      "outer_fold": 1,
+      "positive_groups": 3089,
+      "precision_at_1": 0.2759903698840009,
+      "selected_config_id": "024ee54f2630b38f",
+      "selective_accuracy": 0.5057578586990352,
+      "top_action_concentration": 0.46158896913985553,
+      "total_groups": 9639,
+      "worst_stage_precision": 0.11951588502269289
+    },
+    {
+      "action_diversity": 4,
+      "actionable_coverage": 0.4872539528880284,
+      "issued_groups": 4344,
+      "macro_action_precision": 0.25455152295182804,
+      "outer_fold": 2,
+      "positive_groups": 3099,
+      "precision_at_1": 0.2571362799263352,
+      "selected_config_id": "33a6352a37f2dfef",
+      "selective_accuracy": 0.5053410024650781,
+      "top_action_concentration": 0.48572744014732966,
+      "total_groups": 9736,
+      "worst_stage_precision": 0.11068702290076336
+    }
+  ],
+  "future_features_in_scoring": false,
+  "overall": {
+    "action_diversity": 4,
+    "actionable_coverage": 0.5185941530524506,
+    "issued_groups": 13462,
+    "positive_groups": 9304,
+    "precision_at_1": 0.2711335611350468,
+    "top_action_concentration": 0.4815777744763037,
+    "total_groups": 29043
+  },
+  "runtime_filtering_order_matched": true,
+  "selection_refined_from_inner_trials_only": true,
+  "status": "COMPLETE",
+  "target_precision": 0.8
+}

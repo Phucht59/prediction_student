@@ -1,0 +1,166 @@
+{
+  "artifacts": {
+    "candidate_dataset_sha256": "4622a03bc347db5d5193bdeda1d7a29eb37992996f3eef35c69728f9dec53a43",
+    "oof_predictions_sha256": "4974bc68c95c7d857fa003f2654b8b0b56d8a8c79227734bc79340c278502190",
+    "protocol_sha256": "d0c9c93afd39bf5ed9d2cb2b38c1570be8276e9256f8570b2ef574b1ce1e2db2",
+    "verification_sha256": "b5916f01c979dc17b385cba8849d77d9fd2a2a5a56b8fdd314d8129fcc97c682"
+  },
+  "bootstrap": {
+    "actionable_coverage": {
+      "bootstrap_mean": 0.518538431520022,
+      "lower_95": 0.5084928397471439,
+      "point_estimate": 0.5185941530524506,
+      "upper_95": 0.5291285810549127
+    },
+    "cluster": "base_record_id",
+    "group_count": 29043,
+    "learner_count": 12656,
+    "precision_at_1": {
+      "bootstrap_mean": 0.27118502244015963,
+      "lower_95": 0.2637816509129263,
+      "point_estimate": 0.2711335611350468,
+      "upper_95": 0.27866144323992925
+    },
+    "replicates": 2000,
+    "seed": 20260804,
+    "status": "COMPLETE"
+  },
+  "claim_boundary": "HYBRID_MODEL_GUIDED_DECISION_SUPPORT_NOT_CAUSAL_EFFECT",
+  "gates": {
+    "action_diversity": {
+      "actual": 4,
+      "description": "Distinct scientific action families issued",
+      "required": 3,
+      "status": "PASS"
+    },
+    "actionable_coverage": {
+      "actual": 0.5185941530524506,
+      "description": "Coverage among groups with at least one positive future action",
+      "required": 0.5,
+      "status": "PASS"
+    },
+    "constraint_violations": {
+      "actual": 0,
+      "description": "Availability and prerequisite constraints",
+      "required": 0,
+      "status": "PASS"
+    },
+    "deterministic_replay": {
+      "actual": true,
+      "description": "Exact deterministic OOF replay",
+      "required": true,
+      "status": "PASS"
+    },
+    "hybrid_only_architecture": {
+      "actual": "frozen_residual_cnn_bilstm_only",
+      "description": "No learned recommendation ranker is used",
+      "required": "frozen_residual_cnn_bilstm_only",
+      "status": "PASS"
+    },
+    "outer_fold_precision": {
+      "actual": 0.2571362799263352,
+      "description": "Minimum held-out outer-fold precision",
+      "required": 0.75,
+      "status": "FAIL"
+    },
+    "protected_feature_use": {
+      "actual": 0,
+      "description": "Protected features are absent from scoring",
+      "required": 0,
+      "status": "PASS"
+    },
+    "supported_stage_precision": {
+      "actual": 0.11736128867297367,
+      "description": "Minimum stage precision where at least 50 recommendations were issued",
+      "required": 0.7,
+      "status": "FAIL"
+    },
+    "temporal_leakage": {
+      "actual": 0,
+      "description": "Future trajectory columns are absent from scoring",
+      "required": 0,
+      "status": "PASS"
+    },
+    "top1_precision": {
+      "actual": 0.2711335611350468,
+      "description": "Top-1 silver-label precision on issued recommendations",
+      "required": 0.8,
+      "status": "FAIL"
+    },
+    "top1_precision_bootstrap_lower": {
+      "actual": 0.2637816509129263,
+      "description": "Learner-cluster bootstrap lower confidence bound",
+      "required": 0.78,
+      "status": "FAIL"
+    },
+    "top_action_concentration": {
+      "actual": 0.4815777744763037,
+      "description": "Maximum share of the most common top action",
+      "required": 0.75,
+      "status": "PASS"
+    }
+  },
+  "merge_allowed": false,
+  "overall": {
+    "action_diversity": 4,
+    "actionable_coverage": 0.5185941530524506,
+    "issued_groups": 13462,
+    "positive_groups": 9304,
+    "precision_at_1": 0.2711335611350468,
+    "top_action_concentration": 0.4815777744763037,
+    "total_groups": 29043
+  },
+  "primary_metric_interpretation": "agreement with direct future OULAD silver labels on issued recommendations; not causal effectiveness or guaranteed grade improvement",
+  "runtime_authorized": false,
+  "schema_version": "hybrid_only_release_v1",
+  "selected_config": {
+    "additional_learned_model": false,
+    "claim_boundary": "HYBRID_MODEL_GUIDED_DECISION_SUPPORT_NOT_CAUSAL_EFFECT",
+    "config": {
+      "certainty_weight": 0.1,
+      "config_id": "024ee54f2630b38f",
+      "evidence_weight": 0.2,
+      "inner_actionable_coverage": 0.5330464764643511,
+      "inner_precision_at_1": 0.2708579623868903,
+      "inner_target_met": false,
+      "maximum_uncertainty": 1.0,
+      "minimum_evidence": 0.4,
+      "minimum_risk_reduction": 0.0,
+      "minimum_top_margin": 0.1,
+      "minimum_top_score": 0.0,
+      "need_weight": 0.2,
+      "risk_weight": 0.5,
+      "selection_reason": "TARGET_NOT_MET_MAXIMIZE_PRECISION_WITH_COVERAGE",
+      "workload_weight": 0.05
+    },
+    "execution_script": "tune_and_evaluate_fast.py",
+    "normalization_scales": {
+      "need_scale": 1.0,
+      "risk_scale": 0.35529562830924954,
+      "uncertainty_scale": 0.08828777386888924,
+      "workload_scale_minutes": 150.0
+    },
+    "selection_refinement": "refine_selection.py",
+    "silver_labels_used_at_runtime": false,
+    "status": "SELECTED_NOT_RELEASED"
+  },
+  "status": "HYBRID_ONLY_SILVER_EVIDENCE_BELOW_GATE",
+  "supported_stage_precision": [
+    {
+      "count": 3911,
+      "mean": 0.11736128867297367,
+      "stage": "EARLY_20"
+    },
+    {
+      "count": 4341,
+      "mean": 0.31098825155494125,
+      "stage": "EARLY_35"
+    },
+    {
+      "count": 5210,
+      "mean": 0.35335892514395395,
+      "stage": "MIDDLE_50"
+    }
+  ],
+  "thesis_scope_completion": "RECOMMENDATION_MODULE_NOT_COMPLETE"
+}

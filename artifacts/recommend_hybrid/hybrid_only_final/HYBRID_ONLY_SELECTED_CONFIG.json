@@ -1,0 +1,31 @@
+{
+  "additional_learned_model": false,
+  "claim_boundary": "HYBRID_MODEL_GUIDED_DECISION_SUPPORT_NOT_CAUSAL_EFFECT",
+  "config": {
+    "certainty_weight": 0.1,
+    "config_id": "024ee54f2630b38f",
+    "evidence_weight": 0.2,
+    "inner_actionable_coverage": 0.5330464764643511,
+    "inner_precision_at_1": 0.2708579623868903,
+    "inner_target_met": false,
+    "maximum_uncertainty": 1.0,
+    "minimum_evidence": 0.4,
+    "minimum_risk_reduction": 0.0,
+    "minimum_top_margin": 0.1,
+    "minimum_top_score": 0.0,
+    "need_weight": 0.2,
+    "risk_weight": 0.5,
+    "selection_reason": "TARGET_NOT_MET_MAXIMIZE_PRECISION_WITH_COVERAGE",
+    "workload_weight": 0.05
+  },
+  "execution_script": "tune_and_evaluate_fast.py",
+  "normalization_scales": {
+    "need_scale": 1.0,
+    "risk_scale": 0.35529562830924954,
+    "uncertainty_scale": 0.08828777386888924,
+    "workload_scale_minutes": 150.0
+  },
+  "selection_refinement": "refine_selection.py",
+  "silver_labels_used_at_runtime": false,
+  "status": "SELECTED_NOT_RELEASED"
+}

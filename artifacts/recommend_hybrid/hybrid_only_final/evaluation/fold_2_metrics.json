@@ -1,0 +1,38 @@
+{
+  "metrics": {
+    "action_diversity": 4,
+    "actionable_coverage": 0.4872539528880284,
+    "issued_groups": 4344,
+    "macro_action_precision": 0.25455152295182804,
+    "positive_groups": 3099,
+    "precision_at_1": 0.2571362799263352,
+    "selected_config_id": "33a6352a37f2dfef",
+    "selective_accuracy": 0.5053410024650781,
+    "top_action_concentration": 0.48572744014732966,
+    "total_groups": 9736,
+    "worst_stage_precision": 0.11068702290076336
+  },
+  "scales": {
+    "need_scale": 1.0,
+    "risk_scale": 0.347981333732605,
+    "uncertainty_scale": 0.0860174551125672,
+    "workload_scale_minutes": 150.0
+  },
+  "selected": {
+    "certainty_weight": 0.1,
+    "config_id": "33a6352a37f2dfef",
+    "evidence_weight": 0.2,
+    "inner_actionable_coverage": 0.5039203357881418,
+    "inner_precision_at_1": 0.278372967311788,
+    "inner_target_met": false,
+    "maximum_uncertainty": 0.2,
+    "minimum_evidence": 0.4,
+    "minimum_risk_reduction": 0.0,
+    "minimum_top_margin": 0.1,
+    "minimum_top_score": 0.0,
+    "need_weight": 0.1,
+    "risk_weight": 0.5,
+    "selection_reason": "TARGET_NOT_MET_MAXIMIZE_PRECISION_WITH_COVERAGE",
+    "workload_weight": 0.05
+  }
+}

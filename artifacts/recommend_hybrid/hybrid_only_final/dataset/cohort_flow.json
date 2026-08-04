@@ -1,0 +1,16 @@
+{
+  "action_distribution": {
+    "ASSESSMENT_COMPLETION": 28198,
+    "CONTENT_REVIEW": 11507,
+    "QUIZ_OR_RETRIEVAL_PRACTICE": 3031,
+    "STUDY_REGULARITY": 22500,
+    "VLE_ENGAGEMENT": 17611
+  },
+  "additional_learned_model_used": false,
+  "candidate_rows": 82847,
+  "groups_with_positive_action": 9304,
+  "groups_without_positive_action": 19739,
+  "labels_used_for_scoring": false,
+  "rankable_groups": 29043,
+  "transition_groups": 45953
+}

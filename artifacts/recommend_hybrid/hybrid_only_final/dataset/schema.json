@@ -1,0 +1,36 @@
+{
+  "evaluation_only": [
+    "current_behavior_signal",
+    "future_behavior_signal",
+    "silver_positive"
+  ],
+  "future_features_in_scoring": false,
+  "need_scale": {
+    "CRITICAL": 1.0,
+    "HIGH": 0.75,
+    "LOW": 0.25,
+    "MEDIUM": 0.5,
+    "basis": "same_ordinal_severity_scale_as_runtime_policy_evidence"
+  },
+  "protected_features": [],
+  "raw_evidence_column": "raw_evidence_strength",
+  "raw_need_column": "raw_deficit_score",
+  "runtime_features": [
+    "risk_probability",
+    "risk_uncertainty",
+    "risk_reduction",
+    "evidence_strength",
+    "deficit_score",
+    "workload_minutes",
+    "action_available",
+    "prerequisite_status"
+  ],
+  "semantic_evidence_basis": "fixed_action_semantics_not_future_outcomes",
+  "semantic_evidence_floor": {
+    "ASSESSMENT_COMPLETION": 0.8,
+    "LEARNING_CONSOLIDATION": 0.5,
+    "RETRIEVAL_PRACTICE": 0.5,
+    "STUDY_SCHEDULE": 0.8,
+    "VLE_ENGAGEMENT": 0.4
+  }
+}

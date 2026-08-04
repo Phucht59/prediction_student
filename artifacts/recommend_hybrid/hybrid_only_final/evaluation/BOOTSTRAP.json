@@ -1,0 +1,20 @@
+{
+  "actionable_coverage": {
+    "bootstrap_mean": 0.518538431520022,
+    "lower_95": 0.5084928397471439,
+    "point_estimate": 0.5185941530524506,
+    "upper_95": 0.5291285810549127
+  },
+  "cluster": "base_record_id",
+  "group_count": 29043,
+  "learner_count": 12656,
+  "precision_at_1": {
+    "bootstrap_mean": 0.27118502244015963,
+    "lower_95": 0.2637816509129263,
+    "point_estimate": 0.2711335611350468,
+    "upper_95": 0.27866144323992925
+  },
+  "replicates": 2000,
+  "seed": 20260804,
+  "status": "COMPLETE"
+}

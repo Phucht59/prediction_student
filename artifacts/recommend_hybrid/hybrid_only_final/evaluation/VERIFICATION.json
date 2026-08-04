@@ -1,0 +1,22 @@
+{
+  "claim_boundary": "HYBRID_MODEL_GUIDED_DECISION_SUPPORT_NOT_CAUSAL_EFFECT",
+  "constraint_violation_count": 0,
+  "forbidden_runtime_tokens": [],
+  "future_features_in_runtime": [],
+  "gates": {
+    "constraint_violations": true,
+    "deterministic_replay": true,
+    "forbidden_runtime_models": true,
+    "future_features_in_scoring": true,
+    "protected_columns_in_candidates": true,
+    "protected_features_in_scoring": true,
+    "protocol_forbids_learned_ranker": true,
+    "unknown_runtime_actions": true
+  },
+  "official_replay_sha256": "20e2aac0b938b72744d92f1ac67784fb41c1878b3e640ac495735721a4cb44d4",
+  "protected_columns_present": [],
+  "protected_features_in_runtime": [],
+  "recomputed_replay_sha256": "20e2aac0b938b72744d92f1ac67784fb41c1878b3e640ac495735721a4cb44d4",
+  "status": "PASS",
+  "unknown_runtime_actions": []
+}

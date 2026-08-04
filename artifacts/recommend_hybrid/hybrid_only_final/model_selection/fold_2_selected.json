@@ -1,0 +1,17 @@
+{
+  "certainty_weight": 0.1,
+  "config_id": "33a6352a37f2dfef",
+  "evidence_weight": 0.2,
+  "inner_actionable_coverage": 0.5039203357881418,
+  "inner_precision_at_1": 0.278372967311788,
+  "inner_target_met": false,
+  "maximum_uncertainty": 0.2,
+  "minimum_evidence": 0.4,
+  "minimum_risk_reduction": 0.0,
+  "minimum_top_margin": 0.1,
+  "minimum_top_score": 0.0,
+  "need_weight": 0.1,
+  "risk_weight": 0.5,
+  "selection_reason": "TARGET_NOT_MET_MAXIMIZE_PRECISION_WITH_COVERAGE",
+  "workload_weight": 0.05
+}
