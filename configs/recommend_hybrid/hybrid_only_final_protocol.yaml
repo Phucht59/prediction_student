@@ -58,6 +58,13 @@ evaluation:
     replicates: 2000
     seed: 20260804
 
+search_strategy:
+  evaluator: runtime_aligned_group_matrix
+  weight_screening: no_abstention_inner_validation
+  weight_shortlist: 12
+  candidate_filter_before_ranking: true
+  threshold_search_after_weight_shortlist: true
+
 selection_rule:
   target_precision: 0.80
   minimum_inner_coverage: 0.50
