@@ -1,6 +1,56 @@
 {
-  "status": "INCONCLUSIVE",
   "cluster": "base_record_id",
-  "replicates_registered": 2000,
-  "replicates_completed": 0
+  "comparisons": [
+    {
+      "ci95_high": 0.15476130733467983,
+      "ci95_low": 0.14303472084993016,
+      "comparison": "V2.1_minus_random_score",
+      "estimate": 0.14889317429478488,
+      "groups": 33912,
+      "learners": 13235,
+      "probability_difference_le_zero": 0.0,
+      "replicates": 2000
+    },
+    {
+      "ci95_high": 0.25795740131418626,
+      "ci95_low": 0.24488859593667442,
+      "comparison": "V2.1_minus_popular_score",
+      "estimate": 0.25137204804717433,
+      "groups": 33912,
+      "learners": 13235,
+      "probability_difference_le_zero": 0.0,
+      "replicates": 2000
+    },
+    {
+      "ci95_high": 0.072758242923426,
+      "ci95_low": 0.06014960664219075,
+      "comparison": "V2.1_minus_workload_score",
+      "estimate": 0.06640176144587905,
+      "groups": 33912,
+      "learners": 13235,
+      "probability_difference_le_zero": 0.0,
+      "replicates": 2000
+    },
+    {
+      "ci95_high": 0.26718837740319074,
+      "ci95_low": 0.2539279620361323,
+      "comparison": "V2.1_minus_policy_score",
+      "estimate": 0.2603686650663921,
+      "groups": 33912,
+      "learners": 13235,
+      "probability_difference_le_zero": 0.0,
+      "replicates": 2000
+    },
+    {
+      "ci95_high": 0.12741722011361042,
+      "ci95_low": 0.11489040244959565,
+      "comparison": "V2.1_minus_counterfactual_score",
+      "estimate": 0.12105070258917829,
+      "groups": 33912,
+      "learners": 13235,
+      "probability_difference_le_zero": 0.0,
+      "replicates": 2000
+    }
+  ],
+  "status": "COMPLETE"
 }

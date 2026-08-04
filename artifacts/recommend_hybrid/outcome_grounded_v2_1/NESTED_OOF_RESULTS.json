@@ -1,15 +1,109 @@
 {
-  "status": "INCONCLUSIVE",
-  "reason": "resource-limited evaluator run; no independent effect claimed",
-  "outer_folds": [
-    0,
-    1,
-    2
-  ],
+  "metrics": {
+    "counterfactual_score": {
+      "map_at_3": 0.4981787829938927,
+      "mrr": 0.5069591884878508,
+      "ndcg_all": 0.5219442879010039,
+      "ndcg_at_1": 0.3479369572787832,
+      "ndcg_at_3": 0.5003570890054958,
+      "precision_at_1": 0.4175513092710545,
+      "precision_at_3": 0.4024730675473775,
+      "recall_at_3": 0.5933745183612487,
+      "top1_relevance": 0.020240621954632394
+    },
+    "model_score": {
+      "map_at_3": 0.5743604361615684,
+      "mrr": 0.5841688291263663,
+      "ndcg_all": 0.5875882300912705,
+      "ndcg_at_1": 0.5040932272885563,
+      "ndcg_at_3": 0.5868474209292702,
+      "precision_at_1": 0.5327022882755367,
+      "precision_at_3": 0.41863253912086185,
+      "recall_at_3": 0.6349600927891799,
+      "top1_relevance": 0.3234137389612473
+    },
+    "policy_score": {
+      "map_at_3": 0.4268511965610337,
+      "mrr": 0.42885999056381224,
+      "ndcg_all": 0.47016518342119085,
+      "ndcg_at_1": 0.20741499005830213,
+      "ndcg_at_3": 0.4485970827836856,
+      "precision_at_1": 0.2630042462845011,
+      "precision_at_3": 0.40251238499646147,
+      "recall_at_3": 0.593448238578281,
+      "top1_relevance": -0.01233573760054607
+    },
+    "popular_score": {
+      "map_at_3": 0.43037911850279154,
+      "mrr": 0.4320840213886923,
+      "ndcg_all": 0.47360438027706997,
+      "ndcg_at_1": 0.21452723575865823,
+      "ndcg_at_3": 0.45215175315376416,
+      "precision_at_1": 0.26857749469214437,
+      "precision_at_3": 0.4026499960682551,
+      "recall_at_3": 0.593861071793662,
+      "top1_relevance": -0.006548401980251302
+    },
+    "random_score": {
+      "map_at_3": 0.5104061001022252,
+      "mrr": 0.5171866399308013,
+      "ndcg_all": 0.5269997484867002,
+      "ndcg_at_1": 0.34926392118536487,
+      "ndcg_at_3": 0.5200613288624436,
+      "precision_at_1": 0.41398325076669024,
+      "precision_at_3": 0.41401273885350315,
+      "recall_at_3": 0.6233442439254541,
+      "top1_relevance": 0.03343254228575382
+    },
+    "workload_score": {
+      "map_at_3": 0.5646637702812508,
+      "mrr": 0.5685548871589211,
+      "ndcg_all": 0.5640442289662879,
+      "ndcg_at_1": 0.4508279131421382,
+      "ndcg_at_3": 0.5598964135012162,
+      "precision_at_1": 0.5158056145317291,
+      "precision_at_3": 0.4169124007234411,
+      "recall_at_3": 0.6309226822363766,
+      "top1_relevance": 0.04645318561112554
+    }
+  },
   "models_registered": [
     "interaction_logistic",
-    "pairwise_logistic",
-    "boosted_tree",
-    "lambdamart"
-  ]
+    "pairwise_ranker",
+    "lambdamart",
+    "boosted_tree"
+  ],
+  "outer_folds": [
+    {
+      "registered_candidates": [
+        "interaction_logistic",
+        "pairwise_ranker",
+        "lambdamart",
+        "boosted_tree"
+      ],
+      "selected_model": "interaction_logistic",
+      "selection": "nested_grouped"
+    },
+    {
+      "registered_candidates": [
+        "interaction_logistic",
+        "pairwise_ranker",
+        "lambdamart",
+        "boosted_tree"
+      ],
+      "selected_model": "interaction_logistic",
+      "selection": "nested_grouped"
+    },
+    {
+      "registered_candidates": [
+        "interaction_logistic",
+        "pairwise_ranker",
+        "lambdamart",
+        "boosted_tree"
+      ],
+      "selected_model": "interaction_logistic",
+      "selection": "nested_grouped"
+    }
+  ],
+  "status": "COMPLETE"
 }

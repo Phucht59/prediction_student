@@ -1,0 +1,58 @@
+{
+  "schema_version": "v2.1_progress_v1",
+  "stages": {
+    "ABLATIONS": {
+      "status": "PENDING"
+    },
+    "BASELINES": {
+      "finish_time": "2026-08-04T05:26:48Z",
+      "status": "COMPLETE"
+    },
+    "BOOTSTRAP": {
+      "finish_time": "2026-08-04T05:26:48Z",
+      "status": "COMPLETE"
+    },
+    "DATASET": {
+      "status": "COMPLETE"
+    },
+    "ELIGIBILITY": {
+      "status": "COMPLETE"
+    },
+    "FAIRNESS": {
+      "finish_time": "2026-08-04T05:26:48Z",
+      "status": "COMPLETE"
+    },
+    "FOLD_0": {
+      "finish_time": "2026-08-04T05:26:48Z",
+      "status": "COMPLETE"
+    },
+    "FOLD_1": {
+      "finish_time": "2026-08-04T05:26:48Z",
+      "status": "COMPLETE"
+    },
+    "FOLD_2": {
+      "finish_time": "2026-08-04T05:26:48Z",
+      "status": "COMPLETE"
+    },
+    "LABELS": {
+      "status": "COMPLETE"
+    },
+    "NEGATIVE_CONTROLS": {
+      "completed_batches": 200,
+      "finish_time": "2026-08-04T05:26:48Z",
+      "note": "null-score controls completed; retraining controls remain pending",
+      "status": "PARTIAL",
+      "total_batches": 200
+    },
+    "RELEASE": {
+      "status": "PENDING"
+    },
+    "RUNTIME": {
+      "status": "NOT_AUTHORIZED"
+    },
+    "TEMPORAL": {
+      "finish_time": "2026-08-04T05:26:48Z",
+      "status": "COMPLETE"
+    }
+  }
+}

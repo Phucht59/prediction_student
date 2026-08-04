@@ -1,4 +1,14 @@
 {
-  "status": "INCONCLUSIVE",
-  "reason": "temporal scorer not completed"
+  "coverage": 0.0,
+  "ood_metrics": null,
+  "overall": null,
+  "overlap_metrics": null,
+  "overlapping_modules": 0,
+  "status": "COMPLETE_INSUFFICIENT_SUPPORT",
+  "test_presentations": [],
+  "train_presentations": [
+    "2013J",
+    "2014B"
+  ],
+  "unseen_modules": []
 }

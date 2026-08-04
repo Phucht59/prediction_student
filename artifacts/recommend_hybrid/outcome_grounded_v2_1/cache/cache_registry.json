@@ -1,0 +1,39 @@
+{
+  "created_at": "2026-08-04T05:13:45Z",
+  "files": {
+    "fold_0_test.parquet": {
+      "rows": 28241,
+      "sha256": "2c1604203c02eb1ab975d998d350c7970086264c7e21ff739d67e0f09488fb3a"
+    },
+    "fold_0_train.parquet": {
+      "rows": 56750,
+      "sha256": "c70981adc8b596b90982c6ed790a75efc97a7575acca88b5b153295c12da53d6"
+    },
+    "fold_1_test.parquet": {
+      "rows": 28208,
+      "sha256": "41cde30bd1a7c877052c7419dff0af497e0358b2ac3ba9b18fc418a65fbc7216"
+    },
+    "fold_1_train.parquet": {
+      "rows": 56783,
+      "sha256": "36b0cfa9c4863029cfd1305c2f8c595e26c69c020432348cba9f57eded90a642"
+    },
+    "fold_2_test.parquet": {
+      "rows": 28542,
+      "sha256": "8a4af550215e0d915a9229e89e8d3e98b848699f1f9c503eeaf0690eb2dcac80"
+    },
+    "fold_2_train.parquet": {
+      "rows": 56449,
+      "sha256": "b26e93570277bb1ddc058404ee8f70cdb3fe6cdf17adb49313e6fe254c48768f"
+    },
+    "temporal_test.parquet": {
+      "rows": 0,
+      "sha256": "d5a84a0257e973450ec354e433fb29d0fca13e0acb9bb67fb8d3aa17dfc826bf"
+    },
+    "temporal_train.parquet": {
+      "rows": 70589,
+      "sha256": "e8fab1da1efb4e1c13e5114360781a5df0d6a19a25f22bc5fbaa98c6d9ea9c68"
+    }
+  },
+  "schema_hash": "c7fb7bced8ce36a152dec58c264034640f792b52425c3d017d6bdd5cbeaa5333",
+  "source_checksum": "9f2cc561c3d1e94937d780ecd9f491f570703ba02de6c01f726f1bfb33ac476d"
+}

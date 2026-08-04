@@ -1,0 +1,10 @@
+{
+  "selected_model": "interaction_logistic",
+  "selection": "nested_grouped",
+  "registered_candidates": [
+    "interaction_logistic",
+    "pairwise_ranker",
+    "lambdamart",
+    "boosted_tree"
+  ]
+}
