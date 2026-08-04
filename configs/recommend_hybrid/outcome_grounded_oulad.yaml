@@ -1,0 +1,35 @@
+schema_version: outcome_grounded_oulad_v1
+status: PREREGISTERED_LOCKED_BEFORE_V2_DEVELOPMENT
+claim_boundary: OFFLINE_PREDICTIVE_RELEVANCE_NOT_CAUSAL_EFFECT
+data: OULAD
+transitions:
+  - {source_stage: E1_EARLY_20PCT, target_stage: E2_EARLY_35PCT}
+  - {source_stage: E2_EARLY_35PCT, target_stage: M1_MIDDLE_FROZEN}
+  - {source_stage: M1_MIDDLE_FROZEN, target_stage: L1_LATE_75PCT}
+  - {source_stage: L1_LATE_75PCT, target_stage: FINAL, distal_only: true}
+development_folds: [0, 1]
+lockbox_fold: 2
+seed: 20260804
+bootstrap_replicates: 2000
+negative_control_replicates: 200
+primary_metric: NDCG@3
+secondary_metrics: [Precision@1, MAP@3, coverage, action_diversity]
+candidate_models: [pointwise_logistic, pairwise_logistic, listwise_hist_gradient_boosting]
+fixed_model: pointwise_logistic
+baselines: [random, most_popular, lowest_workload, policy_v1, counterfactual_v1]
+label:
+  grades: {0: no_action_specific_adherence, 1: adherence_without_proximal_positive, 2: adherence_and_proximal_positive, 3: adherence_proximal_and_positive_residual}
+  thresholds_fit_on: development_folds_only
+features:
+  allowed: [oof_risk_probability, risk_band, risk_uncertainty, vle_intensity, active_days, inactive_streak, activity_trend, assessment_completion, assessment_score_history, assessment_availability, studied_credits, previous_attempts, stage, course, presentation, action_identity, action_family, workload, evidence_strength, prerequisite_flags, conflict_count, policy_priority, action_availability, counterfactual_v1_delta]
+  prohibited: [final_result, future_assessment_score, future_submission, future_vle_clicks, future_active_days, future_inactive_streak, future_adherence, label, target, post_cutoff_aggregate, protected_attributes]
+gates:
+  ndcg_vs_random_95pct: true
+  precision_at_1_vs_random: true
+  superiority_vs_policy_or_counterfactual: true
+  positive_paired_ci: true
+  negative_controls_below_real: true
+  zero_temporal_leakage: true
+  zero_split_leakage: true
+  zero_constraint_violations: true
+  deterministic_replay: true

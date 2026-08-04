@@ -1,0 +1,121 @@
+{
+  "config": {
+    "baselines": [
+      "random",
+      "most_popular",
+      "lowest_workload",
+      "policy_v1",
+      "counterfactual_v1"
+    ],
+    "bootstrap_replicates": 2000,
+    "candidate_models": [
+      "pointwise_logistic",
+      "pairwise_logistic",
+      "listwise_hist_gradient_boosting"
+    ],
+    "claim_boundary": "OFFLINE_PREDICTIVE_RELEVANCE_NOT_CAUSAL_EFFECT",
+    "data": "OULAD",
+    "development_folds": [
+      0,
+      1
+    ],
+    "features": {
+      "allowed": [
+        "oof_risk_probability",
+        "risk_band",
+        "risk_uncertainty",
+        "vle_intensity",
+        "active_days",
+        "inactive_streak",
+        "activity_trend",
+        "assessment_completion",
+        "assessment_score_history",
+        "assessment_availability",
+        "studied_credits",
+        "previous_attempts",
+        "stage",
+        "course",
+        "presentation",
+        "action_identity",
+        "action_family",
+        "workload",
+        "evidence_strength",
+        "prerequisite_flags",
+        "conflict_count",
+        "policy_priority",
+        "action_availability",
+        "counterfactual_v1_delta"
+      ],
+      "prohibited": [
+        "final_result",
+        "future_assessment_score",
+        "future_submission",
+        "future_vle_clicks",
+        "future_active_days",
+        "future_inactive_streak",
+        "future_adherence",
+        "label",
+        "target",
+        "post_cutoff_aggregate",
+        "protected_attributes"
+      ]
+    },
+    "fixed_model": "pointwise_logistic",
+    "gates": {
+      "deterministic_replay": true,
+      "ndcg_vs_random_95pct": true,
+      "negative_controls_below_real": true,
+      "positive_paired_ci": true,
+      "precision_at_1_vs_random": true,
+      "superiority_vs_policy_or_counterfactual": true,
+      "zero_constraint_violations": true,
+      "zero_split_leakage": true,
+      "zero_temporal_leakage": true
+    },
+    "label": {
+      "grades": {
+        "0": "no_action_specific_adherence",
+        "1": "adherence_without_proximal_positive",
+        "2": "adherence_and_proximal_positive",
+        "3": "adherence_proximal_and_positive_residual"
+      },
+      "thresholds_fit_on": "development_folds_only"
+    },
+    "lockbox_fold": 2,
+    "negative_control_replicates": 200,
+    "primary_metric": "NDCG@3",
+    "schema_version": "outcome_grounded_oulad_v1",
+    "secondary_metrics": [
+      "Precision@1",
+      "MAP@3",
+      "coverage",
+      "action_diversity"
+    ],
+    "seed": 20260804,
+    "status": "PREREGISTERED_LOCKED_BEFORE_V2_DEVELOPMENT",
+    "transitions": [
+      {
+        "source_stage": "E1_EARLY_20PCT",
+        "target_stage": "E2_EARLY_35PCT"
+      },
+      {
+        "source_stage": "E2_EARLY_35PCT",
+        "target_stage": "M1_MIDDLE_FROZEN"
+      },
+      {
+        "source_stage": "M1_MIDDLE_FROZEN",
+        "target_stage": "L1_LATE_75PCT"
+      },
+      {
+        "distal_only": true,
+        "source_stage": "L1_LATE_75PCT",
+        "target_stage": "FINAL"
+      }
+    ]
+  },
+  "git_commit": "8179423f11b0da4014b072b0ce7a34cb6f506a1e",
+  "input_authority": "frozen_risk_predictor_only; V1 delta optional feature; never a primary label or metric",
+  "locked_at": "2026-08-04T03:37:18.949225+00:00",
+  "schema_version": "outcome_grounded_protocol_v1",
+  "v1_status": "COUNTERFACTUAL_V1_ENGINEERING_COMPLETE_EXTERNAL_VALIDATION_FAILED"
+}
