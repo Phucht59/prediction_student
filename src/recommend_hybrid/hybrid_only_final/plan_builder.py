@@ -10,6 +10,8 @@ import yaml
 
 from src.recommend_hybrid.common.plan_contracts import LearningPlan
 from src.recommend_hybrid.common.policy_contracts import (
+    EvidenceSeverity,
+    PolicyActionDecision,
     PolicyRecommendationResult,
     Priority,
 )
@@ -25,13 +27,22 @@ from .runtime import load_released_hybrid_only_config
 from .scorer import HybridActionEvidence, HybridOnlyDecision, score_hybrid_actions
 
 CLAIM_BOUNDARY = "HYBRID_MODEL_GUIDED_DECISION_SUPPORT_NOT_CAUSAL_EFFECT"
-PRIORITY_NEED = {
-    Priority.CRITICAL: 1.00,
-    Priority.HIGH: 0.75,
-    Priority.MEDIUM: 0.50,
-    Priority.LOW: 0.25,
-    Priority.NOT_APPLICABLE: 0.00,
+SEVERITY_NEED = {
+    EvidenceSeverity.CRITICAL: 1.00,
+    EvidenceSeverity.HIGH: 0.75,
+    EvidenceSeverity.MEDIUM: 0.50,
+    EvidenceSeverity.LOW: 0.25,
+    EvidenceSeverity.NONE: 0.00,
+    EvidenceSeverity.MISSING: 0.00,
 }
+
+
+def evidence_need_score(decision: PolicyActionDecision) -> float:
+    """Use the same ordinal evidence scale used by offline normalization."""
+
+    if not decision.supporting_evidence:
+        return 0.0
+    return max(SEVERITY_NEED[item.severity] for item in decision.supporting_evidence)
 
 
 @dataclass(frozen=True)
@@ -139,7 +150,7 @@ class HybridOnlyFinalPlanBuilder:
                     evidence_strength=self.counterfactual._evidence_strength(
                         policy_decision
                     ),
-                    need_score=PRIORITY_NEED[policy_decision.priority],
+                    need_score=evidence_need_score(policy_decision),
                     uncertainty=float(1.0 - utility.uncertainty_penalty),
                     workload_minutes=int(metadata[action_id]["weekly_minutes"]),
                     available=True,
@@ -190,4 +201,5 @@ __all__ = [
     "CLAIM_BOUNDARY",
     "HybridOnlyFinalPlanBuilder",
     "HybridOnlyFinalPlanResult",
+    "evidence_need_score",
 ]
