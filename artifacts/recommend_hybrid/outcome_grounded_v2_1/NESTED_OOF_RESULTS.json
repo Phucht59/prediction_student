@@ -1,0 +1,15 @@
+{
+  "status": "INCONCLUSIVE",
+  "reason": "resource-limited evaluator run; no independent effect claimed",
+  "outer_folds": [
+    0,
+    1,
+    2
+  ],
+  "models_registered": [
+    "interaction_logistic",
+    "pairwise_logistic",
+    "boosted_tree",
+    "lambdamart"
+  ]
+}

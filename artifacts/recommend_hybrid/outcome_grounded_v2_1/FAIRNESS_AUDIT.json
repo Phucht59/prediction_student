@@ -1,0 +1,6 @@
+{
+  "status": "AUDIT_ONLY",
+  "protected_attributes_used_for_ranking": false,
+  "violations": 0,
+  "note": "Subgroup estimates require complete OULAD protected-attribute mapping."
+}

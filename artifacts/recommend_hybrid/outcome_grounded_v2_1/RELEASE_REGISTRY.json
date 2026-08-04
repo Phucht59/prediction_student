@@ -1,0 +1,12 @@
+{
+  "causal_validation": "NOT_PERFORMED",
+  "claim_boundary": "OFFLINE_PREDICTIVE_RELEVANCE_NOT_CAUSAL_EFFECT",
+  "engineering_validation": "COMPLETE",
+  "expert_validation": "NOT_PERFORMED",
+  "internal_model_consistency_validation": "COMPLETE",
+  "merge_allowed": false,
+  "observational_scientific_validation": "INCONCLUSIVE",
+  "status": "OUTCOME_GROUNDED_V2_1_EVIDENCE_INCONCLUSIVE",
+  "v1_status": "COUNTERFACTUAL_V1_ENGINEERING_COMPLETE_EXTERNAL_VALIDATION_FAILED",
+  "v2_status": "OUTCOME_GROUNDED_OFFLINE_EVIDENCE_INCONCLUSIVE"
+}
