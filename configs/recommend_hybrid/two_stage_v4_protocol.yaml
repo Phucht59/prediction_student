@@ -1,0 +1,168 @@
+schema_version: two_stage_v4_action_aware_integrated_v1
+status: FROZEN_BEFORE_V4_HEAD_TRAINING
+claim_boundary: OFFLINE_PREDICTIVE_RELEVANCE_NOT_CAUSAL_EFFECT
+
+v3_authority:
+  execution_commit: 7c62f700b2084bb8806a1831490661a578c1a8b5
+  release_artifact: artifacts/recommend_hybrid/two_stage_v3/TWO_STAGE_V3_RELEASE.json
+  end_to_end_precision_at_1: 0.6430682617874736
+  positive_group_coverage: 0.5212811693895099
+  stage_a_precision: 0.6826178747361014
+  stage_b_conditional_precision_at_1: 0.9420618556701031
+  dominant_failure: FALSE_ISSUE_CONTROL
+  required_stage_a_precision_at_registered_conditional_precision: 0.8492011381046181
+
+architecture:
+  learned_system: residual_cnn_bilstm_with_action_aware_integrated_heads
+  frozen_prediction_backbone:
+    class: src.models.oulad_tabular_residual.CNNBiLSTMTabularResidualOULAD
+    parameter_count: 160492
+    cache_registry: artifacts/recommend_hybrid/two_stage_v3/cache/CACHE_REGISTRY.json
+    trainable: false
+  integrated_heads:
+    direct_recommendability_head: binary_neural_head
+    candidate_action_head: shared_action_neural_head
+    action_derived_recommendability: masked_noisy_or_of_candidate_probabilities
+    final_gate: preregistered_log_probability_blend
+    external_ml_ranker: false
+    permitted_trainable_parameters: integrated_heads_only
+  prohibited_external_models:
+    - xgboost
+    - lightgbm
+    - lambdamart
+    - logistic_regression
+    - random_forest
+    - hist_gradient_boosting
+    - svm
+    - standalone_external_ranker
+
+scientific_change_from_v3:
+  defect:
+    v3_candidate_binary_loss_population: positive_groups_only
+    consequence: candidate_logits_not_penalized_on_negative_groups
+  correction:
+    candidate_binary_loss_population: all_valid_candidates
+    negative_group_action_targets: all_zero_from_frozen_silver_authority
+    direct_action_consistency_loss: enabled
+    stage_specific_gate_calibration: enabled
+  labels_changed: false
+  frozen_embeddings_changed: false
+  candidate_rows_changed: false
+  release_gates_changed: false
+
+targets:
+  direct_group_target: group_has_positive
+  candidate_action_target: silver_positive
+  listwise_population: positive_groups_only
+  candidate_binary_population: all_groups_all_valid_candidates
+  future_labels_used_at_runtime: false
+  causal_interpretation: false
+
+feature_authority:
+  group_features: inherit_two_stage_v3_cache
+  action_features: inherit_two_stage_v3_action_candidates
+  prohibited:
+    - protected_attributes
+    - final_result
+    - date_unregistration
+    - future_behavior_signal
+    - silver_positive_as_feature
+    - group_has_positive_as_feature
+    - outer_test_statistics
+
+evaluation:
+  outer_folds: [0, 1, 2]
+  inner_group_folds: 3
+  learner_group_key: base_record_id
+  stages: [EARLY_20, EARLY_35, MIDDLE_50]
+  final_seeds: [42, 2026, 7319]
+  primary_metric: end_to_end_precision_at_1
+  bootstrap:
+    cluster: base_record_id
+    replicates: 2000
+    seed: 20260804
+
+head_training:
+  optimizer: adamw
+  max_epochs: 60
+  patience: 8
+  gradient_clip_norm: 1.0
+  batch_size: 512
+  candidate_positive_weight_source: outer_training_partition_per_action
+  group_positive_weight_source: outer_training_partition
+  registered_configs:
+    - {hidden: 64, action_embedding: 8, dropout: 0.10, learning_rate: 0.0010, gate_weight: 1.0, candidate_weight: 1.0, consistency_weight: 0.25, focal_gamma: 0.0}
+    - {hidden: 64, action_embedding: 16, dropout: 0.10, learning_rate: 0.0010, gate_weight: 1.0, candidate_weight: 2.0, consistency_weight: 0.50, focal_gamma: 0.0}
+    - {hidden: 96, action_embedding: 16, dropout: 0.10, learning_rate: 0.0010, gate_weight: 1.0, candidate_weight: 2.0, consistency_weight: 1.00, focal_gamma: 0.0}
+    - {hidden: 96, action_embedding: 16, dropout: 0.20, learning_rate: 0.0010, gate_weight: 2.0, candidate_weight: 2.0, consistency_weight: 0.50, focal_gamma: 0.0}
+    - {hidden: 64, action_embedding: 8, dropout: 0.20, learning_rate: 0.0003, gate_weight: 1.0, candidate_weight: 2.0, consistency_weight: 1.00, focal_gamma: 1.0}
+    - {hidden: 64, action_embedding: 16, dropout: 0.20, learning_rate: 0.0003, gate_weight: 2.0, candidate_weight: 2.0, consistency_weight: 1.00, focal_gamma: 1.0}
+    - {hidden: 96, action_embedding: 8, dropout: 0.10, learning_rate: 0.0003, gate_weight: 1.0, candidate_weight: 4.0, consistency_weight: 0.50, focal_gamma: 1.0}
+    - {hidden: 96, action_embedding: 16, dropout: 0.20, learning_rate: 0.0003, gate_weight: 2.0, candidate_weight: 4.0, consistency_weight: 1.00, focal_gamma: 1.0}
+    - {hidden: 64, action_embedding: 8, dropout: 0.10, learning_rate: 0.0003, gate_weight: 2.0, candidate_weight: 4.0, consistency_weight: 2.00, focal_gamma: 2.0}
+    - {hidden: 64, action_embedding: 16, dropout: 0.20, learning_rate: 0.0010, gate_weight: 1.0, candidate_weight: 4.0, consistency_weight: 2.00, focal_gamma: 2.0}
+    - {hidden: 96, action_embedding: 8, dropout: 0.20, learning_rate: 0.0010, gate_weight: 2.0, candidate_weight: 4.0, consistency_weight: 2.00, focal_gamma: 2.0}
+    - {hidden: 96, action_embedding: 16, dropout: 0.10, learning_rate: 0.0003, gate_weight: 2.0, candidate_weight: 4.0, consistency_weight: 2.00, focal_gamma: 2.0}
+  listwise_loss_weight: 1.0
+  early_stopping_monitor: joint_inner_validation_loss
+  fixed_epoch_source: median_inner_best_epoch
+
+selection:
+  threshold_source: inner_oof_only
+  direct_action_blend_weights: [0.0, 0.25, 0.50, 0.75, 1.0]
+  gate_threshold_grid: 61_inner_probability_quantiles_per_stage
+  action_margin_threshold_grid: [0.0, 0.05, 0.10, 0.15, 0.20]
+  action_probability_threshold_grid: [0.0, 0.40, 0.50, 0.60, 0.70, 0.80]
+  action_specific_thresholds_allowed: true
+  action_specific_threshold_minimum_support: 100
+  stage_specific_gate_thresholds_allowed: true
+  required_global_positive_group_coverage: 0.50
+  required_stage_coverage_for_calibration:
+    EARLY_20: 0.20
+    EARLY_35: 0.50
+    MIDDLE_50: 0.55
+  ordering_when_release_target_met:
+    - highest_positive_group_coverage
+    - highest_worst_stage_precision
+    - highest_stage_a_precision
+    - highest_conditional_precision_at_1
+  ordering_when_target_not_met:
+    - highest_end_to_end_precision_at_1_with_coverage_floor
+    - highest_stage_a_precision
+    - highest_worst_stage_precision
+    - highest_conditional_precision_at_1
+
+release_gates:
+  end_to_end_precision_at_1_minimum: 0.80
+  end_to_end_precision_bootstrap_lower_minimum: 0.78
+  positive_group_coverage_minimum: 0.50
+  conditional_precision_at_1_minimum: 0.80
+  each_outer_fold_precision_minimum: 0.75
+  supported_stage_precision_minimum: 0.70
+  action_diversity_minimum: 3
+  top_action_concentration_maximum: 0.75
+  temporal_leakage: 0
+  protected_feature_use: 0
+  constraint_violations: 0
+  deterministic_replay_required: true
+
+main_evaluation_stop_rule:
+  if_main_gates_fail: stop_before_negative_controls
+  if_main_gates_pass: require_authority_bound_negative_controls
+
+claim_rules:
+  - Conditional action precision may not be reported as end-to-end precision.
+  - V3 evidence remains immutable historical evidence.
+  - A V4 improvement must be demonstrated on held-out outer folds.
+  - No causal-effect or guaranteed-grade-improvement claim is permitted.
+  - ASSESSMENT_COMPLETION and EARLY_20 remain visible even when no recommendation is issued.
+
+prohibited:
+  - changing_silver_labels
+  - changing_release_gates_after_v3_results
+  - using_outer_test_for_feature_threshold_or_model_selection
+  - removing_difficult_stages_or_actions
+  - using_protected_attributes
+  - external_ml_ranker
+  - causal_effect_claim
+  - merging_pr_before_release_pass
