@@ -57,7 +57,9 @@ jobs:
             scripts/recommend_hybrid/two_stage_v3/build_embedding_cache.py \
             scripts/recommend_hybrid/two_stage_v3/train_and_evaluate.py \
             scripts/recommend_hybrid/two_stage_v3/bootstrap.py \
-            scripts/recommend_hybrid/two_stage_v3/verify.py
+            scripts/recommend_hybrid/two_stage_v3/verify.py \
+            scripts/recommend_hybrid/two_stage_v3/release.py \
+            scripts/recommend_hybrid/two_stage_v3/render_report.py
 
       - name: Ruff integrated V3 scope
         run: |
