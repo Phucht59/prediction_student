@@ -1,0 +1,14 @@
+{
+  "controls": [
+    "NC1_LABEL_SHUFFLE_RETRAIN",
+    "NC2A_TRAIN_STATE_SHUFFLE",
+    "NC2B_TEST_STATE_SHUFFLE",
+    "NC3_ACTION_IDENTITY_SHUFFLE_RETRAIN",
+    "NC4_WRONG_TRAJECTORY_REBUILD",
+    "NC5_TIME_REVERSAL_PLACEBO"
+  ],
+  "historical_null_score_file": "../NEGATIVE_CONTROLS.csv",
+  "historical_null_score_status": "NULL_SCORE_SANITY_CHECK_NOT_RETRAINED_CONTROL",
+  "registered_replicates": 2,
+  "status": "COMPLETE"
+}

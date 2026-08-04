@@ -1,0 +1,6 @@
+{
+  "metrics.json": "115fa423d3a9029d8acf3a2f6a7a72489523eec3b2b82854a6820a07cc232bff",
+  "predictions.parquet": "df9f3208b2915ab25e685111bd8aa9ee0325ebf141f957ecb07f82164fadcc59",
+  "scientific_model.joblib": "20ff2adb684022cb608f00b8c62175cec33b48da50d72008cdf89f3bd4ad9366",
+  "selected_model.json": "ab24db0536221f2a6b2663dce99ba091c2b5c9505a481d53bfc0de3d5e28ac44"
+}

@@ -1,0 +1,6 @@
+{
+  "archive_directory": "pre_full_grid_archive",
+  "archived_preliminary_execution": true,
+  "purpose": "complete_preregistered_hyperparameter_grid",
+  "status": "RUNNING"
+}
