@@ -1,0 +1,170 @@
+{
+  "causal_validation": "NOT_PERFORMED",
+  "claim_boundary": "OFFLINE_PREDICTIVE_RELEVANCE_NOT_CAUSAL_EFFECT",
+  "code_commit": "955a4e7f7d644760cb693d736f7e9eb942e91127",
+  "cohort": {
+    "candidate_rows": 275718,
+    "eligible_transition_groups": 45953,
+    "excluded_missing_future_window": 1937,
+    "groups_by_fold": {
+      "0": 15280,
+      "1": 15283,
+      "2": 15390
+    },
+    "groups_by_stage": {
+      "EARLY_20": 15942,
+      "EARLY_35": 15376,
+      "MIDDLE_50": 14635
+    },
+    "missing_action_proxy": 0,
+    "raw_learner_course_records": 16572,
+    "zero_relevance_groups": 11259
+  },
+  "expert_validation": "NOT_PERFORMED_NOT_REQUIRED_FOR_OFFLINE_THESIS_SCOPE",
+  "gates": {
+    "G1_data_validity": {
+      "future_label_columns_in_feature_registry": 0,
+      "split_leakage": 0,
+      "status": "PASS",
+      "temporal_leakage": 0
+    },
+    "G2_learnability": {
+      "ndcg_model": 0.2955851660918294,
+      "ndcg_random": 0.3334217525502498,
+      "precision_model": 0.2643274853801169,
+      "precision_random": 0.2978557504873294,
+      "status": "FAIL"
+    },
+    "G3_meaningful_baseline": {
+      "status": "FAIL",
+      "vs_counterfactual_ci": {
+        "ci_95_high": -0.010594904424723765,
+        "ci_95_low": -0.026743800284683653,
+        "comparison": "model_minus_counterfactual_score",
+        "estimate": -0.018681052293655572,
+        "groups": 15390,
+        "paired_bootstrap_probability_nonpositive": 1.0,
+        "replicates": 2000
+      },
+      "vs_policy_ci": {
+        "ci_95_high": -0.16221655109367075,
+        "ci_95_low": -0.18427237332965646,
+        "comparison": "model_minus_policy_score",
+        "estimate": -0.17322034615082507,
+        "groups": 15390,
+        "paired_bootstrap_probability_nonpositive": 1.0,
+        "replicates": 2000
+      }
+    },
+    "G4_stability": {
+      "reason": "Development and lockbox metrics are consistently below registered baselines.",
+      "status": "REVIEW_REQUIRED"
+    },
+    "G5_negative_controls": {
+      "controls": [
+        {
+          "control": "label_shuffle_within_stage_course",
+          "null_95_high": 0.3372675297385804,
+          "null_mean": 0.3331262678327525,
+          "observed_model_ndcg_at_3": 0.2955851660918294,
+          "replicates": 200,
+          "status": "PASS"
+        },
+        {
+          "control": "learner_state_shuffle",
+          "null_95_high": 0.2928546844437555,
+          "null_mean": 0.2922635560058619,
+          "observed_model_ndcg_at_3": 0.2955851660918294,
+          "replicates": 200,
+          "status": "FAIL"
+        },
+        {
+          "control": "action_identity_shuffle",
+          "null_95_high": 0.337363268896705,
+          "null_mean": 0.3334480423337499,
+          "observed_model_ndcg_at_3": 0.2955851660918294,
+          "replicates": 200,
+          "status": "PASS"
+        },
+        {
+          "control": "wrong_trajectory_matching",
+          "null_95_high": 0.3359198016461599,
+          "null_mean": 0.3327993169043743,
+          "observed_model_ndcg_at_3": 0.2955851660918294,
+          "replicates": 200,
+          "status": "PASS"
+        }
+      ],
+      "status": "FAIL"
+    },
+    "G6_safety": {
+      "constraint_violations": 0,
+      "immutable_feature_violations": 0,
+      "protected_feature_use_in_ranking": 0,
+      "status": "PASS"
+    },
+    "G7_reproducibility": {
+      "lockbox_opened_count": 1,
+      "protocol_hash": "11d47886a8d592232806f6ef3024c09961acb42df35a68f5b25796a5e10ba593",
+      "status": "PASS"
+    }
+  },
+  "lockbox_metrics": [
+    {
+      "groups": 15390,
+      "method": "model_score",
+      "ndcg_at_3": 0.2955851660918294,
+      "precision_at_1": 0.2643274853801169
+    },
+    {
+      "groups": 15390,
+      "method": "random_score",
+      "ndcg_at_3": 0.3334217525502498,
+      "precision_at_1": 0.2978557504873294
+    },
+    {
+      "groups": 15390,
+      "method": "popular_score",
+      "ndcg_at_3": 0.4194980650193101,
+      "precision_at_1": 0.2619233268356075
+    },
+    {
+      "groups": 15390,
+      "method": "workload_score",
+      "ndcg_at_3": 0.1863552827094017,
+      "precision_at_1": 0.1024041585445094
+    },
+    {
+      "groups": 15390,
+      "method": "policy_score",
+      "ndcg_at_3": 0.4688055122426545,
+      "precision_at_1": 0.7311241065627031
+    },
+    {
+      "groups": 15390,
+      "method": "counterfactual_score",
+      "ndcg_at_3": 0.3142662183854849,
+      "precision_at_1": 0.2292397660818713
+    }
+  ],
+  "merge_allowed": false,
+  "primary_metric": "NDCG@3",
+  "schema_version": "outcome_grounded_release_registry_v1",
+  "status": "OUTCOME_GROUNDED_OFFLINE_EVIDENCE_INCONCLUSIVE",
+  "v1_counterfactual": {
+    "engineering_validation": "COMPLETE",
+    "external_scientific_validation": "FAILED",
+    "internal_model_consistency": "AVAILABLE_NOT_INDEPENDENT_EVIDENCE"
+  },
+  "v2_outcome_grounded": {
+    "ablation": "COMPLETE",
+    "baseline_comparison": "FAILED_SUPERIORITY_GATE",
+    "development_validation": "COMPLETE",
+    "fairness": "AUDIT_COMPLETE_PROTECTED_FEATURES_NOT_USED",
+    "implementation": "COMPLETE",
+    "label_validation": "PASS_WITH_ZERO_RELEVANCE_REPORTED",
+    "lockbox_validation": "COMPLETE_ONCE",
+    "negative_controls": "FAILED_LEARNER_STATE_SHUFFLE",
+    "release_status": "OUTCOME_GROUNDED_OFFLINE_EVIDENCE_INCONCLUSIVE"
+  }
+}

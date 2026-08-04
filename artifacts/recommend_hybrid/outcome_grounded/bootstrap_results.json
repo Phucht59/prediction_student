@@ -1,0 +1,51 @@
+{
+  "cluster": "group_id",
+  "comparisons": [
+    {
+      "ci_95_high": -0.03129558597333491,
+      "ci_95_low": -0.044130140997918114,
+      "comparison": "model_minus_random_score",
+      "estimate": -0.03783658645842046,
+      "groups": 15390,
+      "paired_bootstrap_probability_nonpositive": 1.0,
+      "replicates": 2000
+    },
+    {
+      "ci_95_high": -0.11923195423917336,
+      "ci_95_low": -0.1287116660431995,
+      "comparison": "model_minus_popular_score",
+      "estimate": -0.12391289892748068,
+      "groups": 15390,
+      "paired_bootstrap_probability_nonpositive": 1.0,
+      "replicates": 2000
+    },
+    {
+      "ci_95_high": 0.11388520106382809,
+      "ci_95_low": 0.10420654363964807,
+      "comparison": "model_minus_workload_score",
+      "estimate": 0.1092298833824277,
+      "groups": 15390,
+      "paired_bootstrap_probability_nonpositive": 0.0,
+      "replicates": 2000
+    },
+    {
+      "ci_95_high": -0.16221655109367075,
+      "ci_95_low": -0.18427237332965646,
+      "comparison": "model_minus_policy_score",
+      "estimate": -0.17322034615082507,
+      "groups": 15390,
+      "paired_bootstrap_probability_nonpositive": 1.0,
+      "replicates": 2000
+    },
+    {
+      "ci_95_high": -0.010594904424723765,
+      "ci_95_low": -0.026743800284683653,
+      "comparison": "model_minus_counterfactual_score",
+      "estimate": -0.018681052293655572,
+      "groups": 15390,
+      "paired_bootstrap_probability_nonpositive": 1.0,
+      "replicates": 2000
+    }
+  ],
+  "replicates": 2000
+}

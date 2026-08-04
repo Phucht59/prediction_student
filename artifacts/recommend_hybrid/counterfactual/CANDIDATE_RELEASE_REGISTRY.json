@@ -147,6 +147,19 @@
     "outcome_labels_used_for_ranking": false,
     "silver_labels_used": false
   },
+  "outcome_grounded_v2": {
+    "implementation": "COMPLETE",
+    "label_validation": "PASS_WITH_ZERO_RELEVANCE_REPORTED",
+    "development_validation": "COMPLETE",
+    "lockbox_validation": "COMPLETE_ONCE",
+    "baseline_comparison": "FAILED_SUPERIORITY_GATE",
+    "negative_controls": "FAILED_LEARNER_STATE_SHUFFLE",
+    "ablation": "COMPLETE",
+    "fairness": "AUDIT_COMPLETE_PROTECTED_FEATURES_NOT_USED",
+    "release_status": "OUTCOME_GROUNDED_OFFLINE_EVIDENCE_INCONCLUSIVE",
+    "artifact": "artifacts/recommend_hybrid/outcome_grounded/RELEASE_REGISTRY.json",
+    "claim_boundary": "OFFLINE_PREDICTIVE_RELEVANCE_NOT_CAUSAL_EFFECT"
+  },
   "status": "PASS",
   "steps": [
     {

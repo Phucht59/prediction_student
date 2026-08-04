@@ -1,0 +1,18 @@
+{
+  "candidate_rows": 275718,
+  "eligible_transition_groups": 45953,
+  "excluded_missing_future_window": 1937,
+  "groups_by_fold": {
+    "0": 15280,
+    "1": 15283,
+    "2": 15390
+  },
+  "groups_by_stage": {
+    "EARLY_20": 15942,
+    "EARLY_35": 15376,
+    "MIDDLE_50": 14635
+  },
+  "missing_action_proxy": 0,
+  "raw_learner_course_records": 16572,
+  "zero_relevance_groups": 11259
+}

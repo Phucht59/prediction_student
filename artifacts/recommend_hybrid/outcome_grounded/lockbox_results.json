@@ -1,0 +1,55 @@
+{
+  "candidate_rows": 92340,
+  "groups": 15390,
+  "metrics": {
+    "counterfactual_score": {
+      "action_diversity": 5,
+      "coverage": 1.0,
+      "groups": 15390,
+      "map_at_3": 0.381503140567468,
+      "ndcg_at_3": 0.31426621838548496,
+      "precision_at_1": 0.22923976608187135
+    },
+    "model_score": {
+      "action_diversity": 5,
+      "coverage": 1.0,
+      "groups": 15390,
+      "map_at_3": 0.30422893653887806,
+      "ndcg_at_3": 0.2955851660918294,
+      "precision_at_1": 0.26432748538011697
+    },
+    "policy_score": {
+      "action_diversity": 1,
+      "coverage": 1.0,
+      "groups": 15390,
+      "map_at_3": 0.7334037253627897,
+      "ndcg_at_3": 0.4688055122426545,
+      "precision_at_1": 0.7311241065627031
+    },
+    "popular_score": {
+      "action_diversity": 1,
+      "coverage": 1.0,
+      "groups": 15390,
+      "map_at_3": 0.42170240415854443,
+      "ndcg_at_3": 0.4194980650193101,
+      "precision_at_1": 0.26192332683560754
+    },
+    "random_score": {
+      "action_diversity": 6,
+      "coverage": 1.0,
+      "groups": 15390,
+      "map_at_3": 0.40542560103963615,
+      "ndcg_at_3": 0.3334217525502498,
+      "precision_at_1": 0.29785575048732943
+    },
+    "workload_score": {
+      "action_diversity": 1,
+      "coverage": 1.0,
+      "groups": 15390,
+      "map_at_3": 0.23000866363439462,
+      "ndcg_at_3": 0.18635528270940172,
+      "precision_at_1": 0.10240415854450942
+    }
+  },
+  "status": "LOCKBOX_EVALUATED_ONCE"
+}

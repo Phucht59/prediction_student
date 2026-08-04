@@ -1,0 +1,23 @@
+[
+  {
+    "stage":"EARLY_20",
+    "groups":5344.0,
+    "ndcg_at_3":0.292669044,
+    "precision_at_1":0.2644086826,
+    "protected_attributes_used_in_ranking":0.0
+  },
+  {
+    "stage":"EARLY_35",
+    "groups":5149.0,
+    "ndcg_at_3":0.2714621535,
+    "precision_at_1":0.2386871237,
+    "protected_attributes_used_in_ranking":0.0
+  },
+  {
+    "stage":"MIDDLE_50",
+    "groups":4897.0,
+    "ndcg_at_3":0.3241318575,
+    "precision_at_1":0.2911986931,
+    "protected_attributes_used_in_ranking":0.0
+  }
+]

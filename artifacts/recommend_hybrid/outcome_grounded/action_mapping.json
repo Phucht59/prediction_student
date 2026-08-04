@@ -1,0 +1,6 @@
+{
+  "claim_boundary": "OFFLINE_PREDICTIVE_RELEVANCE_NOT_CAUSAL_EFFECT",
+  "evaluably_mapped_actions": 6,
+  "policy_only_or_safety_actions": 4,
+  "source": "configs/recommend_hybrid/historical_action_outcome_mapping.yaml"
+}

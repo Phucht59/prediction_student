@@ -1,7 +1,10 @@
 {
+  "candidate_rows": 92340,
+  "code_commit": "955a4e7f7d644760cb693d736f7e9eb942e91127",
+  "groups": 15390,
   "lockbox_fold": 2,
-  "opened_at": null,
-  "prior_executions": 0,
+  "opened_at": "2026-08-04T03:43:58.568998+00:00",
+  "prior_executions": 1,
   "protocol_sha256": "11d47886a8d592232806f6ef3024c09961acb42df35a68f5b25796a5e10ba593",
-  "status": "NOT_OPENED"
+  "status": "OPENED_AND_EVALUATED_ONCE"
 }

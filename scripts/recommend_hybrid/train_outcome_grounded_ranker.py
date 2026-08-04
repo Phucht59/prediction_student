@@ -19,11 +19,14 @@ def sha(p):
  with p.open('rb') as f:
   for b in iter(lambda:f.read(1<<20),b''): h.update(b)
  return h.hexdigest()
-def model():
- pre=ColumnTransformer([('num',Pipeline([('imp',SimpleImputer(strategy='median')),('scale',StandardScaler())]),NUM),('cat',Pipeline([('imp',SimpleImputer(strategy='most_frequent')),('ohe',OneHotEncoder(handle_unknown='ignore'))]),CAT)])
+def model(feature_list=None):
+ fs=FEATURES if feature_list is None else feature_list
+ nums=[x for x in NUM if x in fs]; cats=[x for x in CAT if x in fs]
+ pre=ColumnTransformer([('num',Pipeline([('imp',SimpleImputer(strategy='median')),('scale',StandardScaler())]),nums),('cat',Pipeline([('imp',SimpleImputer(strategy='most_frequent')),('ohe',OneHotEncoder(handle_unknown='ignore'))]),cats)])
  return Pipeline([('pre',pre),('clf',LogisticRegression(max_iter=1000,C=1.0,class_weight='balanced',multi_class='multinomial',random_state=SEED,n_jobs=1))])
-def fit(train):
- m=model(); m.fit(train[FEATURES],train.relevance_grade.astype(int)); return m
+def fit(train,feature_list=None):
+ fs=FEATURES if feature_list is None else feature_list
+ m=model(fs); m.fit(train[fs],train.relevance_grade.astype(int)); return m
 def ndcg(values,order,k=3):
  x=np.asarray(values)[np.asarray(order)[:k]]; den=np.sum((2**np.sort(np.asarray(values))[-k:][::-1]-1)/np.log2(np.arange(2,k+2))); num=np.sum((2**x-1)/np.log2(np.arange(2,len(x)+2))); return float(num/den) if den else 0.0
 def group_metric(d,score_col,seed=SEED):

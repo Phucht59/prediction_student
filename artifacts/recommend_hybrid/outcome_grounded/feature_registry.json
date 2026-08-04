@@ -1,0 +1,154 @@
+{
+  "features": [
+    {
+      "allowed_for_ranking": true,
+      "feature_name": "risk_probability",
+      "mutable_or_static": "pre_cutoff",
+      "reason": "registered cutoff-safe feature",
+      "source_date_rule": "at_or_before_source_cutoff",
+      "source_table": "OULAD studentInfo/studentVle/studentAssessment or frozen OOF prediction"
+    },
+    {
+      "allowed_for_ranking": true,
+      "feature_name": "risk_uncertainty",
+      "mutable_or_static": "pre_cutoff",
+      "reason": "registered cutoff-safe feature",
+      "source_date_rule": "at_or_before_source_cutoff",
+      "source_table": "OULAD studentInfo/studentVle/studentAssessment or frozen OOF prediction"
+    },
+    {
+      "allowed_for_ranking": true,
+      "feature_name": "vle_intensity",
+      "mutable_or_static": "pre_cutoff",
+      "reason": "registered cutoff-safe feature",
+      "source_date_rule": "at_or_before_source_cutoff",
+      "source_table": "OULAD studentInfo/studentVle/studentAssessment or frozen OOF prediction"
+    },
+    {
+      "allowed_for_ranking": true,
+      "feature_name": "active_days",
+      "mutable_or_static": "pre_cutoff",
+      "reason": "registered cutoff-safe feature",
+      "source_date_rule": "at_or_before_source_cutoff",
+      "source_table": "OULAD studentInfo/studentVle/studentAssessment or frozen OOF prediction"
+    },
+    {
+      "allowed_for_ranking": true,
+      "feature_name": "inactive_streak",
+      "mutable_or_static": "pre_cutoff",
+      "reason": "registered cutoff-safe feature",
+      "source_date_rule": "at_or_before_source_cutoff",
+      "source_table": "OULAD studentInfo/studentVle/studentAssessment or frozen OOF prediction"
+    },
+    {
+      "allowed_for_ranking": true,
+      "feature_name": "activity_trend",
+      "mutable_or_static": "pre_cutoff",
+      "reason": "registered cutoff-safe feature",
+      "source_date_rule": "at_or_before_source_cutoff",
+      "source_table": "OULAD studentInfo/studentVle/studentAssessment or frozen OOF prediction"
+    },
+    {
+      "allowed_for_ranking": true,
+      "feature_name": "assessment_completion",
+      "mutable_or_static": "pre_cutoff",
+      "reason": "registered cutoff-safe feature",
+      "source_date_rule": "at_or_before_source_cutoff",
+      "source_table": "OULAD studentInfo/studentVle/studentAssessment or frozen OOF prediction"
+    },
+    {
+      "allowed_for_ranking": true,
+      "feature_name": "assessment_availability",
+      "mutable_or_static": "pre_cutoff",
+      "reason": "registered cutoff-safe feature",
+      "source_date_rule": "at_or_before_source_cutoff",
+      "source_table": "OULAD studentInfo/studentVle/studentAssessment or frozen OOF prediction"
+    },
+    {
+      "allowed_for_ranking": true,
+      "feature_name": "studied_credits",
+      "mutable_or_static": "pre_cutoff",
+      "reason": "registered cutoff-safe feature",
+      "source_date_rule": "at_or_before_source_cutoff",
+      "source_table": "OULAD studentInfo/studentVle/studentAssessment or frozen OOF prediction"
+    },
+    {
+      "allowed_for_ranking": true,
+      "feature_name": "previous_attempts",
+      "mutable_or_static": "pre_cutoff",
+      "reason": "registered cutoff-safe feature",
+      "source_date_rule": "at_or_before_source_cutoff",
+      "source_table": "OULAD studentInfo/studentVle/studentAssessment or frozen OOF prediction"
+    },
+    {
+      "allowed_for_ranking": true,
+      "feature_name": "cutoff_day",
+      "mutable_or_static": "pre_cutoff",
+      "reason": "registered cutoff-safe feature",
+      "source_date_rule": "at_or_before_source_cutoff",
+      "source_table": "OULAD studentInfo/studentVle/studentAssessment or frozen OOF prediction"
+    },
+    {
+      "allowed_for_ranking": true,
+      "feature_name": "action_id",
+      "mutable_or_static": "action",
+      "reason": "action feature",
+      "source_date_rule": "frozen pre-cutoff candidate metadata",
+      "source_table": "action catalog/counterfactual V1"
+    },
+    {
+      "allowed_for_ranking": true,
+      "feature_name": "action_family",
+      "mutable_or_static": "action",
+      "reason": "action feature",
+      "source_date_rule": "frozen pre-cutoff candidate metadata",
+      "source_table": "action catalog/counterfactual V1"
+    },
+    {
+      "allowed_for_ranking": true,
+      "feature_name": "workload_minutes",
+      "mutable_or_static": "action",
+      "reason": "action feature",
+      "source_date_rule": "frozen pre-cutoff candidate metadata",
+      "source_table": "action catalog/counterfactual V1"
+    },
+    {
+      "allowed_for_ranking": true,
+      "feature_name": "evidence_strength",
+      "mutable_or_static": "action",
+      "reason": "action feature",
+      "source_date_rule": "frozen pre-cutoff candidate metadata",
+      "source_table": "action catalog/counterfactual V1"
+    },
+    {
+      "allowed_for_ranking": true,
+      "feature_name": "action_availability",
+      "mutable_or_static": "action",
+      "reason": "action feature",
+      "source_date_rule": "frozen pre-cutoff candidate metadata",
+      "source_table": "action catalog/counterfactual V1"
+    },
+    {
+      "allowed_for_ranking": true,
+      "feature_name": "counterfactual_v1_delta",
+      "mutable_or_static": "action",
+      "reason": "action feature",
+      "source_date_rule": "frozen pre-cutoff candidate metadata",
+      "source_table": "action catalog/counterfactual V1"
+    }
+  ],
+  "prohibited": [
+    "final_result",
+    "future_assessment_score",
+    "future_submission",
+    "future_vle_clicks",
+    "future_active_days",
+    "future_inactive_streak",
+    "future_adherence",
+    "label",
+    "target",
+    "post_cutoff_aggregate",
+    "protected_attributes"
+  ],
+  "schema_version": "feature_registry_v1"
+}
