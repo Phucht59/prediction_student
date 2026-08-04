@@ -1,76 +1,217 @@
-schema_version: two_stage_v3_protocol_v1
-status: DIAGNOSTIC_FROZEN_BEFORE_IMPLEMENTATION
+schema_version: two_stage_v3_integrated_hybrid_v2
+status: FROZEN_BEFORE_HEAD_TRAINING
 claim_boundary: OFFLINE_PREDICTIVE_RELEVANCE_NOT_CAUSAL_EFFECT
 
-scientific_question:
-  stage_a: Can pre-cutoff learner state identify groups where at least one candidate action becomes positive in the next observed window?
-  stage_b: Conditional on at least one positive candidate action, can the system rank a positive action first?
-  end_to_end: Can the complete selective policy issue correct top-1 recommendations while preserving positive-group coverage?
+diagnostic_authority:
+  commit: 7e96e7af59d0918e4f109903527bea6fca675485
+  artifact: artifacts/recommend_hybrid/two_stage_v3/DIAGNOSTIC.json
+  dominant_failure: RECOMMENDABILITY_GATE
+  scalar_gate_best_precision_at_recall_0_50: 0.36191950464396283
+  deterministic_conditional_precision_at_1: 0.7564766839378239
+  assessment_completion_diagnostic_precision: 0.0
+
+architecture:
+  learned_system: residual_cnn_bilstm_with_integrated_recommendation_heads
+  frozen_prediction_backbone:
+    class: src.models.oulad_tabular_residual.CNNBiLSTMTabularResidualOULAD
+    parameter_count: 160492
+    student_state_embedding_dim: 64
+    tabular_expert_embedding_dim: 32
+    checkpoint_authority: artifacts/recommend_hybrid/RECOMMEND_HYBRID_CHECKPOINT_MANIFEST.json
+    trainable: false
+  integrated_heads:
+    recommendability_head: binary_neural_head
+    conditional_action_head: shared_action_neural_head
+    external_ml_ranker: false
+    permitted_trainable_parameters: integrated_heads_only
+  prohibited_external_models:
+    - xgboost
+    - lightgbm
+    - lambdamart
+    - logistic_regression
+    - random_forest
+    - hist_gradient_boosting
+    - svm
+    - standalone_mlp_classifier
+
+scientific_questions:
+  stage_a: Can frozen hybrid representations identify learner-stage groups with at least one positive future action?
+  stage_b: Conditional on a positive group, can the integrated action head rank a positive candidate first?
+  end_to_end: Can the joint selective policy issue correct recommendations while preserving positive-group coverage?
 
 targets:
   stage_a_group_target: group_has_positive
   stage_b_action_target: silver_positive
   stage_b_training_population: groups_with_at_least_one_positive_action
+  labels_changed_from_hybrid_only_execution: false
   future_labels_used_at_runtime: false
   causal_interpretation: false
 
-frozen_data_authority:
-  candidate_rows: artifacts/recommend_hybrid/hybrid_only_final/dataset/candidate_rows.parquet
-  hybrid_only_oof: artifacts/recommend_hybrid/hybrid_only_final/evaluation/OOF_PREDICTIONS.parquet
-  historical_v2_1_metrics: artifacts/recommend_hybrid/outcome_grounded_v2_1/final_oof/NESTED_OOF_RESULTS.json
+action_registry:
+  order:
+    - ASSESSMENT_COMPLETION
+    - STUDY_REGULARITY
+    - VLE_ENGAGEMENT
+    - QUIZ_OR_RETRIEVAL_PRACTICE
+    - CONTENT_REVIEW
+  assessment_completion:
+    retained_in_training_and_full_reporting: true
+    action_specific_abstention_allowed: true
+    may_not_be_silently_removed: true
+  minimum_action_diversity: 3
+
+feature_authority:
+  group_features:
+    - frozen_student_state_embedding_64
+    - frozen_tabular_expert_embedding_32
+    - frozen_risk_probability
+    - frozen_risk_entropy
+    - frozen_seed_disagreement
+    - stage
+    - candidate_count
+    - maximum_risk_reduction
+    - mean_risk_reduction
+    - maximum_deficit
+    - mean_evidence_strength
+    - maximum_evidence_strength
+    - top_counterfactual_margin
+  action_features:
+    - action_family
+    - risk_reduction
+    - risk_uncertainty
+    - evidence_strength
+    - deficit_score
+    - opportunity_count
+    - workload_minutes
+    - action_available
+    - prerequisite_status
+  prohibited:
+    - protected_attributes
+    - final_result
+    - date_unregistration
+    - future_behavior_signal
+    - silver_positive_as_feature
+    - group_has_positive_as_feature
+    - outer_test_statistics
+
+embedding_cache:
+  cross_fitted:
+    purpose: inner_model_selection
+    rule: each group uses its own frozen outer-fold prediction authority
+  outer_specific:
+    purpose: final_outer_training_and_evaluation
+    rule: every group in outer run k uses frozen fold-k prediction authority trained without outer fold k
+  raw_backbone_finetuning: false
+
+evaluation:
   outer_folds: [0, 1, 2]
-  group_key: base_record_id
+  inner_group_folds: 3
+  learner_group_key: base_record_id
+  stages:
+    - EARLY_20
+    - EARLY_35
+    - MIDDLE_50
+  seeds: [42, 2026, 7319]
+  primary_metric: end_to_end_precision_at_1
+  mandatory_metrics:
+    stage_a:
+      - precision
+      - recall
+      - average_precision
+      - roc_auc
+      - brier_score
+    stage_b:
+      - conditional_precision_at_1
+      - ndcg_at_3
+      - mrr
+    end_to_end:
+      - precision_at_1
+      - positive_group_coverage
+      - abstention_rate
+      - action_diversity
+      - top_action_concentration
+      - per_stage_precision
+      - per_action_precision
+  bootstrap:
+    cluster: base_record_id
+    replicates: 2000
+    seed: 20260804
 
-required_diagnostic:
-  recommendability:
-    - positive_group_prevalence
-    - issued_group_precision
-    - issued_group_recall
-    - scalar_signal_roc_auc
-    - scalar_signal_average_precision
-    - best_precision_at_positive_group_recall_0_50
-  conditional_ranking:
-    - selected_action_precision_given_positive_group
-    - per_stage_conditional_precision
-    - per_action_conditional_precision
-    - oracle_decomposition
-  end_to_end:
-    - issued_precision_at_1
-    - positive_group_coverage
-    - false_issue_count
-    - correct_issue_count
+head_training:
+  optimizer: adamw
+  max_epochs: 60
+  patience: 8
+  gradient_clip_norm: 1.0
+  batch_size: 512
+  group_hidden_dims: [64, 96]
+  action_embedding_dims: [8, 16]
+  dropout: [0.10, 0.20]
+  learning_rate: [0.001, 0.0003]
+  weight_decay: [0.0001]
+  recommendability_loss:
+    type: weighted_binary_cross_entropy
+    positive_weight_source: outer_training_partition
+  action_losses:
+    listwise_multi_positive_weight: 1.0
+    candidate_binary_weight: [0.25, 0.50]
+    apply_only_to_positive_groups: true
+  multitask_recommendability_weight: [1.0, 2.0]
+  early_stopping_monitor: inner_end_to_end_precision_with_coverage_constraint
 
-candidate_v3_architecture:
-  stage_a:
-    role: recommendability_gate
-    output: probability_any_positive_action
-  stage_b:
-    role: conditional_action_ranker
-    output: action_specific_positive_probability
-  shared_authority:
-    - cutoff_safe_behavior_features
-    - frozen_hybrid_risk_profile
-    - frozen_hybrid_representation_if_available
-  final_constraints:
-    - availability
-    - prerequisite
-    - contraindication
-    - workload
-    - deterministic_fallback
+selection:
+  threshold_source: inner_oof_only
+  gate_threshold_grid: inner_probability_quantiles
+  action_margin_threshold_grid: [0.0, 0.05, 0.10, 0.15, 0.20]
+  action_probability_threshold_grid: [0.0, 0.40, 0.50, 0.60, 0.70]
+  action_specific_thresholds_allowed: true
+  action_specific_threshold_minimum_support: 100
+  required_inner_positive_group_coverage: 0.50
+  ordering_when_release_target_met:
+    - highest_positive_group_coverage
+    - highest_worst_stage_precision
+    - highest_conditional_precision_at_1
+    - lowest_abstention
+  ordering_when_target_not_met:
+    - highest_end_to_end_precision_at_1_with_coverage_floor
+    - highest_worst_stage_precision
+    - highest_conditional_precision_at_1
+
+release_gates:
+  end_to_end_precision_at_1_minimum: 0.80
+  end_to_end_precision_bootstrap_lower_minimum: 0.78
+  positive_group_coverage_minimum: 0.50
+  conditional_precision_at_1_minimum: 0.80
+  each_outer_fold_precision_minimum: 0.75
+  supported_stage_precision_minimum: 0.70
+  action_diversity_minimum: 3
+  top_action_concentration_maximum: 0.75
+  temporal_leakage: 0
+  protected_feature_use: 0
+  constraint_violations: 0
+  deterministic_replay_required: true
+
+negative_controls:
+  required:
+    - group_target_shuffle_retrain
+    - action_label_shuffle_within_positive_group_retrain
+    - frozen_embedding_permutation_retrain
+    - action_identity_shuffle_retrain
+  replicates_per_control: 100
+  pass_rule: real_metric_greater_than_null_95th_percentile
+
+claim_rules:
+  - A metric may be called above 80 percent only if that exact held-out metric is above 0.80.
+  - Conditional action precision may not be presented as end-to-end recommendation precision.
+  - Runtime remains unauthorized unless every release gate passes.
+  - No causal-effect or guaranteed-grade-improvement claim is permitted.
+  - EARLY_20 and ASSESSMENT_COMPLETION must remain visible in all reports even when they fail.
 
 prohibited:
   - changing_silver_labels_after_diagnostic
-  - using_outer_test_for_feature_selection
-  - reporting_conditional_precision_as_end_to_end_precision
-  - removing_early_stage_without_reporting_full_results
+  - using_outer_test_for_feature_or_threshold_selection
+  - removing_difficult_stages_or_actions_after_results
+  - reporting_training_or_inner_validation_as_held_out_evidence
   - using_protected_attributes_in_runtime
   - causal_effect_claim
   - guaranteed_grade_improvement_claim
-
-provisional_release_gates:
-  stage_a_precision_minimum: 0.80
-  stage_a_positive_group_recall_minimum: 0.50
-  stage_b_conditional_precision_at_1_minimum: 0.80
-  end_to_end_precision_at_1_minimum: 0.80
-  end_to_end_positive_group_coverage_minimum: 0.50
-  note: No gate may be claimed until held-out execution. If only a conditional metric reaches 0.80, the claim must explicitly remain conditional.
+  - merging_pr_before_release_pass
