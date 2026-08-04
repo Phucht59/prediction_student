@@ -1,0 +1,97 @@
+{
+  "inner_folds": [
+    {
+      "action_diversity": 5,
+      "groups": 7511,
+      "inner_fold": 0,
+      "learners": 2927,
+      "map_at_3": 0.6421433749019956,
+      "model": "lambdamart",
+      "mrr": 0.6510229441263924,
+      "ndcg_all": 0.5417233511502043,
+      "ndcg_at_1": 0.41880797053210844,
+      "ndcg_at_3": 0.5362208634527911,
+      "outer_fold": 2,
+      "parameters": {
+        "learning_rate": 0.1,
+        "n_estimators": 100,
+        "n_jobs": 4,
+        "num_leaves": 7
+      },
+      "precision_at_1": 0.5920649713753162,
+      "precision_at_3": 0.5005547419340522,
+      "recall_at_3": 0.7014933652864687,
+      "status": "COMPLETE",
+      "top1_relevance": 0.06888489796399519,
+      "top_action_concentration": 0.5482625482625483,
+      "trial_number": 10
+    },
+    {
+      "action_diversity": 5,
+      "groups": 7507,
+      "inner_fold": 1,
+      "learners": 2927,
+      "map_at_3": 0.6355179610141647,
+      "model": "lambdamart",
+      "mrr": 0.6439767328271391,
+      "ndcg_all": 0.5584450705467374,
+      "ndcg_at_1": 0.43235202699702496,
+      "ndcg_at_3": 0.5526765215021995,
+      "outer_fold": 2,
+      "parameters": {
+        "learning_rate": 0.1,
+        "n_estimators": 100,
+        "n_jobs": 4,
+        "num_leaves": 7
+      },
+      "precision_at_1": 0.5807912614892766,
+      "precision_at_3": 0.4888548465876293,
+      "recall_at_3": 0.6982705030860087,
+      "status": "COMPLETE",
+      "top1_relevance": 0.04414614557289235,
+      "top_action_concentration": 0.5905155188490742,
+      "trial_number": 10
+    },
+    {
+      "action_diversity": 5,
+      "groups": 7511,
+      "inner_fold": 2,
+      "learners": 2927,
+      "map_at_3": 0.6368511368511368,
+      "model": "lambdamart",
+      "mrr": 0.6448542138197311,
+      "ndcg_all": 0.5552756174437984,
+      "ndcg_at_1": 0.428926463409222,
+      "ndcg_at_3": 0.5499922657514025,
+      "outer_fold": 2,
+      "parameters": {
+        "learning_rate": 0.1,
+        "n_estimators": 100,
+        "n_jobs": 4,
+        "num_leaves": 7
+      },
+      "precision_at_1": 0.5835441352682732,
+      "precision_at_3": 0.48699684906581453,
+      "recall_at_3": 0.6996138996138996,
+      "status": "COMPLETE",
+      "top1_relevance": 0.0769741505935899,
+      "top_action_concentration": 0.5523898282518972,
+      "trial_number": 10
+    }
+  ],
+  "mean_action_diversity": 5.0,
+  "mean_ndcg_at_3": 0.5462965502354643,
+  "mean_precision_at_1": 0.5854667893776221,
+  "model": "lambdamart",
+  "outer_fold": 2,
+  "parameters": {
+    "learning_rate": 0.1,
+    "n_estimators": 100,
+    "n_jobs": 4,
+    "num_leaves": 7
+  },
+  "status": "COMPLETE",
+  "std_ndcg_at_3": 0.007208370381754085,
+  "trial_number": 10,
+  "worst_ndcg_at_3": 0.5362208634527911
+}

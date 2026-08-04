@@ -1,0 +1,29 @@
+{
+  "expected_trials_per_outer_fold": 18,
+  "files": {
+    "final_oof/NESTED_OOF_RESULTS.json": "0a189db94a51157d7d6433b98df26535e22899438f8dda3f0273b057569c6c63",
+    "model_selection/fold_0_selected.json": "1193976c4e8fd200cda14d75c867e1c337f58c1b71f4633d0730f80c781c4897",
+    "model_selection/fold_1_selected.json": "51439cc2713248a2e24bb0dce2b3018316d5e2c161a8d645093f5b698c659685",
+    "model_selection/fold_2_selected.json": "518584b9a2e4672dc6984b1008c32a23ec38aa382f06e9edf9f1537d1468213b"
+  },
+  "folds": [
+    {
+      "complete_trials": 18,
+      "outer_fold": 0,
+      "registered_trials": 18
+    },
+    {
+      "complete_trials": 18,
+      "outer_fold": 1,
+      "registered_trials": 18
+    },
+    {
+      "complete_trials": 18,
+      "outer_fold": 2,
+      "registered_trials": 18
+    }
+  ],
+  "full_search_status": "COMPLETE",
+  "model_authority_sha256": "51d48bdef19919443efe0d249a4075153b0c4439be9607b0f55c8e58071ab1f5",
+  "status": "RUNNING"
+}

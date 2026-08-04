@@ -1,0 +1,26 @@
+{
+  "action_diversity": 5,
+  "groups": 7555,
+  "inner_fold": 1,
+  "learners": 2949,
+  "map_at_3": 0.6480439738216046,
+  "model": "lambdamart",
+  "mrr": 0.657401279505846,
+  "ndcg_all": 0.5630767118895185,
+  "ndcg_at_1": 0.4502536951246415,
+  "ndcg_at_3": 0.5571104708233148,
+  "outer_fold": 1,
+  "parameters": {
+    "learning_rate": 0.1,
+    "n_estimators": 250,
+    "n_jobs": 4,
+    "num_leaves": 7
+  },
+  "precision_at_1": 0.6048974189278623,
+  "precision_at_3": 0.4931612618574895,
+  "recall_at_3": 0.7000441208912421,
+  "status": "COMPLETE",
+  "top1_relevance": 0.06740455394031478,
+  "top_action_concentration": 0.5224354731965586,
+  "trial_number": 12
+}

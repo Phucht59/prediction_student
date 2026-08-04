@@ -59,6 +59,26 @@
       "finish_time": "2026-08-04T05:26:48Z",
       "status": "COMPLETE"
     },
+    "FULL_GRID_RESUMABLE_FOLD_0": {
+      "status": "COMPLETE",
+      "trials": 18,
+      "updated_at": "2026-08-04T09:45:07Z"
+    },
+    "FULL_GRID_RESUMABLE_FOLD_1": {
+      "status": "COMPLETE",
+      "trials": 18,
+      "updated_at": "2026-08-04T09:45:07Z"
+    },
+    "FULL_GRID_RESUMABLE_FOLD_2": {
+      "status": "COMPLETE",
+      "trials": 18,
+      "updated_at": "2026-08-04T09:45:07Z"
+    },
+    "FULL_REGISTERED_SEARCH": {
+      "status": "COMPLETE",
+      "trials_per_fold": 18,
+      "updated_at": "2026-08-04T09:50:00Z"
+    },
     "LABELS": {
       "status": "COMPLETE"
     },

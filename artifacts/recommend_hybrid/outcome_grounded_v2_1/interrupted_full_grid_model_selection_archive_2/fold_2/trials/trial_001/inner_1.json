@@ -1,0 +1,24 @@
+{
+  "action_diversity": 5,
+  "groups": 7507,
+  "inner_fold": 1,
+  "learners": 2927,
+  "map_at_3": 0.5882028625135058,
+  "model": "interaction_logistic",
+  "mrr": 0.5995737311842281,
+  "ndcg_all": 0.5287178390661916,
+  "ndcg_at_1": 0.35862084276897116,
+  "ndcg_at_3": 0.5197305123570108,
+  "outer_fold": 2,
+  "parameters": {
+    "C": 1.0,
+    "n_jobs": 4
+  },
+  "precision_at_1": 0.49926735047289195,
+  "precision_at_3": 0.4840593224101949,
+  "recall_at_3": 0.6909329070645175,
+  "status": "COMPLETE",
+  "top1_relevance": -0.014150473223298467,
+  "top_action_concentration": 0.4491807646196883,
+  "trial_number": 1
+}

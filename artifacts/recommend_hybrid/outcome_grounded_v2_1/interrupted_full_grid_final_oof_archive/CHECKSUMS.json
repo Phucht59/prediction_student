@@ -1,0 +1,19 @@
+{
+  "BASELINE_COMPARISON.csv": "ede56e41c5e320889b4f95ded1f26536b82eef51b126e3498b4b394780792f67",
+  "BOOTSTRAP_GROUP_WEIGHTED.json": "43e6b92c417ac40c793a8257f0cab4d1723b843d5c935e7e62df2fa46b2ccf29",
+  "BOOTSTRAP_LEARNER_WEIGHTED.json": "4863e800237504ad544184002886afad6c595884e35e6572412b30af5cad4556",
+  "NESTED_OOF_RESULTS.json": "363768f0932587fa89c310204bc5062c09c483eefb6b13baa869ab8f36976f27",
+  "OOF_RANKING_PREDICTIONS.parquet": "8ae7d036beeb370829942ce6af934d23295b528fb350515a311fdabf573bf4ac",
+  "fold_0/metrics.json": "15f0a8ee9b221b2a42a9e5c09582a74ec824896f2620ddca9a9132d7f7649102",
+  "fold_0/predictions.parquet": "dcc01e56c7cdd4f53567161447cb33877ce7ae05986c07367a79aef16a5c2f4f",
+  "fold_0/scientific_model.joblib": "f8ec98020cd4cd443b3552217da0d34f2d1ddb5afa6832f46203f6c28ff8e750",
+  "fold_0/selected_model.json": "a0b089388170993fd0b70c724df6bbb9307ad858e27fd691c36d68689a6a48e7",
+  "fold_1/metrics.json": "f791eaa254bab28b5713948fb593caf9e154d9bdbb6da6be9d78141a3d6f2261",
+  "fold_1/predictions.parquet": "33b03b93a14599664e631c763355cd40eaa2c0ec37b1b159db15baeb1db13bc5",
+  "fold_1/scientific_model.joblib": "218b14dc1226a7e53eae95631936ad4bfc74f7d65f794f3229277a4d32bd3763",
+  "fold_1/selected_model.json": "3a88353e044f11d4ea5d483eb2f9d97a8b7cbe869d9543e8667f8cc6f5c88a93",
+  "fold_2/metrics.json": "115fa423d3a9029d8acf3a2f6a7a72489523eec3b2b82854a6820a07cc232bff",
+  "fold_2/predictions.parquet": "df9f3208b2915ab25e685111bd8aa9ee0325ebf141f957ecb07f82164fadcc59",
+  "fold_2/scientific_model.joblib": "20ff2adb684022cb608f00b8c62175cec33b48da50d72008cdf89f3bd4ad9366",
+  "fold_2/selected_model.json": "ab24db0536221f2a6b2663dce99ba091c2b5c9505a481d53bfc0de3d5e28ac44"
+}
