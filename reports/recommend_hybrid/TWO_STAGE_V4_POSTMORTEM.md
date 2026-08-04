@@ -23,6 +23,16 @@ MRR: 0.9669
 
 The release gate remains failed. Conditional action-ranking performance may not be reported as end-to-end recommendation precision.
 
+## Authority correction
+
+The V4 nested result records the inherited V3 cache registry SHA as:
+
+```text
+96711031fc92876c633898a95b780ab5ea72560640ec6c12f88b412cbb43faa5
+```
+
+The value `cfd71318...` is the V3 protocol hash, not the cache registry hash. This reporting correction does not change any artifact or result.
+
 ## What V4 changed
 
 V4 corrected the registered V3 loss defect by applying candidate binary supervision to every valid candidate, including all-zero targets in negative groups. It also introduced action-derived recommendability through masked noisy-OR and a preregistered direct/action probability blend.
