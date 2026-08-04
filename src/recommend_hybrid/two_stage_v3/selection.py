@@ -9,7 +9,78 @@ from .metrics import (
     TwoStageThresholds,
     derive_action_thresholds,
     evaluate_two_stage,
+    make_decisions,
 )
+
+
+def _ratio(numerator: int, denominator: int) -> float:
+    return float(numerator / denominator) if denominator else 0.0
+
+
+def _fast_metrics(
+    *,
+    gate_logits: np.ndarray,
+    action_logits: np.ndarray,
+    action_mask: np.ndarray,
+    group_target: np.ndarray,
+    action_target: np.ndarray,
+    thresholds: TwoStageThresholds,
+    stages: np.ndarray,
+) -> dict[str, object]:
+    decision = make_decisions(gate_logits, action_logits, action_mask, thresholds)
+    positive = np.asarray(group_target, dtype=bool)
+    targets = np.asarray(action_target, dtype=np.int8)
+    row = np.arange(len(positive))
+    correct = decision.issued & (targets[row, decision.top_action] > 0)
+    issued_positive = decision.issued & positive
+    issued_count = int(decision.issued.sum())
+    positive_count = int(positive.sum())
+    issued_positive_count = int(issued_positive.sum())
+    correct_count = int(correct.sum())
+    selected = decision.top_action[decision.issued]
+    if issued_count:
+        counts = np.bincount(selected, minlength=5)
+        diversity = int((counts > 0).sum())
+        concentration = float(counts.max() / counts.sum())
+    else:
+        diversity = 0
+        concentration = 1.0
+    metrics: dict[str, object] = {
+        "issued_groups": issued_count,
+        "positive_groups": positive_count,
+        "issued_positive_groups": issued_positive_count,
+        "correct_issued_actions": correct_count,
+        "false_issue_groups": int((decision.issued & ~positive).sum()),
+        "stage_a_precision": _ratio(issued_positive_count, issued_count),
+        "stage_a_recall": _ratio(issued_positive_count, positive_count),
+        "stage_b_conditional_precision_at_1": _ratio(
+            correct_count, issued_positive_count
+        ),
+        "end_to_end_precision_at_1": _ratio(correct_count, issued_count),
+        "positive_group_coverage": _ratio(issued_positive_count, positive_count),
+        "abstention_rate": 1.0 - _ratio(issued_count, len(positive)),
+        "action_diversity": diversity,
+        "top_action_concentration": concentration,
+    }
+    per_stage = []
+    for stage in sorted(set(stages.tolist())):
+        mask = stages == stage
+        per_stage.append(
+            {
+                "stage": str(stage),
+                **_fast_metrics(
+                    gate_logits=np.asarray(gate_logits)[mask],
+                    action_logits=np.asarray(action_logits)[mask],
+                    action_mask=np.asarray(action_mask)[mask],
+                    group_target=np.asarray(group_target)[mask],
+                    action_target=np.asarray(action_target)[mask],
+                    thresholds=thresholds,
+                    stages=np.asarray([], dtype=object),
+                ),
+            }
+        )
+    metrics["per_stage"] = per_stage
+    return metrics
 
 
 def _worst_supported_stage(metrics: dict[str, object]) -> float:
@@ -86,6 +157,7 @@ def select_thresholds_staged(
 ) -> tuple[TwoStageThresholds, dict[str, object], dict[str, object]]:
     """Search global thresholds, then calibrate per-action abstention once."""
 
+    stage_values = np.asarray(list(stages), dtype=object)
     gate_probability = 1.0 / (
         1.0 + np.exp(-np.clip(np.asarray(gate_logits, dtype=np.float64), -40, 40))
     )
@@ -93,7 +165,6 @@ def select_thresholds_staged(
     gate_grid = np.unique(
         np.concatenate(([0.0, 1.0], np.quantile(gate_probability, quantiles)))
     )
-    stage_values = list(stages)
     global_candidates: list[tuple[TwoStageThresholds, dict[str, object]]] = []
     for gate_threshold in gate_grid:
         for action_threshold in action_probability_grid:
@@ -103,7 +174,7 @@ def select_thresholds_staged(
                     minimum_action_probability=float(action_threshold),
                     minimum_action_margin=float(margin_threshold),
                 )
-                metrics = evaluate_two_stage(
+                metrics = _fast_metrics(
                     gate_logits=gate_logits,
                     action_logits=action_logits,
                     action_mask=action_mask,
@@ -113,7 +184,7 @@ def select_thresholds_staged(
                     stages=stage_values,
                 )
                 global_candidates.append((thresholds, metrics))
-    global_thresholds, global_metrics, reason = _select_from_candidates(
+    global_thresholds, global_fast_metrics, reason = _select_from_candidates(
         global_candidates,
         minimum_coverage=minimum_coverage,
         target_precision=target_precision,
@@ -128,7 +199,7 @@ def select_thresholds_staged(
         target_precision=target_precision,
         minimum_support=action_specific_minimum_support,
     )
-    calibrated_metrics = evaluate_two_stage(
+    calibrated_fast_metrics = _fast_metrics(
         gate_logits=gate_logits,
         action_logits=action_logits,
         action_mask=action_mask,
@@ -138,18 +209,25 @@ def select_thresholds_staged(
         stages=stage_values,
     )
     calibrated_usable = (
-        float(calibrated_metrics["positive_group_coverage"]) >= minimum_coverage
-        and float(calibrated_metrics["end_to_end_precision_at_1"])
-        >= float(global_metrics["end_to_end_precision_at_1"])
+        float(calibrated_fast_metrics["positive_group_coverage"]) >= minimum_coverage
+        and float(calibrated_fast_metrics["end_to_end_precision_at_1"])
+        >= float(global_fast_metrics["end_to_end_precision_at_1"])
     )
     if calibrated_usable:
         selected_thresholds = calibrated_thresholds
-        selected_metrics = calibrated_metrics
         selected_reason = f"{reason}_ACTION_CALIBRATED"
     else:
         selected_thresholds = global_thresholds
-        selected_metrics = global_metrics
         selected_reason = reason
+    selected_metrics = evaluate_two_stage(
+        gate_logits=gate_logits,
+        action_logits=action_logits,
+        action_mask=action_mask,
+        group_target=group_target,
+        action_target=action_target,
+        thresholds=selected_thresholds,
+        stages=stage_values,
+    )
     selected_metrics["selection_target_met"] = bool(
         float(selected_metrics["positive_group_coverage"]) >= minimum_coverage
         and float(selected_metrics["end_to_end_precision_at_1"]) >= target_precision
@@ -162,8 +240,8 @@ def select_thresholds_staged(
         "selected_reason": selected_reason,
         "global_thresholds": global_thresholds.to_dict(),
         "calibrated_thresholds": calibrated_thresholds.to_dict(),
-        "global_metrics": global_metrics,
-        "calibrated_metrics": calibrated_metrics,
+        "global_fast_metrics": global_fast_metrics,
+        "calibrated_fast_metrics": calibrated_fast_metrics,
     }
     return selected_thresholds, selected_metrics, audit
 
