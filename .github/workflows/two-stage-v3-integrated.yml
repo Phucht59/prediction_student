@@ -54,6 +54,7 @@ jobs:
             src/recommend_hybrid/two_stage_v3/metrics.py \
             src/recommend_hybrid/two_stage_v3/selection.py \
             scripts/recommend_hybrid/two_stage_v3/diagnose.py \
+            scripts/recommend_hybrid/two_stage_v3/repair_opportunity_count.py \
             scripts/recommend_hybrid/two_stage_v3/build_embedding_cache.py \
             scripts/recommend_hybrid/two_stage_v3/train_and_evaluate.py \
             scripts/recommend_hybrid/two_stage_v3/bootstrap.py \
