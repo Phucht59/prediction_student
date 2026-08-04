@@ -1,0 +1,177 @@
+{
+  "abstention_rate": 0.759102192800993,
+  "action_diversity": 4,
+  "checkpoints": [
+    {
+      "path": "artifacts/recommend_hybrid/two_stage_v4/final_oof/fold_0/head_seed42.pt",
+      "seed": 42,
+      "sha256": "43e64a632f27049a1bc8f78e5ec750de0239c5f95134ebf326870ffcfebfeed3"
+    },
+    {
+      "path": "artifacts/recommend_hybrid/two_stage_v4/final_oof/fold_0/head_seed2026.pt",
+      "seed": 2026,
+      "sha256": "24ff81b5a2441c085ba68060b6879b16bf02f6685ad87e34ae38f4e16d74ea29"
+    },
+    {
+      "path": "artifacts/recommend_hybrid/two_stage_v4/final_oof/fold_0/head_seed7319.pt",
+      "seed": 7319,
+      "sha256": "366c7f7a3a5c6ca56942c7b00e4e562ff788666cb1bb602a4f19df10389ff7a1"
+    }
+  ],
+  "conditional_precision_at_1_all_positive": 0.936777920410783,
+  "correct_issued_actions": 1529,
+  "end_to_end_precision_at_1": 0.65650493774152,
+  "false_issue_groups": 703,
+  "issued_groups": 2329,
+  "issued_positive_groups": 1626,
+  "mrr": 0.9662762088147197,
+  "ndcg_at_3": 0.9712277091201716,
+  "outer_fold": 0,
+  "per_action": [
+    {
+      "action_family": "ASSESSMENT_COMPLETION",
+      "action_id": 0,
+      "conditional_precision": 0.0,
+      "correct": 0,
+      "issued": 0,
+      "issued_positive_groups": 0,
+      "precision": 0.0
+    },
+    {
+      "action_family": "STUDY_REGULARITY",
+      "action_id": 1,
+      "conditional_precision": 0.8947368421052632,
+      "correct": 255,
+      "issued": 456,
+      "issued_positive_groups": 285,
+      "precision": 0.5592105263157895
+    },
+    {
+      "action_family": "VLE_ENGAGEMENT",
+      "action_id": 2,
+      "conditional_precision": 0.9688473520249221,
+      "correct": 622,
+      "issued": 875,
+      "issued_positive_groups": 642,
+      "precision": 0.7108571428571429
+    },
+    {
+      "action_family": "QUIZ_OR_RETRIEVAL_PRACTICE",
+      "action_id": 3,
+      "conditional_precision": 0.9069767441860465,
+      "correct": 78,
+      "issued": 128,
+      "issued_positive_groups": 86,
+      "precision": 0.609375
+    },
+    {
+      "action_family": "CONTENT_REVIEW",
+      "action_id": 4,
+      "conditional_precision": 0.9363784665579119,
+      "correct": 574,
+      "issued": 870,
+      "issued_positive_groups": 613,
+      "precision": 0.6597701149425287
+    }
+  ],
+  "per_stage": [
+    {
+      "abstention_rate": 0.9221689413500553,
+      "action_diversity": 4,
+      "conditional_precision_at_1_all_positive": 0.9130434782608695,
+      "correct_issued_actions": 133,
+      "end_to_end_precision_at_1": 0.6303317535545023,
+      "false_issue_groups": 73,
+      "issued_groups": 211,
+      "issued_positive_groups": 138,
+      "mrr": 0.953528670447385,
+      "ndcg_at_3": 0.964327246798638,
+      "positive_group_coverage": 0.2608695652173913,
+      "positive_groups": 529,
+      "stage": "EARLY_20",
+      "stage_a_precision": 0.6540284360189573,
+      "stage_a_recall": 0.2608695652173913,
+      "stage_b_conditional_precision_at_1": 0.9637681159420289,
+      "top_action_concentration": 0.8862559241706162
+    },
+    {
+      "abstention_rate": 0.7176032110091743,
+      "action_diversity": 4,
+      "conditional_precision_at_1_all_positive": 0.9308641975308642,
+      "correct_issued_actions": 622,
+      "end_to_end_precision_at_1": 0.6314720812182741,
+      "false_issue_groups": 308,
+      "issued_groups": 985,
+      "issued_positive_groups": 677,
+      "mrr": 0.9630315500685871,
+      "ndcg_at_3": 0.9691867519881263,
+      "positive_group_coverage": 0.557201646090535,
+      "positive_groups": 1215,
+      "stage": "EARLY_35",
+      "stage_a_precision": 0.6873096446700507,
+      "stage_a_recall": 0.557201646090535,
+      "stage_b_conditional_precision_at_1": 0.9187592319054653,
+      "top_action_concentration": 0.34517766497461927
+    },
+    {
+      "abstention_rate": 0.6733929086191985,
+      "action_diversity": 4,
+      "conditional_precision_at_1_all_positive": 0.9511661807580175,
+      "correct_issued_actions": 774,
+      "end_to_end_precision_at_1": 0.6831421006178288,
+      "false_issue_groups": 322,
+      "issued_groups": 1133,
+      "issued_positive_groups": 811,
+      "mrr": 0.97406462585034,
+      "ndcg_at_3": 0.9756957174900889,
+      "positive_group_coverage": 0.5911078717201166,
+      "positive_groups": 1372,
+      "stage": "MIDDLE_50",
+      "stage_a_precision": 0.7157987643424537,
+      "stage_a_recall": 0.5911078717201166,
+      "stage_b_conditional_precision_at_1": 0.9543773119605425,
+      "top_action_concentration": 0.47749338040600176
+    }
+  ],
+  "positive_group_coverage": 0.5218228498074454,
+  "positive_groups": 3116,
+  "selected_config_id": "3860b1b10e41dabf",
+  "stage_a_discrimination": {
+    "action_derived": {
+      "average_precision": 0.660493634282564,
+      "brier_score": 0.20960395906620344,
+      "roc_auc": 0.8174377861476705
+    },
+    "direct": {
+      "average_precision": 0.6818658528451356,
+      "brier_score": 0.17448369271100728,
+      "roc_auc": 0.8189784381215703
+    },
+    "joint": {
+      "average_precision": 0.6743974944917173,
+      "brier_score": 0.19543197126382506,
+      "roc_auc": 0.8218878183576515
+    }
+  },
+  "stage_a_precision": 0.6981537140403606,
+  "stage_a_recall": 0.5218228498074454,
+  "stage_b_conditional_precision_at_1": 0.9403444034440345,
+  "thresholds": {
+    "action_probability_by_id": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "direct_action_blend": 0.25,
+    "minimum_action_margin": 0.0,
+    "minimum_action_probability": 0.6,
+    "stage_gate_probability": [
+      0.6980877586493764,
+      0.7666090192874215,
+      0.7515664953887584
+    ]
+  },
+  "top_action_concentration": 0.37569772434521254
+}

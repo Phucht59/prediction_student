@@ -1,0 +1,271 @@
+{
+  "artifacts": {
+    "bootstrap_sha256": "fb370101543b6e70b0c36e77dff27faaad2137409b5788d348e2e438912d891a",
+    "controls_sha256": null,
+    "protocol_sha256": "d173c9f0623314c8846575436ce738c926212c664e968dbacc7d77ef07be26fa",
+    "results_sha256": "53c329355be24816ad2c5d5612852ea8770e27d60d598ad724591c5ff86c0f79",
+    "runtime_sha256": null,
+    "verification_sha256": "45802e1366ab21a2a09ae71b714e5031ea0da6c2a68a6b3325bf4ca9f13fa074"
+  },
+  "bootstrap": {
+    "claim_boundary": "OFFLINE_PREDICTIVE_RELEVANCE_NOT_CAUSAL_EFFECT",
+    "cluster": "base_record_id",
+    "end_to_end_precision_at_1": {
+      "bootstrap_mean": 0.6590487580981133,
+      "lower_95": 0.6473024654718897,
+      "point_estimate": 0.6588623743058682,
+      "upper_95": 0.6700784204292181
+    },
+    "group_count": 29043,
+    "learner_count": 12656,
+    "positive_group_coverage": {
+      "bootstrap_mean": 0.4980325173576692,
+      "lower_95": 0.48813170850654447,
+      "point_estimate": 0.4979578675838349,
+      "upper_95": 0.5086252833527396
+    },
+    "replicates": 2000,
+    "schema_version": "two_stage_v4_learner_bootstrap_v1",
+    "seed": 20260804,
+    "stage_a_precision": {
+      "bootstrap_mean": 0.695511829467345,
+      "lower_95": 0.684825305679415,
+      "point_estimate": 0.6953324328380609,
+      "upper_95": 0.7059983858708715
+    },
+    "stage_a_recall": {
+      "bootstrap_mean": 0.4980325173576692,
+      "lower_95": 0.48813170850654447,
+      "point_estimate": 0.4979578675838349,
+      "upper_95": 0.5086252833527396
+    },
+    "stage_b_conditional_precision_at_1": {
+      "bootstrap_mean": 0.9475734611883793,
+      "lower_95": 0.9413007277158354,
+      "point_estimate": 0.9475501834664364,
+      "upper_95": 0.9537279311008686
+    },
+    "status": "COMPLETE"
+  },
+  "claim_boundary": "OFFLINE_PREDICTIVE_RELEVANCE_NOT_CAUSAL_EFFECT",
+  "claim_rules": [
+    "Conditional action precision may not be reported as end-to-end precision.",
+    "V3 evidence remains immutable historical evidence.",
+    "A V4 improvement must be demonstrated on held-out outer folds.",
+    "No causal-effect or guaranteed-grade-improvement claim is permitted.",
+    "ASSESSMENT_COMPLETION and EARLY_20 remain visible even when no recommendation is issued."
+  ],
+  "gates": {
+    "action_diversity": {
+      "actual": 4,
+      "description": "Distinct action families issued",
+      "required": 3,
+      "status": "PASS"
+    },
+    "bootstrap_lower_precision": {
+      "actual": 0.6473024654718897,
+      "description": "Learner-cluster lower 95% precision bound",
+      "required": 0.78,
+      "status": "FAIL"
+    },
+    "candidate_binary_all_groups": {
+      "actual": true,
+      "description": "Negative groups supervise all-zero candidate targets",
+      "required": true,
+      "status": "PASS"
+    },
+    "conditional_precision_at_1": {
+      "actual": 0.9475501834664364,
+      "description": "Conditional top-1 action precision",
+      "required": 0.8,
+      "status": "PASS"
+    },
+    "deterministic_replay": {
+      "actual": true,
+      "description": "Exact checkpoint, numeric, and decision replay",
+      "required": true,
+      "status": "PASS"
+    },
+    "each_outer_fold_precision": {
+      "actual": 0.65650493774152,
+      "description": "Minimum end-to-end precision across outer folds",
+      "required": 0.75,
+      "status": "FAIL"
+    },
+    "end_to_end_precision_at_1": {
+      "actual": 0.6588623743058682,
+      "description": "Held-out issued top-1 recommendation precision",
+      "required": 0.8,
+      "status": "FAIL"
+    },
+    "external_ml_ranker_absent": {
+      "actual": true,
+      "description": "No external recommendation model",
+      "required": true,
+      "status": "PASS"
+    },
+    "positive_group_coverage": {
+      "actual": 0.4979578675838349,
+      "description": "Recall of groups containing at least one positive action",
+      "required": 0.5,
+      "status": "FAIL"
+    },
+    "supported_stage_precision": {
+      "actual": 0.6303317535545023,
+      "description": "Minimum supported stage precision",
+      "required": 0.7,
+      "status": "FAIL"
+    },
+    "temporal_and_protected_feature_safety": {
+      "actual": true,
+      "description": "Future labels and protected attributes are absent",
+      "required": true,
+      "status": "PASS"
+    },
+    "top_action_concentration": {
+      "actual": 0.39276602131172145,
+      "description": "Maximum share of the most frequent top action",
+      "required": 0.75,
+      "status": "PASS"
+    }
+  },
+  "main_gates_pass": false,
+  "merge_allowed": false,
+  "negative_controls": {
+    "required_controls": [
+      "group_target_shuffle_retrain",
+      "action_label_shuffle_within_positive_group_retrain",
+      "frozen_embedding_permutation_retrain",
+      "action_identity_shuffle_retrain"
+    ],
+    "status": "NOT_RUN"
+  },
+  "negative_controls_pass": false,
+  "overall": {
+    "abstention_rate": 0.7705815514926144,
+    "action_diversity": 4,
+    "conditional_precision_at_1_all_positive": 0.9374462596732588,
+    "correct_issued_actions": 4390,
+    "end_to_end_precision_at_1": 0.6588623743058682,
+    "false_issue_groups": 2030,
+    "groups": 29043,
+    "issued_groups": 6663,
+    "issued_positive_groups": 4633,
+    "learners": 12656,
+    "mrr": 0.9668690885640585,
+    "ndcg_at_3": 0.9723128213125097,
+    "per_action": [
+      {
+        "action_family": "ASSESSMENT_COMPLETION",
+        "action_id": 0,
+        "conditional_precision": 0.0,
+        "correct": 0,
+        "issued": 0,
+        "issued_positive_groups": 0,
+        "precision": 0.0
+      },
+      {
+        "action_family": "STUDY_REGULARITY",
+        "action_id": 1,
+        "conditional_precision": 0.910025706940874,
+        "correct": 708,
+        "issued": 1288,
+        "issued_positive_groups": 778,
+        "precision": 0.5496894409937888
+      },
+      {
+        "action_family": "VLE_ENGAGEMENT",
+        "action_id": 2,
+        "conditional_precision": 0.9656084656084656,
+        "correct": 1825,
+        "issued": 2617,
+        "issued_positive_groups": 1890,
+        "precision": 0.6973633931983186
+      },
+      {
+        "action_family": "QUIZ_OR_RETRIEVAL_PRACTICE",
+        "action_id": 3,
+        "conditional_precision": 0.8888888888888888,
+        "correct": 232,
+        "issued": 373,
+        "issued_positive_groups": 261,
+        "precision": 0.6219839142091153
+      },
+      {
+        "action_family": "CONTENT_REVIEW",
+        "action_id": 4,
+        "conditional_precision": 0.9536384976525821,
+        "correct": 1625,
+        "issued": 2385,
+        "issued_positive_groups": 1704,
+        "precision": 0.6813417190775681
+      }
+    ],
+    "per_stage": [
+      {
+        "conditional_precision_at_1": 0.979002624671916,
+        "correct": 373,
+        "end_to_end_precision_at_1": 0.6453287197231834,
+        "groups": 8216,
+        "issued_groups": 578,
+        "issued_positive_groups": 381,
+        "positive_group_coverage": 0.2320341047503045,
+        "positive_groups": 1642,
+        "stage": "EARLY_20",
+        "stage_a_precision": 0.6591695501730104
+      },
+      {
+        "conditional_precision_at_1": 0.9314928425357873,
+        "correct": 1822,
+        "end_to_end_precision_at_1": 0.6415492957746479,
+        "groups": 10442,
+        "issued_groups": 2840,
+        "issued_positive_groups": 1956,
+        "positive_group_coverage": 0.538546255506608,
+        "positive_groups": 3632,
+        "stage": "EARLY_35",
+        "stage_a_precision": 0.6887323943661972
+      },
+      {
+        "conditional_precision_at_1": 0.9560104529616724,
+        "correct": 2195,
+        "end_to_end_precision_at_1": 0.6764252696456087,
+        "groups": 10385,
+        "issued_groups": 3245,
+        "issued_positive_groups": 2296,
+        "positive_group_coverage": 0.569727047146402,
+        "positive_groups": 4030,
+        "stage": "MIDDLE_50",
+        "stage_a_precision": 0.7075500770416024
+      }
+    ],
+    "positive_group_coverage": 0.4979578675838349,
+    "positive_groups": 9304,
+    "stage_a_discrimination": {
+      "action_derived": {
+        "average_precision": 0.6470529535731029,
+        "brier_score": 0.20944024750321286,
+        "roc_auc": 0.80699476785551
+      },
+      "direct": {
+        "average_precision": 0.6680365800231997,
+        "brier_score": 0.17782340718746878,
+        "roc_auc": 0.8108789990981623
+      },
+      "joint": {
+        "average_precision": 0.6526518297953001,
+        "brier_score": 0.20263716339450594,
+        "roc_auc": 0.8084185502797754
+      }
+    },
+    "stage_a_precision": 0.6953324328380609,
+    "stage_a_recall": 0.4979578675838349,
+    "stage_b_conditional_precision_at_1": 0.9475501834664364,
+    "top_action_concentration": 0.39276602131172145
+  },
+  "runtime_authorized": false,
+  "runtime_package_ready": false,
+  "schema_version": "two_stage_v4_release_v1",
+  "status": "TWO_STAGE_V4_EVIDENCE_BELOW_GATE",
+  "thesis_scope_completion": "RECOMMENDATION_MODULE_NOT_COMPLETE"
+}

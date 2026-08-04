@@ -1,0 +1,40 @@
+{
+  "claim_boundary": "OFFLINE_PREDICTIVE_RELEVANCE_NOT_CAUSAL_EFFECT",
+  "cluster": "base_record_id",
+  "end_to_end_precision_at_1": {
+    "bootstrap_mean": 0.6590487580981133,
+    "lower_95": 0.6473024654718897,
+    "point_estimate": 0.6588623743058682,
+    "upper_95": 0.6700784204292181
+  },
+  "group_count": 29043,
+  "learner_count": 12656,
+  "positive_group_coverage": {
+    "bootstrap_mean": 0.4980325173576692,
+    "lower_95": 0.48813170850654447,
+    "point_estimate": 0.4979578675838349,
+    "upper_95": 0.5086252833527396
+  },
+  "replicates": 2000,
+  "schema_version": "two_stage_v4_learner_bootstrap_v1",
+  "seed": 20260804,
+  "stage_a_precision": {
+    "bootstrap_mean": 0.695511829467345,
+    "lower_95": 0.684825305679415,
+    "point_estimate": 0.6953324328380609,
+    "upper_95": 0.7059983858708715
+  },
+  "stage_a_recall": {
+    "bootstrap_mean": 0.4980325173576692,
+    "lower_95": 0.48813170850654447,
+    "point_estimate": 0.4979578675838349,
+    "upper_95": 0.5086252833527396
+  },
+  "stage_b_conditional_precision_at_1": {
+    "bootstrap_mean": 0.9475734611883793,
+    "lower_95": 0.9413007277158354,
+    "point_estimate": 0.9475501834664364,
+    "upper_95": 0.9537279311008686
+  },
+  "status": "COMPLETE"
+}

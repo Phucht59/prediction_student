@@ -1,0 +1,364 @@
+{
+  "audit": {
+    "action_calibration_used": false,
+    "base_metrics": {
+      "abstention_rate": 0.765111099601181,
+      "action_diversity": 4,
+      "conditional_precision_at_1_all_positive": 0.9253827558420629,
+      "correct_issued_actions": 2937,
+      "end_to_end_precision_at_1": 0.6476295479603087,
+      "false_issue_groups": 1423,
+      "issued_groups": 4535,
+      "issued_positive_groups": 3112,
+      "mrr": 0.9605962933118453,
+      "ndcg_at_3": 0.9678567924066882,
+      "per_stage": [
+        {
+          "abstention_rate": 0.928860294117647,
+          "action_diversity": 4,
+          "conditional_precision_at_1_all_positive": 0.8875576036866359,
+          "correct_issued_actions": 238,
+          "end_to_end_precision_at_1": 0.6149870801033591,
+          "false_issue_groups": 143,
+          "issued_groups": 387,
+          "issued_positive_groups": 244,
+          "mrr": 0.9405529953917051,
+          "ndcg_at_3": 0.9547470425794231,
+          "positive_group_coverage": 0.2248847926267281,
+          "positive_groups": 1085,
+          "stage": "EARLY_20",
+          "stage_a_precision": 0.6304909560723514,
+          "stage_a_recall": 0.2248847926267281,
+          "stage_b_conditional_precision_at_1": 0.9754098360655737,
+          "top_action_concentration": 0.8501291989664083
+        },
+        {
+          "abstention_rate": 0.7180521538683187,
+          "action_diversity": 4,
+          "conditional_precision_at_1_all_positive": 0.9249585406301825,
+          "correct_issued_actions": 1253,
+          "end_to_end_precision_at_1": 0.6402657128257537,
+          "false_issue_groups": 610,
+          "issued_groups": 1957,
+          "issued_positive_groups": 1347,
+          "mrr": 0.9604754007739081,
+          "ndcg_at_3": 0.967926025450936,
+          "positive_group_coverage": 0.5584577114427861,
+          "positive_groups": 2412,
+          "stage": "EARLY_35",
+          "stage_a_precision": 0.6882984159427695,
+          "stage_a_recall": 0.5584577114427861,
+          "stage_b_conditional_precision_at_1": 0.9302152932442465,
+          "top_action_concentration": 0.3883495145631068
+        },
+        {
+          "abstention_rate": 0.6836557897776494,
+          "action_diversity": 4,
+          "conditional_precision_at_1_all_positive": 0.9409158050221565,
+          "correct_issued_actions": 1446,
+          "end_to_end_precision_at_1": 0.6599726152441807,
+          "false_issue_groups": 670,
+          "issued_groups": 2191,
+          "issued_positive_groups": 1521,
+          "mrr": 0.9687346134908911,
+          "ndcg_at_3": 0.973047740877832,
+          "positive_group_coverage": 0.5616691285081241,
+          "positive_groups": 2708,
+          "stage": "MIDDLE_50",
+          "stage_a_precision": 0.6942035600182564,
+          "stage_a_recall": 0.5616691285081241,
+          "stage_b_conditional_precision_at_1": 0.9506903353057199,
+          "top_action_concentration": 0.46097672295755365
+        }
+      ],
+      "positive_group_coverage": 0.5015310233682514,
+      "positive_groups": 6205,
+      "selection_target_met": false,
+      "stage_a_precision": 0.686218302094818,
+      "stage_a_recall": 0.5015310233682514,
+      "stage_b_conditional_precision_at_1": 0.9437660668380463,
+      "top_action_concentration": 0.39272326350606396
+    },
+    "base_thresholds": {
+      "action_probability_by_id": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "direct_action_blend": 0.0,
+      "minimum_action_margin": 0.0,
+      "minimum_action_probability": 0.6,
+      "stage_gate_probability": [
+        0.6537385843423256,
+        0.6537981144958583,
+        0.6680553448935702
+      ]
+    },
+    "calibrated_metrics": {
+      "abstention_rate": 0.9324079349458746,
+      "action_diversity": 2,
+      "conditional_precision_at_1_all_positive": 0.9253827558420629,
+      "correct_issued_actions": 1049,
+      "end_to_end_precision_at_1": 0.803831417624521,
+      "false_issue_groups": 231,
+      "issued_groups": 1305,
+      "issued_positive_groups": 1074,
+      "mrr": 0.9605962933118453,
+      "ndcg_at_3": 0.9678567924066882,
+      "per_stage": [
+        {
+          "abstention_rate": 0.9727941176470588,
+          "action_diversity": 2,
+          "conditional_precision_at_1_all_positive": 0.8875576036866359,
+          "correct_issued_actions": 103,
+          "end_to_end_precision_at_1": 0.6959459459459459,
+          "false_issue_groups": 43,
+          "issued_groups": 148,
+          "issued_positive_groups": 105,
+          "mrr": 0.9405529953917051,
+          "ndcg_at_3": 0.9547470425794231,
+          "positive_group_coverage": 0.0967741935483871,
+          "positive_groups": 1085,
+          "stage": "EARLY_20",
+          "stage_a_precision": 0.7094594594594594,
+          "stage_a_recall": 0.0967741935483871,
+          "stage_b_conditional_precision_at_1": 0.9809523809523809,
+          "top_action_concentration": 0.9864864864864865
+        },
+        {
+          "abstention_rate": 0.924074340873073,
+          "action_diversity": 2,
+          "conditional_precision_at_1_all_positive": 0.9249585406301825,
+          "correct_issued_actions": 422,
+          "end_to_end_precision_at_1": 0.8007590132827325,
+          "false_issue_groups": 87,
+          "issued_groups": 527,
+          "issued_positive_groups": 440,
+          "mrr": 0.9604754007739081,
+          "ndcg_at_3": 0.967926025450936,
+          "positive_group_coverage": 0.1824212271973466,
+          "positive_groups": 2412,
+          "stage": "EARLY_35",
+          "stage_a_precision": 0.8349146110056926,
+          "stage_a_recall": 0.1824212271973466,
+          "stage_b_conditional_precision_at_1": 0.9590909090909091,
+          "top_action_concentration": 0.7210626185958254
+        },
+        {
+          "abstention_rate": 0.9090384060063529,
+          "action_diversity": 2,
+          "conditional_precision_at_1_all_positive": 0.9409158050221565,
+          "correct_issued_actions": 524,
+          "end_to_end_precision_at_1": 0.8317460317460318,
+          "false_issue_groups": 101,
+          "issued_groups": 630,
+          "issued_positive_groups": 529,
+          "mrr": 0.9687346134908911,
+          "ndcg_at_3": 0.973047740877832,
+          "positive_group_coverage": 0.19534711964549484,
+          "positive_groups": 2708,
+          "stage": "MIDDLE_50",
+          "stage_a_precision": 0.8396825396825397,
+          "stage_a_recall": 0.19534711964549484,
+          "stage_b_conditional_precision_at_1": 0.9905482041587902,
+          "top_action_concentration": 0.6730158730158731
+        }
+      ],
+      "positive_group_coverage": 0.17308622078968575,
+      "positive_groups": 6205,
+      "stage_a_precision": 0.8229885057471265,
+      "stage_a_recall": 0.17308622078968575,
+      "stage_b_conditional_precision_at_1": 0.9767225325884544,
+      "top_action_concentration": 0.7279693486590039
+    },
+    "calibrated_thresholds": {
+      "action_probability_by_id": [
+        1.0,
+        1.0,
+        0.7358154976212117,
+        1.0,
+        0.7523604629009555
+      ],
+      "direct_action_blend": 0.0,
+      "minimum_action_margin": 0.0,
+      "minimum_action_probability": 0.6,
+      "stage_gate_probability": [
+        0.6537385843423256,
+        0.6537981144958583,
+        0.6680553448935702
+      ]
+    },
+    "candidate_count": 150,
+    "covered_candidate_count": 45,
+    "selected_thresholds": {
+      "action_probability_by_id": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "direct_action_blend": 0.0,
+      "minimum_action_margin": 0.0,
+      "minimum_action_probability": 0.6,
+      "stage_gate_probability": [
+        0.6537385843423256,
+        0.6537981144958583,
+        0.6680553448935702
+      ]
+    },
+    "stage_threshold_audit": {
+      "combined": {
+        "correct": 2937,
+        "end_to_end_precision_at_1": 0.6476295479603087,
+        "issued": 4535,
+        "issued_positive": 3112,
+        "positive_group_coverage": 0.5015310233682514
+      },
+      "stage_choices": {
+        "EARLY_20": {
+          "candidate_count": 62,
+          "correct": 238,
+          "coverage": 0.2248847926267281,
+          "issued": 387,
+          "issued_positive": 244,
+          "precision": 0.6149870801033591,
+          "threshold": 0.6537385843423256
+        },
+        "EARLY_35": {
+          "candidate_count": 62,
+          "correct": 1253,
+          "coverage": 0.5584577114427861,
+          "issued": 1957,
+          "issued_positive": 1347,
+          "precision": 0.6402657128257537,
+          "threshold": 0.6537981144958583
+        },
+        "MIDDLE_50": {
+          "candidate_count": 62,
+          "correct": 1446,
+          "coverage": 0.5616691285081241,
+          "issued": 2191,
+          "issued_positive": 1521,
+          "precision": 0.6599726152441807,
+          "threshold": 0.6680553448935702
+        }
+      }
+    },
+    "target_candidate_count": 0
+  },
+  "config": {
+    "action_embedding_dim": 16,
+    "action_feature_dim": 8,
+    "candidate_binary_loss_weight": 4.0,
+    "config_id": "bd586930891797b8",
+    "consistency_loss_weight": 1.0,
+    "dropout": 0.2,
+    "focal_gamma": 1.0,
+    "group_feature_dim": 110,
+    "group_hidden_dim": 96,
+    "learning_rate": 0.0003,
+    "listwise_loss_weight": 1.0,
+    "recommendability_loss_weight": 2.0,
+    "trial_index": 7,
+    "weight_decay": 0.0001
+  },
+  "fixed_epoch": 34,
+  "metrics": {
+    "abstention_rate": 0.765111099601181,
+    "action_diversity": 4,
+    "conditional_precision_at_1_all_positive": 0.9253827558420629,
+    "correct_issued_actions": 2937,
+    "end_to_end_precision_at_1": 0.6476295479603087,
+    "false_issue_groups": 1423,
+    "issued_groups": 4535,
+    "issued_positive_groups": 3112,
+    "mrr": 0.9605962933118453,
+    "ndcg_at_3": 0.9678567924066882,
+    "per_stage": [
+      {
+        "abstention_rate": 0.928860294117647,
+        "action_diversity": 4,
+        "conditional_precision_at_1_all_positive": 0.8875576036866359,
+        "correct_issued_actions": 238,
+        "end_to_end_precision_at_1": 0.6149870801033591,
+        "false_issue_groups": 143,
+        "issued_groups": 387,
+        "issued_positive_groups": 244,
+        "mrr": 0.9405529953917051,
+        "ndcg_at_3": 0.9547470425794231,
+        "positive_group_coverage": 0.2248847926267281,
+        "positive_groups": 1085,
+        "stage": "EARLY_20",
+        "stage_a_precision": 0.6304909560723514,
+        "stage_a_recall": 0.2248847926267281,
+        "stage_b_conditional_precision_at_1": 0.9754098360655737,
+        "top_action_concentration": 0.8501291989664083
+      },
+      {
+        "abstention_rate": 0.7180521538683187,
+        "action_diversity": 4,
+        "conditional_precision_at_1_all_positive": 0.9249585406301825,
+        "correct_issued_actions": 1253,
+        "end_to_end_precision_at_1": 0.6402657128257537,
+        "false_issue_groups": 610,
+        "issued_groups": 1957,
+        "issued_positive_groups": 1347,
+        "mrr": 0.9604754007739081,
+        "ndcg_at_3": 0.967926025450936,
+        "positive_group_coverage": 0.5584577114427861,
+        "positive_groups": 2412,
+        "stage": "EARLY_35",
+        "stage_a_precision": 0.6882984159427695,
+        "stage_a_recall": 0.5584577114427861,
+        "stage_b_conditional_precision_at_1": 0.9302152932442465,
+        "top_action_concentration": 0.3883495145631068
+      },
+      {
+        "abstention_rate": 0.6836557897776494,
+        "action_diversity": 4,
+        "conditional_precision_at_1_all_positive": 0.9409158050221565,
+        "correct_issued_actions": 1446,
+        "end_to_end_precision_at_1": 0.6599726152441807,
+        "false_issue_groups": 670,
+        "issued_groups": 2191,
+        "issued_positive_groups": 1521,
+        "mrr": 0.9687346134908911,
+        "ndcg_at_3": 0.973047740877832,
+        "positive_group_coverage": 0.5616691285081241,
+        "positive_groups": 2708,
+        "stage": "MIDDLE_50",
+        "stage_a_precision": 0.6942035600182564,
+        "stage_a_recall": 0.5616691285081241,
+        "stage_b_conditional_precision_at_1": 0.9506903353057199,
+        "top_action_concentration": 0.46097672295755365
+      }
+    ],
+    "positive_group_coverage": 0.5015310233682514,
+    "positive_groups": 6205,
+    "selection_target_met": false,
+    "stage_a_precision": 0.686218302094818,
+    "stage_a_recall": 0.5015310233682514,
+    "stage_b_conditional_precision_at_1": 0.9437660668380463,
+    "top_action_concentration": 0.39272326350606396
+  },
+  "thresholds": {
+    "action_probability_by_id": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "direct_action_blend": 0.0,
+    "minimum_action_margin": 0.0,
+    "minimum_action_probability": 0.6,
+    "stage_gate_probability": [
+      0.6537385843423256,
+      0.6537981144958583,
+      0.6680553448935702
+    ]
+  }
+}
