@@ -1,0 +1,48 @@
+version: final_hybrid_only_authority_v1
+status: FROZEN
+
+learned_model_authority:
+  allowed:
+    - residual_cnn_bilstm
+  forbidden_runtime_models:
+    - xgboost
+    - lightgbm
+    - lambdamart
+    - logistic_regression_ranker
+    - pairwise_ranker
+    - boosted_tree_ranker
+    - outcome_grounded_learned_ranker
+
+runtime_pipeline:
+  predictor: frozen_residual_cnn_bilstm
+  candidate_source: deterministic_stage_aware_policy
+  ranking_method: deterministic_counterfactual_utility
+  ranking_inputs:
+    - hybrid_baseline_risk
+    - hybrid_counterfactual_risk
+    - model_estimated_risk_reduction
+    - hybrid_uncertainty
+    - observed_pre_cutoff_evidence
+    - workload_minutes
+    - prerequisites
+    - conflicts
+    - safety_priority
+  selector: deterministic_constraint_selector
+  fallback: deterministic_policy_fallback
+
+scientific_boundary:
+  learned_ranker_required: false
+  expert_review_required: false
+  causal_claim_allowed: false
+  allowed_claim: HYBRID_MODEL_GUIDED_DECISION_SUPPORT_NOT_CAUSAL_EFFECT
+
+historical_experiments:
+  counterfactual_v1:
+    runtime_authority: false
+    status: ENGINEERING_COMPLETE_EXTERNAL_VALIDATION_FAILED
+  outcome_grounded_v2:
+    runtime_authority: false
+    status: IMPLEMENTATION_COMPLETE_EVIDENCE_INCONCLUSIVE
+  outcome_grounded_v2_1_xgboost:
+    runtime_authority: false
+    status: RESEARCH_EXPERIMENT_NOT_FINAL_ARCHITECTURE
