@@ -7,11 +7,13 @@ on:
       - "scripts/recommend_hybrid/v2_1/corrected_*.py"
       - "scripts/recommend_hybrid/v2_1/run_*registered_search.py"
       - "scripts/recommend_hybrid/v2_1/run_authority_bound_*.py"
+      - "scripts/recommend_hybrid/v2_1/run_parallel_authority_controls.py"
       - "scripts/recommend_hybrid/v2_1/postsearch_authority.py"
       - "scripts/recommend_hybrid/v2_1/retry_failed_full_grid_trials.py"
       - "tests/recommend_hybrid/outcome_grounded_v2_1/test_corrected_scientific_core.py"
       - "tests/recommend_hybrid/outcome_grounded_v2_1/test_full_registered_execution.py"
       - "tests/recommend_hybrid/outcome_grounded_v2_1/test_resumable_authority.py"
+      - "tests/recommend_hybrid/outcome_grounded_v2_1/test_parallel_control_dispatcher.py"
       - "configs/recommend_hybrid/outcome_grounded_v2_1.yaml"
       - ".github/workflows/outcome-grounded-v2-1-corrected.yml"
   workflow_dispatch:
@@ -49,6 +51,7 @@ jobs:
             tests/recommend_hybrid/outcome_grounded_v2_1/test_corrected_scientific_core.py \
             tests/recommend_hybrid/outcome_grounded_v2_1/test_full_registered_execution.py \
             tests/recommend_hybrid/outcome_grounded_v2_1/test_resumable_authority.py \
+            tests/recommend_hybrid/outcome_grounded_v2_1/test_parallel_control_dispatcher.py \
             -q
 
       - name: Compile corrected evaluators
@@ -65,6 +68,7 @@ jobs:
             scripts/recommend_hybrid/v2_1/retry_failed_full_grid_trials.py \
             scripts/recommend_hybrid/v2_1/postsearch_authority.py \
             scripts/recommend_hybrid/v2_1/run_authority_bound_negative_controls.py \
+            scripts/recommend_hybrid/v2_1/run_parallel_authority_controls.py \
             scripts/recommend_hybrid/v2_1/run_authority_bound_ablation.py \
             scripts/recommend_hybrid/v2_1/run_authority_bound_release.py
 
@@ -82,8 +86,10 @@ jobs:
             scripts/recommend_hybrid/v2_1/retry_failed_full_grid_trials.py \
             scripts/recommend_hybrid/v2_1/postsearch_authority.py \
             scripts/recommend_hybrid/v2_1/run_authority_bound_negative_controls.py \
+            scripts/recommend_hybrid/v2_1/run_parallel_authority_controls.py \
             scripts/recommend_hybrid/v2_1/run_authority_bound_ablation.py \
             scripts/recommend_hybrid/v2_1/run_authority_bound_release.py \
             tests/recommend_hybrid/outcome_grounded_v2_1/test_corrected_scientific_core.py \
             tests/recommend_hybrid/outcome_grounded_v2_1/test_full_registered_execution.py \
-            tests/recommend_hybrid/outcome_grounded_v2_1/test_resumable_authority.py
+            tests/recommend_hybrid/outcome_grounded_v2_1/test_resumable_authority.py \
+            tests/recommend_hybrid/outcome_grounded_v2_1/test_parallel_control_dispatcher.py
