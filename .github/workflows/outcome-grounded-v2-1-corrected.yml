@@ -14,7 +14,12 @@ on:
       - "tests/recommend_hybrid/outcome_grounded_v2_1/test_full_registered_execution.py"
       - "tests/recommend_hybrid/outcome_grounded_v2_1/test_resumable_authority.py"
       - "tests/recommend_hybrid/outcome_grounded_v2_1/test_parallel_control_dispatcher.py"
+      - "tests/recommend_hybrid/test_final_hybrid_only_authority.py"
       - "configs/recommend_hybrid/outcome_grounded_v2_1.yaml"
+      - "configs/recommend_hybrid/final_hybrid_only_authority.yaml"
+      - "src/recommend_hybrid/pipeline.py"
+      - "src/recommend_hybrid/counterfactual/pipeline.py"
+      - "src/recommend_hybrid/counterfactual/ranker.py"
       - ".github/workflows/outcome-grounded-v2-1-corrected.yml"
   workflow_dispatch:
 
@@ -52,6 +57,13 @@ jobs:
             tests/recommend_hybrid/outcome_grounded_v2_1/test_full_registered_execution.py \
             tests/recommend_hybrid/outcome_grounded_v2_1/test_resumable_authority.py \
             tests/recommend_hybrid/outcome_grounded_v2_1/test_parallel_control_dispatcher.py \
+            -q
+
+      - name: Enforce final hybrid-only runtime authority
+        run: |
+          python -m pytest \
+            --confcutdir=tests/recommend_hybrid \
+            tests/recommend_hybrid/test_final_hybrid_only_authority.py \
             -q
 
       - name: Compile corrected evaluators
@@ -92,4 +104,5 @@ jobs:
             tests/recommend_hybrid/outcome_grounded_v2_1/test_corrected_scientific_core.py \
             tests/recommend_hybrid/outcome_grounded_v2_1/test_full_registered_execution.py \
             tests/recommend_hybrid/outcome_grounded_v2_1/test_resumable_authority.py \
-            tests/recommend_hybrid/outcome_grounded_v2_1/test_parallel_control_dispatcher.py
+            tests/recommend_hybrid/outcome_grounded_v2_1/test_parallel_control_dispatcher.py \
+            tests/recommend_hybrid/test_final_hybrid_only_authority.py
