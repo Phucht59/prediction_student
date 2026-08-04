@@ -1,0 +1,48 @@
+{
+  "features": [
+    "risk_probability",
+    "risk_uncertainty",
+    "vle_intensity",
+    "active_days",
+    "inactive_streak",
+    "activity_trend",
+    "assessment_completion",
+    "assessment_availability",
+    "studied_credits",
+    "previous_attempts",
+    "cutoff_day",
+    "workload_minutes",
+    "evidence_strength",
+    "action_availability",
+    "counterfactual_v1_delta",
+    "stage",
+    "course",
+    "presentation",
+    "action_id",
+    "action_family"
+  ],
+  "numeric": [
+    "risk_probability",
+    "risk_uncertainty",
+    "vle_intensity",
+    "active_days",
+    "inactive_streak",
+    "activity_trend",
+    "assessment_completion",
+    "assessment_availability",
+    "studied_credits",
+    "previous_attempts",
+    "cutoff_day",
+    "workload_minutes",
+    "evidence_strength",
+    "action_availability",
+    "counterfactual_v1_delta"
+  ],
+  "categorical": [
+    "stage",
+    "course",
+    "presentation",
+    "action_id",
+    "action_family"
+  ]
+}

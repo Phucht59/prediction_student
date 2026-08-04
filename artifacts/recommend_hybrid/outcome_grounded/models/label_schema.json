@@ -1,0 +1,11 @@
+{
+  "final_result_not_used_as_sole_action_label": true,
+  "grades": {
+    "0": "no_action_specific_adherence",
+    "1": "adherence_without_proximal_positive",
+    "2": "adherence_and_proximal_positive",
+    "3": "adherence_proximal_and_positive_residual"
+  },
+  "schema_version": "graded_relevance_v1",
+  "thresholds": "fixed semantic comparisons; no test-fold fitting"
+}

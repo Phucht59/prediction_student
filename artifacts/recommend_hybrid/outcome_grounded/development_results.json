@@ -1,0 +1,114 @@
+{
+  "fold_results": [
+    {
+      "metrics": {
+        "counterfactual_score": {
+          "action_diversity": 5,
+          "coverage": 1.0,
+          "groups": 15283,
+          "map_at_3": 0.3763386333398765,
+          "ndcg_at_3": 0.31028492650601774,
+          "precision_at_1": 0.21919780147876725
+        },
+        "model_score": {
+          "action_diversity": 5,
+          "coverage": 1.0,
+          "groups": 15283,
+          "map_at_3": 0.3144179807629392,
+          "ndcg_at_3": 0.30449097893312,
+          "precision_at_1": 0.27605836550415497
+        },
+        "policy_score": {
+          "action_diversity": 1,
+          "coverage": 1.0,
+          "groups": 15283,
+          "map_at_3": 0.7348415450718663,
+          "ndcg_at_3": 0.4682852862539444,
+          "precision_at_1": 0.7327095465549958
+        },
+        "popular_score": {
+          "action_diversity": 1,
+          "coverage": 1.0,
+          "groups": 15283,
+          "map_at_3": 0.42999847324914386,
+          "ndcg_at_3": 0.42856712606785347,
+          "precision_at_1": 0.2728521887064058
+        },
+        "random_score": {
+          "action_diversity": 6,
+          "coverage": 1.0,
+          "groups": 15283,
+          "map_at_3": 0.4108104865973085,
+          "ndcg_at_3": 0.3382192580754319,
+          "precision_at_1": 0.3014460511679644
+        },
+        "workload_score": {
+          "action_diversity": 1,
+          "coverage": 1.0,
+          "groups": 15283,
+          "map_at_3": 0.2359757028506619,
+          "ndcg_at_3": 0.19075731094918413,
+          "precision_at_1": 0.10541124124844599
+        }
+      },
+      "test_fold": 1,
+      "train_fold": 0
+    },
+    {
+      "metrics": {
+        "counterfactual_score": {
+          "action_diversity": 5,
+          "coverage": 1.0,
+          "groups": 15280,
+          "map_at_3": 0.37541993891797554,
+          "ndcg_at_3": 0.3101483962637039,
+          "precision_at_1": 0.22244764397905759
+        },
+        "model_score": {
+          "action_diversity": 5,
+          "coverage": 1.0,
+          "groups": 15280,
+          "map_at_3": 0.3071280541012216,
+          "ndcg_at_3": 0.2978636826027049,
+          "precision_at_1": 0.26917539267015705
+        },
+        "policy_score": {
+          "action_diversity": 1,
+          "coverage": 1.0,
+          "groups": 15280,
+          "map_at_3": 0.7305628272251309,
+          "ndcg_at_3": 0.4670435013179564,
+          "precision_at_1": 0.7293848167539267
+        },
+        "popular_score": {
+          "action_diversity": 1,
+          "coverage": 1.0,
+          "groups": 15280,
+          "map_at_3": 0.4258289703315881,
+          "ndcg_at_3": 0.4249921322490861,
+          "precision_at_1": 0.2683246073298429
+        },
+        "random_score": {
+          "action_diversity": 6,
+          "coverage": 1.0,
+          "groups": 15280,
+          "map_at_3": 0.40266688481675394,
+          "ndcg_at_3": 0.3313383041946094,
+          "precision_at_1": 0.2928010471204188
+        },
+        "workload_score": {
+          "action_diversity": 1,
+          "coverage": 1.0,
+          "groups": 15280,
+          "map_at_3": 0.23139725130890051,
+          "ndcg_at_3": 0.18692690391624311,
+          "precision_at_1": 0.10163612565445027
+        }
+      },
+      "test_fold": 0,
+      "train_fold": 1
+    }
+  ],
+  "model": "pointwise_logistic",
+  "status": "DEVELOPMENT_COMPLETE"
+}
