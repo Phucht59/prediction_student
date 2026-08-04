@@ -1,0 +1,76 @@
+schema_version: two_stage_v3_protocol_v1
+status: DIAGNOSTIC_FROZEN_BEFORE_IMPLEMENTATION
+claim_boundary: OFFLINE_PREDICTIVE_RELEVANCE_NOT_CAUSAL_EFFECT
+
+scientific_question:
+  stage_a: Can pre-cutoff learner state identify groups where at least one candidate action becomes positive in the next observed window?
+  stage_b: Conditional on at least one positive candidate action, can the system rank a positive action first?
+  end_to_end: Can the complete selective policy issue correct top-1 recommendations while preserving positive-group coverage?
+
+targets:
+  stage_a_group_target: group_has_positive
+  stage_b_action_target: silver_positive
+  stage_b_training_population: groups_with_at_least_one_positive_action
+  future_labels_used_at_runtime: false
+  causal_interpretation: false
+
+frozen_data_authority:
+  candidate_rows: artifacts/recommend_hybrid/hybrid_only_final/dataset/candidate_rows.parquet
+  hybrid_only_oof: artifacts/recommend_hybrid/hybrid_only_final/evaluation/OOF_PREDICTIONS.parquet
+  historical_v2_1_metrics: artifacts/recommend_hybrid/outcome_grounded_v2_1/final_oof/NESTED_OOF_RESULTS.json
+  outer_folds: [0, 1, 2]
+  group_key: base_record_id
+
+required_diagnostic:
+  recommendability:
+    - positive_group_prevalence
+    - issued_group_precision
+    - issued_group_recall
+    - scalar_signal_roc_auc
+    - scalar_signal_average_precision
+    - best_precision_at_positive_group_recall_0_50
+  conditional_ranking:
+    - selected_action_precision_given_positive_group
+    - per_stage_conditional_precision
+    - per_action_conditional_precision
+    - oracle_decomposition
+  end_to_end:
+    - issued_precision_at_1
+    - positive_group_coverage
+    - false_issue_count
+    - correct_issue_count
+
+candidate_v3_architecture:
+  stage_a:
+    role: recommendability_gate
+    output: probability_any_positive_action
+  stage_b:
+    role: conditional_action_ranker
+    output: action_specific_positive_probability
+  shared_authority:
+    - cutoff_safe_behavior_features
+    - frozen_hybrid_risk_profile
+    - frozen_hybrid_representation_if_available
+  final_constraints:
+    - availability
+    - prerequisite
+    - contraindication
+    - workload
+    - deterministic_fallback
+
+prohibited:
+  - changing_silver_labels_after_diagnostic
+  - using_outer_test_for_feature_selection
+  - reporting_conditional_precision_as_end_to_end_precision
+  - removing_early_stage_without_reporting_full_results
+  - using_protected_attributes_in_runtime
+  - causal_effect_claim
+  - guaranteed_grade_improvement_claim
+
+provisional_release_gates:
+  stage_a_precision_minimum: 0.80
+  stage_a_positive_group_recall_minimum: 0.50
+  stage_b_conditional_precision_at_1_minimum: 0.80
+  end_to_end_precision_at_1_minimum: 0.80
+  end_to_end_positive_group_coverage_minimum: 0.50
+  note: No gate may be claimed until held-out execution. If only a conditional metric reaches 0.80, the claim must explicitly remain conditional.
