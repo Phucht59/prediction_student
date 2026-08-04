@@ -1,0 +1,53 @@
+schema_version: outcome_grounded_v2_1
+status: PREREGISTERED_LOCKED_BEFORE_V2_1_DATASET
+claim_boundary: OFFLINE_PREDICTIVE_RELEVANCE_NOT_CAUSAL_EFFECT
+evaluation:
+  outer_folds: [0, 1, 2]
+  inner_group_folds: 3
+  group_key: base_record_id
+  primary_metric: NDCG@3
+  bootstrap_replicates: 2000
+  random_baseline_repetitions: 1000
+  seed: 20260804
+  temporal_train_presentations: [2013J, 2014B]
+  temporal_validation_presentations: [2014B]
+  temporal_test_presentations: [2014J]
+action_families:
+  - {family_id: ASSESSMENT_COMPLETION, observable_proxy: assessment_submission_and_score, opportunity_rule: upcoming_weighted_assessment_in_target_window}
+  - {family_id: STUDY_REGULARITY, observable_proxy: active_day_ratio_and_inactive_streak, opportunity_rule: target_window_days}
+  - {family_id: VLE_ENGAGEMENT, observable_proxy: clicks_per_available_vle_resource, opportunity_rule: scheduled_vle_resources}
+  - {family_id: QUIZ_OR_RETRIEVAL_PRACTICE, observable_proxy: quiz_clicks_per_available_quiz_resource, opportunity_rule: scheduled_quiz_resources}
+  - {family_id: CONTENT_REVIEW, observable_proxy: content_clicks_per_available_content_resource, opportunity_rule: scheduled_content_resources}
+policy_only_actions: [INSTRUCTOR_CONTACT, ADVISOR_ESCALATION, DIAGNOSTIC_CHECK, PROGRESS_MONITORING]
+eligibility:
+  minimum_rankable_actions: 2
+  assessment_weight_positive_only: true
+  action_needed_required: true
+  opportunity_required: true
+label:
+  continuous_formula: 0.6*standardized_behavior_residual + 0.4*standardized_proximal_residual_when_available
+  no_proximal_formula: standardized_behavior_residual
+  winsorization: train_only_1st_99th_percentile
+  grade_thresholds: [median, q75, q90]
+models:
+  candidates: [interaction_logistic, pairwise_logistic, lambdamart, boosted_tree]
+  primary_candidate: lambdamart
+  fallback_candidate: pairwise_logistic
+  hyperparameters:
+    interaction_logistic: {C: [0.1, 1.0, 10.0]}
+    pairwise_logistic: {C: [0.1, 1.0, 10.0]}
+    lambdamart: {n_estimators: [100, 250], learning_rate: [0.03, 0.1], num_leaves: [7, 15]}
+    boosted_tree: {max_depth: [2, 3], learning_rate: [0.03, 0.1]}
+baselines: [random_1000, most_popular_train_only, lowest_workload, policy_v1_eligible, counterfactual_v1_eligible]
+negative_controls: [label_shuffle_retrain, learner_state_shuffle_train, learner_state_shuffle_test, action_identity_shuffle_retrain, wrong_trajectory_rebuild, time_reversal_placebo, random_feature_canary]
+gates:
+  real_above_random_95th: true
+  real_above_best_nonlearned: true
+  positive_learner_cluster_ci: true
+  all_mandatory_negative_controls_pass: true
+  action_diversity_gt_1: true
+  zero_temporal_leakage: true
+  zero_split_leakage: true
+  zero_unavailable_action_selection: true
+  zero_constraint_violations: true
+  deterministic_replay: true

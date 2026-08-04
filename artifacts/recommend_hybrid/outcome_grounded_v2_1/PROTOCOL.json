@@ -1,0 +1,162 @@
+{
+  "config": {
+    "action_families": [
+      {
+        "family_id": "ASSESSMENT_COMPLETION",
+        "observable_proxy": "assessment_submission_and_score",
+        "opportunity_rule": "upcoming_weighted_assessment_in_target_window"
+      },
+      {
+        "family_id": "STUDY_REGULARITY",
+        "observable_proxy": "active_day_ratio_and_inactive_streak",
+        "opportunity_rule": "target_window_days"
+      },
+      {
+        "family_id": "VLE_ENGAGEMENT",
+        "observable_proxy": "clicks_per_available_vle_resource",
+        "opportunity_rule": "scheduled_vle_resources"
+      },
+      {
+        "family_id": "QUIZ_OR_RETRIEVAL_PRACTICE",
+        "observable_proxy": "quiz_clicks_per_available_quiz_resource",
+        "opportunity_rule": "scheduled_quiz_resources"
+      },
+      {
+        "family_id": "CONTENT_REVIEW",
+        "observable_proxy": "content_clicks_per_available_content_resource",
+        "opportunity_rule": "scheduled_content_resources"
+      }
+    ],
+    "baselines": [
+      "random_1000",
+      "most_popular_train_only",
+      "lowest_workload",
+      "policy_v1_eligible",
+      "counterfactual_v1_eligible"
+    ],
+    "claim_boundary": "OFFLINE_PREDICTIVE_RELEVANCE_NOT_CAUSAL_EFFECT",
+    "eligibility": {
+      "action_needed_required": true,
+      "assessment_weight_positive_only": true,
+      "minimum_rankable_actions": 2,
+      "opportunity_required": true
+    },
+    "evaluation": {
+      "bootstrap_replicates": 2000,
+      "group_key": "base_record_id",
+      "inner_group_folds": 3,
+      "outer_folds": [
+        0,
+        1,
+        2
+      ],
+      "primary_metric": "NDCG@3",
+      "random_baseline_repetitions": 1000,
+      "seed": 20260804,
+      "temporal_test_presentations": [
+        "2014J"
+      ],
+      "temporal_train_presentations": [
+        "2013J",
+        "2014B"
+      ],
+      "temporal_validation_presentations": [
+        "2014B"
+      ]
+    },
+    "gates": {
+      "action_diversity_gt_1": true,
+      "all_mandatory_negative_controls_pass": true,
+      "deterministic_replay": true,
+      "positive_learner_cluster_ci": true,
+      "real_above_best_nonlearned": true,
+      "real_above_random_95th": true,
+      "zero_constraint_violations": true,
+      "zero_split_leakage": true,
+      "zero_temporal_leakage": true,
+      "zero_unavailable_action_selection": true
+    },
+    "label": {
+      "continuous_formula": "0.6*standardized_behavior_residual + 0.4*standardized_proximal_residual_when_available",
+      "grade_thresholds": [
+        "median",
+        "q75",
+        "q90"
+      ],
+      "no_proximal_formula": "standardized_behavior_residual",
+      "winsorization": "train_only_1st_99th_percentile"
+    },
+    "models": {
+      "candidates": [
+        "interaction_logistic",
+        "pairwise_logistic",
+        "lambdamart",
+        "boosted_tree"
+      ],
+      "fallback_candidate": "pairwise_logistic",
+      "hyperparameters": {
+        "boosted_tree": {
+          "learning_rate": [
+            0.03,
+            0.1
+          ],
+          "max_depth": [
+            2,
+            3
+          ]
+        },
+        "interaction_logistic": {
+          "C": [
+            0.1,
+            1.0,
+            10.0
+          ]
+        },
+        "lambdamart": {
+          "learning_rate": [
+            0.03,
+            0.1
+          ],
+          "n_estimators": [
+            100,
+            250
+          ],
+          "num_leaves": [
+            7,
+            15
+          ]
+        },
+        "pairwise_logistic": {
+          "C": [
+            0.1,
+            1.0,
+            10.0
+          ]
+        }
+      },
+      "primary_candidate": "lambdamart"
+    },
+    "negative_controls": [
+      "label_shuffle_retrain",
+      "learner_state_shuffle_train",
+      "learner_state_shuffle_test",
+      "action_identity_shuffle_retrain",
+      "wrong_trajectory_rebuild",
+      "time_reversal_placebo",
+      "random_feature_canary"
+    ],
+    "policy_only_actions": [
+      "INSTRUCTOR_CONTACT",
+      "ADVISOR_ESCALATION",
+      "DIAGNOSTIC_CHECK",
+      "PROGRESS_MONITORING"
+    ],
+    "schema_version": "outcome_grounded_v2_1",
+    "status": "PREREGISTERED_LOCKED_BEFORE_V2_1_DATASET"
+  },
+  "git_commit": "17dc2018fcba2073b3f4618b82d936a865a93b0b",
+  "locked_at": "2026-08-04T04:13:35.050070+00:00",
+  "schema_version": "outcome_grounded_v2_1_protocol_v1",
+  "v1_status": "COUNTERFACTUAL_V1_ENGINEERING_COMPLETE_EXTERNAL_VALIDATION_FAILED",
+  "v2_status": "OUTCOME_GROUNDED_OFFLINE_EVIDENCE_INCONCLUSIVE"
+}

@@ -1,0 +1,38 @@
+{
+  "claim_boundary": "OFFLINE_PREDICTIVE_RELEVANCE_NOT_CAUSAL_EFFECT",
+  "evaluation_design": "NESTED_GROUPED_CV_ALL_OUTER_FOLDS",
+  "git_commit": "17dc2018fcba2073b3f4618b82d936a865a93b0b",
+  "inputs": [
+    {
+      "path": "configs/recommend_hybrid/outcome_grounded_v2_1.yaml",
+      "sha256": "5c30018ddad49423de95d1dd5435662aa4b5e62bc6bf323e9236aa13a9631fad"
+    },
+    {
+      "path": "configs/recommend_hybrid/historical_action_outcome_mapping.yaml",
+      "sha256": "d22f67191a12f5892cec2e8b8b7b12063c7b8d55a7d0084b83645b3955539c0e"
+    },
+    {
+      "path": "configs/recommend_hybrid/actions.yaml",
+      "sha256": "0dbdc57ece0440766f0b948dc45138cdcdc7780eefcdfc7240ed41d264ce47ca"
+    },
+    {
+      "path": "artifacts/recommend_hybrid/RECOMMEND_HYBRID_CHECKPOINT_MANIFEST.json",
+      "sha256": "4d5af44c89628e7f2ba9d13205af95efe7d8a5307a51e3d4602de746b16fc52e"
+    },
+    {
+      "path": "artifacts/canonical_v3/predictions/oulad_oof_predictions.parquet",
+      "sha256": "80f9cf2b6e16ec6c32885eb1bbbcb8c53b0c6d515af09a1ccd25db8e607c4014"
+    },
+    {
+      "path": "data/manifests/extension_raw_manifest.json",
+      "sha256": "cd6f397b7ffad59c66fcbc5d01e85824d2f55bcfbca6ef91dad8b85492c08585"
+    },
+    {
+      "path": "data/processed/study_c_oulad/manifests/split_manifest.csv",
+      "sha256": "5e5e4d9ab48a6049f86cdf2451f4302bc44f2896a2f23a23494bc95f549b97d4"
+    }
+  ],
+  "lockbox_reopened": false,
+  "protocol_sha256": "b62bb11795f51f10ae98a008faaf60616852635ac4208ea43a58b6f4b4bcabdc",
+  "schema_version": "outcome_grounded_v2_1_input_authority_v1"
+}
