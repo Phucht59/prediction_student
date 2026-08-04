@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import importlib.util
 from pathlib import Path
+import sys
 
 SCORER_PATH = (
     Path(__file__).resolve().parents[3]
@@ -10,6 +11,7 @@ SCORER_PATH = (
 SPEC = importlib.util.spec_from_file_location("hybrid_only_scorer_test", SCORER_PATH)
 assert SPEC is not None and SPEC.loader is not None
 scorer = importlib.util.module_from_spec(SPEC)
+sys.modules[SPEC.name] = scorer
 SPEC.loader.exec_module(scorer)
 
 HybridActionEvidence = scorer.HybridActionEvidence
