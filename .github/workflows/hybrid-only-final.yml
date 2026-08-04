@@ -1,0 +1,64 @@
+name: Hybrid-Only Final Recommender
+
+on:
+  pull_request:
+    paths:
+      - "configs/recommend_hybrid/hybrid_only_final_protocol.yaml"
+      - "src/recommend_hybrid/hybrid_only_final/**"
+      - "scripts/recommend_hybrid/hybrid_only_final/**"
+      - "tests/recommend_hybrid/hybrid_only_final/**"
+      - ".github/workflows/hybrid-only-final.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  hybrid-only-correctness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: false
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install focused dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy pandas pyarrow PyYAML pytest ruff
+
+      - name: Run hybrid-only tests
+        run: |
+          python -m pytest \
+            --confcutdir=tests/recommend_hybrid/hybrid_only_final \
+            tests/recommend_hybrid/hybrid_only_final \
+            -q
+
+      - name: Compile hybrid-only scope
+        run: |
+          python -m py_compile \
+            src/recommend_hybrid/hybrid_only_final/__init__.py \
+            src/recommend_hybrid/hybrid_only_final/scorer.py \
+            src/recommend_hybrid/hybrid_only_final/runtime.py \
+            scripts/recommend_hybrid/hybrid_only_final/build_silver_dataset.py \
+            scripts/recommend_hybrid/hybrid_only_final/normalize_evidence.py \
+            scripts/recommend_hybrid/hybrid_only_final/tune_and_evaluate_fast.py \
+            scripts/recommend_hybrid/hybrid_only_final/bootstrap.py \
+            scripts/recommend_hybrid/hybrid_only_final/verify.py \
+            scripts/recommend_hybrid/hybrid_only_final/verify_fast.py \
+            scripts/recommend_hybrid/hybrid_only_final/release.py
+
+      - name: Ruff hybrid-only scope
+        run: |
+          ruff check \
+            src/recommend_hybrid/hybrid_only_final \
+            scripts/recommend_hybrid/hybrid_only_final \
+            tests/recommend_hybrid/hybrid_only_final
