@@ -14,11 +14,7 @@ Branch:
 codex/constrained-counterfactual-recommender
 ```
 
-Pull the latest remote head before execution. The opportunity-count repair and this runbook are authoritative at or after:
-
-```text
-b8ddfa460e50cb2caf59be30f35488d7f182b72a
-```
+Always pull the latest remote head before execution.
 
 ## Architecture
 
