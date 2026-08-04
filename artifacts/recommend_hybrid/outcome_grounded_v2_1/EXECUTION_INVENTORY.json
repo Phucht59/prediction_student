@@ -1,0 +1,154 @@
+{
+  "dataset_audit": {
+    "candidate_rows": 84991,
+    "future_signal_non_null": 84991,
+    "groups": 33912,
+    "rankable_groups": 33912
+  },
+  "full_evaluation_status": "V2_1_FULL_EVALUATION_NOT_COMPLETED",
+  "historical_namespaces_untouched": true,
+  "items": [
+    {
+      "artifact": "ABLATION_RESULTS.csv",
+      "bytes": 420,
+      "note": "rows=10",
+      "sha256": "93e8901f7a17524f233160f7015dc928aea5fb3c6bd16c2d03af600b3dcb8c34",
+      "status": "IMPLEMENTED_NOT_EXECUTED"
+    },
+    {
+      "artifact": "ACTION_FAMILY_REGISTRY.json",
+      "bytes": 534,
+      "note": "",
+      "sha256": "aa1a0744e0e71e58d29985552f70691cc5377b6fbec7f9b2c90f3052229fb131",
+      "status": "IMPLEMENTED_AND_EXECUTED"
+    },
+    {
+      "artifact": "BASELINE_COMPARISON.csv",
+      "bytes": 338,
+      "note": "rows=6",
+      "sha256": "cfd6f410d26625e355060e5e83afde50e3197228be57957c7804b24a157b7312",
+      "status": "IMPLEMENTED_NOT_EXECUTED"
+    },
+    {
+      "artifact": "BOOTSTRAP_RESULTS.json",
+      "bytes": 128,
+      "note": "",
+      "sha256": "57b29ede33b0d85ce6e624a73bf3a514df8cfb3006c01a8fe5f0d1ceb63ade22",
+      "status": "IMPLEMENTED_NOT_EXECUTED"
+    },
+    {
+      "artifact": "CHECKSUMS.json",
+      "bytes": 1690,
+      "note": "",
+      "sha256": "31d78dd7f5d9a5a6f6aa3ac5179489a2519a99f9ed4b645111262f511892a96e",
+      "status": "IMPLEMENTED_AND_EXECUTED"
+    },
+    {
+      "artifact": "COHORT_FLOW.json",
+      "bytes": 697,
+      "note": "",
+      "sha256": "f22c63918fa393c648ab9d3c6b538bc988fe2f341d06857067c4cf64096e6951",
+      "status": "IMPLEMENTED_AND_EXECUTED"
+    },
+    {
+      "artifact": "dataset\\all_candidate_rows_before_rankability.parquet",
+      "bytes": 8028877,
+      "note": "",
+      "sha256": "e9f0f80385cc76cffe447402ac649b835e29e2e17ae7504f98f9e734cdd2ffba",
+      "status": "IMPLEMENTED_AND_EXECUTED"
+    },
+    {
+      "artifact": "dataset\\candidate_rows.parquet",
+      "bytes": 5366491,
+      "note": "",
+      "sha256": "9f2cc561c3d1e94937d780ecd9f491f570703ba02de6c01f726f1bfb33ac476d",
+      "status": "IMPLEMENTED_AND_EXECUTED"
+    },
+    {
+      "artifact": "dataset\\learner_stage_groups.parquet",
+      "bytes": 6064969,
+      "note": "",
+      "sha256": "e2d5f4f7dcccc766fb59711f420e4f35c82b65ea0d970886f875074650767e21",
+      "status": "IMPLEMENTED_AND_EXECUTED"
+    },
+    {
+      "artifact": "FAIRNESS_AUDIT.json",
+      "bytes": 188,
+      "note": "",
+      "sha256": "d9611e680e40d9549bda44d14aa4f23e2c6f00aa0921ce3c14e1b03bb805726c",
+      "status": "IMPLEMENTED_AND_EXECUTED"
+    },
+    {
+      "artifact": "FEATURE_SCHEMA.json",
+      "bytes": 720,
+      "note": "",
+      "sha256": "c7fb7bced8ce36a152dec58c264034640f792b52425c3d017d6bdd5cbeaa5333",
+      "status": "IMPLEMENTED_AND_EXECUTED"
+    },
+    {
+      "artifact": "INPUT_AUTHORITY.json",
+      "bytes": 1611,
+      "note": "",
+      "sha256": "6a30bad629f821ce36d022366c758d416577240de7bcc869357898b16d8327f3",
+      "status": "IMPLEMENTED_AND_EXECUTED"
+    },
+    {
+      "artifact": "LABEL_SCHEMA.json",
+      "bytes": 266,
+      "note": "",
+      "sha256": "9c332a15d37c21f96032526bfb2560f58b2f32bb57350316126ff11adfaabf20",
+      "status": "IMPLEMENTED_AND_EXECUTED"
+    },
+    {
+      "artifact": "NEGATIVE_CONTROLS.csv",
+      "bytes": 481,
+      "note": "rows=7",
+      "sha256": "eb1d2791866a34449ad26a589ab2cd7c16d1d7f7b1fa5dce4e82c8d72507902b",
+      "status": "IMPLEMENTED_NOT_EXECUTED"
+    },
+    {
+      "artifact": "NESTED_OOF_RESULTS.json",
+      "bytes": 285,
+      "note": "",
+      "sha256": "f8186028789c8d3d17e5139ba51886aae2a757ef0e5f9e962a8d1982522a6b3c",
+      "status": "IMPLEMENTED_NOT_EXECUTED"
+    },
+    {
+      "artifact": "PROTOCOL.json",
+      "bytes": 4665,
+      "note": "",
+      "sha256": "b62bb11795f51f10ae98a008faaf60616852635ac4208ea43a58b6f4b4bcabdc",
+      "status": "IMPLEMENTED_AND_EXECUTED"
+    },
+    {
+      "artifact": "RANKING_PREDICTIONS.parquet",
+      "bytes": 3823611,
+      "note": "rows=84991",
+      "sha256": "817e85afd22fa5a97c19d15b537b1683f5934cf582d70a74418cebdfc47330f7",
+      "status": "IMPLEMENTED_NOT_EXECUTED"
+    },
+    {
+      "artifact": "RELEASE_REGISTRY.json",
+      "bytes": 551,
+      "note": "",
+      "sha256": "33ae98b87ae72c51a62bd9ea7da51f1ec76539224b5b3f75991c929c9a76df66",
+      "status": "IMPLEMENTED_AND_EXECUTED"
+    },
+    {
+      "artifact": "TEMPORAL_RESULTS.json",
+      "bytes": 78,
+      "note": "",
+      "sha256": "cb3c40473da274837b04f358daff88f3a8f194bd9db2376a49a026cf5bc55733",
+      "status": "IMPLEMENTED_NOT_EXECUTED"
+    },
+    {
+      "artifact": "V2_FORENSIC_AUDIT.json",
+      "bytes": 2677,
+      "note": "",
+      "sha256": "01069d563e2759398ca7b62c870972f6baa97c4f2c3020101994a0a33fc1071f",
+      "status": "IMPLEMENTED_AND_EXECUTED"
+    }
+  ],
+  "overall_status": "V2_1_IMPLEMENTATION_SCAFFOLD_COMPLETE",
+  "schema_version": "v2.1_execution_inventory_v1"
+}
