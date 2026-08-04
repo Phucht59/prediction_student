@@ -1,4 +1,4 @@
-# Local task: complete Outcome-Grounded V2.1 with the full registered search
+# Local task: finish Outcome-Grounded V2.1 with durable trial checkpoints
 
 ## Authority
 
@@ -7,7 +7,9 @@
 - Claim boundary: `OFFLINE_PREDICTIVE_RELEVANCE_NOT_CAUSAL_EFFECT`
 - PR #4 must remain Draft and unmerged.
 
-The corrected OOF result at commit `4ddd20f` is scientifically encouraging but is not final because only the first frozen hyperparameter configuration of each model family was evaluated. The exact controls and initial ablations also reduced selected LambdaMART models from 100 trees to 10 trees. The scripts in this runbook correct those limitations without changing the frozen dataset, labels, action families, primary metric, or release gates.
+The first full Cartesian search was interrupted because the old wrapper checkpointed only after an entire outer fold. Use the new trial- and inner-fold-resumable runner. It writes durable evidence for every `(outer fold, trial, inner fold)` and promotes results only after all 18 registered configurations complete in all three outer folds.
+
+The two-replicate control outputs already present were generated against the pre-full-grid selected models. They are stale by definition and must not be resumed after the selected model authority changes. The authority-bound wrappers automatically archive them before starting new controls and ablations.
 
 ## 1. Synchronize
 
@@ -18,34 +20,62 @@ git status --short
 git log -1 --oneline
 ```
 
-The working tree must be clean before execution.
+The working tree must be clean.
 
 ## 2. Focused safeguards
 
 ```powershell
 python -m pytest tests/recommend_hybrid/outcome_grounded_v2_1/test_corrected_scientific_core.py -q
 python -m pytest tests/recommend_hybrid/outcome_grounded_v2_1/test_full_registered_execution.py -q
+python -m pytest tests/recommend_hybrid/outcome_grounded_v2_1/test_resumable_authority.py -q
 ```
 
-## 3. Full preregistered model and hyperparameter search
+## 3. Complete the full registered grid with trial checkpoints
+
+The registered grid contains 18 configurations per outer fold. Run each fold in trial chunks. Completed trial and inner-fold JSON files are reused automatically.
 
 ```powershell
-python scripts/recommend_hybrid/v2_1/run_full_registered_search.py
+python scripts/recommend_hybrid/v2_1/run_resumable_full_registered_search.py --outer-fold 0 --trial-start 0 --trial-stop 6
+python scripts/recommend_hybrid/v2_1/run_resumable_full_registered_search.py --outer-fold 0 --trial-start 6 --trial-stop 12
+python scripts/recommend_hybrid/v2_1/run_resumable_full_registered_search.py --outer-fold 0 --trial-start 12 --trial-stop 18
+
+python scripts/recommend_hybrid/v2_1/run_resumable_full_registered_search.py --outer-fold 1 --trial-start 0 --trial-stop 6
+python scripts/recommend_hybrid/v2_1/run_resumable_full_registered_search.py --outer-fold 1 --trial-start 6 --trial-stop 12
+python scripts/recommend_hybrid/v2_1/run_resumable_full_registered_search.py --outer-fold 1 --trial-start 12 --trial-stop 18
+
+python scripts/recommend_hybrid/v2_1/run_resumable_full_registered_search.py --outer-fold 2 --trial-start 0 --trial-stop 6
+python scripts/recommend_hybrid/v2_1/run_resumable_full_registered_search.py --outer-fold 2 --trial-start 6 --trial-stop 12
+python scripts/recommend_hybrid/v2_1/run_resumable_full_registered_search.py --outer-fold 2 --trial-start 12 --trial-stop 18
 ```
 
-This command performs the following actions once:
+Then run one final promotion call:
 
-1. archives the first-configuration corrected OOF and model-selection artifacts;
-2. evaluates all 18 configurations frozen in the protocol:
-   - 3 interaction-logistic configurations;
-   - 3 pairwise-logistic configurations;
-   - 8 LambdaMART configurations;
-   - 4 boosted-tree configurations;
-3. performs three learner-grouped inner folds inside each outer fold;
-4. selects the model and hyperparameters independently inside each outer-training partition;
-5. rebuilds the corrected three-fold OOF predictions and 1,000-run random null.
+```powershell
+python scripts/recommend_hybrid/v2_1/run_resumable_full_registered_search.py
+```
 
-Do not delete the archive or manually choose a model after seeing outer-fold results.
+Required marker:
+
+```text
+artifacts/recommend_hybrid/outcome_grounded_v2_1/FULL_REGISTERED_SEARCH.json
+```
+
+It must contain:
+
+```text
+status: COMPLETE
+execution: TRIAL_AND_INNER_FOLD_RESUMABLE
+expected_trials_per_outer_fold: 18
+```
+
+Required trial checkpoints:
+
+```text
+artifacts/recommend_hybrid/outcome_grounded_v2_1/full_grid_resumable/model_selection/fold_<n>/trials/trial_<nnn>/inner_<n>.json
+artifacts/recommend_hybrid/outcome_grounded_v2_1/full_grid_resumable/model_selection/fold_<n>/trials/trial_<nnn>/trial.json
+```
+
+Do not delete these checkpoints. Do not manually select a model from outer-test results.
 
 ## 4. Recalculate both bootstrap estimands
 
@@ -53,43 +83,37 @@ Do not delete the archive or manually choose a model after seeing outer-fold res
 python scripts/recommend_hybrid/v2_1/corrected_bootstrap.py
 ```
 
-Required outputs:
+Both outputs must contain 2,000 learner-cluster replicates:
 
 - `final_oof/BOOTSTRAP_GROUP_WEIGHTED.json`
 - `final_oof/BOOTSTRAP_LEARNER_WEIGHTED.json`
 
-Both must contain 2,000 learner-cluster replicates.
+## 5. Run authority-bound exact negative controls
 
-## 5. Run exact retrained negative controls
-
-Run controls separately so each command can be resumed safely:
+Use the authority-bound wrapper, not the old exact wrapper. It archives all stale batches whenever the selected model authority changes.
 
 ```powershell
-python scripts/recommend_hybrid/v2_1/run_exact_negative_controls.py --replicates 200 --batch-size 5 --control NC1_LABEL_SHUFFLE_RETRAIN
-python scripts/recommend_hybrid/v2_1/run_exact_negative_controls.py --replicates 200 --batch-size 5 --control NC2A_TRAIN_STATE_SHUFFLE
-python scripts/recommend_hybrid/v2_1/run_exact_negative_controls.py --replicates 200 --batch-size 5 --control NC2B_TEST_STATE_SHUFFLE
-python scripts/recommend_hybrid/v2_1/run_exact_negative_controls.py --replicates 200 --batch-size 5 --control NC3_ACTION_IDENTITY_SHUFFLE_RETRAIN
-python scripts/recommend_hybrid/v2_1/run_exact_negative_controls.py --replicates 200 --batch-size 5 --control NC4_WRONG_TRAJECTORY_REBUILD
-python scripts/recommend_hybrid/v2_1/run_exact_negative_controls.py --replicates 200 --batch-size 5 --control NC5_TIME_REVERSAL_PLACEBO
+python scripts/recommend_hybrid/v2_1/run_authority_bound_negative_controls.py --replicates 200 --batch-size 5 --control NC1_LABEL_SHUFFLE_RETRAIN
+python scripts/recommend_hybrid/v2_1/run_authority_bound_negative_controls.py --replicates 200 --batch-size 5 --control NC2A_TRAIN_STATE_SHUFFLE
+python scripts/recommend_hybrid/v2_1/run_authority_bound_negative_controls.py --replicates 200 --batch-size 5 --control NC2B_TEST_STATE_SHUFFLE
+python scripts/recommend_hybrid/v2_1/run_authority_bound_negative_controls.py --replicates 200 --batch-size 5 --control NC3_ACTION_IDENTITY_SHUFFLE_RETRAIN
+python scripts/recommend_hybrid/v2_1/run_authority_bound_negative_controls.py --replicates 200 --batch-size 5 --control NC4_WRONG_TRAJECTORY_REBUILD
+python scripts/recommend_hybrid/v2_1/run_authority_bound_negative_controls.py --replicates 200 --batch-size 5 --control NC5_TIME_REVERSAL_PLACEBO
 ```
 
-Every replicate must use the exact selected outer-fold family and hyperparameters. Do not reduce `n_estimators`, tree depth, or feature set for null models. Thread count may be reduced only if it does not alter the statistical model.
+Every replicate must use the exact selected family and hyperparameters. No tree-budget reduction is allowed.
 
-Expected summary:
+A control passes only when all 200 registered replicates exist and final real OOF NDCG@3 exceeds the null distribution's 95th percentile.
 
-```text
-artifacts/recommend_hybrid/outcome_grounded_v2_1/negative_controls_retrained/SUMMARY.csv
-```
+The current two-replicate trial values must not be treated as final. They nevertheless show a serious diagnostic risk: several shuffled controls scored above the pre-full-grid model. Preserve this evidence and allow the 200-replicate authority-bound run to decide the gate.
 
-A control passes only when all 200 registered replicates exist and real OOF NDCG@3 exceeds the control distribution's 95th percentile.
-
-## 6. Run all exact ablations
+## 6. Run authority-bound exact ablations
 
 ```powershell
-python scripts/recommend_hybrid/v2_1/run_exact_ablation.py
+python scripts/recommend_hybrid/v2_1/run_authority_bound_ablation.py
 ```
 
-All ten ablations must have real OOF predictions and metrics:
+All ten ablations must have actual three-fold OOF predictions and metrics:
 
 - `FULL`
 - `NO_RISK_PROFILE`
@@ -102,15 +126,13 @@ All ten ablations must have real OOF predictions and metrics:
 - `ACTION_PRIOR_ONLY`
 - `NO_CONSTRAINTS_OFFLINE_ONLY`
 
-Do not interpret an ablation as successful merely because its name exists in a CSV.
-
-## 7. Evaluate the fail-closed release gate
+## 7. Evaluate the authority-bound fail-closed release gate
 
 ```powershell
-python scripts/recommend_hybrid/v2_1/corrected_release.py
+python scripts/recommend_hybrid/v2_1/run_authority_bound_release.py
 ```
 
-The release gate must refuse completion if any required control, ablation, bootstrap, checksum, model-family result, or safety artifact is missing.
+This command refuses release if controls or ablations were generated for an older selected model.
 
 Allowed validated status:
 
@@ -119,7 +141,7 @@ OUTCOME_GROUNDED_V2_1_OFFLINE_VALIDATED
 RECOMMENDATION_MODULE_COMPLETE
 ```
 
-Allowed nonvalidated status after full execution:
+Allowed nonvalidated status only after every registered execution completes:
 
 ```text
 OUTCOME_GROUNDED_V2_1_EVIDENCE_INCONCLUSIVE
@@ -141,14 +163,14 @@ git diff --check
 
 ## 9. Commit and push
 
-Review generated artifacts before staging. Do not stage caches or temporary files.
+Do not stage caches, temporary files, incomplete control batches, or interrupted model files unless they are registered resume artifacts intentionally tracked by the repository policy.
 
 Suggested commits:
 
 ```text
-eval(recommendation): complete full registered v2.1 search
-audit(recommendation): complete exact retrained controls
-audit(recommendation): complete exact v2.1 ablations
+eval(recommendation): complete resumable registered v2.1 search
+audit(recommendation): complete authority-bound controls
+audit(recommendation): complete authority-bound ablations
 release(recommendation): publish final offline scientific gate
 ```
 
@@ -165,9 +187,11 @@ PR:
 Latest commit:
 Working tree:
 
-Dataset authority:
-Full-grid trials per outer fold:
-Selected model and parameters per outer fold:
+Full search status:
+Execution mode:
+Trials per outer fold:
+Selected model and parameters per fold:
+Model authority SHA256:
 Learners:
 Ranking groups:
 Candidate rows:
