@@ -1,0 +1,64 @@
+name: Outcome-Grounded V2.1 Corrected
+
+on:
+  pull_request:
+    paths:
+      - "scripts/recommend_hybrid/v2_1/scientific_core.py"
+      - "scripts/recommend_hybrid/v2_1/corrected_*.py"
+      - "tests/recommend_hybrid/outcome_grounded_v2_1/test_corrected_scientific_core.py"
+      - "configs/recommend_hybrid/outcome_grounded_v2_1.yaml"
+      - ".github/workflows/outcome-grounded-v2-1-corrected.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  focused-correctness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: false
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install focused dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install \
+            numpy pandas scipy scikit-learn pyarrow PyYAML joblib pytest ruff
+
+      - name: Run corrected scientific invariant tests
+        run: |
+          python -m pytest \
+            tests/recommend_hybrid/outcome_grounded_v2_1/test_corrected_scientific_core.py \
+            -q
+
+      - name: Compile corrected evaluators
+        run: |
+          python -m py_compile \
+            scripts/recommend_hybrid/v2_1/scientific_core.py \
+            scripts/recommend_hybrid/v2_1/corrected_nested_evaluation.py \
+            scripts/recommend_hybrid/v2_1/corrected_bootstrap.py \
+            scripts/recommend_hybrid/v2_1/corrected_negative_controls.py \
+            scripts/recommend_hybrid/v2_1/corrected_ablation.py \
+            scripts/recommend_hybrid/v2_1/corrected_release.py
+
+      - name: Ruff corrected scope
+        run: |
+          ruff check \
+            scripts/recommend_hybrid/v2_1/scientific_core.py \
+            scripts/recommend_hybrid/v2_1/corrected_nested_evaluation.py \
+            scripts/recommend_hybrid/v2_1/corrected_bootstrap.py \
+            scripts/recommend_hybrid/v2_1/corrected_negative_controls.py \
+            scripts/recommend_hybrid/v2_1/corrected_ablation.py \
+            scripts/recommend_hybrid/v2_1/corrected_release.py \
+            tests/recommend_hybrid/outcome_grounded_v2_1/test_corrected_scientific_core.py
