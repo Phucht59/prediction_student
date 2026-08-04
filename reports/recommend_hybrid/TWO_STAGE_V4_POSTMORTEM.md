@@ -75,13 +75,13 @@ The dominant limitation remains false-issue control: the system cannot identify 
 
 ## Action-level interpretation
 
-`ASSESSMENT_COMPLETION` remained visible but was never issued. The other actions achieved high conditional precision but substantially lower unconditional precision because false issue groups dominate the error:
+`ASSESSMENT_COMPLETION` remained visible but was never issued. The other actions achieved high conditional precision but substantially lower issued-action precision because false issue groups dominate the error:
 
 ```text
-STUDY_REGULARITY conditional P@1: 0.9100; end-to-end action precision: 0.5497
-VLE_ENGAGEMENT conditional P@1: 0.9656; end-to-end action precision: 0.6974
-QUIZ_OR_RETRIEVAL_PRACTICE conditional P@1: 0.8889; end-to-end action precision: 0.6220
-CONTENT_REVIEW conditional P@1: 0.9536; end-to-end action precision: 0.6813
+STUDY_REGULARITY conditional P@1: 0.9100; issued-action precision: 0.5497
+VLE_ENGAGEMENT conditional P@1: 0.9656; issued-action precision: 0.6974
+QUIZ_OR_RETRIEVAL_PRACTICE conditional P@1: 0.8889; issued-action precision: 0.6220
+CONTENT_REVIEW conditional P@1: 0.9536; issued-action precision: 0.6813
 ```
 
 ## Next scientific decision
