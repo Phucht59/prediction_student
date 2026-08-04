@@ -1,0 +1,26 @@
+{
+  "schema_version": "outcome_grounded_v2_forensic_audit_v1",
+  "audited_commit": "1488bbb59431a02b6f8894cca8d497efa8c8d8f7",
+  "v1_status_preserved": "COUNTERFACTUAL_V1_ENGINEERING_COMPLETE_EXTERNAL_VALIDATION_FAILED",
+  "v2_status_preserved": "OUTCOME_GROUNDED_OFFLINE_EVIDENCE_INCONCLUSIVE",
+  "claim_boundary": "OFFLINE_PREDICTIVE_RELEVANCE_NOT_CAUSAL_EFFECT",
+  "defects": [
+    {"id": "NC_DIRECTION", "severity": "critical", "finding": "negative-control PASS/FAIL direction is inverted; observed real score below null is marked PASS"},
+    {"id": "NC_LABEL_NO_RETRAIN", "severity": "critical", "finding": "label shuffle and wrong-trajectory controls permute test labels after fitting rather than retraining from shuffled training labels"},
+    {"id": "POINTWISE_NO_INTERACTION", "severity": "high", "finding": "pointwise logistic has no explicit learner-action interaction terms"},
+    {"id": "MODEL_CANDIDATE_GAP", "severity": "high", "finding": "three model families are registered but only pointwise logistic is executed"},
+    {"id": "EVIDENCE_HARDCODE", "severity": "high", "finding": "evidence_strength is hard-coded to 1.0"},
+    {"id": "AVAILABILITY_HARDCODE", "severity": "critical", "finding": "action_availability is hard-coded to 1 and all actions are emitted"},
+    {"id": "POLICY_COLLAPSE", "severity": "high", "finding": "policy baseline uses a fixed order with one action always first"},
+    {"id": "DUPLICATE_PROXY", "severity": "high", "finding": "RETRIEVAL_PRACTICE and TARGETED_PRACTICE share the same quiz-click proxy"},
+    {"id": "FAKE_RESIDUAL", "severity": "critical", "finding": "binary final_favorable > expected_probability is not a continuous outcome residual"},
+    {"id": "RANDOM_SINGLE_DRAW", "severity": "medium", "finding": "random baseline is one draw, not a null distribution"},
+    {"id": "BOOTSTRAP_UNIT", "severity": "critical", "finding": "bootstrap resamples group_id rather than base_record_id learner clusters"},
+    {"id": "CONTROL_DEPENDENCE", "severity": "high", "finding": "label-shuffle and wrong-trajectory controls are not independently rebuilt"},
+    {"id": "MAP_FORMULA", "severity": "medium", "finding": "MAP@3 averages hit precisions without standard AP denominator"},
+    {"id": "FAIRNESS_SCOPE", "severity": "high", "finding": "fairness audit is stage-only and excludes protected/context subgroups"},
+    {"id": "OPPORTUNITY_ELIGIBILITY", "severity": "critical", "finding": "assessment/course opportunity and schedule are not used for eligibility"}
+  ],
+  "lockbox_action": "V2 lockbox remains immutable; no V2 artifact was modified",
+  "corrective_namespace": "artifacts/recommend_hybrid/outcome_grounded_v2_1"
+}
