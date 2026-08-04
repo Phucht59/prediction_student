@@ -14,13 +14,13 @@ Branch:
 codex/constrained-counterfactual-recommender
 ```
 
-Pull the latest remote head before execution. The required serialization-repair implementation is present at or after:
+Pull the latest remote head before execution. The opportunity-count repair and this runbook are authoritative at or after:
 
 ```text
-98e606f480c8493a2f92c3b6780057478ff9e50a
+b8ddfa460e50cb2caf59be30f35488d7f182b72a
 ```
 
-Final architecture:
+## Architecture
 
 ```text
 Frozen residual CNN–BiLSTM prediction backbone
@@ -28,7 +28,7 @@ Frozen residual CNN–BiLSTM prediction backbone
 + integrated conditional-action neural head
 ```
 
-This is one hybrid deep-learning recommendation system. Do not train or invoke XGBoost, LightGBM, LambdaMART, Logistic Regression, Random Forest, SVM, HistGradientBoosting or another external recommendation ranker.
+This remains one hybrid deep-learning recommendation system. Do not train or invoke XGBoost, LightGBM, LambdaMART, Logistic Regression, Random Forest, SVM, HistGradientBoosting or another external recommendation ranker.
 
 ## Scientific boundary
 
@@ -308,7 +308,7 @@ ruff check `
 
 GitHub Actions is authoritative when Ruff is unavailable locally.
 
-## Step 12 — Commit and push the exact repair and V3 outputs
+## Step 12 — Commit and push exact repair and V3 outputs
 
 Review status:
 
