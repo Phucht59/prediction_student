@@ -1,0 +1,64 @@
+name: Integrated Hybrid Two-Stage V3
+
+on:
+  pull_request:
+    paths:
+      - "configs/recommend_hybrid/two_stage_v3_protocol.yaml"
+      - "src/recommend_hybrid/two_stage_v3/**"
+      - "scripts/recommend_hybrid/two_stage_v3/**"
+      - "tests/recommend_hybrid/two_stage_v3/**"
+      - ".github/workflows/two-stage-v3-integrated.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  integrated-v3-correctness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: false
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install focused dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install \
+            numpy pandas pyarrow PyYAML scikit-learn pytest ruff \
+            torch --index-url https://download.pytorch.org/whl/cpu
+
+      - name: Run integrated V3 tests
+        run: |
+          python -m pytest \
+            --confcutdir=tests/recommend_hybrid/two_stage_v3 \
+            tests/recommend_hybrid/two_stage_v3 \
+            -q
+
+      - name: Compile integrated V3 scope
+        run: |
+          python -m py_compile \
+            src/recommend_hybrid/two_stage_v3/__init__.py \
+            src/recommend_hybrid/two_stage_v3/model.py \
+            src/recommend_hybrid/two_stage_v3/data.py \
+            src/recommend_hybrid/two_stage_v3/metrics.py \
+            src/recommend_hybrid/two_stage_v3/selection.py \
+            scripts/recommend_hybrid/two_stage_v3/diagnose.py \
+            scripts/recommend_hybrid/two_stage_v3/build_embedding_cache.py \
+            scripts/recommend_hybrid/two_stage_v3/train_and_evaluate.py
+
+      - name: Ruff integrated V3 scope
+        run: |
+          ruff check \
+            src/recommend_hybrid/two_stage_v3 \
+            scripts/recommend_hybrid/two_stage_v3 \
+            tests/recommend_hybrid/two_stage_v3
