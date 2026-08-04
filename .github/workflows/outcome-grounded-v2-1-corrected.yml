@@ -44,6 +44,7 @@ jobs:
       - name: Run corrected scientific invariant tests
         run: |
           python -m pytest \
+            --confcutdir=tests/recommend_hybrid/outcome_grounded_v2_1 \
             tests/recommend_hybrid/outcome_grounded_v2_1/test_corrected_scientific_core.py \
             tests/recommend_hybrid/outcome_grounded_v2_1/test_full_registered_execution.py \
             tests/recommend_hybrid/outcome_grounded_v2_1/test_resumable_authority.py \
