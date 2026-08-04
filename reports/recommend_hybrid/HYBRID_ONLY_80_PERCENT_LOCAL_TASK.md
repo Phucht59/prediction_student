@@ -104,7 +104,7 @@ Confirm:
 - at least two scientific actions exist in every rankable group;
 - evidence and need are normalized onto frozen runtime semantics.
 
-## Step 4 — Nested deterministic tuning and held-out OOF evaluation
+## Step 4 — Nested deterministic tuning
 
 ```powershell
 python scripts/recommend_hybrid/hybrid_only_final/tune_and_evaluate_fast.py
@@ -112,7 +112,22 @@ python scripts/recommend_hybrid/hybrid_only_final/tune_and_evaluate_fast.py
 
 This searches only arithmetic weights and abstention thresholds. It must not install or invoke XGBoost, LightGBM, scikit-learn models, or any auxiliary ranker.
 
-Required outputs:
+The fast evaluator must filter unavailable, high-uncertainty, low-evidence and insufficient-risk-reduction candidates before ranking, matching runtime behavior.
+
+## Step 5 — Refine selection from inner trials only
+
+```powershell
+python scripts/recommend_hybrid/hybrid_only_final/refine_selection.py
+```
+
+This step does not search new configurations and does not inspect outer-test results for selection. It only reads completed inner-validation trial tables:
+
+- if any config meets Precision@1 >= 0.80 and coverage >= 0.50, choose the one with the best coverage and stability;
+- otherwise choose the highest inner Precision@1 among configurations that still meet coverage >= 0.50.
+
+Do not edit the selected JSON files manually.
+
+Required outputs after Steps 4–5:
 
 ```text
 artifacts/recommend_hybrid/hybrid_only_final/model_selection/fold_0_trials.csv
@@ -128,7 +143,7 @@ artifacts/recommend_hybrid/hybrid_only_final/evaluation/BASELINE_METRICS.csv
 artifacts/recommend_hybrid/hybrid_only_final/HYBRID_ONLY_SELECTED_CONFIG.json
 ```
 
-## Step 5 — Learner-cluster bootstrap
+## Step 6 — Learner-cluster bootstrap
 
 ```powershell
 python scripts/recommend_hybrid/hybrid_only_final/bootstrap.py
@@ -146,7 +161,7 @@ Output:
 artifacts/recommend_hybrid/hybrid_only_final/evaluation/BOOTSTRAP.json
 ```
 
-## Step 6 — Deterministic and safety verification
+## Step 7 — Deterministic and safety verification
 
 ```powershell
 python scripts/recommend_hybrid/hybrid_only_final/verify_fast.py
@@ -161,7 +176,7 @@ The verification must report PASS for:
 - zero unknown runtime actions;
 - zero availability/prerequisite violations.
 
-## Step 7 — Fail-closed release
+## Step 8 — Fail-closed release
 
 Run:
 
@@ -169,8 +184,6 @@ Run:
 python scripts/recommend_hybrid/hybrid_only_final/release.py
 $releaseExit = $LASTEXITCODE
 ```
-
-Interpretation:
 
 ### All gates pass
 
@@ -196,7 +209,7 @@ runtime_authorized = false
 
 Do not change the protocol or rerun with relaxed gates. Preserve the actual result.
 
-## Step 8 — Render final report
+## Step 9 — Render final report
 
 Run regardless of release outcome:
 
@@ -210,7 +223,7 @@ Output:
 reports/recommend_hybrid/HYBRID_ONLY_FINAL_RESULTS_VI.md
 ```
 
-## Step 9 — Full validation
+## Step 10 — Full validation
 
 ```powershell
 python -m pytest tests/recommend_hybrid/hybrid_only_final -q
@@ -221,13 +234,11 @@ ruff check src/recommend_hybrid scripts/recommend_hybrid tests/recommend_hybrid
 git diff --check
 ```
 
-If the release passed, also instantiate the release-gated runtime loader and final pipeline in a smoke test. Construction must fail closed when the release config is removed or its checksum is changed.
+If the release passed, instantiate the release-gated runtime loader and `RecommendHybridOnlyFinalPipeline` in a smoke test. Construction must fail closed when the release config is removed or its checksum is changed.
 
-## Step 10 — Commit and push
+## Step 11 — Commit and push
 
 Commit all valid generated artifacts and reports, including failed gates. Do not omit unfavorable folds or actions.
-
-Suggested commit:
 
 ```powershell
 git add configs/recommend_hybrid artifacts/recommend_hybrid/hybrid_only_final reports/recommend_hybrid/HYBRID_ONLY_FINAL_RESULTS_VI.md
