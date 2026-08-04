@@ -10,7 +10,7 @@ opportunity = int(future_opportunities[family])
 
 but it was omitted from the serialized candidate-row dictionary. This is an engineering serialization defect, not a new feature, target or protocol change.
 
-The correction uses only published assessment and VLE schedules known at cutoff. It must not use Outcome-Grounded V2.1 artifacts, future learner behaviour, outer-test statistics or protected attributes.
+The correction uses only published assessment and VLE schedules known at cutoff. It does not use Outcome-Grounded V2.1 artifacts, future learner behaviour, outer-test statistics or protected attributes.
 
 ## Frozen invariants
 
@@ -29,7 +29,13 @@ The only allowed candidate-table change is adding integer `opportunity_count`.
 
 ## Execution authority
 
-Follow the complete updated runbook:
+Pull a branch head at or after:
+
+```text
+a8dc202923bbe16f1466967cb6467e58427c9b51
+```
+
+Then follow:
 
 ```text
 reports/recommend_hybrid/TWO_STAGE_V3_LOCAL_EXECUTION_TASK.md
