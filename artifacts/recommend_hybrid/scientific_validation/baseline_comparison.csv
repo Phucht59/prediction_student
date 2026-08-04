@@ -1,0 +1,6 @@
+method,status,reason
+B0_RANDOM,NOT_IDENTIFIABLE_FROM_HISTORICAL_REPLAY,No factual historical assignment of this alternative action; paired independent outcome comparison would be fabricated.
+B1_MOST_POPULAR,NOT_IDENTIFIABLE_FROM_HISTORICAL_REPLAY,No factual historical assignment of this alternative action; paired independent outcome comparison would be fabricated.
+B2_LOWEST_WORKLOAD,NOT_IDENTIFIABLE_FROM_HISTORICAL_REPLAY,No factual historical assignment of this alternative action; paired independent outcome comparison would be fabricated.
+B3_POLICY_ORDERING,NOT_IDENTIFIABLE_FROM_HISTORICAL_REPLAY,No factual historical assignment of this alternative action; paired independent outcome comparison would be fabricated.
+B4_COUNTERFACTUAL_ORDERING,NOT_IDENTIFIABLE_FROM_HISTORICAL_REPLAY,No factual historical assignment of this alternative action; paired independent outcome comparison would be fabricated.

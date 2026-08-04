@@ -1,0 +1,6 @@
+control,status,reason
+within_stage_course_action_shuffle,NOT_RUN,Requires predeclared full-cohort factual exposure/replay protocol; unavailable from locked sampled replay.
+learner_state_shuffle,NOT_RUN,Requires predeclared full-cohort factual exposure/replay protocol; unavailable from locked sampled replay.
+pre_cutoff_placebo,NOT_RUN,Requires predeclared full-cohort factual exposure/replay protocol; unavailable from locked sampled replay.
+irrelevant_action_exposure,NOT_RUN,Requires predeclared full-cohort factual exposure/replay protocol; unavailable from locked sampled replay.
+wrong_temporal_window,NOT_RUN,Requires predeclared full-cohort factual exposure/replay protocol; unavailable from locked sampled replay.

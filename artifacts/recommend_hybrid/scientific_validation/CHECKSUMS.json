@@ -1,0 +1,15 @@
+{
+  "INPUT_AUTHORITY.json": "3e961ddcf6fcf0459c7a5bb26cc0b86780dc6da076d84159304cba65e0271dfa",
+  "SCIENTIFIC_VALIDATION.json": "c4a73ddb2b1eeae104a52a1058f38cb717ee896485608b04ce1172398a80e083",
+  "ablation_results.csv": "be895d5a68f58d0079090b1baabd65187f79499f70f856c2c4c6f1e4b8890c9a",
+  "action_outcome_mapping.json": "c4ce1709608211881e8e16da766a8fafcf24b2b856d5d62cbc73062d729898d2",
+  "baseline_comparison.csv": "fec208a9e11449c368186d4396f7b4604da0407074481aa77cba99dc73d42d42",
+  "cohort_flow.json": "6b282eeba05c7c786155970264edb87921787b623d31116d9d591b3aea443829",
+  "cohort_flow.json.csv": "f4cda1b6cffec973d187b4a652214934d9dbde527cbb34b3e7fdb75efae89338",
+  "covariate_balance.csv": "28368cacedf3fc07663721f642c849e61c2f0ae795bfd12b2a2aff7a379930f4",
+  "dose_response.csv": "592c230f1ada245267044d087ced4154ffb347d20cab0cd6a32827b496c62bb2",
+  "negative_controls.csv": "43a3ef0fe79957947c982cbeaac3979e6c8d42e72cf47951795e32112aa5fae2",
+  "observational_effects.csv": "fb0fe4f4c46fb481ed7a8be4ab2fcb8593fe42137ce2bd73d934fdb71973976f",
+  "protocol.json": "ded4d81663c6e7ad74cb9f8806de8fe666f68afd2b7222d6bf52179d7d0b0da9",
+  "sensitivity_analysis.csv": "9cf110a5e9a9b34ccdb3b86cf09a557bf663655c3b443d5c48a699f43fd20554"
+}

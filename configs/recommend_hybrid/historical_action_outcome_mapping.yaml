@@ -1,0 +1,32 @@
+schema_version: historical_action_outcome_mapping_v1
+status: PREREGISTERED_FROZEN_FOR_OBSERVATIONAL_VALIDATION
+claim_boundary: OBSERVATIONAL_ASSOCIATION_ONLY_NOT_CAUSAL_EFFECT
+actions:
+  VLE_ENGAGEMENT:
+    evaluability: OBSERVATIONALLY_EVALUABLE
+    adherence: future_weekly_total_clicks_gt_baseline_and_future_active_days_gt_0
+    secondary_outcomes: [future_vle_engagement, future_active_days]
+  STUDY_SCHEDULE:
+    evaluability: OBSERVATIONALLY_EVALUABLE
+    adherence: future_weekly_active_days_gte_baseline_and_terminal_inactive_streak_reduced
+    secondary_outcomes: [future_active_days, future_inactive_streak]
+  ASSESSMENT_COMPLETION:
+    evaluability: OBSERVATIONALLY_EVALUABLE
+    adherence: future_submitted_assessment_count_gt_0
+    secondary_outcomes: [future_assessment_submission]
+  RETRIEVAL_PRACTICE:
+    evaluability: OBSERVATIONALLY_EVALUABLE
+    adherence: future_weekly_quiz_clicks_gt_baseline
+    secondary_outcomes: [future_vle_engagement]
+  TARGETED_PRACTICE:
+    evaluability: OBSERVATIONALLY_EVALUABLE
+    adherence: future_weekly_quiz_clicks_gt_baseline
+    secondary_outcomes: [future_vle_engagement]
+  LEARNING_CONSOLIDATION:
+    evaluability: OBSERVATIONALLY_EVALUABLE
+    adherence: future_weekly_content_clicks_gte_baseline_and_gt_0
+    secondary_outcomes: [future_vle_engagement]
+  DIAGNOSTIC_CHECK: {evaluability: NOT_OBSERVATIONALLY_EVALUABLE, reason: NO_DIRECT_OULAD_PROXY}
+  PROGRESS_MONITORING: {evaluability: NOT_OBSERVATIONALLY_EVALUABLE, reason: FOLLOW_UP_NOT_OBSERVED_AS_ACTION}
+  INSTRUCTOR_CONTACT: {evaluability: NOT_OBSERVATIONALLY_EVALUABLE, reason: HUMAN_SUPPORT_NOT_CAPTURED_IN_OULAD}
+  ADVISOR_ESCALATION: {evaluability: NOT_OBSERVATIONALLY_EVALUABLE, reason: HUMAN_SUPPORT_NOT_CAPTURED_IN_OULAD}

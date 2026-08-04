@@ -1,0 +1,48 @@
+{
+  "evaluation_protocol": "scientific_observational_protocol_v1",
+  "frozen_system": "NO_RECOMMENDER_EXECUTION",
+  "git_branch": "codex/constrained-counterfactual-recommender",
+  "git_commit": "965943470503787d02ea4c96631b19c8db7aeeec",
+  "inputs": [
+    {
+      "path": "artifacts/recommend_hybrid/counterfactual/evaluation_rows.csv",
+      "sha256": "0721e174a15e8f7a94fe1479e6b4c3e72eabc6364288a0730cfef2e6dfaf179b"
+    },
+    {
+      "path": "artifacts/recommend_hybrid/counterfactual/action_scores.csv",
+      "sha256": "3ce7233d56250afb9a753cce95e12558ad5383dda643babcfc15370eeadb3858"
+    },
+    {
+      "path": "artifacts/recommend_hybrid/counterfactual/full_evaluation_input_registry.json",
+      "sha256": "16ec34dc55d10c58f75d4402238b83ea0e83ba3b122087c2a2f5de7d0d988d6e"
+    },
+    {
+      "path": "configs/recommend_hybrid/counterfactual_oulad.yaml",
+      "sha256": "e353a1732d4cf7b10bd4bfb3fb5f861934f82bf9fc43fd13fbb7e2fc355f071e"
+    },
+    {
+      "path": "configs/recommend_hybrid/actions.yaml",
+      "sha256": "0dbdc57ece0440766f0b948dc45138cdcdc7780eefcdfc7240ed41d264ce47ca"
+    },
+    {
+      "path": "configs/recommend_hybrid/historical_action_outcome_mapping.yaml",
+      "sha256": "d22f67191a12f5892cec2e8b8b7b12063c7b8d55a7d0084b83645b3955539c0e"
+    },
+    {
+      "path": "data/manifests/extension_raw_manifest.json",
+      "sha256": "cd6f397b7ffad59c66fcbc5d01e85824d2f55bcfbca6ef91dad8b85492c08585"
+    },
+    {
+      "path": "data/processed/study_c_oulad/manifests/split_manifest.csv",
+      "sha256": "5e5e4d9ab48a6049f86cdf2451f4302bc44f2896a2f23a23494bc95f549b97d4"
+    }
+  ],
+  "locked_at": "2026-08-04T03:04:00.906217Z",
+  "prohibited_as_independent_evidence": [
+    "model-estimated risk reduction",
+    "Success@0.01",
+    "Success@0.05",
+    "threshold crossing"
+  ],
+  "schema_version": "scientific_validation_input_authority_v1"
+}

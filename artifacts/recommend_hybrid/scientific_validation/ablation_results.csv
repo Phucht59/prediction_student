@@ -1,0 +1,8 @@
+ablation,status,reason
+A0_FULL,NOT_RUN,Frozen replay lacks factual exposure assignments for alternate ranking; no post-hoc method tuning permitted.
+A1_NO_RISK_REDUCTION,NOT_RUN,Frozen replay lacks factual exposure assignments for alternate ranking; no post-hoc method tuning permitted.
+A2_NO_EVIDENCE,NOT_RUN,Frozen replay lacks factual exposure assignments for alternate ranking; no post-hoc method tuning permitted.
+A3_NO_UNCERTAINTY,NOT_RUN,Frozen replay lacks factual exposure assignments for alternate ranking; no post-hoc method tuning permitted.
+A4_NO_WORKLOAD,NOT_RUN,Frozen replay lacks factual exposure assignments for alternate ranking; no post-hoc method tuning permitted.
+A5_POLICY_ONLY,NOT_RUN,Frozen replay lacks factual exposure assignments for alternate ranking; no post-hoc method tuning permitted.
+A6_NO_CONSTRAINTS_OFFLINE,NOT_RUN,Frozen replay lacks factual exposure assignments for alternate ranking; no post-hoc method tuning permitted.

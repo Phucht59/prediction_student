@@ -1,0 +1,38 @@
+{
+  "baselines": [
+    "B0 random",
+    "B1 popular",
+    "B2 workload",
+    "B3 policy",
+    "B4 counterfactual"
+  ],
+  "claim_boundary": "OBSERVATIONAL_ASSOCIATION_ONLY_NOT_CAUSAL_EFFECT",
+  "gate_requirements": [
+    "temporal safety",
+    "overlap and |SMD|<0.1 balance",
+    "independent outcomes",
+    "valid baseline contrast",
+    "monotonic dose response",
+    "negative controls",
+    "no leakage"
+  ],
+  "independent_outcomes_only": true,
+  "input_authority_sha256": "3e961ddcf6fcf0459c7a5bb26cc0b86780dc6da076d84159304cba65e0271dfa",
+  "methods": [
+    "IPTW propensity weighting",
+    "doubly robust AIPW",
+    "learner-level bootstrap (1000 planned; 500 executed for constrained replay)"
+  ],
+  "primary_outcomes": [
+    "next-stage observed at-risk classification when available",
+    "final Pass/Distinction versus Fail/Withdrawn"
+  ],
+  "schema_version": "scientific_observational_protocol_v1",
+  "status": "LOCKED_BEFORE_RESULT_COMPUTATION",
+  "transitions": [
+    "20%\u219235%",
+    "35%\u219250%",
+    "50%\u219275%",
+    "75%\u2192final outcome"
+  ]
+}

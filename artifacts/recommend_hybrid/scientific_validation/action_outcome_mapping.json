@@ -1,0 +1,67 @@
+{
+  "actions": {
+    "ADVISOR_ESCALATION": {
+      "evaluability": "NOT_OBSERVATIONALLY_EVALUABLE",
+      "reason": "HUMAN_SUPPORT_NOT_CAPTURED_IN_OULAD"
+    },
+    "ASSESSMENT_COMPLETION": {
+      "adherence": "future_submitted_assessment_count_gt_0",
+      "evaluability": "OBSERVATIONALLY_EVALUABLE",
+      "secondary_outcomes": [
+        "future_assessment_submission"
+      ]
+    },
+    "DIAGNOSTIC_CHECK": {
+      "evaluability": "NOT_OBSERVATIONALLY_EVALUABLE",
+      "reason": "NO_DIRECT_OULAD_PROXY"
+    },
+    "INSTRUCTOR_CONTACT": {
+      "evaluability": "NOT_OBSERVATIONALLY_EVALUABLE",
+      "reason": "HUMAN_SUPPORT_NOT_CAPTURED_IN_OULAD"
+    },
+    "LEARNING_CONSOLIDATION": {
+      "adherence": "future_weekly_content_clicks_gte_baseline_and_gt_0",
+      "evaluability": "OBSERVATIONALLY_EVALUABLE",
+      "secondary_outcomes": [
+        "future_vle_engagement"
+      ]
+    },
+    "PROGRESS_MONITORING": {
+      "evaluability": "NOT_OBSERVATIONALLY_EVALUABLE",
+      "reason": "FOLLOW_UP_NOT_OBSERVED_AS_ACTION"
+    },
+    "RETRIEVAL_PRACTICE": {
+      "adherence": "future_weekly_quiz_clicks_gt_baseline",
+      "evaluability": "OBSERVATIONALLY_EVALUABLE",
+      "secondary_outcomes": [
+        "future_vle_engagement"
+      ]
+    },
+    "STUDY_SCHEDULE": {
+      "adherence": "future_weekly_active_days_gte_baseline_and_terminal_inactive_streak_reduced",
+      "evaluability": "OBSERVATIONALLY_EVALUABLE",
+      "secondary_outcomes": [
+        "future_active_days",
+        "future_inactive_streak"
+      ]
+    },
+    "TARGETED_PRACTICE": {
+      "adherence": "future_weekly_quiz_clicks_gt_baseline",
+      "evaluability": "OBSERVATIONALLY_EVALUABLE",
+      "secondary_outcomes": [
+        "future_vle_engagement"
+      ]
+    },
+    "VLE_ENGAGEMENT": {
+      "adherence": "future_weekly_total_clicks_gt_baseline_and_future_active_days_gt_0",
+      "evaluability": "OBSERVATIONALLY_EVALUABLE",
+      "secondary_outcomes": [
+        "future_vle_engagement",
+        "future_active_days"
+      ]
+    }
+  },
+  "claim_boundary": "OBSERVATIONAL_ASSOCIATION_ONLY_NOT_CAUSAL_EFFECT",
+  "schema_version": "historical_action_outcome_mapping_v1",
+  "status": "PREREGISTERED_FROZEN_FOR_OBSERVATIONAL_VALIDATION"
+}

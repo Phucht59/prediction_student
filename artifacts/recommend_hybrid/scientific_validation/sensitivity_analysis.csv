@@ -1,0 +1,8 @@
+analysis,status,reason
+adherence_threshold,NOT_RUN,Primary gate cannot be assessed because required factual baseline contrasts and controls are not identifiable.
+outcome_window,NOT_RUN,Primary gate cannot be assessed because required factual baseline contrasts and controls are not identifiable.
+leave_course_out,NOT_RUN,Primary gate cannot be assessed because required factual baseline contrasts and controls are not identifiable.
+leave_presentation_out,NOT_RUN,Primary gate cannot be assessed because required factual baseline contrasts and controls are not identifiable.
+leave_fold_out,NOT_RUN,Primary gate cannot be assessed because required factual baseline contrasts and controls are not identifiable.
+risk_band,NOT_RUN,Primary gate cannot be assessed because required factual baseline contrasts and controls are not identifiable.
+missingness,NOT_RUN,Primary gate cannot be assessed because required factual baseline contrasts and controls are not identifiable.

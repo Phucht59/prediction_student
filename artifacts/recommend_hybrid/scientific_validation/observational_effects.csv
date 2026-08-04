@@ -1,0 +1,2 @@
+outcome,estimand,estimate,standard_error,ci_95_low,ci_95_high,p_value_or_permutation_probability,records,learners,iptw_estimate,propensity_overlap_lower,propensity_overlap_upper,effective_sample_size,claim
+final_favorable_outcome,AIPW adhered vs non-adhered association,0.06456791125527188,0.043280937290090415,-0.014920040018877903,0.1522305448693435,0.116,548,276,0.04673389980019105,0.09186790220147738,0.3996565086720998,334.54822608464616,OBSERVATIONAL_ASSOCIATION_ONLY_NOT_CAUSAL_EFFECT

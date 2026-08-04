@@ -1,0 +1,20 @@
+{
+  "baseline_comparison": "NOT_IDENTIFIABLE",
+  "causal_validation": "NOT_PERFORMED",
+  "claim_boundary": "OBSERVATIONAL_ASSOCIATION_ONLY_NOT_CAUSAL_EFFECT",
+  "covariate_balance": "PASS",
+  "engineering_validation": "COMPLETE",
+  "expert_validation": "NOT_PERFORMED",
+  "generated_at": "2026-08-04T03:04:02.179824Z",
+  "internal_model_consistency_validation": "AVAILABLE_NOT_INDEPENDENT_EVIDENCE",
+  "merge_allowed": false,
+  "negative_controls": "NOT_RUN",
+  "observational_scientific_validation": "FAILED",
+  "protected_feature_violations": "NOT_AUDITED_BY_THIS_OBSERVATIONAL_RUN",
+  "reason": "The prespecified dose-response monotonicity criterion failed, and scientific gate requirements for factual baselines, negative controls, and full temporal coverage are unmet.",
+  "release_gate_passed": false,
+  "schema_version": "scientific_validation_v1",
+  "status": "IMPLEMENTATION_COMPLETE_SCIENTIFIC_VALIDATION_FAILED",
+  "temporal_leakage": "NOT_DETECTED_IN_FROZEN_INPUTS_BUT_NOT_FULLY_AUDITED",
+  "temporal_protocol": "PARTIAL_PASS_LATE_75_NEXT_STAGE_WINDOW_UNAVAILABLE"
+}

@@ -76,7 +76,7 @@
       "size_bytes": 603
     }
   ],
-  "claim_boundary": "MODEL_ESTIMATED_RISK_REDUCTION_NOT_CAUSAL_EFFECT",
+  "claim_boundary": "OBSERVATIONAL_ASSOCIATION_ONLY_NOT_CAUSAL_EFFECT",
   "configuration": {
     "bootstrap_replicates": 1000,
     "folds": [
@@ -104,7 +104,7 @@
   "generated_at": "2026-08-03T16:45:02.632317Z",
   "prediction_backbone": "FROZEN_HYBRID_CNN_BILSTM",
   "recommendation_component": "CONSTRAINED_COUNTERFACTUAL_RISK_REDUCTION_RECOMMENDER",
-  "release_status": "CANDIDATE_VALIDATED_PENDING_EXPERT_REVIEW",
+  "release_status": "IMPLEMENTATION_COMPLETE_SCIENTIFIC_VALIDATION_FAILED",
   "full_cohort_evaluation": {
     "artifact_root": "artifacts/recommend_hybrid/counterfactual/full_cohort",
     "status": "PASS",
@@ -127,7 +127,7 @@
     "deterministic_replay": "PASS"
   },
   "expert_review": {
-    "status": "PREPARED_NOT_COMPLETED",
+    "status": "NOT_PERFORMED",
     "case_count": 160,
     "artifact_root": "artifacts/recommend_hybrid/expert_review",
     "future_outcomes_included": false,
@@ -135,6 +135,12 @@
   },
   "schema_version": "counterfactual_candidate_release_v1",
   "scientific_guards": {
+    "engineering_validation": "COMPLETE",
+    "internal_model_consistency_validation": "AVAILABLE_NOT_INDEPENDENT_EVIDENCE",
+    "observational_scientific_validation": "FAILED",
+    "causal_validation": "NOT_PERFORMED",
+    "expert_validation": "NOT_PERFORMED",
+    "observational_validation_artifact": "artifacts/recommend_hybrid/scientific_validation/SCIENTIFIC_VALIDATION.json",
     "causal_effect_claimed": false,
     "expert_labels_required": false,
     "final_release_promoted": false,
