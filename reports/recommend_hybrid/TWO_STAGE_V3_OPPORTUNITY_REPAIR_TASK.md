@@ -29,13 +29,7 @@ The only allowed candidate-table change is adding integer `opportunity_count`.
 
 ## Execution authority
 
-Pull a branch head at or after:
-
-```text
-a8dc202923bbe16f1466967cb6467e58427c9b51
-```
-
-Then follow:
+Pull the latest branch head and follow:
 
 ```text
 reports/recommend_hybrid/TWO_STAGE_V3_LOCAL_EXECUTION_TASK.md
