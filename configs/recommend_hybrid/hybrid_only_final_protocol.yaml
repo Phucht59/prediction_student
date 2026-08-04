@@ -21,6 +21,14 @@ action_mapping:
     - DIAGNOSTIC_CHECK
     - PROGRESS_MONITORING
 
+semantic_evidence_floor:
+  ASSESSMENT_COMPLETION: 0.80
+  STUDY_SCHEDULE: 0.80
+  VLE_ENGAGEMENT: 0.40
+  RETRIEVAL_PRACTICE: 0.50
+  LEARNING_CONSOLIDATION: 0.50
+  basis: fixed_action_semantics_not_future_outcomes
+
 silver_label:
   positive_definition: action_specific_future_behavior_improves_over_own_pre_cutoff_baseline
   assessment_requires_submission: true
