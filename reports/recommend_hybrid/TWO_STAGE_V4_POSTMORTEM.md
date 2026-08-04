@@ -96,7 +96,7 @@ CONTENT_REVIEW conditional P@1: 0.9536; issued-action precision: 0.6813
 
 ## Next scientific decision
 
-No V4.1 threshold or loss-weight search should be started until the post-hoc feasibility audit is complete. The audit may estimate whether the current OOF score family has any precision–coverage point capable of reaching the original gate, but it is diagnostic and cannot authorize release.
+No V4.1 threshold or loss-weight search should be started until the post-hoc feasibility audit is complete. The audit may estimate whether the current OOF score family has any precision–coverage point capable of reaching the original gate, but it is diagnostic and cannot authorize release or replace the registered V4 result.
 
 If the optimistic registered-grid oracle remains below 0.80 at coverage 0.50, the current frozen-representation end-to-end problem is exhausted. The remaining defensible choices are:
 
