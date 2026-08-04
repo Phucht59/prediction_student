@@ -139,6 +139,8 @@ evaluation:
 
 head_training:
   optimizer: adamw
+  registered_trial_count: 12
+  registered_trial_source: scripts/recommend_hybrid/two_stage_v3/train_and_evaluate.py
   max_epochs: 60
   patience: 8
   gradient_clip_norm: 1.0
@@ -156,15 +158,18 @@ head_training:
     candidate_binary_weight: [0.25, 0.50]
     apply_only_to_positive_groups: true
   multitask_recommendability_weight: [1.0, 2.0]
-  early_stopping_monitor: inner_end_to_end_precision_with_coverage_constraint
+  early_stopping_monitor: joint_inner_validation_loss
+  fixed_epoch_source: median_inner_best_epoch
+  final_outer_training_seeds: [42, 2026, 7319]
 
 selection:
   threshold_source: inner_oof_only
-  gate_threshold_grid: inner_probability_quantiles
+  gate_threshold_grid: 41_inner_probability_quantiles
   action_margin_threshold_grid: [0.0, 0.05, 0.10, 0.15, 0.20]
   action_probability_threshold_grid: [0.0, 0.40, 0.50, 0.60, 0.70]
   action_specific_thresholds_allowed: true
   action_specific_threshold_minimum_support: 100
+  action_specific_calibration_order: after_global_threshold_selection
   required_inner_positive_group_coverage: 0.50
   ordering_when_release_target_met:
     - highest_positive_group_coverage
