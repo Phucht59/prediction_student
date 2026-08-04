@@ -1,0 +1,18 @@
+{
+  "existing_columns_changed": false,
+  "future_behaviour_used": false,
+  "groups": 29043,
+  "labels_changed": false,
+  "maximum_opportunity_count": 110,
+  "mean_opportunity_count": 26.04222240998467,
+  "minimum_opportunity_count": 1,
+  "new_sha256": "97b956d09792d12773449a4176b1ecfa7f0e667ff4c8cf34ce7afd427c4a9e4c",
+  "old_sha256": "4622a03bc347db5d5193bdeda1d7a29eb37992996f3eef35c69728f9dec53a43",
+  "positive_groups": 9304,
+  "rows": 82847,
+  "schedule_authority": "published assessment and VLE schedules",
+  "schema_version": "two_stage_v3_opportunity_repair_v1",
+  "source": "artifacts/recommend_hybrid/hybrid_only_final/dataset/candidate_rows.parquet",
+  "status": "REPAIRED",
+  "v2_1_artifacts_used": false
+}

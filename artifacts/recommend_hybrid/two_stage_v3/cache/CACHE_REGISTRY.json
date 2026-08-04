@@ -1,0 +1,410 @@
+{
+  "action_candidates": {
+    "path": "artifacts/recommend_hybrid/two_stage_v3/cache/ACTION_CANDIDATES.parquet",
+    "rows": 82847,
+    "sha256": "a43574faed1d19bdb8d280d1fe960ca295ae53eab599db852f89e9a4157f4d93"
+  },
+  "backbone_trainable": false,
+  "caches": [
+    {
+      "authority_mode": "CROSS_FITTED_OWN_OUTER_AUTHORITY",
+      "authority_rows": [
+        {
+          "authority_fold": 0,
+          "checkpoint_ids": [
+            "recommend_hybrid_intervention_outer_0_seed_42",
+            "recommend_hybrid_intervention_outer_0_seed_1201",
+            "recommend_hybrid_intervention_outer_0_seed_2026",
+            "recommend_hybrid_intervention_outer_0_seed_3407",
+            "recommend_hybrid_intervention_outer_0_seed_7319"
+          ],
+          "checkpoint_sha256": [
+            "623cf15c2d08b275054632e379c67b85619f5e84068dcd3bcb1a679d80549c53",
+            "e605f51f4ea9bc10709985f00203bbd4a31ee137bad36f9ef944bdbf2471e243",
+            "3fa3e66bd16067243d97afc74a5bc92456e69a56dc299c9cef380e38feed934a",
+            "a2464db1f1ce3d1c9bb7b9d8dab13532544faa05a679126d1467aa1abd678fe4",
+            "f9592dbc744d13eaaedd70cbfe65efd456a862d63de3af107fe1fbb296475372"
+          ],
+          "frozen_preprocessor_hash": "c32f20cf7f8d277257947f0ec6d2cb4d5a996db9a641d61e04e44d1b535d24a5",
+          "group_count": 2711,
+          "stage": "EARLY_20"
+        },
+        {
+          "authority_fold": 1,
+          "checkpoint_ids": [
+            "recommend_hybrid_intervention_outer_1_seed_42",
+            "recommend_hybrid_intervention_outer_1_seed_1201",
+            "recommend_hybrid_intervention_outer_1_seed_2026",
+            "recommend_hybrid_intervention_outer_1_seed_3407",
+            "recommend_hybrid_intervention_outer_1_seed_7319"
+          ],
+          "checkpoint_sha256": [
+            "358dfdfba0932d4149aa986f2a822a1c67212b800c3f9b0a4fa9037ad1fac372",
+            "124bf20f3ffdb18cc97d69b1f76b7693b1629a1b01dbc57c61c87341c666162a",
+            "f32d1d2dc60976f5513d16bccdd86fc54400ba88c803795b57fa4399612c2b0f",
+            "11d6199d754e115e175b1e5a917c1121e1a638b7b270c738b3efb060cf95b34f",
+            "fbd654fda245e238be33a6875e3f84f9e61f2a8da52feb2701011031c2fc69d6"
+          ],
+          "frozen_preprocessor_hash": "9fb91aaea0c59c28deb65d8ee0d0ed75181d38d8a191f3a53d27273faeeec97b",
+          "group_count": 2729,
+          "stage": "EARLY_20"
+        },
+        {
+          "authority_fold": 2,
+          "checkpoint_ids": [
+            "recommend_hybrid_intervention_outer_2_seed_42",
+            "recommend_hybrid_intervention_outer_2_seed_1201",
+            "recommend_hybrid_intervention_outer_2_seed_2026",
+            "recommend_hybrid_intervention_outer_2_seed_3407",
+            "recommend_hybrid_intervention_outer_2_seed_7319"
+          ],
+          "checkpoint_sha256": [
+            "48a70af3aa207e56f6f999c6ecf32ff1fc5f67b9b4ae545a36a2528d1dff08e0",
+            "c49d3375a3c5d0ffb4b9a2d4a0c37606d006699b7c3742b4c1b9d738fe7f2368",
+            "ee5644d2c7e0eb42077c1763f4bb1d17c06d4c4422e87d5b191c600377bdf6ef",
+            "178a288ebc985036862b12f93c42087b900aa7c9e66716acd2162792c68eeb3e",
+            "321e9d31f70275fa482d890cc4659cf3a1896f7d8b770dbce38ee3bbfed795bd"
+          ],
+          "frozen_preprocessor_hash": "107740eaf348b5af13e329675d1ae772baafc4bc428d2422b3e98c4bc54d486e",
+          "group_count": 2776,
+          "stage": "EARLY_20"
+        },
+        {
+          "authority_fold": 0,
+          "checkpoint_ids": [
+            "recommend_hybrid_intervention_outer_0_seed_42",
+            "recommend_hybrid_intervention_outer_0_seed_1201",
+            "recommend_hybrid_intervention_outer_0_seed_2026",
+            "recommend_hybrid_intervention_outer_0_seed_3407",
+            "recommend_hybrid_intervention_outer_0_seed_7319"
+          ],
+          "checkpoint_sha256": [
+            "623cf15c2d08b275054632e379c67b85619f5e84068dcd3bcb1a679d80549c53",
+            "e605f51f4ea9bc10709985f00203bbd4a31ee137bad36f9ef944bdbf2471e243",
+            "3fa3e66bd16067243d97afc74a5bc92456e69a56dc299c9cef380e38feed934a",
+            "a2464db1f1ce3d1c9bb7b9d8dab13532544faa05a679126d1467aa1abd678fe4",
+            "f9592dbc744d13eaaedd70cbfe65efd456a862d63de3af107fe1fbb296475372"
+          ],
+          "frozen_preprocessor_hash": "c32f20cf7f8d277257947f0ec6d2cb4d5a996db9a641d61e04e44d1b535d24a5",
+          "group_count": 3488,
+          "stage": "EARLY_35"
+        },
+        {
+          "authority_fold": 1,
+          "checkpoint_ids": [
+            "recommend_hybrid_intervention_outer_1_seed_42",
+            "recommend_hybrid_intervention_outer_1_seed_1201",
+            "recommend_hybrid_intervention_outer_1_seed_2026",
+            "recommend_hybrid_intervention_outer_1_seed_3407",
+            "recommend_hybrid_intervention_outer_1_seed_7319"
+          ],
+          "checkpoint_sha256": [
+            "358dfdfba0932d4149aa986f2a822a1c67212b800c3f9b0a4fa9037ad1fac372",
+            "124bf20f3ffdb18cc97d69b1f76b7693b1629a1b01dbc57c61c87341c666162a",
+            "f32d1d2dc60976f5513d16bccdd86fc54400ba88c803795b57fa4399612c2b0f",
+            "11d6199d754e115e175b1e5a917c1121e1a638b7b270c738b3efb060cf95b34f",
+            "fbd654fda245e238be33a6875e3f84f9e61f2a8da52feb2701011031c2fc69d6"
+          ],
+          "frozen_preprocessor_hash": "9fb91aaea0c59c28deb65d8ee0d0ed75181d38d8a191f3a53d27273faeeec97b",
+          "group_count": 3453,
+          "stage": "EARLY_35"
+        },
+        {
+          "authority_fold": 2,
+          "checkpoint_ids": [
+            "recommend_hybrid_intervention_outer_2_seed_42",
+            "recommend_hybrid_intervention_outer_2_seed_1201",
+            "recommend_hybrid_intervention_outer_2_seed_2026",
+            "recommend_hybrid_intervention_outer_2_seed_3407",
+            "recommend_hybrid_intervention_outer_2_seed_7319"
+          ],
+          "checkpoint_sha256": [
+            "48a70af3aa207e56f6f999c6ecf32ff1fc5f67b9b4ae545a36a2528d1dff08e0",
+            "c49d3375a3c5d0ffb4b9a2d4a0c37606d006699b7c3742b4c1b9d738fe7f2368",
+            "ee5644d2c7e0eb42077c1763f4bb1d17c06d4c4422e87d5b191c600377bdf6ef",
+            "178a288ebc985036862b12f93c42087b900aa7c9e66716acd2162792c68eeb3e",
+            "321e9d31f70275fa482d890cc4659cf3a1896f7d8b770dbce38ee3bbfed795bd"
+          ],
+          "frozen_preprocessor_hash": "107740eaf348b5af13e329675d1ae772baafc4bc428d2422b3e98c4bc54d486e",
+          "group_count": 3501,
+          "stage": "EARLY_35"
+        },
+        {
+          "authority_fold": 0,
+          "checkpoint_ids": [
+            "recommend_hybrid_intervention_outer_0_seed_42",
+            "recommend_hybrid_intervention_outer_0_seed_1201",
+            "recommend_hybrid_intervention_outer_0_seed_2026",
+            "recommend_hybrid_intervention_outer_0_seed_3407",
+            "recommend_hybrid_intervention_outer_0_seed_7319"
+          ],
+          "checkpoint_sha256": [
+            "623cf15c2d08b275054632e379c67b85619f5e84068dcd3bcb1a679d80549c53",
+            "e605f51f4ea9bc10709985f00203bbd4a31ee137bad36f9ef944bdbf2471e243",
+            "3fa3e66bd16067243d97afc74a5bc92456e69a56dc299c9cef380e38feed934a",
+            "a2464db1f1ce3d1c9bb7b9d8dab13532544faa05a679126d1467aa1abd678fe4",
+            "f9592dbc744d13eaaedd70cbfe65efd456a862d63de3af107fe1fbb296475372"
+          ],
+          "frozen_preprocessor_hash": "c32f20cf7f8d277257947f0ec6d2cb4d5a996db9a641d61e04e44d1b535d24a5",
+          "group_count": 3469,
+          "stage": "MIDDLE_50"
+        },
+        {
+          "authority_fold": 1,
+          "checkpoint_ids": [
+            "recommend_hybrid_intervention_outer_1_seed_42",
+            "recommend_hybrid_intervention_outer_1_seed_1201",
+            "recommend_hybrid_intervention_outer_1_seed_2026",
+            "recommend_hybrid_intervention_outer_1_seed_3407",
+            "recommend_hybrid_intervention_outer_1_seed_7319"
+          ],
+          "checkpoint_sha256": [
+            "358dfdfba0932d4149aa986f2a822a1c67212b800c3f9b0a4fa9037ad1fac372",
+            "124bf20f3ffdb18cc97d69b1f76b7693b1629a1b01dbc57c61c87341c666162a",
+            "f32d1d2dc60976f5513d16bccdd86fc54400ba88c803795b57fa4399612c2b0f",
+            "11d6199d754e115e175b1e5a917c1121e1a638b7b270c738b3efb060cf95b34f",
+            "fbd654fda245e238be33a6875e3f84f9e61f2a8da52feb2701011031c2fc69d6"
+          ],
+          "frozen_preprocessor_hash": "9fb91aaea0c59c28deb65d8ee0d0ed75181d38d8a191f3a53d27273faeeec97b",
+          "group_count": 3457,
+          "stage": "MIDDLE_50"
+        },
+        {
+          "authority_fold": 2,
+          "checkpoint_ids": [
+            "recommend_hybrid_intervention_outer_2_seed_42",
+            "recommend_hybrid_intervention_outer_2_seed_1201",
+            "recommend_hybrid_intervention_outer_2_seed_2026",
+            "recommend_hybrid_intervention_outer_2_seed_3407",
+            "recommend_hybrid_intervention_outer_2_seed_7319"
+          ],
+          "checkpoint_sha256": [
+            "48a70af3aa207e56f6f999c6ecf32ff1fc5f67b9b4ae545a36a2528d1dff08e0",
+            "c49d3375a3c5d0ffb4b9a2d4a0c37606d006699b7c3742b4c1b9d738fe7f2368",
+            "ee5644d2c7e0eb42077c1763f4bb1d17c06d4c4422e87d5b191c600377bdf6ef",
+            "178a288ebc985036862b12f93c42087b900aa7c9e66716acd2162792c68eeb3e",
+            "321e9d31f70275fa482d890cc4659cf3a1896f7d8b770dbce38ee3bbfed795bd"
+          ],
+          "frozen_preprocessor_hash": "107740eaf348b5af13e329675d1ae772baafc4bc428d2422b3e98c4bc54d486e",
+          "group_count": 3459,
+          "stage": "MIDDLE_50"
+        }
+      ],
+      "path": "artifacts/recommend_hybrid/two_stage_v3/cache/cross_fitted/GROUP_FEATURES.parquet",
+      "rows": 29043,
+      "sha256": "ecb49a55816c868c532f9c1ddc60caef8e5f7f6ee6afba45049a91c33e5f8c20"
+    },
+    {
+      "authority_mode": "OUTER_0_AUTHORITY_FOR_ALL_GROUPS",
+      "authority_rows": [
+        {
+          "authority_fold": 0,
+          "checkpoint_ids": [
+            "recommend_hybrid_intervention_outer_0_seed_42",
+            "recommend_hybrid_intervention_outer_0_seed_1201",
+            "recommend_hybrid_intervention_outer_0_seed_2026",
+            "recommend_hybrid_intervention_outer_0_seed_3407",
+            "recommend_hybrid_intervention_outer_0_seed_7319"
+          ],
+          "checkpoint_sha256": [
+            "623cf15c2d08b275054632e379c67b85619f5e84068dcd3bcb1a679d80549c53",
+            "e605f51f4ea9bc10709985f00203bbd4a31ee137bad36f9ef944bdbf2471e243",
+            "3fa3e66bd16067243d97afc74a5bc92456e69a56dc299c9cef380e38feed934a",
+            "a2464db1f1ce3d1c9bb7b9d8dab13532544faa05a679126d1467aa1abd678fe4",
+            "f9592dbc744d13eaaedd70cbfe65efd456a862d63de3af107fe1fbb296475372"
+          ],
+          "frozen_preprocessor_hash": "c32f20cf7f8d277257947f0ec6d2cb4d5a996db9a641d61e04e44d1b535d24a5",
+          "group_count": 8216,
+          "stage": "EARLY_20"
+        },
+        {
+          "authority_fold": 0,
+          "checkpoint_ids": [
+            "recommend_hybrid_intervention_outer_0_seed_42",
+            "recommend_hybrid_intervention_outer_0_seed_1201",
+            "recommend_hybrid_intervention_outer_0_seed_2026",
+            "recommend_hybrid_intervention_outer_0_seed_3407",
+            "recommend_hybrid_intervention_outer_0_seed_7319"
+          ],
+          "checkpoint_sha256": [
+            "623cf15c2d08b275054632e379c67b85619f5e84068dcd3bcb1a679d80549c53",
+            "e605f51f4ea9bc10709985f00203bbd4a31ee137bad36f9ef944bdbf2471e243",
+            "3fa3e66bd16067243d97afc74a5bc92456e69a56dc299c9cef380e38feed934a",
+            "a2464db1f1ce3d1c9bb7b9d8dab13532544faa05a679126d1467aa1abd678fe4",
+            "f9592dbc744d13eaaedd70cbfe65efd456a862d63de3af107fe1fbb296475372"
+          ],
+          "frozen_preprocessor_hash": "c32f20cf7f8d277257947f0ec6d2cb4d5a996db9a641d61e04e44d1b535d24a5",
+          "group_count": 10442,
+          "stage": "EARLY_35"
+        },
+        {
+          "authority_fold": 0,
+          "checkpoint_ids": [
+            "recommend_hybrid_intervention_outer_0_seed_42",
+            "recommend_hybrid_intervention_outer_0_seed_1201",
+            "recommend_hybrid_intervention_outer_0_seed_2026",
+            "recommend_hybrid_intervention_outer_0_seed_3407",
+            "recommend_hybrid_intervention_outer_0_seed_7319"
+          ],
+          "checkpoint_sha256": [
+            "623cf15c2d08b275054632e379c67b85619f5e84068dcd3bcb1a679d80549c53",
+            "e605f51f4ea9bc10709985f00203bbd4a31ee137bad36f9ef944bdbf2471e243",
+            "3fa3e66bd16067243d97afc74a5bc92456e69a56dc299c9cef380e38feed934a",
+            "a2464db1f1ce3d1c9bb7b9d8dab13532544faa05a679126d1467aa1abd678fe4",
+            "f9592dbc744d13eaaedd70cbfe65efd456a862d63de3af107fe1fbb296475372"
+          ],
+          "frozen_preprocessor_hash": "c32f20cf7f8d277257947f0ec6d2cb4d5a996db9a641d61e04e44d1b535d24a5",
+          "group_count": 10385,
+          "stage": "MIDDLE_50"
+        }
+      ],
+      "path": "artifacts/recommend_hybrid/two_stage_v3/cache/outer_0/GROUP_FEATURES.parquet",
+      "rows": 29043,
+      "sha256": "e95d80a9992acc05e70e09c470e6eca95bdd928e27cf7ba62db65f5319fa5d3a"
+    },
+    {
+      "authority_mode": "OUTER_1_AUTHORITY_FOR_ALL_GROUPS",
+      "authority_rows": [
+        {
+          "authority_fold": 1,
+          "checkpoint_ids": [
+            "recommend_hybrid_intervention_outer_1_seed_42",
+            "recommend_hybrid_intervention_outer_1_seed_1201",
+            "recommend_hybrid_intervention_outer_1_seed_2026",
+            "recommend_hybrid_intervention_outer_1_seed_3407",
+            "recommend_hybrid_intervention_outer_1_seed_7319"
+          ],
+          "checkpoint_sha256": [
+            "358dfdfba0932d4149aa986f2a822a1c67212b800c3f9b0a4fa9037ad1fac372",
+            "124bf20f3ffdb18cc97d69b1f76b7693b1629a1b01dbc57c61c87341c666162a",
+            "f32d1d2dc60976f5513d16bccdd86fc54400ba88c803795b57fa4399612c2b0f",
+            "11d6199d754e115e175b1e5a917c1121e1a638b7b270c738b3efb060cf95b34f",
+            "fbd654fda245e238be33a6875e3f84f9e61f2a8da52feb2701011031c2fc69d6"
+          ],
+          "frozen_preprocessor_hash": "9fb91aaea0c59c28deb65d8ee0d0ed75181d38d8a191f3a53d27273faeeec97b",
+          "group_count": 8216,
+          "stage": "EARLY_20"
+        },
+        {
+          "authority_fold": 1,
+          "checkpoint_ids": [
+            "recommend_hybrid_intervention_outer_1_seed_42",
+            "recommend_hybrid_intervention_outer_1_seed_1201",
+            "recommend_hybrid_intervention_outer_1_seed_2026",
+            "recommend_hybrid_intervention_outer_1_seed_3407",
+            "recommend_hybrid_intervention_outer_1_seed_7319"
+          ],
+          "checkpoint_sha256": [
+            "358dfdfba0932d4149aa986f2a822a1c67212b800c3f9b0a4fa9037ad1fac372",
+            "124bf20f3ffdb18cc97d69b1f76b7693b1629a1b01dbc57c61c87341c666162a",
+            "f32d1d2dc60976f5513d16bccdd86fc54400ba88c803795b57fa4399612c2b0f",
+            "11d6199d754e115e175b1e5a917c1121e1a638b7b270c738b3efb060cf95b34f",
+            "fbd654fda245e238be33a6875e3f84f9e61f2a8da52feb2701011031c2fc69d6"
+          ],
+          "frozen_preprocessor_hash": "9fb91aaea0c59c28deb65d8ee0d0ed75181d38d8a191f3a53d27273faeeec97b",
+          "group_count": 10442,
+          "stage": "EARLY_35"
+        },
+        {
+          "authority_fold": 1,
+          "checkpoint_ids": [
+            "recommend_hybrid_intervention_outer_1_seed_42",
+            "recommend_hybrid_intervention_outer_1_seed_1201",
+            "recommend_hybrid_intervention_outer_1_seed_2026",
+            "recommend_hybrid_intervention_outer_1_seed_3407",
+            "recommend_hybrid_intervention_outer_1_seed_7319"
+          ],
+          "checkpoint_sha256": [
+            "358dfdfba0932d4149aa986f2a822a1c67212b800c3f9b0a4fa9037ad1fac372",
+            "124bf20f3ffdb18cc97d69b1f76b7693b1629a1b01dbc57c61c87341c666162a",
+            "f32d1d2dc60976f5513d16bccdd86fc54400ba88c803795b57fa4399612c2b0f",
+            "11d6199d754e115e175b1e5a917c1121e1a638b7b270c738b3efb060cf95b34f",
+            "fbd654fda245e238be33a6875e3f84f9e61f2a8da52feb2701011031c2fc69d6"
+          ],
+          "frozen_preprocessor_hash": "9fb91aaea0c59c28deb65d8ee0d0ed75181d38d8a191f3a53d27273faeeec97b",
+          "group_count": 10385,
+          "stage": "MIDDLE_50"
+        }
+      ],
+      "path": "artifacts/recommend_hybrid/two_stage_v3/cache/outer_1/GROUP_FEATURES.parquet",
+      "rows": 29043,
+      "sha256": "dd1cec9ae1039ac34cc802cbb7a1c24c037250d3a12da03bfbc8c59daa6b4cc2"
+    },
+    {
+      "authority_mode": "OUTER_2_AUTHORITY_FOR_ALL_GROUPS",
+      "authority_rows": [
+        {
+          "authority_fold": 2,
+          "checkpoint_ids": [
+            "recommend_hybrid_intervention_outer_2_seed_42",
+            "recommend_hybrid_intervention_outer_2_seed_1201",
+            "recommend_hybrid_intervention_outer_2_seed_2026",
+            "recommend_hybrid_intervention_outer_2_seed_3407",
+            "recommend_hybrid_intervention_outer_2_seed_7319"
+          ],
+          "checkpoint_sha256": [
+            "48a70af3aa207e56f6f999c6ecf32ff1fc5f67b9b4ae545a36a2528d1dff08e0",
+            "c49d3375a3c5d0ffb4b9a2d4a0c37606d006699b7c3742b4c1b9d738fe7f2368",
+            "ee5644d2c7e0eb42077c1763f4bb1d17c06d4c4422e87d5b191c600377bdf6ef",
+            "178a288ebc985036862b12f93c42087b900aa7c9e66716acd2162792c68eeb3e",
+            "321e9d31f70275fa482d890cc4659cf3a1896f7d8b770dbce38ee3bbfed795bd"
+          ],
+          "frozen_preprocessor_hash": "107740eaf348b5af13e329675d1ae772baafc4bc428d2422b3e98c4bc54d486e",
+          "group_count": 8216,
+          "stage": "EARLY_20"
+        },
+        {
+          "authority_fold": 2,
+          "checkpoint_ids": [
+            "recommend_hybrid_intervention_outer_2_seed_42",
+            "recommend_hybrid_intervention_outer_2_seed_1201",
+            "recommend_hybrid_intervention_outer_2_seed_2026",
+            "recommend_hybrid_intervention_outer_2_seed_3407",
+            "recommend_hybrid_intervention_outer_2_seed_7319"
+          ],
+          "checkpoint_sha256": [
+            "48a70af3aa207e56f6f999c6ecf32ff1fc5f67b9b4ae545a36a2528d1dff08e0",
+            "c49d3375a3c5d0ffb4b9a2d4a0c37606d006699b7c3742b4c1b9d738fe7f2368",
+            "ee5644d2c7e0eb42077c1763f4bb1d17c06d4c4422e87d5b191c600377bdf6ef",
+            "178a288ebc985036862b12f93c42087b900aa7c9e66716acd2162792c68eeb3e",
+            "321e9d31f70275fa482d890cc4659cf3a1896f7d8b770dbce38ee3bbfed795bd"
+          ],
+          "frozen_preprocessor_hash": "107740eaf348b5af13e329675d1ae772baafc4bc428d2422b3e98c4bc54d486e",
+          "group_count": 10442,
+          "stage": "EARLY_35"
+        },
+        {
+          "authority_fold": 2,
+          "checkpoint_ids": [
+            "recommend_hybrid_intervention_outer_2_seed_42",
+            "recommend_hybrid_intervention_outer_2_seed_1201",
+            "recommend_hybrid_intervention_outer_2_seed_2026",
+            "recommend_hybrid_intervention_outer_2_seed_3407",
+            "recommend_hybrid_intervention_outer_2_seed_7319"
+          ],
+          "checkpoint_sha256": [
+            "48a70af3aa207e56f6f999c6ecf32ff1fc5f67b9b4ae545a36a2528d1dff08e0",
+            "c49d3375a3c5d0ffb4b9a2d4a0c37606d006699b7c3742b4c1b9d738fe7f2368",
+            "ee5644d2c7e0eb42077c1763f4bb1d17c06d4c4422e87d5b191c600377bdf6ef",
+            "178a288ebc985036862b12f93c42087b900aa7c9e66716acd2162792c68eeb3e",
+            "321e9d31f70275fa482d890cc4659cf3a1896f7d8b770dbce38ee3bbfed795bd"
+          ],
+          "frozen_preprocessor_hash": "107740eaf348b5af13e329675d1ae772baafc4bc428d2422b3e98c4bc54d486e",
+          "group_count": 10385,
+          "stage": "MIDDLE_50"
+        }
+      ],
+      "path": "artifacts/recommend_hybrid/two_stage_v3/cache/outer_2/GROUP_FEATURES.parquet",
+      "rows": 29043,
+      "sha256": "105f5d16e600547580e368d42f117ad85521a7032c3cc3b29df33582635c3a5b"
+    }
+  ],
+  "device": "cuda",
+  "groups": 29043,
+  "positive_groups": 9304,
+  "protocol_sha256": "cfd71318a75f11841e6db4e4b38d672739c500dc3499fd33803ca9cca73c292a",
+  "schema_version": "two_stage_v3_embedding_cache_v1",
+  "status": "COMPLETE",
+  "student_state_dimension": 64,
+  "tabular_expert_dimension": 32
+}

@@ -1,0 +1,40 @@
+{
+  "claim_boundary": "OFFLINE_PREDICTIVE_RELEVANCE_NOT_CAUSAL_EFFECT",
+  "cluster": "base_record_id",
+  "end_to_end_precision_at_1": {
+    "bootstrap_mean": 0.6432547608782219,
+    "lower_95": 0.632707867550844,
+    "point_estimate": 0.6430682617874736,
+    "upper_95": 0.654000225168935
+  },
+  "group_count": 29043,
+  "learner_count": 12656,
+  "positive_group_coverage": {
+    "bootstrap_mean": 0.5214109069551077,
+    "lower_95": 0.5109973486284586,
+    "point_estimate": 0.5212811693895099,
+    "upper_95": 0.532393409114545
+  },
+  "replicates": 2000,
+  "schema_version": "two_stage_v3_learner_bootstrap_v1",
+  "seed": 20260804,
+  "stage_a_precision": {
+    "bootstrap_mean": 0.6827934964603274,
+    "lower_95": 0.6724470039873536,
+    "point_estimate": 0.6826178747361014,
+    "upper_95": 0.6933826558929261
+  },
+  "stage_a_recall": {
+    "bootstrap_mean": 0.5214109069551077,
+    "lower_95": 0.5109973486284586,
+    "point_estimate": 0.5212811693895099,
+    "upper_95": 0.532393409114545
+  },
+  "stage_b_conditional_precision_at_1": {
+    "bootstrap_mean": 0.9420930733216482,
+    "lower_95": 0.9355314132438327,
+    "point_estimate": 0.9420618556701031,
+    "upper_95": 0.948160636301454
+  },
+  "status": "COMPLETE"
+}

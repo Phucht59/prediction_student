@@ -1,0 +1,160 @@
+{
+  "abstention_rate": 0.7257964418700869,
+  "action_diversity": 4,
+  "checkpoints": [
+    {
+      "path": "artifacts/recommend_hybrid/two_stage_v3/final_oof/fold_0/head_seed42.pt",
+      "seed": 42,
+      "sha256": "066e0c0d83394b816448b5e65225562d11194922804db0dfbac7a76cd7de8339"
+    },
+    {
+      "path": "artifacts/recommend_hybrid/two_stage_v3/final_oof/fold_0/head_seed2026.pt",
+      "seed": 2026,
+      "sha256": "d0b7d07eb05433e9ee7314e3087baf94c37d1de0e21d42d59f2ee25a8e17b4f4"
+    },
+    {
+      "path": "artifacts/recommend_hybrid/two_stage_v3/final_oof/fold_0/head_seed7319.pt",
+      "seed": 7319,
+      "sha256": "2751990800f4e6c1e864fb9010da66a06ae92aa9a5063fc3cb9492b9f8461957"
+    }
+  ],
+  "conditional_precision_at_1_all_positive": 0.944801026957638,
+  "correct_issued_actions": 1666,
+  "end_to_end_precision_at_1": 0.6284420973217654,
+  "false_issue_groups": 874,
+  "issued_groups": 2651,
+  "issued_positive_groups": 1777,
+  "mrr": 0.9698331193838254,
+  "ndcg_at_3": 0.9732759357639795,
+  "outer_fold": 0,
+  "per_action": [
+    {
+      "action_family": "ASSESSMENT_COMPLETION",
+      "action_id": 0,
+      "conditional_precision": 0.0,
+      "correct": 0,
+      "issued": 0,
+      "issued_positive_groups": 0,
+      "precision": 0.0
+    },
+    {
+      "action_family": "STUDY_REGULARITY",
+      "action_id": 1,
+      "conditional_precision": 0.9333333333333333,
+      "correct": 224,
+      "issued": 391,
+      "issued_positive_groups": 240,
+      "precision": 0.5728900255754475
+    },
+    {
+      "action_family": "VLE_ENGAGEMENT",
+      "action_id": 2,
+      "conditional_precision": 0.9572039942938659,
+      "correct": 671,
+      "issued": 1009,
+      "issued_positive_groups": 701,
+      "precision": 0.6650148662041625
+    },
+    {
+      "action_family": "QUIZ_OR_RETRIEVAL_PRACTICE",
+      "action_id": 3,
+      "conditional_precision": 0.90625,
+      "correct": 87,
+      "issued": 141,
+      "issued_positive_groups": 96,
+      "precision": 0.6170212765957447
+    },
+    {
+      "action_family": "CONTENT_REVIEW",
+      "action_id": 4,
+      "conditional_precision": 0.9243243243243243,
+      "correct": 684,
+      "issued": 1110,
+      "issued_positive_groups": 740,
+      "precision": 0.6162162162162163
+    }
+  ],
+  "per_stage": [
+    {
+      "abstention_rate": 0.9243821468092954,
+      "action_diversity": 4,
+      "conditional_precision_at_1_all_positive": 0.9281663516068053,
+      "correct_issued_actions": 132,
+      "end_to_end_precision_at_1": 0.6439024390243903,
+      "false_issue_groups": 68,
+      "issued_groups": 205,
+      "issued_positive_groups": 137,
+      "mrr": 0.9598298676748582,
+      "ndcg_at_3": 0.9673445787874978,
+      "positive_group_coverage": 0.2589792060491493,
+      "positive_groups": 529,
+      "stage": "EARLY_20",
+      "stage_a_precision": 0.6682926829268293,
+      "stage_a_recall": 0.2589792060491493,
+      "stage_b_conditional_precision_at_1": 0.9635036496350365,
+      "top_action_concentration": 0.9317073170731708
+    },
+    {
+      "abstention_rate": 0.6875,
+      "action_diversity": 4,
+      "conditional_precision_at_1_all_positive": 0.9333333333333333,
+      "correct_issued_actions": 670,
+      "end_to_end_precision_at_1": 0.6146788990825688,
+      "false_issue_groups": 359,
+      "issued_groups": 1090,
+      "issued_positive_groups": 731,
+      "mrr": 0.9639231824417008,
+      "ndcg_at_3": 0.9695293196089514,
+      "positive_group_coverage": 0.6016460905349794,
+      "positive_groups": 1215,
+      "stage": "EARLY_35",
+      "stage_a_precision": 0.6706422018348623,
+      "stage_a_recall": 0.6016460905349794,
+      "stage_b_conditional_precision_at_1": 0.9165526675786594,
+      "top_action_concentration": 0.4055045871559633
+    },
+    {
+      "abstention_rate": 0.6091092533871433,
+      "action_diversity": 4,
+      "conditional_precision_at_1_all_positive": 0.9613702623906706,
+      "correct_issued_actions": 864,
+      "end_to_end_precision_at_1": 0.6371681415929203,
+      "false_issue_groups": 447,
+      "issued_groups": 1356,
+      "issued_positive_groups": 909,
+      "mrr": 0.9789237123420798,
+      "ndcg_at_3": 0.9788807655518209,
+      "positive_group_coverage": 0.6625364431486881,
+      "positive_groups": 1372,
+      "stage": "MIDDLE_50",
+      "stage_a_precision": 0.6703539823008849,
+      "stage_a_recall": 0.6625364431486881,
+      "stage_b_conditional_precision_at_1": 0.9504950495049505,
+      "top_action_concentration": 0.4882005899705015
+    }
+  ],
+  "positive_group_coverage": 0.5702824133504493,
+  "positive_groups": 3116,
+  "selected_config_id": "5e5b462c2327386b",
+  "stage_a_discrimination": {
+    "average_precision": 0.685593194999524,
+    "brier_score": 0.17236599596068458,
+    "roc_auc": 0.8224394191780264
+  },
+  "stage_a_precision": 0.6703130894002264,
+  "stage_a_recall": 0.5702824133504493,
+  "stage_b_conditional_precision_at_1": 0.9375351716375915,
+  "thresholds": {
+    "action_probability_by_id": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "gate_probability": 0.6566860430956319,
+    "minimum_action_margin": 0.0,
+    "minimum_action_probability": 0.0
+  },
+  "top_action_concentration": 0.41870992078460956
+}

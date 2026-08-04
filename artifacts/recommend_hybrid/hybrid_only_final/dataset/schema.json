@@ -12,6 +12,12 @@
     "MEDIUM": 0.5,
     "basis": "same_ordinal_severity_scale_as_runtime_policy_evidence"
   },
+  "opportunity_count_authority": {
+    "cutoff_safe": true,
+    "future_behaviour_used": false,
+    "repair": "serialization omission only",
+    "source": "published assessment and VLE schedules"
+  },
   "protected_features": [],
   "raw_evidence_column": "raw_evidence_strength",
   "raw_need_column": "raw_deficit_score",
@@ -21,6 +27,7 @@
     "risk_reduction",
     "evidence_strength",
     "deficit_score",
+    "opportunity_count",
     "workload_minutes",
     "action_available",
     "prerequisite_status"
