@@ -105,6 +105,16 @@ If the optimistic registered-grid oracle remains below 0.80 at coverage 0.50, th
 
 The second choice would be a different module boundary, not a claim that V4 passed its original gate.
 
+## Current authority state
+
+```text
+V4_MAIN_EVALUATION_COMPLETE
+V4_EVIDENCE_BELOW_GATE
+V4_NEGATIVE_CONTROLS_NOT_REQUIRED
+V4_RUNTIME_NOT_AUTHORIZED
+V4_FEASIBILITY_AUDIT_PENDING_LOCAL_EXECUTION
+```
+
 ## Claim boundary
 
 ```text
