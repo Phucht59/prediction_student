@@ -14,6 +14,12 @@ Branch:
 codex/constrained-counterfactual-recommender
 ```
 
+Pull the latest remote head before execution. The required serialization-repair implementation is present at or after:
+
+```text
+98e606f480c8493a2f92c3b6780057478ff9e50a
+```
+
 Final architecture:
 
 ```text
@@ -30,7 +36,7 @@ This is one hybrid deep-learning recommendation system. Do not train or invoke X
 OFFLINE_PREDICTIVE_RELEVANCE_NOT_CAUSAL_EFFECT
 ```
 
-The registered primary gate remains:
+Registered primary gates:
 
 ```text
 Held-out end-to-end Precision@1 >= 0.80
