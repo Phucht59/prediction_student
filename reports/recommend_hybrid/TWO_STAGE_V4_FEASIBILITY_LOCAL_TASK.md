@@ -20,6 +20,20 @@ Branch:
 codex/constrained-counterfactual-recommender
 ```
 
+The V4 execution authority is commit:
+
+```text
+5550f590e5afa69af54dd2c6d05ea2c9c22aabb6
+```
+
+The cache registry hash in `NESTED_OOF_RESULTS.json` is:
+
+```text
+96711031fc92876c633898a95b780ab5ea72560640ec6c12f88b412cbb43faa5
+```
+
+`cfd71318...` is the historical V3 protocol hash, not the cache registry hash.
+
 Preserve all untracked V2.1 batches. Do not run training, bootstrap, controls, or release again.
 
 ## Commands
