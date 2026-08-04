@@ -48,13 +48,16 @@ jobs:
             src/recommend_hybrid/hybrid_only_final/__init__.py \
             src/recommend_hybrid/hybrid_only_final/scorer.py \
             src/recommend_hybrid/hybrid_only_final/runtime.py \
+            src/recommend_hybrid/hybrid_only_final/plan_builder.py \
+            src/recommend_hybrid/hybrid_only_final/pipeline.py \
             scripts/recommend_hybrid/hybrid_only_final/build_silver_dataset.py \
             scripts/recommend_hybrid/hybrid_only_final/normalize_evidence.py \
             scripts/recommend_hybrid/hybrid_only_final/tune_and_evaluate_fast.py \
             scripts/recommend_hybrid/hybrid_only_final/bootstrap.py \
             scripts/recommend_hybrid/hybrid_only_final/verify.py \
             scripts/recommend_hybrid/hybrid_only_final/verify_fast.py \
-            scripts/recommend_hybrid/hybrid_only_final/release.py
+            scripts/recommend_hybrid/hybrid_only_final/release.py \
+            scripts/recommend_hybrid/hybrid_only_final/render_report.py
 
       - name: Ruff hybrid-only scope
         run: |
