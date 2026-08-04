@@ -17,7 +17,7 @@ def synthetic() -> tuple[np.ndarray, ...]:
             [0.0, 5.0, 1.0, 0.0, 0.0],
             [0.0, 1.0, 5.0, 0.0, 0.0],
             [5.0, 1.0, 0.0, 0.0, 0.0],
-            [0.0, 5.0, 1.0, 0.0, 0.0],
+            [5.0, 1.0, 0.0, 0.0, 0.0],
             [0.0, 1.0, 5.0, 0.0, 0.0],
             [5.0, 1.0, 0.0, 0.0, 0.0],
         ],
@@ -30,7 +30,14 @@ def synthetic() -> tuple[np.ndarray, ...]:
     action_target[1, 2] = 1.0
     action_target[5, 1] = 1.0
     stages = np.array(
-        ["EARLY_20", "EARLY_35", "MIDDLE_50", "EARLY_20", "EARLY_35", "MIDDLE_50"],
+        [
+            "EARLY_20",
+            "EARLY_35",
+            "MIDDLE_50",
+            "EARLY_20",
+            "EARLY_35",
+            "MIDDLE_50",
+        ],
         dtype=object,
     )
     return gate_logits, action_logits, mask, group_target, action_target, stages
