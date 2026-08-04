@@ -1,0 +1,100 @@
+schema_version: hybrid_only_final_protocol_v1
+status: FROZEN_BEFORE_LOCAL_EXECUTION
+architecture:
+  learned_models_allowed:
+    - frozen_residual_cnn_bilstm
+  learned_recommendation_model_allowed: false
+  ranking_method: deterministic_hybrid_utility
+  prediction_source: artifacts/recommend_hybrid/counterfactual/full_cohort/action_scores.parquet
+  future_labels_role: held_out_silver_evaluation_only
+claim_boundary: HYBRID_MODEL_GUIDED_DECISION_SUPPORT_NOT_CAUSAL_EFFECT
+
+action_mapping:
+  ASSESSMENT_COMPLETION: ASSESSMENT_COMPLETION
+  STUDY_REGULARITY: STUDY_SCHEDULE
+  VLE_ENGAGEMENT: VLE_ENGAGEMENT
+  QUIZ_OR_RETRIEVAL_PRACTICE: RETRIEVAL_PRACTICE
+  CONTENT_REVIEW: LEARNING_CONSOLIDATION
+  excluded_policy_only_actions:
+    - INSTRUCTOR_CONTACT
+    - ADVISOR_ESCALATION
+    - DIAGNOSTIC_CHECK
+    - PROGRESS_MONITORING
+
+silver_label:
+  positive_definition: action_specific_future_behavior_improves_over_own_pre_cutoff_baseline
+  assessment_requires_submission: true
+  assessment_proximal_signal_required: true
+  minimum_relative_improvement: 0.05
+  minimum_absolute_improvement: 0.000001
+  labels_used_at_runtime: false
+  causal_interpretation: false
+
+evaluation:
+  outer_folds: [0, 1, 2]
+  inner_group_folds: 3
+  group_key: base_record_id
+  primary_metric: top1_precision_on_issued_recommendations
+  secondary_metrics:
+    - actionable_coverage
+    - selective_accuracy
+    - macro_action_precision
+    - per_stage_precision
+    - top_action_concentration
+    - action_diversity
+  denominator:
+    precision: issued_recommendations_with_evaluable_future_window
+    coverage: evaluable_groups_with_at_least_one_silver_positive_action
+  bootstrap:
+    cluster: base_record_id
+    replicates: 2000
+    seed: 20260804
+
+selection_rule:
+  target_precision: 0.80
+  minimum_inner_coverage: 0.50
+  minimum_action_diversity: 3
+  maximum_top_action_concentration: 0.75
+  ordering:
+    - configurations_meeting_target_precision
+    - highest_coverage
+    - highest_worst_stage_precision
+    - highest_macro_action_precision
+    - lowest_abstention
+
+release_gates:
+  top1_precision_minimum: 0.80
+  top1_precision_bootstrap_lower_minimum: 0.78
+  actionable_coverage_minimum: 0.50
+  each_outer_fold_precision_minimum: 0.75
+  supported_stage_precision_minimum: 0.70
+  action_diversity_minimum: 3
+  top_action_concentration_maximum: 0.75
+  protected_feature_use: 0
+  temporal_leakage: 0
+  constraint_violations: 0
+  deterministic_replay_required: true
+
+search_space:
+  risk_weight: [0.50, 0.65, 0.80]
+  evidence_weight: [0.10, 0.20]
+  need_weight: [0.10, 0.20]
+  certainty_weight: [0.05, 0.10]
+  workload_weight: [0.05, 0.10]
+  minimum_risk_reduction: [0.00, 0.01, 0.03, 0.05]
+  maximum_uncertainty: [0.05, 0.10, 0.20, 1.00]
+  minimum_evidence: [0.20, 0.40, 0.60]
+  minimum_top_margin: [0.00, 0.02, 0.05, 0.10]
+  minimum_top_score: [0.00, 0.15, 0.25]
+
+prohibited:
+  - xgboost
+  - lightgbm
+  - lambdamart
+  - logistic_regression_ranker
+  - pairwise_ranker
+  - neural_action_ranker
+  - test_fold_threshold_fitting
+  - post_result_gate_changes
+  - protected_attributes_in_scoring
+  - future_features_in_scoring
