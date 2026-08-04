@@ -1,0 +1,27 @@
+{
+  "action_availability_hardcoded": false,
+  "candidate_rows_before_rankability": 96199,
+  "candidate_rows_rankable": 84991,
+  "course_schedule_used": true,
+  "eligible_actions_by_family": {
+    "ASSESSMENT_COMPLETION": 32984,
+    "CONTENT_REVIEW": 4291,
+    "QUIZ_OR_RETRIEVAL_PRACTICE": 1875,
+    "STUDY_REGULARITY": 31601,
+    "VLE_ENGAGEMENT": 14240
+  },
+  "groups_by_fold": {
+    "0": 15280,
+    "1": 15283,
+    "2": 15390
+  },
+  "groups_by_stage": {
+    "EARLY_20": 15942,
+    "EARLY_35": 15376,
+    "MIDDLE_50": 14635
+  },
+  "not_rankable_policy_fallback": 12041,
+  "rankable_groups": 33912,
+  "raw_learner_course_records": 16572,
+  "transition_groups": 45953
+}

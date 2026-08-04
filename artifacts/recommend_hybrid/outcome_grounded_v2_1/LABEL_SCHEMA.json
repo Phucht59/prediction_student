@@ -1,0 +1,6 @@
+{
+  "continuous_primary": "0.6*standardized_behavior_residual + 0.4*standardized_proximal_residual_when_available",
+  "final_outcome": "secondary_only",
+  "grade_thresholds": "outer-training median/q75/q90",
+  "no_proximal": "standardized_behavior_residual"
+}

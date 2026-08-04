@@ -1,0 +1,20 @@
+{
+  "duplicate_proxy_resolution": {
+    "RETRIEVAL_PRACTICE": "merged_into_QUIZ_OR_RETRIEVAL_PRACTICE",
+    "TARGETED_PRACTICE": "merged_into_QUIZ_OR_RETRIEVAL_PRACTICE"
+  },
+  "families": [
+    "ASSESSMENT_COMPLETION",
+    "STUDY_REGULARITY",
+    "VLE_ENGAGEMENT",
+    "QUIZ_OR_RETRIEVAL_PRACTICE",
+    "CONTENT_REVIEW"
+  ],
+  "policy_only_actions": [
+    "INSTRUCTOR_CONTACT",
+    "ADVISOR_ESCALATION",
+    "DIAGNOSTIC_CHECK",
+    "PROGRESS_MONITORING"
+  ],
+  "schema_version": "scientific_action_family_v2_1"
+}

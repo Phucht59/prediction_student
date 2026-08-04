@@ -1,0 +1,33 @@
+{
+  "features": [
+    "stage",
+    "course",
+    "presentation",
+    "action_family",
+    "opportunity_count",
+    "deficit_score",
+    "evidence_strength",
+    "prerequisite_status",
+    "workload_minutes",
+    "risk_probability",
+    "risk_uncertainty",
+    "active_days",
+    "inactive_streak",
+    "activity_trend",
+    "assessment_progress",
+    "vle_intensity",
+    "counterfactual_v1_delta"
+  ],
+  "opportunity_normalized": true,
+  "precutoff_only": true,
+  "prohibited": [
+    "final_favorable",
+    "future_behavior_signal",
+    "future_proximal_signal",
+    "proximal_outcome_available",
+    "label",
+    "target",
+    "post_cutoff_aggregate",
+    "protected_attributes"
+  ]
+}
