@@ -5,7 +5,12 @@ on:
     paths:
       - "scripts/recommend_hybrid/v2_1/scientific_core.py"
       - "scripts/recommend_hybrid/v2_1/corrected_*.py"
+      - "scripts/recommend_hybrid/v2_1/run_*registered_search.py"
+      - "scripts/recommend_hybrid/v2_1/run_authority_bound_*.py"
+      - "scripts/recommend_hybrid/v2_1/postsearch_authority.py"
       - "tests/recommend_hybrid/outcome_grounded_v2_1/test_corrected_scientific_core.py"
+      - "tests/recommend_hybrid/outcome_grounded_v2_1/test_full_registered_execution.py"
+      - "tests/recommend_hybrid/outcome_grounded_v2_1/test_resumable_authority.py"
       - "configs/recommend_hybrid/outcome_grounded_v2_1.yaml"
       - ".github/workflows/outcome-grounded-v2-1-corrected.yml"
   workflow_dispatch:
@@ -40,6 +45,8 @@ jobs:
         run: |
           python -m pytest \
             tests/recommend_hybrid/outcome_grounded_v2_1/test_corrected_scientific_core.py \
+            tests/recommend_hybrid/outcome_grounded_v2_1/test_full_registered_execution.py \
+            tests/recommend_hybrid/outcome_grounded_v2_1/test_resumable_authority.py \
             -q
 
       - name: Compile corrected evaluators
@@ -50,7 +57,13 @@ jobs:
             scripts/recommend_hybrid/v2_1/corrected_bootstrap.py \
             scripts/recommend_hybrid/v2_1/corrected_negative_controls.py \
             scripts/recommend_hybrid/v2_1/corrected_ablation.py \
-            scripts/recommend_hybrid/v2_1/corrected_release.py
+            scripts/recommend_hybrid/v2_1/corrected_release.py \
+            scripts/recommend_hybrid/v2_1/run_full_registered_search.py \
+            scripts/recommend_hybrid/v2_1/run_resumable_full_registered_search.py \
+            scripts/recommend_hybrid/v2_1/postsearch_authority.py \
+            scripts/recommend_hybrid/v2_1/run_authority_bound_negative_controls.py \
+            scripts/recommend_hybrid/v2_1/run_authority_bound_ablation.py \
+            scripts/recommend_hybrid/v2_1/run_authority_bound_release.py
 
       - name: Ruff corrected scope
         run: |
@@ -61,4 +74,12 @@ jobs:
             scripts/recommend_hybrid/v2_1/corrected_negative_controls.py \
             scripts/recommend_hybrid/v2_1/corrected_ablation.py \
             scripts/recommend_hybrid/v2_1/corrected_release.py \
-            tests/recommend_hybrid/outcome_grounded_v2_1/test_corrected_scientific_core.py
+            scripts/recommend_hybrid/v2_1/run_full_registered_search.py \
+            scripts/recommend_hybrid/v2_1/run_resumable_full_registered_search.py \
+            scripts/recommend_hybrid/v2_1/postsearch_authority.py \
+            scripts/recommend_hybrid/v2_1/run_authority_bound_negative_controls.py \
+            scripts/recommend_hybrid/v2_1/run_authority_bound_ablation.py \
+            scripts/recommend_hybrid/v2_1/run_authority_bound_release.py \
+            tests/recommend_hybrid/outcome_grounded_v2_1/test_corrected_scientific_core.py \
+            tests/recommend_hybrid/outcome_grounded_v2_1/test_full_registered_execution.py \
+            tests/recommend_hybrid/outcome_grounded_v2_1/test_resumable_authority.py
