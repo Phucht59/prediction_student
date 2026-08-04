@@ -41,13 +41,7 @@ Do not change labels, thresholds, registered configs or gates after seeing resul
 
 ## Preserve historical untracked files
 
-Existing untracked V2.1 batches must remain untouched. Do not add, delete, move or modify them.
-
-Record the initial status:
-
-```powershell
-git status --short
-```
+Existing untracked V2.1 batches must remain untouched. Do not add, delete, move or modify them. Do not use `git add .`.
 
 ## Step 1 — Synchronize
 
@@ -58,13 +52,14 @@ git log -1 --oneline
 git status --short
 ```
 
-Confirm that the pulled head contains:
+Confirm the branch contains:
 
 ```text
 configs/recommend_hybrid/two_stage_v3_protocol.yaml
-src/recommend_hybrid/two_stage_v3/model.py
+scripts/recommend_hybrid/two_stage_v3/repair_opportunity_count.py
 scripts/recommend_hybrid/two_stage_v3/build_embedding_cache.py
 scripts/recommend_hybrid/two_stage_v3/train_and_evaluate.py
+reports/recommend_hybrid/TWO_STAGE_V3_OPPORTUNITY_REPAIR_TASK.md
 ```
 
 ## Step 2 — Focused tests
@@ -76,35 +71,59 @@ python -m pytest `
   -q
 ```
 
-Expected focused scope before execution:
-
-```text
-16 passed
-```
-
 Do not continue if tests fail.
 
-## Step 3 — Validate prediction checkpoint authority
+## Step 3 — Repair omitted opportunity-count serialization
+
+The Hybrid-only silver builder already computed exact action opportunity counts from published assessment and VLE schedules, but omitted the value from the serialized candidate dictionary. This is a serialization repair only; it is not a feature, label or protocol change.
+
+Run:
+
+```powershell
+python scripts/recommend_hybrid/two_stage_v3/repair_opportunity_count.py
+```
+
+Required audit:
+
+```text
+artifacts/recommend_hybrid/two_stage_v3/OPPORTUNITY_COUNT_REPAIR.json
+```
+
+The audit must report:
+
+```text
+status = REPAIRED or ALREADY_REPAIRED
+rows = 82,847
+groups = 29,043
+positive_groups = 9,304
+labels_changed = false
+existing_columns_changed = false
+v2_1_artifacts_used = false
+future_behaviour_used = false
+minimum_opportunity_count > 0
+```
+
+The only allowed candidate-table change is adding integer `opportunity_count`. The failed Hybrid-only metrics and release status must remain unchanged.
+
+## Step 4 — Validate prediction checkpoint authority
 
 ```powershell
 python scripts/recommend_hybrid/validate_checkpoint_authority.py
 ```
 
-The exact residual CNN–BiLSTM checkpoint set, preprocessors, architecture hash and parameter count must pass. The frozen prediction backbone parameter count is:
+The exact residual CNN–BiLSTM checkpoint set, preprocessors, architecture hash and parameter count must pass:
 
 ```text
-160,492
+Frozen prediction backbone parameters = 160,492
 ```
 
-## Step 4 — Build leakage-safe frozen embedding caches
-
-Run:
+## Step 5 — Build leakage-safe frozen embedding caches
 
 ```powershell
 python scripts/recommend_hybrid/two_stage_v3/build_embedding_cache.py
 ```
 
-This step performs inference only. It must not update prediction-backbone weights.
+This performs inference only and must not update prediction-backbone weights.
 
 Required outputs:
 
@@ -117,7 +136,7 @@ artifacts/recommend_hybrid/two_stage_v3/cache/outer_2/GROUP_FEATURES.parquet
 artifacts/recommend_hybrid/two_stage_v3/cache/CACHE_REGISTRY.json
 ```
 
-Validate the registry:
+Registry authority:
 
 ```text
 status = COMPLETE
@@ -131,13 +150,11 @@ tabular_expert_dimension = 32
 Leakage rules:
 
 - cross-fitted cache: each group uses its own frozen outer-fold authority;
-- outer-k cache: every train and test group is encoded by fold-k checkpoint authority, which was trained without outer fold k;
+- outer-k cache: every train and test group is encoded by fold-k checkpoint authority, trained without outer fold k;
 - future labels are not runtime features;
 - protected attributes are not runtime features.
 
-## Step 5 — Nested grouped head training and held-out OOF evaluation
-
-Run:
+## Step 6 — Nested grouped head training and held-out OOF evaluation
 
 ```powershell
 python scripts/recommend_hybrid/two_stage_v3/train_and_evaluate.py
@@ -172,7 +189,7 @@ artifacts/recommend_hybrid/two_stage_v3/final_oof/NESTED_OOF_RESULTS.json
 
 Do not manually edit selected configs, thresholds or checkpoints.
 
-## Step 6 — Learner-cluster bootstrap
+## Step 7 — Learner-cluster bootstrap
 
 ```powershell
 python scripts/recommend_hybrid/two_stage_v3/bootstrap.py
@@ -191,7 +208,7 @@ Output:
 artifacts/recommend_hybrid/two_stage_v3/final_oof/BOOTSTRAP.json
 ```
 
-## Step 7 — Exact replay and safety verification
+## Step 8 — Exact replay and safety verification
 
 ```powershell
 python scripts/recommend_hybrid/two_stage_v3/verify.py
@@ -215,22 +232,18 @@ Output:
 artifacts/recommend_hybrid/two_stage_v3/final_oof/VERIFICATION.json
 ```
 
-## Step 8 — Fail-closed release assessment
-
-Run and preserve its exit code:
+## Step 9 — Fail-closed release assessment
 
 ```powershell
 python scripts/recommend_hybrid/two_stage_v3/release.py
 $releaseExit = $LASTEXITCODE
 ```
 
-The script writes:
+Output:
 
 ```text
 artifacts/recommend_hybrid/two_stage_v3/TWO_STAGE_V3_RELEASE.json
 ```
-
-Interpretation:
 
 ### Main OOF gates fail
 
@@ -250,13 +263,9 @@ RECOMMENDATION_MODULE_SCIENTIFIC_EXECUTION_NOT_COMPLETE
 runtime_authorized = false
 ```
 
-Do not create a runtime package. Report the main PASS and wait for the authority-bound negative-control phase.
+Do not create a runtime package. Negative controls and the final runtime package remain separate fail-closed phases.
 
-The release cannot become runtime-authorized in this task because negative controls and the final runtime package are separate fail-closed phases.
-
-## Step 9 — Render report
-
-Run regardless of release outcome:
+## Step 10 — Render report
 
 ```powershell
 python scripts/recommend_hybrid/two_stage_v3/render_report.py
@@ -268,7 +277,7 @@ Output:
 reports/recommend_hybrid/TWO_STAGE_V3_FINAL_RESULTS_VI.md
 ```
 
-## Step 10 — Validation
+## Step 11 — Validation
 
 ```powershell
 python -m pytest `
@@ -282,7 +291,7 @@ python -m compileall src/recommend_hybrid scripts/recommend_hybrid
 git diff --check
 ```
 
-Ruff is already enforced by GitHub Actions for this exact scope. Run it locally only when available:
+Run Ruff locally only when available:
 
 ```powershell
 ruff check `
@@ -291,27 +300,28 @@ ruff check `
   tests/recommend_hybrid/two_stage_v3
 ```
 
-Do not mark the execution failed solely because Ruff is unavailable locally when the current GitHub Integrated V3 workflow is green.
+GitHub Actions is authoritative when Ruff is unavailable locally.
 
-## Step 11 — Commit and push only V3 outputs
+## Step 12 — Commit and push the exact repair and V3 outputs
 
-Review status carefully:
+Review status:
 
 ```powershell
 git status --short
 ```
 
-Do not use `git add .`.
-
-Stage only V3 files:
+Stage only:
 
 ```powershell
 git add `
+  artifacts/recommend_hybrid/hybrid_only_final/dataset/candidate_rows.parquet `
+  artifacts/recommend_hybrid/hybrid_only_final/dataset/schema.json `
+  artifacts/recommend_hybrid/hybrid_only_final/dataset/CHECKSUMS.json `
   artifacts/recommend_hybrid/two_stage_v3 `
   reports/recommend_hybrid/TWO_STAGE_V3_FINAL_RESULTS_VI.md
 ```
 
-Confirm historical untracked V2.1 batches are not staged:
+Confirm no V2.1 batch is staged:
 
 ```powershell
 git diff --cached --name-only
@@ -337,6 +347,13 @@ Remote head:
 Working tree:
 Untracked V2.1 preserved:
 PR status:
+
+Opportunity repair status:
+Original candidate SHA:
+Repaired candidate SHA:
+Labels changed:
+Existing columns changed:
+V2.1 artifacts used:
 
 Architecture:
 Frozen prediction backbone parameters:
