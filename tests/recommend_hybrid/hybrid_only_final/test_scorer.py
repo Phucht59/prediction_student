@@ -1,14 +1,24 @@
 from __future__ import annotations
 
-from src.recommend_hybrid.hybrid_only_final.scorer import (
-    HybridActionEvidence,
-    HybridOnlyScoreConfig,
-    score_hybrid_actions,
-    semantic_evidence_strength,
+import importlib.util
+from pathlib import Path
+
+SCORER_PATH = (
+    Path(__file__).resolve().parents[3]
+    / "src/recommend_hybrid/hybrid_only_final/scorer.py"
 )
+SPEC = importlib.util.spec_from_file_location("hybrid_only_scorer_test", SCORER_PATH)
+assert SPEC is not None and SPEC.loader is not None
+scorer = importlib.util.module_from_spec(SPEC)
+SPEC.loader.exec_module(scorer)
+
+HybridActionEvidence = scorer.HybridActionEvidence
+HybridOnlyScoreConfig = scorer.HybridOnlyScoreConfig
+score_hybrid_actions = scorer.score_hybrid_actions
+semantic_evidence_strength = scorer.semantic_evidence_strength
 
 
-def config(**overrides) -> HybridOnlyScoreConfig:
+def config(**overrides):
     values = {
         "version": "test",
         "risk_weight": 0.8,
@@ -39,7 +49,7 @@ def action(
     uncertainty: float = 0.05,
     workload: int = 90,
     **overrides,
-) -> HybridActionEvidence:
+):
     values = {
         "action_id": action_id,
         "risk_reduction": risk,
