@@ -12,7 +12,7 @@ CFG=ROOT/'configs/recommend_hybrid/outcome_grounded_oulad.yaml'
 def sha(p):
     h=hashlib.sha256()
     with p.open('rb') as f:
-        for b in iter(lambda:f.read(1<<20),b): h.update(b)
+        for b in iter(lambda:f.read(1<<20),b''): h.update(b)
     return h.hexdigest()
 def write(p,x):
     p.parent.mkdir(parents=True,exist_ok=True); q=p.with_suffix(p.suffix+'.tmp'); q.write_text(json.dumps(x,indent=2,sort_keys=True)+'\n',encoding='utf8'); q.replace(p)

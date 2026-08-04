@@ -113,9 +113,9 @@
       }
     ]
   },
-  "git_commit": "8179423f11b0da4014b072b0ce7a34cb6f506a1e",
+  "git_commit": "dfbca67c5a3a27e07777b1575c32ac49f0fe7b83",
   "input_authority": "frozen_risk_predictor_only; V1 delta optional feature; never a primary label or metric",
-  "locked_at": "2026-08-04T03:37:18.949225+00:00",
+  "locked_at": "2026-08-04T03:37:32.768950+00:00",
   "schema_version": "outcome_grounded_protocol_v1",
   "v1_status": "COUNTERFACTUAL_V1_ENGINEERING_COMPLETE_EXTERNAL_VALIDATION_FAILED"
 }
