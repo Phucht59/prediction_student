@@ -52,7 +52,11 @@ jobs:
             src/recommend_hybrid/two_stage_v4/model.py \
             src/recommend_hybrid/two_stage_v4/metrics.py \
             src/recommend_hybrid/two_stage_v4/selection.py \
-            scripts/recommend_hybrid/two_stage_v4/train_and_evaluate.py
+            scripts/recommend_hybrid/two_stage_v4/train_and_evaluate.py \
+            scripts/recommend_hybrid/two_stage_v4/bootstrap.py \
+            scripts/recommend_hybrid/two_stage_v4/verify.py \
+            scripts/recommend_hybrid/two_stage_v4/release.py \
+            scripts/recommend_hybrid/two_stage_v4/render_report.py
 
       - name: Ruff V4 scope
         run: |
