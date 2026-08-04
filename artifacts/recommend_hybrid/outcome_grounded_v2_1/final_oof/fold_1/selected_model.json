@@ -1,0 +1,80 @@
+{
+  "all_registered_families_evaluated": true,
+  "outer_fold": 1,
+  "selected_model": {
+    "inner_folds": [
+      {
+        "action_diversity": 5,
+        "groups": 7542,
+        "inner_fold": 0,
+        "learners": 2949,
+        "map_at_3": 0.6376034945048469,
+        "mrr": 0.6478829664987183,
+        "ndcg_all": 0.5652068333740459,
+        "ndcg_at_1": 0.4346106249447538,
+        "ndcg_at_3": 0.5580504835787127,
+        "precision_at_1": 0.581278175550252,
+        "precision_at_3": 0.48974630955537873,
+        "recall_at_3": 0.7051113762927607,
+        "top1_relevance": 0.05587582685895828,
+        "top_action_concentration": 0.5401750198886237
+      },
+      {
+        "action_diversity": 5,
+        "groups": 7555,
+        "inner_fold": 1,
+        "learners": 2949,
+        "map_at_3": 0.6358996985072433,
+        "mrr": 0.6454445179792632,
+        "ndcg_all": 0.5530781193481183,
+        "ndcg_at_1": 0.42543569380101476,
+        "ndcg_at_3": 0.546471221488216,
+        "precision_at_1": 0.5834546657842489,
+        "precision_at_3": 0.49249944848885946,
+        "recall_at_3": 0.6987756452680344,
+        "top1_relevance": 0.042099031856646214,
+        "top_action_concentration": 0.5620119126406353
+      },
+      {
+        "action_diversity": 5,
+        "groups": 7554,
+        "inner_fold": 2,
+        "learners": 2949,
+        "map_at_3": 0.6349505780601887,
+        "mrr": 0.6451769481952166,
+        "ndcg_all": 0.5585057004515076,
+        "ndcg_at_1": 0.41562968846527226,
+        "ndcg_at_3": 0.5516600047389115,
+        "precision_at_1": 0.5687053216838761,
+        "precision_at_3": 0.49715382578766215,
+        "recall_at_3": 0.7138072544347366,
+        "top1_relevance": 0.04692037121830797,
+        "top_action_concentration": 0.560630129732592
+      }
+    ],
+    "mean_action_diversity": 5.0,
+    "mean_ndcg_at_3": 0.5520605699352801,
+    "mean_precision_at_1": 0.5778127210061257,
+    "model": "lambdamart",
+    "parameters": {
+      "learning_rate": 0.03,
+      "n_estimators": 100,
+      "n_jobs": 4,
+      "num_leaves": 7
+    },
+    "selection_rule": [
+      "mean_ndcg_at_3",
+      "mean_precision_at_1",
+      "worst_ndcg_at_3",
+      "mean_action_diversity"
+    ],
+    "status": "COMPLETE",
+    "std_ndcg_at_3": 0.004735691923926183,
+    "trial_number": 2,
+    "worst_ndcg_at_3": 0.546471221488216
+  },
+  "test_learners": 4388,
+  "test_rows": 28208,
+  "train_learners": 8847,
+  "train_rows": 56783
+}

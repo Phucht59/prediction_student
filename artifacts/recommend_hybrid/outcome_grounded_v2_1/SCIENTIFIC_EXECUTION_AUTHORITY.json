@@ -1,0 +1,84 @@
+{
+  "baselines": [
+    "random_1000",
+    "most_popular_train_only",
+    "lowest_workload",
+    "policy_v1_eligible",
+    "counterfactual_v1_eligible"
+  ],
+  "claim_boundary": "OFFLINE_PREDICTIVE_RELEVANCE_NOT_CAUSAL_EFFECT",
+  "config_path": "configs/recommend_hybrid/outcome_grounded_v2_1.yaml",
+  "config_sha256": "5c30018ddad49423de95d1dd5435662aa4b5e62bc6bf323e9236aa13a9631fad",
+  "dataset_files": {
+    "artifacts/recommend_hybrid/outcome_grounded_v2_1/dataset/all_candidate_rows_before_rankability.parquet": "e9f0f80385cc76cffe447402ac649b835e29e2e17ae7504f98f9e734cdd2ffba",
+    "artifacts/recommend_hybrid/outcome_grounded_v2_1/dataset/candidate_rows.parquet": "9f2cc561c3d1e94937d780ecd9f491f570703ba02de6c01f726f1bfb33ac476d",
+    "artifacts/recommend_hybrid/outcome_grounded_v2_1/dataset/learner_stage_groups.parquet": "e2d5f4f7dcccc766fb59711f420e4f35c82b65ea0d970886f875074650767e21"
+  },
+  "inner_group_folds": 3,
+  "models": {
+    "candidates": [
+      "interaction_logistic",
+      "pairwise_logistic",
+      "lambdamart",
+      "boosted_tree"
+    ],
+    "fallback_candidate": "pairwise_logistic",
+    "hyperparameters": {
+      "boosted_tree": {
+        "learning_rate": [
+          0.03,
+          0.1
+        ],
+        "max_depth": [
+          2,
+          3
+        ]
+      },
+      "interaction_logistic": {
+        "C": [
+          0.1,
+          1.0,
+          10.0
+        ]
+      },
+      "lambdamart": {
+        "learning_rate": [
+          0.03,
+          0.1
+        ],
+        "n_estimators": [
+          100,
+          250
+        ],
+        "num_leaves": [
+          7,
+          15
+        ]
+      },
+      "pairwise_logistic": {
+        "C": [
+          0.1,
+          1.0,
+          10.0
+        ]
+      }
+    },
+    "primary_candidate": "lambdamart"
+  },
+  "negative_controls": [
+    "label_shuffle_retrain",
+    "learner_state_shuffle_train",
+    "learner_state_shuffle_test",
+    "action_identity_shuffle_retrain",
+    "wrong_trajectory_rebuild",
+    "time_reversal_placebo",
+    "random_feature_canary"
+  ],
+  "outer_folds": [
+    0,
+    1,
+    2
+  ],
+  "source_commit": "6a7ea816b31fc368596b86e2b94f4bf26a814bcc",
+  "status": "FROZEN_FOR_CORRECTED_SCIENTIFIC_EXECUTION"
+}

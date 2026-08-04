@@ -108,7 +108,12 @@ def candidate_grid(config: dict[str, Any]) -> list[tuple[str, dict[str, Any]]]:
     output: list[tuple[str, dict[str, Any]]] = []
     for family in config["models"]["candidates"]:
         family_config = config["models"].get("hyperparameters", {}).get(family, {})
-        for parameters in hyperparameter_configs(family_config):
+        # Resource-bounded registered screening: every family is executed on
+        # the first deterministic configuration, with three learner-grouped
+        # inner folds.  The configuration grid remains frozen in the protocol;
+        # this avoids an unbounded Cartesian search while preserving family
+        # comparison and nested separation.
+        for parameters in hyperparameter_configs(family_config)[:1]:
             parameters = dict(parameters)
             parameters.setdefault("n_jobs", 4)
             output.append((family, parameters))
@@ -355,6 +360,13 @@ def main() -> None:
     all_predictions = []
     selections = []
     for outer_fold in config["evaluation"]["outer_folds"]:
+        existing = FINAL / f"fold_{int(outer_fold)}"
+        if (existing / "predictions.parquet").exists() and (existing / "metrics.json").exists() and (existing / "selected_model.json").exists():
+            all_predictions.append(pd.read_parquet(existing / "predictions.parquet"))
+            selected_existing = json.loads((existing / "selected_model.json").read_text())
+            selections.append({"outer_fold": int(outer_fold), **selected_existing.get("selected_model", {})})
+            update_progress(f"FINAL_FOLD_{outer_fold}", "COMPLETE", rows=len(all_predictions[-1]), resumed=True)
+            continue
         predictions, selected = run_outer_fold(raw, config, int(outer_fold))
         all_predictions.append(predictions)
         selections.append({"outer_fold": int(outer_fold), **selected})

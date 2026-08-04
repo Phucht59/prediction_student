@@ -12,6 +12,10 @@
       "finish_time": "2026-08-04T05:26:48Z",
       "status": "COMPLETE"
     },
+    "CORRECTED_BOOTSTRAP": {
+      "replicates": 2000,
+      "status": "COMPLETE"
+    },
     "DATASET": {
       "status": "COMPLETE"
     },
@@ -21,6 +25,27 @@
     "FAIRNESS": {
       "finish_time": "2026-08-04T05:26:48Z",
       "status": "COMPLETE"
+    },
+    "FINAL_FOLD_0": {
+      "resumed": true,
+      "rows": 28241,
+      "status": "COMPLETE",
+      "updated_at": "2026-08-04T06:54:49Z"
+    },
+    "FINAL_FOLD_1": {
+      "resumed": true,
+      "rows": 28208,
+      "status": "COMPLETE",
+      "updated_at": "2026-08-04T06:54:49Z"
+    },
+    "FINAL_FOLD_2": {
+      "rows": 28542,
+      "status": "COMPLETE",
+      "updated_at": "2026-08-04T07:00:13Z"
+    },
+    "FINAL_OOF": {
+      "status": "COMPLETE",
+      "updated_at": "2026-08-04T07:17:34Z"
     },
     "FOLD_0": {
       "finish_time": "2026-08-04T05:26:48Z",
@@ -37,6 +62,10 @@
     "LABELS": {
       "status": "COMPLETE"
     },
+    "MODEL_SELECTION": {
+      "status": "COMPLETE",
+      "updated_at": "2026-08-04T07:17:34Z"
+    },
     "NEGATIVE_CONTROLS": {
       "completed_batches": 200,
       "finish_time": "2026-08-04T05:26:48Z",
@@ -45,7 +74,8 @@
       "total_batches": 200
     },
     "RELEASE": {
-      "status": "PENDING"
+      "status": "PENDING",
+      "updated_at": "2026-08-04T07:17:34Z"
     },
     "RUNTIME": {
       "status": "NOT_AUTHORIZED"

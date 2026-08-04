@@ -38,15 +38,15 @@ def update_progress(status: str, **details: Any) -> None:
 
 
 def metric_table(predictions: pd.DataFrame, methods: list[str]) -> pd.DataFrame:
-    merged = None
-    identity = ["group_id", "base_record_id", "stage", "outer_fold"]
-    for method in methods:
-        rows = group_metric_rows(predictions, method)[identity + ["ndcg_at_3"]]
-        rows = rows.rename(columns={"ndcg_at_3": method})
-        merged = rows if merged is None else merged.merge(rows, on=identity, how="inner", validate="one_to_one")
-    if merged is None or merged.empty:
-        raise RuntimeError("No group-level metrics available for bootstrap")
-    return merged
+    rows=[]; d=1/np.log2(np.arange(2,5))
+    for gid,g in predictions.groupby('group_id',sort=False):
+        rel=g.graded_relevance.to_numpy(float); gain=2**rel-1; k=min(3,len(g)); den=np.sum(np.sort(gain)[::-1][:k]*d[:k]); base={'group_id':gid,'base_record_id':g.base_record_id.iloc[0],'stage':g.stage.iloc[0],'outer_fold':g.outer_fold.iloc[0]}
+        for method in methods:
+            s=np.asarray(g[method],float); o=np.argsort(-s,kind='stable')[:k]; base[method]=float(np.sum(gain[o]*d[:k])/den) if den else 0.0
+        rows.append(base)
+    out=pd.DataFrame(rows)
+    if out.empty: raise RuntimeError('No group-level metrics available for bootstrap')
+    return out
 
 
 def bootstrap_comparison(

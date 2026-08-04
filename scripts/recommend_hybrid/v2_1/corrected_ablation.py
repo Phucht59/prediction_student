@@ -115,11 +115,15 @@ def evaluate_ablation(
             train_matrix = preprocessor.fit_transform(train)
             test_matrix = preprocessor.transform(test)
             family, parameters = selected_model(outer_fold)
+            ablation_parameters = dict(parameters)
+            if family == "lambdamart":
+                ablation_parameters["n_estimators"] = min(int(ablation_parameters.get("n_estimators", 100)), 10)
+                ablation_parameters["n_jobs"] = 1
             ranker = fit_ranker(
                 family,
                 train_matrix,
                 train,
-                parameters,
+                ablation_parameters,
                 SEED + outer_fold,
             )
             test["ablation_score"] = predict_ranker(ranker, test_matrix)

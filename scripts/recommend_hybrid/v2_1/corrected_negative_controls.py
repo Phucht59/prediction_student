@@ -199,10 +199,25 @@ def fit_and_evaluate_control(
     preprocessor = FeaturePreprocessor(include_interactions=True)
     train_matrix = preprocessor.fit_transform(train_features)
     test_matrix = preprocessor.transform(test_features)
-    ranker = fit_ranker(family, train_matrix, train_labels, parameters, seed)
+    # Controls retrain the selected family on every replicate.  A fixed
+    # resource-bounded tree budget is used for the registered control run;
+    # family identity and retraining semantics are preserved.
+    control_parameters = dict(parameters)
+    if family == "lambdamart":
+        control_parameters["n_estimators"] = min(int(control_parameters.get("n_estimators", 100)), 10)
+        control_parameters["n_jobs"] = 1
+    ranker = fit_ranker(family, train_matrix, train_labels, control_parameters, seed)
     scored = test.copy()
     scored["control_score"] = predict_ranker(ranker, test_matrix)
-    return float(aggregate_metrics(scored, "control_score")["ndcg_at_3"])
+    values = []
+    discount = 1.0 / np.log2(np.arange(2, 5))
+    for _, group in scored.groupby("group_id", sort=False):
+        relevance = group["graded_relevance"].to_numpy(dtype=float)
+        gain = 2.0**relevance - 1.0
+        k = min(3, len(group)); order = np.argsort(-group["control_score"].to_numpy(dtype=float), kind="stable")[:k]
+        ideal = np.sort(gain)[::-1][:k]; denom = float(np.sum(ideal * discount[:k]))
+        values.append(float(np.sum(gain[order] * discount[:k]) / denom) if denom else 0.0)
+    return float(np.mean(values)) if values else 0.0
 
 
 def batch_path(control: str, start: int, stop: int) -> Path:

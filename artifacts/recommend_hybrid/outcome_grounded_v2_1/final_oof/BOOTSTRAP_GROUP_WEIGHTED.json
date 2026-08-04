@@ -1,0 +1,53 @@
+{
+  "comparisons": [
+    {
+      "baseline": "popular_score",
+      "ci95_high": 0.05733936282726967,
+      "ci95_low": 0.05215676667935317,
+      "cluster": "base_record_id",
+      "estimand": "group_weighted_equal_learner_stage_groups",
+      "estimate": 0.05478107135699806,
+      "groups": 33912,
+      "learners": 13235,
+      "probability_difference_le_zero": 0.0,
+      "replicates": 2000
+    },
+    {
+      "baseline": "workload_score",
+      "ci95_high": 0.061248525782708035,
+      "ci95_low": 0.05557535265963208,
+      "cluster": "base_record_id",
+      "estimand": "group_weighted_equal_learner_stage_groups",
+      "estimate": 0.05842058766912641,
+      "groups": 33912,
+      "learners": 13235,
+      "probability_difference_le_zero": 0.0,
+      "replicates": 2000
+    },
+    {
+      "baseline": "policy_score",
+      "ci95_high": 0.04639897242341157,
+      "ci95_low": 0.04223446942076829,
+      "cluster": "base_record_id",
+      "estimand": "group_weighted_equal_learner_stage_groups",
+      "estimate": 0.04438765771712447,
+      "groups": 33912,
+      "learners": 13235,
+      "probability_difference_le_zero": 0.0,
+      "replicates": 2000
+    },
+    {
+      "baseline": "counterfactual_score",
+      "ci95_high": 0.05154007385430839,
+      "ci95_low": 0.047140384006723185,
+      "cluster": "base_record_id",
+      "estimand": "group_weighted_equal_learner_stage_groups",
+      "estimate": 0.04923892473070289,
+      "groups": 33912,
+      "learners": 13235,
+      "probability_difference_le_zero": 0.0,
+      "replicates": 2000
+    }
+  ],
+  "status": "COMPLETE"
+}
