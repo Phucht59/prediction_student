@@ -1,8 +1,8 @@
 """Deterministic hybrid-only action scoring with selective abstention.
 
 The scorer consumes only outputs from the frozen residual CNN-BiLSTM and
-cutoff-safe policy evidence.  It does not fit or invoke an auxiliary machine-
-learning model.  Future silver labels are used only by offline evaluation
+cutoff-safe policy evidence. It does not fit or invoke an auxiliary machine-
+learning model. Future silver labels are used only by offline evaluation
 scripts to select a frozen configuration.
 """
 
@@ -12,9 +12,29 @@ from dataclasses import dataclass
 from math import isfinite
 from typing import Iterable
 
+SEMANTIC_EVIDENCE_FLOOR = {
+    "ASSESSMENT_COMPLETION": 0.80,
+    "STUDY_SCHEDULE": 0.80,
+    "VLE_ENGAGEMENT": 0.40,
+    "RETRIEVAL_PRACTICE": 0.50,
+    "LEARNING_CONSOLIDATION": 0.50,
+}
+
 
 def _clip(value: float, lower: float = 0.0, upper: float = 1.0) -> float:
     return min(upper, max(lower, value))
+
+
+def semantic_evidence_strength(action_id: str, observed_strength: float) -> float:
+    """Normalize evidence without using outcomes or learned parameters.
+
+    A single verified due assessment is strong direct evidence even though its
+    raw opportunity count is one, while broad VLE resources require multiple
+    opportunities. The floors are fixed from action semantics before evaluation.
+    """
+
+    floor = float(SEMANTIC_EVIDENCE_FLOOR.get(action_id, 0.0))
+    return _clip(max(float(observed_strength), floor))
 
 
 @dataclass(frozen=True)
@@ -96,7 +116,12 @@ class HybridActionEvidence:
             raise ValueError("action_id is required")
         if self.workload_minutes < 0:
             raise ValueError("workload_minutes must be non-negative")
-        for name in ("risk_reduction", "evidence_strength", "need_score", "uncertainty"):
+        for name in (
+            "risk_reduction",
+            "evidence_strength",
+            "need_score",
+            "uncertainty",
+        ):
             if not isfinite(float(getattr(self, name))):
                 raise ValueError(f"{name} must be finite")
         if not 0 <= self.evidence_strength <= 1:
@@ -130,12 +155,24 @@ class HybridOnlyDecision:
         return self.selected_action is not None
 
 
-def _score(candidate: HybridActionEvidence, config: HybridOnlyScoreConfig) -> ScoredHybridAction:
-    risk_component = _clip(max(candidate.risk_reduction, 0.0) / config.risk_scale)
-    evidence_component = _clip(candidate.evidence_strength)
+def _score(
+    candidate: HybridActionEvidence,
+    config: HybridOnlyScoreConfig,
+) -> ScoredHybridAction:
+    risk_component = _clip(
+        max(candidate.risk_reduction, 0.0) / config.risk_scale
+    )
+    evidence_component = semantic_evidence_strength(
+        candidate.action_id,
+        candidate.evidence_strength,
+    )
     need_component = _clip(max(candidate.need_score, 0.0) / config.need_scale)
-    certainty_component = 1.0 - _clip(candidate.uncertainty / config.uncertainty_scale)
-    workload_component = _clip(candidate.workload_minutes / config.workload_scale_minutes)
+    certainty_component = 1.0 - _clip(
+        candidate.uncertainty / config.uncertainty_scale
+    )
+    workload_component = _clip(
+        candidate.workload_minutes / config.workload_scale_minutes
+    )
     score = (
         config.risk_weight * risk_component
         + config.evidence_weight * evidence_component
@@ -162,13 +199,17 @@ def score_hybrid_actions(
 ) -> HybridOnlyDecision:
     """Rank eligible candidates and abstain unless the top decision is reliable.
 
-    Tie-breaking is deterministic and transparent.  No action is issued when
+    Tie-breaking is deterministic and transparent. No action is issued when
     minimum hybrid risk reduction, evidence, uncertainty, score, or score-margin
     requirements are not satisfied.
     """
 
     eligible: list[HybridActionEvidence] = []
     for candidate in candidates:
+        normalized_evidence = semantic_evidence_strength(
+            candidate.action_id,
+            candidate.evidence_strength,
+        )
         if not candidate.available or not candidate.prerequisite_met:
             continue
         if candidate.contraindicated:
@@ -177,12 +218,17 @@ def score_hybrid_actions(
             continue
         if candidate.uncertainty > config.maximum_uncertainty:
             continue
-        if candidate.evidence_strength < config.minimum_evidence:
+        if normalized_evidence < config.minimum_evidence:
             continue
         eligible.append(candidate)
 
     if not eligible:
-        return HybridOnlyDecision(None, (), "NO_ELIGIBLE_CONFIDENT_ACTION", 0.0)
+        return HybridOnlyDecision(
+            None,
+            (),
+            "NO_ELIGIBLE_CONFIDENT_ACTION",
+            0.0,
+        )
 
     ranked = sorted(
         (_score(item, config) for item in eligible),
@@ -198,9 +244,19 @@ def score_hybrid_actions(
     second_score = ranked[1].score if len(ranked) > 1 else 0.0
     margin = float(top.score - second_score)
     if top.score < config.minimum_top_score:
-        return HybridOnlyDecision(None, tuple(ranked), "TOP_SCORE_BELOW_THRESHOLD", margin)
+        return HybridOnlyDecision(
+            None,
+            tuple(ranked),
+            "TOP_SCORE_BELOW_THRESHOLD",
+            margin,
+        )
     if len(ranked) > 1 and margin < config.minimum_top_margin:
-        return HybridOnlyDecision(None, tuple(ranked), "TOP_MARGIN_BELOW_THRESHOLD", margin)
+        return HybridOnlyDecision(
+            None,
+            tuple(ranked),
+            "TOP_MARGIN_BELOW_THRESHOLD",
+            margin,
+        )
     return HybridOnlyDecision(top, tuple(ranked), None, margin)
 
 
@@ -208,6 +264,8 @@ __all__ = [
     "HybridActionEvidence",
     "HybridOnlyDecision",
     "HybridOnlyScoreConfig",
+    "SEMANTIC_EVIDENCE_FLOOR",
     "ScoredHybridAction",
     "score_hybrid_actions",
+    "semantic_evidence_strength",
 ]
