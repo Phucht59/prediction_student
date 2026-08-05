@@ -9,6 +9,8 @@ from .actions import (
 )
 from .api import ConditionalHybridActionRanker, EXPECTED_MODEL_ID, RankingResult
 from .metrics import (
+    LEGACY_STAGE_ORDER,
+    STAGE_ORDER,
     ActionAwareDecision,
     ActionAwareThresholds,
     evaluate_action_aware,
@@ -33,7 +35,9 @@ __all__ = [
     "ConditionalHybridActionRanker",
     "EXPECTED_MODEL_ID",
     "HybridActionAwareRecommendationHeads",
+    "LEGACY_STAGE_ORDER",
     "RankingResult",
+    "STAGE_ORDER",
     "action_aware_loss",
     "canonical_action_id",
     "evaluate_action_aware",
