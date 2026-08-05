@@ -1,0 +1,116 @@
+protocol_id: stage_aware_causal_recommendation_v1
+status: PREREGISTERED_BEFORE_LOCAL_OUTCOME_SCORING
+created_date: 2026-08-06
+random_state: 20260806
+
+claim_boundary:
+  supported: observational action-effect estimation under stated assumptions
+  unsupported:
+    - randomized causal effectiveness
+    - guaranteed grade improvement
+    - deployment effectiveness
+    - user acceptance
+    - expert validation
+
+stages:
+  - id: EARLY_20
+    cutoff_fraction: 0.20
+    treatment_end_fraction: 0.35
+  - id: EARLY_35
+    cutoff_fraction: 0.35
+    treatment_end_fraction: 0.50
+  - id: MIDDLE_50
+    cutoff_fraction: 0.50
+    treatment_end_fraction: 0.75
+  - id: LATE_75
+    cutoff_fraction: 0.75
+    treatment_end_fraction: 1.00
+
+recommendation_lifecycle:
+  rule: LATEST_VALID_RECOMMENDATION_WINS
+  simultaneous_active_recommendations: 1
+  retain_history: true
+  abstention_closes_previous_action: true
+
+actions:
+  ASSESSMENT_COMPLETION:
+    observed_measure: assessment_completion_rate
+    minimum_improvement: 0.15
+  STUDY_REGULARITY:
+    observed_measure: study_regularity_score
+    minimum_improvement: 0.20
+  VLE_ENGAGEMENT:
+    observed_measure: vle_active_day_rate
+    minimum_improvement: 0.15
+  QUIZ_OR_RETRIEVAL_PRACTICE:
+    observed_measure: retrieval_practice_rate
+    minimum_improvement: 0.15
+  CONTENT_REVIEW:
+    observed_measure: content_review_coverage
+    minimum_improvement: 0.15
+
+treatment_definition:
+  fit_split: train_only
+  reference_quantile: 0.50
+  validation_and_test_threshold_refit: forbidden
+  interpretation: observed post-landmark behaviour consistent with the action
+
+causal_estimation:
+  estimator: cross_fitted_aipw_doubly_robust
+  cate_learner: cross_fitted_dr_pseudo_outcome_regression
+  group_key: student_id
+  cross_fit_splits: 3
+  outcome: pass_final
+  confidence_level: 0.95
+  uncertainty: student_cluster_percentile_bootstrap
+  bootstrap_iterations: 1000
+
+identifiability_gates:
+  minimum_treated: 30
+  minimum_control: 30
+  propensity_overlap: [0.10, 0.90]
+  maximum_trim_fraction: 0.30
+  minimum_effective_sample_size_fraction: 0.25
+  good_smd_threshold: 0.10
+  minimum_good_smd_fraction: 0.90
+  maximum_allowed_smd: 0.20
+  failure_status: CAUSAL_EVIDENCE_NOT_IDENTIFIABLE
+
+causal_issuance:
+  require_ranker_authorization: true
+  minimum_cate: 0.05
+  minimum_stage_action_ci_lower_bound: 0.0
+  require_overlap: true
+  fail_closed: true
+
+leakage_guards:
+  baseline_features_end_at_prediction_cutoff: true
+  treatment_window_starts_after_prediction_cutoff: true
+  outcome_excluded_from_features: true
+  student_grouped_splits: true
+  train_only_imputation_scaling_and_treatment_thresholds: true
+  no_test_threshold_selection: true
+  no_future_stage_routing: true
+
+hybrid_imbalance_evidence:
+  purpose: sensitivity evidence only
+  canonical_checkpoint_replacement: forbidden
+  representation: frozen_hybrid_embedding
+  modes:
+    - none
+    - class_weight
+    - smote
+    - adasyn
+  resampling_scope: train_embeddings_only
+  validation_scope: threshold_selection_only
+  test_scope: final_metrics_only
+  metrics:
+    - roc_auc
+    - pr_auc
+    - precision
+    - recall
+    - f1
+    - balanced_accuracy
+    - specificity
+    - brier_score
+    - confusion_matrix
