@@ -21,10 +21,18 @@ def _read(path: Path) -> pd.DataFrame:
 
 def run(input_path: Path, output_dir: Path) -> dict[str, object]:
     frame = _read(input_path)
-    required = {"student_id", "stage", "protocol_split", "prediction_target"}
+    required = {
+        "record_id",
+        "student_id",
+        "stage",
+        "protocol_split",
+        "prediction_target",
+    }
     missing = sorted(required.difference(frame.columns))
     if missing:
         raise KeyError(f"landmark table is missing columns: {missing}")
+    if frame.groupby("student_id")["protocol_split"].nunique().max() != 1:
+        raise ValueError("one student appears in multiple protocol splits")
     embedding_columns = sorted(
         column for column in frame.columns if column.startswith("embedding__")
     )
@@ -35,7 +43,7 @@ def run(input_path: Path, output_dir: Path) -> dict[str, object]:
     counts: dict[str, dict[str, int]] = {}
     for stage in STAGES:
         stage_frame = frame.loc[frame["stage"].eq(stage)].drop_duplicates(
-            ["student_id", "stage"]
+            ["record_id", "stage"]
         )
         if stage_frame.empty:
             raise ValueError(f"no embedding rows available for {stage}")
@@ -57,6 +65,9 @@ def run(input_path: Path, output_dir: Path) -> dict[str, object]:
             payload[f"{split}_student_ids"] = selected["student_id"].astype(
                 str
             ).to_numpy(dtype=str)
+            payload[f"{split}_record_ids"] = selected["record_id"].astype(
+                str
+            ).to_numpy(dtype=str)
             counts[stage][split] = int(len(selected))
         path = output_dir / f"frozen_embeddings_{stage.lower()}.npz"
         np.savez_compressed(path, **payload)
@@ -68,6 +79,8 @@ def run(input_path: Path, output_dir: Path) -> dict[str, object]:
         "counts": counts,
         "resampling_applied": False,
         "split_rule": "PREEXISTING_STUDENT_GROUPED_PROTOCOL_SPLIT",
+        "cluster_key": "student_id",
+        "record_key": "record_id",
     }
     (output_dir / "manifest.json").write_text(
         json.dumps(manifest, indent=2, sort_keys=True) + "\n",
