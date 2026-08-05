@@ -17,10 +17,7 @@ from src.recommend_hybrid.causal import (
     validate_temporal_columns,
 )
 from src.recommend_hybrid.causal.protocol import LANDMARK_STAGES, STAGE_ORDER
-from src.recommend_hybrid.final.metrics import (
-    ActionAwareThresholds,
-    make_decisions,
-)
+from src.recommend_hybrid.final.metrics import ActionAwareThresholds, make_decisions
 
 
 def test_four_stage_landmark_contract() -> None:
@@ -87,10 +84,7 @@ def test_treatment_rule_is_fitted_on_train_and_replayed() -> None:
     )
     assert isinstance(rule, FittedActionTreatmentRule)
     assert rule.fitted_on_split == "train"
-    assigned = rule.assign(
-        np.array([0.10, 0.50]),
-        np.array([0.90, 0.55]),
-    )
+    assigned = rule.assign(np.array([0.10, 0.50]), np.array([0.90, 0.55]))
     assert assigned.tolist() == [1, 0]
 
 
@@ -119,12 +113,7 @@ def test_cross_fitted_aipw_detects_positive_synthetic_effect() -> None:
 def test_cluster_bootstrap_resamples_whole_students() -> None:
     values = np.array([1.0, 1.0, 3.0, 3.0])
     groups = np.array([10, 10, 20, 20])
-    result = cluster_bootstrap_mean(
-        values,
-        groups,
-        iterations=200,
-        random_state=42,
-    )
+    result = cluster_bootstrap_mean(values, groups, iterations=200, random_state=42)
     assert result.estimate == pytest.approx(2.0)
     assert result.cluster_count == 2
     assert result.confidence_interval[0] <= result.estimate <= result.confidence_interval[1]
@@ -153,11 +142,47 @@ def test_pipeline_rejects_mismatched_student_groups() -> None:
         outcome=np.array([0, 1, 0, 1, 0, 1]),
         groups=np.array([1, 2, 3, 4, 5, 6]),
         student_ids=np.array([1, 2, 3, 4, 5, 99]),
+        record_ids=np.array(["r1", "r2", "r3", "r4", "r5", "r6"]),
         maximum_baseline_progress=0.20,
         minimum_treatment_progress=0.21,
         maximum_treatment_progress=0.35,
     )
     with pytest.raises(ValueError, match="groups must equal student_ids"):
+        trial.validate()
+
+
+def test_same_student_can_have_multiple_course_records() -> None:
+    trial = StageActionTrialData(
+        stage="EARLY_20",
+        action_id="STUDY_REGULARITY",
+        features=np.ones((4, 2)),
+        treatment=np.array([0, 1, 0, 1]),
+        outcome=np.array([0, 1, 1, 1]),
+        groups=np.array([10, 10, 20, 30]),
+        student_ids=np.array([10, 10, 20, 30]),
+        record_ids=np.array(["course-a", "course-b", "course-c", "course-d"]),
+        maximum_baseline_progress=0.20,
+        minimum_treatment_progress=0.21,
+        maximum_treatment_progress=0.35,
+    )
+    trial.validate()
+
+
+def test_duplicate_course_record_is_rejected() -> None:
+    trial = StageActionTrialData(
+        stage="EARLY_20",
+        action_id="STUDY_REGULARITY",
+        features=np.ones((4, 2)),
+        treatment=np.array([0, 1, 0, 1]),
+        outcome=np.array([0, 1, 1, 1]),
+        groups=np.array([10, 10, 20, 30]),
+        student_ids=np.array([10, 10, 20, 30]),
+        record_ids=np.array(["same", "same", "course-c", "course-d"]),
+        maximum_baseline_progress=0.20,
+        minimum_treatment_progress=0.21,
+        maximum_treatment_progress=0.35,
+    )
+    with pytest.raises(ValueError, match="record_ids must be unique"):
         trial.validate()
 
 
@@ -170,6 +195,7 @@ def test_evaluator_fails_closed_when_arm_too_small() -> None:
         outcome=np.array([0, 1] * 6),
         groups=np.arange(12),
         student_ids=np.arange(12),
+        record_ids=np.asarray([f"r{index}" for index in range(12)]),
         maximum_baseline_progress=0.20,
         minimum_treatment_progress=0.21,
         maximum_treatment_progress=0.35,
