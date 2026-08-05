@@ -46,6 +46,7 @@ def _required_archive_arrays(data: np.lib.npyio.NpzFile) -> None:
         "outcome",
         "groups",
         "student_ids",
+        "record_ids",
         "stages",
         "action_ids",
         "baseline_progress",
@@ -84,6 +85,7 @@ def run(
         outcome = np.asarray(data["outcome"], dtype=np.int8).reshape(-1)
         groups = np.asarray(data["groups"]).astype(str).reshape(-1)
         student_ids = np.asarray(data["student_ids"]).astype(str).reshape(-1)
+        record_ids = np.asarray(data["record_ids"]).astype(str).reshape(-1)
         stages = np.asarray(data["stages"]).astype(str).reshape(-1)
         action_ids = np.asarray(data["action_ids"]).astype(str).reshape(-1)
         baseline_progress = np.asarray(data["baseline_progress"], dtype=np.float64).reshape(-1)
@@ -99,6 +101,7 @@ def run(
         outcome,
         groups,
         student_ids,
+        record_ids,
         stages,
         action_ids,
         baseline_progress,
@@ -143,6 +146,7 @@ def run(
                 outcome=outcome[selected],
                 groups=groups[selected],
                 student_ids=student_ids[selected],
+                record_ids=record_ids[selected],
                 maximum_baseline_progress=float(np.max(baseline_progress[selected])),
                 minimum_treatment_progress=float(np.min(treatment_start[selected])),
                 maximum_treatment_progress=float(np.max(treatment_end[selected])),
@@ -162,7 +166,10 @@ def run(
                 continue
             summaries.append(evaluation.summary())
             individual_rows.extend(
-                evaluation.individual_effect_records(student_ids[selected])
+                evaluation.individual_effect_records(
+                    student_ids[selected],
+                    record_ids[selected],
+                )
             )
 
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -192,6 +199,8 @@ def run(
             "OBSERVATIONAL_EFFECT_UNDER_ASSUMPTIONS_ONLY; "
             "NOT DEPLOYMENT OR RANDOMIZED-TRIAL EFFECTIVENESS"
         ),
+        "cluster_key": "student_id",
+        "record_key": "record_id",
     }
     (output_dir / "manifest.json").write_text(
         json.dumps(manifest, indent=2, sort_keys=True) + "\n",
