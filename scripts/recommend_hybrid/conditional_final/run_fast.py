@@ -1,6 +1,8 @@
 """Run the conditional final evaluation with precision-only controls."""
 from __future__ import annotations
 
+import itertools
+
 import numpy as np
 
 import evaluate_release as base
@@ -50,10 +52,20 @@ def _action_identity_control(
     repetitions: int,
     seed: int,
 ) -> dict[str, float | int]:
+    identity = tuple(range(base.ACTION_COUNT))
+    alternatives = np.asarray(
+        [
+            permutation
+            for permutation in itertools.permutations(range(base.ACTION_COUNT))
+            if permutation != identity
+        ],
+        dtype=np.int64,
+    )
     rng = np.random.default_rng(seed)
     values = np.empty(repetitions, dtype=np.float64)
-    for index in range(repetitions):
-        permutation = rng.permutation(base.ACTION_COUNT)
+    sampled = rng.integers(0, len(alternatives), size=repetitions)
+    for index, permutation_index in enumerate(sampled):
+        permutation = alternatives[permutation_index]
         values[index] = _precision_only(
             scores[:, permutation],
             targets,
@@ -62,6 +74,8 @@ def _action_identity_control(
     return {
         "repetitions": int(repetitions),
         "seed": int(seed),
+        "identity_excluded": True,
+        "unique_non_identity_permutations": int(len(alternatives)),
         "mean": float(values.mean()),
         "p95": float(np.quantile(values, 0.95)),
         "maximum": float(values.max()),
