@@ -34,11 +34,18 @@ class ConditionalHybridActionRanker:
             return RankingResult("ELIGIBILITY_REQUIRED", ())
         if not eligible_actions:
             return RankingResult("NO_ELIGIBLE_ACTIONS", ())
+        model_scores = learner_state.get("action_scores", learner_state.get("action_logits"))
+        if model_scores is not None and len(model_scores) != len(eligible_actions):
+            raise ValueError("action score output must align with eligible_actions")
         scored: list[dict[str, Any]] = []
         for index, action in enumerate(eligible_actions):
             item = dict(action)
             item.setdefault("action_id", index)
-            score = item.get("score", item.get("action_probability", 0.0))
+            score = (
+                model_scores[index]
+                if model_scores is not None
+                else item.get("score", item.get("action_probability", 0.0))
+            )
             try:
                 item["score"] = float(score)
             except (TypeError, ValueError):
