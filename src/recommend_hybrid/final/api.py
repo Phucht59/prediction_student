@@ -10,6 +10,8 @@ from dataclasses import dataclass
 from math import isfinite
 from typing import Any, Mapping, Sequence
 
+from .model import ACTION_COUNT, ActionAwareOutput
+
 MODEL_SCORE_AUTHORITY = "integrated_conditional_action_head"
 OFFLINE_EXECUTION_CONTEXT = "offline_evaluation"
 SCIENTIFIC_ACTION_ORDER = (
@@ -35,6 +37,41 @@ _ACTION_INDEX = {
 
 
 @dataclass(frozen=True)
+class IntegratedActionScoreOutput:
+    """One learner's five canonical scores produced by the integrated head."""
+
+    scores: tuple[float, ...]
+    score_authority: str = MODEL_SCORE_AUTHORITY
+
+    def __post_init__(self) -> None:
+        if self.score_authority != MODEL_SCORE_AUTHORITY:
+            raise ValueError("unexpected action score authority")
+        if len(self.scores) != ACTION_COUNT:
+            raise ValueError(
+                "integrated action-head output must contain exactly five canonical slots"
+            )
+        if not all(isfinite(float(value)) for value in self.scores):
+            raise ValueError("action-head scores must be finite")
+
+    @classmethod
+    def from_head_output(
+        cls,
+        output: ActionAwareOutput,
+        *,
+        batch_index: int = 0,
+    ) -> "IntegratedActionScoreOutput":
+        """Create a score envelope directly from a neural-head forward output."""
+
+        logits = output.action_logits
+        if logits.ndim != 2 or logits.shape[1] != ACTION_COUNT:
+            raise ValueError("action_logits must have shape [B, 5]")
+        if not 0 <= batch_index < logits.shape[0]:
+            raise IndexError("batch_index is outside the action-head output")
+        values = logits[batch_index].detach().cpu().tolist()
+        return cls(tuple(float(value) for value in values))
+
+
+@dataclass(frozen=True)
 class RankingResult:
     status: str
     actions: tuple[Mapping[str, Any], ...]
@@ -49,12 +86,12 @@ class RankingResult:
 
 
 class ConditionalHybridActionRanker:
-    """Rank eligible actions from verified integrated-head outputs only.
+    """Rank eligible actions from integrated-head outputs only.
 
-    The input score vector must contain the five fixed scientific action slots
-    in ``SCIENTIFIC_ACTION_ORDER``. Caller-authored per-action scores are never
-    used. This API is restricted to offline evaluation because the end-to-end
-    recommendation runtime is not scientifically authorized.
+    The input score vector contains the five fixed scientific action slots in
+    ``SCIENTIFIC_ACTION_ORDER``. Caller-authored scores attached to action
+    dictionaries are ignored. This API is restricted to offline evaluation
+    because the end-to-end recommendation runtime is not authorized.
     """
 
     module_boundary = "conditional_hybrid_action_ranker"
@@ -63,7 +100,7 @@ class ConditionalHybridActionRanker:
 
     def rank_actions(
         self,
-        learner_state: Mapping[str, Any],
+        model_output: IntegratedActionScoreOutput | None,
         eligible_actions: Sequence[Mapping[str, Any]],
         policy_authorized: bool = False,
         *,
@@ -75,35 +112,12 @@ class ConditionalHybridActionRanker:
             return RankingResult("ELIGIBILITY_REQUIRED", ())
         if not eligible_actions:
             return RankingResult("NO_ELIGIBLE_ACTIONS", ())
+        if model_output is None:
+            return RankingResult("MODEL_OUTPUT_REQUIRED", ())
+        if not isinstance(model_output, IntegratedActionScoreOutput):
+            return RankingResult("INTEGRATED_HEAD_OUTPUT_REQUIRED", ())
 
-        score_authority = learner_state.get("score_authority")
-        if score_authority != self.required_score_authority:
-            return RankingResult("MODEL_OUTPUT_AUTHORITY_REQUIRED", ())
-
-        model_scores = learner_state.get("action_logits")
-        if model_scores is None:
-            model_scores = learner_state.get("action_scores")
-        if model_scores is None:
-            return RankingResult(
-                "MODEL_OUTPUT_REQUIRED",
-                (),
-                score_authority=self.required_score_authority,
-            )
-        if len(model_scores) != len(SCIENTIFIC_ACTION_ORDER):
-            raise ValueError(
-                "integrated action-head output must contain exactly five canonical slots"
-            )
-
-        canonical_scores: list[float] = []
-        for raw_score in model_scores:
-            try:
-                score = float(raw_score)
-            except (TypeError, ValueError) as exc:
-                raise ValueError("action-head scores must be numeric") from exc
-            if not isfinite(score):
-                raise ValueError("action-head scores must be finite")
-            canonical_scores.append(score)
-
+        canonical_scores = model_output.scores
         scored: list[dict[str, Any]] = []
         for action in eligible_actions:
             item = dict(action)
@@ -121,6 +135,8 @@ class ConditionalHybridActionRanker:
                     (),
                     score_authority=self.required_score_authority,
                 )
+            item.pop("score", None)
+            item.pop("action_probability", None)
             item["canonical_action_id"] = canonical_action_id
             item["score"] = canonical_scores[_ACTION_INDEX[canonical_action_id]]
             item["score_authority"] = self.required_score_authority
@@ -147,6 +163,7 @@ class ConditionalHybridActionRanker:
 __all__ = [
     "ACTION_ALIASES",
     "ConditionalHybridActionRanker",
+    "IntegratedActionScoreOutput",
     "MODEL_SCORE_AUTHORITY",
     "OFFLINE_EXECUTION_CONTEXT",
     "RankingResult",
