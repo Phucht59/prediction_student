@@ -37,6 +37,7 @@ from src.recommend_hybrid.prediction_adapter import (  # noqa: E402
 
 OUTPUT = ROOT / "artifacts/recommend_hybrid/causal/input/landmark_rows.parquet"
 MANIFEST = ROOT / "artifacts/recommend_hybrid/causal/input/landmark_rows_manifest.json"
+CHECKPOINT_MANIFEST = ROOT / "artifacts/recommend_hybrid/RECOMMEND_HYBRID_CHECKPOINT_MANIFEST.json"
 RAW = ROOT / "data/raw"
 STAGE_SOURCE = {
     "EARLY_20": "E1_EARLY_20PCT",
@@ -256,10 +257,7 @@ def _weekly_vector(
     return values
 
 
-def _vle_measures(
-    window: pd.DataFrame,
-    weekly: pd.DataFrame,
-) -> pd.DataFrame:
+def _vle_measures(window: pd.DataFrame, weekly: pd.DataFrame) -> pd.DataFrame:
     rows: list[dict[str, Any]] = []
     for item in window.itertuples(index=False):
         baseline_days = int(item.cutoff_day - item.baseline_start_day)
@@ -271,15 +269,9 @@ def _vle_measures(
             ("baseline", baseline_days, baseline_weeks),
             ("followup", followup_days, followup_weeks),
         ):
-            total = _weekly_vector(
-                weekly, item.record_id, period, weeks, "total_clicks"
-            )
-            active = _weekly_vector(
-                weekly, item.record_id, period, weeks, "active_days"
-            )
-            quiz = _weekly_vector(
-                weekly, item.record_id, period, weeks, "quiz_clicks"
-            )
+            total = _weekly_vector(weekly, item.record_id, period, weeks, "total_clicks")
+            active = _weekly_vector(weekly, item.record_id, period, weeks, "active_days")
+            quiz = _weekly_vector(weekly, item.record_id, period, weeks, "quiz_clicks")
             content = _weekly_vector(
                 weekly, item.record_id, period, weeks, "content_clicks"
             )
@@ -299,7 +291,7 @@ def _vle_measures(
     return pd.DataFrame(rows)
 
 
-def _assessment_measures(window: pd.DataFrame) -> pd.DataFrame:
+def _load_assessment_sources() -> tuple[dict[tuple[str, str], pd.DataFrame], dict[tuple[int, int], int]]:
     assessments = pd.read_csv(
         RAW / "assessments.csv",
         usecols=[
@@ -324,6 +316,7 @@ def _assessment_measures(window: pd.DataFrame) -> pd.DataFrame:
         ]
         .min()
         .set_index(["id_assessment", "id_student"])["date_submitted"]
+        .astype(int)
         .to_dict()
     )
     by_course = {
@@ -332,6 +325,14 @@ def _assessment_measures(window: pd.DataFrame) -> pd.DataFrame:
             ["code_module", "code_presentation"], sort=False
         )
     }
+    return by_course, earliest
+
+
+def _assessment_measures(
+    window: pd.DataFrame,
+    by_course: dict[tuple[str, str], pd.DataFrame],
+    earliest: dict[tuple[int, int], int],
+) -> pd.DataFrame:
     rows: list[dict[str, Any]] = []
     for item in window.itertuples(index=False):
         available = by_course.get((item.code_module, item.code_presentation))
@@ -366,14 +367,30 @@ def _behaviour_table(
     windows: dict[str, pd.DataFrame],
     weekly: dict[str, pd.DataFrame],
 ) -> dict[str, pd.DataFrame]:
+    by_course, earliest = _load_assessment_sources()
     result: dict[str, pd.DataFrame] = {}
     for stage, window in windows.items():
         vle = _vle_measures(window, weekly[stage])
-        assessment = _assessment_measures(window)
+        assessment = _assessment_measures(window, by_course, earliest)
         merged = window.merge(vle, on="record_id", validate="one_to_one").merge(
             assessment, on="record_id", validate="one_to_one"
         )
-        result[stage] = merged
+        measure_columns = [
+            column
+            for column in merged.columns
+            if column.startswith("baseline__") or column.startswith("followup__")
+        ]
+        result[stage] = merged.loc[
+            :,
+            [
+                "record_id",
+                "module_length",
+                "baseline_start_day",
+                "cutoff_day",
+                "followup_end_day",
+                *measure_columns,
+            ],
+        ]
     return result
 
 
@@ -425,21 +442,15 @@ def _oof_embeddings(
         student = np.concatenate(student_embedding, axis=0)
         tabular = np.concatenate(tabular_embedding, axis=0)
         risk = np.concatenate(risk_probability, axis=0)
-        rows = pd.DataFrame(
-            {
-                "record_id": frame["base_record_id"].astype(str),
-                "prediction_risk_probability": risk.astype(np.float32),
-                "checkpoint_outer_fold": int(fold),
-            }
-        )
-        for column in range(student.shape[1]):
-            rows[f"embedding__student_{column:03d}"] = student[:, column].astype(
-                np.float32
-            )
-        for column in range(tabular.shape[1]):
-            rows[f"embedding__tabular_{column:03d}"] = tabular[:, column].astype(
-                np.float32
-            )
+        matrix = np.column_stack([student, tabular]).astype(np.float32)
+        columns = [
+            *[f"embedding__student_{column:03d}" for column in range(student.shape[1])],
+            *[f"embedding__tabular_{column:03d}" for column in range(tabular.shape[1])],
+        ]
+        rows = pd.DataFrame(matrix, columns=columns)
+        rows.insert(0, "checkpoint_outer_fold", int(fold))
+        rows.insert(0, "prediction_risk_probability", risk.astype(np.float32))
+        rows.insert(0, "record_id", frame["base_record_id"].astype(str).to_numpy())
         row_parts.append(rows)
     output = pd.concat(row_parts, ignore_index=True)
     if output["record_id"].duplicated().any() or len(output) != len(data.frame):
@@ -516,44 +527,59 @@ def _expand_actions(base: pd.DataFrame, stage: str) -> pd.DataFrame:
         "retrieval_practice_rate",
         "content_review_coverage",
     ]
-    feature_columns = sorted(
+    embedding_columns = sorted(
         column for column in base.columns if column.startswith("embedding__")
     )
-    for column in feature_columns:
-        base[f"feature__{column.removeprefix('embedding__')}"] = base[column].astype(
-            np.float32
+    feature_payload = {
+        f"feature__{column.removeprefix('embedding__')}": base[column].to_numpy(
+            dtype=np.float32
         )
-    scalar_features = {
-        "risk_probability": "prediction_risk_probability",
-        "previous_attempts": "num_of_prev_attempts",
-        "studied_credits": "studied_credits",
-        "registration_lead_time": "registration_lead_time",
-        "course_progress": "progress_fraction",
-        "observed_week_count": "observed_week_count",
-        "weeks_remaining": "weeks_remaining",
-        "assessment_available_fraction": "assessment_available_fraction",
+        for column in embedding_columns
     }
-    for target, source in scalar_features.items():
-        base[f"feature__{target}"] = pd.to_numeric(
-            base[source], errors="coerce"
-        ).fillna(0.0).astype(np.float32)
+    feature_payload.update(
+        {
+            "feature__risk_probability": base[
+                "prediction_risk_probability"
+            ].to_numpy(dtype=np.float32),
+            "feature__previous_attempts": pd.to_numeric(
+                base["num_of_prev_attempts"], errors="coerce"
+            ).fillna(0.0).to_numpy(dtype=np.float32),
+            "feature__studied_credits": pd.to_numeric(
+                base["studied_credits"], errors="coerce"
+            ).fillna(0.0).to_numpy(dtype=np.float32),
+            "feature__registration_lead_time": pd.to_numeric(
+                base["registration_lead_time"], errors="coerce"
+            ).fillna(0.0).to_numpy(dtype=np.float32),
+            "feature__course_progress": base["progress_fraction"].to_numpy(
+                dtype=np.float32
+            ),
+            "feature__observed_week_count": base[
+                "observed_week_count"
+            ].to_numpy(dtype=np.float32),
+            "feature__weeks_remaining": base["weeks_remaining"].to_numpy(
+                dtype=np.float32
+            ),
+            "feature__assessment_available_fraction": base[
+                "assessment_available_fraction"
+            ].to_numpy(dtype=np.float32),
+            "feature__baseline_assessment_available": base[
+                "baseline__assessment_available"
+            ].to_numpy(dtype=np.float32),
+        }
+    )
     for name in baseline_measure_columns:
-        base[f"feature__baseline_{name}"] = base[f"baseline__{name}"].astype(
-            np.float32
-        )
-    base["feature__baseline_assessment_available"] = base[
-        "baseline__assessment_available"
-    ].astype(np.float32)
-    base["feature__followup_assessment_available"] = base[
-        "followup__assessment_available"
-    ].astype(np.float32)
+        feature_payload[f"feature__baseline_{name}"] = base[
+            f"baseline__{name}"
+        ].to_numpy(dtype=np.float32)
+    base = pd.concat([base, pd.DataFrame(feature_payload, index=base.index)], axis=1)
 
     rows: list[pd.DataFrame] = []
     for action_id in ACTION_ORDER:
-        if action_id == "ASSESSMENT_COMPLETION":
-            selected = base.loc[base["followup__assessment_available"].eq(1)].copy()
-        else:
-            selected = base.copy()
+        selected = (
+            base.loc[base["followup__assessment_available"].eq(1)].copy()
+            if action_id == "ASSESSMENT_COMPLETION"
+            else base.copy()
+        )
         if selected.empty:
             continue
         name = measure[action_id]
@@ -569,6 +595,22 @@ def _expand_actions(base: pd.DataFrame, stage: str) -> pd.DataFrame:
     return pd.concat(rows, ignore_index=True) if rows else base.iloc[0:0].copy()
 
 
+def _checkpoint_hashes() -> dict[str, list[str]]:
+    manifest = json.loads(CHECKPOINT_MANIFEST.read_text(encoding="utf-8"))
+    result: dict[str, list[str]] = {}
+    for stage in STAGE_SOURCE:
+        result[stage] = sorted(
+            {
+                str(row["sha256"])
+                for row in manifest["checkpoints"]
+                if stage in row["stages"]
+            }
+        )
+        if not result[stage]:
+            raise RuntimeError(f"checkpoint manifest does not cover {stage}")
+    return result
+
+
 def build(
     output_path: Path = OUTPUT,
     manifest_path: Path = MANIFEST,
@@ -582,20 +624,10 @@ def build(
     weekly = _collect_weekly_activity(windows, chunksize=chunksize)
     behaviour = _behaviour_table(windows, weekly)
     stage_rows: list[pd.DataFrame] = []
-    checkpoint_hashes: dict[str, list[str]] = {}
     for stage in STAGE_SOURCE:
         embedding = _oof_embeddings(bundle, stage, batch_size=batch_size)
         base = _base_features(bundle, stage, behaviour[stage], embedding)
         stage_rows.append(_expand_actions(base, stage))
-        checkpoint_hashes[stage] = sorted(
-            {
-                reference.sha256
-                for fold in range(3)
-                for reference in HybridPredictionAdapter.from_manifest(
-                    ROOT, stage=STAGE_ENUM[stage], fold=fold
-                ).checkpoint_references
-            }
-        )
     output = pd.concat(stage_rows, ignore_index=True)
     if output.empty:
         raise RuntimeError("no landmark rows were generated")
@@ -609,6 +641,8 @@ def build(
     embedding_columns = sorted(
         column for column in output.columns if column.startswith("embedding__")
     )
+    if any("followup" in column for column in feature_columns):
+        raise RuntimeError("post-cutoff information entered the confounder feature set")
     if not np.isfinite(output.loc[:, feature_columns].to_numpy(dtype=float)).all():
         raise RuntimeError("non-finite confounder features were generated")
     if not np.isfinite(output.loc[:, embedding_columns].to_numpy(dtype=float)).all():
@@ -633,7 +667,7 @@ def build(
         "feature_count": len(feature_columns),
         "embedding_count": len(embedding_columns),
         "architecture_hash": ARCHITECTURE_HASH,
-        "checkpoint_hashes": checkpoint_hashes,
+        "checkpoint_hashes": _checkpoint_hashes(),
         "embedding_authority": "FROZEN_OOF_HYBRID_SEED_ENSEMBLE",
         "protocol_split_by_outer_fold": PROTOCOL_SPLIT_BY_OUTER_FOLD,
         "cluster_key": "student_id",
