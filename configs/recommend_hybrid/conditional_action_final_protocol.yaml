@@ -48,6 +48,11 @@ metrics:
     - positive_group_coverage
     - stage_a_precision
 
+bootstrap:
+  cluster: base_record_id
+  replicates: 2000
+  seed: 20260805
+
 release_gates:
   ranking_only_precision_at_1_minimum: 0.90
   ranking_precision_bootstrap_lower_95_minimum: 0.90
