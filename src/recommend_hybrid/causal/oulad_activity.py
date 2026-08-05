@@ -138,13 +138,14 @@ def collect_weekly_activity_sqlite(
                 )
                 daily.insert(0, "stage", stage)
                 daily = daily.rename(columns={"date": "activity_date"})
+                # The default executemany path avoids SQLite's platform-specific
+                # maximum bind-variable limit triggered by method="multi".
                 daily.to_sql(
                     "daily_activity",
                     connection,
                     if_exists="append",
                     index=False,
-                    method="multi",
-                    chunksize=20_000,
+                    chunksize=10_000,
                 )
             connection.commit()
         connection.execute(
