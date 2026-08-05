@@ -32,8 +32,14 @@ def study_regularity_components(weekly_activity: np.ndarray) -> dict[str, np.nda
     active = values > 0.0
     active_ratio = np.mean(active, axis=1)
     mean = np.mean(values, axis=1)
-    coefficient_variation = np.std(values, axis=1) / np.maximum(mean, EPSILON)
-    evenness = 1.0 / (1.0 + coefficient_variation)
+    has_activity = mean > 0.0
+    coefficient_variation = np.divide(
+        np.std(values, axis=1),
+        mean,
+        out=np.zeros_like(mean),
+        where=has_activity,
+    )
+    evenness = np.where(has_activity, 1.0 / (1.0 + coefficient_variation), 0.0)
 
     total = np.sum(values, axis=1, keepdims=True)
     probability = np.divide(values, total, out=np.zeros_like(values), where=total > 0.0)
