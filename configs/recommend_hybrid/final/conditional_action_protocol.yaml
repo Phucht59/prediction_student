@@ -15,6 +15,22 @@ learned_models_allowed:
 prediction_authority:
   parameters: 160492
   manifest: artifacts/recommend_hybrid/RECOMMEND_HYBRID_CHECKPOINT_MANIFEST.json
+public_api:
+  execution_context: offline_evaluation
+  score_authority: integrated_conditional_action_head
+  caller_authored_action_scores_allowed: false
+  missing_model_output_behavior: fail_closed
+  unsupported_action_behavior: fail_closed
+  canonical_action_order:
+    - ASSESSMENT_COMPLETION
+    - STUDY_REGULARITY
+    - VLE_ENGAGEMENT
+    - QUIZ_OR_RETRIEVAL_PRACTICE
+    - CONTENT_REVIEW
+  runtime_aliases:
+    STUDY_SCHEDULE: STUDY_REGULARITY
+    RETRIEVAL_PRACTICE: QUIZ_OR_RETRIEVAL_PRACTICE
+    LEARNING_CONSOLIDATION: CONTENT_REVIEW
 evidence:
   positive_held_out_groups: 9304
   positive_population_learners: 6874
