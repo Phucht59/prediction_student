@@ -10,6 +10,8 @@ from sklearn.base import clone
 from sklearn.ensemble import HistGradientBoostingRegressor
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import StratifiedGroupKFold, StratifiedKFold
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
 
 EPSILON = 1.0e-6
 
@@ -22,6 +24,21 @@ class _ConstantProbabilityModel:
         count = len(features)
         positive = np.full(count, self.probability, dtype=np.float64)
         return np.column_stack([1.0 - positive, positive])
+
+
+def _default_logistic(random_state: int) -> Any:
+    """Scale mixed confounders inside every cross-fit training partition."""
+
+    return make_pipeline(
+        StandardScaler(),
+        LogisticRegression(
+            max_iter=5000,
+            solver="lbfgs",
+            penalty="l2",
+            C=1.0,
+            random_state=random_state,
+        ),
+    )
 
 
 def _fit_probability_model(model: Any, features: np.ndarray, target: np.ndarray) -> Any:
@@ -91,14 +108,10 @@ class CrossFittedAIPW:
         cate_model: Any | None = None,
         config: AIPWConfig = AIPWConfig(),
     ) -> None:
-        self.propensity_model = propensity_model or LogisticRegression(
-            max_iter=3000,
-            solver="lbfgs",
+        self.propensity_model = propensity_model or _default_logistic(
+            config.random_state
         )
-        self.outcome_model = outcome_model or LogisticRegression(
-            max_iter=3000,
-            solver="lbfgs",
-        )
+        self.outcome_model = outcome_model or _default_logistic(config.random_state)
         self.cate_model = cate_model or HistGradientBoostingRegressor(
             max_iter=200,
             learning_rate=0.05,
