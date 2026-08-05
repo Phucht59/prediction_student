@@ -1,0 +1,106 @@
+schema_version: conditional_action_final_protocol_v1
+status: FROZEN_AFTER_V4_FEASIBILITY_AUDIT
+
+module_boundary:
+  name: conditional_hybrid_action_ranker
+  responsibility: rank_scientific_actions_after_external_eligibility
+  eligibility_authority:
+    - deterministic_stage_aware_policy
+    - instructor_or_advisor_workflow
+  learned_models_allowed:
+    - frozen_residual_cnn_bilstm
+    - integrated_conditional_action_head
+  external_ml_ranker_allowed: false
+  end_to_end_recommendability_in_scope: false
+  runtime_authorized: false
+
+immutable_evidence:
+  v4_execution_commit: 5550f590e5afa69af54dd2c6d05ea2c9c22aabb6
+  v4_feasibility_commit: 7168239338363751f436adc7d84269b94e7d82b8
+  oof_predictions: artifacts/recommend_hybrid/two_stage_v4/final_oof/OOF_PREDICTIONS.parquet
+  candidate_rows: artifacts/recommend_hybrid/hybrid_only_final/dataset/candidate_rows.parquet
+  groups: 29043
+  learners: 12656
+  positive_groups: 9304
+  candidate_rows_count: 82847
+  frozen_backbone_parameters: 160492
+  cache_registry_sha256: 96711031fc92876c633898a95b780ab5ea72560640ec6c12f88b412cbb43faa5
+
+estimand:
+  population: held_out_learner_stage_groups_with_at_least_one_positive_action
+  primary_metric: ranking_only_precision_at_1
+  definition: top_ranked_valid_action_has_silver_positive_label
+  labels_used_at_runtime: false
+  eligibility_interpretation: evaluation_condition_not_runtime_oracle
+  causal_interpretation: false
+
+metrics:
+  primary:
+    - ranking_only_precision_at_1
+  secondary:
+    - ndcg_at_3
+    - mrr
+    - per_outer_fold_precision_at_1
+    - per_stage_precision_at_1
+    - action_selection_diversity
+  end_to_end_context_only:
+    - end_to_end_precision_at_1
+    - positive_group_coverage
+    - stage_a_precision
+
+release_gates:
+  ranking_only_precision_at_1_minimum: 0.90
+  ranking_precision_bootstrap_lower_95_minimum: 0.90
+  ndcg_at_3_minimum: 0.95
+  mrr_minimum: 0.95
+  each_outer_fold_precision_at_1_minimum: 0.90
+  each_supported_stage_precision_at_1_minimum: 0.85
+  action_selection_diversity_minimum: 4
+  random_permutation_p_value_maximum: 0.001
+  deterministic_baseline_improvement_minimum: 0.20
+  temporal_leakage: 0
+  protected_feature_use: 0
+  exact_replay_required: true
+
+controls:
+  random_action_rankings:
+    repetitions: 5000
+    seed: 20260805
+  label_vector_permutation:
+    repetitions: 5000
+    seed: 20260806
+    stratify_by:
+      - outer_fold
+      - stage
+  action_identity_permutation:
+    repetitions: 5000
+    seed: 20260807
+  deterministic_baselines:
+    - risk_reduction_only
+    - evidence_strength_only
+    - lowest_workload
+
+scientific_statuses:
+  pass: CONDITIONAL_ACTION_RANKING_OFFLINE_VALIDATED
+  fail: CONDITIONAL_ACTION_RANKING_EVIDENCE_BELOW_GATE
+  thesis_complete: CONDITIONAL_RECOMMENDATION_MODULE_COMPLETE
+  end_to_end_status: END_TO_END_RECOMMENDATION_SYSTEM_NOT_VALIDATED
+
+claim_boundary: OFFLINE_CONDITIONAL_ACTION_RANKING_NOT_END_TO_END_OR_CAUSAL_EFFECT
+
+prohibited_claims:
+  - end_to_end_accuracy_above_80_percent
+  - recommendation_issuance_accuracy_above_80_percent
+  - causal_effectiveness
+  - guaranteed_grade_improvement
+  - expert_validation
+  - production_readiness
+  - eligibility_oracle_available_at_runtime
+
+prohibited_actions:
+  - change_v4_oof_predictions
+  - change_silver_labels
+  - retrain_v4_after_viewing_outer_results
+  - report_conditional_precision_as_end_to_end_precision
+  - authorize_runtime_from_conditional_evidence
+  - merge_pr_without_explicit_user_authorization
