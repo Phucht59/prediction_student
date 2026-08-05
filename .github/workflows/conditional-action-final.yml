@@ -1,0 +1,54 @@
+name: Conditional Action Final Module
+
+on:
+  pull_request:
+    paths:
+      - "configs/recommend_hybrid/conditional_action_final_protocol.yaml"
+      - "scripts/recommend_hybrid/conditional_final/**"
+      - "tests/recommend_hybrid/conditional_action_final/**"
+      - ".github/workflows/conditional-action-final.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  conditional-action-correctness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: false
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install focused dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy pandas pyarrow PyYAML pytest ruff
+
+      - name: Run conditional final tests
+        run: |
+          python -m pytest \
+            --confcutdir=tests/recommend_hybrid/conditional_action_final \
+            tests/recommend_hybrid/conditional_action_final \
+            -q
+
+      - name: Compile conditional final scope
+        run: |
+          python -m py_compile \
+            scripts/recommend_hybrid/conditional_final/evaluate_release.py \
+            scripts/recommend_hybrid/conditional_final/run_fast.py
+
+      - name: Ruff conditional final scope
+        run: |
+          ruff check \
+            scripts/recommend_hybrid/conditional_final \
+            tests/recommend_hybrid/conditional_action_final
