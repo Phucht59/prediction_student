@@ -27,6 +27,7 @@ class StageActionTrialData:
     outcome: np.ndarray
     groups: np.ndarray
     student_ids: np.ndarray
+    record_ids: np.ndarray
     maximum_baseline_progress: float
     minimum_treatment_progress: float
     maximum_treatment_progress: float
@@ -41,10 +42,11 @@ class StageActionTrialData:
         y = np.asarray(self.outcome).reshape(-1)
         groups = np.asarray(self.groups).reshape(-1)
         students = np.asarray(self.student_ids).reshape(-1)
+        records = np.asarray(self.record_ids).reshape(-1)
         row_count = len(t)
         if x.ndim != 2 or len(x) != row_count:
             raise ValueError("features must be [N, F] and align with treatment")
-        if len(y) != row_count or len(groups) != row_count or len(students) != row_count:
+        if any(len(values) != row_count for values in (y, groups, students, records)):
             raise ValueError("trial arrays must align row by row")
         if not np.isfinite(x).all():
             raise ValueError("trial features must be finite")
@@ -52,8 +54,10 @@ class StageActionTrialData:
             raise ValueError("treatment and outcome must be binary")
         if not np.array_equal(groups.astype(str), students.astype(str)):
             raise ValueError(
-                "groups must equal student_ids so repeated landmarks stay together"
+                "groups must equal student_ids so repeated courses and landmarks stay together"
             )
+        if len(np.unique(records.astype(str))) != row_count:
+            raise ValueError("record_ids must be unique within one stage-action trial")
         validate_temporal_columns(
             stage=protocol.stage,
             maximum_baseline_progress=self.maximum_baseline_progress,
@@ -105,17 +109,23 @@ class StageActionEvaluation:
             ),
         }
 
-    def individual_effect_records(self, student_ids: np.ndarray) -> list[dict[str, Any]]:
+    def individual_effect_records(
+        self,
+        student_ids: np.ndarray,
+        record_ids: np.ndarray,
+    ) -> list[dict[str, Any]]:
         students = np.asarray(student_ids).reshape(-1)
-        if len(students) != len(self.effect.cate):
-            raise ValueError("student_ids must align with estimated effects")
+        records = np.asarray(record_ids).reshape(-1)
+        if len(students) != len(self.effect.cate) or len(records) != len(self.effect.cate):
+            raise ValueError("student_ids and record_ids must align with estimated effects")
         interval = (
             self.bootstrap.confidence_interval if self.bootstrap is not None else (None, None)
         )
         rows: list[dict[str, Any]] = []
-        for index, student_id in enumerate(students):
+        for index, (student_id, record_id) in enumerate(zip(students, records, strict=True)):
             rows.append(
                 {
+                    "record_id": str(record_id),
                     "student_id": str(student_id),
                     "stage": self.protocol.stage,
                     "action_id": self.protocol.action_id,
