@@ -6,24 +6,34 @@ from typing import Iterable
 
 import numpy as np
 
-from .model import ACTION_COUNT, MASKED_LOGIT
+from .model import ACTION_COUNT
 
-STAGE_ORDER = ("EARLY_20", "EARLY_35", "MIDDLE_50")
+STAGE_ORDER = ("EARLY_20", "EARLY_35", "MIDDLE_50", "LATE_75")
+LEGACY_STAGE_ORDER = STAGE_ORDER[:3]
 STAGE_INDEX = {name: index for index, name in enumerate(STAGE_ORDER)}
 EPSILON = 1.0e-9
 
 
 @dataclass(frozen=True)
 class ActionAwareThresholds:
-    stage_gate_probability: tuple[float, float, float]
+    """Thresholds for stage-aware recommendation issuance.
+
+    Three-stage vectors remain readable for replay of frozen artifacts. A
+    LATE_75 decision requires a four-stage vector produced by the new run.
+    """
+
+    stage_gate_probability: tuple[float, ...]
     direct_action_blend: float
     minimum_action_probability: float
     minimum_action_margin: float
     action_probability_by_id: tuple[float, ...] = (0.0,) * ACTION_COUNT
 
     def __post_init__(self) -> None:
-        if len(self.stage_gate_probability) != len(STAGE_ORDER):
-            raise ValueError("stage threshold vector has the wrong length")
+        if len(self.stage_gate_probability) not in {
+            len(LEGACY_STAGE_ORDER),
+            len(STAGE_ORDER),
+        }:
+            raise ValueError("stage threshold vector must contain three or four values")
         if len(self.action_probability_by_id) != ACTION_COUNT:
             raise ValueError("action threshold vector has the wrong length")
         for value in (
@@ -36,8 +46,15 @@ class ActionAwareThresholds:
             if not np.isfinite(value) or not 0.0 <= float(value) <= 1.0:
                 raise ValueError("threshold values must be finite in [0, 1]")
 
+    @property
+    def supports_late_75(self) -> bool:
+        return len(self.stage_gate_probability) == len(STAGE_ORDER)
+
     def to_dict(self) -> dict[str, object]:
         return {
+            "stage_order": list(
+                STAGE_ORDER if self.supports_late_75 else LEGACY_STAGE_ORDER
+            ),
             "stage_gate_probability": list(self.stage_gate_probability),
             "direct_action_blend": self.direct_action_blend,
             "minimum_action_probability": self.minimum_action_probability,
@@ -97,13 +114,22 @@ def blended_gate_probability(
     return direct, action_any, np.clip(joint, EPSILON, 1.0 - EPSILON)
 
 
-def _stage_thresholds(stages: Iterable[str], thresholds: ActionAwareThresholds) -> np.ndarray:
-    values = []
-    for stage in stages:
-        index = STAGE_INDEX.get(str(stage))
+def _stage_thresholds(
+    stages: Iterable[str],
+    thresholds: ActionAwareThresholds,
+) -> np.ndarray:
+    values: list[float] = []
+    for raw_stage in stages:
+        stage = str(raw_stage)
+        index = STAGE_INDEX.get(stage)
         if index is None:
             raise ValueError(f"unknown stage {stage}")
-        values.append(thresholds.stage_gate_probability[index])
+        if index >= len(thresholds.stage_gate_probability):
+            raise ValueError(
+                "LATE_75 requires a four-stage threshold vector; "
+                "legacy three-stage thresholds are replay-only"
+            )
+        values.append(float(thresholds.stage_gate_probability[index]))
     return np.asarray(values, dtype=np.float64)
 
 
@@ -116,6 +142,11 @@ def make_decisions(
 ) -> ActionAwareDecision:
     valid = np.asarray(action_mask, dtype=bool)
     probability = action_probabilities(action_logits, valid)
+    if probability.ndim != 2 or probability.shape[1] != ACTION_COUNT:
+        raise ValueError(f"action logits must have shape [N, {ACTION_COUNT}]")
+    if valid.shape != probability.shape:
+        raise ValueError("action_mask must align with action_logits")
+
     row = np.arange(len(probability))
     top_action = np.argmax(np.where(valid, probability, -np.inf), axis=1)
     top_probability = probability[row, top_action]
@@ -168,6 +199,9 @@ def ranking_metrics(
     targets = np.asarray(action_target, dtype=np.int8)
     valid = np.asarray(action_mask, dtype=bool)
     positive_group = np.asarray(group_target, dtype=bool)
+    if logits.shape != targets.shape or logits.shape != valid.shape:
+        raise ValueError("logits, targets, and mask must have identical shapes")
+
     precision_values: list[float] = []
     ndcg_values: list[float] = []
     reciprocal_values: list[float] = []
@@ -180,7 +214,8 @@ def ranking_metrics(
         precision_values.append(float(relevance[0] > 0))
         hit = np.where(relevance > 0)[0]
         reciprocal_values.append(float(1.0 / (hit[0] + 1)) if len(hit) else 0.0)
-        gains = relevance[:3] / np.log2(np.arange(min(3, len(relevance))) + 2.0)
+        top_relevance = relevance[:3]
+        gains = top_relevance / np.log2(np.arange(len(top_relevance)) + 2.0)
         dcg = float(gains.sum())
         ideal = np.sort(targets[index, candidates])[::-1][:3]
         idcg = float((ideal / np.log2(np.arange(len(ideal)) + 2.0)).sum())
@@ -208,6 +243,9 @@ def evaluate_action_aware(
     stage_values = np.asarray(list(stages), dtype=object)
     positive = np.asarray(group_target, dtype=bool)
     action_positive = np.asarray(action_target, dtype=np.int8)
+    if len(stage_values) != len(positive):
+        raise ValueError("stages must align with group_target")
+
     decision = make_decisions(
         direct_gate_logits,
         action_logits,
@@ -230,6 +268,7 @@ def evaluate_action_aware(
     else:
         diversity = 0
         concentration = 1.0
+
     metrics: dict[str, object] = {
         "issued_groups": issued_count,
         "positive_groups": positive_count,
@@ -278,6 +317,7 @@ __all__ = [
     "ACTION_COUNT",
     "ActionAwareDecision",
     "ActionAwareThresholds",
+    "LEGACY_STAGE_ORDER",
     "STAGE_ORDER",
     "action_any_probability",
     "action_probabilities",
