@@ -1,9 +1,4 @@
-"""Run the complete stage-aware causal recommendation evidence workflow.
-
-This orchestrator does not build the landmark source table. The source table
-must first be generated from frozen OULAD checkpoints and cutoff-safe raw data
-according to the local execution protocol.
-"""
+"""Run the complete stage-aware causal recommendation evidence workflow."""
 from __future__ import annotations
 
 import argparse
@@ -16,6 +11,7 @@ from typing import Sequence
 ROOT = Path(__file__).resolve().parents[3]
 PYTHON = Path(sys.executable)
 DEFAULT_LANDMARK = ROOT / "artifacts/recommend_hybrid/causal/input/landmark_rows.parquet"
+DEFAULT_LANDMARK_MANIFEST = ROOT / "artifacts/recommend_hybrid/causal/input/landmark_rows_manifest.json"
 DEFAULT_INPUT_DIR = ROOT / "artifacts/recommend_hybrid/causal/input"
 DEFAULT_STAGE_EMBEDDINGS = DEFAULT_INPUT_DIR / "embeddings_by_stage"
 DEFAULT_IMBALANCE_DIR = ROOT / "artifacts/recommend_hybrid/causal/imbalance"
@@ -26,11 +22,7 @@ STAGES = ("EARLY_20", "EARLY_35", "MIDDLE_50", "LATE_75")
 
 
 def _run(arguments: Sequence[str]) -> None:
-    process = subprocess.run(
-        [str(PYTHON), *arguments],
-        cwd=ROOT,
-        check=False,
-    )
+    process = subprocess.run([str(PYTHON), *arguments], cwd=ROOT, check=False)
     if process.returncode != 0:
         raise RuntimeError(
             f"workflow command failed with exit code {process.returncode}: "
@@ -41,6 +33,7 @@ def _run(arguments: Sequence[str]) -> None:
 def run(
     *,
     landmark_path: Path,
+    landmark_manifest_path: Path,
     input_dir: Path,
     stage_embedding_dir: Path,
     imbalance_dir: Path,
@@ -50,11 +43,27 @@ def run(
     splits: int,
     bootstrap: int,
     seed: int,
+    rebuild_landmark: bool,
+    chunksize: int,
+    batch_size: int,
 ) -> dict[str, object]:
-    if not landmark_path.is_file():
-        raise FileNotFoundError(
-            f"cutoff-safe landmark table is required before orchestration: {landmark_path}"
-        )
+    if rebuild_landmark or not landmark_path.is_file():
+        command = [
+            "scripts/recommend_hybrid/causal/build_oulad_landmark_rows.py",
+            "--output",
+            str(landmark_path),
+            "--manifest",
+            str(landmark_manifest_path),
+            "--chunksize",
+            str(chunksize),
+            "--batch-size",
+            str(batch_size),
+        ]
+        if rebuild_landmark:
+            command.append("--force-bundle")
+        _run(command)
+    if not landmark_path.is_file() or not landmark_manifest_path.is_file():
+        raise FileNotFoundError("landmark table and manifest are required")
 
     _run(
         [
@@ -150,6 +159,7 @@ def run(
     manifest = {
         "status": "COMPLETE",
         "landmark_source": str(landmark_path.relative_to(ROOT)),
+        "landmark_manifest": str(landmark_manifest_path.relative_to(ROOT)),
         "seed": seed,
         "cross_fit_splits": splits,
         "bootstrap_iterations": bootstrap,
@@ -173,6 +183,9 @@ def run(
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--landmark", type=Path, default=DEFAULT_LANDMARK)
+    parser.add_argument(
+        "--landmark-manifest", type=Path, default=DEFAULT_LANDMARK_MANIFEST
+    )
     parser.add_argument("--input-dir", type=Path, default=DEFAULT_INPUT_DIR)
     parser.add_argument(
         "--stage-embedding-dir", type=Path, default=DEFAULT_STAGE_EMBEDDINGS
@@ -184,9 +197,13 @@ def main() -> None:
     parser.add_argument("--splits", type=int, default=3)
     parser.add_argument("--bootstrap", type=int, default=1000)
     parser.add_argument("--seed", type=int, default=20260806)
+    parser.add_argument("--chunksize", type=int, default=750_000)
+    parser.add_argument("--batch-size", type=int, default=512)
+    parser.add_argument("--rebuild-landmark", action="store_true")
     args = parser.parse_args()
     payload = run(
         landmark_path=args.landmark,
+        landmark_manifest_path=args.landmark_manifest,
         input_dir=args.input_dir,
         stage_embedding_dir=args.stage_embedding_dir,
         imbalance_dir=args.imbalance_dir,
@@ -196,6 +213,9 @@ def main() -> None:
         splits=args.splits,
         bootstrap=args.bootstrap,
         seed=args.seed,
+        rebuild_landmark=args.rebuild_landmark,
+        chunksize=args.chunksize,
+        batch_size=args.batch_size,
     )
     print(json.dumps(payload, indent=2, sort_keys=True))
 
