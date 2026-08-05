@@ -6,6 +6,7 @@ from .api import (
     OFFLINE_EXECUTION_CONTEXT,
     SCIENTIFIC_ACTION_ORDER,
     ConditionalHybridActionRanker,
+    IntegratedActionScoreOutput,
     RankingResult,
 )
 from .metrics import (
@@ -31,6 +32,7 @@ __all__ = [
     "ActionAwareThresholds",
     "ConditionalHybridActionRanker",
     "HybridActionAwareRecommendationHeads",
+    "IntegratedActionScoreOutput",
     "MODEL_SCORE_AUTHORITY",
     "OFFLINE_EXECUTION_CONTEXT",
     "RankingResult",
