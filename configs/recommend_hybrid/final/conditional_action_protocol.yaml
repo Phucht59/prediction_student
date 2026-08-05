@@ -1,0 +1,35 @@
+schema_version: conditional_action_protocol_v1
+status: FROZEN
+module_boundary: conditional_hybrid_action_ranker
+responsibility: rank_scientific_actions_after_external_eligibility
+eligibility_authority:
+  - deterministic_stage_aware_policy
+  - instructor_or_advisor_workflow
+external_ml_ranker_allowed: false
+end_to_end_recommendability_in_scope: false
+runtime_authorized: false
+claim_boundary: OFFLINE_CONDITIONAL_ACTION_RANKING_NOT_END_TO_END_OR_CAUSAL_EFFECT
+learned_models_allowed:
+  - frozen_residual_cnn_bilstm
+  - integrated_conditional_action_head
+prediction_authority:
+  parameters: 160492
+  manifest: artifacts/recommend_hybrid/RECOMMEND_HYBRID_CHECKPOINT_MANIFEST.json
+evidence:
+  positive_held_out_groups: 9304
+  positive_population_learners: 6874
+  ranking_only_precision_at_1: 0.9374462596732588
+  bootstrap_95_ci: [0.9324769754665624, 0.9422155415401574]
+  ndcg_at_3: 0.9723128213125097
+  mrr: 0.9668690885640585
+  fold_precision_at_1: [0.936777920410783, 0.9375202330851409, 0.9380445304937076]
+  stage_precision_at_1: [0.9147381242387332, 0.9306167400881057, 0.9528535980148883]
+  action_selection_diversity: 4
+end_to_end_context:
+  precision_at_1: 0.6588623743058682
+  positive_group_coverage: 0.4979578675838349
+  status: END_TO_END_RECOMMENDATION_SYSTEM_NOT_VALIDATED
+scientific_status: CONDITIONAL_ACTION_RANKING_OFFLINE_VALIDATED
+thesis_scope_completion: CONDITIONAL_RECOMMENDATION_MODULE_COMPLETE
+causal_validation: NOT_PERFORMED
+expert_validation: NOT_PERFORMED

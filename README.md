@@ -479,6 +479,34 @@ python project.py pipeline oulad train
 
 ---
 
+## Final conditional action-ranking module
+
+The final prediction authority is a frozen residual CNN–BiLSTM with 160,492
+parameters. `src/recommend_hybrid/final/` contains the integrated conditional
+hybrid action head and a fail-closed public API. Eligibility must be supplied
+by a deterministic policy or an instructor/advisor; the module only ranks the
+actions it receives.
+
+For held-out groups already identified as needing support and containing at
+least one silver-positive action, conditional action ranking achieved
+Precision@1 **93.74%** (bootstrap 95% CI [93.25%, 94.22%]), NDCG@3 0.9723,
+and MRR 0.9669. This is not end-to-end issuance accuracy. The corresponding
+end-to-end context remains Precision@1 0.6589 with positive-group coverage
+0.4980, so end-to-end recommendation issuance is **NOT VALIDATED**.
+
+Status: conditional action ranking **VALIDATED**; end-to-end recommendation
+issuance **NOT VALIDATED**; causal effect **NOT PERFORMED**; expert validation
+**NOT PERFORMED**; production readiness **NOT CLAIMED**; runtime authorization
+**FALSE**. Action-selection diversity in the final evidence is 4, and
+ASSESSMENT_COMPLETION is not selected top-1 in that evidence.
+
+Reproduction and authority details are in
+`configs/recommend_hybrid/final/conditional_action_protocol.yaml`,
+`artifacts/recommend_hybrid/final/CONDITIONAL_ACTION_FINAL_EVIDENCE.json`, and
+`reports/recommend_hybrid/final/CONDITIONAL_ACTION_FINAL_RESULTS_VI.md`.
+
+Claim boundary: `OFFLINE_CONDITIONAL_ACTION_RANKING_NOT_END_TO_END_OR_CAUSAL_EFFECT`.
+
 ## 13. Vị trí mã nguồn và artefact
 
 | Nội dung | Vị trí |

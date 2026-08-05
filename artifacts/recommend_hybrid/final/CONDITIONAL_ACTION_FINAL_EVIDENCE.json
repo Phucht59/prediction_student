@@ -1,0 +1,329 @@
+{
+  "artifacts": {
+    "candidate_rows_sha256": "97b956d09792d12773449a4176b1ecfa7f0e667ff4c8cf34ce7afd427c4a9e4c",
+    "protocol_sha256": "2c6268a977c719da15a6fa1a5a990488c7409b957b5592801cf35dcea697cd6f",
+    "v4_oof_sha256": "c91fc7df74088fa748674fb0b5d155deed6b5ea4cd59702c636017bda9e166e3",
+    "v4_release_sha256": "3df4362586f3d6552c344580222adfe2bcfd0ebd7e3219fe100deea899b3edf4"
+  },
+  "baseline_improvement": 0.22990111779879618,
+  "best_baseline_precision_at_1": 0.7075451418744626,
+  "bootstrap": {
+    "cluster": "base_record_id",
+    "learner_count": 6874,
+    "mrr": {
+      "bootstrap_mean": 0.9669048280804149,
+      "lower_95": 0.9642639729021384,
+      "point_estimate": 0.9668690885640585,
+      "upper_95": 0.9693918166520946
+    },
+    "ndcg_at_3": {
+      "bootstrap_mean": 0.9723481606875441,
+      "lower_95": 0.9703009430009513,
+      "point_estimate": 0.9723128213125097,
+      "upper_95": 0.9743897391985447
+    },
+    "precision_at_1": {
+      "bootstrap_mean": 0.9375027609442811,
+      "lower_95": 0.9324769754665624,
+      "point_estimate": 0.9374462596732588,
+      "upper_95": 0.9422155415401574
+    },
+    "replicates": 2000,
+    "seed": 20260805
+  },
+  "claim_boundary": "OFFLINE_CONDITIONAL_ACTION_RANKING_NOT_END_TO_END_OR_CAUSAL_EFFECT",
+  "controls": {
+    "action_identity_permutation": {
+      "identity_excluded": true,
+      "maximum": 0.8960662080825451,
+      "mean": 0.31507414015477214,
+      "p95": 0.6596087704213242,
+      "p_value": 0.0001999600079984003,
+      "repetitions": 5000,
+      "seed": 20260807,
+      "unique_non_identity_permutations": 119
+    },
+    "label_vector_permutation": {
+      "maximum": 0.5118228718830611,
+      "mean": 0.4953571367153912,
+      "p95": 0.5027944969905417,
+      "p_value": 0.0001999600079984003,
+      "repetitions": 5000,
+      "seed": 20260806,
+      "stratified_by": [
+        "outer_fold",
+        "stage"
+      ]
+    },
+    "random_action_rankings": {
+      "maximum": 0.5251504729148754,
+      "mean": 0.5076780094582974,
+      "p95": 0.5157996560619088,
+      "p_value": 0.0001999600079984003,
+      "repetitions": 5000,
+      "seed": 20260805
+    }
+  },
+  "deterministic_baselines": {
+    "evidence_strength_only": {
+      "action_selection_diversity": 5,
+      "correct": 6029,
+      "groups": 9304,
+      "mrr": 0.802445184866724,
+      "ndcg_at_3": 0.8411406840243933,
+      "precision_at_1": 0.6480008598452278,
+      "top_action_concentration": 0.7162510748065348,
+      "top_action_counts": {
+        "ASSESSMENT_COMPLETION": 581,
+        "CONTENT_REVIEW": 51,
+        "QUIZ_OR_RETRIEVAL_PRACTICE": 2,
+        "STUDY_REGULARITY": 6664,
+        "VLE_ENGAGEMENT": 2006
+      }
+    },
+    "lowest_workload": {
+      "action_selection_diversity": 4,
+      "correct": 6583,
+      "groups": 9304,
+      "mrr": 0.8439918314703353,
+      "ndcg_at_3": 0.8790701120799262,
+      "precision_at_1": 0.7075451418744626,
+      "top_action_concentration": 0.7162510748065348,
+      "top_action_counts": {
+        "ASSESSMENT_COMPLETION": 0,
+        "CONTENT_REVIEW": 53,
+        "QUIZ_OR_RETRIEVAL_PRACTICE": 478,
+        "STUDY_REGULARITY": 6664,
+        "VLE_ENGAGEMENT": 2109
+      }
+    },
+    "risk_reduction_only": {
+      "action_selection_diversity": 5,
+      "correct": 5159,
+      "groups": 9304,
+      "mrr": 0.7492906276870163,
+      "ndcg_at_3": 0.713194204842451,
+      "precision_at_1": 0.5544926913155632,
+      "top_action_concentration": 0.6101676698194325,
+      "top_action_counts": {
+        "ASSESSMENT_COMPLETION": 787,
+        "CONTENT_REVIEW": 111,
+        "QUIZ_OR_RETRIEVAL_PRACTICE": 740,
+        "STUDY_REGULARITY": 1989,
+        "VLE_ENGAGEMENT": 5677
+      }
+    }
+  },
+  "end_to_end_context": {
+    "end_to_end_precision_at_1": 0.6588623743058682,
+    "positive_group_coverage": 0.4979578675838349,
+    "runtime_authorized": false,
+    "status": "TWO_STAGE_V4_EVIDENCE_BELOW_GATE"
+  },
+  "labels_changed": false,
+  "merge_allowed": false,
+  "models_trained": false,
+  "module_boundary": {
+    "eligibility_authority": [
+      "deterministic_stage_aware_policy",
+      "instructor_or_advisor_workflow"
+    ],
+    "end_to_end_recommendability_in_scope": false,
+    "external_ml_ranker_allowed": false,
+    "learned_models_allowed": [
+      "frozen_residual_cnn_bilstm",
+      "integrated_conditional_action_head"
+    ],
+    "name": "conditional_hybrid_action_ranker",
+    "responsibility": "rank_scientific_actions_after_external_eligibility",
+    "runtime_authorized": false
+  },
+  "overall": {
+    "action_selection_diversity": 4,
+    "correct": 8722,
+    "groups": 9304,
+    "mrr": 0.9668690885640585,
+    "ndcg_at_3": 0.9723128213125097,
+    "precision_at_1": 0.9374462596732588,
+    "top_action_concentration": 0.35995270851246775,
+    "top_action_counts": {
+      "ASSESSMENT_COMPLETION": 0,
+      "CONTENT_REVIEW": 2450,
+      "QUIZ_OR_RETRIEVAL_PRACTICE": 432,
+      "STUDY_REGULARITY": 3349,
+      "VLE_ENGAGEMENT": 3073
+    }
+  },
+  "per_outer_fold": {
+    "0": {
+      "action_selection_diversity": 4,
+      "correct": 2919,
+      "groups": 3116,
+      "mrr": 0.9662762088147197,
+      "ndcg_at_3": 0.9712277091201716,
+      "precision_at_1": 0.936777920410783,
+      "top_action_concentration": 0.3591142490372272,
+      "top_action_counts": {
+        "ASSESSMENT_COMPLETION": 0,
+        "CONTENT_REVIEW": 842,
+        "QUIZ_OR_RETRIEVAL_PRACTICE": 136,
+        "STUDY_REGULARITY": 1119,
+        "VLE_ENGAGEMENT": 1019
+      }
+    },
+    "1": {
+      "action_selection_diversity": 4,
+      "correct": 2896,
+      "groups": 3089,
+      "mrr": 0.9668716952627604,
+      "ndcg_at_3": 0.9731099539954204,
+      "precision_at_1": 0.9375202330851409,
+      "top_action_concentration": 0.3551311103917125,
+      "top_action_counts": {
+        "ASSESSMENT_COMPLETION": 0,
+        "CONTENT_REVIEW": 758,
+        "QUIZ_OR_RETRIEVAL_PRACTICE": 149,
+        "STUDY_REGULARITY": 1097,
+        "VLE_ENGAGEMENT": 1085
+      }
+    },
+    "2": {
+      "action_selection_diversity": 4,
+      "correct": 2907,
+      "groups": 3099,
+      "mrr": 0.9674626223512962,
+      "ndcg_at_3": 0.9726093255828596,
+      "precision_at_1": 0.9380445304937076,
+      "top_action_concentration": 0.36560180703452727,
+      "top_action_counts": {
+        "ASSESSMENT_COMPLETION": 0,
+        "CONTENT_REVIEW": 850,
+        "QUIZ_OR_RETRIEVAL_PRACTICE": 147,
+        "STUDY_REGULARITY": 1133,
+        "VLE_ENGAGEMENT": 969
+      }
+    }
+  },
+  "per_stage": {
+    "EARLY_20": {
+      "action_selection_diversity": 4,
+      "correct": 1502,
+      "groups": 1642,
+      "mrr": 0.9553390174583841,
+      "ndcg_at_3": 0.9648757389920043,
+      "precision_at_1": 0.9147381242387332,
+      "top_action_concentration": 0.48721071863581,
+      "top_action_counts": {
+        "ASSESSMENT_COMPLETION": 0,
+        "CONTENT_REVIEW": 147,
+        "QUIZ_OR_RETRIEVAL_PRACTICE": 154,
+        "STUDY_REGULARITY": 541,
+        "VLE_ENGAGEMENT": 800
+      }
+    },
+    "EARLY_35": {
+      "action_selection_diversity": 4,
+      "correct": 3380,
+      "groups": 3632,
+      "mrr": 0.963426945668135,
+      "ndcg_at_3": 0.9703571334654945,
+      "precision_at_1": 0.9306167400881057,
+      "top_action_concentration": 0.4375,
+      "top_action_counts": {
+        "ASSESSMENT_COMPLETION": 0,
+        "CONTENT_REVIEW": 930,
+        "QUIZ_OR_RETRIEVAL_PRACTICE": 24,
+        "STUDY_REGULARITY": 1589,
+        "VLE_ENGAGEMENT": 1089
+      }
+    },
+    "MIDDLE_50": {
+      "action_selection_diversity": 4,
+      "correct": 3840,
+      "groups": 4030,
+      "mrr": 0.9746691480562448,
+      "ndcg_at_3": 0.9771055626104326,
+      "precision_at_1": 0.9528535980148883,
+      "top_action_concentration": 0.34069478908188583,
+      "top_action_counts": {
+        "ASSESSMENT_COMPLETION": 0,
+        "CONTENT_REVIEW": 1373,
+        "QUIZ_OR_RETRIEVAL_PRACTICE": 254,
+        "STUDY_REGULARITY": 1219,
+        "VLE_ENGAGEMENT": 1184
+      }
+    }
+  },
+  "release": {
+    "end_to_end_status": "END_TO_END_RECOMMENDATION_SYSTEM_NOT_VALIDATED",
+    "gates": {
+      "action_diversity": {
+        "actual": 4,
+        "required": 4,
+        "status": "PASS"
+      },
+      "bootstrap_lower_precision": {
+        "actual": 0.9324769754665624,
+        "required": 0.9,
+        "status": "PASS"
+      },
+      "deterministic_baseline_improvement": {
+        "actual": 0.22990111779879618,
+        "required": 0.2,
+        "status": "PASS"
+      },
+      "exact_replay": {
+        "actual": true,
+        "required": true,
+        "status": "PASS"
+      },
+      "mrr": {
+        "actual": 0.9668690885640585,
+        "required": 0.95,
+        "status": "PASS"
+      },
+      "ndcg_at_3": {
+        "actual": 0.9723128213125097,
+        "required": 0.95,
+        "status": "PASS"
+      },
+      "outer_fold_stability": {
+        "actual": 0.936777920410783,
+        "required": 0.9,
+        "status": "PASS"
+      },
+      "permutation_controls": {
+        "actual": 0.0001999600079984003,
+        "required": 0.001,
+        "status": "PASS"
+      },
+      "protected_feature_use": {
+        "actual": 0,
+        "required": 0,
+        "status": "PASS"
+      },
+      "ranking_precision": {
+        "actual": 0.9374462596732588,
+        "required": 0.9,
+        "status": "PASS"
+      },
+      "stage_stability": {
+        "actual": 0.9147381242387332,
+        "required": 0.85,
+        "status": "PASS"
+      },
+      "temporal_leakage": {
+        "actual": 0,
+        "required": 0,
+        "status": "PASS"
+      }
+    },
+    "main_gates_pass": true,
+    "runtime_authorized": false,
+    "status": "CONDITIONAL_ACTION_RANKING_OFFLINE_VALIDATED",
+    "thesis_scope_completion": "CONDITIONAL_RECOMMENDATION_MODULE_COMPLETE"
+  },
+  "release_eligible_for_end_to_end": false,
+  "schema_version": "conditional_action_final_evidence_v1",
+  "status": "COMPLETE"
+}
