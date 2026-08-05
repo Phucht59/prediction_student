@@ -1,0 +1,61 @@
+name: Final Recommendation Authority
+
+on:
+  pull_request:
+    paths:
+      - "src/recommend_hybrid/final/**"
+      - "src/recommend_hybrid/__init__.py"
+      - "src/recommend_hybrid/README.md"
+      - "configs/recommend_hybrid/final/**"
+      - "tests/recommend_hybrid/final/**"
+      - ".github/workflows/final-recommendation-authority.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  final-recommendation-authority:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          lfs: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install \
+            numpy pandas scipy scikit-learn torch PyYAML pytest ruff
+
+      - name: Run final recommendation tests
+        run: |
+          python -m pytest \
+            --confcutdir=tests/recommend_hybrid/final \
+            tests/recommend_hybrid/final \
+            -q
+
+      - name: Compile final recommendation scope
+        run: |
+          python -m py_compile \
+            src/recommend_hybrid/final/__init__.py \
+            src/recommend_hybrid/final/api.py \
+            src/recommend_hybrid/final/model.py \
+            src/recommend_hybrid/final/metrics.py \
+            src/recommend_hybrid/__init__.py
+
+      - name: Ruff final recommendation scope
+        run: |
+          ruff check \
+            src/recommend_hybrid/final \
+            src/recommend_hybrid/__init__.py \
+            tests/recommend_hybrid/final
