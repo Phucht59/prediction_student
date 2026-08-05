@@ -14,6 +14,7 @@ from .final import (
     MODEL_SCORE_AUTHORITY,
     SCIENTIFIC_ACTION_ORDER,
     ConditionalHybridActionRanker,
+    IntegratedActionScoreOutput,
 )
 from .oulad.policy import RecommendHybridOULAD
 from .pipeline import OULADPlanRequest, RecommendHybridPipeline, UCIPlanRequest
@@ -26,6 +27,7 @@ __all__ = [
     "HybridCandidateGenerator",
     "HybridPredictionAdapter",
     "HybridRecommendationService",
+    "IntegratedActionScoreOutput",
     "MODEL_SCORE_AUTHORITY",
     "RecommendHybridPipeline",
     "RecommendHybridOULAD",
