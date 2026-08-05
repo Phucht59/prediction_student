@@ -23,7 +23,9 @@ from src.recommend_hybrid.final.actions import ACTION_ORDER  # noqa: E402
 DEFAULT_INPUT = ROOT / "artifacts/recommend_hybrid/causal/input/landmark_rows.parquet"
 DEFAULT_OUTPUT = ROOT / "artifacts/recommend_hybrid/causal/input"
 REQUIRED_COLUMNS = {
+    "record_id",
     "student_id",
+    "course_id",
     "stage",
     "action_id",
     "protocol_split",
@@ -62,8 +64,11 @@ def _validate_frame(frame: pd.DataFrame) -> tuple[list[str], list[str]]:
         raise KeyError(f"landmark table is missing columns: {missing}")
     if frame.empty:
         raise ValueError("landmark table is empty")
-    if frame.duplicated(["student_id", "stage", "action_id"]).any():
-        raise ValueError("landmark table contains duplicate student-stage-action rows")
+    if frame.duplicated(["record_id", "stage", "action_id"]).any():
+        raise ValueError("landmark table contains duplicate record-stage-action rows")
+    split_count = frame.groupby("student_id", sort=False)["protocol_split"].nunique()
+    if int(split_count.max()) != 1:
+        raise ValueError("one student appears in multiple protocol splits")
     unknown_stage = sorted(set(frame["stage"].astype(str)).difference(STAGE_ORDER))
     unknown_action = sorted(set(frame["action_id"].astype(str)).difference(ACTION_ORDER))
     unknown_split = sorted(set(frame["protocol_split"].astype(str)).difference(ALLOWED_SPLITS))
@@ -72,10 +77,7 @@ def _validate_frame(frame: pd.DataFrame) -> tuple[list[str], list[str]]:
             "unsupported stage/action/split values: "
             f"{unknown_stage}, {unknown_action}, {unknown_split}"
         )
-    for column in (
-        "outcome_pass",
-        "prediction_target",
-    ):
+    for column in ("outcome_pass", "prediction_target"):
         values = frame[column].to_numpy()
         if not np.isin(values, [0, 1]).all():
             raise ValueError(f"{column} must be binary")
@@ -162,6 +164,8 @@ def run(input_path: Path, output_dir: Path) -> dict[str, object]:
         outcome=trials["outcome_pass"].to_numpy(dtype=np.int8),
         groups=trials["student_id"].astype(str).to_numpy(dtype=str),
         student_ids=trials["student_id"].astype(str).to_numpy(dtype=str),
+        record_ids=trials["record_id"].astype(str).to_numpy(dtype=str),
+        course_ids=trials["course_id"].astype(str).to_numpy(dtype=str),
         stages=trials["stage"].astype(str).to_numpy(dtype=str),
         action_ids=trials["action_id"].astype(str).to_numpy(dtype=str),
         baseline_progress=trials["baseline_progress"].to_numpy(dtype=np.float32),
@@ -171,10 +175,12 @@ def run(input_path: Path, output_dir: Path) -> dict[str, object]:
         feature_names=np.asarray(feature_columns, dtype=str),
     )
 
-    embedding_frame = source.drop_duplicates(["student_id", "stage"]).copy()
+    embedding_frame = source.drop_duplicates(["record_id", "stage"]).copy()
     split_payload: dict[str, np.ndarray] = {}
     for split in ALLOWED_SPLITS:
         selected = embedding_frame.loc[embedding_frame["protocol_split"].eq(split)]
+        if selected.empty:
+            raise ValueError(f"no embedding rows available for protocol split {split}")
         split_payload[f"{split}_embeddings"] = selected.loc[
             :, embedding_columns
         ].to_numpy(dtype=np.float32)
@@ -182,6 +188,9 @@ def run(input_path: Path, output_dir: Path) -> dict[str, object]:
             dtype=np.int8
         )
         split_payload[f"{split}_student_ids"] = selected["student_id"].astype(
+            str
+        ).to_numpy(dtype=str)
+        split_payload[f"{split}_record_ids"] = selected["record_id"].astype(
             str
         ).to_numpy(dtype=str)
     embedding_path = output_dir / "frozen_embeddings.npz"
@@ -196,6 +205,9 @@ def run(input_path: Path, output_dir: Path) -> dict[str, object]:
         train_student_ids=split_payload["train_student_ids"],
         validation_student_ids=split_payload["validation_student_ids"],
         test_student_ids=split_payload["test_student_ids"],
+        train_record_ids=split_payload["train_record_ids"],
+        validation_record_ids=split_payload["validation_record_ids"],
+        test_record_ids=split_payload["test_record_ids"],
         embedding_names=np.asarray(embedding_columns, dtype=str),
     )
 
@@ -208,6 +220,8 @@ def run(input_path: Path, output_dir: Path) -> dict[str, object]:
         "status": "COMPLETE",
         "source": str(input_path.relative_to(ROOT)),
         "source_row_count": int(len(source)),
+        "source_record_count": int(source["record_id"].nunique()),
+        "source_student_count": int(source["student_id"].nunique()),
         "trial_row_count": int(len(trials)),
         "feature_count": len(feature_columns),
         "embedding_count": len(embedding_columns),
@@ -216,6 +230,8 @@ def run(input_path: Path, output_dir: Path) -> dict[str, object]:
         "frozen_embeddings": str(embedding_path.relative_to(ROOT)),
         "treatment_rules_fitted_on": "TRAIN_ONLY",
         "synthetic_sampling_applied": False,
+        "cluster_key": "student_id",
+        "record_key": "record_id",
     }
     (output_dir / "input_manifest.json").write_text(
         json.dumps(manifest, indent=2, sort_keys=True) + "\n",
