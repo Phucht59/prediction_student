@@ -93,6 +93,14 @@ models/saved/*
 /artifacts/recommend_hybrid/scientific_labeling/candidates.parquet
 /artifacts/recommend_hybrid/scientific_labeling/silver_labels.parquet
 
+# Stage-aware recommendation: keep compact evidence, not local materialization
+/artifacts/recommend_hybrid/causal/input/*.parquet
+/artifacts/recommend_hybrid/causal/input/*.npz
+/artifacts/recommend_hybrid/causal/input/embeddings_by_stage/
+/artifacts/recommend_hybrid/causal/target_trials/individual_effects.csv
+/artifacts/recommend_hybrid/final_stage_aware_v2/checkpoints/
+/artifacts/recommend_hybrid/final_stage_aware_v2/oof_predictions.parquet
+
 # Database volumes and safety backups
 database/**/volume/
 database/**/backups/
