@@ -17,6 +17,7 @@ RANKER_EVIDENCE = ROOT / "artifacts/recommend_hybrid/final_stage_aware_v2/FOUR_S
 CAUSAL_VALIDATION = ROOT / "reports/recommend_hybrid/causal/STAGE_AWARE_CAUSAL_VALIDATION.json"
 COMPLETE_VALIDATION = ROOT / "reports/recommend_hybrid/STAGE_AWARE_COMPLETE_VALIDATION.json"
 WORKFLOW_MANIFEST = ROOT / "artifacts/recommend_hybrid/STAGE_AWARE_COMPLETE_MANIFEST.json"
+OFFICIAL_SEEDS = (42, 1201, 2026, 3407, 7319)
 
 
 def _run(arguments: Sequence[str]) -> None:
@@ -68,6 +69,8 @@ def run(
             str(LANDMARK),
             "--silver-labels",
             str(SILVER),
+            "--seeds",
+            *[str(seed) for seed in OFFICIAL_SEEDS],
             "--epochs",
             str(epochs),
             "--patience",
@@ -106,6 +109,7 @@ def run(
     manifest = {
         "status": "COMPLETE",
         "branch": "codex/stage-aware-causal-recommendation",
+        "official_seeds": list(OFFICIAL_SEEDS),
         "landmark": str(LANDMARK.relative_to(ROOT)),
         "landmark_manifest": str(LANDMARK_MANIFEST.relative_to(ROOT)),
         "silver_labels": str(SILVER.relative_to(ROOT)),
