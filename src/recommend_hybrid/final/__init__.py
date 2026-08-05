@@ -1,6 +1,13 @@
 """Final conditional hybrid action-ranking namespace."""
 
-from .api import ConditionalHybridActionRanker, RankingResult
+from .actions import (
+    ACTION_ALIASES,
+    ACTION_COUNT,
+    ACTION_INDEX,
+    ACTION_ORDER,
+    canonical_action_id,
+)
+from .api import ConditionalHybridActionRanker, EXPECTED_MODEL_ID, RankingResult
 from .metrics import (
     ActionAwareDecision,
     ActionAwareThresholds,
@@ -8,7 +15,6 @@ from .metrics import (
     ranking_metrics,
 )
 from .model import (
-    ACTION_COUNT,
     ActionAwareHeadConfig,
     ActionAwareOutput,
     HybridActionAwareRecommendationHeads,
@@ -16,15 +22,20 @@ from .model import (
 )
 
 __all__ = [
+    "ACTION_ALIASES",
     "ACTION_COUNT",
+    "ACTION_INDEX",
+    "ACTION_ORDER",
     "ActionAwareDecision",
     "ActionAwareHeadConfig",
     "ActionAwareOutput",
     "ActionAwareThresholds",
     "ConditionalHybridActionRanker",
+    "EXPECTED_MODEL_ID",
     "HybridActionAwareRecommendationHeads",
     "RankingResult",
     "action_aware_loss",
+    "canonical_action_id",
     "evaluate_action_aware",
     "ranking_metrics",
 ]

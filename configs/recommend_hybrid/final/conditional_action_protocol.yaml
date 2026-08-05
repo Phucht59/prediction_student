@@ -1,4 +1,4 @@
-schema_version: conditional_action_protocol_v1
+schema_version: conditional_action_protocol_v2
 status: FROZEN
 module_boundary: conditional_hybrid_action_ranker
 responsibility: rank_scientific_actions_after_external_eligibility
@@ -15,6 +15,26 @@ learned_models_allowed:
 prediction_authority:
   parameters: 160492
   manifest: artifacts/recommend_hybrid/RECOMMEND_HYBRID_CHECKPOINT_MANIFEST.json
+action_schema:
+  canonical_order:
+    - ASSESSMENT_COMPLETION
+    - STUDY_REGULARITY
+    - VLE_ENGAGEMENT
+    - QUIZ_OR_RETRIEVAL_PRACTICE
+    - CONTENT_REVIEW
+  policy_aliases:
+    STUDY_SCHEDULE: STUDY_REGULARITY
+    RETRIEVAL_PRACTICE: QUIZ_OR_RETRIEVAL_PRACTICE
+    LEARNING_CONSOLIDATION: CONTENT_REVIEW
+  score_vector_length: 5
+  identity_mapping_required: true
+  positional_mapping_to_eligible_subset_forbidden: true
+scoring_contract:
+  explicit_policy_authorization_required: true
+  integrated_head_output_required: true
+  caller_action_payload_score_fallback_allowed: false
+  action_scores_are_probabilities: true
+  action_logits_are_sigmoid_transformed: true
 evidence:
   positive_held_out_groups: 9304
   positive_population_learners: 6874

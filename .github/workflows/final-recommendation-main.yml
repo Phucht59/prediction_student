@@ -1,0 +1,76 @@
+name: Final Recommendation Main
+
+on:
+  push:
+    branches:
+      - main
+      - codex/fix-final-recommendation-main
+  pull_request:
+    paths:
+      - "src/recommend_hybrid/final/**"
+      - "src/recommend_hybrid/__init__.py"
+      - "src/recommend_hybrid/README.md"
+      - "configs/recommend_hybrid/final/**"
+      - "tests/recommend_hybrid/final/**"
+      - "artifacts/recommend_hybrid/final/**"
+      - "reports/recommend_hybrid/final/**"
+      - ".github/workflows/final-recommendation-main.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  final-recommendation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: false
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install focused dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install \
+            numpy pandas scipy scikit-learn pyarrow PyYAML pytest ruff \
+            psycopg2-binary python-dotenv
+
+      - name: Print final artifact checksums
+        run: |
+          sha256sum \
+            artifacts/recommend_hybrid/final/CONDITIONAL_ACTION_FINAL_EVIDENCE.json \
+            reports/recommend_hybrid/final/CONDITIONAL_ACTION_FINAL_RESULTS_VI.md
+
+      - name: Run final recommendation tests
+        run: python -m pytest tests/recommend_hybrid/final -q
+
+      - name: Import final public API
+        run: |
+          python -c "from src.recommend_hybrid import ConditionalHybridActionRanker; print(ConditionalHybridActionRanker.module_boundary)"
+
+      - name: Compile final recommendation scope
+        run: |
+          python -m py_compile \
+            src/recommend_hybrid/final/actions.py \
+            src/recommend_hybrid/final/api.py \
+            src/recommend_hybrid/final/model.py \
+            src/recommend_hybrid/final/metrics.py \
+            src/recommend_hybrid/final/__init__.py \
+            src/recommend_hybrid/__init__.py
+
+      - name: Ruff final recommendation scope
+        run: |
+          ruff check \
+            src/recommend_hybrid/final \
+            src/recommend_hybrid/__init__.py \
+            tests/recommend_hybrid/final
