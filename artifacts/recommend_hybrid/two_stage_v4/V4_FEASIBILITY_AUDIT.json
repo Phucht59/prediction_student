@@ -1,0 +1,350 @@
+{
+  "claim_boundary": "OFFLINE_PREDICTIVE_RELEVANCE_NOT_CAUSAL_EFFECT",
+  "current_score_family_can_reach_original_gate": false,
+  "current_v4": {
+    "conditional_precision_at_1": 0.9475501834664364,
+    "end_to_end_precision_at_1": 0.6588623743058682,
+    "positive_group_coverage": 0.4979578675838349,
+    "stage_a_precision": 0.6953324328380609
+  },
+  "diagnostic_only": true,
+  "global_score_frontiers": {
+    "action_any_probability": {
+      "best_at_coverage_floor": {
+        "conditional_precision": 0.9297042434633519,
+        "correct": 4338,
+        "coverage": 0.5015047291487532,
+        "issued": 6877,
+        "issued_positive": 4666,
+        "precision": 0.630798313217973,
+        "stage_a_precision": 0.6784935291551548,
+        "threshold": 0.8152652917376515
+      },
+      "point_count": 29008
+    },
+    "direct_gate_probability": {
+      "best_at_coverage_floor": {
+        "conditional_precision": 0.938950988822012,
+        "correct": 4368,
+        "coverage": 0.5,
+        "issued": 6758,
+        "issued_positive": 4652,
+        "precision": 0.6463450725066587,
+        "stage_a_precision": 0.6883693400414324,
+        "threshold": 0.6945805148636487
+      },
+      "point_count": 29003
+    },
+    "direct_x_top_action_probability": {
+      "best_at_coverage_floor": {
+        "conditional_precision": 0.9501289767841788,
+        "correct": 4420,
+        "coverage": 0.5,
+        "issued": 6718,
+        "issued_positive": 4652,
+        "precision": 0.6579339089014588,
+        "stage_a_precision": 0.6924679964275082,
+        "threshold": 0.440843852360892
+      },
+      "point_count": 29008
+    },
+    "joint_gate_probability": {
+      "best_at_coverage_floor": {
+        "conditional_precision": 0.9312714776632303,
+        "correct": 4336,
+        "coverage": 0.5004299226139295,
+        "issued": 6814,
+        "issued_positive": 4656,
+        "precision": 0.6363369533313766,
+        "stage_a_precision": 0.6832990901085999,
+        "threshold": 0.7946415989647321
+      },
+      "point_count": 29008
+    },
+    "joint_x_top_action_probability": {
+      "best_at_coverage_floor": {
+        "conditional_precision": 0.9460447119518487,
+        "correct": 4401,
+        "coverage": 0.5,
+        "issued": 6655,
+        "issued_positive": 4652,
+        "precision": 0.6613072877535687,
+        "stage_a_precision": 0.699023290758828,
+        "threshold": 0.5062734804212429
+      },
+      "point_count": 29008
+    }
+  },
+  "groups": 29043,
+  "labels_changed": false,
+  "learner_target_instability": {
+    "learners": 12656,
+    "learners_with_mixed_group_targets": 5360,
+    "learners_with_multiple_groups": 10098,
+    "mixed_target_rate": 0.42351453855878635
+  },
+  "learners": 12656,
+  "models_trained": false,
+  "per_stage_score_frontiers": {
+    "action_any_probability": {
+      "EARLY_20": {
+        "best_at_stage_coverage_0_50": {
+          "conditional_precision": 0.9086479902557856,
+          "correct": 746,
+          "coverage": 0.5,
+          "issued": 1832,
+          "issued_positive": 821,
+          "precision": 0.40720524017467247,
+          "stage_a_precision": 0.4481441048034934,
+          "threshold": 0.5997302830751758
+        },
+        "point_count": 8203
+      },
+      "EARLY_35": {
+        "best_at_stage_coverage_0_50": {
+          "conditional_precision": 0.9149286498353457,
+          "correct": 1667,
+          "coverage": 0.5016519823788547,
+          "issued": 2618,
+          "issued_positive": 1822,
+          "precision": 0.6367456073338427,
+          "stage_a_precision": 0.6959511077158136,
+          "threshold": 0.849207436604988
+        },
+        "point_count": 10430
+      },
+      "MIDDLE_50": {
+        "best_at_stage_coverage_0_50": {
+          "conditional_precision": 0.9485148514851485,
+          "correct": 1916,
+          "coverage": 0.5012406947890818,
+          "issued": 2816,
+          "issued_positive": 2020,
+          "precision": 0.6803977272727273,
+          "stage_a_precision": 0.7173295454545454,
+          "threshold": 0.8621119147238583
+        },
+        "point_count": 10375
+      }
+    },
+    "direct_gate_probability": {
+      "EARLY_20": {
+        "best_at_stage_coverage_0_50": {
+          "conditional_precision": 0.9051094890510949,
+          "correct": 744,
+          "coverage": 0.5006090133982948,
+          "issued": 1811,
+          "issued_positive": 822,
+          "precision": 0.4108227498619547,
+          "stage_a_precision": 0.45389287686361124,
+          "threshold": 0.4354097261496724
+        },
+        "point_count": 8203
+      },
+      "EARLY_35": {
+        "best_at_stage_coverage_0_50": {
+          "conditional_precision": 0.9263736263736264,
+          "correct": 1686,
+          "coverage": 0.501101321585903,
+          "issued": 2578,
+          "issued_positive": 1820,
+          "precision": 0.6539953452288596,
+          "stage_a_precision": 0.7059736229635376,
+          "threshold": 0.7087386189014278
+        },
+        "point_count": 10429
+      },
+      "MIDDLE_50": {
+        "best_at_stage_coverage_0_50": {
+          "conditional_precision": 0.9513274336283186,
+          "correct": 1935,
+          "coverage": 0.5047146401985112,
+          "issued": 2809,
+          "issued_positive": 2034,
+          "precision": 0.6888572445710217,
+          "stage_a_precision": 0.7241011035955857,
+          "threshold": 0.7472650348883774
+        },
+        "point_count": 10375
+      }
+    },
+    "direct_x_top_action_probability": {
+      "EARLY_20": {
+        "best_at_stage_coverage_0_50": {
+          "conditional_precision": 0.9309090909090909,
+          "correct": 768,
+          "coverage": 0.502436053593179,
+          "issued": 1756,
+          "issued_positive": 825,
+          "precision": 0.43735763097949887,
+          "stage_a_precision": 0.46981776765375854,
+          "threshold": 0.19884350075969037
+        },
+        "point_count": 8203
+      },
+      "EARLY_35": {
+        "best_at_stage_coverage_0_50": {
+          "conditional_precision": 0.9361233480176211,
+          "correct": 1700,
+          "coverage": 0.5,
+          "issued": 2540,
+          "issued_positive": 1816,
+          "precision": 0.6692913385826772,
+          "stage_a_precision": 0.7149606299212599,
+          "threshold": 0.4633414808329625
+        },
+        "point_count": 10430
+      },
+      "MIDDLE_50": {
+        "best_at_stage_coverage_0_50": {
+          "conditional_precision": 0.9588497768963807,
+          "correct": 1934,
+          "coverage": 0.5004962779156328,
+          "issued": 2729,
+          "issued_positive": 2017,
+          "precision": 0.7086844998167827,
+          "stage_a_precision": 0.7390985709050935,
+          "threshold": 0.5043050203894743
+        },
+        "point_count": 10375
+      }
+    },
+    "joint_gate_probability": {
+      "EARLY_20": {
+        "best_at_stage_coverage_0_50": {
+          "conditional_precision": 0.9086479902557856,
+          "correct": 746,
+          "coverage": 0.5,
+          "issued": 1838,
+          "issued_positive": 821,
+          "precision": 0.4058759521218716,
+          "stage_a_precision": 0.4466811751904244,
+          "threshold": 0.5732130462731663
+        },
+        "point_count": 8203
+      },
+      "EARLY_35": {
+        "best_at_stage_coverage_0_50": {
+          "conditional_precision": 0.9154852780806979,
+          "correct": 1679,
+          "coverage": 0.5049559471365639,
+          "issued": 2637,
+          "issued_positive": 1834,
+          "precision": 0.6367083807356845,
+          "stage_a_precision": 0.69548729616989,
+          "threshold": 0.817919021157075
+        },
+        "point_count": 10430
+      },
+      "MIDDLE_50": {
+        "best_at_stage_coverage_0_50": {
+          "conditional_precision": 0.9508357915437562,
+          "correct": 1934,
+          "coverage": 0.5047146401985112,
+          "issued": 2825,
+          "issued_positive": 2034,
+          "precision": 0.6846017699115045,
+          "stage_a_precision": 0.72,
+          "threshold": 0.8424576214794937
+        },
+        "point_count": 10375
+      }
+    },
+    "joint_x_top_action_probability": {
+      "EARLY_20": {
+        "best_at_stage_coverage_0_50": {
+          "conditional_precision": 0.928136419001218,
+          "correct": 762,
+          "coverage": 0.5,
+          "issued": 1755,
+          "issued_positive": 821,
+          "precision": 0.4341880341880342,
+          "stage_a_precision": 0.46780626780626783,
+          "threshold": 0.2628777047992999
+        },
+        "point_count": 8203
+      },
+      "EARLY_35": {
+        "best_at_stage_coverage_0_50": {
+          "conditional_precision": 0.9321486268174475,
+          "correct": 1731,
+          "coverage": 0.5112885462555066,
+          "issued": 2602,
+          "issued_positive": 1857,
+          "precision": 0.6652574942352036,
+          "stage_a_precision": 0.7136817832436587,
+          "threshold": 0.5323908593204392
+        },
+        "point_count": 10430
+      },
+      "MIDDLE_50": {
+        "best_at_stage_coverage_0_50": {
+          "conditional_precision": 0.9573200992555831,
+          "correct": 1929,
+          "coverage": 0.5,
+          "issued": 2707,
+          "issued_positive": 2015,
+          "precision": 0.7125969708164019,
+          "stage_a_precision": 0.7443664573328408,
+          "threshold": 0.569698847623068
+        },
+        "point_count": 10375
+      }
+    }
+  },
+  "perfect_ranking_gate_oracle": {
+    "best": {
+      "conditional_precision": 1.0,
+      "correct": 4652,
+      "coverage": 0.5,
+      "direct_action_blend": 0.25,
+      "issued": 6656,
+      "issued_positive": 4652,
+      "minimum_action_margin": 0.0,
+      "minimum_action_probability": 0.6,
+      "precision": 0.6989182692307693,
+      "stage_a_precision": 0.6989182692307693,
+      "stage_thresholds": [
+        0.6231342517399049,
+        0.7017532341467202,
+        0.7529927117809194
+      ]
+    },
+    "evaluated_combinations": 1442852,
+    "feasible_combinations": 1437726,
+    "perfect_ranking": true,
+    "post_hoc_test_label_oracle": true,
+    "release_eligible": false,
+    "status": "COMPLETE"
+  },
+  "positive_groups": 9304,
+  "registered_grid_oracle": {
+    "best": {
+      "conditional_precision": 0.9475494411006019,
+      "correct": 4408,
+      "coverage": 0.5,
+      "direct_action_blend": 0.25,
+      "issued": 6656,
+      "issued_positive": 4652,
+      "minimum_action_margin": 0.0,
+      "minimum_action_probability": 0.6,
+      "precision": 0.6622596153846154,
+      "stage_a_precision": 0.6989182692307693,
+      "stage_thresholds": [
+        0.6231342517399049,
+        0.7017532341467202,
+        0.7529927117809194
+      ]
+    },
+    "evaluated_combinations": 1442852,
+    "feasible_combinations": 1437726,
+    "perfect_ranking": false,
+    "post_hoc_test_label_oracle": true,
+    "release_eligible": false,
+    "status": "COMPLETE"
+  },
+  "release_eligible": false,
+  "required_stage_a_precision": 0.8442824601366744,
+  "schema_version": "two_stage_v4_feasibility_audit_v1",
+  "status": "COMPLETE"
+}
