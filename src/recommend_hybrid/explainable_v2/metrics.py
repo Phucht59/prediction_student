@@ -30,11 +30,9 @@ def _pairwise_accuracy(relevance: np.ndarray, scores: np.ndarray) -> tuple[int, 
     total = 0
     for left in range(len(relevance)):
         for right in range(left + 1, len(relevance)):
-            if relevance[left] == relevance[right]:
+            if relevance[left] == relevance[right] or scores[left] == scores[right]:
                 continue
             total += 1
-            if scores[left] == scores[right]:
-                continue
             expected = relevance[left] > relevance[right]
             predicted = scores[left] > scores[right]
             correct += int(expected == predicted)
