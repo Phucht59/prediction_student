@@ -1,0 +1,144 @@
+schema_version: recommend_hybrid_explainable_v2
+protocol_status: PROTOCOL_LOCKED_BEFORE_LOCAL_TRAINING
+base_commit: f2a06a7b77b2bf7519cc2ff70b3997c703ae6819
+runtime_authorized: false
+
+stages:
+  - EARLY_20
+  - EARLY_35
+  - MIDDLE_50
+  - LATE_75
+
+risk_authority:
+  model: frozen_hybrid_cnn_bilstm
+  architecture_mutation_allowed: false
+  checkpoint_replacement_allowed: false
+  split_unit: student
+  outer_folds: 3
+  seeds: [42, 1201, 2026, 3407, 7319]
+  stratification:
+    selection: validation_only
+    low_threshold_grid: [0.20, 0.25, 0.30, 0.35, 0.40, 0.45]
+    high_threshold_grid: [0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80]
+    minimum_threshold_gap: 0.10
+    optimize_for:
+      - calibrated_precision_recall
+      - intervention_budget
+      - false_alert_cost
+    high_uncertainty_route: MONITOR
+
+canonical_actions:
+  - ASSESSMENT_COMPLETION
+  - RECOVER_ENGAGEMENT
+  - STUDY_REGULARITY
+  - TARGETED_CONTENT_REVIEW
+  - QUIZ_RETRIEVAL_PRACTICE
+
+labels:
+  target_scale: [0, 1, 2, 3]
+  abstain_value: -1
+  aggregation: train_only_probabilistic_label_model
+  minimum_independent_source_families: 2
+  sources:
+    literature_rules:
+      enabled: true
+      citation_required: true
+    behavioral_rules:
+      enabled: true
+      pre_cutoff_only: true
+    llm_weak_annotators:
+      enabled: true
+      blinded: true
+      permit_abstention: true
+      randomized_action_order: true
+      final_result_visible: false
+      current_model_output_visible: false
+    policy_constraints:
+      enabled: true
+  forbidden_sources:
+    - final_result_as_action_label
+    - post_cutoff_behavior
+    - current_action_head_prediction
+    - non_identifiable_causal_effect
+    - test_statistics
+
+ranker:
+  primary_family: five_action_ebm
+  independent_model_per_action: true
+  action_id_as_feature: false
+  score_range: [0.0, 1.0]
+  calibration: validation_only
+  ebm_search:
+    interactions: [0, 3, 5, 10]
+    learning_rate: [0.01, 0.025, 0.05]
+    max_bins: [64, 128, 256]
+    max_rounds: [2000, 5000, 10000]
+    min_samples_leaf: [2, 5, 10, 20]
+  challengers:
+    - rule_severity
+    - global_popularity
+    - action_stage_only
+    - logistic_relevance
+    - lambdamart
+    - frozen_neural_action_head
+  selection_rule: simplest_statistically_indistinguishable_best
+
+safety_router:
+  threshold_selection: validation_only
+  minimum_top1_score_grid: [0.40, 0.50, 0.60, 0.70, 0.80]
+  minimum_margin_grid: [0.00, 0.05, 0.10, 0.15, 0.20]
+  maximum_hybrid_uncertainty_grid: [0.30, 0.40, 0.50, 0.60]
+  maximum_seed_disagreement_grid: [0.02, 0.05, 0.10, 0.15]
+  maximum_label_conflict_grid: [0.10, 0.20, 0.30, 0.40]
+  maximum_ood_score_grid: [0.90, 0.95, 0.975, 0.99]
+  fail_closed_route: HUMAN_REVIEW
+
+learning_plan:
+  top_k: 3
+  primary_actions: 1
+  require_rationale: true
+  require_measurable_target: true
+  require_duration: true
+  require_review_stage: true
+
+simulator:
+  enabled: true
+  role: model_implied_plausibility_check
+  causal_claim_allowed: false
+  raw_behavior_scenarios_only: true
+  empirical_support_required: true
+  doses: [low, medium, high]
+  placebo_required: true
+  all_frozen_hybrid_seeds_required: true
+
+metrics:
+  primary: ndcg_at_3
+  ranking:
+    - precision_at_1
+    - mrr
+    - recall_at_3
+    - pairwise_accuracy
+    - invalid_action_rate
+    - action_diversity
+    - top1_stability
+    - coverage
+    - abstention_rate
+  scientific_audits:
+    - action_stage_only_baseline
+    - context_permutation
+    - leave_one_label_source_out
+    - grouped_student_leakage
+    - post_cutoff_leakage
+    - subgroup_stage
+    - subgroup_module_presentation
+    - bootstrap_confidence_intervals
+
+release_gates:
+  student_overlap: 0
+  post_cutoff_violations: 0
+  invalid_action_rate: 0.0
+  full_beats_action_stage_only: true
+  full_minus_action_stage_only_ci_excludes_zero: true
+  context_permutation_degrades_metric: true
+  no_single_label_source_dependency: true
+  runtime_authorized: false
