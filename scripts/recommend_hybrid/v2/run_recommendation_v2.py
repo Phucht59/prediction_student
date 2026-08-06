@@ -25,6 +25,12 @@ def main() -> None:
     python = sys.executable
 
     _run([python, "scripts/recommend_hybrid/v2/audit_action_taxonomy.py"])
+    _run(
+        [
+            python,
+            "scripts/recommend_hybrid/v2/audit_assessment_timeliness_candidate.py",
+        ]
+    )
     if not args.skip_simulation:
         _run(
             [
