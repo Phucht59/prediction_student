@@ -1,0 +1,158 @@
+protocol_id: recommendation_v2_scientific_optimization
+status: PREREGISTERED_BEFORE_V2_OUTCOME_SCORING
+created_date: 2026-08-06
+random_state: 20260806
+
+problem_definition:
+  population: all_cutoff_eligible_oulad_learner_course_stage_groups
+  stage_order: [EARLY_20, EARLY_35, MIDDLE_50, LATE_75]
+  decisions:
+    - SHOULD_INTERVENE
+    - WHICH_BEHAVIOURAL_ACTION
+    - MODEL_BASED_RISK_SENSITIVITY
+  offline_support_target: final_at_risk_outcome
+  runtime_target_available: false
+  runtime_authorized: false
+
+eligibility:
+  decisions: [NO_ACTION, BEHAVIOURAL_ACTION, DEFER_TO_HUMAN]
+  validation_only_policy_selection: true
+  inputs:
+    - frozen_hybrid_risk_probability
+    - normalized_predictive_entropy
+    - seed_disagreement_when_available
+    - maximum_observed_behaviour_need
+  grid:
+    risk_threshold: [0.35, 0.45, 0.55, 0.65, 0.75]
+    minimum_need: [0.10, 0.20, 0.30, 0.40]
+    defer_entropy: [0.70, 0.80, 0.90]
+    defer_disagreement: [0.05, 0.10, 0.15]
+  utility:
+    true_support: 1.0
+    false_issue: -0.35
+    missed_support: -1.0
+    defer_case: -0.10
+  test_threshold_refit: forbidden
+
+action_taxonomy:
+  learned_behavioural_actions:
+    - ASSESSMENT_COMPLETION
+    - STUDY_REGULARITY
+    - VLE_ENGAGEMENT
+    - QUIZ_OR_RETRIEVAL_PRACTICE
+    - CONTENT_REVIEW
+  governance_routes:
+    - PROGRESS_MONITORING
+    - DIAGNOSTIC_CHECK
+    - INSTRUCTOR_CONTACT
+    - ADVISOR_ESCALATION
+  research_candidates:
+    - ASSESSMENT_TIMELINESS
+  governance_routes_are_ranked_by_action_head: false
+  learned_action_count: 5
+
+ranking:
+  evaluation_population: issued_behavioural_action_groups_with_at_least_one_supported_action
+  validation_only_weight_selection: true
+  components:
+    action_probability: [0.30, 0.45, 0.60]
+    need_severity: [0.10, 0.20, 0.30]
+    simulated_risk_reduction: [0.00, 0.15, 0.30]
+    evidence_confidence: [0.10, 0.20]
+    workload_penalty: [0.05, 0.10, 0.15]
+    uncertainty_penalty: [0.05, 0.10]
+  normalization: validation_fit_only
+  test_weight_refit: forbidden
+  baselines:
+    - random
+    - most_prevalent_action
+    - lowest_workload
+    - need_severity_only
+    - frozen_action_probability_only
+    - simulated_risk_reduction_only
+
+simulation:
+  interpretation: constrained_model_based_sensitivity_not_causal_effect
+  frozen_hybrid_modified: false
+  edit_scope: observed_pre_cutoff_weeks_only
+  immutable_inputs: [static, stage_context, future_padding, final_outcome]
+  strengths: [conservative, moderate, strong]
+  recent_observed_weeks: 2
+  rebuild_dynamic_channels: true
+  rebuild_aggregate_features: true
+  reuse_train_fitted_preprocessor: true
+  actions:
+    VLE_ENGAGEMENT:
+      click_multiplier: [1.10, 1.25, 1.50]
+      active_day_increment: [1, 2, 3]
+    STUDY_REGULARITY:
+      minimum_recent_active_weeks: [1, 2, 2]
+      minimum_active_days: [1, 2, 3]
+    QUIZ_OR_RETRIEVAL_PRACTICE:
+      quiz_click_increment: [3, 7, 12]
+    CONTENT_REVIEW:
+      content_click_increment: [5, 12, 20]
+    ASSESSMENT_COMPLETION:
+      submission_increment: [1, 1, 1]
+      assessment_click_increment: [3, 7, 12]
+
+metrics:
+  eligibility:
+    - roc_auc
+    - pr_auc
+    - brier_score
+    - ece
+    - precision
+    - recall
+    - f1
+    - balanced_accuracy
+    - specificity
+    - confusion_matrix
+    - intervention_rate
+    - false_issue_rate
+    - missed_support_rate
+    - defer_rate
+    - selective_accuracy
+    - risk_coverage_curve
+  ranking:
+    - precision_at_1
+    - recall_at_1
+    - recall_at_3
+    - ndcg_at_3
+    - mrr
+    - pairwise_accuracy
+    - action_diversity
+    - top_action_concentration
+    - positive_group_coverage
+  simulation:
+    - mean_risk_delta
+    - median_risk_delta
+    - positive_reduction_fraction
+    - threshold_crossing_fraction
+    - monotonic_strength_fraction
+    - action_stage_support
+    - seed_fold_stability
+    - constraint_violation_count
+
+release_gates:
+  full_population_evaluated: true
+  student_group_leakage: 0
+  all_four_stages_required: true
+  all_five_learned_actions_required: true
+  eligibility_test_refit: false
+  ranking_test_refit: false
+  simulation_constraint_violations: 0
+  expert_validation_required_for_production: true
+  causal_claim_allowed: false
+  runtime_authorized: false
+
+claim_boundary:
+  supported:
+    - offline_full_population_support_decision_evaluation
+    - offline_action_ranking_against_scientific_silver_labels
+    - frozen_hybrid_model_based_sensitivity_under_bounded_behaviour_edits
+  unsupported:
+    - recommendation_display_causes_grade_improvement
+    - simulated_risk_reduction_is_a_causal_effect
+    - silver_label_precision_is_real_world_accuracy
+    - automatic_production_deployment
