@@ -1,0 +1,6 @@
+{
+  "status": "BLOCKED",
+  "reason": "feature table and real annotation inputs unavailable",
+  "llm_weak_labels": "MISSING",
+  "runtime_authorized": false
+}

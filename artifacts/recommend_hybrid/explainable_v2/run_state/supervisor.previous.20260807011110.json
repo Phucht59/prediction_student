@@ -1,0 +1,11 @@
+{
+  "duplicate_process": false,
+  "error_stage": "feature_table",
+  "pid": 23456,
+  "resume_safe": true,
+  "runtime_authorized": false,
+  "schema_version": "recommend_hybrid_explainable_v2_supervisor",
+  "started_at": "2026-08-06T17:18:18.702634+00:00",
+  "status": "failed",
+  "updated_at": "2026-08-06T17:18:22.428670+00:00"
+}

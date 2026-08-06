@@ -1,0 +1,11 @@
+{
+  "duplicate_process": false,
+  "finished_at": "2026-08-06T16:46:13.645612+00:00",
+  "pid": 7312,
+  "resume_safe": true,
+  "runtime_authorized": false,
+  "schema_version": "recommend_hybrid_explainable_v2_supervisor",
+  "started_at": "2026-08-06T16:46:06.471939+00:00",
+  "status": "blocked_pending_required_stages",
+  "updated_at": "2026-08-06T16:46:13.645612+00:00"
+}

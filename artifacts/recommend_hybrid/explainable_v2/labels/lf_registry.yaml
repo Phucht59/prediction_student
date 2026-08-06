@@ -1,0 +1,26 @@
+version: recommend_hybrid_v2_lf_registry_v1
+sources:
+  - id: LF_LITERATURE_ASSESSMENT_URGENCY
+    family: LITERATURE
+    target_action: ASSESSMENT_COMPLETION
+    description: High vote for assessment completion when assessments are due soon.
+  - id: LF_BEHAVIORAL_ENGAGEMENT_DROP
+    family: BEHAVIORAL
+    target_action: RECOVER_ENGAGEMENT
+    description: High vote for recover engagement when recent inactivity streak > 3 days.
+  - id: LF_BEHAVIORAL_STUDY_GAP
+    family: BEHAVIORAL
+    target_action: STUDY_REGULARITY
+    description: High vote for study regularity when inter-session gap is large.
+  - id: LF_LITERATURE_CONTENT_COVERAGE
+    family: LITERATURE
+    target_action: TARGETED_CONTENT_REVIEW
+    description: Vote for content review when topic coverage is low.
+  - id: LF_FEASIBILITY_QUIZ_AVAILABILITY
+    family: FEASIBILITY
+    target_action: QUIZ_RETRIEVAL_PRACTICE
+    description: Vote for quiz practice when quizzes are available and score is low.
+  - id: LF_SAFETY_CONTRAINDICATION_CHECK
+    family: SAFETY
+    target_action: ALL
+    description: Zero vote if contraindications detected.

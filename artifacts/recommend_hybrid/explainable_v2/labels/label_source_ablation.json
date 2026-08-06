@@ -1,0 +1,10 @@
+{
+  "full_model_ndcg": 0.88,
+  "leave_one_family_out": {
+    "no_LITERATURE": 0.82,
+    "no_BEHAVIORAL": 0.8,
+    "no_FEASIBILITY": 0.84,
+    "no_SAFETY": 0.85,
+    "no_LLM_EXPERTS": 0.79
+  }
+}

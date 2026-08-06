@@ -1,0 +1,63 @@
+{
+  "type": "object",
+  "properties": {
+    "case_id": {
+      "type": "string"
+    },
+    "action_id": {
+      "type": "string"
+    },
+    "relevance_score": {
+      "type": "integer",
+      "enum": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    "evidence_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "reason": {
+      "type": "string"
+    },
+    "contraindication_detected": {
+      "type": "boolean"
+    },
+    "safety_flag": {
+      "type": "boolean"
+    },
+    "abstain": {
+      "type": "boolean"
+    },
+    "reviewer_id": {
+      "type": "string"
+    },
+    "reviewer_type": {
+      "type": "string",
+      "enum": [
+        "REAL_HUMAN_REVIEW",
+        "REAL_LLM_GENERATED_REVIEW",
+        "LEGACY_WEAK_SOURCE"
+      ]
+    },
+    "model_name": {
+      "type": "string"
+    },
+    "prompt_version": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "case_id",
+    "action_id",
+    "relevance_score",
+    "abstain",
+    "reviewer_id",
+    "reviewer_type"
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "status": "PASS",
+  "simulation_count": 312625,
+  "mean_model_implied_delta_risk": -0.06619860855657737,
+  "disclaimer": "This is an internal model plausibility check, not evidence of causal intervention effectiveness.",
+  "runtime_authorized": false
+}

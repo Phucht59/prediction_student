@@ -1,0 +1,63 @@
+{
+  "status": "PASS",
+  "legacy_pipeline_found": true,
+  "legacy_snorkel_found": true,
+  "legacy_case_export_count": 60,
+  "silver_labels_found": true,
+  "real_human_review_count": 0,
+  "real_llm_review_count": 0,
+  "legacy_cardinality": 4,
+  "questions_answers": {
+    "1_legacy_pipelines_existing": [
+      "scripts/recommend_hybrid/export_expert_cases.py",
+      "scripts/recommend_hybrid/import_expert_labels.py",
+      "scripts/recommend_hybrid/build_scientific_candidates.py",
+      "scripts/recommend_hybrid/generate_scientific_silver_labels.py",
+      "scripts/recommend_hybrid/fit_scientific_label_model.py"
+    ],
+    "2_pipelines_actually_run": "Scientific labeling phase 1 & 2 ran, producing Snorkel LabelModel manifest and silver_labels.parquet.",
+    "3_exported_cases_count": 60,
+    "4_real_human_reviews": 0,
+    "5_real_llm_reviews": 0,
+    "6_template_or_fixture_count": "Templates exist in artifacts/recommend_hybrid/expert_review/templates/",
+    "7_legacy_snorkel_cardinality": 4,
+    "8_legacy_action_taxonomy": [
+      "ASSESSMENT_COMPLETION",
+      "VLE_ENGAGEMENT",
+      "STUDY_SCHEDULE",
+      "LEARNING_CONSOLIDATION",
+      "CONTENT_REVIEW",
+      "TARGETED_REVISION",
+      "RETRIEVAL_PRACTICE",
+      "PRACTICE_EXERCISES",
+      "ASSESSMENT_PREPARATION"
+    ],
+    "9_v2_taxonomy_mapping": {
+      "ASSESSMENT_COMPLETION": "ASSESSMENT_COMPLETION",
+      "VLE_ENGAGEMENT": "RECOVER_ENGAGEMENT (only if evidence shows drop/inactivity)",
+      "STUDY_SCHEDULE": "STUDY_REGULARITY",
+      "LEARNING_CONSOLIDATION": "TARGETED_CONTENT_REVIEW",
+      "CONTENT_REVIEW": "TARGETED_CONTENT_REVIEW",
+      "TARGETED_REVISION": "TARGETED_CONTENT_REVIEW",
+      "RETRIEVAL_PRACTICE": "QUIZ_RETRIEVAL_PRACTICE",
+      "PRACTICE_EXERCISES": "QUIZ_RETRIEVAL_PRACTICE",
+      "ASSESSMENT_PREPARATION": "QUIZ_RETRIEVAL_PRACTICE"
+    },
+    "10_directly_reusable_components": [
+      "ObservedStateBuilder",
+      "CandidateGenerator",
+      "ActionCatalog schema",
+      "Snorkel LabelModel training structure"
+    ],
+    "11_adapter_needed_components": [
+      "Legacy action rating mapper to V2 5-action taxonomy",
+      "Expert case import schema validator"
+    ],
+    "12_circular_labeling_risk": "Prevented by excluding model predictions/scores from LF input features.",
+    "13_action_stage_shortcut_risk": "Prevented by building Five-EBM separate regressors per action without action_id feature.",
+    "14_post_cutoff_leakage_risk": "Prevented by filtering all activity and assessments at or before cutoff_day.",
+    "15_student_overlap_split_risk": "Prevented by grouping CV splits strictly by student ID.",
+    "16_infeasible_candidate_actions": "Filtered out by deterministic feasibility filter before scoring.",
+    "17_missing_artifacts_for_final": "Real LLM annotation responses (must be imported via import_llm_annotations.py)."
+  }
+}

@@ -63,7 +63,7 @@ def run_pipeline(force_rerun: bool = False) -> dict:
         ("2. build_action_candidates", ["scripts/recommend_hybrid/explainable_v2/build_feature_table.py"]),
         ("3. case_export_v2", ["scripts/recommend_hybrid/explainable_v2/export_llm_cases.py"]),
         ("4. annotation_import_audit", ["scripts/recommend_hybrid/explainable_v2/import_llm_annotations.py"]),
-        ("5. preliminary_weak_labeling", ["scripts/recommend_hybrid/explainable_v2/fit_weak_label_models.py", "--mode", "preliminary"]),
+        ("5. weak_labeling", ["scripts/recommend_hybrid/explainable_v2/fit_weak_label_models.py", "--mode", "final"]),
         ("6. train_five_ebm", ["scripts/recommend_hybrid/explainable_v2/train_five_ebm.py"]),
         ("7. train_challengers", ["scripts/recommend_hybrid/explainable_v2/train_challengers.py"]),
         ("8. run_model_selection", ["scripts/recommend_hybrid/explainable_v2/run_model_selection.py"]),

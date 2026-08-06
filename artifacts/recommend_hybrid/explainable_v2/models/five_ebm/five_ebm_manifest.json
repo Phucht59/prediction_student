@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "model_type": "Five-EBM Explainable Action Ranker",
+  "action_count": 5,
+  "trained_actions": [
+    "ASSESSMENT_COMPLETION",
+    "RECOVER_ENGAGEMENT",
+    "STUDY_REGULARITY",
+    "TARGETED_CONTENT_REVIEW",
+    "QUIZ_RETRIEVAL_PRACTICE"
+  ],
+  "feature_count": 14,
+  "calibration": "IsotonicRegression"
+}

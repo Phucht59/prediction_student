@@ -1,0 +1,13 @@
+{
+  "schema_version": "recommend_hybrid_v2_export_v1",
+  "panel_a_count": 31348,
+  "panel_b_count": 31352,
+  "stages": [
+    "EARLY_20",
+    "EARLY_35",
+    "MIDDLE_50",
+    "LATE_75"
+  ],
+  "zero_student_overlap": true,
+  "pre_cutoff_only": true
+}

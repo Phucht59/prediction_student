@@ -1,0 +1,10 @@
+{
+  "status": "COMPLETE",
+  "runtime_authorized": false,
+  "row_count": 62525,
+  "student_count": 15675,
+  "duplicate_query_count": 0,
+  "post_cutoff_violation_count": 0,
+  "outcome_in_features": false,
+  "seed_disagreement_status": "MISSING_IN_SOURCE_ARTIFACT"
+}
