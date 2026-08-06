@@ -1,0 +1,6 @@
+{
+  "status": "COMPLETE",
+  "runtime_authorized": false,
+  "outer_folds": 3,
+  "positive_class_definition": "AT_RISK = Fail or Withdrawn"
+}

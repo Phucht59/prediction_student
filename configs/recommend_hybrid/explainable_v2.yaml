@@ -26,6 +26,12 @@ risk_authority:
       - intervention_budget
       - false_alert_cost
     high_uncertainty_route: MONITOR
+    selection_constraints:
+      minimum_high_precision: 0.50
+      minimum_high_recall: 0.20
+      minimum_high_coverage: 0.05
+      maximum_high_coverage: 0.40
+      objective: lexicographic_f2_recall_precision_low_coverage
 
 canonical_actions:
   - ASSESSMENT_COMPLETION

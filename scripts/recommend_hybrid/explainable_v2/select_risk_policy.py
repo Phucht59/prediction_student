@@ -1,13 +1,16 @@
-"""Validation-only risk policy entry point; refuses to recalibrate Hybrid."""
 from pathlib import Path
-import json
+import sys
 ROOT=Path(__file__).resolve().parents[3]
+sys.path.insert(0,str(ROOT))
+from src.recommend_hybrid.explainable_v2.risk_policy_selection import run
 def main():
-    out=ROOT/"artifacts/recommend_hybrid/explainable_v2/risk_policy"
-    out.mkdir(parents=True,exist_ok=True)
-    (ROOT/"reports/recommend_hybrid_v2").mkdir(parents=True,exist_ok=True)
-    payload={"status":"BLOCKED","reason":"validated learner-stage table unavailable","runtime_authorized":False}
-    for fold in range(3): (out/f"outer_{fold}.json").write_text(json.dumps(payload,indent=2)+"\n",encoding="utf-8")
-    (ROOT/"reports/recommend_hybrid_v2/RISK_STRATIFICATION_RESULTS.md").write_text("# Risk stratification\n\nStatus: BLOCKED_PENDING_VALIDATED_OOF_FEATURE_TABLE.\n",encoding="utf-8")
-    return 2
+    try:
+        rows=run(ROOT)
+        report=ROOT/"reports/recommend_hybrid_v2/RISK_STRATIFICATION_RESULTS.md"; report.parent.mkdir(parents=True,exist_ok=True)
+        report.write_text("# Risk stratification\n\nStatus: COMPLETE; thresholds selected on grouped inner validation only.\n\nOuter folds completed: %d/3.\n"%len(rows),encoding="utf-8")
+        return 0
+    except FileNotFoundError as exc:
+        print("STATUS: BLOCKED_MISSING_VALIDATED_OUTCOME_AUTHORITY",exc); return 2
+    except Exception as exc:
+        print("STATUS: FAILED_IMPLEMENTATION_ERROR",repr(exc)); return 1
 if __name__=="__main__": raise SystemExit(main())
