@@ -43,6 +43,7 @@ def main() -> None:
             ]
         )
     _run([python, "scripts/recommend_hybrid/v2/evaluate_full_population.py"])
+    _run([python, "scripts/recommend_hybrid/v2/build_stage_action_breakdown.py"])
     _run([python, "scripts/recommend_hybrid/v2/validate_recommendation_v2.py"])
     print(
         json.dumps(
