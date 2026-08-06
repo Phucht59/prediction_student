@@ -93,8 +93,9 @@ def permute_context_by_query(
     """Permute whole learner contexts within stage while preserving query targets.
 
     Every action row belonging to one query receives the same donor context.
-    Action IDs, eligibility, relevance labels, and query membership are not
-    modified. A valid contextual ranker must degrade under this audit.
+    Stage is preserved and not permuted. Action IDs, eligibility, relevance
+    labels, and query membership are not modified. A valid contextual ranker
+    must degrade under this audit.
     """
 
     required = {query_column, stage_column, *feature_columns}
@@ -102,8 +103,11 @@ def permute_context_by_query(
     if missing:
         raise ValueError(f"permutation frame is missing columns: {sorted(missing)}")
 
+    permutable_columns = tuple(
+        column for column in feature_columns if column != stage_column
+    )
     context = frame.drop_duplicates(query_column).loc[
-        :, [query_column, stage_column, *feature_columns]
+        :, [query_column, stage_column, *permutable_columns]
     ]
     if context[query_column].duplicated().any():
         raise ValueError("query context must be unique")
@@ -112,12 +116,14 @@ def permute_context_by_query(
     donor_rows: list[pd.DataFrame] = []
     for _, stage_context in context.groupby(stage_column, sort=False):
         donor = stage_context.copy()
-        values = donor.loc[:, feature_columns].to_numpy(copy=True)
-        donor.loc[:, feature_columns] = values[rng.permutation(len(values))]
+        values = donor.loc[:, list(permutable_columns)].to_numpy(copy=True)
+        donor.loc[:, list(permutable_columns)] = values[
+            rng.permutation(len(values))
+        ]
         donor_rows.append(donor)
     permuted_context = pd.concat(donor_rows, ignore_index=True)
 
-    output = frame.drop(columns=list(feature_columns)).merge(
+    output = frame.drop(columns=list(permutable_columns)).merge(
         permuted_context.drop(columns=[stage_column]),
         on=query_column,
         how="left",
