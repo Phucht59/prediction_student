@@ -52,6 +52,8 @@ def fit_label_model(
     matrix = validate_vote_matrix(train_votes, sources)
     if len(matrix) < 30:
         raise ValueError("at least 30 train rows are required for label aggregation")
+    if epochs <= 0:
+        raise ValueError("epochs must be positive")
     try:
         label_model_class = import_module(
             "snorkel.labeling.model"
@@ -64,7 +66,7 @@ def fit_label_model(
         L_train=matrix,
         n_epochs=epochs,
         seed=seed,
-        log_freq=0,
+        log_freq=max(1, epochs // 10),
     )
     return model
 
