@@ -12,6 +12,9 @@ import pandas as pd
 from .contracts import ActionScore, CanonicalAction, RecommendationFeatures
 
 
+# Only learner state known before the stage cutoff is admissible here.
+# Weak-label conflict and OOD diagnostics are routing/audit signals and are
+# deliberately excluded to prevent target-derived or evaluation-derived leakage.
 FEATURE_COLUMNS = (
     "risk_probability",
     "hybrid_uncertainty",
@@ -26,8 +29,6 @@ FEATURE_COLUMNS = (
     "regularity_score",
     "content_coverage",
     "quiz_activity",
-    "label_conflict",
-    "ood_score",
     "stage",
 )
 
@@ -75,6 +76,7 @@ class FiveEBMRanker:
         self,
         frame: pd.DataFrame,
         targets: dict[CanonicalAction, pd.Series],
+        sample_weights: dict[CanonicalAction, pd.Series] | None = None,
     ) -> "FiveEBMRanker":
         missing = set(FEATURE_COLUMNS) - set(frame.columns)
         if missing:
@@ -88,7 +90,19 @@ class FiveEBMRanker:
             if int(retained.sum()) < 30:
                 raise ValueError(f"insufficient retained labels for {action.value}")
             model = regressor_class(**self.model_parameters)
-            model.fit(frame.loc[retained, FEATURE_COLUMNS], target.loc[retained] / 3.0)
+            fit_kwargs: dict[str, object] = {}
+            if sample_weights is not None:
+                if action not in sample_weights:
+                    raise ValueError(f"missing sample weights for {action.value}")
+                weights = pd.to_numeric(sample_weights[action], errors="coerce")
+                if weights.isna().any() or (weights < 0).any():
+                    raise ValueError(f"invalid sample weights for {action.value}")
+                fit_kwargs["sample_weight"] = weights.loc[retained].to_numpy(dtype=float)
+            model.fit(
+                frame.loc[retained, FEATURE_COLUMNS],
+                target.loc[retained] / 3.0,
+                **fit_kwargs,
+            )
             self.models[action] = model
         return self
 
