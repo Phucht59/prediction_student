@@ -127,3 +127,8 @@ db_backups/
 /reports/final/predictions/
 /reports/final/recommendations/
 /reports/final/student-mat_3class_final_report.txt
+# Explainable V2 runtime state is local and must never be committed.
+artifacts/recommend_hybrid/explainable_v2/run_state/logs/
+artifacts/recommend_hybrid/explainable_v2/run_state/*.pid
+artifacts/recommend_hybrid/explainable_v2/run_state/supervisor.json
+artifacts/recommend_hybrid/explainable_v2/run_state/progress.json
