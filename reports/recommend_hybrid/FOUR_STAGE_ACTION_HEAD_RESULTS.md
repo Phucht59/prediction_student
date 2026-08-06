@@ -10,14 +10,14 @@ The frozen Hybrid CNN–BiLSTM representation was not modified. Only the integra
 - NDCG@3: **1.0000**
 - MRR: **1.0000**
 - End-to-end Precision@1: **1.0000**
-- Positive coverage: **0.9973**
-- Abstention: **0.0758**
+- Positive coverage: **0.9971**
+- Abstention: **0.0760**
 
 ## Per-stage held-out evidence
 
 | Stage | Groups | Conditional P@1 | NDCG@3 | MRR | E2E P@1 | Coverage | Abstention |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| EARLY_20 | 16566 | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 0.9867 | 0.2861 |
+| EARLY_20 | 16566 | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 0.9859 | 0.2867 |
 | EARLY_35 | 15946 | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 0.0000 |
 | MIDDLE_50 | 15378 | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 0.0000 |
 | LATE_75 | 14635 | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 0.0000 |

@@ -1,0 +1,16 @@
+{
+  "execution_device": "cuda",
+  "gpu_name": "NVIDIA GeForce RTX 2060",
+  "gpu_memory_gb": 6,
+  "torch_version": "2.11.0+cu128",
+  "torch_cuda_runtime": "12.8",
+  "cuda_available": true,
+  "neural_action_head_device": "cuda",
+  "data_aggregation_device": "cpu",
+  "causal_estimator_device": "cpu",
+  "outer_folds": 3,
+  "seeds": [42, 1201, 2026, 3407, 7319],
+  "checkpoint_count": 15,
+  "runtime_authorized": false,
+  "scope_note": "Neural four-stage action-head was rerun with CUDA. SQLite aggregation and scikit-learn causal estimators run on CPU by design."
+}
