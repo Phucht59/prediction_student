@@ -1,10 +1,13 @@
 from __future__ import annotations
 import argparse
+import sys
 from pathlib import Path
+ROOT = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(ROOT))
 from src.recommend_hybrid.explainable_v2.data_builder import build, write_blocked_manifest
 
 def main() -> int:
-    root = Path(__file__).resolve().parents[3]
+    root = ROOT
     p = argparse.ArgumentParser()
     p.add_argument("--output", type=Path, default=root / "artifacts/recommend_hybrid/explainable_v2/data/learner_stage_features.parquet")
     p.add_argument("--lineage", type=Path, default=root / "artifacts/recommend_hybrid/explainable_v2/data/feature_lineage.parquet")

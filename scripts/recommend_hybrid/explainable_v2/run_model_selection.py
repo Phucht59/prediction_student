@@ -55,8 +55,9 @@ def main() -> int:
     }
     write(SUPERVISOR, manifest)
     stages = [
-        ("static_validation", ROOT / "scripts/recommend_hybrid/validate_explainable_v2_static.py"),
-        ("unit_tests", None),
+        ("static_validation", [sys.executable, str(ROOT / "scripts/recommend_hybrid/validate_explainable_v2_static.py")]),
+        ("unit_tests", [sys.executable, "-m", "pytest", "-q", "tests/recommend_hybrid/explainable_v2"]),
+        ("hybrid_authority_audit", [sys.executable, str(ROOT / "scripts/recommend_hybrid/explainable_v2/verify_hybrid_oof_authority.py")]),
         ("feature_table", ROOT / "scripts/recommend_hybrid/explainable_v2/build_feature_table.py"),
         ("risk_policy", ROOT / "scripts/recommend_hybrid/explainable_v2/select_risk_policy.py"),
         ("action_candidates", ROOT / "scripts/recommend_hybrid/explainable_v2/build_action_candidates.py"),
@@ -64,17 +65,19 @@ def main() -> int:
         ("model_selection", None),
     ]
     progress = {"schema_version": "recommend_hybrid_explainable_v2_progress", "runtime_authorized": False, "stages": {}}
-    for name, script in stages:
+    for name, command in stages:
         entry = {"status": "pending", "started_at": now()}
         progress["stages"][name] = entry
         write(PROGRESS, progress)
         log = LOGS / f"{name}.log"
-        if script is None or not script.exists():
+        if isinstance(command, Path):
+            command = [sys.executable, str(command)] if command.exists() else None
+        if command is None:
             entry.update(status="blocked", reason="required_protocol_stage_not_implemented_or_missing")
             log.write_text("BLOCKED: required stage is not available; no substitute or fabricated data was used.\n", encoding="utf-8")
         else:
             with log.open("a", encoding="utf-8") as handle:
-                result = subprocess.run([sys.executable, str(script)], cwd=ROOT, stdout=handle, stderr=subprocess.STDOUT, check=False)
+                result = subprocess.run(command, cwd=ROOT, stdout=handle, stderr=subprocess.STDOUT, check=False)
             entry.update(status="completed" if result.returncode == 0 else "failed", returncode=result.returncode)
         entry["finished_at"] = now()
         write(PROGRESS, progress)
