@@ -101,6 +101,10 @@ models/saved/*
 /artifacts/recommend_hybrid/final_stage_aware_v2/checkpoints/
 /artifacts/recommend_hybrid/final_stage_aware_v2/oof_predictions.parquet
 
+# Recommendation V2: commit summaries, not learner-level simulation rows
+/artifacts/recommend_hybrid/v2/simulation_rows.parquet
+/artifacts/recommend_hybrid/v2/expert_review_cases.parquet
+
 # Database volumes and safety backups
 database/**/volume/
 database/**/backups/
