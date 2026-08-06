@@ -1,4 +1,4 @@
-"""Constrained behaviour-edit simulation through the frozen OULAD feature path."""
+"""Constrained same-stage behavioural recourse through the frozen OULAD path."""
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -36,6 +36,7 @@ class SimulatedStageInputs:
 ACTION_PARAMETERS: Mapping[str, Mapping[str, tuple[float, float, float]]] = {
     "VLE_ENGAGEMENT": {
         "click_multiplier": (1.10, 1.25, 1.50),
+        "minimum_clicks": (3.0, 7.0, 12.0),
         "active_day_increment": (1.0, 2.0, 3.0),
         "site_increment": (1.0, 2.0, 3.0),
     },
@@ -87,9 +88,15 @@ def _validate_inputs(
     return sequence, length, stage_context, app
 
 
-def _recompute_inactivity(base: np.ndarray, lengths: np.ndarray) -> None:
+def _recompute_inactivity(
+    base: np.ndarray,
+    lengths: np.ndarray,
+    applicable: np.ndarray,
+) -> None:
     index = {name: position for position, name in enumerate(oulad.BASE_CHANNELS)}
     for row, length in enumerate(lengths):
+        if not applicable[row]:
+            continue
         streak = 0
         days = 0
         for week in range(int(length)):
@@ -139,7 +146,12 @@ def simulate_action_inputs(
     applicable: np.ndarray,
     recent_weeks: int = 2,
 ) -> SimulatedStageInputs:
-    """Edit observed raw behaviour, then rebuild dynamic and aggregate features."""
+    """Edit current observed behaviour and rebuild all derived Hybrid inputs.
+
+    This is same-stage recourse sensitivity: it asks how the frozen model would
+    respond if the current observed behaviour indicators were better.  It is
+    not a post-recommendation trajectory and must not be interpreted causally.
+    """
 
     if action_id not in LEARNED_ACTIONS:
         raise ValueError(f"action {action_id!r} is not a learned behavioural action")
@@ -161,11 +173,21 @@ def simulate_action_inputs(
         selected = slice(start, end)
         if action_id == "VLE_ENGAGEMENT":
             multiplier = _parameter(action_id, "click_multiplier", resolved_strength)
+            minimum = _parameter(action_id, "minimum_clicks", resolved_strength)
             increment = _parameter(action_id, "active_day_increment", resolved_strength)
             sites = _parameter(action_id, "site_increment", resolved_strength)
-            base[row, selected, index["total_clicks"]] *= multiplier
-            base[row, selected, index["content_clicks"]] *= multiplier
-            base[row, selected, index["active_days"]] += increment
+            original_total = base[row, selected, index["total_clicks"]].copy()
+            inactive = original_total <= 0.0
+            total = original_total * multiplier
+            total[inactive] = minimum
+            base[row, selected, index["total_clicks"]] = total
+            content = base[row, selected, index["content_clicks"]] * multiplier
+            content[inactive] = minimum * 0.6
+            base[row, selected, index["content_clicks"]] = content
+            base[row, selected, index["active_days"]] = np.maximum(
+                base[row, selected, index["active_days"]] + increment,
+                np.where(inactive, 1.0, 0.0),
+            )
             base[row, selected, index["unique_sites"]] += sites
             base[row, selected, index["unique_activity_types"]] += 1.0
         elif action_id == "STUDY_REGULARITY":
@@ -215,7 +237,7 @@ def simulate_action_inputs(
                 1.0,
             )
 
-    _recompute_inactivity(base, length)
+    _recompute_inactivity(base, length, app)
     violations = _enforce_constraints(base, length)
     mask = np.arange(sequence.shape[1])[None, :] < length[:, None]
     full = oulad._dynamic(base, mask)
@@ -232,7 +254,7 @@ def predict_risk_sensitivity(
     simulated_inputs: Mapping[SimulationStrength, SimulatedStageInputs],
     predictor: Callable[[SimulatedStageInputs], np.ndarray],
 ) -> dict[str, object]:
-    """Evaluate one action without interpreting model response as a causal effect."""
+    """Evaluate model response without interpreting it as a causal effect."""
 
     baseline = np.asarray(baseline_risk, dtype=np.float64).reshape(-1)
     rows: dict[str, object] = {}
@@ -262,7 +284,7 @@ def predict_risk_sensitivity(
         "monotonic_strength_fraction": float(monotonic.mean()),
         "constraint_violation_count": len(set(all_violations)),
         "constraint_violations": sorted(set(all_violations)),
-        "claim_boundary": "MODEL_BASED_SENSITIVITY_NOT_CAUSAL_EFFECT",
+        "claim_boundary": "SAME_STAGE_MODEL_RECOURSE_NOT_CAUSAL_EFFECT",
     }
 
 
