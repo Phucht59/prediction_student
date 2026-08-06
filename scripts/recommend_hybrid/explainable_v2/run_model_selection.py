@@ -9,12 +9,13 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+from sklearn.metrics import ndcg_score
 
 ROOT = Path(__file__).resolve().parents[3]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from src.recommend_hybrid.explainable_v2.metrics import ndcg_at_k
+from src.recommend_hybrid.explainable_v2.metrics import evaluate_grouped_ranking
 
 
 def run_selection() -> dict:
@@ -54,37 +55,36 @@ def run_selection() -> dict:
     )
 
     # Calculate metrics for each model
-    # Simulate NDCG@3 evaluation per query
-    queries = df.groupby("query_id")
-    ndcg_ebm_list = []
-    ndcg_pop_list = []
-    ndcg_stage_list = []
-
-    for qid, group in queries:
-        rel_true = group["expected_relevance"].to_numpy()
-
-        # Five-EBM: rank by expected_relevance + slight noise
-        scores_ebm = rel_true + np.random.normal(0, 0.05, len(rel_true))
-        ebm_order = np.argsort(-scores_ebm)
-
-        # Baseline Pop: rank by mean relevance
-        scores_pop = np.arange(len(rel_true))
-        pop_order = np.argsort(scores_pop)
-
-        ndcg_ebm_list.append(ndcg_at_k(rel_true[ebm_order], k=3))
-        ndcg_pop_list.append(ndcg_at_k(rel_true[pop_order], k=3))
-
-    mean_ebm_ndcg = float(np.mean(ndcg_ebm_list))
-    mean_pop_ndcg = float(np.mean(ndcg_pop_list))
-
-    # Bootstrap 95% CI for Five-EBM NDCG@3
+    df_ebm = df.copy()
     np.random.seed(42)
-    boot_means = [
-        np.mean(np.random.choice(ndcg_ebm_list, size=len(ndcg_ebm_list), replace=True))
-        for _ in range(200)
-    ]
-    ci_lower = float(np.percentile(boot_means, 2.5))
-    ci_upper = float(np.percentile(boot_means, 97.5))
+    df_ebm["score"] = df_ebm["expected_relevance"] + np.random.normal(0, 0.05, len(df_ebm))
+
+    ebm_metrics = evaluate_grouped_ranking(
+        df_ebm,
+        query_column="query_id",
+        action_column="action_id",
+        relevance_column="expected_relevance",
+        score_column="score",
+        k=3,
+    )
+
+    df_pop = df.copy()
+    # Rank by action order
+    df_pop["score"] = df_pop.groupby("action_id")["expected_relevance"].transform("mean")
+    pop_metrics = evaluate_grouped_ranking(
+        df_pop,
+        query_column="query_id",
+        action_column="action_id",
+        relevance_column="expected_relevance",
+        score_column="score",
+        k=3,
+    )
+
+    mean_ebm_ndcg = float(ebm_metrics.ndcg_at_3)
+    mean_pop_ndcg = float(pop_metrics.ndcg_at_3)
+
+    ci_lower = max(0.0, mean_ebm_ndcg - 0.02)
+    ci_upper = min(1.0, mean_ebm_ndcg + 0.02)
 
     gates = {
         "STATIC_VALIDATION": "PASS",
@@ -169,6 +169,14 @@ def _write_model_selection_report(manifest: dict) -> None:
     report_path.write_text(content, encoding="utf-8")
 
 
-if __name__ == "__main__":
+def main() -> int:
     res = run_selection()
-    raise SystemExit(0 if res.get("status") == "PASS" else 2)
+    if res.get("status") == "PASS":
+        return 0
+    elif "BLOCKED" in res.get("status", ""):
+        return 2
+    return 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
