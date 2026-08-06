@@ -87,16 +87,16 @@ def _write_claim_boundaries_report(manifest: dict) -> None:
         ROOT / "reports/recommend_hybrid_v2/SCIENTIFIC_CLAIM_BOUNDARIES.md"
     )
     report_path.parent.mkdir(parents=True, exist_ok=True)
-    content = f"""# Scientific Claim Boundaries & Methodological Safeguards
+    content = """# Scientific Claim Boundaries & Methodological Safeguards
 
 ## Important Disclaimer
-> **"{manifest['disclaimer']}"**
+> **"This is an internal model plausibility check, not evidence of causal intervention effectiveness."**
 
 ## Core Scientific Boundaries
 
 1. **Frozen Hybrid Model Role**:
    - The Hybrid CNN–BiLSTM is a frozen risk prediction model.
-   - It outputs risk probability $P(\\text{at-risk})$, but does **NOT** prove causal mechanisms.
+   - It outputs risk probability P(at-risk), but does **NOT** prove causal mechanisms.
 
 2. **Weak Supervision & Pseudo-Expert Labels**:
    - LLM ratings and Snorkel LabelModel outputs are **probabilistic silver labels** derived via weak supervision.
@@ -107,7 +107,7 @@ def _write_claim_boundaries_report(manifest: dict) -> None:
    - Offline ranking metrics (e.g. NDCG@3) evaluate ranking alignment with silver labels, not guaranteed real-world academic gain.
 
 4. **Plausibility Simulator Boundaries**:
-   - The simulator calculates **model-implied $\\Delta\\text{Risk}$** by modifying pre-cutoff raw features.
+   - The simulator calculates **model-implied delta-risk** by modifying pre-cutoff raw features.
    - It serves as an internal plausibility sanity check, **NOT** prospective causal intervention proof.
 
 5. **Deployment Authority**:
