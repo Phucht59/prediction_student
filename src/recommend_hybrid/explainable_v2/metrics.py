@@ -33,10 +33,10 @@ def _pairwise_accuracy(relevance: np.ndarray, scores: np.ndarray) -> tuple[int, 
             if relevance[left] == relevance[right]:
                 continue
             total += 1
-            expected = relevance[left] > relevance[right]
-            predicted = scores[left] > scores[right]
             if scores[left] == scores[right]:
                 continue
+            expected = relevance[left] > relevance[right]
+            predicted = scores[left] > scores[right]
             correct += int(expected == predicted)
     return correct, total
 
@@ -119,6 +119,27 @@ def evaluate_grouped_ranking(
     )
 
 
+def _bootstrap_sample(
+    frame: pd.DataFrame,
+    sampled_query_ids: np.ndarray,
+    *,
+    query_column: str,
+) -> pd.DataFrame:
+    """Copy sampled queries and assign unique bootstrap query identities.
+
+    Query IDs can occur more than once in a with-replacement bootstrap sample.
+    Renaming each draw prevents duplicated draws from being collapsed by the
+    grouped metric evaluator.
+    """
+
+    parts: list[pd.DataFrame] = []
+    for draw_index, query_id in enumerate(sampled_query_ids):
+        part = frame.loc[frame[query_column].eq(query_id)].copy()
+        part[query_column] = f"bootstrap-{draw_index}"
+        parts.append(part)
+    return pd.concat(parts, ignore_index=True)
+
+
 def grouped_bootstrap_difference(
     full: pd.DataFrame,
     baseline: pd.DataFrame,
@@ -140,18 +161,16 @@ def grouped_bootstrap_difference(
     if iterations < 100:
         raise ValueError("bootstrap requires at least 100 iterations")
 
+    valid_metrics = set(RankingMetrics.__dataclass_fields__)
+    if metric not in valid_metrics:
+        raise ValueError(f"unknown ranking metric: {metric}")
+
     rng = np.random.default_rng(seed)
     differences: list[float] = []
     for _ in range(iterations):
         sampled = rng.choice(query_ids, size=len(query_ids), replace=True)
-        sampled_full = pd.concat(
-            [full.loc[full[query_column].eq(query_id)] for query_id in sampled],
-            ignore_index=True,
-        )
-        sampled_baseline = pd.concat(
-            [baseline.loc[baseline[query_column].eq(query_id)] for query_id in sampled],
-            ignore_index=True,
-        )
+        sampled_full = _bootstrap_sample(full, sampled, query_column=query_column)
+        sampled_baseline = _bootstrap_sample(baseline, sampled, query_column=query_column)
         full_metric = getattr(
             evaluate_grouped_ranking(sampled_full, query_column=query_column), metric
         )
