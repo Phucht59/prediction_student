@@ -1,0 +1,44 @@
+{
+  "status": "COMPLETE",
+  "source_feature_table_path": "artifacts\\recommend_hybrid\\explainable_v2\\data\\learner_stage_features.parquet",
+  "source_feature_table_sha256": "a55b7063b40eef8a26e393547f0acc246b604b39315c5a119e615cd96ecaab04",
+  "query_count": 62525,
+  "student_count": 15675,
+  "candidate_count_before_filtering": 312625,
+  "expected_candidate_count": 312625,
+  "candidate_count_after_feasibility": 0,
+  "ranking_eligible_count": 0,
+  "risk_band_counts": {
+    "BORDERLINE": 38830,
+    "LOW": 13147,
+    "HIGH": 10548
+  },
+  "risk_route_counts": {
+    "MONITOR": 38830,
+    "NO_ACTION": 13147,
+    "HUMAN_REVIEW": 10548
+  },
+  "action_counts_before_filtering": {
+    "ASSESSMENT_COMPLETION": 62525,
+    "RECOVER_ENGAGEMENT": 62525,
+    "STUDY_REGULARITY": 62525,
+    "TARGETED_CONTENT_REVIEW": 62525,
+    "QUIZ_RETRIEVAL_PRACTICE": 62525
+  },
+  "eligible_counts_by_action": {
+    "ASSESSMENT_COMPLETION": 0,
+    "QUIZ_RETRIEVAL_PRACTICE": 0,
+    "RECOVER_ENGAGEMENT": 0,
+    "STUDY_REGULARITY": 0,
+    "TARGETED_CONTENT_REVIEW": 0
+  },
+  "queries_with_zero_feasible_actions": 0,
+  "high_risk_queries": 10548,
+  "high_risk_queries_with_zero_feasible_actions": 10548,
+  "duplicate_query_action_count": 0,
+  "missing_action_slots": 0,
+  "invalid_action_rate": 0.0,
+  "post_cutoff_violation_count": 0,
+  "forbidden_column_count": 0,
+  "runtime_authorized": false
+}

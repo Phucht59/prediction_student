@@ -1,10 +1,10 @@
-"""Generate five candidates only after the gated feature table exists."""
 from pathlib import Path
-import json
-ROOT=Path(__file__).resolve().parents[3]
+import sys
+ROOT=Path(__file__).resolve().parents[3]; sys.path.insert(0,str(ROOT))
+from src.recommend_hybrid.explainable_v2.candidate_builder import build
 def main():
-    out=ROOT/"artifacts/recommend_hybrid/explainable_v2/data"
-    out.mkdir(parents=True,exist_ok=True)
-    (out/"ACTION_CANDIDATES_MANIFEST.json").write_text(json.dumps({"status":"BLOCKED","reason":"feature table unavailable","runtime_authorized":False},indent=2)+"\n",encoding="utf-8")
-    return 2
+    try: build(ROOT); print("STATUS: COMPLETE"); return 0
+    except FileNotFoundError as exc: print("STATUS: BLOCKED",exc); return 2
+    except RuntimeError as exc: print(str(exc)); return 2
+    except Exception as exc: print("STATUS: FAILED_IMPLEMENTATION_ERROR",repr(exc)); return 1
 if __name__=="__main__": raise SystemExit(main())
