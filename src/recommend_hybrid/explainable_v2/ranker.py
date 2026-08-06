@@ -45,7 +45,7 @@ def feature_frame(features: RecommendationFeatures) -> pd.DataFrame:
     raw = asdict(features)
     row = {column: raw.get(column) for column in FEATURE_COLUMNS}
     row["stage"] = features.stage.value
-    return pd.DataFrame([row], columns=FEATURE_COLUMNS)
+    return pd.DataFrame([row], columns=list(FEATURE_COLUMNS))
 
 
 class FiveEBMRanker:
@@ -82,6 +82,7 @@ class FiveEBMRanker:
         if missing:
             raise ValueError(f"training frame is missing features: {sorted(missing)}")
         regressor_class = self._regressor_class()
+        feature_list = list(FEATURE_COLUMNS)
         for action in CanonicalAction:
             if action not in targets:
                 raise ValueError(f"missing relevance target for {action.value}")
@@ -99,7 +100,7 @@ class FiveEBMRanker:
                     raise ValueError(f"invalid sample weights for {action.value}")
                 fit_kwargs["sample_weight"] = weights.loc[retained].to_numpy(dtype=float)
             model.fit(
-                frame.loc[retained, FEATURE_COLUMNS],
+                frame.loc[retained, feature_list],
                 target.loc[retained] / 3.0,
                 **fit_kwargs,
             )
@@ -133,9 +134,9 @@ class FiveEBMRanker:
             if model is None:
                 raise RuntimeError(f"no fitted relevance model for {action.value}")
             prediction = float(np.asarray(model.predict(frame))[0])
-            calibrated = min(max(prediction, 0.0), 1.0)
+            bounded = min(max(prediction, 0.0), 1.0)
             explanation = self._local_explanation(model, frame)
-            results.append(ActionScore(action, calibrated, explanation))
+            results.append(ActionScore(action, bounded, explanation))
         results.sort(key=lambda item: (-item.score, item.action.value))
         return tuple(results)
 
