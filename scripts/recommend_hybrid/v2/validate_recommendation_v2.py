@@ -11,6 +11,7 @@ DEFAULT_TAXONOMY = ROOT / "artifacts/recommend_hybrid/v2/taxonomy_audit.json"
 DEFAULT_TIMELINESS = ROOT / "artifacts/recommend_hybrid/v2/assessment_timeliness_audit.json"
 DEFAULT_SIMULATION = ROOT / "artifacts/recommend_hybrid/v2/simulation_summary.json"
 DEFAULT_EVIDENCE = ROOT / "artifacts/recommend_hybrid/v2/FULL_POPULATION_EVIDENCE.json"
+DEFAULT_BREAKDOWN = ROOT / "artifacts/recommend_hybrid/v2/STAGE_ACTION_BREAKDOWN.json"
 DEFAULT_OUTPUT = ROOT / "reports/recommend_hybrid/v2/RECOMMENDATION_V2_VALIDATION.json"
 STAGES = {"EARLY_20", "EARLY_35", "MIDDLE_50", "LATE_75"}
 ACTIONS = {
@@ -33,13 +34,17 @@ def run(
     timeliness_path: Path,
     simulation_path: Path,
     evidence_path: Path,
+    breakdown_path: Path,
     output_path: Path,
 ) -> dict[str, object]:
     taxonomy = _load(taxonomy_path)
     timeliness = _load(timeliness_path)
     simulation = _load(simulation_path)
     evidence = _load(evidence_path)
+    breakdown = _load(breakdown_path)
     stage_rows = set(evidence.get("eligibility", {}).get("per_stage_test", {}))
+    ranking_stages = set(breakdown.get("stages", {}))
+    breakdown_actions = {row.get("action_id") for row in breakdown.get("actions", [])}
     action_order = set(evidence.get("action_order", []))
     gates = {
         "taxonomy_complete": taxonomy.get("status") in {"PASS", "REVIEW_REQUIRED"},
@@ -52,8 +57,12 @@ def run(
             evidence.get("population", {}).get("student_leakage_count", -1)
         )
         == 0,
-        "four_stage_test_evidence": stage_rows == STAGES,
+        "four_stage_eligibility_evidence": stage_rows == STAGES,
+        "four_stage_ranking_breakdown": ranking_stages == STAGES,
+        "all_action_breakdowns": breakdown_actions == ACTIONS,
+        "ranking_baseline_comparison": bool(breakdown.get("baselines")),
         "test_not_used_for_selection": evidence.get("test_used_for_policy_or_weight_selection") is False,
+        "breakdown_test_not_used_for_selection": breakdown.get("test_used_for_weight_selection") is False,
         "simulation_complete": simulation.get("status") == "COMPLETE",
         "simulation_all_actions": set(simulation.get("learned_actions", [])) == ACTIONS,
         "simulation_no_constraint_violations": int(
@@ -82,6 +91,7 @@ def run(
             "assessment_timeliness": str(timeliness_path.relative_to(ROOT)),
             "simulation": str(simulation_path.relative_to(ROOT)),
             "evidence": str(evidence_path.relative_to(ROOT)),
+            "stage_action_breakdown": str(breakdown_path.relative_to(ROOT)),
         },
     }
     output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -97,6 +107,7 @@ def main() -> None:
     parser.add_argument("--timeliness", type=Path, default=DEFAULT_TIMELINESS)
     parser.add_argument("--simulation", type=Path, default=DEFAULT_SIMULATION)
     parser.add_argument("--evidence", type=Path, default=DEFAULT_EVIDENCE)
+    parser.add_argument("--breakdown", type=Path, default=DEFAULT_BREAKDOWN)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     args = parser.parse_args()
     payload = run(
@@ -104,6 +115,7 @@ def main() -> None:
         args.timeliness,
         args.simulation,
         args.evidence,
+        args.breakdown,
         args.output,
     )
     print(json.dumps({"status": payload["status"], "output": str(args.output)}))
