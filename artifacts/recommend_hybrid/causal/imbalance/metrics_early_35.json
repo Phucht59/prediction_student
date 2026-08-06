@@ -1,0 +1,157 @@
+{
+  "canonical_prediction_checkpoint_replaced": false,
+  "embedding_dimension": 96,
+  "input": "artifacts\\recommend_hybrid\\causal\\input\\embeddings_by_stage\\frozen_embeddings_early_35.npz",
+  "metadata": {
+    "stage": "EARLY_35"
+  },
+  "modes": [
+    "none",
+    "class_weight",
+    "smote",
+    "adasyn"
+  ],
+  "random_state": 20260806,
+  "results": [
+    {
+      "canonical_checkpoint_replaced": false,
+      "fitted_class_counts": [
+        3074,
+        2271
+      ],
+      "fitted_train_count": 5345,
+      "metrics": {
+        "balanced_accuracy": 0.6692207033387947,
+        "brier_score": 0.26268993684656367,
+        "confusion_matrix": {
+          "fn": 231,
+          "fp": 1726,
+          "tn": 1376,
+          "tp": 1966
+        },
+        "f1": 0.6676855153676345,
+        "pr_auc": 0.763622577531984,
+        "precision": 0.5325027085590466,
+        "recall": 0.8948566226672735,
+        "roc_auc": 0.8013020803528168,
+        "specificity": 0.4435847840103159
+      },
+      "mode": "none",
+      "original_class_counts": [
+        3074,
+        2271
+      ],
+      "original_train_count": 5345,
+      "resampling_scope": "TRAIN_EMBEDDINGS_ONLY",
+      "synthetic_train_count": 0,
+      "threshold": 0.5904654507789662,
+      "warning": null
+    },
+    {
+      "canonical_checkpoint_replaced": false,
+      "fitted_class_counts": [
+        3074,
+        2271
+      ],
+      "fitted_train_count": 5345,
+      "metrics": {
+        "balanced_accuracy": 0.7148966690701551,
+        "brier_score": 0.2857952024753721,
+        "confusion_matrix": {
+          "fn": 468,
+          "fp": 1108,
+          "tn": 1994,
+          "tp": 1729
+        },
+        "f1": 0.6869288835915772,
+        "pr_auc": 0.7675197289807673,
+        "precision": 0.609446598519563,
+        "recall": 0.7869822485207101,
+        "roc_auc": 0.8041303612246581,
+        "specificity": 0.6428110896196002
+      },
+      "mode": "class_weight",
+      "original_class_counts": [
+        3074,
+        2271
+      ],
+      "original_train_count": 5345,
+      "resampling_scope": "TRAIN_EMBEDDINGS_ONLY",
+      "synthetic_train_count": 0,
+      "threshold": 0.7553664524177293,
+      "warning": null
+    },
+    {
+      "canonical_checkpoint_replaced": false,
+      "fitted_class_counts": [
+        3074,
+        3074
+      ],
+      "fitted_train_count": 6148,
+      "metrics": {
+        "balanced_accuracy": 0.6154539467834192,
+        "brier_score": 0.33797345332430545,
+        "confusion_matrix": {
+          "fn": 111,
+          "fp": 2229,
+          "tn": 873,
+          "tp": 2086
+        },
+        "f1": 0.6406633906633906,
+        "pr_auc": 0.7466326326005478,
+        "precision": 0.48342989571263034,
+        "recall": 0.9494765589440146,
+        "roc_auc": 0.7898205072446542,
+        "specificity": 0.281431334622824
+      },
+      "mode": "smote",
+      "original_class_counts": [
+        3074,
+        2271
+      ],
+      "original_train_count": 5345,
+      "resampling_scope": "TRAIN_EMBEDDINGS_ONLY",
+      "synthetic_train_count": 803,
+      "threshold": 0.6328071091089257,
+      "warning": null
+    },
+    {
+      "canonical_checkpoint_replaced": false,
+      "fitted_class_counts": [
+        3074,
+        3143
+      ],
+      "fitted_train_count": 6217,
+      "metrics": {
+        "balanced_accuracy": 0.7109822696502792,
+        "brier_score": 0.2946657371186377,
+        "confusion_matrix": {
+          "fn": 777,
+          "fp": 696,
+          "tn": 2406,
+          "tp": 1420
+        },
+        "f1": 0.6584743797820543,
+        "pr_auc": 0.7384019519795304,
+        "precision": 0.6710775047258979,
+        "recall": 0.646335912608102,
+        "roc_auc": 0.782677539003864,
+        "specificity": 0.7756286266924565
+      },
+      "mode": "adasyn",
+      "original_class_counts": [
+        3074,
+        2271
+      ],
+      "original_train_count": 5345,
+      "resampling_scope": "TRAIN_EMBEDDINGS_ONLY",
+      "synthetic_train_count": 872,
+      "threshold": 0.8294105838691483,
+      "warning": null
+    }
+  ],
+  "status": "COMPLETE",
+  "study_id": "frozen_hybrid_embedding_imbalance_sensitivity",
+  "test_used_for": "FINAL_METRICS_ONLY",
+  "validation_used_for": "THRESHOLD_SELECTION_ONLY"
+}

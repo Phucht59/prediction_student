@@ -1,0 +1,534 @@
+{
+  "action_feature_dim": 6,
+  "action_order": [
+    "ASSESSMENT_COMPLETION",
+    "STUDY_REGULARITY",
+    "VLE_ENGAGEMENT",
+    "QUIZ_OR_RETRIEVAL_PRACTICE",
+    "CONTENT_REVIEW"
+  ],
+  "checkpoint_hashes": {
+    "artifacts\\recommend_hybrid\\final_stage_aware_v2\\checkpoints\\outer_0_seed_1201.pt": "3c4087fa350044ae8613d65d9b9e98826a732660678719afcac49881a094bcf5",
+    "artifacts\\recommend_hybrid\\final_stage_aware_v2\\checkpoints\\outer_0_seed_2026.pt": "ebcd8d11c13f405d755b68eadee4b6bc3efc62b63eaf4d129fabfc359cd3dca1",
+    "artifacts\\recommend_hybrid\\final_stage_aware_v2\\checkpoints\\outer_0_seed_3407.pt": "0ffece2d3e1c36c2f787647343d7897c0fbe8bde307197b3ce29ca0875421be4",
+    "artifacts\\recommend_hybrid\\final_stage_aware_v2\\checkpoints\\outer_0_seed_42.pt": "fc37fe55ab272aad7a548d802decff9546a4702b2828bb6ec5d3dd3079833070",
+    "artifacts\\recommend_hybrid\\final_stage_aware_v2\\checkpoints\\outer_0_seed_7319.pt": "5ceb7989daf4c759cffc501219b18b13379cc2b7d32b7439654d29249ca6b2ae",
+    "artifacts\\recommend_hybrid\\final_stage_aware_v2\\checkpoints\\outer_1_seed_1201.pt": "d3687ab4e3fb56b2c1c96f96760847da5c53280d383918e19c90ae14c2bb0b29",
+    "artifacts\\recommend_hybrid\\final_stage_aware_v2\\checkpoints\\outer_1_seed_2026.pt": "4b54c0b1517e0a495fddac6d3fdbb3e37c7398c1a3a6c6603689584b9c1c68b8",
+    "artifacts\\recommend_hybrid\\final_stage_aware_v2\\checkpoints\\outer_1_seed_3407.pt": "38b27492f9f8f67ec515f348f62d687d35f9cf51aaacec01959ff71a683488b6",
+    "artifacts\\recommend_hybrid\\final_stage_aware_v2\\checkpoints\\outer_1_seed_42.pt": "c3588386c436db8564255b5682b97ef80349681bef7fe2c780ee82cf32827095",
+    "artifacts\\recommend_hybrid\\final_stage_aware_v2\\checkpoints\\outer_1_seed_7319.pt": "0ac5f10921c882c45159f197a3b4b7804bbcff66b37eeba2d4f9cd8753d5b78d",
+    "artifacts\\recommend_hybrid\\final_stage_aware_v2\\checkpoints\\outer_2_seed_1201.pt": "84f2ce918cc9386102fffc633cec0e8f600ebde87e6653ba1f5f4f81771fdeca",
+    "artifacts\\recommend_hybrid\\final_stage_aware_v2\\checkpoints\\outer_2_seed_2026.pt": "27b38d68e739218c8eb59a21f9c65279f9a51f73a145b146b70f6ed8d953af2d",
+    "artifacts\\recommend_hybrid\\final_stage_aware_v2\\checkpoints\\outer_2_seed_3407.pt": "40c5dd5a48ef94ab7e02c95a81dc8affb12b3bab705e3a3f108ac0a319e540e2",
+    "artifacts\\recommend_hybrid\\final_stage_aware_v2\\checkpoints\\outer_2_seed_42.pt": "f2043c692a74a8d7526e12466609fd4a7c1c74e47e033bf9c50fbc09ae911a36",
+    "artifacts\\recommend_hybrid\\final_stage_aware_v2\\checkpoints\\outer_2_seed_7319.pt": "3ab9893817d5905b24f9de3141c0256cf2877861f99919e73a54fe7a89d2f592"
+  },
+  "claim_boundary": "OFFLINE_CONDITIONAL_ACTION_RANKING_NOT_CAUSAL_EFFECT",
+  "frozen_hybrid_modified": false,
+  "group_count": 62525,
+  "group_feature_dim": 114,
+  "label_authority": "TRAIN_ONLY_SCIENTIFIC_SILVER_LABELS",
+  "model_id": "conditional_hybrid_action_ranker",
+  "outer_folds": 3,
+  "overall": {
+    "abstention_rate": 0.07579368252698926,
+    "action_diversity": 5,
+    "conditional_precision_at_1_all_positive": 1.0,
+    "correct_issued_actions": 57786,
+    "end_to_end_precision_at_1": 1.0,
+    "false_issue_groups": 0,
+    "groups": 62525,
+    "issued_groups": 57786,
+    "issued_positive_groups": 57786,
+    "mrr": 1.0,
+    "ndcg_at_3": 1.0,
+    "positive_group_coverage": 0.997256018638364,
+    "positive_groups": 57945,
+    "stage_a_precision": 1.0,
+    "stage_a_recall": 0.997256018638364,
+    "stage_b_conditional_precision_at_1": 1.0,
+    "top_action_concentration": 0.37836154085764717,
+    "top_action_counts": {
+      "ASSESSMENT_COMPLETION": 1583,
+      "CONTENT_REVIEW": 21864,
+      "QUIZ_OR_RETRIEVAL_PRACTICE": 16655,
+      "STUDY_REGULARITY": 9060,
+      "VLE_ENGAGEMENT": 8624
+    }
+  },
+  "per_outer_fold": [
+    {
+      "outer_fold": 0,
+      "seeds": [
+        {
+          "best_epoch": 48,
+          "checkpoint": "artifacts\\recommend_hybrid\\final_stage_aware_v2\\checkpoints\\outer_0_seed_42.pt",
+          "checkpoint_sha256": "fc37fe55ab272aad7a548d802decff9546a4702b2828bb6ec5d3dd3079833070",
+          "seed": 42,
+          "validation_score": 0.9968155155879533
+        },
+        {
+          "best_epoch": 38,
+          "checkpoint": "artifacts\\recommend_hybrid\\final_stage_aware_v2\\checkpoints\\outer_0_seed_1201.pt",
+          "checkpoint_sha256": "3c4087fa350044ae8613d65d9b9e98826a732660678719afcac49881a094bcf5",
+          "seed": 1201,
+          "validation_score": 0.9969286133124671
+        },
+        {
+          "best_epoch": 48,
+          "checkpoint": "artifacts\\recommend_hybrid\\final_stage_aware_v2\\checkpoints\\outer_0_seed_2026.pt",
+          "checkpoint_sha256": "ebcd8d11c13f405d755b68eadee4b6bc3efc62b63eaf4d129fabfc359cd3dca1",
+          "seed": 2026,
+          "validation_score": 0.9968848607507557
+        },
+        {
+          "best_epoch": 36,
+          "checkpoint": "artifacts\\recommend_hybrid\\final_stage_aware_v2\\checkpoints\\outer_0_seed_3407.pt",
+          "checkpoint_sha256": "0ffece2d3e1c36c2f787647343d7897c0fbe8bde307197b3ce29ca0875421be4",
+          "seed": 3407,
+          "validation_score": 0.9968240660661722
+        },
+        {
+          "best_epoch": 42,
+          "checkpoint": "artifacts\\recommend_hybrid\\final_stage_aware_v2\\checkpoints\\outer_0_seed_7319.pt",
+          "checkpoint_sha256": "5ceb7989daf4c759cffc501219b18b13379cc2b7d32b7439654d29249ca6b2ae",
+          "seed": 7319,
+          "validation_score": 0.9969085510665545
+        }
+      ],
+      "test_groups": 20854,
+      "test_metrics": {
+        "abstention_rate": 0.07499760237844055,
+        "action_diversity": 5,
+        "conditional_precision_at_1_all_positive": 1.0,
+        "correct_issued_actions": 19290,
+        "end_to_end_precision_at_1": 1.0,
+        "false_issue_groups": 0,
+        "groups": 20854,
+        "issued_groups": 19290,
+        "issued_positive_groups": 19290,
+        "mrr": 1.0,
+        "ndcg_at_3": 1.0,
+        "positive_group_coverage": 0.9975178405212535,
+        "positive_groups": 19338,
+        "stage_a_precision": 1.0,
+        "stage_a_recall": 0.9975178405212535,
+        "stage_b_conditional_precision_at_1": 1.0,
+        "top_action_concentration": 0.43043027475375845,
+        "top_action_counts": {
+          "ASSESSMENT_COMPLETION": 57,
+          "CONTENT_REVIEW": 4544,
+          "QUIZ_OR_RETRIEVAL_PRACTICE": 3969,
+          "STUDY_REGULARITY": 2417,
+          "VLE_ENGAGEMENT": 8303
+        }
+      },
+      "test_students": 5223,
+      "thresholds": {
+        "action_probability_by_id": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "direct_action_blend": 0.25,
+        "minimum_action_margin": 0.0,
+        "minimum_action_probability": 0.3,
+        "stage_gate_probability": [
+          0.3,
+          0.3,
+          0.3,
+          0.3
+        ],
+        "stage_order": [
+          "EARLY_20",
+          "EARLY_35",
+          "MIDDLE_50",
+          "LATE_75"
+        ]
+      },
+      "train_groups": 31255,
+      "train_students": 7843,
+      "validation_groups": 10416,
+      "validation_students": 2609
+    },
+    {
+      "outer_fold": 1,
+      "seeds": [
+        {
+          "best_epoch": 27,
+          "checkpoint": "artifacts\\recommend_hybrid\\final_stage_aware_v2\\checkpoints\\outer_1_seed_42.pt",
+          "checkpoint_sha256": "c3588386c436db8564255b5682b97ef80349681bef7fe2c780ee82cf32827095",
+          "seed": 42,
+          "validation_score": 0.996729229447343
+        },
+        {
+          "best_epoch": 50,
+          "checkpoint": "artifacts\\recommend_hybrid\\final_stage_aware_v2\\checkpoints\\outer_1_seed_1201.pt",
+          "checkpoint_sha256": "d3687ab4e3fb56b2c1c96f96760847da5c53280d383918e19c90ae14c2bb0b29",
+          "seed": 1201,
+          "validation_score": 0.9969102674414843
+        },
+        {
+          "best_epoch": 45,
+          "checkpoint": "artifacts\\recommend_hybrid\\final_stage_aware_v2\\checkpoints\\outer_1_seed_2026.pt",
+          "checkpoint_sha256": "4b54c0b1517e0a495fddac6d3fdbb3e37c7398c1a3a6c6603689584b9c1c68b8",
+          "seed": 2026,
+          "validation_score": 0.9968253586682223
+        },
+        {
+          "best_epoch": 26,
+          "checkpoint": "artifacts\\recommend_hybrid\\final_stage_aware_v2\\checkpoints\\outer_1_seed_3407.pt",
+          "checkpoint_sha256": "38b27492f9f8f67ec515f348f62d687d35f9cf51aaacec01959ff71a683488b6",
+          "seed": 3407,
+          "validation_score": 0.996600909427016
+        },
+        {
+          "best_epoch": 34,
+          "checkpoint": "artifacts\\recommend_hybrid\\final_stage_aware_v2\\checkpoints\\outer_1_seed_7319.pt",
+          "checkpoint_sha256": "0ac5f10921c882c45159f197a3b4b7804bbcff66b37eeba2d4f9cd8753d5b78d",
+          "seed": 7319,
+          "validation_score": 0.9966227862782051
+        }
+      ],
+      "test_groups": 20839,
+      "test_metrics": {
+        "abstention_rate": 0.07437976870291285,
+        "action_diversity": 5,
+        "conditional_precision_at_1_all_positive": 1.0,
+        "correct_issued_actions": 19289,
+        "end_to_end_precision_at_1": 1.0,
+        "false_issue_groups": 0,
+        "groups": 20839,
+        "issued_groups": 19289,
+        "issued_positive_groups": 19289,
+        "mrr": 1.0,
+        "ndcg_at_3": 1.0,
+        "positive_group_coverage": 0.9982921022668461,
+        "positive_groups": 19322,
+        "stage_a_precision": 1.0,
+        "stage_a_recall": 0.9982921022668461,
+        "stage_b_conditional_precision_at_1": 1.0,
+        "top_action_concentration": 0.44947897765565864,
+        "top_action_counts": {
+          "ASSESSMENT_COMPLETION": 1083,
+          "CONTENT_REVIEW": 8670,
+          "QUIZ_OR_RETRIEVAL_PRACTICE": 6499,
+          "STUDY_REGULARITY": 2814,
+          "VLE_ENGAGEMENT": 223
+        }
+      },
+      "test_students": 5226,
+      "thresholds": {
+        "action_probability_by_id": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "direct_action_blend": 0.25,
+        "minimum_action_margin": 0.0,
+        "minimum_action_probability": 0.3,
+        "stage_gate_probability": [
+          0.3,
+          0.3,
+          0.3,
+          0.3
+        ],
+        "stage_order": [
+          "EARLY_20",
+          "EARLY_35",
+          "MIDDLE_50",
+          "LATE_75"
+        ]
+      },
+      "train_groups": 31234,
+      "train_students": 7838,
+      "validation_groups": 10452,
+      "validation_students": 2611
+    },
+    {
+      "outer_fold": 2,
+      "seeds": [
+        {
+          "best_epoch": 34,
+          "checkpoint": "artifacts\\recommend_hybrid\\final_stage_aware_v2\\checkpoints\\outer_2_seed_42.pt",
+          "checkpoint_sha256": "f2043c692a74a8d7526e12466609fd4a7c1c74e47e033bf9c50fbc09ae911a36",
+          "seed": 42,
+          "validation_score": 0.996561931406072
+        },
+        {
+          "best_epoch": 34,
+          "checkpoint": "artifacts\\recommend_hybrid\\final_stage_aware_v2\\checkpoints\\outer_2_seed_1201.pt",
+          "checkpoint_sha256": "84f2ce918cc9386102fffc633cec0e8f600ebde87e6653ba1f5f4f81771fdeca",
+          "seed": 1201,
+          "validation_score": 0.9965600663143717
+        },
+        {
+          "best_epoch": 30,
+          "checkpoint": "artifacts\\recommend_hybrid\\final_stage_aware_v2\\checkpoints\\outer_2_seed_2026.pt",
+          "checkpoint_sha256": "27b38d68e739218c8eb59a21f9c65279f9a51f73a145b146b70f6ed8d953af2d",
+          "seed": 2026,
+          "validation_score": 0.996500259040514
+        },
+        {
+          "best_epoch": 43,
+          "checkpoint": "artifacts\\recommend_hybrid\\final_stage_aware_v2\\checkpoints\\outer_2_seed_3407.pt",
+          "checkpoint_sha256": "40c5dd5a48ef94ab7e02c95a81dc8affb12b3bab705e3a3f108ac0a319e540e2",
+          "seed": 3407,
+          "validation_score": 0.9965250440368875
+        },
+        {
+          "best_epoch": 49,
+          "checkpoint": "artifacts\\recommend_hybrid\\final_stage_aware_v2\\checkpoints\\outer_2_seed_7319.pt",
+          "checkpoint_sha256": "3ab9893817d5905b24f9de3141c0256cf2877861f99919e73a54fe7a89d2f592",
+          "seed": 7319,
+          "validation_score": 0.9966709149310953
+        }
+      ],
+      "test_groups": 20832,
+      "test_metrics": {
+        "abstention_rate": 0.07800499231950841,
+        "action_diversity": 5,
+        "conditional_precision_at_1_all_positive": 1.0,
+        "correct_issued_actions": 19207,
+        "end_to_end_precision_at_1": 1.0,
+        "false_issue_groups": 0,
+        "groups": 20832,
+        "issued_groups": 19207,
+        "issued_positive_groups": 19207,
+        "mrr": 1.0,
+        "ndcg_at_3": 1.0,
+        "positive_group_coverage": 0.9959554057557687,
+        "positive_groups": 19285,
+        "stage_a_precision": 1.0,
+        "stage_a_recall": 0.9959554057557687,
+        "stage_b_conditional_precision_at_1": 1.0,
+        "top_action_concentration": 0.4503566408080387,
+        "top_action_counts": {
+          "ASSESSMENT_COMPLETION": 443,
+          "CONTENT_REVIEW": 8650,
+          "QUIZ_OR_RETRIEVAL_PRACTICE": 6187,
+          "STUDY_REGULARITY": 3829,
+          "VLE_ENGAGEMENT": 98
+        }
+      },
+      "test_students": 5226,
+      "thresholds": {
+        "action_probability_by_id": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "direct_action_blend": 0.25,
+        "minimum_action_margin": 0.0,
+        "minimum_action_probability": 0.3,
+        "stage_gate_probability": [
+          0.3,
+          0.3,
+          0.3,
+          0.3
+        ],
+        "stage_order": [
+          "EARLY_20",
+          "EARLY_35",
+          "MIDDLE_50",
+          "LATE_75"
+        ]
+      },
+      "train_groups": 31292,
+      "train_students": 7838,
+      "validation_groups": 10401,
+      "validation_students": 2611
+    }
+  ],
+  "per_stage": {
+    "EARLY_20": {
+      "abstention_rate": 0.2860678498128697,
+      "action_diversity": 3,
+      "conditional_precision_at_1_all_positive": 1.0,
+      "correct_issued_actions": 11827,
+      "end_to_end_precision_at_1": 1.0,
+      "false_issue_groups": 0,
+      "groups": 16566,
+      "issued_groups": 11827,
+      "issued_positive_groups": 11827,
+      "mrr": 1.0,
+      "ndcg_at_3": 1.0,
+      "positive_group_coverage": 0.9867345236108793,
+      "positive_groups": 11986,
+      "stage_a_precision": 1.0,
+      "stage_a_recall": 0.9867345236108793,
+      "stage_b_conditional_precision_at_1": 1.0,
+      "top_action_concentration": 0.5590597784729855,
+      "top_action_counts": {
+        "ASSESSMENT_COMPLETION": 1447,
+        "CONTENT_REVIEW": 0,
+        "QUIZ_OR_RETRIEVAL_PRACTICE": 0,
+        "STUDY_REGULARITY": 6612,
+        "VLE_ENGAGEMENT": 3768
+      }
+    },
+    "EARLY_35": {
+      "abstention_rate": 0.0,
+      "action_diversity": 4,
+      "conditional_precision_at_1_all_positive": 1.0,
+      "correct_issued_actions": 15946,
+      "end_to_end_precision_at_1": 1.0,
+      "false_issue_groups": 0,
+      "groups": 15946,
+      "issued_groups": 15946,
+      "issued_positive_groups": 15946,
+      "mrr": 1.0,
+      "ndcg_at_3": 1.0,
+      "positive_group_coverage": 1.0,
+      "positive_groups": 15946,
+      "stage_a_precision": 1.0,
+      "stage_a_recall": 1.0,
+      "stage_b_conditional_precision_at_1": 1.0,
+      "top_action_concentration": 0.7278314310798947,
+      "top_action_counts": {
+        "ASSESSMENT_COMPLETION": 100,
+        "CONTENT_REVIEW": 0,
+        "QUIZ_OR_RETRIEVAL_PRACTICE": 11606,
+        "STUDY_REGULARITY": 1489,
+        "VLE_ENGAGEMENT": 2751
+      }
+    },
+    "LATE_75": {
+      "abstention_rate": 0.0,
+      "action_diversity": 5,
+      "conditional_precision_at_1_all_positive": 1.0,
+      "correct_issued_actions": 14635,
+      "end_to_end_precision_at_1": 1.0,
+      "false_issue_groups": 0,
+      "groups": 14635,
+      "issued_groups": 14635,
+      "issued_positive_groups": 14635,
+      "mrr": 1.0,
+      "ndcg_at_3": 1.0,
+      "positive_group_coverage": 1.0,
+      "positive_groups": 14635,
+      "stage_a_precision": 1.0,
+      "stage_a_recall": 1.0,
+      "stage_b_conditional_precision_at_1": 1.0,
+      "top_action_concentration": 0.6903997266826102,
+      "top_action_counts": {
+        "ASSESSMENT_COMPLETION": 14,
+        "CONTENT_REVIEW": 10104,
+        "QUIZ_OR_RETRIEVAL_PRACTICE": 2783,
+        "STUDY_REGULARITY": 601,
+        "VLE_ENGAGEMENT": 1133
+      }
+    },
+    "MIDDLE_50": {
+      "abstention_rate": 0.0,
+      "action_diversity": 5,
+      "conditional_precision_at_1_all_positive": 1.0,
+      "correct_issued_actions": 15378,
+      "end_to_end_precision_at_1": 1.0,
+      "false_issue_groups": 0,
+      "groups": 15378,
+      "issued_groups": 15378,
+      "issued_positive_groups": 15378,
+      "mrr": 1.0,
+      "ndcg_at_3": 1.0,
+      "positive_group_coverage": 1.0,
+      "positive_groups": 15378,
+      "stage_a_precision": 1.0,
+      "stage_a_recall": 1.0,
+      "stage_b_conditional_precision_at_1": 1.0,
+      "top_action_concentration": 0.7647288333983613,
+      "top_action_counts": {
+        "ASSESSMENT_COMPLETION": 22,
+        "CONTENT_REVIEW": 11760,
+        "QUIZ_OR_RETRIEVAL_PRACTICE": 2266,
+        "STUDY_REGULARITY": 358,
+        "VLE_ENGAGEMENT": 972
+      }
+    }
+  },
+  "release": {
+    "gates": {
+      "action_diversity": {
+        "actual": 5,
+        "required": 4,
+        "status": "PASS"
+      },
+      "four_stage_coverage": {
+        "actual": [
+          "EARLY_20",
+          "EARLY_35",
+          "LATE_75",
+          "MIDDLE_50"
+        ],
+        "required": [
+          "EARLY_20",
+          "EARLY_35",
+          "MIDDLE_50",
+          "LATE_75"
+        ],
+        "status": "PASS"
+      },
+      "frozen_hybrid_modified": {
+        "actual": false,
+        "required": false,
+        "status": "PASS"
+      },
+      "late_75_group_count": {
+        "actual": 14635,
+        "required": 100,
+        "status": "PASS"
+      },
+      "minimum_stage_precision": {
+        "actual": 1.0,
+        "required": 0.8,
+        "status": "PASS"
+      },
+      "overall_mrr": {
+        "actual": 1.0,
+        "required": 0.9,
+        "status": "PASS"
+      },
+      "overall_ndcg_at_3": {
+        "actual": 1.0,
+        "required": 0.9,
+        "status": "PASS"
+      },
+      "overall_ranking_precision": {
+        "actual": 1.0,
+        "required": 0.85,
+        "status": "PASS"
+      },
+      "student_split_leakage": {
+        "actual": 0,
+        "required": 0,
+        "status": "PASS"
+      }
+    },
+    "main_gates_pass": true,
+    "runtime_authorized": false,
+    "status": "FOUR_STAGE_CONDITIONAL_RANKING_OFFLINE_VALIDATED"
+  },
+  "schema_version": "four_stage_conditional_action_evidence_v1",
+  "seeds": [
+    42,
+    1201,
+    2026,
+    3407,
+    7319
+  ],
+  "stage_order": [
+    "EARLY_20",
+    "EARLY_35",
+    "MIDDLE_50",
+    "LATE_75"
+  ],
+  "status": "COMPLETE",
+  "student_count": 15675
+}

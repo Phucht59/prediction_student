@@ -119,8 +119,8 @@ def main() -> None:
     parser.add_argument("--force-bundle", action="store_true")
     args = parser.parse_args()
     frame = build(
-        args.output,
-        args.manifest,
+        args.output.resolve(),
+        args.manifest.resolve(),
         chunksize=args.chunksize,
         batch_size=args.batch_size,
         force_bundle=args.force_bundle,

@@ -27,6 +27,7 @@ from src.pipelines import oulad  # noqa: E402
 from src.recommend_hybrid.causal.study_regularity import (  # noqa: E402
     study_regularity_score,
 )
+from src.recommend_hybrid.causal.protocol import LANDMARK_STAGES  # noqa: E402
 from src.recommend_hybrid.contracts import Stage  # noqa: E402
 from src.recommend_hybrid.final.actions import ACTION_ORDER  # noqa: E402
 from src.recommend_hybrid.prediction_adapter import (  # noqa: E402
@@ -500,12 +501,15 @@ def _base_features(
     )
     base["outcome_pass"] = 1 - base["target"].astype(int)
     base["prediction_target"] = base["target"].astype(int)
-    base["baseline_progress"] = (
-        base["cutoff_day"] / base["module_length"]
-    ).astype(np.float32)
-    base["treatment_start_progress"] = (
-        (base["cutoff_day"] + 0.5) / base["module_length"]
-    ).astype(np.float32)
+    # The canonical day windows are integer-quantized per presentation.  Store
+    # the preregistered nominal fractions for protocol validation instead of
+    # aggregating presentation-specific rounding across rows; the raw day
+    # windows above remain the source of baseline/treatment measurements.
+    cutoff_fraction = LANDMARK_STAGES[stage].cutoff_fraction
+    base["baseline_progress"] = np.full(len(base), cutoff_fraction, dtype=np.float64)
+    base["treatment_start_progress"] = np.full(
+        len(base), cutoff_fraction + 1.0e-6, dtype=np.float64
+    )
     base["treatment_end_progress"] = (
         base["followup_end_day"] / base["module_length"]
     ).astype(np.float32)

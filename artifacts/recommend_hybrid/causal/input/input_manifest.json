@@ -1,0 +1,17 @@
+{
+  "cluster_key": "student_id",
+  "embedding_count": 96,
+  "feature_count": 110,
+  "frozen_embeddings": "artifacts\\recommend_hybrid\\causal\\input\\frozen_embeddings.npz",
+  "record_key": "record_id",
+  "source": "artifacts\\recommend_hybrid\\causal\\input\\landmark_rows.parquet",
+  "source_record_count": 16572,
+  "source_row_count": 308336,
+  "source_student_count": 15675,
+  "status": "COMPLETE",
+  "synthetic_sampling_applied": false,
+  "target_trials": "artifacts\\recommend_hybrid\\causal\\input\\target_trials.npz",
+  "treatment_registry": "artifacts\\recommend_hybrid\\causal\\input\\treatment_registry.json",
+  "treatment_rules_fitted_on": "TRAIN_ONLY",
+  "trial_row_count": 308336
+}

@@ -1,0 +1,157 @@
+{
+  "canonical_prediction_checkpoint_replaced": false,
+  "embedding_dimension": 96,
+  "input": "artifacts\\recommend_hybrid\\causal\\input\\embeddings_by_stage\\frozen_embeddings_early_20.npz",
+  "metadata": {
+    "stage": "EARLY_20"
+  },
+  "modes": [
+    "none",
+    "class_weight",
+    "smote",
+    "adasyn"
+  ],
+  "random_state": 20260806,
+  "results": [
+    {
+      "canonical_checkpoint_replaced": false,
+      "fitted_class_counts": [
+        3074,
+        2465
+      ],
+      "fitted_train_count": 5539,
+      "metrics": {
+        "balanced_accuracy": 0.5,
+        "brier_score": 0.31655193373452506,
+        "confusion_matrix": {
+          "fn": 0,
+          "fp": 3101,
+          "tn": 0,
+          "tp": 2412
+        },
+        "f1": 0.6087066246056783,
+        "pr_auc": 0.6695094495446,
+        "precision": 0.4375113368401959,
+        "recall": 1.0,
+        "roc_auc": 0.7031872107804522,
+        "specificity": 0.0
+      },
+      "mode": "none",
+      "original_class_counts": [
+        3074,
+        2465
+      ],
+      "original_train_count": 5539,
+      "resampling_scope": "TRAIN_EMBEDDINGS_ONLY",
+      "synthetic_train_count": 0,
+      "threshold": 0.03176158131192745,
+      "warning": null
+    },
+    {
+      "canonical_checkpoint_replaced": false,
+      "fitted_class_counts": [
+        3074,
+        2465
+      ],
+      "fitted_train_count": 5539,
+      "metrics": {
+        "balanced_accuracy": 0.5,
+        "brier_score": 0.3359481838601704,
+        "confusion_matrix": {
+          "fn": 0,
+          "fp": 3101,
+          "tn": 0,
+          "tp": 2412
+        },
+        "f1": 0.6087066246056783,
+        "pr_auc": 0.6638204949840429,
+        "precision": 0.4375113368401959,
+        "recall": 1.0,
+        "roc_auc": 0.6982062037442582,
+        "specificity": 0.0
+      },
+      "mode": "class_weight",
+      "original_class_counts": [
+        3074,
+        2465
+      ],
+      "original_train_count": 5539,
+      "resampling_scope": "TRAIN_EMBEDDINGS_ONLY",
+      "synthetic_train_count": 0,
+      "threshold": 0.04181788505336218,
+      "warning": null
+    },
+    {
+      "canonical_checkpoint_replaced": false,
+      "fitted_class_counts": [
+        3074,
+        3074
+      ],
+      "fitted_train_count": 6148,
+      "metrics": {
+        "balanced_accuracy": 0.5,
+        "brier_score": 0.3816769177690197,
+        "confusion_matrix": {
+          "fn": 0,
+          "fp": 3101,
+          "tn": 0,
+          "tp": 2412
+        },
+        "f1": 0.6087066246056783,
+        "pr_auc": 0.620249490217256,
+        "precision": 0.4375113368401959,
+        "recall": 1.0,
+        "roc_auc": 0.6594805318778567,
+        "specificity": 0.0
+      },
+      "mode": "smote",
+      "original_class_counts": [
+        3074,
+        2465
+      ],
+      "original_train_count": 5539,
+      "resampling_scope": "TRAIN_EMBEDDINGS_ONLY",
+      "synthetic_train_count": 609,
+      "threshold": 0.009852536883784305,
+      "warning": null
+    },
+    {
+      "canonical_checkpoint_replaced": false,
+      "fitted_class_counts": [
+        3074,
+        2658
+      ],
+      "fitted_train_count": 5732,
+      "metrics": {
+        "balanced_accuracy": 0.5,
+        "brier_score": 0.3335302517535762,
+        "confusion_matrix": {
+          "fn": 0,
+          "fp": 3101,
+          "tn": 0,
+          "tp": 2412
+        },
+        "f1": 0.6087066246056783,
+        "pr_auc": 0.6467104343266842,
+        "precision": 0.4375113368401959,
+        "recall": 1.0,
+        "roc_auc": 0.6792044159509879,
+        "specificity": 0.0
+      },
+      "mode": "adasyn",
+      "original_class_counts": [
+        3074,
+        2465
+      ],
+      "original_train_count": 5539,
+      "resampling_scope": "TRAIN_EMBEDDINGS_ONLY",
+      "synthetic_train_count": 193,
+      "threshold": 0.07114657086530406,
+      "warning": null
+    }
+  ],
+  "status": "COMPLETE",
+  "study_id": "frozen_hybrid_embedding_imbalance_sensitivity",
+  "test_used_for": "FINAL_METRICS_ONLY",
+  "validation_used_for": "THRESHOLD_SELECTION_ONLY"
+}

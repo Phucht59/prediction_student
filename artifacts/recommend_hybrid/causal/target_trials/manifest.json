@@ -1,0 +1,8 @@
+{
+  "causal_claim": "OBSERVATIONAL_EFFECT_UNDER_ASSUMPTIONS_ONLY; NOT DEPLOYMENT OR RANDOMIZED-TRIAL EFFECTIVENESS",
+  "cluster_key": "student_id",
+  "individual_effects": "artifacts\\recommend_hybrid\\causal\\target_trials\\individual_effects.csv",
+  "record_key": "record_id",
+  "status": "COMPLETE",
+  "summary": "artifacts\\recommend_hybrid\\causal\\target_trials\\stage_action_effects.json"
+}

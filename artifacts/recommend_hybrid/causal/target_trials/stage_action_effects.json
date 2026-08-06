@@ -1,0 +1,875 @@
+{
+  "action_order": [
+    "ASSESSMENT_COMPLETION",
+    "STUDY_REGULARITY",
+    "VLE_ENGAGEMENT",
+    "QUIZ_OR_RETRIEVAL_PRACTICE",
+    "CONTENT_REVIEW"
+  ],
+  "bootstrap_iterations": 1000,
+  "cross_fit_splits": 3,
+  "input": "artifacts\\recommend_hybrid\\causal\\input\\target_trials.npz",
+  "random_state": 20260806,
+  "stage_order": [
+    "EARLY_20",
+    "EARLY_35",
+    "MIDDLE_50",
+    "LATE_75"
+  ],
+  "status": "COMPLETE",
+  "trial_count": 20,
+  "trials": [
+    {
+      "claim_boundary": "NO_CAUSAL_EFFECT_CLAIM",
+      "effect": {
+        "ate": 0.12315573279337058,
+        "confidence_interval": [
+          0.0820049075433226,
+          0.16430655804341857
+        ],
+        "mean_propensity": 0.17624703849530868,
+        "positive_cate_fraction": 0.6226415094339622,
+        "sample_count": 13409,
+        "standard_error": 0.020995704806129323,
+        "uncertainty_method": "NOT_AVAILABLE"
+      },
+      "identifiability": {
+        "control_count": 984,
+        "effective_sample_size": 1471.3837187584243,
+        "ess_fraction": 0.6672942035185597,
+        "good_smd_fraction": 0.4090909090909091,
+        "identifiable": false,
+        "maximum_smd": 0.3251603139118008,
+        "reasons": [
+          "INSUFFICIENT_OVERLAP",
+          "COVARIATE_BALANCE_NOT_ACHIEVED",
+          "EXTREME_RESIDUAL_IMBALANCE"
+        ],
+        "retained_count": 2205,
+        "sample_count": 13409,
+        "treated_count": 1221,
+        "trim_fraction": 0.835558207174286
+      },
+      "protocol": {
+        "action_id": "ASSESSMENT_COMPLETION",
+        "cutoff_fraction": 0.2,
+        "group_column": "student_id",
+        "outcome_column": "outcome_pass",
+        "stage": "EARLY_20",
+        "student_id_column": "student_id",
+        "treatment_column": "treatment",
+        "treatment_end_fraction": 0.35
+      },
+      "status": "CAUSAL_EVIDENCE_NOT_IDENTIFIABLE"
+    },
+    {
+      "claim_boundary": "NO_CAUSAL_EFFECT_CLAIM",
+      "effect": {
+        "ate": 0.23765721948623633,
+        "confidence_interval": [
+          0.18835924021968914,
+          0.2869551987527835
+        ],
+        "mean_propensity": 0.02113271688233505,
+        "positive_cate_fraction": 0.9482071713147411,
+        "sample_count": 16566,
+        "standard_error": 0.02515249242098496,
+        "uncertainty_method": "NOT_AVAILABLE"
+      },
+      "identifiability": {
+        "control_count": 422,
+        "effective_sample_size": 451.72466896833294,
+        "ess_fraction": 0.9714509010071676,
+        "good_smd_fraction": 0.35454545454545455,
+        "identifiable": false,
+        "maximum_smd": 0.4545846503973368,
+        "reasons": [
+          "INSUFFICIENT_OVERLAP",
+          "COVARIATE_BALANCE_NOT_ACHIEVED",
+          "EXTREME_RESIDUAL_IMBALANCE"
+        ],
+        "retained_count": 465,
+        "sample_count": 16566,
+        "treated_count": 43,
+        "trim_fraction": 0.9719304599782688
+      },
+      "protocol": {
+        "action_id": "STUDY_REGULARITY",
+        "cutoff_fraction": 0.2,
+        "group_column": "student_id",
+        "outcome_column": "outcome_pass",
+        "stage": "EARLY_20",
+        "student_id_column": "student_id",
+        "treatment_column": "treatment",
+        "treatment_end_fraction": 0.35
+      },
+      "status": "CAUSAL_EVIDENCE_NOT_IDENTIFIABLE"
+    },
+    {
+      "claim_boundary": "NO_CAUSAL_EFFECT_CLAIM",
+      "effect": {
+        "ate": 0.17026354879034078,
+        "confidence_interval": [
+          0.11771001056223712,
+          0.22281708701844444
+        ],
+        "mean_propensity": 0.017913630869525646,
+        "positive_cate_fraction": 0.90884945068212,
+        "sample_count": 16566,
+        "standard_error": 0.026813522412982727,
+        "uncertainty_method": "NOT_AVAILABLE"
+      },
+      "identifiability": {
+        "control_count": 224,
+        "effective_sample_size": 229.67460708426768,
+        "ess_fraction": 0.973197487645202,
+        "good_smd_fraction": 0.2727272727272727,
+        "identifiable": false,
+        "maximum_smd": 0.8303759807287937,
+        "reasons": [
+          "INSUFFICIENT_TREATED",
+          "INSUFFICIENT_OVERLAP",
+          "COVARIATE_BALANCE_NOT_ACHIEVED",
+          "EXTREME_RESIDUAL_IMBALANCE"
+        ],
+        "retained_count": 236,
+        "sample_count": 16566,
+        "treated_count": 12,
+        "trim_fraction": 0.9857539538814439
+      },
+      "protocol": {
+        "action_id": "VLE_ENGAGEMENT",
+        "cutoff_fraction": 0.2,
+        "group_column": "student_id",
+        "outcome_column": "outcome_pass",
+        "stage": "EARLY_20",
+        "student_id_column": "student_id",
+        "treatment_column": "treatment",
+        "treatment_end_fraction": 0.35
+      },
+      "status": "CAUSAL_EVIDENCE_NOT_IDENTIFIABLE"
+    },
+    {
+      "claim_boundary": "NO_CAUSAL_EFFECT_CLAIM",
+      "effect": {
+        "ate": 0.12369186548848188,
+        "confidence_interval": [
+          0.08556604485743713,
+          0.16181768611952663
+        ],
+        "mean_propensity": 0.09960199326157945,
+        "positive_cate_fraction": 0.892852831099843,
+        "sample_count": 16566,
+        "standard_error": 0.019452306742254635,
+        "uncertainty_method": "NOT_AVAILABLE"
+      },
+      "identifiability": {
+        "control_count": 4530,
+        "effective_sample_size": 5377.190268774003,
+        "ess_fraction": 0.9361403671263933,
+        "good_smd_fraction": 0.9818181818181818,
+        "identifiable": false,
+        "maximum_smd": 0.11157834966818678,
+        "reasons": [
+          "INSUFFICIENT_OVERLAP"
+        ],
+        "retained_count": 5744,
+        "sample_count": 16566,
+        "treated_count": 1214,
+        "trim_fraction": 0.6532657249788724
+      },
+      "protocol": {
+        "action_id": "QUIZ_OR_RETRIEVAL_PRACTICE",
+        "cutoff_fraction": 0.2,
+        "group_column": "student_id",
+        "outcome_column": "outcome_pass",
+        "stage": "EARLY_20",
+        "student_id_column": "student_id",
+        "treatment_column": "treatment",
+        "treatment_end_fraction": 0.35
+      },
+      "status": "CAUSAL_EVIDENCE_NOT_IDENTIFIABLE"
+    },
+    {
+      "claim_boundary": "NO_CAUSAL_EFFECT_CLAIM",
+      "effect": {
+        "ate": 0.19649439019163106,
+        "confidence_interval": [
+          0.15241857880704357,
+          0.24057020157621856
+        ],
+        "mean_propensity": 0.07030473725066776,
+        "positive_cate_fraction": 0.9333574791742122,
+        "sample_count": 16566,
+        "standard_error": 0.022488072093289416,
+        "uncertainty_method": "NOT_AVAILABLE"
+      },
+      "identifiability": {
+        "control_count": 2949,
+        "effective_sample_size": 3449.187387822891,
+        "ess_fraction": 0.9621164261709599,
+        "good_smd_fraction": 0.7272727272727273,
+        "identifiable": false,
+        "maximum_smd": 0.2672482534293822,
+        "reasons": [
+          "INSUFFICIENT_OVERLAP",
+          "COVARIATE_BALANCE_NOT_ACHIEVED",
+          "EXTREME_RESIDUAL_IMBALANCE"
+        ],
+        "retained_count": 3585,
+        "sample_count": 16566,
+        "treated_count": 636,
+        "trim_fraction": 0.7835929011227816
+      },
+      "protocol": {
+        "action_id": "CONTENT_REVIEW",
+        "cutoff_fraction": 0.2,
+        "group_column": "student_id",
+        "outcome_column": "outcome_pass",
+        "stage": "EARLY_20",
+        "student_id_column": "student_id",
+        "treatment_column": "treatment",
+        "treatment_end_fraction": 0.35
+      },
+      "status": "CAUSAL_EVIDENCE_NOT_IDENTIFIABLE"
+    },
+    {
+      "claim_boundary": "NO_CAUSAL_EFFECT_CLAIM",
+      "effect": {
+        "ate": 0.08548881074909026,
+        "confidence_interval": [
+          0.05300552204725676,
+          0.11797209945092377
+        ],
+        "mean_propensity": 0.15093542946083138,
+        "positive_cate_fraction": 0.8072870939420544,
+        "sample_count": 15946,
+        "standard_error": 0.016573411020844028,
+        "uncertainty_method": "NOT_AVAILABLE"
+      },
+      "identifiability": {
+        "control_count": 1104,
+        "effective_sample_size": 1537.7114721805378,
+        "ess_fraction": 0.6312444467079383,
+        "good_smd_fraction": 0.5545454545454546,
+        "identifiable": false,
+        "maximum_smd": 0.32530317491042926,
+        "reasons": [
+          "INSUFFICIENT_OVERLAP",
+          "COVARIATE_BALANCE_NOT_ACHIEVED",
+          "EXTREME_RESIDUAL_IMBALANCE"
+        ],
+        "retained_count": 2436,
+        "sample_count": 15946,
+        "treated_count": 1332,
+        "trim_fraction": 0.8472344161545216
+      },
+      "protocol": {
+        "action_id": "ASSESSMENT_COMPLETION",
+        "cutoff_fraction": 0.35,
+        "group_column": "student_id",
+        "outcome_column": "outcome_pass",
+        "stage": "EARLY_35",
+        "student_id_column": "student_id",
+        "treatment_column": "treatment",
+        "treatment_end_fraction": 0.5
+      },
+      "status": "CAUSAL_EVIDENCE_NOT_IDENTIFIABLE"
+    },
+    {
+      "claim_boundary": "NO_CAUSAL_EFFECT_CLAIM",
+      "effect": {
+        "ate": 0.2236164943001358,
+        "confidence_interval": [
+          0.17789250586793245,
+          0.2693404827323392
+        ],
+        "mean_propensity": 0.06054878154841721,
+        "positive_cate_fraction": 0.9314561645553744,
+        "sample_count": 15946,
+        "standard_error": 0.023328994202377367,
+        "uncertainty_method": "NOT_AVAILABLE"
+      },
+      "identifiability": {
+        "control_count": 2292,
+        "effective_sample_size": 2706.7689831954967,
+        "ess_fraction": 0.9444413758532787,
+        "good_smd_fraction": 0.9545454545454546,
+        "identifiable": false,
+        "maximum_smd": 0.12805360926923046,
+        "reasons": [
+          "INSUFFICIENT_OVERLAP"
+        ],
+        "retained_count": 2866,
+        "sample_count": 15946,
+        "treated_count": 574,
+        "trim_fraction": 0.8202684058698106
+      },
+      "protocol": {
+        "action_id": "STUDY_REGULARITY",
+        "cutoff_fraction": 0.35,
+        "group_column": "student_id",
+        "outcome_column": "outcome_pass",
+        "stage": "EARLY_35",
+        "student_id_column": "student_id",
+        "treatment_column": "treatment",
+        "treatment_end_fraction": 0.5
+      },
+      "status": "CAUSAL_EVIDENCE_NOT_IDENTIFIABLE"
+    },
+    {
+      "claim_boundary": "NO_CAUSAL_EFFECT_CLAIM",
+      "effect": {
+        "ate": 0.25830302109856074,
+        "confidence_interval": [
+          0.21559332705876524,
+          0.30101271513835626
+        ],
+        "mean_propensity": 0.057101099099084895,
+        "positive_cate_fraction": 0.9460679794305782,
+        "sample_count": 15946,
+        "standard_error": 0.021791060640238353,
+        "uncertainty_method": "NOT_AVAILABLE"
+      },
+      "identifiability": {
+        "control_count": 2162,
+        "effective_sample_size": 2551.7793074988613,
+        "ess_fraction": 0.9489696197466944,
+        "good_smd_fraction": 0.8545454545454545,
+        "identifiable": false,
+        "maximum_smd": 0.2512839560852865,
+        "reasons": [
+          "INSUFFICIENT_OVERLAP",
+          "COVARIATE_BALANCE_NOT_ACHIEVED",
+          "EXTREME_RESIDUAL_IMBALANCE"
+        ],
+        "retained_count": 2689,
+        "sample_count": 15946,
+        "treated_count": 527,
+        "trim_fraction": 0.8313683682428195
+      },
+      "protocol": {
+        "action_id": "VLE_ENGAGEMENT",
+        "cutoff_fraction": 0.35,
+        "group_column": "student_id",
+        "outcome_column": "outcome_pass",
+        "stage": "EARLY_35",
+        "student_id_column": "student_id",
+        "treatment_column": "treatment",
+        "treatment_end_fraction": 0.5
+      },
+      "status": "CAUSAL_EVIDENCE_NOT_IDENTIFIABLE"
+    },
+    {
+      "claim_boundary": "NO_CAUSAL_EFFECT_CLAIM",
+      "effect": {
+        "ate": 0.1746472138512876,
+        "confidence_interval": [
+          0.14385568621789718,
+          0.205438741484678
+        ],
+        "mean_propensity": 0.12864182173416433,
+        "positive_cate_fraction": 0.9366612316568418,
+        "sample_count": 15946,
+        "standard_error": 0.015710251757823125,
+        "uncertainty_method": "NOT_AVAILABLE"
+      },
+      "identifiability": {
+        "control_count": 5011,
+        "effective_sample_size": 6002.665357073063,
+        "ess_fraction": 0.8973935352179793,
+        "good_smd_fraction": 0.990909090909091,
+        "identifiable": false,
+        "maximum_smd": 0.12045139756871746,
+        "reasons": [
+          "INSUFFICIENT_OVERLAP"
+        ],
+        "retained_count": 6689,
+        "sample_count": 15946,
+        "treated_count": 1678,
+        "trim_fraction": 0.5805217609431832
+      },
+      "protocol": {
+        "action_id": "QUIZ_OR_RETRIEVAL_PRACTICE",
+        "cutoff_fraction": 0.35,
+        "group_column": "student_id",
+        "outcome_column": "outcome_pass",
+        "stage": "EARLY_35",
+        "student_id_column": "student_id",
+        "treatment_column": "treatment",
+        "treatment_end_fraction": 0.5
+      },
+      "status": "CAUSAL_EVIDENCE_NOT_IDENTIFIABLE"
+    },
+    {
+      "claim_boundary": "NO_CAUSAL_EFFECT_CLAIM",
+      "effect": {
+        "ate": 0.20323101389568476,
+        "confidence_interval": [
+          0.17628607417236514,
+          0.2301759536190044
+        ],
+        "mean_propensity": 0.17798481337289587,
+        "positive_cate_fraction": 0.9646306283707513,
+        "sample_count": 15946,
+        "standard_error": 0.013747670842861335,
+        "uncertainty_method": "NOT_AVAILABLE"
+      },
+      "identifiability": {
+        "control_count": 7334,
+        "effective_sample_size": 8885.848544267641,
+        "ess_fraction": 0.9020250273340413,
+        "good_smd_fraction": 1.0,
+        "identifiable": false,
+        "maximum_smd": 0.03645903778400415,
+        "reasons": [
+          "INSUFFICIENT_OVERLAP"
+        ],
+        "retained_count": 9851,
+        "sample_count": 15946,
+        "treated_count": 2517,
+        "trim_fraction": 0.3822275178728207
+      },
+      "protocol": {
+        "action_id": "CONTENT_REVIEW",
+        "cutoff_fraction": 0.35,
+        "group_column": "student_id",
+        "outcome_column": "outcome_pass",
+        "stage": "EARLY_35",
+        "student_id_column": "student_id",
+        "treatment_column": "treatment",
+        "treatment_end_fraction": 0.5
+      },
+      "status": "CAUSAL_EVIDENCE_NOT_IDENTIFIABLE"
+    },
+    {
+      "claim_boundary": "NO_CAUSAL_EFFECT_CLAIM",
+      "effect": {
+        "ate": 0.15891076639964527,
+        "confidence_interval": [
+          0.11282136448397206,
+          0.20500016831531848
+        ],
+        "mean_propensity": 0.06647522767746623,
+        "positive_cate_fraction": 0.9522694758746261,
+        "sample_count": 15378,
+        "standard_error": 0.0235154330789854,
+        "uncertainty_method": "NOT_AVAILABLE"
+      },
+      "identifiability": {
+        "control_count": 1271,
+        "effective_sample_size": 1512.737479189874,
+        "ess_fraction": 0.7279776126996506,
+        "good_smd_fraction": 0.3090909090909091,
+        "identifiable": false,
+        "maximum_smd": 0.506658150899439,
+        "reasons": [
+          "INSUFFICIENT_OVERLAP",
+          "COVARIATE_BALANCE_NOT_ACHIEVED",
+          "EXTREME_RESIDUAL_IMBALANCE"
+        ],
+        "retained_count": 2078,
+        "sample_count": 15378,
+        "treated_count": 807,
+        "trim_fraction": 0.8648718949148133
+      },
+      "protocol": {
+        "action_id": "ASSESSMENT_COMPLETION",
+        "cutoff_fraction": 0.5,
+        "group_column": "student_id",
+        "outcome_column": "outcome_pass",
+        "stage": "MIDDLE_50",
+        "student_id_column": "student_id",
+        "treatment_column": "treatment",
+        "treatment_end_fraction": 0.75
+      },
+      "status": "CAUSAL_EVIDENCE_NOT_IDENTIFIABLE"
+    },
+    {
+      "claim_boundary": "NO_CAUSAL_EFFECT_CLAIM",
+      "effect": {
+        "ate": 0.18292789243523974,
+        "confidence_interval": [
+          0.13645396322061187,
+          0.2294018216498676
+        ],
+        "mean_propensity": 0.023155414390478444,
+        "positive_cate_fraction": 0.9213811939133828,
+        "sample_count": 15378,
+        "standard_error": 0.023711624081466966,
+        "uncertainty_method": "NOT_AVAILABLE"
+      },
+      "identifiability": {
+        "control_count": 452,
+        "effective_sample_size": 488.3628867386333,
+        "ess_fraction": 0.9826215024922199,
+        "good_smd_fraction": 0.37272727272727274,
+        "identifiable": false,
+        "maximum_smd": 0.4240195330381662,
+        "reasons": [
+          "INSUFFICIENT_OVERLAP",
+          "COVARIATE_BALANCE_NOT_ACHIEVED",
+          "EXTREME_RESIDUAL_IMBALANCE"
+        ],
+        "retained_count": 497,
+        "sample_count": 15378,
+        "treated_count": 45,
+        "trim_fraction": 0.9676811028742359
+      },
+      "protocol": {
+        "action_id": "STUDY_REGULARITY",
+        "cutoff_fraction": 0.5,
+        "group_column": "student_id",
+        "outcome_column": "outcome_pass",
+        "stage": "MIDDLE_50",
+        "student_id_column": "student_id",
+        "treatment_column": "treatment",
+        "treatment_end_fraction": 0.75
+      },
+      "status": "CAUSAL_EVIDENCE_NOT_IDENTIFIABLE"
+    },
+    {
+      "claim_boundary": "NO_CAUSAL_EFFECT_CLAIM",
+      "effect": {
+        "ate": 0.2990666178369205,
+        "confidence_interval": [
+          0.2729653822940961,
+          0.3251678533797449
+        ],
+        "mean_propensity": 0.033673159828156295,
+        "positive_cate_fraction": 0.9728833398361295,
+        "sample_count": 15378,
+        "standard_error": 0.01331720161630909,
+        "uncertainty_method": "NOT_AVAILABLE"
+      },
+      "identifiability": {
+        "control_count": 1014,
+        "effective_sample_size": 1095.3805306233785,
+        "ess_fraction": 0.9806450587496675,
+        "good_smd_fraction": 0.5818181818181818,
+        "identifiable": false,
+        "maximum_smd": 0.30613393099623787,
+        "reasons": [
+          "INSUFFICIENT_OVERLAP",
+          "COVARIATE_BALANCE_NOT_ACHIEVED",
+          "EXTREME_RESIDUAL_IMBALANCE"
+        ],
+        "retained_count": 1117,
+        "sample_count": 15378,
+        "treated_count": 103,
+        "trim_fraction": 0.9273637664195604
+      },
+      "protocol": {
+        "action_id": "VLE_ENGAGEMENT",
+        "cutoff_fraction": 0.5,
+        "group_column": "student_id",
+        "outcome_column": "outcome_pass",
+        "stage": "MIDDLE_50",
+        "student_id_column": "student_id",
+        "treatment_column": "treatment",
+        "treatment_end_fraction": 0.75
+      },
+      "status": "CAUSAL_EVIDENCE_NOT_IDENTIFIABLE"
+    },
+    {
+      "claim_boundary": "NO_CAUSAL_EFFECT_CLAIM",
+      "effect": {
+        "ate": 0.14298903365301757,
+        "confidence_interval": [
+          0.10266958341855364,
+          0.1833084838874815
+        ],
+        "mean_propensity": 0.054702041840085376,
+        "positive_cate_fraction": 0.9168292365717259,
+        "sample_count": 15378,
+        "standard_error": 0.020571526085427394,
+        "uncertainty_method": "NOT_AVAILABLE"
+      },
+      "identifiability": {
+        "control_count": 2073,
+        "effective_sample_size": 2391.209982141015,
+        "ess_fraction": 0.9653653541142573,
+        "good_smd_fraction": 0.6181818181818182,
+        "identifiable": false,
+        "maximum_smd": 0.19806715424306626,
+        "reasons": [
+          "INSUFFICIENT_OVERLAP",
+          "COVARIATE_BALANCE_NOT_ACHIEVED"
+        ],
+        "retained_count": 2477,
+        "sample_count": 15378,
+        "treated_count": 404,
+        "trim_fraction": 0.8389257380673689
+      },
+      "protocol": {
+        "action_id": "QUIZ_OR_RETRIEVAL_PRACTICE",
+        "cutoff_fraction": 0.5,
+        "group_column": "student_id",
+        "outcome_column": "outcome_pass",
+        "stage": "MIDDLE_50",
+        "student_id_column": "student_id",
+        "treatment_column": "treatment",
+        "treatment_end_fraction": 0.75
+      },
+      "status": "CAUSAL_EVIDENCE_NOT_IDENTIFIABLE"
+    },
+    {
+      "claim_boundary": "NO_CAUSAL_EFFECT_CLAIM",
+      "effect": {
+        "ate": 0.2360308447207371,
+        "confidence_interval": [
+          0.20080838792640068,
+          0.2712533015150735
+        ],
+        "mean_propensity": 0.058219808943358785,
+        "positive_cate_fraction": 0.9571465730264014,
+        "sample_count": 15378,
+        "standard_error": 0.01797097144241765,
+        "uncertainty_method": "NOT_AVAILABLE"
+      },
+      "identifiability": {
+        "control_count": 2255,
+        "effective_sample_size": 2592.3113860757203,
+        "ess_fraction": 0.9701764169445061,
+        "good_smd_fraction": 0.6181818181818182,
+        "identifiable": false,
+        "maximum_smd": 0.2742968466072246,
+        "reasons": [
+          "INSUFFICIENT_OVERLAP",
+          "COVARIATE_BALANCE_NOT_ACHIEVED",
+          "EXTREME_RESIDUAL_IMBALANCE"
+        ],
+        "retained_count": 2672,
+        "sample_count": 15378,
+        "treated_count": 417,
+        "trim_fraction": 0.8262452854727533
+      },
+      "protocol": {
+        "action_id": "CONTENT_REVIEW",
+        "cutoff_fraction": 0.5,
+        "group_column": "student_id",
+        "outcome_column": "outcome_pass",
+        "stage": "MIDDLE_50",
+        "student_id_column": "student_id",
+        "treatment_column": "treatment",
+        "treatment_end_fraction": 0.75
+      },
+      "status": "CAUSAL_EVIDENCE_NOT_IDENTIFIABLE"
+    },
+    {
+      "claim_boundary": "NO_CAUSAL_EFFECT_CLAIM",
+      "effect": {
+        "ate": 0.20909672343294705,
+        "confidence_interval": [
+          0.16743610116707855,
+          0.2507573456988156
+        ],
+        "mean_propensity": 0.06468730134939595,
+        "positive_cate_fraction": 0.5433607346515589,
+        "sample_count": 13503,
+        "standard_error": 0.021255810103900985,
+        "uncertainty_method": "NOT_AVAILABLE"
+      },
+      "identifiability": {
+        "control_count": 1176,
+        "effective_sample_size": 1356.6703379506157,
+        "ess_fraction": 0.729392654812159,
+        "good_smd_fraction": 0.37272727272727274,
+        "identifiable": false,
+        "maximum_smd": 0.3944369679702596,
+        "reasons": [
+          "INSUFFICIENT_OVERLAP",
+          "COVARIATE_BALANCE_NOT_ACHIEVED",
+          "EXTREME_RESIDUAL_IMBALANCE"
+        ],
+        "retained_count": 1860,
+        "sample_count": 13503,
+        "treated_count": 684,
+        "trim_fraction": 0.8622528327038436
+      },
+      "protocol": {
+        "action_id": "ASSESSMENT_COMPLETION",
+        "cutoff_fraction": 0.75,
+        "group_column": "student_id",
+        "outcome_column": "outcome_pass",
+        "stage": "LATE_75",
+        "student_id_column": "student_id",
+        "treatment_column": "treatment",
+        "treatment_end_fraction": 1.0
+      },
+      "status": "CAUSAL_EVIDENCE_NOT_IDENTIFIABLE"
+    },
+    {
+      "claim_boundary": "NO_CAUSAL_EFFECT_CLAIM",
+      "effect": {
+        "ate": 0.23033112323128688,
+        "confidence_interval": [
+          0.189873393434074,
+          0.27078885302849975
+        ],
+        "mean_propensity": 0.015142854684663224,
+        "positive_cate_fraction": 0.8448240519303041,
+        "sample_count": 14635,
+        "standard_error": 0.02064207817915957,
+        "uncertainty_method": "NOT_AVAILABLE"
+      },
+      "identifiability": {
+        "control_count": 175,
+        "effective_sample_size": 177.57510020298034,
+        "ess_fraction": 0.9547048398009695,
+        "good_smd_fraction": 0.37272727272727274,
+        "identifiable": false,
+        "maximum_smd": 0.6748565421678456,
+        "reasons": [
+          "INSUFFICIENT_TREATED",
+          "INSUFFICIENT_OVERLAP",
+          "COVARIATE_BALANCE_NOT_ACHIEVED",
+          "EXTREME_RESIDUAL_IMBALANCE"
+        ],
+        "retained_count": 186,
+        "sample_count": 14635,
+        "treated_count": 11,
+        "trim_fraction": 0.9872907413734199
+      },
+      "protocol": {
+        "action_id": "STUDY_REGULARITY",
+        "cutoff_fraction": 0.75,
+        "group_column": "student_id",
+        "outcome_column": "outcome_pass",
+        "stage": "LATE_75",
+        "student_id_column": "student_id",
+        "treatment_column": "treatment",
+        "treatment_end_fraction": 1.0
+      },
+      "status": "CAUSAL_EVIDENCE_NOT_IDENTIFIABLE"
+    },
+    {
+      "claim_boundary": "NO_CAUSAL_EFFECT_CLAIM",
+      "effect": {
+        "ate": 0.3263502984437131,
+        "confidence_interval": [
+          0.29313970101385806,
+          0.35956089587356815
+        ],
+        "mean_propensity": 0.01587314581878274,
+        "positive_cate_fraction": 0.8595831909805262,
+        "sample_count": 14635,
+        "standard_error": 0.016944493721219367,
+        "uncertainty_method": "NOT_AVAILABLE"
+      },
+      "identifiability": {
+        "control_count": 169,
+        "effective_sample_size": 186.61271498766985,
+        "ess_fraction": 0.9770299214014128,
+        "good_smd_fraction": 0.37272727272727274,
+        "identifiable": false,
+        "maximum_smd": 0.6268120815074414,
+        "reasons": [
+          "INSUFFICIENT_TREATED",
+          "INSUFFICIENT_OVERLAP",
+          "COVARIATE_BALANCE_NOT_ACHIEVED",
+          "EXTREME_RESIDUAL_IMBALANCE"
+        ],
+        "retained_count": 191,
+        "sample_count": 14635,
+        "treated_count": 22,
+        "trim_fraction": 0.9869490946361462
+      },
+      "protocol": {
+        "action_id": "VLE_ENGAGEMENT",
+        "cutoff_fraction": 0.75,
+        "group_column": "student_id",
+        "outcome_column": "outcome_pass",
+        "stage": "LATE_75",
+        "student_id_column": "student_id",
+        "treatment_column": "treatment",
+        "treatment_end_fraction": 1.0
+      },
+      "status": "CAUSAL_EVIDENCE_NOT_IDENTIFIABLE"
+    },
+    {
+      "claim_boundary": "NO_CAUSAL_EFFECT_CLAIM",
+      "effect": {
+        "ate": 0.11124238873676927,
+        "confidence_interval": [
+          0.07885950931675649,
+          0.14362526815678206
+        ],
+        "mean_propensity": 0.04712578285139693,
+        "positive_cate_fraction": 0.7929620772121626,
+        "sample_count": 14635,
+        "standard_error": 0.016522180854058956,
+        "uncertainty_method": "NOT_AVAILABLE"
+      },
+      "identifiability": {
+        "control_count": 1355,
+        "effective_sample_size": 1582.7980723415901,
+        "ess_fraction": 0.8842447331517264,
+        "good_smd_fraction": 0.990909090909091,
+        "identifiable": false,
+        "maximum_smd": 0.100782436761861,
+        "reasons": [
+          "INSUFFICIENT_OVERLAP"
+        ],
+        "retained_count": 1790,
+        "sample_count": 14635,
+        "treated_count": 435,
+        "trim_fraction": 0.87769046805603
+      },
+      "protocol": {
+        "action_id": "QUIZ_OR_RETRIEVAL_PRACTICE",
+        "cutoff_fraction": 0.75,
+        "group_column": "student_id",
+        "outcome_column": "outcome_pass",
+        "stage": "LATE_75",
+        "student_id_column": "student_id",
+        "treatment_column": "treatment",
+        "treatment_end_fraction": 1.0
+      },
+      "status": "CAUSAL_EVIDENCE_NOT_IDENTIFIABLE"
+    },
+    {
+      "claim_boundary": "NO_CAUSAL_EFFECT_CLAIM",
+      "effect": {
+        "ate": 0.20348555894055456,
+        "confidence_interval": [
+          0.15233089564291674,
+          0.2546402222381924
+        ],
+        "mean_propensity": 0.030247342667862998,
+        "positive_cate_fraction": 0.725589340621797,
+        "sample_count": 14635,
+        "standard_error": 0.02609979759890451,
+        "uncertainty_method": "NOT_AVAILABLE"
+      },
+      "identifiability": {
+        "control_count": 744,
+        "effective_sample_size": 833.6232379790365,
+        "ess_fraction": 0.9670803224814809,
+        "good_smd_fraction": 0.6363636363636364,
+        "identifiable": false,
+        "maximum_smd": 0.4412496279296317,
+        "reasons": [
+          "INSUFFICIENT_OVERLAP",
+          "COVARIATE_BALANCE_NOT_ACHIEVED",
+          "EXTREME_RESIDUAL_IMBALANCE"
+        ],
+        "retained_count": 862,
+        "sample_count": 14635,
+        "treated_count": 118,
+        "trim_fraction": 0.9411001024940212
+      },
+      "protocol": {
+        "action_id": "CONTENT_REVIEW",
+        "cutoff_fraction": 0.75,
+        "group_column": "student_id",
+        "outcome_column": "outcome_pass",
+        "stage": "LATE_75",
+        "student_id_column": "student_id",
+        "treatment_column": "treatment",
+        "treatment_end_fraction": 1.0
+      },
+      "status": "CAUSAL_EVIDENCE_NOT_IDENTIFIABLE"
+    }
+  ]
+}

@@ -168,9 +168,9 @@ def run(input_path: Path, output_dir: Path) -> dict[str, object]:
         course_ids=trials["course_id"].astype(str).to_numpy(dtype=str),
         stages=trials["stage"].astype(str).to_numpy(dtype=str),
         action_ids=trials["action_id"].astype(str).to_numpy(dtype=str),
-        baseline_progress=trials["baseline_progress"].to_numpy(dtype=np.float32),
-        treatment_start_progress=trials["treatment_start_progress"].to_numpy(dtype=np.float32),
-        treatment_end_progress=trials["treatment_end_progress"].to_numpy(dtype=np.float32),
+        baseline_progress=trials["baseline_progress"].to_numpy(dtype=np.float64),
+        treatment_start_progress=trials["treatment_start_progress"].to_numpy(dtype=np.float64),
+        treatment_end_progress=trials["treatment_end_progress"].to_numpy(dtype=np.float64),
         protocol_splits=trials["protocol_split"].astype(str).to_numpy(dtype=str),
         feature_names=np.asarray(feature_columns, dtype=str),
     )
