@@ -342,38 +342,59 @@ Hybrid không luôn thắng ML vì:
 
 ---
 
-## 7. Xử lý mất cân bằng lớp
+## 7. Xử lý mất cân bằng lớp và frozen-embedding evidence
 
-Authority/config cuối không khai báo:
+### 7.1. Authority dự đoán chính thức
 
-- SMOTE.
-- Random oversampling.
-- Random undersampling.
-- Weighted sampler.
+Authority/config cuối không sử dụng SMOTE, ADASYN, random oversampling, random undersampling hoặc weighted sampler để huấn luyện lại Hybrid. Checkpoint Hybrid CNN–BiLSTM chính thức vẫn được giữ nguyên.
 
-Do đó, repository không tuyên bố đã tạo thêm mẫu tổng hợp để cân bằng dữ liệu.
+Mất cân bằng trong authority chính được kiểm soát bằng:
 
-Mất cân bằng được kiểm soát chủ yếu ở các mức sau.
+- **Macro-F1** và **Balanced Accuracy** để tránh Accuracy che khuất lớp thiểu số.
+- **PR-AUC**, Risk Precision, Risk Recall và Risk F1 cho lớp nguy cơ.
+- Chọn checkpoint/candidate bằng inner validation.
+- Chọn threshold OULAD trên pooled inner-OOF, không chọn bằng outer test.
+- Báo cáo confusion matrix, specificity, calibration và metric theo lớp.
 
-### Mức đánh giá
+### 7.2. Thí nghiệm trên frozen Hybrid embeddings
 
-- **Macro-F1**: mỗi lớp đóng góp ngang nhau.
-- **Balanced Accuracy**: trung bình recall của các lớp.
-- **PR-AUC**: quan trọng khi quan tâm lớp thiểu số hoặc lớp nguy cơ.
-- Precision, Recall và F1 từng lớp.
-- Confusion matrix.
+Để kiểm tra trực tiếp ảnh hưởng của mất cân bằng, đề tài đóng băng biểu diễn Hybrid 96 chiều và chỉ huấn luyện một Logistic Regression head giống nhau theo bốn chế độ:
 
-### Mức lựa chọn mô hình
+- `none`;
+- `class_weight`;
+- `SMOTE`;
+- `ADASYN`.
 
-Checkpoint và candidate được chọn bằng inner validation dựa trên metric cân bằng, không chỉ dựa trên Accuracy.
+SMOTE và ADASYN chỉ được fit trên **train embeddings**. Validation chỉ dùng chọn threshold; test chỉ dùng đo metric cuối. Không có validation/test row nào được tạo mẫu tổng hợp và checkpoint Hybrid không bị thay thế.
 
-### Mức ra quyết định của OULAD
+| Mode | ROC-AUC | PR-AUC | Precision | Recall | F1 | Balanced Accuracy | Specificity | Brier |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| none | 0.8438 | 0.8214 | 0.7437 | **0.6745** | **0.7074** | **0.7587** | 0.8428 | **0.1672** |
+| class_weight | 0.8446 | 0.8219 | 0.7902 | 0.6259 | 0.6985 | 0.7568 | 0.8876 | 0.1841 |
+| SMOTE | 0.8457 | 0.8218 | 0.8722 | 0.5175 | 0.6496 | 0.7331 | 0.9487 | 0.1909 |
+| ADASYN | **0.8473** | **0.8233** | **0.8982** | 0.4788 | 0.6246 | 0.7211 | **0.9633** | 0.1814 |
 
-Threshold được chọn trên pooled inner-OOF để tối đa Macro-F1. Đây là xử lý mất cân bằng ở mức quyết định, không phải tạo thêm mẫu.
+### 7.3. Kết luận
+
+- `none` cho F1, recall, balanced accuracy và Brier tốt nhất trong kết quả tổng thể.
+- `class_weight`, SMOTE và ADASYN tăng precision/specificity nhưng làm recall giảm.
+- Synthetic oversampling không tự động cải thiện bài toán cảnh báo sớm vì mục tiêu nghiệp vụ cần hạn chế bỏ sót sinh viên nguy cơ.
+- Ở `EARLY_20`, linear head trên frozen embeddings vẫn rất yếu: balanced accuracy bằng 0.50 và specificity bằng 0. Đây là giới hạn của tín hiệu rất sớm cần được nghiên cứu thêm.
+- Ở `LATE_75`, biểu diễn mạnh hơn rõ rệt; class weight đạt F1 0.7666 và balanced accuracy 0.8112, trong khi ADASYN tăng recall nhưng giảm precision.
+- Không có phương pháp nào cải thiện đồng thời precision, recall, F1, balanced accuracy và calibration, vì vậy checkpoint Hybrid authority không bị thay thế.
 
 Cách mô tả chính xác:
 
-> Nhóm không sử dụng SMOTE trong authority chính thức. Ảnh hưởng của mất cân bằng lớp được kiểm soát bằng Macro-F1, Balanced Accuracy, PR-AUC, metric theo lớp và threshold được chọn trên inner validation đối với OULAD.
+> Nhóm đã đánh giá none, class weight, SMOTE và ADASYN trên frozen Hybrid embeddings. Resampling chỉ áp dụng trên train embeddings và không thay checkpoint chính thức. Kết quả là bằng chứng sensitivity: synthetic oversampling tăng precision trong một số cấu hình nhưng thường làm giảm recall, nên authority Hybrid được giữ nguyên.
+
+Nguồn bằng chứng:
+
+- `configs/recommend_hybrid/frozen_imbalance_evidence.yaml`
+- `artifacts/recommend_hybrid/imbalance/FROZEN_IMBALANCE_EVIDENCE.json`
+- `reports/final/thesis_v3/05_FROZEN_IMBALANCE_EVIDENCE.md`
+- `src/recommend_hybrid/imbalance.py`
+- `scripts/recommend_hybrid/run_frozen_imbalance_evidence.py`
+- `tests/recommend_hybrid/test_frozen_hybrid_imbalance.py`
 
 ---
 
@@ -389,6 +410,7 @@ Pipeline áp dụng các nguyên tắc:
 - Stage sớm không được nhìn feature của stage sau.
 - OULAD strict real-time loại score values và score-derived aggregates.
 - Nhiều seed và mean-probability ensemble giúp giảm biến động ngẫu nhiên.
+- Synthetic imbalance sampling, khi được dùng trong sensitivity study, chỉ được fit trên train embeddings.
 
 Kết quả hiện tại là nested cross-validation/OOF benchmark; repository chưa tuyên bố có một external holdout độc lập hoàn toàn ngoài protocol này.
 
@@ -421,6 +443,7 @@ RMSE và R² chỉ là chỉ số phụ cho nhánh phân tích điểm số UCI;
 - Mô hình Hybrid không đạt hạng nhất trên mọi dataset.
 - Xác suất Student-Mat có ECE cao hơn các mô hình cây; cần thận trọng nếu sử dụng trực tiếp xác suất để ra quyết định can thiệp.
 - OULAD phù hợp hơn để chứng minh giá trị của nhánh temporal vì có dữ liệu hành vi theo tuần.
+- Frozen-embedding evidence cho thấy `EARLY_20` còn khó phân biệt và resampling không giải quyết triệt để hạn chế này.
 - Kết quả hiện tại là bằng chứng dự đoán, không phải bằng chứng rằng khuyến nghị can thiệp tạo ra hiệu quả nhân quả.
 
 ---
@@ -477,6 +500,13 @@ python project.py pipeline uci train
 python project.py pipeline oulad train
 ```
 
+Frozen-embedding imbalance study có thể replay bằng:
+
+```powershell
+python scripts/recommend_hybrid/run_frozen_imbalance_evidence.py --input <frozen_embeddings.npz> --output <metrics.json>
+pytest tests/recommend_hybrid/test_frozen_hybrid_imbalance.py -q
+```
+
 ---
 
 ## Final conditional action-ranking module
@@ -519,8 +549,10 @@ Claim boundary: `OFFLINE_CONDITIONAL_ACTION_RANKING_NOT_END_TO_END_OR_CAUSAL_EFF
 | So sánh ML và Hybrid | `reports/final/thesis_v3/02_FULL_ML_VS_HYBRID.md` |
 | Kết quả stage UCI | `reports/final/thesis_v3/03_UCI_STAGE_RESULTS.md` |
 | Kết quả stage OULAD | `reports/final/thesis_v3/04_OULAD_STAGE_RESULTS.md` |
+| Bằng chứng frozen imbalance | `reports/final/thesis_v3/05_FROZEN_IMBALANCE_EVIDENCE.md` |
 | Kiến trúc mô hình | `reports/final/thesis_v3/10_FINAL_MODEL_ARCHITECTURES.md` |
 | Prediction và metric cuối | `artifacts/final/`, `artifacts/canonical_v3/` |
+| Frozen imbalance artifact | `artifacts/recommend_hybrid/imbalance/FROZEN_IMBALANCE_EVIDENCE.json` |
 | Recommendation runtime | `src/recommend_hybrid/` |
 | Database cuối | `database/final/` |
 | Bản đồ repository | `docs/project_map/PROJECT_CODE_MAP.md` |
@@ -534,6 +566,7 @@ Kết quả cho thấy Hybrid CNN–BiLSTM là một mô hình ổn định và 
 - Trên UCI, Hybrid đạt kết quả gần nhóm mô hình ML tốt nhất dù dữ liệu nhỏ và chuỗi rất ngắn.
 - Trên OULAD, kiến trúc temporal kết hợp tabular residual expert thể hiện rõ hơn lợi thế trong cảnh báo theo tiến trình.
 - Hybrid vượt các biến thể CNN-only và BiLSTM-only trong thí nghiệm UCI, cho thấy việc kết hợp hai thành phần có giá trị hơn việc sử dụng từng thành phần riêng lẻ.
+- Frozen-embedding evidence cho thấy synthetic oversampling không tự động cải thiện cảnh báo sớm và checkpoint Hybrid authority nên được giữ nguyên.
 - Mô hình không được tuyên bố là luôn tốt nhất, nhưng cung cấp một kiến trúc thống nhất cho dự đoán cuối, cảnh báo sớm và tích hợp với hệ thống khuyến nghị.
 
 > **Đóng góp chính của khóa luận là xây dựng và đánh giá một hệ thống Hybrid CNN–BiLSTM có protocol chống rò rỉ dữ liệu, hỗ trợ dự đoán theo nhiều thời điểm và duy trì hiệu năng cạnh tranh với các mô hình Machine Learning mạnh.**
