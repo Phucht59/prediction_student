@@ -65,7 +65,16 @@ def main() -> int:
         ("model_selection", None),
     ]
     progress = {"schema_version": "recommend_hybrid_explainable_v2_progress", "runtime_authorized": False, "stages": {}}
+    if PROGRESS.exists():
+        try:
+            prior = json.loads(PROGRESS.read_text(encoding="utf-8"))
+            if prior.get("schema_version") == progress["schema_version"]:
+                progress = prior
+        except json.JSONDecodeError:
+            pass
     for name, command in stages:
+        if progress.get("stages", {}).get(name, {}).get("status") == "completed":
+            continue
         entry = {"status": "pending", "started_at": now()}
         progress["stages"][name] = entry
         write(PROGRESS, progress)
