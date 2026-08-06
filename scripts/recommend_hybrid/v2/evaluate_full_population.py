@@ -37,6 +37,7 @@ DEFAULT_LABELS = ROOT / "artifacts/recommend_hybrid/scientific_labeling/silver_l
 DEFAULT_SIMULATION = ROOT / "artifacts/recommend_hybrid/v2/simulation_rows.parquet"
 DEFAULT_OUTPUT = ROOT / "artifacts/recommend_hybrid/v2/FULL_POPULATION_EVIDENCE.json"
 DEFAULT_REPORT = ROOT / "reports/recommend_hybrid/v2/FULL_POPULATION_RECOMMENDATION_RESULTS.md"
+STAGES = ("EARLY_20", "EARLY_35", "MIDDLE_50", "LATE_75")
 WORKLOAD = {
     "ASSESSMENT_COMPLETION": 150.0 / 180.0,
     "STUDY_REGULARITY": 30.0 / 180.0,
@@ -70,7 +71,7 @@ def _json_safe(value: Any) -> Any:
     return value
 
 
-def _silver_confidence(labels_path: Path) -> pd.DataFrame:
+def _canonical_confidence(labels_path: Path) -> pd.DataFrame:
     frame = pd.read_parquet(labels_path)
     required = {
         "dataset",
@@ -86,7 +87,7 @@ def _silver_confidence(labels_path: Path) -> pd.DataFrame:
     frame = frame.loc[
         frame["dataset"].eq("oulad")
         & frame["silver_status"].eq("RETAINED")
-        & frame["stage"].isin(("EARLY_20", "EARLY_35", "MIDDLE_50", "LATE_75"))
+        & frame["stage"].isin(STAGES)
     ].copy()
     canonical: list[str | None] = []
     for value in frame["action_id"]:
@@ -115,7 +116,6 @@ def _prepare_arrays(
     simulation_path: Path,
 ) -> tuple[pd.DataFrame, dict[str, np.ndarray], str]:
     landmark = pd.read_parquet(landmark_path)
-    oof = pd.read_parquet(oof_path)
     required_landmark = {
         "record_id",
         "student_id",
@@ -129,8 +129,12 @@ def _prepare_arrays(
     missing = sorted(required_landmark.difference(landmark.columns))
     if missing:
         raise KeyError(f"landmark is missing columns: {missing}")
-    landmark = landmark.loc[landmark["action_id"].isin(LEARNED_ACTIONS)].copy()
+    landmark = landmark.loc[
+        landmark["stage"].isin(STAGES)
+        & landmark["action_id"].isin(LEARNED_ACTIONS)
+    ].copy()
     landmark["record_id"] = landmark["record_id"].astype(str)
+    landmark["student_id"] = landmark["student_id"].astype(str)
     if landmark.duplicated(["record_id", "stage", "action_id"]).any():
         raise ValueError("landmark record-stage-action identity is not unique")
 
@@ -152,14 +156,28 @@ def _prepare_arrays(
     ).reindex(columns=LEARNED_ACTIONS)
     availability = baseline.notna()
     baseline = baseline.fillna(1.0)
-    confidence = _silver_confidence(labels_path).pivot(
+    confidence = _canonical_confidence(labels_path).pivot(
         index=["record_id", "stage"],
         columns="action_id",
         values="silver_confidence",
     ).reindex(columns=LEARNED_ACTIONS).fillna(0.0)
 
+    oof = pd.read_parquet(oof_path)
+    required_oof = {"record_id", "stage"}
+    for action in LEARNED_ACTIONS:
+        required_oof.update(
+            {
+                f"action_logit__{action}",
+                f"action_target__{action}",
+                f"action_mask__{action}",
+            }
+        )
+    missing_oof = sorted(required_oof.difference(oof.columns))
+    if missing_oof:
+        raise KeyError(f"OOF action evidence is missing columns: {missing_oof}")
     oof["record_id"] = oof["record_id"].astype(str)
-    oof = oof.drop_duplicates(["record_id", "stage"])
+    oof_columns = ["record_id", "stage"] + sorted(required_oof - {"record_id", "stage"})
+    oof = oof.loc[:, oof_columns].drop_duplicates(["record_id", "stage"])
     group = group.merge(oof, on=["record_id", "stage"], how="inner", validate="one_to_one")
     group = group.set_index(["record_id", "stage"]).sort_index()
     baseline = baseline.reindex(group.index)
@@ -169,13 +187,22 @@ def _prepare_arrays(
         raise ValueError("baseline action matrix did not align with OOF groups")
 
     action_probability = np.column_stack(
-        [_sigmoid(group[f"action_logit__{action}"]) for action in LEARNED_ACTIONS]
+        [
+            _sigmoid(group[f"action_logit__{action}"].to_numpy(dtype=float))
+            for action in LEARNED_ACTIONS
+        ]
     )
     action_target = np.column_stack(
-        [group[f"action_target__{action}"].to_numpy(dtype=np.int8) for action in LEARNED_ACTIONS]
+        [
+            group[f"action_target__{action}"].to_numpy(dtype=np.int8)
+            for action in LEARNED_ACTIONS
+        ]
     )
     action_mask = np.column_stack(
-        [group[f"action_mask__{action}"].to_numpy(dtype=bool) for action in LEARNED_ACTIONS]
+        [
+            group[f"action_mask__{action}"].to_numpy(dtype=bool)
+            for action in LEARNED_ACTIONS
+        ]
     ) & availability.to_numpy(dtype=bool)
     need = np.clip(1.0 - baseline.to_numpy(dtype=float), 0.0, 1.0)
     risk = group["feature__risk_probability"].to_numpy(dtype=float)
@@ -191,7 +218,15 @@ def _prepare_arrays(
     simulation_status = "NOT_AVAILABLE"
     if simulation_path.is_file():
         simulation = pd.read_parquet(simulation_path)
-        simulation = simulation.loc[simulation["strength"].eq("moderate")].copy()
+        required_simulation = {"record_id", "stage", "action_id", "strength", "risk_delta"}
+        missing_simulation = sorted(required_simulation.difference(simulation.columns))
+        if missing_simulation:
+            raise KeyError(f"simulation rows are missing columns: {missing_simulation}")
+        simulation["record_id"] = simulation["record_id"].astype(str)
+        simulation = simulation.loc[
+            simulation["strength"].eq("moderate")
+            & simulation["action_id"].isin(LEARNED_ACTIONS)
+        ].copy()
         pivot = simulation.pivot_table(
             index=["record_id", "stage"],
             columns="action_id",
@@ -225,7 +260,7 @@ def _per_stage_eligibility(
     decisions: np.ndarray,
 ) -> dict[str, object]:
     result: dict[str, object] = {}
-    for stage in ("EARLY_20", "EARLY_35", "MIDDLE_50", "LATE_75"):
+    for stage in STAGES:
         selected = frame["stage"].eq(stage).to_numpy()
         if selected.any():
             result[stage] = eligibility_metrics(
@@ -257,8 +292,7 @@ def run(
         raise ValueError("protocol_split must contain validation and test groups")
     validation_students = set(frame.loc[validation, "student_id"].astype(str))
     test_students = set(frame.loc[test, "student_id"].astype(str))
-    overlap = validation_students.intersection(test_students)
-    if overlap:
+    if validation_students.intersection(test_students):
         raise RuntimeError("student leakage detected between validation and test")
 
     policy, validation_eligibility = select_eligibility_policy(
@@ -267,6 +301,13 @@ def run(
         validation_need_score=arrays["maximum_need"][validation],
         validation_entropy=arrays["entropy"][validation],
         validation_seed_disagreement=np.zeros(int(validation.sum())),
+    )
+    validation_decisions = apply_eligibility_policy(
+        risk_probability=arrays["risk"][validation],
+        need_score=arrays["maximum_need"][validation],
+        predictive_entropy=arrays["entropy"][validation],
+        seed_disagreement=np.zeros(int(validation.sum())),
+        policy=policy,
     )
     test_decisions = apply_eligibility_policy(
         risk_probability=arrays["risk"][test],
@@ -287,19 +328,13 @@ def run(
         arrays["action_mask"][validation],
     )
     normalized_reduction = reduction_normalizer.transform(arrays["raw_risk_reduction"])
-    validation_decisions = apply_eligibility_policy(
-        risk_probability=arrays["risk"][validation],
-        need_score=arrays["maximum_need"][validation],
-        predictive_entropy=arrays["entropy"][validation],
-        seed_disagreement=np.zeros(int(validation.sum())),
-        policy=policy,
-    )
     validation_issued = validation_decisions == EligibilityDecision.BEHAVIOURAL_ACTION.value
     test_issued = test_decisions == EligibilityDecision.BEHAVIOURAL_ACTION.value
-    if not validation_issued.any():
-        raise RuntimeError("eligibility policy issued no validation behavioural actions")
-
     validation_indices = np.flatnonzero(validation)[validation_issued]
+    test_indices = np.flatnonzero(test)[test_issued]
+    if not len(validation_indices) or not len(test_indices):
+        raise RuntimeError("eligibility policy must issue behavioural actions in both splits")
+
     weights, validation_ranking = select_ranking_weights(
         action_probability=arrays["action_probability"][validation_indices],
         need_severity=arrays["need"][validation_indices],
@@ -310,9 +345,6 @@ def run(
         mask=arrays["action_mask"][validation_indices],
         target=arrays["action_target"][validation_indices],
     )
-    test_indices = np.flatnonzero(test)[test_issued]
-    if not len(test_indices):
-        raise RuntimeError("eligibility policy issued no test behavioural actions")
     test_scores = utility_scores(
         action_probability=arrays["action_probability"][test_indices],
         need_severity=arrays["need"][test_indices],
