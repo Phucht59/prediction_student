@@ -8,6 +8,7 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_TAXONOMY = ROOT / "artifacts/recommend_hybrid/v2/taxonomy_audit.json"
+DEFAULT_TIMELINESS = ROOT / "artifacts/recommend_hybrid/v2/assessment_timeliness_audit.json"
 DEFAULT_SIMULATION = ROOT / "artifacts/recommend_hybrid/v2/simulation_summary.json"
 DEFAULT_EVIDENCE = ROOT / "artifacts/recommend_hybrid/v2/FULL_POPULATION_EVIDENCE.json"
 DEFAULT_OUTPUT = ROOT / "reports/recommend_hybrid/v2/RECOMMENDATION_V2_VALIDATION.json"
@@ -29,11 +30,13 @@ def _load(path: Path) -> dict[str, Any]:
 
 def run(
     taxonomy_path: Path,
+    timeliness_path: Path,
     simulation_path: Path,
     evidence_path: Path,
     output_path: Path,
 ) -> dict[str, object]:
     taxonomy = _load(taxonomy_path)
+    timeliness = _load(timeliness_path)
     simulation = _load(simulation_path)
     evidence = _load(evidence_path)
     stage_rows = set(evidence.get("eligibility", {}).get("per_stage_test", {}))
@@ -42,6 +45,8 @@ def run(
         "taxonomy_complete": taxonomy.get("status") in {"PASS", "REVIEW_REQUIRED"},
         "five_learned_actions": action_order == ACTIONS,
         "governance_outside_ranker": evidence.get("governance_routes_are_outside_ranker") is True,
+        "timeliness_candidate_audited": timeliness.get("candidate") == "ASSESSMENT_TIMELINESS",
+        "timeliness_candidate_not_auto_activated": timeliness.get("activated_as_learned_action") is False,
         "full_population_evaluated": int(evidence.get("population", {}).get("groups", 0)) > 0,
         "student_split_leakage": int(
             evidence.get("population", {}).get("student_leakage_count", -1)
@@ -74,6 +79,7 @@ def run(
         "claim_boundary": "NO_DEPLOYED_OR_CAUSAL_EFFECT_CLAIM",
         "artefacts": {
             "taxonomy": str(taxonomy_path.relative_to(ROOT)),
+            "assessment_timeliness": str(timeliness_path.relative_to(ROOT)),
             "simulation": str(simulation_path.relative_to(ROOT)),
             "evidence": str(evidence_path.relative_to(ROOT)),
         },
@@ -88,11 +94,18 @@ def run(
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--taxonomy", type=Path, default=DEFAULT_TAXONOMY)
+    parser.add_argument("--timeliness", type=Path, default=DEFAULT_TIMELINESS)
     parser.add_argument("--simulation", type=Path, default=DEFAULT_SIMULATION)
     parser.add_argument("--evidence", type=Path, default=DEFAULT_EVIDENCE)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     args = parser.parse_args()
-    payload = run(args.taxonomy, args.simulation, args.evidence, args.output)
+    payload = run(
+        args.taxonomy,
+        args.timeliness,
+        args.simulation,
+        args.evidence,
+        args.output,
+    )
     print(json.dumps({"status": payload["status"], "output": str(args.output)}))
 
 
