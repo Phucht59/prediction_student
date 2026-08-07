@@ -1,0 +1,98 @@
+{
+  "schema_version": "gemini_external_review_case_state_v3_1",
+  "status": "COMPLETE",
+  "case_number": 4,
+  "case_id": "case_d1e0554b30b609b1847e66cc",
+  "provider": "Google Gemini API",
+  "model_name": "gemini-3.6-flash",
+  "model_version": "gemini-3.6-flash",
+  "request_id": "clientreq_aaf92aa125a14de4ae22e30ba13e8e93",
+  "response_id": "O551auDKNPuhjuMP6oCGqAM",
+  "http_status": 200,
+  "finish_reason": "STOP",
+  "usage_metadata": {
+    "promptTokenCount": 660,
+    "candidatesTokenCount": 275,
+    "totalTokenCount": 2409,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 660
+      }
+    ],
+    "thoughtsTokenCount": 1474,
+    "serviceTier": "standard"
+  },
+  "response_schema_sha256": "16c48862970cd23db4fb5b6417e2004dde65a4905de1221c6afff7215144524e",
+  "raw_request_sha256": "48912ce0ced2ef43568d42ed0671fce3cced4e417f4ca4cd17d8e5d763e90ee1",
+  "raw_response_sha256": "fb7633f66f0a624818bfd68376d6d1aa99c16903080fb9bf763edc55628ce36e",
+  "raw_request_file": "raw_requests/case_d1e0554b30b609b1847e66cc.json",
+  "raw_response_file": "raw_responses/case_d1e0554b30b609b1847e66cc.json",
+  "normalized_records": [
+    {
+      "case_id": "case_d1e0554b30b609b1847e66cc",
+      "panel_id": "PANEL_A",
+      "action_id": "ASSESSMENT_COMPLETION",
+      "relevance_score": 3,
+      "abstain": false,
+      "evidence_ids": [
+        "assessments_due",
+        "due_soon_count",
+        "missing_assessment_count"
+      ],
+      "rationale": "The student has 1 assessment due soon and 1 missing assessment, representing a clear assessment completion gap.",
+      "contraindication_detected": false,
+      "safety_flag": false,
+      "reviewer_id": "gemini_external_reviewer_01",
+      "reviewer_configuration_id": "gemini_external_b1766a01a94615a2",
+      "reviewer_type": "REAL_EXTERNAL_LLM_REVIEW",
+      "provider": "Google Gemini API",
+      "model_name": "gemini-3.6-flash",
+      "model_version": "gemini-3.6-flash",
+      "request_id": "clientreq_aaf92aa125a14de4ae22e30ba13e8e93",
+      "response_id": "O551auDKNPuhjuMP6oCGqAM",
+      "batch_id": "panel_a_batch_01",
+      "prompt_version": "external_reviewer_v1",
+      "prompt_sha256": "f7edfaacd2fad67bf21a175ccc5c0a46abb81b669c08928ab78009c0a24624f3",
+      "request_batch_sha256": "3b3ade67582d809deee2300535502e6b233bea28a350ec687934a560634e389e",
+      "raw_request_sha256": "48912ce0ced2ef43568d42ed0671fce3cced4e417f4ca4cd17d8e5d763e90ee1",
+      "raw_response_sha256": "fb7633f66f0a624818bfd68376d6d1aa99c16903080fb9bf763edc55628ce36e",
+      "response_record_index": 0,
+      "created_at": "2026-08-07T08:58:43.487078+00:00",
+      "response_record_sha256": "7276ff3497d207cebdf7e376ef6555adb5930fa6ff79a90e7f0e5ec1e739c523"
+    },
+    {
+      "case_id": "case_d1e0554b30b609b1847e66cc",
+      "panel_id": "PANEL_A",
+      "action_id": "STUDY_REGULARITY",
+      "relevance_score": 1,
+      "abstain": false,
+      "evidence_ids": [
+        "regularity_score",
+        "study_consistency",
+        "inactivity_streak"
+      ],
+      "rationale": "While study consistency is measured at 0.0, the student maintains a relatively high regularity score of 0.79 and an inactivity streak of 0, making study regularity support only weakly relevant.",
+      "contraindication_detected": false,
+      "safety_flag": false,
+      "reviewer_id": "gemini_external_reviewer_01",
+      "reviewer_configuration_id": "gemini_external_b1766a01a94615a2",
+      "reviewer_type": "REAL_EXTERNAL_LLM_REVIEW",
+      "provider": "Google Gemini API",
+      "model_name": "gemini-3.6-flash",
+      "model_version": "gemini-3.6-flash",
+      "request_id": "clientreq_aaf92aa125a14de4ae22e30ba13e8e93",
+      "response_id": "O551auDKNPuhjuMP6oCGqAM",
+      "batch_id": "panel_a_batch_01",
+      "prompt_version": "external_reviewer_v1",
+      "prompt_sha256": "f7edfaacd2fad67bf21a175ccc5c0a46abb81b669c08928ab78009c0a24624f3",
+      "request_batch_sha256": "3b3ade67582d809deee2300535502e6b233bea28a350ec687934a560634e389e",
+      "raw_request_sha256": "48912ce0ced2ef43568d42ed0671fce3cced4e417f4ca4cd17d8e5d763e90ee1",
+      "raw_response_sha256": "fb7633f66f0a624818bfd68376d6d1aa99c16903080fb9bf763edc55628ce36e",
+      "response_record_index": 1,
+      "created_at": "2026-08-07T08:58:43.487078+00:00",
+      "response_record_sha256": "76e81526f02c81a7c57d882b8a34283a6f94226b03b24fbbcd1f4469a194e951"
+    }
+  ],
+  "created_at": "2026-08-07T08:58:43.487078+00:00"
+}

@@ -1,0 +1,97 @@
+{
+  "schema_version": "gemini_external_review_case_state_v3_1",
+  "status": "COMPLETE",
+  "case_number": 1,
+  "case_id": "case_e0f9d4369e88a2e49acbb575",
+  "provider": "Google Gemini API",
+  "model_name": "gemini-3.6-flash",
+  "model_version": "gemini-3.6-flash",
+  "request_id": "clientreq_c6fa8c8c64cf4d5a9cae58adba237fe7",
+  "response_id": "G5x1apasM7XPjuMPsLbsGQ",
+  "http_status": 200,
+  "finish_reason": "STOP",
+  "usage_metadata": {
+    "promptTokenCount": 675,
+    "candidatesTokenCount": 259,
+    "totalTokenCount": 2988,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 675
+      }
+    ],
+    "thoughtsTokenCount": 2054,
+    "serviceTier": "standard"
+  },
+  "response_schema_sha256": "16c48862970cd23db4fb5b6417e2004dde65a4905de1221c6afff7215144524e",
+  "raw_request_sha256": "e8d1e02a90ef5ed10122c9be543044516458ef231068e74eb347f3a3ad9ac113",
+  "raw_response_sha256": "06966d107f8d825b830a68519ae3b1271be0003f4ab9282da180b8f022608608",
+  "raw_request_file": "raw_requests/case_e0f9d4369e88a2e49acbb575.json",
+  "raw_response_file": "raw_responses/case_e0f9d4369e88a2e49acbb575.json",
+  "normalized_records": [
+    {
+      "case_id": "case_e0f9d4369e88a2e49acbb575",
+      "panel_id": "PANEL_A",
+      "action_id": "ASSESSMENT_COMPLETION",
+      "relevance_score": 3,
+      "abstain": false,
+      "evidence_ids": [
+        "missing_assessment_count",
+        "due_soon_count",
+        "assessments_due"
+      ],
+      "rationale": "The student has 1 missing assessment due soon, representing a clear and direct behavioral gap in assessment completion.",
+      "contraindication_detected": false,
+      "safety_flag": false,
+      "reviewer_id": "gemini_external_reviewer_01",
+      "reviewer_configuration_id": "gemini_external_b1766a01a94615a2",
+      "reviewer_type": "REAL_EXTERNAL_LLM_REVIEW",
+      "provider": "Google Gemini API",
+      "model_name": "gemini-3.6-flash",
+      "model_version": "gemini-3.6-flash",
+      "request_id": "clientreq_c6fa8c8c64cf4d5a9cae58adba237fe7",
+      "response_id": "G5x1apasM7XPjuMPsLbsGQ",
+      "batch_id": "panel_a_batch_01",
+      "prompt_version": "external_reviewer_v1",
+      "prompt_sha256": "f7edfaacd2fad67bf21a175ccc5c0a46abb81b669c08928ab78009c0a24624f3",
+      "request_batch_sha256": "3b3ade67582d809deee2300535502e6b233bea28a350ec687934a560634e389e",
+      "raw_request_sha256": "e8d1e02a90ef5ed10122c9be543044516458ef231068e74eb347f3a3ad9ac113",
+      "raw_response_sha256": "06966d107f8d825b830a68519ae3b1271be0003f4ab9282da180b8f022608608",
+      "response_record_index": 0,
+      "created_at": "2026-08-07T08:49:43.335661+00:00",
+      "response_record_sha256": "04fa516b01bf5b58a661844d7d5f97682bb117c169cf6801101a655188deab6d"
+    },
+    {
+      "case_id": "case_e0f9d4369e88a2e49acbb575",
+      "panel_id": "PANEL_A",
+      "action_id": "STUDY_REGULARITY",
+      "relevance_score": 1,
+      "abstain": false,
+      "evidence_ids": [
+        "regularity_score",
+        "inactivity_streak"
+      ],
+      "rationale": "The student already demonstrates a high regularity score (0.89) with an inactivity streak of 0, making additional regularity intervention only weakly relevant or generic.",
+      "contraindication_detected": false,
+      "safety_flag": false,
+      "reviewer_id": "gemini_external_reviewer_01",
+      "reviewer_configuration_id": "gemini_external_b1766a01a94615a2",
+      "reviewer_type": "REAL_EXTERNAL_LLM_REVIEW",
+      "provider": "Google Gemini API",
+      "model_name": "gemini-3.6-flash",
+      "model_version": "gemini-3.6-flash",
+      "request_id": "clientreq_c6fa8c8c64cf4d5a9cae58adba237fe7",
+      "response_id": "G5x1apasM7XPjuMPsLbsGQ",
+      "batch_id": "panel_a_batch_01",
+      "prompt_version": "external_reviewer_v1",
+      "prompt_sha256": "f7edfaacd2fad67bf21a175ccc5c0a46abb81b669c08928ab78009c0a24624f3",
+      "request_batch_sha256": "3b3ade67582d809deee2300535502e6b233bea28a350ec687934a560634e389e",
+      "raw_request_sha256": "e8d1e02a90ef5ed10122c9be543044516458ef231068e74eb347f3a3ad9ac113",
+      "raw_response_sha256": "06966d107f8d825b830a68519ae3b1271be0003f4ab9282da180b8f022608608",
+      "response_record_index": 1,
+      "created_at": "2026-08-07T08:49:43.335661+00:00",
+      "response_record_sha256": "42297e0f5df5bce1ae900f98b64042e38b26e4ace327f7a21cf0e7aa23b5ca76"
+    }
+  ],
+  "created_at": "2026-08-07T08:49:43.335661+00:00"
+}

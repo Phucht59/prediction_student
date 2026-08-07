@@ -1,0 +1,22 @@
+{
+  "quarantine_version": "invalid_upstream_evidence_v1",
+  "scientific_status": "INVALID_UPSTREAM_EVIDENCE",
+  "official_label_status": "NOT_OFFICIAL_LABELS",
+  "training_eligible": false,
+  "delete_prohibited_for_audit": true,
+  "reason": "Reviewed payloads came from an action-expanded candidate table whose evidence varied by action_id; the exporter collapsed each query using the first action row, so action-conditioned evidence was presented as query-level evidence.",
+  "provider": "Google Gemini API",
+  "model_name": "gemini-3.6-flash",
+  "model_versions_observed": [
+    "gemini-3.6-flash"
+  ],
+  "original_batch_id": "panel_a_batch_01",
+  "completed_case_count": 11,
+  "annotation_record_count": 31,
+  "original_prompt_sha256": "f7edfaacd2fad67bf21a175ccc5c0a46abb81b669c08928ab78009c0a24624f3",
+  "original_request_batch_sha256": "3b3ade67582d809deee2300535502e6b233bea28a350ec687934a560634e389e",
+  "retained_raw_requests": true,
+  "retained_raw_responses": true,
+  "retained_provider_response_ids": true,
+  "runtime_authorized": false
+}

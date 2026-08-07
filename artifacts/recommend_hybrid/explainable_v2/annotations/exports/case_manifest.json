@@ -1,6 +1,7 @@
 {
-  "source_candidates_sha256": "a9bf881bb5d5c011f7e586c839a88a05b32b231deb01b18a0aacfa357acf6510",
-  "source_manifest_sha256": "53602836abd9f57d15a2940b6cdc28379fb8cdc3e93a7a8f3c3b8f279ef4a35f",
+  "source_query_evidence_sha256": "551fc0012d5dcc4b2d7203cb0266e23f539d61bf77e636fa6b1b99b6ae9f6ef6",
+  "source_candidates_sha256": "e0ab6398ed433198d6bdcd75b3fb55ef326f3e7c81315269e8b5dfd71ee0f49a",
+  "source_manifest_sha256": "c840e9bfb631a042832dccb1f3f1f3db1811eb8894def2df40e5055208e1ed9b",
   "total_eligible_queries": 62525,
   "total_eligible_students": 15675,
   "panel_a_case_count": 300,
@@ -11,6 +12,22 @@
   "zero_query_overlap": true,
   "public_privacy_verified": true,
   "synthetic_fixture_used": false,
-  "lineage_source": "action_candidates.parquet",
-  "case_export_classification": "VERIFIED_OULAD_LINEAGE"
+  "lineage_source": "query_level_evidence.parquet",
+  "case_export_classification": "VERIFIED_OULAD_QUERY_LEVEL_LINEAGE_V4",
+  "query_level_evidence_invariant_across_actions": true,
+  "panel_a_action_candidate_counts": {
+    "QUIZ_RETRIEVAL_PRACTICE": 296,
+    "ASSESSMENT_COMPLETION": 184,
+    "RECOVER_ENGAGEMENT": 230,
+    "STUDY_REGULARITY": 292,
+    "TARGETED_CONTENT_REVIEW": 115
+  },
+  "panel_b_action_candidate_counts": {
+    "QUIZ_RETRIEVAL_PRACTICE": 137,
+    "ASSESSMENT_COMPLETION": 97,
+    "RECOVER_ENGAGEMENT": 119,
+    "STUDY_REGULARITY": 141,
+    "TARGETED_CONTENT_REVIEW": 63
+  },
+  "runtime_authorized": false
 }

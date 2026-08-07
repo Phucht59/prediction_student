@@ -1,0 +1,34 @@
+{
+  "schema_version": "query_level_evidence_v4",
+  "status": "COMPLETE",
+  "runtime_authorized": false,
+  "query_count": 62525,
+  "candidate_action_count": 312625,
+  "canonical_action_count": 5,
+  "duplicate_query_count": 0,
+  "duplicate_query_action_count": 0,
+  "action_conditioned_evidence_fields": [],
+  "query_level_evidence_invariant_across_actions": true,
+  "post_cutoff_violation_count": 0,
+  "source_hashes_sha256": {
+    "learner_stage_features": "ebcf9682911c36ad4d79f6dc99c82ed28d79678783fb5f0b664983a8150ed1ea",
+    "assessments": "8cc738fb88ad760571d6f2a23059bfee0ffcae3bcd830514c9cbd5c6d5a046f1",
+    "studentAssessment": "fd5320786328d05af841ee7dd4b5871b9dada3b9fe9d6a3642b2f42635510a6e",
+    "vle": "d1b28303dea802ad87b4484e1196e878e06824850b9a4fe8aa34693439fe87e9",
+    "studentVle": "52668253d876c5becbcb72185977152700cecab2942aca807fecc3dd54b937f0"
+  },
+  "evidence_semantics": {
+    "inactivity_streak": "Consecutive days since last studentVle interaction, using only 0 <= date < cutoff_day.",
+    "active_day_rate": "Verified pre-cutoff baseline VLE active-day rate from frozen landmark artifact.",
+    "assessments_due": "Count of assessments with defined due date strictly before cutoff_day.",
+    "missing_assessment_count": "Assessments due before cutoff without submission strictly before cutoff.",
+    "due_soon_count": "Assessments due in [cutoff_day, cutoff_day + 14).",
+    "completion_rate": "completed_before_cutoff / assessments_due; missing when no assessment is due.",
+    "regularity_score": "Verified pre-cutoff baseline study-regularity score from frozen landmark artifact.",
+    "content_coverage": "Verified pre-cutoff baseline content-review coverage from frozen landmark artifact.",
+    "quiz_activity": "Verified pre-cutoff baseline retrieval-practice rate from frozen landmark artifact.",
+    "quiz_available": "Course-presentation has quiz/externalquiz VLE material available before cutoff by vle.week_from.",
+    "vle_available": "Course-presentation has at least one VLE site available before cutoff by vle.week_from.",
+    "study_material_available": "Course-presentation has at least one study-material VLE site available before cutoff by vle.week_from."
+  }
+}

@@ -1,22 +1,4 @@
-"""Export V2 blinded student-stage cases for LLM annotation batches.
-
-PRIVACY AND BLINDING GUARANTEE:
-Public export files (panel_a_cases.jsonl, panel_b_cases.jsonl) contain strictly
-blinded features and case_id hashes ONLY. Raw query_ids, student_group_ids,
-course codes, outer_folds, and source row hashes are strictly restricted to the
-private mapping file (artifacts/.../annotations/private/private_case_mapping.json).
-
-SECRET SALT REQUIREMENT:
-export_v2_cases requires os.environ["CASE_EXPORT_SALT"]. If unset, export MUST fail non-zero.
-NO default salt literal is permitted in source code.
-
-FEASIBILITY AUTHORITY:
-Calls evaluate_action_eligibility(case_features, action_id, policy).
-NO forced fallback to TARGETED_CONTENT_REVIEW.
-
-STRATIFIED GROUPED ALLOCATION:
-Calls perform_grouped_stratified_sampling(...) for final selected 450 cases (300 Panel A, 150 Panel B).
-"""
+"""Export blinded query-level student-stage cases for LLM annotation."""
 
 from __future__ import annotations
 
@@ -33,18 +15,44 @@ ROOT = Path(__file__).resolve().parents[3]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from src.recommend_hybrid.explainable_v2.action_eligibility import evaluate_action_eligibility
-from src.recommend_hybrid.explainable_v2.sampling import perform_grouped_stratified_sampling
+from src.recommend_hybrid.explainable_v2.action_eligibility import (
+    evaluate_action_eligibility,
+)
+from src.recommend_hybrid.explainable_v2.query_evidence import (
+    AVAILABILITY_FIELDS,
+    QUERY_EVIDENCE_FIELDS,
+)
+from src.recommend_hybrid.explainable_v2.sampling import (
+    perform_grouped_stratified_sampling,
+)
 
+QUERY_EVIDENCE_PATH = (
+    ROOT
+    / "artifacts/recommend_hybrid/explainable_v2/features"
+    / "query_level_evidence.parquet"
+)
 CANDIDATES_PATH = (
-    ROOT / "artifacts/recommend_hybrid/explainable_v2/features/action_candidates.parquet"
+    ROOT
+    / "artifacts/recommend_hybrid/explainable_v2/features"
+    / "action_candidates.parquet"
 )
-CANDIDATES_MANIFEST_PATH = (
-    ROOT / "artifacts/recommend_hybrid/explainable_v2/data/FEATURE_TABLE_MANIFEST.json"
+FEATURE_MANIFEST_PATH = (
+    ROOT
+    / "artifacts/recommend_hybrid/explainable_v2/features"
+    / "QUERY_EVIDENCE_MANIFEST.json"
 )
-EXPORT_DIR = ROOT / "artifacts/recommend_hybrid/explainable_v2/annotations/exports"
-PRIVATE_DIR = ROOT / "artifacts/recommend_hybrid/explainable_v2/annotations/private"
-PROMPTS_DIR = ROOT / "artifacts/recommend_hybrid/explainable_v2/annotations/prompts"
+EXPORT_DIR = (
+    ROOT
+    / "artifacts/recommend_hybrid/explainable_v2/annotations/exports"
+)
+PRIVATE_DIR = (
+    ROOT
+    / "artifacts/recommend_hybrid/explainable_v2/annotations/private"
+)
+PROMPTS_DIR = (
+    ROOT
+    / "artifacts/recommend_hybrid/explainable_v2/annotations/prompts"
+)
 
 PANEL_A_TARGET = 300
 PANEL_B_TARGET = 150
@@ -57,219 +65,394 @@ ALL_ACTIONS = [
 ]
 
 
-def _blinded_case_id(raw_query_id: str, salt: str | None = None) -> str:
+def _blinded_case_id(
+    raw_query_id: str,
+    salt: str | None = None,
+) -> str:
     if salt is None:
         if "CASE_EXPORT_SALT" not in os.environ:
-            raise KeyError("CASE_EXPORT_SALT environment variable is required")
+            raise KeyError(
+                "CASE_EXPORT_SALT environment variable is required"
+            )
         salt = os.environ["CASE_EXPORT_SALT"]
-    return "case_" + hashlib.sha256(salt.encode() + b"_" + raw_query_id.encode()).hexdigest()[:24]
+    return (
+        "case_"
+        + hashlib.sha256(
+            salt.encode("utf-8")
+            + b"_"
+            + raw_query_id.encode("utf-8")
+        ).hexdigest()[:24]
+    )
 
 
 def _row_sha256(row_dict: dict) -> str:
-    row_bytes = json.dumps(row_dict, sort_keys=True, default=str).encode()
+    row_bytes = json.dumps(
+        row_dict,
+        sort_keys=True,
+        default=str,
+        separators=(",", ":"),
+    ).encode("utf-8")
     return hashlib.sha256(row_bytes).hexdigest()
 
 
-def _manifest_sha256(path: Path) -> str:
+def _file_sha256(path: Path) -> str:
     if not path.exists():
         return "MISSING"
-    h = hashlib.sha256()
-    with open(path, "rb") as f:
-        for chunk in iter(lambda: f.read(8192), b""):
-            h.update(chunk)
-    return h.hexdigest()
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(
+            lambda: handle.read(1024 * 1024),
+            b"",
+        ):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def _python_value(value):
+    if pd.isna(value):
+        return None
+    return value.item() if hasattr(value, "item") else value
 
 
 def export_v2_cases() -> dict:
     if "CASE_EXPORT_SALT" not in os.environ:
-        raise RuntimeError("CASE_EXPORT_SALT environment variable is required")
-
+        raise RuntimeError(
+            "CASE_EXPORT_SALT environment variable is required"
+        )
     salt = os.environ["CASE_EXPORT_SALT"]
 
-    for d in (EXPORT_DIR, PRIVATE_DIR, PROMPTS_DIR):
-        d.mkdir(parents=True, exist_ok=True)
+    for directory in (EXPORT_DIR, PRIVATE_DIR, PROMPTS_DIR):
+        directory.mkdir(parents=True, exist_ok=True)
 
-    if not CANDIDATES_PATH.exists():
-        print("ERROR: action_candidates.parquet not found")
-        sys.exit(1)
+    for path in (
+        QUERY_EVIDENCE_PATH,
+        CANDIDATES_PATH,
+        FEATURE_MANIFEST_PATH,
+    ):
+        if not path.exists():
+            raise RuntimeError(
+                f"MISSING_QUERY_EVIDENCE_ARTIFACT={path}"
+            )
 
-    df = pd.read_parquet(CANDIDATES_PATH)
-    cand_sha = _manifest_sha256(CANDIDATES_PATH)
-    cand_manifest_sha = _manifest_sha256(CANDIDATES_MANIFEST_PATH)
+    query_df = pd.read_parquet(QUERY_EVIDENCE_PATH)
+    candidate_df = pd.read_parquet(CANDIDATES_PATH)
 
-    query_groups = df.groupby("query_id")
+    if query_df["query_id"].duplicated().any():
+        raise RuntimeError(
+            "QUERY_EVIDENCE_DUPLICATE_QUERY_ID"
+        )
+    if candidate_df.duplicated(
+        ["query_id", "action_id"]
+    ).any():
+        raise RuntimeError(
+            "CANDIDATE_DUPLICATE_QUERY_ACTION"
+        )
+    if len(candidate_df) != len(query_df) * 5:
+        raise RuntimeError(
+            "CANDIDATE_ROW_COUNT_NOT_EXACTLY_5X"
+        )
+
+    shared = [
+        *QUERY_EVIDENCE_FIELDS,
+        *AVAILABILITY_FIELDS,
+    ]
+    varying = (
+        candidate_df.groupby("query_id")[shared]
+        .nunique(dropna=False)
+        .gt(1)
+        .any(axis=1)
+    )
+    if bool(varying.any()):
+        raise RuntimeError(
+            "ACTION_CONDITIONED_EVIDENCE_DETECTED"
+        )
+
+    query_df = (
+        query_df.sort_values("query_id")
+        .reset_index(drop=True)
+    )
+    query_groups = query_df.groupby(
+        "query_id",
+        sort=True,
+    )
 
     public_cases: dict[str, dict] = {}
     private_mappings: dict[str, dict] = {}
     student_to_queries: dict[str, list[str]] = {}
     query_strata: dict[str, str] = {}
 
-    for qid, grp in query_groups:
-        first = grp.iloc[0]
-        stage_val = str(first["stage"]) if "stage" in grp.columns else "UNKNOWN"
-        student_group_id = (
-            str(first["student_group_id"]) if "student_group_id" in grp.columns else qid
+    query_evidence_sha = _file_sha256(
+        QUERY_EVIDENCE_PATH
+    )
+    candidate_sha = _file_sha256(CANDIDATES_PATH)
+    manifest_sha = _file_sha256(
+        FEATURE_MANIFEST_PATH
+    )
+
+    for first in query_df.itertuples(index=False):
+        query_id = str(first.query_id)
+        stage_value = str(first.stage)
+        student_group_id = str(first.student_group_id)
+        outer_fold = int(first.outer_fold)
+        risk_band = str(first.risk_band)
+        uncertainty = float(first.hybrid_uncertainty)
+        uncertainty_band = (
+            "HIGH"
+            if uncertainty > 0.3
+            else (
+                "MEDIUM"
+                if uncertainty > 0.15
+                else "LOW"
+            )
         )
-        outer_fold = int(first["outer_fold"]) if "outer_fold" in grp.columns else 0
-        risk_band = str(first["risk_band"]) if "risk_band" in grp.columns else "UNKNOWN"
-        unc = float(first["hybrid_uncertainty"]) if "hybrid_uncertainty" in grp.columns else 0.0
-        unc_band = "HIGH" if unc > 0.3 else ("MEDIUM" if unc > 0.15 else "LOW")
 
-        cutoff_map = {"EARLY_20": 20, "EARLY_35": 35, "MIDDLE_50": 50, "LATE_75": 75}
-        cutoff_day = cutoff_map.get(stage_val, 50)
-
-        pre_cutoff: dict = {}
-        for feat in [
-            "inactivity_streak", "active_day_rate", "assessments_due",
-            "regularity_score", "content_coverage", "quiz_activity",
-            "missing_assessment_count", "due_soon_count", "completion_rate",
-            "recent_activity_drop", "engagement_recovery_possible",
-            "inter_session_gap", "study_consistency", "unviewed_content",
-            "low_coverage_topics", "low_quiz_score"
-        ]:
-            if feat in grp.columns:
-                val = first[feat]
-                pre_cutoff[feat] = val.item() if hasattr(val, "item") else val
-
-        quiz_avail = bool(first["quiz_available"]) if "quiz_available" in grp.columns else True
-        vle_avail = bool(first["active_day_rate"] > 0) if "active_day_rate" in grp.columns else True
-        case_features = dict(pre_cutoff)
-        case_features["quiz_available"] = quiz_avail
-        case_features["vle_available"] = vle_avail
-
-        # Call evaluate_action_eligibility for every action
-        candidate_actions = []
-        contraindications = []
-
-        for act in ALL_ACTIONS:
-            is_eligible, code = evaluate_action_eligibility(case_features, act)
-            if is_eligible:
-                candidate_actions.append(act)
-            elif code.startswith("CONTRAINDICATED"):
-                contraindications.append(act)
-
-        # Ensure no forced fallback; if empty, record NO_FEASIBLE_ACTION status
-        routing_status = "FEASIBLE"
-        if not candidate_actions:
-            candidate_actions = []
-            routing_status = "NO_FEASIBLE_ACTION"
-
-        # Disjoint guarantee
-        candidate_actions = [a for a in candidate_actions if a not in contraindications]
-
-        cid = _blinded_case_id(qid, salt=salt)
-
-        avail = {
-            "vle_available": vle_avail,
-            "quiz_available": quiz_avail,
+        pre_cutoff = {
+            field: _python_value(
+                getattr(first, field)
+            )
+            for field in QUERY_EVIDENCE_FIELDS
+        }
+        availability = {
+            "vle_available": bool(
+                first.vle_available
+            ),
+            "study_material_available": bool(
+                first.study_material_available
+            ),
+            "quiz_available": bool(
+                first.quiz_available
+            ),
+        }
+        case_features = {
+            **pre_cutoff,
+            **availability,
+            "stage": stage_value,
         }
 
-        public_case = {
-            "case_id": cid,
+        candidate_actions = []
+        contraindications = []
+        for action in ALL_ACTIONS:
+            eligible, code = (
+                evaluate_action_eligibility(
+                    case_features,
+                    action,
+                )
+            )
+            if eligible:
+                candidate_actions.append(action)
+            elif code.startswith("CONTRAINDICATED"):
+                contraindications.append(action)
+
+        candidate_actions = [
+            action
+            for action in candidate_actions
+            if action not in contraindications
+        ]
+        routing_status = (
+            "FEASIBLE"
+            if candidate_actions
+            else "NO_FEASIBLE_ACTION"
+        )
+
+        case_id = _blinded_case_id(
+            query_id,
+            salt=salt,
+        )
+        public_cases[query_id] = {
+            "case_id": case_id,
             "panel_id": "PENDING_PANEL_ASSIGNMENT",
-            "stage": stage_val,
-            "cutoff_day": cutoff_day,
+            "stage": stage_value,
+            "cutoff_day": int(first.cutoff_day),
             "risk_band": risk_band,
-            "uncertainty_band": unc_band,
+            "uncertainty_band": uncertainty_band,
             "routing_status": routing_status,
-            "observed_pre_cutoff_evidence": pre_cutoff,
+            "observed_pre_cutoff_evidence": (
+                pre_cutoff
+            ),
             "candidate_actions": candidate_actions,
-            "availability_flags": avail,
+            "availability_flags": availability,
             "contraindications": contraindications,
         }
 
-        feature_row_dict = {
-            c: (first[c].item() if hasattr(first[c], "item") else first[c])
-            for c in grp.columns
-            if c != "action_id"
+        feature_row = {
+            column: _python_value(
+                getattr(first, column)
+            )
+            for column in query_df.columns
         }
-        feature_row_sha256 = _row_sha256(feature_row_dict)
-
-        private_mapping = {
-            "case_id": cid,
-            "source_query_id": qid,
-            "source_student_group_id": student_group_id,
+        private_mappings[case_id] = {
+            "case_id": case_id,
+            "source_query_id": query_id,
+            "source_student_group_id": (
+                student_group_id
+            ),
             "outer_fold": outer_fold,
-            "source_feature_row_sha256": feature_row_sha256,
-            "source_candidate_manifest_sha256": cand_sha,
-            "source_feature_manifest_sha256": cand_manifest_sha,
+            "source_query_evidence_row_sha256": (
+                _row_sha256(feature_row)
+            ),
+            "source_query_evidence_sha256": (
+                query_evidence_sha
+            ),
+            "source_candidate_table_sha256": (
+                candidate_sha
+            ),
+            "source_query_evidence_manifest_sha256": (
+                manifest_sha
+            ),
         }
 
-        public_cases[qid] = public_case
-        private_mappings[cid] = private_mapping
-        student_to_queries.setdefault(student_group_id, []).append(qid)
-        query_strata[qid] = f"fold{outer_fold}_{stage_val}_{risk_band}"
+        student_to_queries.setdefault(
+            student_group_id,
+            [],
+        ).append(query_id)
+        query_strata[query_id] = (
+            f"fold{outer_fold}_"
+            f"{stage_value}_{risk_band}"
+        )
 
-    # Perform Proportional Stratified Group Allocation for final 450 selected cases
-    pa_qids, pb_qids, sampling_audit = perform_grouped_stratified_sampling(
-        df=df,
-        query_groups=query_groups,
-        student_to_queries=student_to_queries,
-        query_strata=query_strata,
-        panel_a_target=PANEL_A_TARGET,
-        panel_b_target=PANEL_B_TARGET,
-        seed=2026,
+    panel_a_qids, panel_b_qids, sampling_audit = (
+        perform_grouped_stratified_sampling(
+            df=query_df,
+            query_groups=query_groups,
+            student_to_queries=student_to_queries,
+            query_strata=query_strata,
+            panel_a_target=PANEL_A_TARGET,
+            panel_b_target=PANEL_B_TARGET,
+            seed=2026,
+        )
     )
 
     panel_a_cases = []
-    for qid in pa_qids:
-        c = dict(public_cases[qid])
-        c["panel_id"] = "PANEL_A"
-        panel_a_cases.append(c)
+    for query_id in panel_a_qids:
+        case = dict(public_cases[query_id])
+        case["panel_id"] = "PANEL_A"
+        panel_a_cases.append(case)
 
     panel_b_cases = []
-    for qid in pb_qids:
-        c = dict(public_cases[qid])
-        c["panel_id"] = "PANEL_B"
-        panel_b_cases.append(c)
+    for query_id in panel_b_qids:
+        case = dict(public_cases[query_id])
+        case["panel_id"] = "PANEL_B"
+        panel_b_cases.append(case)
 
-    # Privacy verification
-    forbidden_keys = {"query_id", "source_query_id", "id_student", "student_group_id", "module", "presentation", "outer_fold"}
-    for c in panel_a_cases + panel_b_cases:
-        leaked = forbidden_keys & set(c.keys())
-        assert len(leaked) == 0, f"Privacy leak detected: {leaked}"
+    forbidden_keys = {
+        "query_id",
+        "source_query_id",
+        "id_student",
+        "student_group_id",
+        "module",
+        "presentation",
+        "outer_fold",
+    }
+    for case in panel_a_cases + panel_b_cases:
+        leaked = forbidden_keys & set(case)
+        if leaked:
+            raise RuntimeError(
+                "PRIVACY_LEAK_DETECTED="
+                + str(sorted(leaked))
+            )
 
-    with (EXPORT_DIR / "panel_a_cases.jsonl").open("w", encoding="utf-8") as f:
-        for c in panel_a_cases:
-            f.write(json.dumps(c) + "\n")
+    with (
+        EXPORT_DIR / "panel_a_cases.jsonl"
+    ).open("w", encoding="utf-8") as handle:
+        for case in panel_a_cases:
+            handle.write(json.dumps(case) + "\n")
 
-    with (EXPORT_DIR / "panel_b_cases.jsonl").open("w", encoding="utf-8") as f:
-        for c in panel_b_cases:
-            f.write(json.dumps(c) + "\n")
+    with (
+        EXPORT_DIR / "panel_b_cases.jsonl"
+    ).open("w", encoding="utf-8") as handle:
+        for case in panel_b_cases:
+            handle.write(json.dumps(case) + "\n")
 
-    (PRIVATE_DIR / "private_case_mapping.json").write_text(
-        json.dumps(private_mappings, indent=2), encoding="utf-8"
+    (
+        PRIVATE_DIR / "private_case_mapping.json"
+    ).write_text(
+        json.dumps(private_mappings, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    (
+        EXPORT_DIR / "SAMPLING_AUDIT.json"
+    ).write_text(
+        json.dumps(sampling_audit, indent=2) + "\n",
+        encoding="utf-8",
     )
 
-    (EXPORT_DIR / "SAMPLING_AUDIT.json").write_text(
-        json.dumps(sampling_audit, indent=2), encoding="utf-8"
-    )
-
-    sampling_manifest = {
-        "source_candidates_sha256": cand_sha,
-        "source_manifest_sha256": cand_manifest_sha,
+    action_counts_a = {
+        action: sum(
+            action in case["candidate_actions"]
+            for case in panel_a_cases
+        )
+        for action in ALL_ACTIONS
+    }
+    action_counts_b = {
+        action: sum(
+            action in case["candidate_actions"]
+            for case in panel_b_cases
+        )
+        for action in ALL_ACTIONS
+    }
+    manifest = {
+        "source_query_evidence_sha256": (
+            query_evidence_sha
+        ),
+        "source_candidates_sha256": candidate_sha,
+        "source_manifest_sha256": manifest_sha,
         "total_eligible_queries": len(public_cases),
-        "total_eligible_students": len(student_to_queries),
+        "total_eligible_students": len(
+            student_to_queries
+        ),
         "panel_a_case_count": len(panel_a_cases),
         "panel_b_case_count": len(panel_b_cases),
-        "panel_student_overlap_count": sampling_audit["student_overlap"],
-        "panel_query_overlap_count": sampling_audit["query_overlap"],
-        "zero_student_overlap": sampling_audit["student_overlap"] == 0,
-        "zero_query_overlap": sampling_audit["query_overlap"] == 0,
+        "panel_student_overlap_count": (
+            sampling_audit["student_overlap"]
+        ),
+        "panel_query_overlap_count": (
+            sampling_audit["query_overlap"]
+        ),
+        "zero_student_overlap": (
+            sampling_audit["student_overlap"] == 0
+        ),
+        "zero_query_overlap": (
+            sampling_audit["query_overlap"] == 0
+        ),
         "public_privacy_verified": True,
         "synthetic_fixture_used": False,
-        "lineage_source": "action_candidates.parquet",
-        "case_export_classification": "VERIFIED_OULAD_LINEAGE",
+        "lineage_source": (
+            "query_level_evidence.parquet"
+        ),
+        "case_export_classification": (
+            "VERIFIED_OULAD_QUERY_LEVEL_LINEAGE_V4"
+        ),
+        "query_level_evidence_invariant_across_actions": (
+            True
+        ),
+        "panel_a_action_candidate_counts": (
+            action_counts_a
+        ),
+        "panel_b_action_candidate_counts": (
+            action_counts_b
+        ),
+        "runtime_authorized": False,
     }
-    (EXPORT_DIR / "case_manifest.json").write_text(
-        json.dumps(sampling_manifest, indent=2), encoding="utf-8"
+    (
+        EXPORT_DIR / "case_manifest.json"
+    ).write_text(
+        json.dumps(manifest, indent=2) + "\n",
+        encoding="utf-8",
     )
 
-    _generate_prompt_package(PROMPTS_DIR, panel_a_cases, panel_b_cases)
-    return sampling_manifest
+    _generate_prompt_package(
+        PROMPTS_DIR,
+        panel_a_cases,
+        panel_b_cases,
+    )
+    return manifest
 
 
-def _generate_prompt_package(prompts_dir: Path, panel_a: list, panel_b: list) -> None:
+def _generate_prompt_package(
+    prompts_dir: Path,
+    panel_a: list,
+    panel_b: list,
+) -> None:
     system_prompt = """You are an expert academic advisor evaluating intervention actions for at-risk students.
 Assess each candidate action on relevance scale 0 to 3 based on pre-cutoff evidence.
 0 = Unsuitable or harmful
@@ -278,53 +461,99 @@ Assess each candidate action on relevance scale 0 to 3 based on pre-cutoff evide
 3 = Highly relevant with direct evidence
 You may abstain if evidence is insufficient.
 """
-    (prompts_dir / "system_prompt.txt").write_text(system_prompt, encoding="utf-8")
+    (
+        prompts_dir / "system_prompt.txt"
+    ).write_text(
+        system_prompt,
+        encoding="utf-8",
+    )
 
     instructions = """# LLM Annotation Instructions for Student Action Ranking
 
+All public evidence is query-level and constructed before action expansion.
+
 ## Relevance Scale
-- **0**: Unsuitable or potential harm (e.g. recommending quiz practice when no quizzes exist).
-- **1**: Weakly relevant (generic advice, low specificity).
-- **2**: Relevant (direct alignment with observed student behavioral gaps).
-- **3**: Highly relevant (urgent action matching specific missing assessment or inactivity streak).
+- **0**: Unsuitable or potential harm.
+- **1**: Weakly relevant.
+- **2**: Relevant with adequate evidence.
+- **3**: Highly relevant with direct evidence.
 
-## Required Response Provenance Fields
-Each response MUST contain authentic external provider metadata:
-`case_id`, `panel_id`, `action_id`, `relevance_score` (0-3 or abstain=true),
-`evidence_ids`, `rationale`, `contraindication_detected`, `safety_flag`,
-`reviewer_id`, `reviewer_configuration_id`, `reviewer_type`="REAL_EXTERNAL_LLM_REVIEW",
-`provider`, `model_name`, `request_id`, `response_id`, `batch_id`, `prompt_version`, `prompt_sha256`,
-`request_batch_sha256`, `raw_request_sha256`, `raw_response_sha256`, `created_at`.
+External provenance is validated separately by the fail-closed importer.
 """
-    (prompts_dir / "annotation_instructions.md").write_text(instructions, encoding="utf-8")
+    (
+        prompts_dir / "annotation_instructions.md"
+    ).write_text(
+        instructions,
+        encoding="utf-8",
+    )
 
-    pa_dir = prompts_dir / "panel_a_request_batches"
-    pb_dir = prompts_dir / "panel_b_request_batches"
-    pa_dir.mkdir(parents=True, exist_ok=True)
-    pb_dir.mkdir(parents=True, exist_ok=True)
+    panel_a_dir = (
+        prompts_dir / "panel_a_request_batches"
+    )
+    panel_b_dir = (
+        prompts_dir / "panel_b_request_batches"
+    )
+    panel_a_dir.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+    panel_b_dir.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
 
-    batch_size = 50
-    for i in range(0, len(panel_a), batch_size):
-        b_num = i // batch_size + 1
-        batch = panel_a[i:i+batch_size]
-        (pa_dir / f"batch_{b_num:02d}.jsonl").write_text(
-            "\n".join(json.dumps(c) for c in batch), encoding="utf-8"
+    for old in panel_a_dir.glob("batch_*.jsonl"):
+        old.unlink()
+    for old in panel_b_dir.glob("batch_*.jsonl"):
+        old.unlink()
+
+    for index in range(0, len(panel_a), 50):
+        number = index // 50 + 1
+        batch = panel_a[index : index + 50]
+        (
+            panel_a_dir
+            / f"batch_{number:02d}.jsonl"
+        ).write_text(
+            "\n".join(
+                json.dumps(case)
+                for case in batch
+            ),
+            encoding="utf-8",
         )
 
-    for i in range(0, len(panel_b), batch_size):
-        b_num = i // batch_size + 1
-        batch = panel_b[i:i+batch_size]
-        (pb_dir / f"batch_{b_num:02d}.jsonl").write_text(
-            "\n".join(json.dumps(c) for c in batch), encoding="utf-8"
+    for index in range(0, len(panel_b), 50):
+        number = index // 50 + 1
+        batch = panel_b[index : index + 50]
+        (
+            panel_b_dir
+            / f"batch_{number:02d}.jsonl"
+        ).write_text(
+            "\n".join(
+                json.dumps(case)
+                for case in batch
+            ),
+            encoding="utf-8",
         )
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--panel", default="all")
-    args = parser.parse_args()
-    m = export_v2_cases()
-    print(f"CASE_EXPORT_STATUS=VERIFIED_OULAD_LINEAGE")
-    print(f"PUBLIC_PRIVACY_VERIFIED=TRUE")
-    print(f"CASE_EXPORT_PANEL_A={m['panel_a_case_count']}")
-    print(f"CASE_EXPORT_PANEL_B={m['panel_b_case_count']}")
+    parser.add_argument(
+        "--panel",
+        default="all",
+    )
+    parser.parse_args()
+    result = export_v2_cases()
+    print(
+        "CASE_EXPORT_STATUS="
+        "VERIFIED_OULAD_QUERY_LEVEL_LINEAGE_V4"
+    )
+    print("PUBLIC_PRIVACY_VERIFIED=TRUE")
+    print(
+        "CASE_EXPORT_PANEL_A="
+        + str(result["panel_a_case_count"])
+    )
+    print(
+        "CASE_EXPORT_PANEL_B="
+        + str(result["panel_b_case_count"])
+    )

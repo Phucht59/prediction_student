@@ -1,0 +1,73 @@
+{
+  "provider": "Google Gemini API",
+  "model_name": "gemini-3.6-flash",
+  "batch_id": "panel_a_batch_01",
+  "records": [
+    {
+      "case_id": "case_e0f9d4369e88a2e49acbb575",
+      "request_id": "clientreq_c6fa8c8c64cf4d5a9cae58adba237fe7",
+      "raw_request_sha256": "e8d1e02a90ef5ed10122c9be543044516458ef231068e74eb347f3a3ad9ac113",
+      "raw_request_file": "raw_requests/case_e0f9d4369e88a2e49acbb575.json"
+    },
+    {
+      "case_id": "case_1408271c35162d6753b4d2ea",
+      "request_id": "clientreq_4bfd093b16f64cc5b048434395d18ef3",
+      "raw_request_sha256": "1f64ec06f08bf10122021c7946765d4155516f5d01eda1d385832f1440b89609",
+      "raw_request_file": "raw_requests/case_1408271c35162d6753b4d2ea.json"
+    },
+    {
+      "case_id": "case_74715b881d7e621bd79c238d",
+      "request_id": "clientreq_f44e222e8eec4f32b22d8da8f483821c",
+      "raw_request_sha256": "bca0b894c6e7374731d5631c0bb64c57182d0e23833e2bc1199ac542c4ab7154",
+      "raw_request_file": "raw_requests/case_74715b881d7e621bd79c238d.json"
+    },
+    {
+      "case_id": "case_d1e0554b30b609b1847e66cc",
+      "request_id": "clientreq_aaf92aa125a14de4ae22e30ba13e8e93",
+      "raw_request_sha256": "48912ce0ced2ef43568d42ed0671fce3cced4e417f4ca4cd17d8e5d763e90ee1",
+      "raw_request_file": "raw_requests/case_d1e0554b30b609b1847e66cc.json"
+    },
+    {
+      "case_id": "case_2b950dcf38b47cb652d7c740",
+      "request_id": "clientreq_ba3a6d6a7ed7439cac491d560847a124",
+      "raw_request_sha256": "7e3215dbda26d6b993d5fb78eb022323909275b13de165f39f7159feaef6f7d7",
+      "raw_request_file": "raw_requests/case_2b950dcf38b47cb652d7c740.json"
+    },
+    {
+      "case_id": "case_c5808e90a08995f4471db667",
+      "request_id": "clientreq_7fd5010c57bd4723bde2989b654b684e",
+      "raw_request_sha256": "463b96e6357a801858ed0ee74a9c44af155dad277bea5f021ce22420a6e3cdde",
+      "raw_request_file": "raw_requests/case_c5808e90a08995f4471db667.json"
+    },
+    {
+      "case_id": "case_3d6c205df1122be48fc40491",
+      "request_id": "clientreq_ce932c5ed7044a4f9e60c940386fc557",
+      "raw_request_sha256": "468a3d660b137aa5a8b84c2d0a6abbbf23ebc4e0c54b208f1a0d4b2775608180",
+      "raw_request_file": "raw_requests/case_3d6c205df1122be48fc40491.json"
+    },
+    {
+      "case_id": "case_52860263940ff47938da18a5",
+      "request_id": "clientreq_63b1cf9c1691415bbc63c2eaec1a4dea",
+      "raw_request_sha256": "32f738a3e5317657e7484f6c571c8479b0386770127ed5804efad98e4fbc050f",
+      "raw_request_file": "raw_requests/case_52860263940ff47938da18a5.json"
+    },
+    {
+      "case_id": "case_37088941a558dd2d1c5e1c8a",
+      "request_id": "clientreq_1489896b0ca94170bca8521c5f3267d1",
+      "raw_request_sha256": "1ae706519bc21e6a942591dad27c9522793eb02e955df100227b056dba2e3802",
+      "raw_request_file": "raw_requests/case_37088941a558dd2d1c5e1c8a.json"
+    },
+    {
+      "case_id": "case_bed3a59515937dd556b83882",
+      "request_id": "clientreq_5d506e7150d44b0d96b66ce7643ae2a0",
+      "raw_request_sha256": "80e5ea74ec5abac218821ff1b70bc43844751075f2526a9d1a8d6741c291429b",
+      "raw_request_file": "raw_requests/case_bed3a59515937dd556b83882.json"
+    },
+    {
+      "case_id": "case_404874e7673d6bd3d473f80d",
+      "request_id": "clientreq_198d3060932f4ad1baa6c87a06637dba",
+      "raw_request_sha256": "f2fa84d1e3644b0264314ac555c33564a94c6b512f2e4df1f825f87c46860e4e",
+      "raw_request_file": "raw_requests/case_404874e7673d6bd3d473f80d.json"
+    }
+  ]
+}

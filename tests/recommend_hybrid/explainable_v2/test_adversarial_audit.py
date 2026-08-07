@@ -117,7 +117,7 @@ class TestSyntheticCaseExport:
         assert len(unique) > 3, f"Too few unique active_day_rate values: {unique}"
 
     def test_cases_have_oulad_lineage_fields(self):
-        """Real cases must have source_query_id and source_feature_row_sha256 in private mapping."""
+        """Real cases must retain query-level OULAD lineage in private mapping."""
         cases = self._check_cases()
         if not cases:
             pytest.skip("No cases exported yet")
@@ -129,7 +129,10 @@ class TestSyntheticCaseExport:
             c["case_id"] for c in cases[:50]
             if c["case_id"] not in private_map
             or "source_query_id" not in private_map[c["case_id"]]
-            or "source_feature_row_sha256" not in private_map[c["case_id"]]
+            or "source_query_evidence_row_sha256" not in private_map[c["case_id"]]
+            or "source_query_evidence_sha256" not in private_map[c["case_id"]]
+            or "source_candidate_table_sha256" not in private_map[c["case_id"]]
+            or "source_query_evidence_manifest_sha256" not in private_map[c["case_id"]]
         ]
         assert missing_lineage == [], f"{len(missing_lineage)} cases missing private lineage mapping"
 

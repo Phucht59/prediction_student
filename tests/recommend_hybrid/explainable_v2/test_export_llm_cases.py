@@ -19,7 +19,8 @@ def test_export_v2_cases():
     assert manifest["zero_query_overlap"] is True
     assert manifest["public_privacy_verified"] is True
     assert manifest["synthetic_fixture_used"] is False
-    assert manifest["case_export_classification"] == "VERIFIED_OULAD_LINEAGE"
+    assert manifest["case_export_classification"] == "VERIFIED_OULAD_QUERY_LEVEL_LINEAGE_V4"
+    assert manifest["query_level_evidence_invariant_across_actions"] is True
 
     # Check case files exist
     pa_path = ROOT / "artifacts/recommend_hybrid/explainable_v2/annotations/exports/panel_a_cases.jsonl"
@@ -44,5 +45,9 @@ def test_export_v2_cases():
     assert private_map_path.exists()
     pmap = json.loads(private_map_path.read_text(encoding="utf-8"))
     assert first_line["case_id"] in pmap
-    assert "source_query_id" in pmap[first_line["case_id"]]
-    assert "source_feature_row_sha256" in pmap[first_line["case_id"]]
+    mapping = pmap[first_line["case_id"]]
+    assert "source_query_id" in mapping
+    assert "source_query_evidence_row_sha256" in mapping
+    assert "source_query_evidence_sha256" in mapping
+    assert "source_candidate_table_sha256" in mapping
+    assert "source_query_evidence_manifest_sha256" in mapping

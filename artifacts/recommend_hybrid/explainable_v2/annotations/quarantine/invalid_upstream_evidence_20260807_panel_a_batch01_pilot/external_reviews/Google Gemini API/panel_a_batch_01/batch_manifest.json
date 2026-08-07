@@ -1,0 +1,31 @@
+{
+  "schema_version": "gemini_external_review_batch_v3_1",
+  "provider": "Google Gemini API",
+  "model_name": "gemini-3.6-flash",
+  "model_versions_observed": [
+    "gemini-3.6-flash"
+  ],
+  "batch_id": "panel_a_batch_01",
+  "panel_id": "PANEL_A",
+  "source_case_count": 50,
+  "completed_case_count": 11,
+  "annotation_record_count": 31,
+  "prompt_version": "external_reviewer_v1",
+  "prompt_sha256": "f7edfaacd2fad67bf21a175ccc5c0a46abb81b669c08928ab78009c0a24624f3",
+  "request_batch_sha256": "3b3ade67582d809deee2300535502e6b233bea28a350ec687934a560634e389e",
+  "request_batch_snapshot_file": "request_batch_snapshot.jsonl",
+  "source_batch_file": "artifacts/recommend_hybrid/explainable_v2/annotations/prompts/panel_a_request_batches/batch_01.jsonl",
+  "source_batch_sha256": "3b3ade67582d809deee2300535502e6b233bea28a350ec687934a560634e389e",
+  "response_schema_sha256_values": [
+    "0f3745de4c8a9bc75b1a8c26bcd720e48abd437da228c2d2895c6e8166e6cff6",
+    "16c48862970cd23db4fb5b6417e2004dde65a4905de1221c6afff7215144524e",
+    "8c2e84e8059d2d6ec4902bca28f4b0aa237a72634e7d0bc8628c2a6969d2405d",
+    "99415e07ddda50f70bd72babc408f0cf9e3ea669c21b1e387fb0bc4d46f9d553"
+  ],
+  "request_id_semantics": "client_generated_uuid4",
+  "response_id_semantics": "provider_native_Gemini_responseId",
+  "sampling": "model_defaults",
+  "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent",
+  "updated_at": "2026-08-07T09:00:25.445996+00:00",
+  "complete": false
+}
