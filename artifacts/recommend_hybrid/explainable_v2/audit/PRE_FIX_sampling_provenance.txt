@@ -1,0 +1,682 @@
+﻿...FF.FFF.FFFFFFFFFFFFFFF.FF..                                           [100%]
+================================== FAILURES ===================================
+________________ test_absolute_deviation_is_computed_correctly ________________
+
+exported_cases = {'is_first_n_truncation': False, 'max_relative_deviation': 0.5, 'panel_a_case_count': 300, 'panel_b_case_count': 150, ...}
+
+    def test_absolute_deviation_is_computed_correctly(exported_cases):
+        """Stratum deviations must use target vs actual, never abs(actual - half)."""
+        breakdown = exported_cases.get("stratum_breakdown", {})
+        assert breakdown, "stratum_breakdown must be populated"
+        for stratum, row in breakdown.items():
+            for panel in ("panel_a", "panel_b"):
+>               target = row[f"{panel}_target"]
+E               KeyError: 'panel_a_target'
+
+tests\recommend_hybrid\explainable_v2\test_sampling_provenance_v2.py:87: KeyError
+______________________ test_all_stages_and_folds_present ______________________
+
+exported_cases = {'is_first_n_truncation': False, 'max_relative_deviation': 0.5, 'panel_a_case_count': 300, 'panel_b_case_count': 150, ...}
+
+    def test_all_stages_and_folds_present(exported_cases):
+        """All stages and outer folds must appear in both panels."""
+        pa, pb, pmap = _load_panel_cases()
+        expected_stages = {"EARLY_20", "EARLY_35", "MIDDLE_50", "LATE_75"}
+        pa_stages = {c["stage"] for c in pa}
+        pb_stages = {c["stage"] for c in pb}
+        assert pa_stages == expected_stages
+        assert pb_stages == expected_stages
+    
+        pa_folds = {pmap[c["case_id"]]["outer_fold"] for c in pa}
+        pb_folds = {pmap[c["case_id"]]["outer_fold"] for c in pb}
+        assert len(pa_folds) >= 3
+        assert len(pb_folds) >= 3
+>       assert exported_cases.get("all_stages_represented") is True
+E       AssertionError: assert None is True
+E        +  where None = <built-in method get of dict object at 0x000001E655A7EE00>('all_stages_represented')
+E        +    where <built-in method get of dict object at 0x000001E655A7EE00> = {'is_first_n_truncation': False, 'max_relative_deviation': 0.5, 'panel_a_case_count': 300, 'panel_b_case_count': 150, ...}.get
+
+tests\recommend_hybrid\explainable_v2\test_sampling_provenance_v2.py:113: AssertionError
+__________________ test_no_forced_targeted_content_fallback ___________________
+
+    def test_no_forced_targeted_content_fallback():
+        """Exporter must not force TARGETED_CONTENT_REVIEW when no action is feasible."""
+        source = (SCRIPT_DIR / "export_llm_cases.py").read_text(encoding="utf-8")
+>       assert "if not candidate_actions:" not in source or "TARGETED_CONTENT_REVIEW" not in source.split("if not candidate_actions:")[1].split("\n")[0:3].__str__()
+E       assert ('if not candidate_actions:' not in '"""Export V...ount\']}")\n'
+E         
+E         'if not candidate_actions:' is contained here:
+E           
+E           
+E                   if not candidate_actions:
+E                       candidate_actions.append("TARGETED_CONTENT_REVIEW")
+E           ...
+E         
+E         ...Full output truncated (236 lines hidden), use '-vv' to show or 'TARGETED_CONTENT_REVIEW' not in '[\'\', \'  ...W")\', \'\']'
+E         
+E         'TARGETED_CONTENT_REVIEW' is contained here:
+E           s.append("TARGETED_CONTENT_REVIEW")', ''])
+
+tests\recommend_hybrid\explainable_v2\test_sampling_provenance_v2.py:132: AssertionError
+______________ test_policy_thresholds_not_hardcoded_in_exporter _______________
+
+    def test_policy_thresholds_not_hardcoded_in_exporter():
+        """Hardcoded eligibility thresholds must not live in export_llm_cases.py."""
+        source = (SCRIPT_DIR / "export_llm_cases.py").read_text(encoding="utf-8")
+        forbidden_patterns = [
+            "active_day_rate", 0.5,
+            "regularity_score", 0.8,
+            "content_coverage", 0.8,
+        ]
+        # Numeric threshold literals tied to eligibility rules are forbidden in exporter
+>       assert "< 0.5" not in source or "evaluate_action_eligibility" in source
+E       assert ('< 0.5' not in '"""Export V...ount\']}")\n'
+E         
+E         '< 0.5' is contained here:
+E           rate", 0) < 0.5 or first.get("engagement_recovery_possible", False):
+E         ?           +++++
+E                       candidate_actions.append("RECOVER_ENGAGEMENT")
+E           
+E                   # Rule 4: STUDY_REGULARITY...
+E         
+E         ...Full output truncated (246 lines hidden), use '-vv' to show or 'evaluate_action_eligibility' in '"""Export V2 blinded student-stage cases for LLM annotation batches.\n\nPRIVACY AND BLINDING GUARANTEE:\nPublic expor...t(f"CASE_EXPORT_PANEL_A={m[\'panel_a_case_count\']}")\n    print(f"CASE_EXPORT_PANEL_B={m[\'panel_b_case_count\']}")\n')
+
+tests\recommend_hybrid\explainable_v2\test_sampling_provenance_v2.py:155: AssertionError
+__________________ test_every_eligibility_rule_has_authority __________________
+
+    def test_every_eligibility_rule_has_authority():
+        """ACTION_FEASIBILITY_AUTHORITY_AUDIT.json must document every action rule."""
+        audit_path = AUDIT_DIR / "ACTION_FEASIBILITY_AUTHORITY_AUDIT.json"
+>       assert audit_path.exists(), "ACTION_FEASIBILITY_AUTHORITY_AUDIT.json is missing"
+E       AssertionError: ACTION_FEASIBILITY_AUTHORITY_AUDIT.json is missing
+E       assert False
+E        +  where False = exists()
+E        +    where exists = WindowsPath('C:/hufit/kltn/artifacts/recommend_hybrid/explainable_v2/audit/ACTION_FEASIBILITY_AUTHORITY_AUDIT.json').exists
+
+tests\recommend_hybrid\explainable_v2\test_sampling_provenance_v2.py:165: AssertionError
+_________________ test_main_import_path_calls_validate_record _________________
+
+    def test_main_import_path_calls_validate_record():
+        """import_annotations must call validate_record for every parsed record."""
+        source = (SCRIPT_DIR / "import_llm_annotations.py").read_text(encoding="utf-8")
+        assert "validate_record(" in source
+>       assert source.count("validate_record(") >= 2
+E       assert 1 >= 2
+E        +  where 1 = <built-in method count of str object at 0x000001E6A34FF860>('validate_record(')
+E        +    where <built-in method count of str object at 0x000001E6A34FF860> = '"""Import, validate, and normalize external LLM annotation responses with strict fail-closed security.\n\nFAIL-CLOSED...TATUS={m[\'import_status\']}")\n    print(f"REAL_EXTERNAL_LLM_REVIEW_COUNT={m[\'real_external_llm_review_count\']}")\n'.count
+
+tests\recommend_hybrid\explainable_v2\test_sampling_provenance_v2.py:202: AssertionError
+___________________ test_no_secondary_weak_validation_path ____________________
+
+    def test_no_secondary_weak_validation_path():
+        """Importer must not duplicate validation logic outside validate_record."""
+        source = (SCRIPT_DIR / "import_llm_annotations.py").read_text(encoding="utf-8")
+        tree = ast.parse(source)
+        import_fn = None
+        for node in ast.walk(tree):
+            if isinstance(node, ast.FunctionDef) and node.name == "import_annotations":
+                import_fn = node
+                break
+        assert import_fn is not None
+        fn_src = ast.get_source_segment(source, import_fn) or source
+        # Weak inline checks that bypass validate_record are forbidden
+>       assert fn_src.count("FORBIDDEN_TYPES") == 0 or "validate_record" in fn_src
+E       assert (1 == 0 or 'validate_record' in 'def import_annotations(raw_dir: Path = RAW_DIR, output_file: Path = IMPORTS_DIR / "normalized_annotations.parquet") -....json").write_text(\n        json.dumps(quality_report, indent=2), encoding="utf-8"\n    )\n\n    return manifest_data')
+E        +  where 1 = <built-in method count of str object at 0x000001E6534EC020>('FORBIDDEN_TYPES')
+E        +    where <built-in method count of str object at 0x000001E6534EC020> = 'def import_annotations(raw_dir: Path = RAW_DIR, output_file: Path = IMPORTS_DIR / "normalized_annotations.parquet") -....json").write_text(\n        json.dumps(quality_report, indent=2), encoding="utf-8"\n    )\n\n    return manifest_data'.count
+
+tests\recommend_hybrid\explainable_v2\test_sampling_provenance_v2.py:219: AssertionError
+__________________ test_wrong_panel_rejected_in_real_import ___________________
+
+    def test_wrong_panel_rejected_in_real_import():
+        """Real import path must reject panel_id mismatch via validate_record."""
+        rec = _make_valid_record("case_test_panel", "PANEL_B", "ASSESSMENT_COMPLETION")
+>       manifest = _run_import_in_tmp([json.dumps(rec)])
+
+tests\recommend_hybrid\explainable_v2\test_sampling_provenance_v2.py:307: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\recommend_hybrid\explainable_v2\test_sampling_provenance_v2.py:292: in _run_import_in_tmp
+    with patch.object(imp, "RAW_DIR", raw_dir), patch.object(
+C:\Users\tranh\AppData\Local\Programs\Python\Python310\lib\unittest\mock.py:1438: in __enter__
+    original, local = self.get_original()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <unittest.mock._patch object at 0x000001E69F62EE90>
+
+    def get_original(self):
+        target = self.getter()
+        name = self.attribute
+    
+        original = DEFAULT
+        local = False
+    
+        try:
+            original = target.__dict__[name]
+        except (AttributeError, KeyError):
+            original = getattr(target, name, DEFAULT)
+        else:
+            local = True
+    
+        if name in _builtins and isinstance(target, ModuleType):
+            self.create = True
+    
+        if not self.create and original is DEFAULT:
+>           raise AttributeError(
+                "%s does not have the attribute %r" % (target, name)
+            )
+E           AttributeError: <module 'scripts.recommend_hybrid.explainable_v2.import_llm_annotations' from 'C:\\hufit\\kltn\\scripts\\recommend_hybrid\\explainable_v2\\import_llm_annotations.py'> does not have the attribute 'ACCEPTED_RECORDS_PATH'
+
+C:\Users\tranh\AppData\Local\Programs\Python\Python310\lib\unittest\mock.py:1411: AttributeError
+_______________ test_ineligible_action_rejected_in_real_import ________________
+
+    def test_ineligible_action_rejected_in_real_import():
+        """Real import path must reject ineligible action_id."""
+        rec = _make_valid_record("case_test_action", "PANEL_A", "QUIZ_RETRIEVAL_PRACTICE")
+>       manifest = _run_import_in_tmp([json.dumps(rec)])
+
+tests\recommend_hybrid\explainable_v2\test_sampling_provenance_v2.py:314: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\recommend_hybrid\explainable_v2\test_sampling_provenance_v2.py:292: in _run_import_in_tmp
+    with patch.object(imp, "RAW_DIR", raw_dir), patch.object(
+C:\Users\tranh\AppData\Local\Programs\Python\Python310\lib\unittest\mock.py:1438: in __enter__
+    original, local = self.get_original()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <unittest.mock._patch object at 0x000001E69FDEFE20>
+
+    def get_original(self):
+        target = self.getter()
+        name = self.attribute
+    
+        original = DEFAULT
+        local = False
+    
+        try:
+            original = target.__dict__[name]
+        except (AttributeError, KeyError):
+            original = getattr(target, name, DEFAULT)
+        else:
+            local = True
+    
+        if name in _builtins and isinstance(target, ModuleType):
+            self.create = True
+    
+        if not self.create and original is DEFAULT:
+>           raise AttributeError(
+                "%s does not have the attribute %r" % (target, name)
+            )
+E           AttributeError: <module 'scripts.recommend_hybrid.explainable_v2.import_llm_annotations' from 'C:\\hufit\\kltn\\scripts\\recommend_hybrid\\explainable_v2\\import_llm_annotations.py'> does not have the attribute 'ACCEPTED_RECORDS_PATH'
+
+C:\Users\tranh\AppData\Local\Programs\Python\Python310\lib\unittest\mock.py:1411: AttributeError
+_________________ test_invalid_score_rejected_in_real_import __________________
+
+    def test_invalid_score_rejected_in_real_import():
+        """Real import path must reject invalid relevance_score."""
+        rec = _make_valid_record("case_test_score", "PANEL_A", "ASSESSMENT_COMPLETION")
+        rec["relevance_score"] = 99
+>       manifest = _run_import_in_tmp([json.dumps(rec)])
+
+tests\recommend_hybrid\explainable_v2\test_sampling_provenance_v2.py:322: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\recommend_hybrid\explainable_v2\test_sampling_provenance_v2.py:292: in _run_import_in_tmp
+    with patch.object(imp, "RAW_DIR", raw_dir), patch.object(
+C:\Users\tranh\AppData\Local\Programs\Python\Python310\lib\unittest\mock.py:1438: in __enter__
+    original, local = self.get_original()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <unittest.mock._patch object at 0x000001E6A607B820>
+
+    def get_original(self):
+        target = self.getter()
+        name = self.attribute
+    
+        original = DEFAULT
+        local = False
+    
+        try:
+            original = target.__dict__[name]
+        except (AttributeError, KeyError):
+            original = getattr(target, name, DEFAULT)
+        else:
+            local = True
+    
+        if name in _builtins and isinstance(target, ModuleType):
+            self.create = True
+    
+        if not self.create and original is DEFAULT:
+>           raise AttributeError(
+                "%s does not have the attribute %r" % (target, name)
+            )
+E           AttributeError: <module 'scripts.recommend_hybrid.explainable_v2.import_llm_annotations' from 'C:\\hufit\\kltn\\scripts\\recommend_hybrid\\explainable_v2\\import_llm_annotations.py'> does not have the attribute 'ACCEPTED_RECORDS_PATH'
+
+C:\Users\tranh\AppData\Local\Programs\Python\Python310\lib\unittest\mock.py:1411: AttributeError
+________________ test_empty_rationale_rejected_in_real_import _________________
+
+    def test_empty_rationale_rejected_in_real_import():
+        """Real import path must reject empty rationale."""
+        rec = _make_valid_record("case_test_rat", "PANEL_A", "ASSESSMENT_COMPLETION")
+        rec["rationale"] = ""
+>       manifest = _run_import_in_tmp([json.dumps(rec)])
+
+tests\recommend_hybrid\explainable_v2\test_sampling_provenance_v2.py:330: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\recommend_hybrid\explainable_v2\test_sampling_provenance_v2.py:292: in _run_import_in_tmp
+    with patch.object(imp, "RAW_DIR", raw_dir), patch.object(
+C:\Users\tranh\AppData\Local\Programs\Python\Python310\lib\unittest\mock.py:1438: in __enter__
+    original, local = self.get_original()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <unittest.mock._patch object at 0x000001E69F66B2B0>
+
+    def get_original(self):
+        target = self.getter()
+        name = self.attribute
+    
+        original = DEFAULT
+        local = False
+    
+        try:
+            original = target.__dict__[name]
+        except (AttributeError, KeyError):
+            original = getattr(target, name, DEFAULT)
+        else:
+            local = True
+    
+        if name in _builtins and isinstance(target, ModuleType):
+            self.create = True
+    
+        if not self.create and original is DEFAULT:
+>           raise AttributeError(
+                "%s does not have the attribute %r" % (target, name)
+            )
+E           AttributeError: <module 'scripts.recommend_hybrid.explainable_v2.import_llm_annotations' from 'C:\\hufit\\kltn\\scripts\\recommend_hybrid\\explainable_v2\\import_llm_annotations.py'> does not have the attribute 'ACCEPTED_RECORDS_PATH'
+
+C:\Users\tranh\AppData\Local\Programs\Python\Python310\lib\unittest\mock.py:1411: AttributeError
+_______________ test_fake_request_id_without_envelope_rejected ________________
+
+    def test_fake_request_id_without_envelope_rejected():
+        """Records with request_id but no matching envelope must be rejected."""
+        from scripts.recommend_hybrid.explainable_v2.import_llm_annotations import validate_record
+    
+        rec = _make_valid_record("case_env_001", "PANEL_A", "ASSESSMENT_COMPLETION")
+>       is_valid, code, _ = validate_record(
+            rec,
+            known_cases={"case_env_001"},
+            case_panels={"case_env_001": "PANEL_A"},
+            case_candidate_actions={"case_env_001": ["ASSESSMENT_COMPLETION"]},
+            approved_providers={"OpenAI API"},
+            locked_prompt_hash="a" * 64,
+            envelope_registry={},
+        )
+E       TypeError: validate_record() got an unexpected keyword argument 'envelope_registry'
+
+tests\recommend_hybrid\explainable_v2\test_sampling_provenance_v2.py:342: TypeError
+____________________ test_wrong_envelope_provider_rejected ____________________
+
+    def test_wrong_envelope_provider_rejected():
+        """Envelope provider mismatch must reject the record."""
+        from scripts.recommend_hybrid.explainable_v2.import_llm_annotations import validate_record
+    
+        rec = _make_valid_record("case_env_002", "PANEL_A", "ASSESSMENT_COMPLETION")
+        registry = {
+            ("OpenAI API", "batch_test_001"): {
+                "request_envelope": {"provider": "Anthropic API", "model": "gpt-4o", "request_id": "req_test_001", "batch_id": "batch_test_001", "status": 200, "payload_sha256": "c" * 64},
+                "response_envelope": {"provider": "Anthropic API", "model": "gpt-4o", "request_id": "req_test_001", "batch_id": "batch_test_001", "status": 200, "payload_sha256": "d" * 64, "records": []},
+                "batch_manifest": {"prompt_sha256": "a" * 64, "request_batch_sha256": "b" * 64},
+            }
+        }
+>       is_valid, code, _ = validate_record(
+            rec,
+            known_cases={"case_env_002"},
+            case_panels={"case_env_002": "PANEL_A"},
+            case_candidate_actions={"case_env_002": ["ASSESSMENT_COMPLETION"]},
+            approved_providers={"OpenAI API"},
+            locked_prompt_hash="a" * 64,
+            envelope_registry=registry,
+        )
+E       TypeError: validate_record() got an unexpected keyword argument 'envelope_registry'
+
+tests\recommend_hybrid\explainable_v2\test_sampling_provenance_v2.py:367: TypeError
+__________________ test_wrong_response_record_hash_rejected ___________________
+
+    def test_wrong_response_record_hash_rejected():
+        """Per-record response hash mismatch must reject the record."""
+        from scripts.recommend_hybrid.explainable_v2.import_llm_annotations import validate_record
+    
+        rec = _make_valid_record("case_env_003", "PANEL_A", "ASSESSMENT_COMPLETION")
+        rec["response_record_sha256"] = "f" * 64
+        registry = {
+            ("OpenAI API", "batch_test_001"): {
+                "request_envelope": {"provider": "OpenAI API", "model": "gpt-4o", "request_id": "req_test_001", "batch_id": "batch_test_001", "status": 200, "payload_sha256": "c" * 64},
+                "response_envelope": {
+                    "provider": "OpenAI API",
+                    "model": "gpt-4o",
+                    "request_id": "req_test_001",
+                    "batch_id": "batch_test_001",
+                    "status": 200,
+                    "payload_sha256": "d" * 64,
+                    "records": [{"index": 0, "sha256": "e" * 64}],
+                },
+                "batch_manifest": {"prompt_sha256": "a" * 64, "request_batch_sha256": "b" * 64},
+            }
+        }
+>       is_valid, code, _ = validate_record(
+            rec,
+            known_cases={"case_env_003"},
+            case_panels={"case_env_003": "PANEL_A"},
+            case_candidate_actions={"case_env_003": ["ASSESSMENT_COMPLETION"]},
+            approved_providers={"OpenAI API"},
+            locked_prompt_hash="a" * 64,
+            envelope_registry=registry,
+        )
+E       TypeError: validate_record() got an unexpected keyword argument 'envelope_registry'
+
+tests\recommend_hybrid\explainable_v2\test_sampling_provenance_v2.py:401: TypeError
+________________ test_whole_file_hash_not_used_as_record_hash _________________
+
+    def test_whole_file_hash_not_used_as_record_hash():
+        """Importer must not assign whole-file SHA256 as per-record raw_response_sha256."""
+        source = (SCRIPT_DIR / "import_llm_annotations.py").read_text(encoding="utf-8")
+>       assert "response_record_sha256" in source or "response_record_index" in source
+E       assert ('response_record_sha256' in '"""Import, validate, and normalize external LLM annotation responses with strict fail-closed security.\n\nFAIL-CLOSED...TATUS={m[\'import_status\']}")\n    print(f"REAL_EXTERNAL_LLM_REVIEW_COUNT={m[\'real_external_llm_review_count\']}")\n' or 'response_record_index' in '"""Import, validate, and normalize external LLM annotation responses with strict fail-closed security.\n\nFAIL-CLOSED...TATUS={m[\'import_status\']}")\n    print(f"REAL_EXTERNAL_LLM_REVIEW_COUNT={m[\'real_external_llm_review_count\']}")\n')
+
+tests\recommend_hybrid\explainable_v2\test_sampling_provenance_v2.py:417: AssertionError
+_____________________ test_record_links_to_response_index _____________________
+
+    def test_record_links_to_response_index():
+        """Accepted records must carry response_record_index from envelope."""
+        from scripts.recommend_hybrid.explainable_v2.import_llm_annotations import validate_record
+    
+        rec = _make_valid_record("case_env_004", "PANEL_A", "ASSESSMENT_COMPLETION")
+        record_sha = rec["response_record_sha256"]
+        registry = {
+            ("OpenAI API", "batch_test_001"): {
+                "request_envelope": {"provider": "OpenAI API", "model": "gpt-4o", "request_id": "req_test_001", "batch_id": "batch_test_001", "status": 200, "payload_sha256": "c" * 64},
+                "response_envelope": {
+                    "provider": "OpenAI API",
+                    "model": "gpt-4o",
+                    "request_id": "req_test_001",
+                    "batch_id": "batch_test_001",
+                    "status": 200,
+                    "payload_sha256": "d" * 64,
+                    "records": [{"index": 0, "sha256": record_sha}],
+                },
+                "batch_manifest": {"prompt_sha256": "a" * 64, "request_batch_sha256": "b" * 64},
+            }
+        }
+>       is_valid, code, _ = validate_record(
+            rec,
+            known_cases={"case_env_004"},
+            case_panels={"case_env_004": "PANEL_A"},
+            case_candidate_actions={"case_env_004": ["ASSESSMENT_COMPLETION"]},
+            approved_providers={"OpenAI API"},
+            locked_prompt_hash="a" * 64,
+            envelope_registry=registry,
+        )
+E       TypeError: validate_record() got an unexpected keyword argument 'envelope_registry'
+
+tests\recommend_hybrid\explainable_v2\test_sampling_provenance_v2.py:447: TypeError
+_______________ test_malformed_json_written_to_rejected_records _______________
+
+    def test_malformed_json_written_to_rejected_records():
+        """Malformed JSON lines must appear in rejected_records.jsonl."""
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            raw_dir = tmp_path / "raw"
+            raw_dir.mkdir()
+            (raw_dir / "bad.jsonl").write_text("{not valid json\n", encoding="utf-8")
+            rejected_path = tmp_path / "rejected_records.jsonl"
+            from scripts.recommend_hybrid.explainable_v2 import import_llm_annotations as imp
+    
+            cap = tmp_path / "cap.json"
+            cap.write_text(
+                json.dumps({"external_provider_status": "AVAILABLE", "evaluated_providers": [{"provider_name": "OpenAI API", "status": "AVAILABLE"}]}),
+                encoding="utf-8",
+            )
+>           with patch.object(imp, "RAW_DIR", raw_dir), patch.object(imp, "IMPORTS_DIR", tmp_path), patch.object(
+                imp, "CAPABILITY_AUDIT_PATH", cap
+            ), patch.object(imp, "REJECTED_RECORDS_PATH", rejected_path), patch.object(
+                imp, "ACCEPTED_RECORDS_PATH", tmp_path / "accepted_records.parquet"
+            ):
+
+tests\recommend_hybrid\explainable_v2\test_sampling_provenance_v2.py:477: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\tranh\AppData\Local\Programs\Python\Python310\lib\unittest\mock.py:1438: in __enter__
+    original, local = self.get_original()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <unittest.mock._patch object at 0x000001E6A63944C0>
+
+    def get_original(self):
+        target = self.getter()
+        name = self.attribute
+    
+        original = DEFAULT
+        local = False
+    
+        try:
+            original = target.__dict__[name]
+        except (AttributeError, KeyError):
+            original = getattr(target, name, DEFAULT)
+        else:
+            local = True
+    
+        if name in _builtins and isinstance(target, ModuleType):
+            self.create = True
+    
+        if not self.create and original is DEFAULT:
+>           raise AttributeError(
+                "%s does not have the attribute %r" % (target, name)
+            )
+E           AttributeError: <module 'scripts.recommend_hybrid.explainable_v2.import_llm_annotations' from 'C:\\hufit\\kltn\\scripts\\recommend_hybrid\\explainable_v2\\import_llm_annotations.py'> does not have the attribute 'REJECTED_RECORDS_PATH'
+
+C:\Users\tranh\AppData\Local\Programs\Python\Python310\lib\unittest\mock.py:1411: AttributeError
+__________________ test_rejected_record_contains_line_number __________________
+
+    def test_rejected_record_contains_line_number():
+        """Rejected records must include source line_number."""
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            raw_dir = tmp_path / "raw"
+            raw_dir.mkdir()
+            (raw_dir / "bad.jsonl").write_text("{bad\n", encoding="utf-8")
+            rejected_path = tmp_path / "rejected_records.jsonl"
+            from scripts.recommend_hybrid.explainable_v2 import import_llm_annotations as imp
+    
+            cap = tmp_path / "cap.json"
+            cap.write_text(
+                json.dumps({"external_provider_status": "AVAILABLE", "evaluated_providers": [{"provider_name": "OpenAI API", "status": "AVAILABLE"}]}),
+                encoding="utf-8",
+            )
+>           with patch.object(imp, "RAW_DIR", raw_dir), patch.object(imp, "IMPORTS_DIR", tmp_path), patch.object(
+                imp, "CAPABILITY_AUDIT_PATH", cap
+            ), patch.object(imp, "REJECTED_RECORDS_PATH", rejected_path), patch.object(
+                imp, "ACCEPTED_RECORDS_PATH", tmp_path / "accepted_records.parquet"
+            ):
+
+tests\recommend_hybrid\explainable_v2\test_sampling_provenance_v2.py:503: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\tranh\AppData\Local\Programs\Python\Python310\lib\unittest\mock.py:1438: in __enter__
+    original, local = self.get_original()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <unittest.mock._patch object at 0x000001E69F62C0D0>
+
+    def get_original(self):
+        target = self.getter()
+        name = self.attribute
+    
+        original = DEFAULT
+        local = False
+    
+        try:
+            original = target.__dict__[name]
+        except (AttributeError, KeyError):
+            original = getattr(target, name, DEFAULT)
+        else:
+            local = True
+    
+        if name in _builtins and isinstance(target, ModuleType):
+            self.create = True
+    
+        if not self.create and original is DEFAULT:
+>           raise AttributeError(
+                "%s does not have the attribute %r" % (target, name)
+            )
+E           AttributeError: <module 'scripts.recommend_hybrid.explainable_v2.import_llm_annotations' from 'C:\\hufit\\kltn\\scripts\\recommend_hybrid\\explainable_v2\\import_llm_annotations.py'> does not have the attribute 'REJECTED_RECORDS_PATH'
+
+C:\Users\tranh\AppData\Local\Programs\Python\Python310\lib\unittest\mock.py:1411: AttributeError
+____________________ test_rejected_record_contains_reason _____________________
+
+    def test_rejected_record_contains_reason():
+        """Rejected records must include rejection_code and rejection_message."""
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            raw_dir = tmp_path / "raw"
+            raw_dir.mkdir()
+            (raw_dir / "bad.jsonl").write_text("{bad\n", encoding="utf-8")
+            rejected_path = tmp_path / "rejected_records.jsonl"
+            from scripts.recommend_hybrid.explainable_v2 import import_llm_annotations as imp
+    
+            cap = tmp_path / "cap.json"
+            cap.write_text(
+                json.dumps({"external_provider_status": "AVAILABLE", "evaluated_providers": [{"provider_name": "OpenAI API", "status": "AVAILABLE"}]}),
+                encoding="utf-8",
+            )
+>           with patch.object(imp, "RAW_DIR", raw_dir), patch.object(imp, "IMPORTS_DIR", tmp_path), patch.object(
+                imp, "CAPABILITY_AUDIT_PATH", cap
+            ), patch.object(imp, "REJECTED_RECORDS_PATH", rejected_path), patch.object(
+                imp, "ACCEPTED_RECORDS_PATH", tmp_path / "accepted_records.parquet"
+            ):
+
+tests\recommend_hybrid\explainable_v2\test_sampling_provenance_v2.py:528: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\tranh\AppData\Local\Programs\Python\Python310\lib\unittest\mock.py:1438: in __enter__
+    original, local = self.get_original()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <unittest.mock._patch object at 0x000001E6A6396410>
+
+    def get_original(self):
+        target = self.getter()
+        name = self.attribute
+    
+        original = DEFAULT
+        local = False
+    
+        try:
+            original = target.__dict__[name]
+        except (AttributeError, KeyError):
+            original = getattr(target, name, DEFAULT)
+        else:
+            local = True
+    
+        if name in _builtins and isinstance(target, ModuleType):
+            self.create = True
+    
+        if not self.create and original is DEFAULT:
+>           raise AttributeError(
+                "%s does not have the attribute %r" % (target, name)
+            )
+E           AttributeError: <module 'scripts.recommend_hybrid.explainable_v2.import_llm_annotations' from 'C:\\hufit\\kltn\\scripts\\recommend_hybrid\\explainable_v2\\import_llm_annotations.py'> does not have the attribute 'REJECTED_RECORDS_PATH'
+
+C:\Users\tranh\AppData\Local\Programs\Python\Python310\lib\unittest\mock.py:1411: AttributeError
+__________________ test_invalid_count_matches_rejected_file ___________________
+
+    def test_invalid_count_matches_rejected_file():
+        """import manifest invalid_count must equal rejected_records.jsonl line count."""
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            raw_dir = tmp_path / "raw"
+            raw_dir.mkdir()
+            (raw_dir / "bad.jsonl").write_text("{bad\n", encoding="utf-8")
+            rejected_path = tmp_path / "rejected_records.jsonl"
+            from scripts.recommend_hybrid.explainable_v2 import import_llm_annotations as imp
+    
+            cap = tmp_path / "cap.json"
+            cap.write_text(
+                json.dumps({"external_provider_status": "AVAILABLE", "evaluated_providers": [{"provider_name": "OpenAI API", "status": "AVAILABLE"}]}),
+                encoding="utf-8",
+            )
+>           with patch.object(imp, "RAW_DIR", raw_dir), patch.object(imp, "IMPORTS_DIR", tmp_path), patch.object(
+                imp, "CAPABILITY_AUDIT_PATH", cap
+            ), patch.object(imp, "REJECTED_RECORDS_PATH", rejected_path), patch.object(
+                imp, "ACCEPTED_RECORDS_PATH", tmp_path / "accepted_records.parquet"
+            ):
+
+tests\recommend_hybrid\explainable_v2\test_sampling_provenance_v2.py:554: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\tranh\AppData\Local\Programs\Python\Python310\lib\unittest\mock.py:1438: in __enter__
+    original, local = self.get_original()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <unittest.mock._patch object at 0x000001E6A62A9CF0>
+
+    def get_original(self):
+        target = self.getter()
+        name = self.attribute
+    
+        original = DEFAULT
+        local = False
+    
+        try:
+            original = target.__dict__[name]
+        except (AttributeError, KeyError):
+            original = getattr(target, name, DEFAULT)
+        else:
+            local = True
+    
+        if name in _builtins and isinstance(target, ModuleType):
+            self.create = True
+    
+        if not self.create and original is DEFAULT:
+>           raise AttributeError(
+                "%s does not have the attribute %r" % (target, name)
+            )
+E           AttributeError: <module 'scripts.recommend_hybrid.explainable_v2.import_llm_annotations' from 'C:\\hufit\\kltn\\scripts\\recommend_hybrid\\explainable_v2\\import_llm_annotations.py'> does not have the attribute 'REJECTED_RECORDS_PATH'
+
+C:\Users\tranh\AppData\Local\Programs\Python\Python310\lib\unittest\mock.py:1411: AttributeError
+___________________ test_verifier_requires_accepted_records ___________________
+
+    def test_verifier_requires_accepted_records():
+        """Verifier source must read accepted_records.parquet from importer."""
+        source = (SCRIPT_DIR / "verify_scientific_completion.py").read_text(encoding="utf-8")
+>       assert "accepted_records.parquet" in source
+E       assert 'accepted_records.parquet' in '"""Independent scientific completion verifier.\n\nExit codes:\n  0 = VERIFIED_COMPLETE\n  2 = BLOCKED_EXTERNAL_DEPEND...if __name__ == "__main__":\n    code, report = verify()\n    print(json.dumps(report, indent=2))\n    sys.exit(code)\n'
+
+tests\recommend_hybrid\explainable_v2\test_sampling_provenance_v2.py:579: AssertionError
+______________________ test_verifier_requires_envelopes _______________________
+
+    def test_verifier_requires_envelopes():
+        """Verifier must cross-check provider envelopes, not trust raw fields alone."""
+        source = (SCRIPT_DIR / "verify_scientific_completion.py").read_text(encoding="utf-8")
+>       assert "envelope" in source.lower() or "external_reviews" in source
+E       assert ('envelope' in '"""independent scientific completion verifier.\n\nexit codes:\n  0 = verified_complete\n  2 = blocked_external_depend...if __name__ == "__main__":\n    code, report = verify()\n    print(json.dumps(report, indent=2))\n    sys.exit(code)\n' or 'external_reviews' in '"""Independent scientific completion verifier.\n\nExit codes:\n  0 = VERIFIED_COMPLETE\n  2 = BLOCKED_EXTERNAL_DEPEND...if __name__ == "__main__":\n    code, report = verify()\n    print(json.dumps(report, indent=2))\n    sys.exit(code)\n')
+E        +  where '"""independent scientific completion verifier.\n\nexit codes:\n  0 = verified_complete\n  2 = blocked_external_depend...if __name__ == "__main__":\n    code, report = verify()\n    print(json.dumps(report, indent=2))\n    sys.exit(code)\n' = <built-in method lower of str object at 0x000001E69E21EC40>()
+E        +    where <built-in method lower of str object at 0x000001E69E21EC40> = '"""Independent scientific completion verifier.\n\nExit codes:\n  0 = VERIFIED_COMPLETE\n  2 = BLOCKED_EXTERNAL_DEPEND...if __name__ == "__main__":\n    code, report = verify()\n    print(json.dumps(report, indent=2))\n    sys.exit(code)\n'.lower
+
+tests\recommend_hybrid\explainable_v2\test_sampling_provenance_v2.py:585: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/recommend_hybrid/explainable_v2/test_sampling_provenance_v2.py::test_absolute_deviation_is_computed_correctly
+FAILED tests/recommend_hybrid/explainable_v2/test_sampling_provenance_v2.py::test_all_stages_and_folds_present
+FAILED tests/recommend_hybrid/explainable_v2/test_sampling_provenance_v2.py::test_no_forced_targeted_content_fallback
+FAILED tests/recommend_hybrid/explainable_v2/test_sampling_provenance_v2.py::test_policy_thresholds_not_hardcoded_in_exporter
+FAILED tests/recommend_hybrid/explainable_v2/test_sampling_provenance_v2.py::test_every_eligibility_rule_has_authority
+FAILED tests/recommend_hybrid/explainable_v2/test_sampling_provenance_v2.py::test_main_import_path_calls_validate_record
+FAILED tests/recommend_hybrid/explainable_v2/test_sampling_provenance_v2.py::test_no_secondary_weak_validation_path
+FAILED tests/recommend_hybrid/explainable_v2/test_sampling_provenance_v2.py::test_wrong_panel_rejected_in_real_import
+FAILED tests/recommend_hybrid/explainable_v2/test_sampling_provenance_v2.py::test_ineligible_action_rejected_in_real_import
+FAILED tests/recommend_hybrid/explainable_v2/test_sampling_provenance_v2.py::test_invalid_score_rejected_in_real_import
+FAILED tests/recommend_hybrid/explainable_v2/test_sampling_provenance_v2.py::test_empty_rationale_rejected_in_real_import
+FAILED tests/recommend_hybrid/explainable_v2/test_sampling_provenance_v2.py::test_fake_request_id_without_envelope_rejected
+FAILED tests/recommend_hybrid/explainable_v2/test_sampling_provenance_v2.py::test_wrong_envelope_provider_rejected
+FAILED tests/recommend_hybrid/explainable_v2/test_sampling_provenance_v2.py::test_wrong_response_record_hash_rejected
+FAILED tests/recommend_hybrid/explainable_v2/test_sampling_provenance_v2.py::test_whole_file_hash_not_used_as_record_hash
+FAILED tests/recommend_hybrid/explainable_v2/test_sampling_provenance_v2.py::test_record_links_to_response_index
+FAILED tests/recommend_hybrid/explainable_v2/test_sampling_provenance_v2.py::test_malformed_json_written_to_rejected_records
+FAILED tests/recommend_hybrid/explainable_v2/test_sampling_provenance_v2.py::test_rejected_record_contains_line_number
+FAILED tests/recommend_hybrid/explainable_v2/test_sampling_provenance_v2.py::test_rejected_record_contains_reason
+FAILED tests/recommend_hybrid/explainable_v2/test_sampling_provenance_v2.py::test_invalid_count_matches_rejected_file
+FAILED tests/recommend_hybrid/explainable_v2/test_sampling_provenance_v2.py::test_verifier_requires_accepted_records
+FAILED tests/recommend_hybrid/explainable_v2/test_sampling_provenance_v2.py::test_verifier_requires_envelopes
+22 failed, 8 passed in 28.43s
