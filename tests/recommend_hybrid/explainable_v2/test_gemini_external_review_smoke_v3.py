@@ -60,7 +60,7 @@ def test_request_uses_locked_system_instruction_and_structured_output():
     assert body["systemInstruction"]["parts"][0]["text"] == "LOCKED PROMPT"
     assert "system_instruction" not in body
     response_format = body["generationConfig"]["responseFormat"]["text"]
-    assert response_format["mimeType"] == "application/json"
+    assert response_format["mimeType"] == "APPLICATION_JSON"
     assert response_format["schema"] == schema
 
     serialized = json.dumps(body)
@@ -138,3 +138,13 @@ def test_semantic_validation_rejects_duplicate_evidence_ids():
         assert "Duplicate evidence_ids" in str(exc)
     else:
         raise AssertionError("Duplicate evidence_ids must fail closed")
+
+
+def test_generate_content_response_format_uses_rest_enum_value():
+    case = _case()
+    schema = build_review_schema(case)
+    body = build_request_body(case, "LOCKED PROMPT", schema)
+
+    text_format = body["generationConfig"]["responseFormat"]["text"]
+    assert text_format["mimeType"] == "APPLICATION_JSON"
+    assert text_format["mimeType"] != "application/json"
