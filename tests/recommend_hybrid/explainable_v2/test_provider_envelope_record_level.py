@@ -14,13 +14,17 @@ def _build_valid_batch(tmp_path):
     batch_id = "panel_a_batch_01"
     model = "gemini-3.6-flash"
     prompt_hash = "7" * 64
-    batch_hash = "8" * 64
 
     batch_dir = tmp_path / provider / batch_id
     req_raw_dir = batch_dir / "raw_requests"
     resp_raw_dir = batch_dir / "raw_responses"
     req_raw_dir.mkdir(parents=True)
     resp_raw_dir.mkdir(parents=True)
+
+    batch_snapshot = b'{"case_id":"case_bbbbbbbbbbbbbbbbbbbbbbbb"}\n'
+    batch_snapshot_path = batch_dir / "request_batch_snapshot.jsonl"
+    batch_snapshot_path.write_bytes(batch_snapshot)
+    batch_hash = sha256_bytes(batch_snapshot)
 
     raw_request = b'{"request":"exact"}'
     raw_response = b'{"responseId":"resp_002","modelVersion":"gemini-3.6-flash"}'
@@ -40,7 +44,7 @@ def _build_valid_batch(tmp_path):
         "contraindication_detected": False,
         "safety_flag": False,
         "reviewer_id": "gemini_external_reviewer_01",
-        "reviewer_configuration_id": "gemini-3.6-flash_temperature_0_v1",
+        "reviewer_configuration_id": "gemini-3.6-flash_default_sampling_v1",
         "reviewer_type": "REAL_EXTERNAL_LLM_REVIEW",
         "provider": provider,
         "model_name": model,
@@ -95,6 +99,7 @@ def _build_valid_batch(tmp_path):
         "batch_id": batch_id,
         "prompt_sha256": prompt_hash,
         "request_batch_sha256": batch_hash,
+        "request_batch_snapshot_file": "request_batch_snapshot.jsonl",
     }
 
     (batch_dir / "request_envelope.json").write_text(
@@ -106,11 +111,11 @@ def _build_valid_batch(tmp_path):
     (batch_dir / "batch_manifest.json").write_text(
         json.dumps(manifest), encoding="utf-8"
     )
-    return rec, provider, batch_id, prompt_hash, resp_file
+    return rec, provider, batch_id, prompt_hash, resp_file, batch_snapshot_path
 
 
 def test_record_level_provenance_passes(tmp_path):
-    rec, provider, batch_id, prompt_hash, _ = _build_valid_batch(tmp_path)
+    rec, provider, batch_id, prompt_hash, _, _ = _build_valid_batch(tmp_path)
     ok, code, _ = verify_provider_envelope(
         tmp_path, provider, batch_id, rec, locked_prompt_hash=prompt_hash
     )
@@ -119,7 +124,7 @@ def test_record_level_provenance_passes(tmp_path):
 
 
 def test_wrong_request_id_fails_closed(tmp_path):
-    rec, provider, batch_id, prompt_hash, _ = _build_valid_batch(tmp_path)
+    rec, provider, batch_id, prompt_hash, _, _ = _build_valid_batch(tmp_path)
     rec["request_id"] = "fake_request"
     rec["response_record_sha256"] = response_record_sha256(rec)
     ok, code, _ = verify_provider_envelope(
@@ -130,7 +135,7 @@ def test_wrong_request_id_fails_closed(tmp_path):
 
 
 def test_tampered_raw_response_fails_closed(tmp_path):
-    rec, provider, batch_id, prompt_hash, resp_file = _build_valid_batch(tmp_path)
+    rec, provider, batch_id, prompt_hash, resp_file, _ = _build_valid_batch(tmp_path)
     resp_file.write_bytes(b'{"tampered":true}')
     ok, code, _ = verify_provider_envelope(
         tmp_path, provider, batch_id, rec, locked_prompt_hash=prompt_hash
@@ -140,7 +145,7 @@ def test_tampered_raw_response_fails_closed(tmp_path):
 
 
 def test_wrong_response_id_fails_closed(tmp_path):
-    rec, provider, batch_id, prompt_hash, _ = _build_valid_batch(tmp_path)
+    rec, provider, batch_id, prompt_hash, _, _ = _build_valid_batch(tmp_path)
     rec["response_id"] = "fake_response"
     rec["response_record_sha256"] = response_record_sha256(rec)
     ok, code, _ = verify_provider_envelope(
@@ -151,7 +156,7 @@ def test_wrong_response_id_fails_closed(tmp_path):
 
 
 def test_missing_exact_raw_request_file_fails_closed(tmp_path):
-    rec, provider, batch_id, prompt_hash, _ = _build_valid_batch(tmp_path)
+    rec, provider, batch_id, prompt_hash, _, _ = _build_valid_batch(tmp_path)
     req_path = (
         tmp_path
         / provider
@@ -165,3 +170,13 @@ def test_missing_exact_raw_request_file_fails_closed(tmp_path):
     )
     assert ok is False
     assert code == "RAW_REQUEST_FILE_MISSING"
+
+
+def test_tampered_request_batch_snapshot_fails_closed(tmp_path):
+    rec, provider, batch_id, prompt_hash, _, snapshot = _build_valid_batch(tmp_path)
+    snapshot.write_bytes(b'{"tampered":"batch"}\n')
+    ok, code, _ = verify_provider_envelope(
+        tmp_path, provider, batch_id, rec, locked_prompt_hash=prompt_hash
+    )
+    assert ok is False
+    assert code == "REQUEST_BATCH_SNAPSHOT_HASH_MISMATCH"

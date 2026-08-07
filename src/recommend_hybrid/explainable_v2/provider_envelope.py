@@ -142,6 +142,19 @@ def verify_provider_envelope(
     if manifest.get("request_batch_sha256") != batch_hash:
         return False, "REQUEST_BATCH_HASH_MISMATCH", "Batch manifest request_batch_sha256 mismatch"
 
+    batch_snapshot_path = _safe_payload_path(
+        batch_dir,
+        manifest.get("request_batch_snapshot_file"),
+    )
+    if batch_snapshot_path is None or not batch_snapshot_path.is_file():
+        return False, "REQUEST_BATCH_SNAPSHOT_MISSING", "Exact request-batch snapshot file missing"
+    if sha256_bytes(batch_snapshot_path.read_bytes()) != batch_hash:
+        return (
+            False,
+            "REQUEST_BATCH_SNAPSHOT_HASH_MISMATCH",
+            "request_batch_sha256 does not match exact request-batch snapshot bytes",
+        )
+
     request_id = str(rec.get("request_id", "")).strip()
     response_id = str(rec.get("response_id", "")).strip()
     case_id = str(rec.get("case_id", "")).strip()

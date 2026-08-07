@@ -138,3 +138,4 @@ artifacts/recommend_hybrid/explainable_v2/annotations/private/*
 !artifacts/recommend_hybrid/explainable_v2/annotations/private/.gitkeep
 artifacts/recommend_hybrid/explainable_v2/run_state/*.json
 artifacts/recommend_hybrid/explainable_v2/run_state/logs/*
+artifacts/recommend_hybrid/explainable_v2/annotations/smoke_gemini_v3/
