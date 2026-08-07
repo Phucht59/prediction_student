@@ -1,60 +1,76 @@
 {
-  "audit_version": "external_llm_provider_v1",
-  "timestamp": "2026-08-07T11:45:00Z",
-  "external_provider_status": "UNAVAILABLE",
-  "scientific_status": "BLOCKED_PENDING_EXTERNAL_LLM_ACCESS",
-  "verified_independent_source_count": 0,
-  "environment_audit": {
-    "OPENAI_API_KEY": false,
-    "ANTHROPIC_API_KEY": false,
-    "GEMINI_API_KEY": false,
-    "GOOGLE_API_KEY": false,
-    "AZURE_OPENAI_KEY": false,
-    "MISTRAL_API_KEY": false,
-    "TOGETHER_API_KEY": false,
-    "GROQ_API_KEY": false,
-    "DEEPSEEK_API_KEY": false
-  },
-  "evaluated_providers": [
-    {
-      "provider_name": "OpenAI API",
-      "connector_or_sdk": "openai-python-sdk",
-      "authentication_available": false,
-      "model_endpoint": "gpt-4o",
-      "supports_request_id": true,
-      "supports_raw_response_capture": true,
-      "supports_batch_resume": true,
-      "estimated_review_capacity": 0,
-      "status": "UNAVAILABLE"
-    },
-    {
-      "provider_name": "Anthropic API",
-      "connector_or_sdk": "anthropic-python-sdk",
-      "authentication_available": false,
-      "model_endpoint": "claude-3-5-sonnet-20241022",
-      "supports_request_id": true,
-      "supports_raw_response_capture": true,
-      "supports_batch_resume": true,
-      "estimated_review_capacity": 0,
-      "status": "UNAVAILABLE"
-    },
-    {
-      "provider_name": "Google Gemini API",
-      "connector_or_sdk": "google-genai-sdk",
-      "authentication_available": false,
-      "model_endpoint": "gemini-1.5-pro",
-      "supports_request_id": true,
-      "supports_raw_response_capture": true,
-      "supports_batch_resume": true,
-      "estimated_review_capacity": 0,
-      "status": "UNAVAILABLE"
-    }
-  ],
-  "prohibition_enforcement": {
-    "ide_agent_as_external_reviewer_permitted": false,
-    "local_rule_derived_as_real_llm_permitted": false,
-    "synthetic_fixture_permitted": false,
-    "fake_persona_multi_review_permitted": false
-  },
-  "required_action": "Deploy request batches to external LLM provider API and place raw responses in artifacts/recommend_hybrid/explainable_v2/annotations/imports/raw/"
+    "audit_version":  "external_llm_provider_v1",
+    "timestamp":  "2026-08-07T08:45:46.2006716Z",
+    "external_provider_status":  "AVAILABLE",
+    "scientific_status":  "BLOCKED_PENDING_PANEL_A_EXTERNAL_REVIEWS",
+    "verified_independent_source_count":  0,
+    "environment_audit":  {
+                              "OPENAI_API_KEY":  false,
+                              "ANTHROPIC_API_KEY":  false,
+                              "GEMINI_API_KEY":  true,
+                              "GOOGLE_API_KEY":  false,
+                              "AZURE_OPENAI_KEY":  false,
+                              "MISTRAL_API_KEY":  false,
+                              "TOGETHER_API_KEY":  false,
+                              "GROQ_API_KEY":  false,
+                              "DEEPSEEK_API_KEY":  false
+                          },
+    "evaluated_providers":  [
+                                {
+                                    "provider_name":  "OpenAI API",
+                                    "connector_or_sdk":  "openai-python-sdk",
+                                    "authentication_available":  false,
+                                    "model_endpoint":  "gpt-4o",
+                                    "supports_request_id":  true,
+                                    "supports_raw_response_capture":  true,
+                                    "supports_batch_resume":  true,
+                                    "estimated_review_capacity":  0,
+                                    "status":  "UNAVAILABLE"
+                                },
+                                {
+                                    "provider_name":  "Anthropic API",
+                                    "connector_or_sdk":  "anthropic-python-sdk",
+                                    "authentication_available":  false,
+                                    "model_endpoint":  "claude-3-5-sonnet-20241022",
+                                    "supports_request_id":  true,
+                                    "supports_raw_response_capture":  true,
+                                    "supports_batch_resume":  true,
+                                    "estimated_review_capacity":  0,
+                                    "status":  "UNAVAILABLE"
+                                },
+                                {
+                                    "provider_name":  "Google Gemini API",
+                                    "connector_or_sdk":  "Gemini REST generateContent",
+                                    "authentication_available":  true,
+                                    "model_endpoint":  "gemini-3.6-flash",
+                                    "supports_request_id":  false,
+                                    "supports_raw_response_capture":  true,
+                                    "supports_batch_resume":  true,
+                                    "estimated_review_capacity":  300,
+                                    "status":  "AVAILABLE"
+                                }
+                            ],
+    "prohibition_enforcement":  {
+                                    "ide_agent_as_external_reviewer_permitted":  false,
+                                    "local_rule_derived_as_real_llm_permitted":  false,
+                                    "synthetic_fixture_permitted":  false,
+                                    "fake_persona_multi_review_permitted":  false
+                                },
+    "required_action":  "Dispatch canonical Panel A external reviews, verify importer acceptance, freeze Panel A, then evaluate held-out Panel B.",
+    "verification_evidence":  {
+                                  "verification_type":  "REAL_EXTERNAL_API_SMOKE",
+                                  "verified_at":  "2026-08-07T08:41:45.945073+00:00",
+                                  "requested_model":  "gemini-3.6-flash",
+                                  "model_version":  "gemini-3.6-flash",
+                                  "provider_response_id_observed":  true,
+                                  "http_status":  200,
+                                  "finish_reason":  "STOP",
+                                  "exact_raw_request_capture":  true,
+                                  "exact_raw_response_capture":  true,
+                                  "importer_accept_verified":  true,
+                                  "tamper_rejection_verified":  true,
+                                  "restored_import_verified":  true,
+                                  "smoke_batch_id":  "panel_a_batch_01_smoke_v3",
+                                  "smoke_prompt_sha256":  "f7edfaacd2fad67bf21a175ccc5c0a46abb81b669c08928ab78009c0a24624f3"
+                              }
 }
