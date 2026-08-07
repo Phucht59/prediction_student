@@ -1,13 +1,19 @@
 {
-  "schema_version": "recommend_hybrid_v2_export_v1",
-  "panel_a_count": 31348,
-  "panel_b_count": 31352,
-  "stages": [
-    "EARLY_20",
-    "EARLY_35",
-    "MIDDLE_50",
-    "LATE_75"
-  ],
+  "sampling_seed": 2026,
+  "source_candidates_sha256": "a9bf881bb5d5c011f7e586c839a88a05b32b231deb01b18a0aacfa357acf6510",
+  "source_manifest_sha256": "53602836abd9f57d15a2940b6cdc28379fb8cdc3e93a7a8f3c3b8f279ef4a35f",
+  "total_eligible_queries": 62525,
+  "total_eligible_students": 15675,
+  "panel_a_student_count": 75,
+  "panel_b_student_count": 39,
+  "panel_student_overlap_count": 0,
+  "panel_query_overlap_count": 0,
+  "panel_a_selected_case_count": 300,
+  "panel_b_selected_case_count": 150,
   "zero_student_overlap": true,
-  "pre_cutoff_only": true
+  "zero_query_overlap": true,
+  "pre_cutoff_only": true,
+  "synthetic_fixture_used": false,
+  "lineage_source": "action_candidates.parquet",
+  "case_export_classification": "VERIFIED_OULAD_LINEAGE"
 }

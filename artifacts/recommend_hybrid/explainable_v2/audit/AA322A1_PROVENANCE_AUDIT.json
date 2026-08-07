@@ -1,0 +1,18 @@
+{
+  "source_commit": "aa322a15d3afc520c9ff3f3a8c64fc3b77bdca7a",
+  "annotation_classification": "AGENT_GENERATED_PSEUDO_REVIEW",
+  "verified_external_llm_review_count": 0,
+  "agent_generated_pseudo_review_count": 6750,
+  "real_human_review_count": 0,
+  "case_export_classification": "SYNTHETIC_FIXTURE",
+  "verified_case_count": 0,
+  "synthetic_case_count": 62700,
+  "violations": [
+    "V-001_SYNTHETIC_CASE_EXPORT",
+    "V-002_MISLABELED_ANNOTATION_TYPE",
+    "V-003_COUNT_SEMANTIC_MISMATCH",
+    "V-004_DOWNSTREAM_INVALIDATED",
+    "V-005_PRIVATE_DATA_COMMITTED"
+  ],
+  "downstream_status": "INVALIDATED_BY_UPSTREAM_PROVENANCE_FAILURE"
+}

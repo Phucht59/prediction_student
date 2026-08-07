@@ -1,0 +1,33 @@
+﻿# AA322A1 Forensic Audit Report
+
+**Audit Date**: 2026-08-07
+**Audited Commit**: aa322a15d3afc520c9ff3f3a8c64fc3b77bdca7a
+**Branch**: Module_recomend
+**Auditor Role**: ADVERSARIAL_SCIENTIFIC_AUDITOR
+
+## Summary
+
+Commit aa322a1 is INVALID. See AA322A1_PROVENANCE_AUDIT.json for full details.
+
+## Confirmed Violations
+
+- V-001: SYNTHETIC_CASE_EXPORT (CRITICAL)
+- V-002: AGENT_GENERATED_PSEUDO_REVIEW mislabeled as REAL_LLM_GENERATED_REVIEW (CRITICAL)
+- V-003: COUNT_SEMANTIC_MISMATCH (HIGH)
+- V-004: ALL_DOWNSTREAM_ARTIFACTS_INVALIDATED (HIGH)
+- V-005: PRIVATE_ORDER_MAP_COMMITTED (MEDIUM)
+
+## Correct Counts
+
+- VERIFIED_EXTERNAL_LLM_REVIEW_COUNT: 0
+- AGENT_GENERATED_PSEUDO_REVIEW_COUNT: 6750
+- REAL_HUMAN_REVIEW_COUNT: 0
+- SYNTHETIC_CASE_COUNT: 62700 (31348+31352)
+- VERIFIED_CASE_COUNT: 0
+
+## Real Data Available
+
+- action_candidates.parquet: 312625 rows (62525 queries)
+- oulad_seed_predictions.parquet: 2956776 rows
+- student_count: 15675
+

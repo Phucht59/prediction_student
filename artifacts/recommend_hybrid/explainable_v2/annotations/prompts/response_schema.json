@@ -1,5 +1,16 @@
 {
   "type": "object",
+  "required": [
+    "case_id",
+    "action_id",
+    "relevance_score",
+    "abstain",
+    "reviewer_id",
+    "reviewer_type",
+    "provider",
+    "model_name",
+    "request_id"
+  ],
   "properties": {
     "case_id": {
       "type": "string"
@@ -16,22 +27,22 @@
         3
       ]
     },
+    "abstain": {
+      "type": "boolean"
+    },
     "evidence_ids": {
       "type": "array",
       "items": {
         "type": "string"
       }
     },
-    "reason": {
+    "rationale": {
       "type": "string"
     },
     "contraindication_detected": {
       "type": "boolean"
     },
     "safety_flag": {
-      "type": "boolean"
-    },
-    "abstain": {
       "type": "boolean"
     },
     "reviewer_id": {
@@ -41,23 +52,19 @@
       "type": "string",
       "enum": [
         "REAL_HUMAN_REVIEW",
-        "REAL_LLM_GENERATED_REVIEW",
-        "LEGACY_WEAK_SOURCE"
+        "REAL_EXTERNAL_LLM_REVIEW",
+        "AGENT_GENERATED_PSEUDO_REVIEW",
+        "RULE_DERIVED_LABEL"
       ]
+    },
+    "provider": {
+      "type": "string"
     },
     "model_name": {
       "type": "string"
     },
-    "prompt_version": {
+    "request_id": {
       "type": "string"
     }
-  },
-  "required": [
-    "case_id",
-    "action_id",
-    "relevance_score",
-    "abstain",
-    "reviewer_id",
-    "reviewer_type"
-  ]
+  }
 }

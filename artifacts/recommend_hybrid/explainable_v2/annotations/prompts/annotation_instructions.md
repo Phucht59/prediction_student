@@ -1,12 +1,13 @@
-# LLM Annotation Instructions for Student Action Ranking
+# LLM Annotation Instructions
 
 ## Relevance Scale
-- **0**: Unsuitable or potential harm (e.g. recommending quiz practice when no quizzes exist).
-- **1**: Weakly relevant (generic advice, low specificity).
-- **2**: Relevant (direct alignment with observed student behavioral gaps).
-- **3**: Highly relevant (urgent action matching specific missing assessment or inactivity streak).
+- 0: Unsuitable or harmful
+- 1: Weakly relevant
+- 2: Relevant with adequate evidence
+- 3: Highly relevant with direct evidence
 
-## Rules
-- Do NOT assume future student outcome after cutoff.
-- Base evaluation strictly on provided pre-cutoff evidence.
-- Abstain if evidence is ambiguous or missing.
+## Required Response Fields
+case_id, action_id, relevance_score, abstain, evidence_ids, rationale,
+contraindication_detected, safety_flag, reviewer_id, reviewer_type,
+provider, model_name, request_id.
+reviewer_type must be: REAL_EXTERNAL_LLM_REVIEW

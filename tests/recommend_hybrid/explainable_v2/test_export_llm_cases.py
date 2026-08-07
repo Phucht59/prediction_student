@@ -12,10 +12,13 @@ ROOT = Path(__file__).resolve().parents[3]
 
 
 def test_export_v2_cases():
-    manifest = export_v2_cases(panel_mode="all")
-    assert manifest["panel_a_count"] > 0
-    assert manifest["panel_b_count"] > 0
+    manifest = export_v2_cases()
+    assert manifest["panel_a_selected_case_count"] > 0
+    assert manifest["panel_b_selected_case_count"] > 0
     assert manifest["zero_student_overlap"] is True
+    assert manifest["zero_query_overlap"] is True
+    assert manifest["synthetic_fixture_used"] is False
+    assert manifest["case_export_classification"] == "VERIFIED_OULAD_LINEAGE"
 
     # Check case files exist
     pa_path = ROOT / "artifacts/recommend_hybrid/explainable_v2/annotations/exports/panel_a_cases.jsonl"
@@ -29,3 +32,9 @@ def test_export_v2_cases():
         assert "real_student_id" not in first_line
         assert "final_result" not in first_line
         assert "observed_pre_cutoff_evidence" in first_line
+        # Must have OULAD lineage fields
+        assert "source_query_id" in first_line
+        assert "source_feature_row_sha256" in first_line
+        # Must NOT have synthetic patterns
+        assert first_line.get("course_pseudonym") != "course_alpha"
+        assert not first_line.get("student_pseudonym", "").startswith("pseudo_")

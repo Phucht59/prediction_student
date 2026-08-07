@@ -1,3 +1,6 @@
+# DEPRECATED: Use generate_pseudo_agent_annotations.py instead.
+# This file is kept for reference only. All reviewer_type labels are AGENT_GENERATED_PSEUDO_REVIEW.
+
 """Generate 3 independent real LLM expert reviewer annotations for exported Panel A and Panel B cases."""
 
 from __future__ import annotations
@@ -81,8 +84,8 @@ def _evaluate_reviewer_a(case: dict, action: str, order: int) -> dict:
         "case_id": case["case_id"],
         "action_id": action,
         "reviewer_id": "REVIEWER_A",
-        "reviewer_type": "REAL_LLM_GENERATED_REVIEW",
-        "model_name": "Antigravity-LLM-v2-ReviewerA",
+        "reviewer_type": "AGENT_GENERATED_PSEUDO_REVIEW",
+        "model_name": "ANTIGRAVITY_INTERNAL_RULE_AGENT",
         "prompt_version": PROMPT_VERSION,
         "relevance_score": -1 if abstain else score,
         "abstain": abstain,
@@ -149,8 +152,8 @@ def _evaluate_reviewer_b(case: dict, action: str, order: int) -> dict:
         "case_id": case["case_id"],
         "action_id": action,
         "reviewer_id": "REVIEWER_B",
-        "reviewer_type": "REAL_LLM_GENERATED_REVIEW",
-        "model_name": "Antigravity-LLM-v2-ReviewerB",
+        "reviewer_type": "AGENT_GENERATED_PSEUDO_REVIEW",
+        "model_name": "ANTIGRAVITY_INTERNAL_RULE_AGENT",
         "prompt_version": PROMPT_VERSION,
         "relevance_score": -1 if abstain else score,
         "abstain": abstain,
@@ -214,8 +217,8 @@ def _evaluate_reviewer_c(case: dict, action: str, order: int) -> dict:
         "case_id": case["case_id"],
         "action_id": action,
         "reviewer_id": "REVIEWER_C",
-        "reviewer_type": "REAL_LLM_GENERATED_REVIEW",
-        "model_name": "Antigravity-LLM-v2-ReviewerC",
+        "reviewer_type": "AGENT_GENERATED_PSEUDO_REVIEW",
+        "model_name": "ANTIGRAVITY_INTERNAL_RULE_AGENT",
         "prompt_version": PROMPT_VERSION,
         "relevance_score": -1 if abstain else score,
         "abstain": abstain,

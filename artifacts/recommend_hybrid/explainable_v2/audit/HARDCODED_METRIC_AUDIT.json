@@ -1,0 +1,20 @@
+{
+  "patterns_found": [
+    {
+      "file": "generate_real_llm_annotations.py",
+      "description": "Scores computed by if/elif rule tree, no external model call, all reviewers are same agent",
+      "severity": "CRITICAL"
+    },
+    {
+      "file": "run_model_selection.py",
+      "line": 60,
+      "description": "Hard-coded EBM score = label + Gaussian noise(mean=0,sigma=0.05) \u2014 metric circular with label",
+      "severity": "CRITICAL"
+    },
+    {
+      "file": "supervisor.py",
+      "description": "supervisor_status=COMPLETE written without independent verifier gate",
+      "severity": "HIGH"
+    }
+  ]
+}

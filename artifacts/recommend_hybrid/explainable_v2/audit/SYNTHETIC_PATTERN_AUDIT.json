@@ -1,0 +1,67 @@
+{
+  "patterns_found": [
+    {
+      "file": "export_llm_cases.py",
+      "line": 95,
+      "pattern": "q_{stg.value}_{case_counter}",
+      "severity": "CRITICAL",
+      "description": "Loop-generated query ID, not from real OULAD query table"
+    },
+    {
+      "file": "export_llm_cases.py",
+      "line": 114,
+      "pattern": "course_alpha",
+      "severity": "CRITICAL",
+      "description": "Hardcoded course pseudonym for all cases"
+    },
+    {
+      "file": "export_llm_cases.py",
+      "line": 117,
+      "pattern": "idx % 2 == 0",
+      "severity": "CRITICAL",
+      "description": "Cyclic risk_band alternation"
+    },
+    {
+      "file": "export_llm_cases.py",
+      "line": 121,
+      "pattern": "2 + (idx % 4)",
+      "severity": "CRITICAL",
+      "description": "Cyclic inactivity_streak"
+    },
+    {
+      "file": "export_llm_cases.py",
+      "line": 122,
+      "pattern": "0.4 + (idx % 3) * 0.1",
+      "severity": "CRITICAL",
+      "description": "Cyclic active_day_rate"
+    },
+    {
+      "file": "export_llm_cases.py",
+      "line": 123,
+      "pattern": "idx % 2 == 1",
+      "severity": "CRITICAL",
+      "description": "Alternating assessment_due_soon boolean"
+    },
+    {
+      "file": "generate_real_llm_annotations.py",
+      "line": 84,
+      "pattern": "REAL_LLM_GENERATED_REVIEW",
+      "severity": "CRITICAL",
+      "description": "False label applied to agent-generated rule-based review"
+    },
+    {
+      "file": "generate_real_llm_annotations.py",
+      "line": 85,
+      "pattern": "Antigravity-LLM-v2-ReviewerA",
+      "severity": "CRITICAL",
+      "description": "Invented provider/model name, no external API call"
+    },
+    {
+      "file": "run_model_selection.py",
+      "line": 60,
+      "pattern": "expected_relevance + np.random.normal(0, 0.05)",
+      "severity": "CRITICAL",
+      "description": "EBM score = label + noise \u2014 not a real model prediction"
+    }
+  ]
+}

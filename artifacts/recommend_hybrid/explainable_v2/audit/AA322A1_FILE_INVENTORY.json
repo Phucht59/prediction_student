@@ -1,0 +1,292 @@
+{
+  "inventory": [
+    {
+      "path": "artifacts/recommend_hybrid/explainable_v2/annotations/exports/panel_a_cases.jsonl",
+      "reason": "SYNTHETIC_FIXTURE",
+      "category": "case_export",
+      "size_bytes": 20009652,
+      "sha256": "b0433f568072f1d4512537c64da727f07af6a6fdfccad35b85a55d1dfdaf5723",
+      "exists": true,
+      "trusted": false
+    },
+    {
+      "path": "artifacts/recommend_hybrid/explainable_v2/annotations/exports/panel_b_cases.jsonl",
+      "reason": "SYNTHETIC_FIXTURE",
+      "category": "case_export",
+      "size_bytes": 20018834,
+      "sha256": "cfead00343a469c1f924dbba7ea70a898406fd8fd61415e9f39170209b45d947",
+      "exists": true,
+      "trusted": false
+    },
+    {
+      "path": "artifacts/recommend_hybrid/explainable_v2/annotations/exports/case_manifest.json",
+      "reason": "SYNTHETIC_FIXTURE_MANIFEST",
+      "category": "case_export",
+      "size_bytes": 260,
+      "sha256": "df7a6a27e9b221e82ed72e8073329e89fd8a191b7c8879e8070639994aeedfdf",
+      "exists": true,
+      "trusted": false
+    },
+    {
+      "path": "artifacts/recommend_hybrid/explainable_v2/annotations/imports/raw/panel_a_reviewer_a_batch1.jsonl",
+      "reason": "AGENT_GENERATED_PSEUDO_REVIEW",
+      "category": "annotation",
+      "size_bytes": 963492,
+      "sha256": "5921cb189cc8ac75ca402e26d0df55c8ce03c049c3f10f82d2650f6b91e2c15c",
+      "exists": true,
+      "trusted": false
+    },
+    {
+      "path": "artifacts/recommend_hybrid/explainable_v2/annotations/imports/raw/panel_a_reviewer_b_batch1.jsonl",
+      "reason": "AGENT_GENERATED_PSEUDO_REVIEW",
+      "category": "annotation",
+      "size_bytes": 962403,
+      "sha256": "16a3695a25403e7576364047e37b10798d1fae8aea83261b3734acc001fe78af",
+      "exists": true,
+      "trusted": false
+    },
+    {
+      "path": "artifacts/recommend_hybrid/explainable_v2/annotations/imports/raw/panel_a_reviewer_c_batch1.jsonl",
+      "reason": "AGENT_GENERATED_PSEUDO_REVIEW",
+      "category": "annotation",
+      "size_bytes": 947297,
+      "sha256": "a9a409050e67290f1b1bc85a6dede30c98b648194e9d146d3c835301ea468da0",
+      "exists": true,
+      "trusted": false
+    },
+    {
+      "path": "artifacts/recommend_hybrid/explainable_v2/annotations/imports/raw/panel_b_reviewer_a_batch1.jsonl",
+      "reason": "AGENT_GENERATED_PSEUDO_REVIEW",
+      "category": "annotation",
+      "size_bytes": 481759,
+      "sha256": "b2cc59641d2e972b5eef1c6ca2cd252231179421ece3983a157588526b633dcb",
+      "exists": true,
+      "trusted": false
+    },
+    {
+      "path": "artifacts/recommend_hybrid/explainable_v2/annotations/imports/raw/panel_b_reviewer_b_batch1.jsonl",
+      "reason": "AGENT_GENERATED_PSEUDO_REVIEW",
+      "category": "annotation",
+      "size_bytes": 481284,
+      "sha256": "0a28f65c4949f0faccbd5f0e79999db00ffbb0fa06fa9ebf162fbb472995e837",
+      "exists": true,
+      "trusted": false
+    },
+    {
+      "path": "artifacts/recommend_hybrid/explainable_v2/annotations/imports/raw/panel_b_reviewer_c_batch1.jsonl",
+      "reason": "AGENT_GENERATED_PSEUDO_REVIEW",
+      "category": "annotation",
+      "size_bytes": 473531,
+      "sha256": "b4d4de9a32fab496382f21915ce6f3896a91fea9bb86086e2ade9c301619d5a4",
+      "exists": true,
+      "trusted": false
+    },
+    {
+      "path": "artifacts/recommend_hybrid/explainable_v2/annotations/imports/normalized_annotations.parquet",
+      "reason": "INVALIDATED_BY_UPSTREAM_PROVENANCE_FAILURE",
+      "category": "annotation",
+      "size_bytes": 35107,
+      "sha256": "0c883b6c17e5ecd91dea3c3b46e33c3574b9bd610fd0c3a662f5cb7eb55cafb4",
+      "exists": true,
+      "trusted": false
+    },
+    {
+      "path": "artifacts/recommend_hybrid/explainable_v2/annotations/imports/import_manifest.json",
+      "reason": "COUNT_SEMANTIC_MISMATCH",
+      "category": "annotation",
+      "size_bytes": 311,
+      "sha256": "59914c5e741eee2a1929c0601e67f6536cdeda9d2e4eac1d65e580069e05e69d",
+      "exists": true,
+      "trusted": false
+    },
+    {
+      "path": "artifacts/recommend_hybrid/explainable_v2/annotations/imports/import_quality_report.json",
+      "reason": "INVALIDATED_BY_UPSTREAM_PROVENANCE_FAILURE",
+      "category": "annotation",
+      "size_bytes": 419,
+      "sha256": "0541f996f728003cd3f786978ad38c06550b7e69a88d650a312bed04bc2cac1a",
+      "exists": true,
+      "trusted": false
+    },
+    {
+      "path": "artifacts/recommend_hybrid/explainable_v2/labels/probabilistic_relevance_labels.parquet",
+      "reason": "INVALIDATED_BY_UPSTREAM_PROVENANCE_FAILURE",
+      "category": "label",
+      "size_bytes": 3005327,
+      "sha256": "fbde794a9bb49fbf962ef561df5e6196bbf45623cc75658e441254e7f4df966e",
+      "exists": true,
+      "trusted": false
+    },
+    {
+      "path": "artifacts/recommend_hybrid/explainable_v2/labels/label_model_manifest.json",
+      "reason": "INVALIDATED_BY_UPSTREAM_PROVENANCE_FAILURE",
+      "category": "label",
+      "size_bytes": 291,
+      "sha256": "5f369b7d6bace4cb942173c89d63f3683d477bd8f5791f3ea28ee1f698d5e135",
+      "exists": true,
+      "trusted": false
+    },
+    {
+      "path": "artifacts/recommend_hybrid/explainable_v2/models/five_ebm/ebm_ASSESSMENT_COMPLETION.pkl",
+      "reason": "INVALIDATED_BY_UPSTREAM_PROVENANCE_FAILURE",
+      "category": "model",
+      "size_bytes": 5985047,
+      "sha256": "d41164ecbfa9946323bdf63560940d3ee03d3ef7757b90cdeadebe2ebdd5e620",
+      "exists": true,
+      "trusted": false
+    },
+    {
+      "path": "artifacts/recommend_hybrid/explainable_v2/models/five_ebm/ebm_QUIZ_RETRIEVAL_PRACTICE.pkl",
+      "reason": "INVALIDATED_BY_UPSTREAM_PROVENANCE_FAILURE",
+      "category": "model",
+      "size_bytes": 5985047,
+      "sha256": "6ac3815a8b07d515844d8077e3697ab0441b81e3d9d2157d0ea6328954b49ddd",
+      "exists": true,
+      "trusted": false
+    },
+    {
+      "path": "artifacts/recommend_hybrid/explainable_v2/models/five_ebm/ebm_RECOVER_ENGAGEMENT.pkl",
+      "reason": "INVALIDATED_BY_UPSTREAM_PROVENANCE_FAILURE",
+      "category": "model",
+      "size_bytes": 5985047,
+      "sha256": "40533ca110b2f463c16a60a786853f4730f455208069053cc520f01ed71fe429",
+      "exists": true,
+      "trusted": false
+    },
+    {
+      "path": "artifacts/recommend_hybrid/explainable_v2/models/five_ebm/ebm_STUDY_REGULARITY.pkl",
+      "reason": "INVALIDATED_BY_UPSTREAM_PROVENANCE_FAILURE",
+      "category": "model",
+      "size_bytes": 5985047,
+      "sha256": "3848892c40e8c12ce1eeb54dbaa3b9c8f6c18297aff4b3f55cdd2bb0ccb38989",
+      "exists": true,
+      "trusted": false
+    },
+    {
+      "path": "artifacts/recommend_hybrid/explainable_v2/models/five_ebm/ebm_TARGETED_CONTENT_REVIEW.pkl",
+      "reason": "INVALIDATED_BY_UPSTREAM_PROVENANCE_FAILURE",
+      "category": "model",
+      "size_bytes": 5985047,
+      "sha256": "91dd3f308b3ca494c07246b02752dcf436599e0e6f4a484f6800b9856efbfe74",
+      "exists": true,
+      "trusted": false
+    },
+    {
+      "path": "artifacts/recommend_hybrid/explainable_v2/models/five_ebm/five_ebm_manifest.json",
+      "reason": "INVALIDATED_BY_UPSTREAM_PROVENANCE_FAILURE",
+      "category": "model",
+      "size_bytes": 340,
+      "sha256": "0a2440fddc6cf3db8a0001936e914dac9fdb8e45c7ce8db6adbb66690a83b35d",
+      "exists": true,
+      "trusted": false
+    },
+    {
+      "path": "artifacts/recommend_hybrid/explainable_v2/models/challengers/lambdamart_challenger.pkl",
+      "reason": "INVALIDATED_BY_UPSTREAM_PROVENANCE_FAILURE",
+      "category": "model",
+      "size_bytes": 77155,
+      "sha256": "f692d9689b564312db04179b91ecc9a6fd6f5ebffa0663871192a9b4d81d92ce",
+      "exists": true,
+      "trusted": false
+    },
+    {
+      "path": "artifacts/recommend_hybrid/explainable_v2/models/challengers/linear_baseline.pkl",
+      "reason": "INVALIDATED_BY_UPSTREAM_PROVENANCE_FAILURE",
+      "category": "model",
+      "size_bytes": 8239,
+      "sha256": "49f38a6ecd4979b7b3224d8400878ebbd1929a1f3bee888d9b45f3ccc715f9a1",
+      "exists": true,
+      "trusted": false
+    },
+    {
+      "path": "artifacts/recommend_hybrid/explainable_v2/models/challengers/challengers_manifest.json",
+      "reason": "INVALIDATED_BY_UPSTREAM_PROVENANCE_FAILURE",
+      "category": "model",
+      "size_bytes": 591,
+      "sha256": "2d00572b18d93574623537576bf0f27ef53beb24fe92292029ff829f573d94e9",
+      "exists": true,
+      "trusted": false
+    },
+    {
+      "path": "artifacts/recommend_hybrid/explainable_v2/calibration/calib_ASSESSMENT_COMPLETION.pkl",
+      "reason": "INVALIDATED_BY_UPSTREAM_PROVENANCE_FAILURE",
+      "category": "calibration",
+      "size_bytes": 2894,
+      "sha256": "44dc25bf4eb596b05b061001731b3198ed3bc1c90d4dd30f4c6bb52222f7f98f",
+      "exists": true,
+      "trusted": false
+    },
+    {
+      "path": "artifacts/recommend_hybrid/explainable_v2/calibration/calib_QUIZ_RETRIEVAL_PRACTICE.pkl",
+      "reason": "INVALIDATED_BY_UPSTREAM_PROVENANCE_FAILURE",
+      "category": "calibration",
+      "size_bytes": 2302,
+      "sha256": "f810206eedda4e1f7cea558246036d917735152132841fc3ef16bc97922d8caf",
+      "exists": true,
+      "trusted": false
+    },
+    {
+      "path": "artifacts/recommend_hybrid/explainable_v2/calibration/calib_RECOVER_ENGAGEMENT.pkl",
+      "reason": "INVALIDATED_BY_UPSTREAM_PROVENANCE_FAILURE",
+      "category": "calibration",
+      "size_bytes": 2094,
+      "sha256": "0c3ea6d4f9d2c44c42ed421929f3bfa6b5b193d682510ba42e4f50f3a49cacf4",
+      "exists": true,
+      "trusted": false
+    },
+    {
+      "path": "artifacts/recommend_hybrid/explainable_v2/calibration/calib_STUDY_REGULARITY.pkl",
+      "reason": "INVALIDATED_BY_UPSTREAM_PROVENANCE_FAILURE",
+      "category": "calibration",
+      "size_bytes": 2814,
+      "sha256": "93212c621b16706be6e749480b770da4bdf8142874f1b5fd47752814c32a3dd7",
+      "exists": true,
+      "trusted": false
+    },
+    {
+      "path": "artifacts/recommend_hybrid/explainable_v2/calibration/calib_TARGETED_CONTENT_REVIEW.pkl",
+      "reason": "INVALIDATED_BY_UPSTREAM_PROVENANCE_FAILURE",
+      "category": "calibration",
+      "size_bytes": 3038,
+      "sha256": "2ed66f75d02c4cec3db80d1613f46db922a0a2bea45daa49549637574063254e",
+      "exists": true,
+      "trusted": false
+    },
+    {
+      "path": "artifacts/recommend_hybrid/explainable_v2/model_selection/model_selection_manifest.json",
+      "reason": "INVALIDATED_BY_UPSTREAM_PROVENANCE_FAILURE",
+      "category": "model_selection",
+      "size_bytes": 913,
+      "sha256": "6f7e8abcb15d84f183c99324324acce415757565df4699b4e19b30dfb5f92d3d",
+      "exists": true,
+      "trusted": false
+    },
+    {
+      "path": "artifacts/recommend_hybrid/explainable_v2/simulator/plausibility_simulation.parquet",
+      "reason": "INVALIDATED_BY_UPSTREAM_PROVENANCE_FAILURE",
+      "category": "simulator",
+      "size_bytes": 3810952,
+      "sha256": "d77a3b5d6b00c2834ca5aa4513738530cf0aa5adcc7522eccf9a13c8fcb03f57",
+      "exists": true,
+      "trusted": false
+    },
+    {
+      "path": "artifacts/recommend_hybrid/explainable_v2/simulator/simulation_manifest.json",
+      "reason": "INVALIDATED_BY_UPSTREAM_PROVENANCE_FAILURE",
+      "category": "simulator",
+      "size_bytes": 262,
+      "sha256": "361211adfe5c9397e00df92f65f89a322e4e00c0b0a63da135f60c1e7d645421",
+      "exists": true,
+      "trusted": false
+    },
+    {
+      "path": "artifacts/recommend_hybrid/explainable_v2/annotations/private/private_order_map.json",
+      "reason": "PRIVATE_DATA_COMMITTED",
+      "category": "private",
+      "size_bytes": 26647503,
+      "sha256": "a639834a63ef986c1738d55d9dd9d096ef03979ea5855da10ba07dd2aec78726",
+      "exists": true,
+      "trusted": false
+    }
+  ]
+}

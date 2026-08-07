@@ -1,0 +1,7 @@
+{
+  "placeholder_scripts": [
+    "generate_real_llm_annotations.py: rule-based pseudo reviewer disguised as external LLM",
+    "export_llm_cases.py: cyclic synthetic case generator disguised as OULAD lineage export",
+    "run_model_selection.py: label + noise score disguised as EBM prediction"
+  ]
+}
