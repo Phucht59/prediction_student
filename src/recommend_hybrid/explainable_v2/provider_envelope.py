@@ -122,13 +122,44 @@ def verify_provider_envelope(
     model_name = str(rec.get("model_name", "")).strip()
     if not model_name:
         return False, "MISSING_MODEL_NAME", "model_name missing"
-    for obj_name, obj in (
-        ("request envelope", req_env),
-        ("response envelope", resp_env),
-        ("batch manifest", manifest),
-    ):
-        if obj.get("model_name") != model_name:
-            return False, "MODEL_MISMATCH", f"{obj_name} model_name mismatch"
+
+    mixing_policy = manifest.get("model_mixing_policy")
+    if mixing_policy == "EXPLICIT_GEMINI_3_5_FLASH_FAMILY_MIXED_REVIEWERS":
+        observed = manifest.get("model_names_observed")
+        if not isinstance(observed, list) or model_name not in observed:
+            return (
+                False,
+                "MODEL_MISMATCH",
+                "Record model_name not declared by mixed-model manifest",
+            )
+        for obj_name, obj in (
+            ("request envelope", req_env),
+            ("response envelope", resp_env),
+        ):
+            if obj.get("model_mixing_policy") != mixing_policy:
+                return (
+                    False,
+                    "MODEL_MIXING_POLICY_MISMATCH",
+                    f"{obj_name} mixing policy mismatch",
+                )
+            obj_models = obj.get("model_names_observed")
+            if (
+                not isinstance(obj_models, list)
+                or sorted(obj_models) != sorted(observed)
+            ):
+                return (
+                    False,
+                    "MODEL_MISMATCH",
+                    f"{obj_name} observed model set mismatch",
+                )
+    else:
+        for obj_name, obj in (
+            ("request envelope", req_env),
+            ("response envelope", resp_env),
+            ("batch manifest", manifest),
+        ):
+            if obj.get("model_name") != model_name:
+                return False, "MODEL_MISMATCH", f"{obj_name} model_name mismatch"
 
     prompt_hash = str(rec.get("prompt_sha256", "")).strip()
     if locked_prompt_hash is not None and prompt_hash != locked_prompt_hash:

@@ -42,6 +42,8 @@ PROVIDER = "Google Gemini API"
 PROMPT_VERSION = "external_reviewer_v1"
 DEFAULT_MODEL = "gemini-3.6-flash"
 BATCH_ID = "panel_a_batch_01"
+MODEL_MIXING_POLICY = "EXPLICIT_GEMINI_3_5_FLASH_FAMILY_MIXED_REVIEWERS"
+ALLOWED_REVIEW_MODELS = frozenset({"gemini-3.5-flash", "gemini-3.5-flash-lite"})
 EXPECTED_CASE_EXPORT_CLASSIFICATION = "VERIFIED_OULAD_QUERY_LEVEL_LINEAGE_V4"
 CASE_MANIFEST_PATH = (
     ROOT
@@ -214,20 +216,39 @@ def retry_after_seconds(headers: Any) -> float | None:
             return None
 
 
-def locked_model_version_from_states(cases: list[dict[str, Any]]) -> str | None:
-    versions = {
-        str(state["model_version"]).strip()
-        for case in cases
-        if (state := load_case_state(case["case_id"])) is not None
-        and completed_case_is_intact(state)
-        and str(state.get("model_version", "")).strip()
-    }
-    if len(versions) > 1:
-        raise RuntimeError(
-            f"Existing canonical batch contains multiple modelVersion values: {sorted(versions)}"
-        )
-    return next(iter(versions), None)
+def locked_model_versions_from_states(
+    cases: list[dict[str, Any]],
+) -> dict[str, str]:
+    versions_by_model: dict[str, set[str]] = {}
+    for case in cases:
+        state = load_case_state(case["case_id"])
+        if state is None or not completed_case_is_intact(state):
+            continue
+        model_name = str(state.get("model_name", "")).strip()
+        model_version = str(state.get("model_version", "")).strip()
+        if model_name not in ALLOWED_REVIEW_MODELS:
+            raise RuntimeError(
+                f"Existing canonical state uses unapproved review model: {model_name!r}"
+            )
+        if not model_version:
+            raise RuntimeError(
+                f"Existing canonical state for {model_name!r} has empty modelVersion"
+            )
+        versions_by_model.setdefault(model_name, set()).add(model_version)
 
+    mixed_versions = {
+        model_name: sorted(values)
+        for model_name, values in versions_by_model.items()
+        if len(values) > 1
+    }
+    if mixed_versions:
+        raise RuntimeError(
+            f"Multiple provider modelVersion values within same model: {mixed_versions}"
+        )
+    return {
+        model_name: next(iter(values))
+        for model_name, values in versions_by_model.items()
+    }
 
 def verify_completed_batch_before_import(
     *,
@@ -236,13 +257,27 @@ def verify_completed_batch_before_import(
 ) -> None:
     if not normalized_records:
         raise RuntimeError("Cannot verify an empty completed batch")
-    versions = {
-        str(record.get("model_version", "")).strip()
-        for record in normalized_records
+
+    versions_by_model: dict[str, set[str]] = {}
+    for record in normalized_records:
+        model_name = str(record.get("model_name", "")).strip()
+        model_version = str(record.get("model_version", "")).strip()
+        if model_name not in ALLOWED_REVIEW_MODELS:
+            raise RuntimeError(
+                f"Completed batch contains unapproved model_name: {model_name!r}"
+            )
+        if not model_version:
+            raise RuntimeError("Completed batch contains empty modelVersion")
+        versions_by_model.setdefault(model_name, set()).add(model_version)
+
+    bad = {
+        model_name: sorted(values)
+        for model_name, values in versions_by_model.items()
+        if len(values) > 1
     }
-    if "" in versions or len(versions) != 1:
+    if bad:
         raise RuntimeError(
-            f"Completed batch must contain exactly one non-empty modelVersion: {sorted(versions)}"
+            f"Completed batch mixes provider versions within same model: {bad}"
         )
 
     for record in normalized_records:
@@ -586,6 +621,7 @@ def rebuild_batch_artifacts(
 
     global_index = 0
     model_versions: set[str] = set()
+    model_names: set[str] = set()
     response_schema_hashes: set[str] = set()
 
     for case in cases:
@@ -594,6 +630,12 @@ def rebuild_batch_artifacts(
             continue
 
         completed_cases += 1
+        state_model_name = str(state.get("model_name", "")).strip()
+        if state_model_name not in ALLOWED_REVIEW_MODELS:
+            raise RuntimeError(
+                f"Unapproved review model in canonical state: {state_model_name!r}"
+            )
+        model_names.add(state_model_name)
         model_versions.add(state["model_version"])
         response_schema_hashes.add(state["response_schema_sha256"])
 
@@ -626,28 +668,40 @@ def rebuild_batch_artifacts(
             )
             global_index += 1
 
-    if len(model_versions) > 1:
+    if not model_names.issubset(ALLOWED_REVIEW_MODELS):
         raise RuntimeError(
-            f"Mixed modelVersion values in canonical batch: {sorted(model_versions)}"
+            f"Unexpected review models in batch: {sorted(model_names)}"
         )
+
+    envelope_model_name = (
+        next(iter(model_names))
+        if len(model_names) == 1
+        else "MIXED_GEMINI_3_5_FLASH_FAMILY"
+    )
 
     request_envelope = {
         "provider": PROVIDER,
-        "model_name": model,
+        "model_name": envelope_model_name,
+        "model_names_observed": sorted(model_names),
+        "model_mixing_policy": MODEL_MIXING_POLICY,
         "batch_id": BATCH_ID,
         "records": request_records,
     }
     response_envelope = {
         "provider": PROVIDER,
-        "model_name": model,
+        "model_name": envelope_model_name,
+        "model_names_observed": sorted(model_names),
+        "model_mixing_policy": MODEL_MIXING_POLICY,
         "batch_id": BATCH_ID,
         "records": response_records,
     }
     manifest = {
         "schema_version": "gemini_external_review_batch_v3_1",
         "provider": PROVIDER,
-        "model_name": model,
+        "model_name": envelope_model_name,
+        "model_names_observed": sorted(model_names),
         "model_versions_observed": sorted(model_versions),
+        "model_mixing_policy": MODEL_MIXING_POLICY,
         "batch_id": BATCH_ID,
         "panel_id": "PANEL_A",
         "source_case_count": len(cases),
@@ -726,6 +780,11 @@ def dispatch(
     inter_request_delay: float,
 ) -> int:
     cases = load_cases()
+    if model not in ALLOWED_REVIEW_MODELS:
+        raise RuntimeError(
+            f"Requested model {model!r} is outside approved review family: "
+            f"{sorted(ALLOWED_REVIEW_MODELS)}"
+        )
     validate_v4_source_gate(cases)
     assert_quarantine_is_not_resume_source()
     prompt = PROMPT_PATH.read_text(encoding="utf-8").replace(
@@ -783,7 +842,7 @@ def dispatch(
 
     new_requests = 0
     skipped_complete = 0
-    locked_model_version = locked_model_version_from_states(cases)
+    locked_model_versions = locked_model_versions_from_states(cases)
 
     for case_number, case in enumerate(cases, 1):
         case_id = case["case_id"]
@@ -838,12 +897,13 @@ def dispatch(
             raise RuntimeError(f"Gemini responseId missing for {case_id}")
         if not model_version:
             raise RuntimeError(f"Gemini modelVersion missing for {case_id}")
-        if locked_model_version is None:
-            locked_model_version = model_version
-        elif model_version != locked_model_version:
+        locked_version = locked_model_versions.get(model)
+        if locked_version is None:
+            locked_model_versions[model] = model_version
+        elif model_version != locked_version:
             raise RuntimeError(
-                f"Gemini modelVersion changed within batch: "
-                f"{locked_model_version!r} -> {model_version!r}"
+                f"Gemini modelVersion changed within model {model!r}: "
+                f"{locked_version!r} -> {model_version!r}"
             )
 
         reviews, finish_reason, usage = extract_reviews(case, provider_response)

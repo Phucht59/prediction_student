@@ -162,10 +162,23 @@ def test_safe_response_headers_are_allowlisted_only():
     assert "x-goog-api-key" not in safe
 
 
-def test_completed_batch_verifier_rejects_mixed_model_versions():
+def test_mixed_review_family_is_explicitly_allowlisted():
+    assert dispatcher.ALLOWED_REVIEW_MODELS == {
+        "gemini-3.5-flash",
+        "gemini-3.5-flash-lite",
+    }
+    assert (
+        dispatcher.MODEL_MIXING_POLICY
+        == "EXPLICIT_GEMINI_3_5_FLASH_FAMILY_MIXED_REVIEWERS"
+    )
+
+
+def test_completed_batch_rejects_unapproved_review_model():
     records = [
-        {"model_version": "gemini-a"},
-        {"model_version": "gemini-b"},
+        {
+            "model_name": "some-other-model",
+            "model_version": "x",
+        }
     ]
     try:
         dispatcher.verify_completed_batch_before_import(
@@ -173,9 +186,9 @@ def test_completed_batch_verifier_rejects_mixed_model_versions():
             prompt_hash="0" * 64,
         )
     except RuntimeError as exc:
-        assert "exactly one" in str(exc)
+        assert "unapproved model_name" in str(exc)
     else:
-        raise AssertionError("mixed model versions were not rejected")
+        raise AssertionError("unapproved review model was not rejected")
 
 
 def test_dispatcher_source_contains_verifier_gated_import():
