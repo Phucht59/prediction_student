@@ -10,6 +10,7 @@ Default mode is dry-run. Use --execute to make real API calls.
 from __future__ import annotations
 
 import argparse
+import email.utils
 import json
 import os
 import random
@@ -33,11 +34,33 @@ from src.recommend_hybrid.explainable_v2.provenance import (
     response_record_sha256,
     sha256_bytes,
 )
+from src.recommend_hybrid.explainable_v2.provider_envelope import (
+    verify_provider_envelope,
+)
 
 PROVIDER = "Google Gemini API"
 PROMPT_VERSION = "external_reviewer_v1"
 DEFAULT_MODEL = "gemini-3.6-flash"
 BATCH_ID = "panel_a_batch_01"
+EXPECTED_CASE_EXPORT_CLASSIFICATION = "VERIFIED_OULAD_QUERY_LEVEL_LINEAGE_V4"
+CASE_MANIFEST_PATH = (
+    ROOT
+    / "artifacts/recommend_hybrid/explainable_v2/annotations/exports/"
+    "case_manifest.json"
+)
+QUARANTINE_ROOT = (
+    ROOT
+    / "artifacts/recommend_hybrid/explainable_v2/annotations/quarantine"
+)
+SAFE_RESPONSE_HEADER_NAMES = frozenset(
+    {
+        "content-type",
+        "date",
+        "x-goog-request-id",
+        "x-request-id",
+        "x-cloud-trace-context",
+    }
+)
 
 PROMPT_PATH = (
     ROOT
@@ -75,6 +98,165 @@ IMPORT_RAW_DIR = (
 )
 IMPORT_RAW_PATH = IMPORT_RAW_DIR / "panel_a_batch_01_gemini.jsonl"
 
+
+
+def validate_v4_source_gate(cases: list[dict[str, Any]]) -> None:
+    manifest = json.loads(CASE_MANIFEST_PATH.read_text(encoding="utf-8"))
+    if manifest.get("case_export_classification") != EXPECTED_CASE_EXPORT_CLASSIFICATION:
+        raise RuntimeError(
+            "Panel A source is not VERIFIED_OULAD_QUERY_LEVEL_LINEAGE_V4"
+        )
+    if manifest.get("query_level_evidence_invariant_across_actions") is not True:
+        raise RuntimeError("Query-level evidence invariance is not verified")
+    if int(manifest.get("panel_a_case_count", -1)) != 300:
+        raise RuntimeError("V4 case manifest Panel A count is not 300")
+    if manifest.get("zero_student_overlap") is not True:
+        raise RuntimeError("V4 Panel A/B student overlap gate failed")
+    if manifest.get("zero_query_overlap") is not True:
+        raise RuntimeError("V4 Panel A/B query overlap gate failed")
+    if manifest.get("runtime_authorized") is not False:
+        raise RuntimeError("V4 runtime_authorized must remain false")
+    if len(cases) != 50:
+        raise RuntimeError("V4 batch_01 must contain exactly 50 cases")
+
+    allowed_top_level = {
+        "case_id",
+        "panel_id",
+        "stage",
+        "cutoff_day",
+        "risk_band",
+        "uncertainty_band",
+        "routing_status",
+        "observed_pre_cutoff_evidence",
+        "candidate_actions",
+        "availability_flags",
+        "contraindications",
+    }
+    forbidden_recursive = {
+        "query_id",
+        "source_query_id",
+        "student_key",
+        "student_group_id",
+        "source_student_group_id",
+        "id_student",
+        "course_key",
+        "code_module",
+        "code_presentation",
+        "outer_fold",
+    }
+
+    def walk_keys(value: Any) -> set[str]:
+        found: set[str] = set()
+        if isinstance(value, dict):
+            for key, child in value.items():
+                found.add(str(key))
+                found.update(walk_keys(child))
+        elif isinstance(value, list):
+            for child in value:
+                found.update(walk_keys(child))
+        return found
+
+    for case in cases:
+        extras = set(case) - allowed_top_level
+        if extras:
+            raise RuntimeError(
+                f"Unexpected public case keys for {case.get('case_id')}: {sorted(extras)}"
+            )
+        leaked = walk_keys(case) & forbidden_recursive
+        if leaked:
+            raise RuntimeError(
+                f"Blinding violation for {case.get('case_id')}: {sorted(leaked)}"
+            )
+
+
+def assert_quarantine_is_not_resume_source() -> None:
+    canonical = BATCH_DIR.resolve()
+    quarantine = QUARANTINE_ROOT.resolve()
+    try:
+        canonical.relative_to(quarantine)
+    except ValueError:
+        pass
+    else:
+        raise RuntimeError("Canonical batch directory resolves inside quarantine")
+
+
+def safe_response_headers(headers: Any) -> dict[str, str]:
+    if headers is None:
+        return {}
+    result: dict[str, str] = {}
+    for name in SAFE_RESPONSE_HEADER_NAMES:
+        value = headers.get(name)
+        if value is None:
+            value = headers.get(name.title())
+        if value is not None:
+            result[name] = str(value)
+    return result
+
+
+def retry_after_seconds(headers: Any) -> float | None:
+    if headers is None:
+        return None
+    value = headers.get("Retry-After")
+    if value is None:
+        value = headers.get("retry-after")
+    if value is None:
+        return None
+    raw = str(value).strip()
+    try:
+        return max(0.0, float(raw))
+    except ValueError:
+        try:
+            dt = email.utils.parsedate_to_datetime(raw)
+            if dt.tzinfo is None:
+                dt = dt.replace(tzinfo=timezone.utc)
+            return max(0.0, (dt - datetime.now(timezone.utc)).total_seconds())
+        except Exception:
+            return None
+
+
+def locked_model_version_from_states(cases: list[dict[str, Any]]) -> str | None:
+    versions = {
+        str(state["model_version"]).strip()
+        for case in cases
+        if (state := load_case_state(case["case_id"])) is not None
+        and completed_case_is_intact(state)
+        and str(state.get("model_version", "")).strip()
+    }
+    if len(versions) > 1:
+        raise RuntimeError(
+            f"Existing canonical batch contains multiple modelVersion values: {sorted(versions)}"
+        )
+    return next(iter(versions), None)
+
+
+def verify_completed_batch_before_import(
+    *,
+    normalized_records: list[dict[str, Any]],
+    prompt_hash: str,
+) -> None:
+    if not normalized_records:
+        raise RuntimeError("Cannot verify an empty completed batch")
+    versions = {
+        str(record.get("model_version", "")).strip()
+        for record in normalized_records
+    }
+    if "" in versions or len(versions) != 1:
+        raise RuntimeError(
+            f"Completed batch must contain exactly one non-empty modelVersion: {sorted(versions)}"
+        )
+
+    for record in normalized_records:
+        ok, code, message = verify_provider_envelope(
+            ENVELOPE_ROOT,
+            PROVIDER,
+            BATCH_ID,
+            record,
+            locked_prompt_hash=prompt_hash,
+        )
+        if not ok:
+            raise RuntimeError(
+                f"Provider-envelope verification failed: {code}: {message}"
+            )
 
 def utc_now() -> str:
     return datetime.now(timezone.utc).isoformat()
@@ -346,7 +528,7 @@ def request_with_retry(
     raw_request: bytes,
     max_attempts: int,
     base_delay: float,
-) -> tuple[bytes, int]:
+) -> tuple[bytes, int, dict[str, str]]:
     last_error: Exception | None = None
     retryable = {408, 429, 500, 502, 503, 504}
 
@@ -360,21 +542,28 @@ def request_with_retry(
                 "Content-Type": "application/json",
             },
         )
+        retry_after: float | None = None
         try:
             with urllib.request.urlopen(request, timeout=180) as response:
-                return response.read(), response.status
+                return (
+                    response.read(),
+                    response.status,
+                    safe_response_headers(response.headers),
+                )
         except urllib.error.HTTPError as exc:
             error_bytes = exc.read()
             body = error_bytes.decode("utf-8", errors="replace")
             if exc.code not in retryable:
                 raise RuntimeError(f"Gemini HTTP {exc.code}: {body}") from exc
+            retry_after = retry_after_seconds(exc.headers)
             last_error = RuntimeError(f"Gemini HTTP {exc.code}: {body}")
         except (urllib.error.URLError, TimeoutError) as exc:
             last_error = exc
 
         if attempt < max_attempts:
-            delay = min(base_delay * (2 ** (attempt - 1)), 60.0)
-            delay += random.uniform(0.0, min(1.0, delay * 0.1))
+            exponential = min(base_delay * (2 ** (attempt - 1)), 60.0)
+            delay = max(exponential, retry_after or 0.0)
+            delay += random.uniform(0.0, min(1.0, max(delay, 0.1) * 0.1))
             print(
                 f"RETRY attempt={attempt + 1}/{max_attempts} "
                 f"after_seconds={delay:.2f}"
@@ -382,7 +571,6 @@ def request_with_retry(
             time.sleep(delay)
 
     raise RuntimeError(f"Gemini request failed after retries: {last_error}")
-
 
 def rebuild_batch_artifacts(
     cases: list[dict[str, Any]],
@@ -437,6 +625,11 @@ def rebuild_batch_artifacts(
                 }
             )
             global_index += 1
+
+    if len(model_versions) > 1:
+        raise RuntimeError(
+            f"Mixed modelVersion values in canonical batch: {sorted(model_versions)}"
+        )
 
     request_envelope = {
         "provider": PROVIDER,
@@ -503,9 +696,6 @@ def rebuild_batch_artifacts(
     )
 
     if completed_cases == len(cases):
-        IMPORT_RAW_DIR.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(NORMALIZED_PATH, IMPORT_RAW_PATH)
-
         checksum_lines: list[str] = []
         for path in sorted(p for p in BATCH_DIR.rglob("*") if p.is_file()):
             if path.name == "checksums.sha256":
@@ -516,6 +706,13 @@ def rebuild_batch_artifacts(
             "\n".join(checksum_lines) + "\n",
             encoding="utf-8",
         )
+
+        verify_completed_batch_before_import(
+            normalized_records=normalized_records,
+            prompt_hash=prompt_hash,
+        )
+        IMPORT_RAW_DIR.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(NORMALIZED_PATH, IMPORT_RAW_PATH)
 
     return completed_cases, len(normalized_records)
 
@@ -529,6 +726,8 @@ def dispatch(
     inter_request_delay: float,
 ) -> int:
     cases = load_cases()
+    validate_v4_source_gate(cases)
+    assert_quarantine_is_not_resume_source()
     prompt = PROMPT_PATH.read_text(encoding="utf-8").replace(
         "\r\n",
         "\n",
@@ -584,6 +783,7 @@ def dispatch(
 
     new_requests = 0
     skipped_complete = 0
+    locked_model_version = locked_model_version_from_states(cases)
 
     for case_number, case in enumerate(cases, 1):
         case_id = case["case_id"]
@@ -621,7 +821,7 @@ def dispatch(
             f"case_id={case_id} actions={len(case['candidate_actions'])}"
         )
 
-        raw_response, http_status = request_with_retry(
+        raw_response, http_status, response_headers = request_with_retry(
             endpoint=endpoint,
             api_key=api_key,
             raw_request=raw_request,
@@ -638,6 +838,13 @@ def dispatch(
             raise RuntimeError(f"Gemini responseId missing for {case_id}")
         if not model_version:
             raise RuntimeError(f"Gemini modelVersion missing for {case_id}")
+        if locked_model_version is None:
+            locked_model_version = model_version
+        elif model_version != locked_model_version:
+            raise RuntimeError(
+                f"Gemini modelVersion changed within batch: "
+                f"{locked_model_version!r} -> {model_version!r}"
+            )
 
         reviews, finish_reason, usage = extract_reviews(case, provider_response)
 
@@ -699,6 +906,7 @@ def dispatch(
             "request_id": request_id,
             "response_id": response_id,
             "http_status": http_status,
+            "response_headers": response_headers,
             "finish_reason": finish_reason,
             "usage_metadata": usage,
             "response_schema_sha256": schema_sha,

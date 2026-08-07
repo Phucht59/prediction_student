@@ -1,4 +1,7 @@
+from pathlib import Path
 import json
+
+from scripts.recommend_hybrid.explainable_v2 import dispatch_gemini_panel_a_batch01_v3 as dispatcher
 
 from scripts.recommend_hybrid.explainable_v2.dispatch_gemini_panel_a_batch01_v3 import (
     allowed_evidence_ids,
@@ -128,3 +131,55 @@ def test_non_stop_finish_reason_fails_closed():
         assert "did not finish cleanly" in str(exc)
     else:
         raise AssertionError("Non-STOP finishReason must fail closed")
+
+
+def test_v4_source_gate_accepts_current_canonical_batch():
+    cases = dispatcher.load_cases()
+    dispatcher.validate_v4_source_gate(cases)
+
+
+def test_quarantine_is_not_resume_source():
+    dispatcher.assert_quarantine_is_not_resume_source()
+
+
+def test_retry_after_seconds_numeric():
+    assert dispatcher.retry_after_seconds({"Retry-After": "7"}) == 7.0
+
+
+def test_safe_response_headers_are_allowlisted_only():
+    headers = {
+        "Content-Type": "application/json",
+        "Date": "Fri, 07 Aug 2026 12:00:00 GMT",
+        "x-goog-request-id": "safe-id",
+        "Authorization": "secret",
+        "x-goog-api-key": "secret",
+    }
+    safe = dispatcher.safe_response_headers(headers)
+    assert safe["content-type"] == "application/json"
+    assert safe["date"] == "Fri, 07 Aug 2026 12:00:00 GMT"
+    assert safe["x-goog-request-id"] == "safe-id"
+    assert "Authorization" not in safe
+    assert "x-goog-api-key" not in safe
+
+
+def test_completed_batch_verifier_rejects_mixed_model_versions():
+    records = [
+        {"model_version": "gemini-a"},
+        {"model_version": "gemini-b"},
+    ]
+    try:
+        dispatcher.verify_completed_batch_before_import(
+            normalized_records=records,
+            prompt_hash="0" * 64,
+        )
+    except RuntimeError as exc:
+        assert "exactly one" in str(exc)
+    else:
+        raise AssertionError("mixed model versions were not rejected")
+
+
+def test_dispatcher_source_contains_verifier_gated_import():
+    source = Path(dispatcher.__file__).read_text(encoding="utf-8")
+    verify_pos = source.rindex("verify_completed_batch_before_import(")
+    copy_pos = source.index("shutil.copyfile(NORMALIZED_PATH, IMPORT_RAW_PATH)")
+    assert verify_pos < copy_pos
