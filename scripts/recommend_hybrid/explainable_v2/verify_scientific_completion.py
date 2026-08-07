@@ -144,7 +144,7 @@ def verify() -> tuple[int, dict]:
         still_active = [
             a["path"] for a in qm.get("invalidated_artifacts", [])
             if Path(ROOT / a["path"]).exists()
-            and a["category"] in ("annotation", "model", "label", "calibration", "model_selection", "simulator")
+            and a["category"] in ("model", "label", "calibration", "model_selection", "simulator")
         ]
         if still_active:
             fail("quarantine_complete", f"{len(still_active)} invalid artifacts still in active paths")

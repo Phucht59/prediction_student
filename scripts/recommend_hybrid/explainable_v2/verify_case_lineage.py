@@ -1,4 +1,4 @@
-"""Verify that exported cases have valid lineage in action_candidates.parquet."""
+"""Verify exported case lineage and strict public privacy blinding."""
 from __future__ import annotations
 import json
 import sys
@@ -12,21 +12,22 @@ if str(ROOT) not in sys.path:
 
 CANDIDATES_PATH = ROOT / "artifacts/recommend_hybrid/explainable_v2/features/action_candidates.parquet"
 EXPORT_DIR = ROOT / "artifacts/recommend_hybrid/explainable_v2/annotations/exports"
+PRIVATE_DIR = ROOT / "artifacts/recommend_hybrid/explainable_v2/annotations/private"
 
-FORBIDDEN_PATTERNS = ["course_alpha", "q_EARLY_20_", "q_EARLY_35_", "q_MIDDLE_50_", "q_LATE_75_"]
-SYNTHETIC_STUDENT_PREFIX = "pseudo_"
+FORBIDDEN_PUBLIC_KEYS = {"source_query_id", "source_student_group_id_hash", "student_pseudonym", "course_pseudonym", "outer_fold"}
+FORBIDDEN_PUBLIC_PATTERNS = ["course_alpha", "q_EARLY_20_", "q_EARLY_35_", "q_MIDDLE_50_", "q_LATE_75_", "pseudo_"]
 
 
 def verify() -> dict:
     result = {
         "case_lineage_audit_status": "PENDING",
+        "public_privacy_verified": False,
         "failures": [],
         "panel_a_case_count": 0,
         "panel_b_case_count": 0,
         "panel_student_overlap_count": 0,
         "panel_query_overlap_count": 0,
-        "post_cutoff_violations": 0,
-        "synthetic_pattern_count": 0,
+        "privacy_leak_count": 0,
         "lineage_failures": 0,
         "verified_cases": 0,
     }
@@ -41,6 +42,14 @@ def verify() -> dict:
 
     panel_a_path = EXPORT_DIR / "panel_a_cases.jsonl"
     panel_b_path = EXPORT_DIR / "panel_b_cases.jsonl"
+    private_map_path = PRIVATE_DIR / "private_case_mapping.json"
+
+    if not private_map_path.exists():
+        result["case_lineage_audit_status"] = "FAIL"
+        result["failures"].append("private_case_mapping.json missing")
+        return result
+
+    p_map = json.loads(private_map_path.read_text(encoding="utf-8"))
 
     def load_cases(p: Path) -> list[dict]:
         if not p.exists():
@@ -53,59 +62,76 @@ def verify() -> dict:
     result["panel_a_case_count"] = len(panel_a)
     result["panel_b_case_count"] = len(panel_b)
 
-    # Check student overlap
-    pa_students = {c.get("source_student_group_id_hash", c.get("student_pseudonym", "")) for c in panel_a}
-    pb_students = {c.get("source_student_group_id_hash", c.get("student_pseudonym", "")) for c in panel_b}
-    overlap = pa_students & pb_students
-    result["panel_student_overlap_count"] = len(overlap)
-    if overlap:
-        result["failures"].append(f"Student overlap detected: {len(overlap)} students")
+    all_public_cases = [(c, "A") for c in panel_a] + [(c, "B") for c in panel_b]
 
-    # Check query overlap
-    pa_queries = {c.get("query_id", "") for c in panel_a}
-    pb_queries = {c.get("query_id", "") for c in panel_b}
-    q_overlap = pa_queries & pb_queries
-    result["panel_query_overlap_count"] = len(q_overlap)
-    if q_overlap:
-        result["failures"].append(f"Query overlap: {q_overlap}")
+    # ── 1. Check Public Privacy Blinding ──────────────────────────────────────
+    privacy_leaks = 0
+    for case, panel in all_public_cases:
+        leaked = FORBIDDEN_PUBLIC_KEYS & set(case.keys())
+        if leaked:
+            privacy_leaks += 1
+            result["failures"].append(f"Panel {panel} case {case.get('case_id')} leaks private fields: {leaked}")
+        
+        cid = case.get("case_id", "")
+        for pat in FORBIDDEN_PUBLIC_PATTERNS:
+            if pat in cid:
+                privacy_leaks += 1
+                result["failures"].append(f"Panel {panel} case_id contains forbidden pattern '{pat}'")
 
-    # Check each case
-    all_cases = [(c, "A") for c in panel_a] + [(c, "B") for c in panel_b]
-    synthetic_count = 0
+    result["privacy_leak_count"] = privacy_leaks
+    result["public_privacy_verified"] = (privacy_leaks == 0)
+
+    # ── 2. Check Lineage via Private Mapping ──────────────────────────────────
     lineage_fail = 0
     verified = 0
 
-    for case, panel in all_cases:
-        qid = case.get("query_id", "")
-        course_pseudo = case.get("course_pseudonym", "")
-        student_pseudo = case.get("student_pseudonym", "")
+    pa_cids = {c["case_id"] for c in panel_a}
+    pb_cids = {c["case_id"] for c in panel_b}
 
-        # Check synthetic patterns
-        for pat in FORBIDDEN_PATTERNS:
-            if pat in qid:
-                synthetic_count += 1
-                result["failures"].append(f"Panel {panel}: synthetic query_id pattern '{pat}' in '{qid}'")
-                break
-        if course_pseudo == "course_alpha":
-            synthetic_count += 1
-            result["failures"].append(f"Panel {panel}: hardcoded course_alpha in case {qid}")
-        if student_pseudo.startswith(SYNTHETIC_STUDENT_PREFIX):
-            synthetic_count += 1
-            result["failures"].append(f"Panel {panel}: raw-student-id-based pseudonym in {qid}")
+    pa_sids = set()
+    pb_sids = set()
+    pa_qids = set()
+    pb_qids = set()
 
-        # Check lineage — source_query_id must exist in candidates
-        src_qid = case.get("source_query_id", qid)
+    for cid in pa_cids | pb_cids:
+        if cid not in p_map:
+            lineage_fail += 1
+            result["failures"].append(f"case_id {cid} missing in private_case_mapping.json")
+            continue
+        
+        m_entry = p_map[cid]
+        src_qid = m_entry.get("source_query_id", "")
+        src_sid = m_entry.get("source_student_group_id", "")
+
         if src_qid not in real_query_ids:
             lineage_fail += 1
-            result["failures"].append(f"Panel {panel}: query_id '{src_qid}' not in action_candidates")
+            result["failures"].append(f"source_query_id '{src_qid}' not found in action_candidates.parquet")
         else:
             verified += 1
 
-    result["synthetic_pattern_count"] = synthetic_count
+        if cid in pa_cids:
+            pa_sids.add(src_sid)
+            pa_qids.add(src_qid)
+        else:
+            pb_sids.add(src_sid)
+            pb_qids.add(src_qid)
+
+    # ── 3. Check Overlaps ─────────────────────────────────────────────────────
+    s_overlap = pa_sids & pb_sids
+    q_overlap = pa_qids & pb_qids
+
+    result["panel_student_overlap_count"] = len(s_overlap)
+    result["panel_query_overlap_count"] = len(q_overlap)
     result["lineage_failures"] = lineage_fail
     result["verified_cases"] = verified
 
-    if synthetic_count == 0 and lineage_fail == 0 and len(overlap) == 0 and len(q_overlap) == 0:
+    if s_overlap:
+        result["failures"].append(f"Student overlap detected between panels: {len(s_overlap)}")
+    if q_overlap:
+        result["failures"].append(f"Query overlap detected between panels: {len(q_overlap)}")
+
+    if (privacy_leaks == 0 and lineage_fail == 0 and len(s_overlap) == 0
+            and len(q_overlap) == 0 and len(panel_a) >= 240 and len(panel_b) >= 120):
         result["case_lineage_audit_status"] = "PASS"
     else:
         result["case_lineage_audit_status"] = "FAIL"
@@ -114,7 +140,6 @@ def verify() -> dict:
 
 
 if __name__ == "__main__":
-    import json as _json
     r = verify()
-    print(_json.dumps(r, indent=2))
+    print(json.dumps(r, indent=2))
     sys.exit(0 if r["case_lineage_audit_status"] == "PASS" else 1)

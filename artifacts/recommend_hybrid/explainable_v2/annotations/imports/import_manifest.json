@@ -1,0 +1,17 @@
+{
+  "schema_version": "recommend_hybrid_v2_import_v2",
+  "import_status": "BLOCKED_NO_VERIFIED_RAW_RESPONSES",
+  "external_provider_status": "UNAVAILABLE",
+  "real_external_llm_review_count": 0,
+  "verified_independent_source_count": 0,
+  "unique_case_count": 0,
+  "unique_reviewer_count": 0,
+  "panel_a_count": 0,
+  "panel_b_count": 0,
+  "duplicate_count": 0,
+  "invalid_count": 0,
+  "unverified_count": 0,
+  "abstention_count": 0,
+  "fail_closed_triggered": true,
+  "reason": "No verified external LLM provider available or raw response files missing"
+}

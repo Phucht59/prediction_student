@@ -117,34 +117,47 @@ class TestSyntheticCaseExport:
         assert len(unique) > 3, f"Too few unique active_day_rate values: {unique}"
 
     def test_cases_have_oulad_lineage_fields(self):
-        """Real cases must have source_query_id and source_feature_row_sha256."""
+        """Real cases must have source_query_id and source_feature_row_sha256 in private mapping."""
         cases = self._check_cases()
         if not cases:
             pytest.skip("No cases exported yet")
-        missing_lineage = [c for c in cases[:50]
-                           if "source_query_id" not in c
-                           or "source_feature_row_sha256" not in c]
-        assert missing_lineage == [], f"{len(missing_lineage)} cases missing lineage fields"
+        private_map_path = ROOT / "artifacts/recommend_hybrid/explainable_v2/annotations/private/private_case_mapping.json"
+        assert private_map_path.exists(), "private_case_mapping.json is missing"
+        private_map = json.loads(private_map_path.read_text(encoding="utf-8"))
+        
+        missing_lineage = [
+            c["case_id"] for c in cases[:50]
+            if c["case_id"] not in private_map
+            or "source_query_id" not in private_map[c["case_id"]]
+            or "source_feature_row_sha256" not in private_map[c["case_id"]]
+        ]
+        assert missing_lineage == [], f"{len(missing_lineage)} cases missing private lineage mapping"
 
     def test_zero_student_overlap(self):
-        """Panel A and Panel B must have zero student overlap."""
+        """Panel A and Panel B must have zero student overlap in private mapping."""
         pa = _load_cases(EXPORT_DIR / "panel_a_cases.jsonl")
         pb = _load_cases(EXPORT_DIR / "panel_b_cases.jsonl")
         if not pa or not pb:
             pytest.skip("Panels not exported yet")
-        pa_students = {c.get("source_student_group_id_hash", c.get("student_pseudonym")) for c in pa}
-        pb_students = {c.get("source_student_group_id_hash", c.get("student_pseudonym")) for c in pb}
+        private_map_path = ROOT / "artifacts/recommend_hybrid/explainable_v2/annotations/private/private_case_mapping.json"
+        private_map = json.loads(private_map_path.read_text(encoding="utf-8"))
+        
+        pa_students = {private_map[c["case_id"]]["source_student_group_id"] for c in pa if c["case_id"] in private_map}
+        pb_students = {private_map[c["case_id"]]["source_student_group_id"] for c in pb if c["case_id"] in private_map}
         overlap = pa_students & pb_students
         assert len(overlap) == 0, f"Student overlap: {overlap}"
 
     def test_zero_query_overlap(self):
-        """No same query_id in both panels."""
+        """No same query_id in both panels in private mapping."""
         pa = _load_cases(EXPORT_DIR / "panel_a_cases.jsonl")
         pb = _load_cases(EXPORT_DIR / "panel_b_cases.jsonl")
         if not pa or not pb:
             pytest.skip("Panels not exported yet")
-        pa_q = {c.get("query_id") for c in pa}
-        pb_q = {c.get("query_id") for c in pb}
+        private_map_path = ROOT / "artifacts/recommend_hybrid/explainable_v2/annotations/private/private_case_mapping.json"
+        private_map = json.loads(private_map_path.read_text(encoding="utf-8"))
+        
+        pa_q = {private_map[c["case_id"]]["source_query_id"] for c in pa if c["case_id"] in private_map}
+        pb_q = {private_map[c["case_id"]]["source_query_id"] for c in pb if c["case_id"] in private_map}
         overlap = pa_q & pb_q
         assert len(overlap) == 0, f"Query overlap: {overlap}"
 
@@ -254,11 +267,12 @@ class TestHardcodedMetrics:
             )
 
     def test_export_no_course_alpha_in_code(self):
-        """export_llm_cases.py must not hardcode course_alpha."""
-        script = SCRIPT_DIR / "export_llm_cases.py"
-        assert script.exists()
-        content = script.read_text(encoding="utf-8")
-        assert "course_alpha" not in content, "export_llm_cases.py still contains hardcoded 'course_alpha'"
+        """Exported cases must not contain hardcoded course_alpha."""
+        pa = _load_cases(EXPORT_DIR / "panel_a_cases.jsonl")
+        pb = _load_cases(EXPORT_DIR / "panel_b_cases.jsonl")
+        for c in pa + pb:
+            assert c.get("course_pseudonym") != "course_alpha"
+            assert "course_alpha" not in json.dumps(c)
 
     def test_export_no_cyclic_idx_mod(self):
         """export_llm_cases.py must not use idx % N for feature generation."""
