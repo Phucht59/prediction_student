@@ -43,13 +43,13 @@ def _load_panel_cases() -> tuple[list[dict], list[dict], dict]:
     pa_path = EXPORT_DIR / "panel_a_cases.jsonl"
     pb_path = EXPORT_DIR / "panel_b_cases.jsonl"
     pmap_path = PRIVATE_DIR / "private_case_mapping.json"
-    pa = [json.loads(l) for l in pa_path.read_text(encoding="utf-8").splitlines() if l.strip()]
-    pb = [json.loads(l) for l in pb_path.read_text(encoding="utf-8").splitlines() if l.strip()]
+    pa = [json.loads(line) for line in pa_path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    pb = [json.loads(line) for line in pb_path.read_text(encoding="utf-8").splitlines() if line.strip()]
     pmap = json.loads(pmap_path.read_text(encoding="utf-8"))
     return pa, pb, pmap
 
 
-# ── SECTION 3: Sampling audit tests ──────────────────────────────────────────
+# â”€â”€ SECTION 3: Sampling audit tests â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 
 def test_sampling_audit_uses_final_selected_cases(exported_cases):
@@ -123,7 +123,7 @@ def test_student_group_disjoint(exported_cases):
     assert exported_cases["panel_student_overlap_count"] == 0
 
 
-# ── SECTION 4: Feasibility authority tests ─────────────────────────────────
+# â”€â”€ SECTION 4: Feasibility authority tests â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 
 def test_no_forced_targeted_content_fallback():
@@ -192,7 +192,7 @@ def test_no_action_both_candidate_and_contraindicated():
             assert overlap == set(), f"Overlap {overlap} in case {c['case_id']}"
 
 
-# ── SECTION 5: Importer validate_record path tests ─────────────────────────
+# â”€â”€ SECTION 5: Importer validate_record path tests â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 
 def test_main_import_path_calls_validate_record():
@@ -331,7 +331,7 @@ def test_empty_rationale_rejected_in_real_import():
     assert manifest.get("invalid_count", 0) >= 1
 
 
-# ── SECTION 6: Provider envelope tests ─────────────────────────────────────
+# â”€â”€ SECTION 6: Provider envelope tests â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 
 def test_fake_request_id_without_envelope_rejected():
@@ -456,7 +456,7 @@ def test_record_links_to_response_index():
     assert is_valid, f"Expected valid record, got {code}"
 
 
-# ── SECTION 7: Rejected record audit tests ───────────────────────────────────
+# â”€â”€ SECTION 7: Rejected record audit tests â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 
 def test_malformed_json_written_to_rejected_records():
@@ -481,7 +481,7 @@ def test_malformed_json_written_to_rejected_records():
         ):
             imp.import_annotations(raw_dir=raw_dir, output_file=tmp_path / "accepted_records.parquet")
         assert rejected_path.exists()
-        lines = [json.loads(l) for l in rejected_path.read_text(encoding="utf-8").splitlines() if l.strip()]
+        lines = [json.loads(line) for line in rejected_path.read_text(encoding="utf-8").splitlines() if line.strip()]
         assert any(r.get("rejection_code") == "MALFORMED_JSON" for r in lines)
 
 
@@ -557,11 +557,11 @@ def test_invalid_count_matches_rejected_file():
             imp, "ACCEPTED_RECORDS_PATH", tmp_path / "accepted_records.parquet"
         ):
             manifest = imp.import_annotations(raw_dir=raw_dir, output_file=tmp_path / "accepted_records.parquet")
-        rejected_lines = [l for l in rejected_path.read_text(encoding="utf-8").splitlines() if l.strip()]
+        rejected_lines = [line for line in rejected_path.read_text(encoding="utf-8").splitlines() if line.strip()]
         assert manifest.get("invalid_count", 0) == len(rejected_lines)
 
 
-# ── SECTION 9: Final verifier tests ────────────────────────────────────────
+# â”€â”€ SECTION 9: Final verifier tests â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 
 def test_fake_raw_jsonl_cannot_open_verifier_gate():

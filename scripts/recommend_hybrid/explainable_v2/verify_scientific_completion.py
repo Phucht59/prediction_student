@@ -72,8 +72,8 @@ def verify() -> tuple[int, dict]:
     panel_a_path = EXPORT_DIR / "panel_a_cases.jsonl"
     panel_b_path = EXPORT_DIR / "panel_b_cases.jsonl"
     if panel_a_path.exists() and panel_b_path.exists():
-        pa = [json.loads(l) for l in panel_a_path.read_text(encoding="utf-8").splitlines() if l.strip()]
-        pb = [json.loads(l) for l in panel_b_path.read_text(encoding="utf-8").splitlines() if l.strip()]
+        pa = [json.loads(line) for line in panel_a_path.read_text(encoding="utf-8").splitlines() if line.strip()]
+        pb = [json.loads(line) for line in panel_b_path.read_text(encoding="utf-8").splitlines() if line.strip()]
         forbidden_keys = {"query_id", "source_query_id", "id_student", "student_group_id", "module", "presentation", "outer_fold"}
         privacy_leaks = 0
         for c in pa + pb:
@@ -109,7 +109,7 @@ def verify() -> tuple[int, dict]:
             pass
 
     if real_ext_count == 0:
-        block("annotation_provenance", "VERIFIED_EXTERNAL_LLM_REVIEW_COUNT=0 — blocked pending real reviews")
+        block("annotation_provenance", "VERIFIED_EXTERNAL_LLM_REVIEW_COUNT=0 â€” blocked pending real reviews")
     else:
         ok("annotation_provenance")
 
@@ -121,12 +121,12 @@ def verify() -> tuple[int, dict]:
         ebm_models_exist = True
 
     if not ebm_models_exist:
-        block("five_ebm_models", "Five EBM models not trained — blocked pending external LLM reviews")
+        block("five_ebm_models", "Five EBM models not trained â€” blocked pending external LLM reviews")
 
     # Check 7: Check metric recomputation & model selection artifacts
     metrics_exist = (ROOT / "artifacts/recommend_hybrid/explainable_v2/metrics/MODEL_SELECTION_REPORT.json").exists()
     if not metrics_exist:
-        block("metric_recomputation", "Model selection & metric recomputation missing — blocked")
+        block("metric_recomputation", "Model selection & metric recomputation missing â€” blocked")
 
     # Check 8: runtime_authorized == False
     state_path = ROOT / "artifacts/recommend_hybrid/explainable_v2/run_state/supervisor.json"
@@ -135,7 +135,7 @@ def verify() -> tuple[int, dict]:
         if state.get("runtime_authorized", True) is False:
             ok("runtime_authorized_false")
         else:
-            fail("runtime_authorized_false", "runtime_authorized is True — forbidden")
+            fail("runtime_authorized_false", "runtime_authorized is True â€” forbidden")
 
     # Determine overall exit code and scientific status
     statuses = list(report["checks"].values())

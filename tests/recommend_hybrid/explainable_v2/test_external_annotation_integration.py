@@ -15,7 +15,7 @@ PRIVATE_DIR = ROOT / "artifacts/recommend_hybrid/explainable_v2/annotations/priv
 IMPORTS_DIR = ROOT / "artifacts/recommend_hybrid/explainable_v2/annotations/imports"
 
 
-# ── SECTION F: Stratified Sampling Integration Tests ─────────────────────────
+# â”€â”€ SECTION F: Stratified Sampling Integration Tests â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 def test_sampling_not_first_n_truncation():
     """Sampling audit must prove stratified allocation across strata, not first-N truncation."""
@@ -39,8 +39,8 @@ def test_all_outer_folds_represented():
     if not pa_path.exists() or not pb_path.exists():
         pytest.skip("cases missing")
 
-    pa_folds = {p_map[json.loads(l)["case_id"]]["outer_fold"] for l in pa_path.read_text().splitlines() if l.strip()}
-    pb_folds = {p_map[json.loads(l)["case_id"]]["outer_fold"] for l in pb_path.read_text().splitlines() if l.strip()}
+    pa_folds = {p_map[json.loads(line)["case_id"]]["outer_fold"] for line in pa_path.read_text().splitlines() if line.strip()}
+    pb_folds = {p_map[json.loads(line)["case_id"]]["outer_fold"] for line in pb_path.read_text().splitlines() if line.strip()}
 
     expected_folds = {0, 1, 2}
     assert pa_folds == expected_folds, f"Panel A missing outer folds: {expected_folds - pa_folds}"
@@ -55,8 +55,8 @@ def test_all_stages_represented():
         pytest.skip("cases missing")
 
     expected_stages = {"EARLY_20", "EARLY_35", "MIDDLE_50", "LATE_75"}
-    pa_stages = {json.loads(l)["stage"] for l in pa_path.read_text().splitlines() if l.strip()}
-    pb_stages = {json.loads(l)["stage"] for l in pb_path.read_text().splitlines() if l.strip()}
+    pa_stages = {json.loads(line)["stage"] for line in pa_path.read_text().splitlines() if line.strip()}
+    pb_stages = {json.loads(line)["stage"] for line in pb_path.read_text().splitlines() if line.strip()}
 
     assert pa_stages == expected_stages, f"Panel A missing stages: {expected_stages - pa_stages}"
     assert pb_stages == expected_stages, f"Panel B missing stages: {expected_stages - pb_stages}"
@@ -83,14 +83,14 @@ def test_grouped_student_disjointness():
     if not pa_path.exists() or not pb_path.exists():
         pytest.skip("cases missing")
 
-    pa_sids = {p_map[json.loads(l)["case_id"]]["source_student_group_id"] for l in pa_path.read_text().splitlines() if l.strip()}
-    pb_sids = {p_map[json.loads(l)["case_id"]]["source_student_group_id"] for l in pb_path.read_text().splitlines() if l.strip()}
+    pa_sids = {p_map[json.loads(line)["case_id"]]["source_student_group_id"] for line in pa_path.read_text().splitlines() if line.strip()}
+    pb_sids = {p_map[json.loads(line)["case_id"]]["source_student_group_id"] for line in pb_path.read_text().splitlines() if line.strip()}
 
     overlap = pa_sids & pb_sids
     assert overlap == set(), f"Student overlap detected: {overlap}"
 
 
-# ── SECTION G: Fail-Closed Importer Integration Tests ─────────────────────────
+# â”€â”€ SECTION G: Fail-Closed Importer Integration Tests â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 def test_fake_provider_string_is_rejected():
     """Importer must reject records from unapproved provider strings."""
