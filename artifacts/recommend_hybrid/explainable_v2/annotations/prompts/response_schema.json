@@ -1,7 +1,8 @@
 {
-  "": "http://json-schema.org/draft-07/schema#",
-  "title": "ExplainableV2LLMAnnotationResponseSchema",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ExplainableV2ExternalLLMAnnotationResponseSchemaV3",
   "type": "object",
+  "additionalProperties": true,
   "required": [
     "case_id",
     "panel_id",
@@ -18,9 +19,15 @@
     "provider",
     "model_name",
     "request_id",
+    "response_id",
     "batch_id",
     "prompt_version",
     "prompt_sha256",
+    "request_batch_sha256",
+    "raw_request_sha256",
+    "raw_response_sha256",
+    "response_record_index",
+    "response_record_sha256",
     "created_at"
   ],
   "properties": {
@@ -30,10 +37,7 @@
     },
     "panel_id": {
       "type": "string",
-      "enum": [
-        "PANEL_A",
-        "PANEL_B"
-      ]
+      "enum": ["PANEL_A", "PANEL_B"]
     },
     "action_id": {
       "type": "string",
@@ -47,12 +51,7 @@
     },
     "relevance_score": {
       "type": "integer",
-      "enum": [
-        0,
-        1,
-        2,
-        3
-      ]
+      "enum": [0, 1, 2, 3]
     },
     "abstain": {
       "type": "boolean"
@@ -60,8 +59,10 @@
     "evidence_ids": {
       "type": "array",
       "items": {
-        "type": "string"
-      }
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
     },
     "rationale": {
       "type": "string",
@@ -74,82 +75,71 @@
       "type": "boolean"
     },
     "reviewer_id": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "reviewer_configuration_id": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "reviewer_type": {
       "type": "string",
-      "enum": [
-        "REAL_EXTERNAL_LLM_REVIEW",
-        "REAL_HUMAN_REVIEW"
-      ]
+      "enum": ["REAL_EXTERNAL_LLM_REVIEW"]
     },
     "provider": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "model_name": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "model_version": {
-      "type": [
-        "string",
-        "null"
-      ]
-    },
-    "endpoint_id": {
-      "type": [
-        "string",
-        "null"
-      ]
+      "type": ["string", "null"]
     },
     "request_id": {
       "type": "string",
       "minLength": 1
     },
     "response_id": {
-      "type": [
-        "string",
-        "null"
-      ]
+      "type": "string",
+      "minLength": 1
     },
     "batch_id": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "prompt_version": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "prompt_sha256": {
       "type": "string",
       "pattern": "^[a-f0-9]{64}$"
     },
     "request_batch_sha256": {
-      "type": [
-        "string",
-        "null"
-      ]
-    },
-    "candidate_order_sha256": {
-      "type": [
-        "string",
-        "null"
-      ]
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
     },
     "raw_request_sha256": {
-      "type": [
-        "string",
-        "null"
-      ]
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
     },
     "raw_response_sha256": {
-      "type": [
-        "string",
-        "null"
-      ]
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "response_record_index": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "response_record_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
     },
     "created_at": {
-      "type": "string"
+      "type": "string",
+      "format": "date-time"
     }
   }
 }

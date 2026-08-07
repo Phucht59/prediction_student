@@ -1,10 +1,12 @@
-"""Import, validate, and normalize external LLM annotation responses with strict fail-closed security.
+"""Import, validate, and normalize authentic external LLM reviews.
 
-FAIL-CLOSED AUDIT GUARANTEES:
-1. Checks EXTERNAL_PROVIDER_CAPABILITY_AUDIT.json. If external_provider_status == "UNAVAILABLE",
-   import MUST fail-closed with status = BLOCKED_NO_VERIFIED_RAW_RESPONSES.
-2. Production loop calls validate_record(...) as the ONLY path for record acceptance.
-3. Every rejected record (including malformed JSON) is appended to rejected_records.jsonl.
+Production acceptance is fail-closed:
+- capability audit must mark at least one provider AVAILABLE,
+- every record must satisfy the strict external-review schema,
+- prompt hash/version must match the tracked locked prompt,
+- case/panel/action/evidence must match public blinded exports,
+- every accepted record must pass provider-envelope verification,
+- raw request/response hashes must refer to exact captured payload bytes.
 """
 
 from __future__ import annotations
@@ -15,6 +17,7 @@ import json
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
+from typing import Any
 
 import pandas as pd
 
@@ -23,357 +26,661 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from src.recommend_hybrid.explainable_v2.independence_audit import compute_source_independence_audit
+from src.recommend_hybrid.explainable_v2.provenance import canonical_text_sha256, is_sha256
 from src.recommend_hybrid.explainable_v2.provider_envelope import verify_provider_envelope
 
-EXPORT_MANIFEST_PATH = ROOT / "artifacts/recommend_hybrid/explainable_v2/annotations/exports/case_manifest.json"
-PRIVATE_MAPPING_PATH = ROOT / "artifacts/recommend_hybrid/explainable_v2/annotations/private/private_case_mapping.json"
-CAPABILITY_AUDIT_PATH = ROOT / "artifacts/recommend_hybrid/explainable_v2/annotations/EXTERNAL_PROVIDER_CAPABILITY_AUDIT.json"
+EXPORT_DIR = ROOT / "artifacts/recommend_hybrid/explainable_v2/annotations/exports"
+CAPABILITY_AUDIT_PATH = (
+    ROOT
+    / "artifacts/recommend_hybrid/explainable_v2/annotations/EXTERNAL_PROVIDER_CAPABILITY_AUDIT.json"
+)
 RAW_DIR = ROOT / "artifacts/recommend_hybrid/explainable_v2/annotations/imports/raw"
 IMPORTS_DIR = ROOT / "artifacts/recommend_hybrid/explainable_v2/annotations/imports"
 ENVELOPE_ROOT = ROOT / "artifacts/recommend_hybrid/explainable_v2/annotations/external_reviews"
+LOCKED_PROMPT_PATH = (
+    ROOT
+    / "artifacts/recommend_hybrid/explainable_v2/annotations/prompts/"
+    "locked_external_reviewer_prompt_v1.txt"
+)
 
 ACCEPTED_RECORDS_PATH = IMPORTS_DIR / "accepted_records.parquet"
 REJECTED_RECORDS_PATH = IMPORTS_DIR / "rejected_records.jsonl"
 
-FORBIDDEN_TYPES = {"REAL_LLM_GENERATED_REVIEW", "AGENT_GENERATED_PSEUDO_REVIEW", "RULE_DERIVED_LABEL"}
-FORBIDDEN_MODELS = {"Antigravity-LLM-v2-ReviewerA", "Antigravity-LLM-v2-ReviewerB",
-                    "Antigravity-LLM-v2-ReviewerC", "ANTIGRAVITY_INTERNAL_RULE_AGENT"}
+LOCKED_PROMPT_VERSION = "external_reviewer_v1"
 
-REQUIRED_SCHEMA_FIELDS = [
-    "case_id", "panel_id", "action_id", "relevance_score", "abstain",
-    "evidence_ids", "rationale", "contraindication_detected", "safety_flag",
-    "reviewer_id", "reviewer_configuration_id", "reviewer_type", "provider",
-    "model_name", "request_id", "response_id", "batch_id", "prompt_version", "prompt_sha256",
-    "raw_response_sha256", "created_at"
+FORBIDDEN_TYPES = {
+    "REAL_LLM_GENERATED_REVIEW",
+    "AGENT_GENERATED_PSEUDO_REVIEW",
+    "RULE_DERIVED_LABEL",
+}
+FORBIDDEN_MODELS = {
+    "Antigravity-LLM-v2-ReviewerA",
+    "Antigravity-LLM-v2-ReviewerB",
+    "Antigravity-LLM-v2-ReviewerC",
+    "ANTIGRAVITY_INTERNAL_RULE_AGENT",
+}
+
+KNOWN_ACTIONS = {
+    "ASSESSMENT_COMPLETION",
+    "RECOVER_ENGAGEMENT",
+    "STUDY_REGULARITY",
+    "TARGETED_CONTENT_REVIEW",
+    "QUIZ_RETRIEVAL_PRACTICE",
+}
+
+REQUIRED_SCHEMA_FIELDS = {
+    "case_id",
+    "panel_id",
+    "action_id",
+    "relevance_score",
+    "abstain",
+    "evidence_ids",
+    "rationale",
+    "contraindication_detected",
+    "safety_flag",
+    "reviewer_id",
+    "reviewer_configuration_id",
+    "reviewer_type",
+    "provider",
+    "model_name",
+    "request_id",
+    "response_id",
+    "batch_id",
+    "prompt_version",
+    "prompt_sha256",
+    "request_batch_sha256",
+    "raw_request_sha256",
+    "raw_response_sha256",
+    "response_record_index",
+    "response_record_sha256",
+    "created_at",
+}
+
+OUTPUT_COLUMNS = [
+    "case_id",
+    "panel_id",
+    "action_id",
+    "relevance_score",
+    "abstain",
+    "evidence_ids",
+    "rationale",
+    "contraindication_detected",
+    "safety_flag",
+    "reviewer_id",
+    "reviewer_configuration_id",
+    "reviewer_type",
+    "provider",
+    "model_name",
+    "model_version",
+    "request_id",
+    "response_id",
+    "batch_id",
+    "prompt_version",
+    "prompt_sha256",
+    "request_batch_sha256",
+    "raw_request_sha256",
+    "raw_response_sha256",
+    "response_record_index",
+    "response_record_sha256",
+    "created_at",
+    "source_record_sha256",
+    "eligible_for_final_snorkel",
+    "classification",
 ]
 
 
+def _is_nonempty_string(value: Any) -> bool:
+    return isinstance(value, str) and bool(value.strip())
+
+
+def _valid_timestamp(value: Any) -> bool:
+    if not _is_nonempty_string(value):
+        return False
+    text = value.strip()
+    try:
+        dt = datetime.fromisoformat(text.replace("Z", "+00:00"))
+    except ValueError:
+        return False
+    return dt.tzinfo is not None
+
+
+def _load_capability_audit() -> tuple[str, set[str], str | None]:
+    if not CAPABILITY_AUDIT_PATH.exists():
+        return "UNAVAILABLE", set(), "Capability audit file missing"
+    try:
+        data = json.loads(CAPABILITY_AUDIT_PATH.read_text(encoding="utf-8"))
+    except Exception as exc:
+        return "UNAVAILABLE", set(), f"Capability audit malformed: {exc}"
+    if not isinstance(data, dict):
+        return "UNAVAILABLE", set(), "Capability audit root is not a JSON object"
+
+    status = str(data.get("external_provider_status", "UNAVAILABLE"))
+    providers = {
+        str(item.get("provider_name"))
+        for item in data.get("evaluated_providers", [])
+        if isinstance(item, dict)
+        and item.get("status") == "AVAILABLE"
+        and _is_nonempty_string(item.get("provider_name"))
+    }
+    if status == "AVAILABLE" and not providers:
+        return "UNAVAILABLE", set(), "Capability audit says AVAILABLE but lists no provider"
+    return status, providers, None
+
+
+def _load_case_registry() -> tuple[
+    set[str],
+    dict[str, str],
+    dict[str, list[str]],
+    dict[str, set[str]],
+]:
+    known_cases: set[str] = set()
+    case_panels: dict[str, str] = {}
+    case_candidate_actions: dict[str, list[str]] = {}
+    case_allowed_evidence_ids: dict[str, set[str]] = {}
+
+    for panel_file in ("panel_a_cases.jsonl", "panel_b_cases.jsonl"):
+        path = EXPORT_DIR / panel_file
+        if not path.exists():
+            raise RuntimeError(f"Required blinded export missing: {path}")
+
+        for line_number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+            if not line.strip():
+                continue
+            try:
+                case = json.loads(line)
+            except Exception as exc:
+                raise RuntimeError(f"{path.name}:{line_number}: malformed JSON: {exc}") from exc
+
+            case_id = case.get("case_id")
+            panel_id = case.get("panel_id")
+            actions = case.get("candidate_actions")
+            if not _is_nonempty_string(case_id):
+                raise RuntimeError(f"{path.name}:{line_number}: case_id missing")
+            if panel_id not in {"PANEL_A", "PANEL_B"}:
+                raise RuntimeError(f"{path.name}:{line_number}: invalid panel_id")
+            if not isinstance(actions, list) or not actions:
+                raise RuntimeError(f"{path.name}:{line_number}: candidate_actions missing")
+
+            observed = case.get("observed_pre_cutoff_evidence", {})
+            availability = case.get("availability_flags", {})
+            if not isinstance(observed, dict) or not isinstance(availability, dict):
+                raise RuntimeError(f"{path.name}:{line_number}: evidence structure invalid")
+
+            known_cases.add(case_id)
+            case_panels[case_id] = panel_id
+            case_candidate_actions[case_id] = list(actions)
+            case_allowed_evidence_ids[case_id] = (
+                set(observed.keys()) | set(availability.keys()) | {"contraindications"}
+            )
+
+    return known_cases, case_panels, case_candidate_actions, case_allowed_evidence_ids
+
+
 def validate_record(
-    rec: dict,
-    known_cases: set | None = None,
-    case_panels: dict | None = None,
-    case_candidate_actions: dict | None = None,
-    approved_providers: set | None = None,
+    rec: dict[str, Any],
+    known_cases: set[str] | None = None,
+    case_panels: dict[str, str] | None = None,
+    case_candidate_actions: dict[str, list[str]] | None = None,
+    case_allowed_evidence_ids: dict[str, set[str]] | None = None,
+    approved_providers: set[str] | None = None,
     locked_prompt_hash: str | None = None,
-    known_actions: set | None = None,
+    locked_prompt_version: str | None = None,
+    known_actions: set[str] | None = None,
     envelope_registry: dict | None = None,
     envelope_root: Path = ENVELOPE_ROOT,
 ) -> tuple[bool, str, str]:
-    """Validate a single review record. Returns (is_valid, rejection_code, rejection_message)."""
+    """Validate one normalized external-review record."""
     if not isinstance(rec, dict):
-        return False, "MALFORMED_JSON", "Record is not a valid JSON dictionary"
+        return False, "MALFORMED_JSON", "Record is not a JSON object"
 
-    rt = rec.get("reviewer_type", "")
-    mn = rec.get("model_name", "")
-    prov = rec.get("provider", "")
-    cid = rec.get("case_id", "")
-    pid = rec.get("panel_id", "")
-    aid = rec.get("action_id", "")
-    req_id = rec.get("request_id", "")
-    batch_id = rec.get("batch_id", "")
+    # Diagnostic-precedence checks.
+    #
+    # These checks do NOT weaken the strict full-schema gate below. They only
+    # preserve precise rejection codes for malformed/partial adversarial
+    # records, so a record with an obvious semantic/provenance violation is
+    # diagnosed by that violation before the generic missing-field error.
+    provider = rec.get("provider")
+    if (
+        approved_providers is not None
+        and _is_nonempty_string(provider)
+        and provider not in approved_providers
+    ):
+        return False, "UNAPPROVED_PROVIDER", f"Provider '{provider}' is not approved"
 
-    if rt in FORBIDDEN_TYPES or mn in FORBIDDEN_MODELS:
-        return False, "FORBIDDEN_TYPE_OR_MODEL", f"Forbidden reviewer_type '{rt}' or model '{mn}'"
-
-    if rt != "REAL_EXTERNAL_LLM_REVIEW":
-        return False, "INVALID_REVIEWER_TYPE", f"reviewer_type must be REAL_EXTERNAL_LLM_REVIEW, got '{rt}'"
-
-    if approved_providers is not None and prov not in approved_providers:
-        return False, "UNAPPROVED_PROVIDER", f"Provider '{prov}' not in approved runtime provider registry"
-
-    if not req_id:
+    if "request_id" in rec and not _is_nonempty_string(rec.get("request_id")):
         return False, "MISSING_REQUEST_ID", "request_id is missing or empty"
 
-    if known_cases is not None and cid not in known_cases:
-        return False, "UNKNOWN_CASE_ID", f"case_id '{cid}' not found in exported case manifest"
+    if (
+        locked_prompt_hash is not None
+        and "prompt_sha256" in rec
+        and _is_nonempty_string(rec.get("prompt_sha256"))
+        and rec.get("prompt_sha256") != locked_prompt_hash
+    ):
+        return False, "PROMPT_HASH_MISMATCH", "prompt_sha256 does not match locked prompt"
 
-    if case_panels is not None and cid in case_panels and pid and case_panels[cid] != pid:
-        return False, "PANEL_MISMATCH", f"panel_id '{pid}' does not match case panel '{case_panels[cid]}'"
+    case_id_pre = rec.get("case_id")
+    if (
+        known_cases is not None
+        and _is_nonempty_string(case_id_pre)
+        and case_id_pre not in known_cases
+    ):
+        return False, "UNKNOWN_CASE_ID", f"Unknown case_id '{case_id_pre}'"
 
-    if case_candidate_actions is not None and cid in case_candidate_actions:
-        cands = case_candidate_actions[cid]
-        if aid not in cands:
-            return False, "INELIGIBLE_ACTION", f"action_id '{aid}' is not in candidate_actions {cands} for case '{cid}'"
+    panel_id_pre = rec.get("panel_id")
+    if (
+        case_panels is not None
+        and _is_nonempty_string(case_id_pre)
+        and case_id_pre in case_panels
+        and _is_nonempty_string(panel_id_pre)
+        and case_panels[case_id_pre] != panel_id_pre
+    ):
+        return False, "PANEL_MISMATCH", f"panel_id '{panel_id_pre}' does not match case registry"
 
-    rel = rec.get("relevance_score")
-    abstain = rec.get("abstain", False)
-    if not abstain and (not isinstance(rel, int) or rel not in (0, 1, 2, 3)):
-        return False, "INVALID_RELEVANCE_SCORE", f"relevance_score '{rel}' is invalid (must be integer 0..3 or abstain=True)"
+    action_id_pre = rec.get("action_id")
+    if (
+        case_candidate_actions is not None
+        and _is_nonempty_string(case_id_pre)
+        and case_id_pre in case_candidate_actions
+        and _is_nonempty_string(action_id_pre)
+        and action_id_pre not in case_candidate_actions[case_id_pre]
+    ):
+        return (
+            False,
+            "INELIGIBLE_ACTION",
+            f"action_id '{action_id_pre}' not in {case_candidate_actions[case_id_pre]}",
+        )
 
-    rat = str(rec.get("rationale", "")).strip()
-    if not rat and not abstain:
+    if "relevance_score" in rec:
+        relevance_pre = rec.get("relevance_score")
+        if type(relevance_pre) is not int or relevance_pre not in (0, 1, 2, 3):
+            return False, "INVALID_RELEVANCE_SCORE", "relevance_score must be integer 0..3"
+
+    if "rationale" in rec and not str(rec.get("rationale", "")).strip():
         return False, "EMPTY_RATIONALE", "rationale is empty"
 
-    if locked_prompt_hash is not None and rec.get("prompt_sha256"):
-        if rec.get("prompt_sha256") != locked_prompt_hash:
-            return False, "PROMPT_HASH_MISMATCH", f"prompt_sha256 '{rec.get('prompt_sha256')}' does not match locked prompt hash '{locked_prompt_hash}'"
+    missing = sorted(field for field in REQUIRED_SCHEMA_FIELDS if field not in rec)
+    if missing:
+        return False, "MISSING_REQUIRED_FIELD", f"Missing required fields: {missing}"
 
-    # Provider envelope validation
-    if envelope_registry is not None or envelope_root.exists():
-        key = (prov, batch_id)
-        if envelope_registry is not None and key in envelope_registry:
-            env_data = envelope_registry[key]
-            req_e = env_data.get("request_envelope", {})
-            resp_e = env_data.get("response_envelope", {})
-            if req_e.get("provider") != prov or resp_e.get("provider") != prov:
-                return False, "ENVELOPE_PROVIDER_MISMATCH", f"Envelope provider mismatch for key {key}"
-            if req_e.get("request_id") != req_id or resp_e.get("request_id") != req_id:
-                return False, "REQUEST_ID_MISMATCH", f"Envelope request_id mismatch for request_id {req_id}"
+    for field in (
+        "case_id",
+        "panel_id",
+        "action_id",
+        "reviewer_id",
+        "reviewer_configuration_id",
+        "reviewer_type",
+        "provider",
+        "model_name",
+        "request_id",
+        "response_id",
+        "batch_id",
+        "prompt_version",
+        "prompt_sha256",
+        "request_batch_sha256",
+        "raw_request_sha256",
+        "raw_response_sha256",
+        "response_record_sha256",
+        "created_at",
+    ):
+        if not _is_nonempty_string(rec.get(field)):
+            return False, "EMPTY_REQUIRED_FIELD", f"{field} is empty"
 
-            rec_sha = rec.get("response_record_sha256", "")
-            env_recs = resp_e.get("records", [])
-            if env_recs:
-                matched = any(r.get("sha256") == rec_sha for r in env_recs)
-                if not matched:
-                    return False, "RECORD_HASH_MISMATCH", f"Per-record response hash '{rec_sha}' not found in envelope"
-        else:
-            is_env_ok, env_code, env_msg = verify_provider_envelope(
-                envelope_root=envelope_root,
-                provider_name=prov,
-                batch_id=batch_id,
-                rec=rec,
-                locked_prompt_hash=locked_prompt_hash,
-            )
-            if not is_env_ok:
-                return False, env_code, env_msg
+    reviewer_type = rec["reviewer_type"]
+    model_name = rec["model_name"]
+    provider = rec["provider"]
+    case_id = rec["case_id"]
+    panel_id = rec["panel_id"]
+    action_id = rec["action_id"]
+
+    if reviewer_type in FORBIDDEN_TYPES or model_name in FORBIDDEN_MODELS:
+        return (
+            False,
+            "FORBIDDEN_TYPE_OR_MODEL",
+            f"Forbidden reviewer_type '{reviewer_type}' or model '{model_name}'",
+        )
+    if reviewer_type != "REAL_EXTERNAL_LLM_REVIEW":
+        return False, "INVALID_REVIEWER_TYPE", "reviewer_type must be REAL_EXTERNAL_LLM_REVIEW"
+
+    if approved_providers is not None and provider not in approved_providers:
+        return False, "UNAPPROVED_PROVIDER", f"Provider '{provider}' is not approved"
+
+    if panel_id not in {"PANEL_A", "PANEL_B"}:
+        return False, "INVALID_PANEL_ID", f"Invalid panel_id '{panel_id}'"
+
+    if known_cases is not None and case_id not in known_cases:
+        return False, "UNKNOWN_CASE_ID", f"Unknown case_id '{case_id}'"
+
+    if case_panels is not None and case_id in case_panels:
+        if case_panels[case_id] != panel_id:
+            return False, "PANEL_MISMATCH", f"panel_id '{panel_id}' does not match case registry"
+
+    actions = known_actions if known_actions is not None else KNOWN_ACTIONS
+    if action_id not in actions:
+        return False, "UNKNOWN_ACTION_ID", f"Unknown action_id '{action_id}'"
+
+    if case_candidate_actions is not None and case_id in case_candidate_actions:
+        candidates = case_candidate_actions[case_id]
+        if action_id not in candidates:
+            return False, "INELIGIBLE_ACTION", f"action_id '{action_id}' not in {candidates}"
+
+    relevance = rec.get("relevance_score")
+    if type(relevance) is not int or relevance not in (0, 1, 2, 3):
+        return False, "INVALID_RELEVANCE_SCORE", "relevance_score must be integer 0..3"
+
+    for bool_field in ("abstain", "contraindication_detected", "safety_flag"):
+        if type(rec.get(bool_field)) is not bool:
+            return False, "INVALID_BOOLEAN_FIELD", f"{bool_field} must be boolean"
+
+    rationale = str(rec.get("rationale", "")).strip()
+    if len(rationale) < 10:
+        return False, "INVALID_RATIONALE", "rationale must contain at least 10 characters"
+
+    evidence_ids = rec.get("evidence_ids")
+    if not isinstance(evidence_ids, list) or any(
+        not _is_nonempty_string(item) for item in evidence_ids
+    ):
+        return False, "INVALID_EVIDENCE_IDS", "evidence_ids must be a list of non-empty strings"
+    if len(evidence_ids) != len(set(evidence_ids)):
+        return False, "DUPLICATE_EVIDENCE_ID", "evidence_ids contains duplicates"
+    if not rec["abstain"] and not evidence_ids:
+        return False, "MISSING_EVIDENCE", "non-abstained review must cite evidence"
+
+    if case_allowed_evidence_ids is not None and case_id in case_allowed_evidence_ids:
+        invalid_ids = sorted(set(evidence_ids) - case_allowed_evidence_ids[case_id])
+        if invalid_ids:
+            return False, "UNKNOWN_EVIDENCE_ID", f"Unknown evidence_ids: {invalid_ids}"
+
+    if locked_prompt_version is not None and rec["prompt_version"] != locked_prompt_version:
+        return False, "PROMPT_VERSION_MISMATCH", "prompt_version does not match locked version"
+
+    if not is_sha256(rec["prompt_sha256"]):
+        return False, "INVALID_PROMPT_SHA256", "prompt_sha256 must be lowercase SHA-256"
+    if locked_prompt_hash is not None and rec["prompt_sha256"] != locked_prompt_hash:
+        return False, "PROMPT_HASH_MISMATCH", "prompt_sha256 does not match locked prompt"
+
+    for field in (
+        "request_batch_sha256",
+        "raw_request_sha256",
+        "raw_response_sha256",
+        "response_record_sha256",
+    ):
+        if not is_sha256(rec[field]):
+            return False, f"INVALID_{field.upper()}", f"{field} must be lowercase SHA-256"
+
+    record_index = rec.get("response_record_index")
+    if type(record_index) is not int or record_index < 0:
+        return False, "INVALID_RESPONSE_RECORD_INDEX", "response_record_index must be >= 0"
+
+    if not _valid_timestamp(rec["created_at"]):
+        return False, "INVALID_CREATED_AT", "created_at must be timezone-aware ISO-8601"
+
+    if envelope_registry is not None:
+        key = (provider, rec["batch_id"])
+        if key not in envelope_registry:
+            return False, "ENVELOPE_NOT_FOUND", f"No envelope registry entry for {key}"
+        env_data = envelope_registry[key]
+        req_env = env_data.get("request_envelope", {})
+        resp_env = env_data.get("response_envelope", {})
+        if req_env.get("provider") != provider or resp_env.get("provider") != provider:
+            return False, "ENVELOPE_PROVIDER_MISMATCH", "Envelope provider mismatch"
+        if req_env.get("request_id") != rec["request_id"]:
+            return False, "REQUEST_ID_MISMATCH", "Request-envelope request_id mismatch"
+        if resp_env.get("request_id") != rec["request_id"]:
+            return False, "REQUEST_ID_MISMATCH", "Response-envelope request_id mismatch"
+        records = resp_env.get("records", [])
+        if records and not any(
+            item.get("sha256") == rec["response_record_sha256"]
+            for item in records
+            if isinstance(item, dict)
+        ):
+            return False, "RECORD_HASH_MISMATCH", "response_record_sha256 absent from envelope"
+        return True, "OK", "Record is valid"
+
+    is_env_ok, env_code, env_msg = verify_provider_envelope(
+        envelope_root=envelope_root,
+        provider_name=provider,
+        batch_id=rec["batch_id"],
+        rec=rec,
+        locked_prompt_hash=locked_prompt_hash,
+    )
+    if not is_env_ok:
+        return False, env_code, env_msg
 
     return True, "OK", "Record is valid"
 
 
-def import_annotations(raw_dir: Path = RAW_DIR, output_file: Path = ACCEPTED_RECORDS_PATH) -> dict:
-    IMPORTS_DIR.mkdir(parents=True, exist_ok=True)
+def _empty_output() -> pd.DataFrame:
+    return pd.DataFrame(columns=OUTPUT_COLUMNS)
 
-    provider_status = "UNAVAILABLE"
-    available_providers = set()
-    if CAPABILITY_AUDIT_PATH.exists():
-        try:
-            audit_data = json.loads(CAPABILITY_AUDIT_PATH.read_text(encoding="utf-8"))
-            provider_status = audit_data.get("external_provider_status", "UNAVAILABLE")
-            for prov in audit_data.get("evaluated_providers", []):
-                if prov.get("status") == "AVAILABLE":
-                    available_providers.add(prov.get("provider_name"))
-        except Exception:
-            pass
 
-    known_cases = set()
-    case_panels = {}
-    case_candidate_actions = {}
-    if EXPORT_MANIFEST_PATH.parent.exists():
-        for pf in (EXPORT_MANIFEST_PATH.parent).glob("*.jsonl"):
-            for line in pf.read_text(encoding="utf-8").splitlines():
-                if line.strip():
-                    try:
-                        cdata = json.loads(line)
-                        cid = cdata["case_id"]
-                        known_cases.add(cid)
-                        case_panels[cid] = cdata.get("panel_id", "")
-                        case_candidate_actions[cid] = cdata.get("candidate_actions", [])
-                    except Exception:
-                        pass
-
-    raw_files = list(raw_dir.glob("*.jsonl")) if raw_dir.exists() else []
-
-    # FAIL-CLOSED: If external provider is UNAVAILABLE or 0 raw response files exist
-    if provider_status != "AVAILABLE" or len(raw_files) == 0:
-        empty_df = pd.DataFrame(columns=[
-            "case_id", "panel_id", "action_id", "relevance_score", "abstain",
-            "evidence_ids", "rationale", "contraindication_detected",
-            "safety_flag", "reviewer_id", "reviewer_configuration_id",
-            "reviewer_type", "provider", "model_name", "request_id",
-            "response_id", "batch_id", "prompt_version", "prompt_sha256",
-            "raw_response_sha256", "response_record_index", "response_record_sha256",
-            "eligible_for_final_snorkel", "classification"
-        ])
-        empty_df.to_parquet(output_file, index=False)
-        (IMPORTS_DIR / "normalized_annotations.parquet").unlink(missing_ok=True)
-
-        indep_summary = compute_source_independence_audit(empty_df)
-
-        manifest_data = {
-            "schema_version": "recommend_hybrid_v2_import_v2",
-            "import_status": "BLOCKED_NO_VERIFIED_RAW_RESPONSES",
-            "external_provider_status": provider_status,
-            "real_external_llm_review_count": 0,
-            "verified_independent_source_count": 0,
-            "unique_case_count": 0,
-            "unique_reviewer_count": 0,
-            "panel_a_count": 0,
-            "panel_b_count": 0,
-            "duplicate_count": 0,
-            "invalid_count": 0,
-            "unverified_count": 0,
-            "abstention_count": 0,
-            "independence_audit": indep_summary,
-            "fail_closed_triggered": True,
-            "reason": "No verified external LLM provider available or raw response files missing"
-        }
-
-        (IMPORTS_DIR / "import_manifest.json").write_text(
-            json.dumps(manifest_data, indent=2), encoding="utf-8"
-        )
-
-        quality_report = {
-            "status": "BLOCKED",
-            "fail_closed": True,
-            "total_imported_records": 0,
-            "validation_summary": manifest_data,
-        }
-        (IMPORTS_DIR / "import_quality_report.json").write_text(
-            json.dumps(quality_report, indent=2), encoding="utf-8"
-        )
-        REJECTED_RECORDS_PATH.write_text("", encoding="utf-8")
-
-        return manifest_data
-
-    verified_records = []
-    rejected_records = []
-    seen = set()
-
-    for rf in raw_files:
-        for line_no, line in enumerate(rf.read_text(encoding="utf-8").splitlines(), 1):
-            if not line.strip():
-                continue
-            rec_hash = hashlib.sha256(line.encode()).hexdigest()
-            now_iso = datetime.now(timezone.utc).isoformat()
-            try:
-                rec = json.loads(line)
-                cid = rec.get("case_id", "")
-                aid = rec.get("action_id", "")
-                rid = rec.get("reviewer_id", "")
-                key = (cid, aid, rid)
-
-                # Production loop calls validate_record as ONLY path for acceptance
-                is_valid, code, msg = validate_record(
-                    rec,
-                    known_cases=known_cases,
-                    case_panels=case_panels,
-                    case_candidate_actions=case_candidate_actions,
-                    approved_providers=available_providers,
-                    envelope_root=ENVELOPE_ROOT,
-                )
-
-                if is_valid:
-                    if key in seen:
-                        rejected_records.append({
-                            "source_file": rf.name,
-                            "line_number": line_no,
-                            "record_sha256": rec_hash,
-                            "case_id": cid,
-                            "rejection_code": "DUPLICATE_REVIEW",
-                            "rejection_message": f"Duplicate reviewer-case-action key {key}",
-                            "created_at": now_iso
-                        })
-                        continue
-                    seen.add(key)
-
-                    rec_idx = rec.get("response_record_index", 0)
-                    rec_sha = rec.get("response_record_sha256", rec_hash)
-
-                    verified_rec = {
-                        "case_id": cid,
-                        "panel_id": rec.get("panel_id", ""),
-                        "action_id": aid,
-                        "relevance_score": int(rec.get("relevance_score", -1)),
-                        "abstain": bool(rec.get("abstain", False)),
-                        "evidence_ids": json.dumps(rec.get("evidence_ids", [])),
-                        "rationale": str(rec.get("rationale", "")),
-                        "contraindication_detected": bool(rec.get("contraindication_detected", False)),
-                        "safety_flag": bool(rec.get("safety_flag", False)),
-                        "reviewer_id": rid,
-                        "reviewer_configuration_id": str(rec.get("reviewer_configuration_id", rid)),
-                        "reviewer_type": "REAL_EXTERNAL_LLM_REVIEW",
-                        "provider": rec.get("provider", ""),
-                        "model_name": rec.get("model_name", ""),
-                        "request_id": rec.get("request_id", ""),
-                        "response_id": rec.get("response_id", ""),
-                        "batch_id": rec.get("batch_id", ""),
-                        "prompt_version": str(rec.get("prompt_version", "v2.0_locked")),
-                        "prompt_sha256": str(rec.get("prompt_sha256", "")),
-                        "raw_response_sha256": rec_hash,
-                        "response_record_index": rec_idx,
-                        "response_record_sha256": rec_sha,
-                        "eligible_for_final_snorkel": True,
-                        "classification": "VERIFIED_EXTERNAL_LLM_REVIEW",
-                    }
-                    verified_records.append(verified_rec)
-                else:
-                    rejected_records.append({
-                        "source_file": rf.name,
-                        "line_number": line_no,
-                        "record_sha256": rec_hash,
-                        "case_id": cid or None,
-                        "rejection_code": code,
-                        "rejection_message": msg,
-                        "created_at": now_iso
-                    })
-
-            except Exception as exc:
-                rejected_records.append({
-                    "source_file": rf.name,
-                    "line_number": line_no,
-                    "record_sha256": rec_hash,
-                    "case_id": None,
-                    "rejection_code": "MALFORMED_JSON",
-                    "rejection_message": str(exc),
-                    "created_at": now_iso
-                })
-
-    df_out = pd.DataFrame(verified_records)
-    if not df_out.empty:
-        df_out.to_parquet(output_file, index=False)
-    else:
-        empty_df = pd.DataFrame(columns=[
-            "case_id", "panel_id", "action_id", "relevance_score", "abstain",
-            "evidence_ids", "rationale", "contraindication_detected",
-            "safety_flag", "reviewer_id", "reviewer_configuration_id",
-            "reviewer_type", "provider", "model_name", "request_id",
-            "response_id", "batch_id", "prompt_version", "prompt_sha256",
-            "raw_response_sha256", "response_record_index", "response_record_sha256",
-            "eligible_for_final_snorkel", "classification"
-        ])
-        empty_df.to_parquet(output_file, index=False)
+def _write_outputs(
+    output_file: Path,
+    df_out: pd.DataFrame,
+    rejected_records: list[dict[str, Any]],
+    provider_status: str,
+    locked_prompt_hash: str | None,
+    blocked_reason: str | None = None,
+) -> dict[str, Any]:
+    output_file.parent.mkdir(parents=True, exist_ok=True)
+    df_out.to_parquet(output_file, index=False)
 
     REJECTED_RECORDS_PATH.write_text(
-        "\n".join(json.dumps(r) for r in rejected_records), encoding="utf-8"
+        "\n".join(json.dumps(item, ensure_ascii=False) for item in rejected_records),
+        encoding="utf-8",
     )
 
     indep_summary = compute_source_independence_audit(df_out)
+    verified_count = len(df_out)
 
-    manifest_data = {
-        "schema_version": "recommend_hybrid_v2_import_v2",
-        "import_status": "PASS" if len(verified_records) > 0 else "BLOCKED_NO_VERIFIED_RAW_RESPONSES",
+    manifest = {
+        "schema_version": "recommend_hybrid_v2_import_v3",
+        "import_status": "PASS" if verified_count > 0 else "BLOCKED_NO_VERIFIED_RAW_RESPONSES",
         "external_provider_status": provider_status,
-        "real_external_llm_review_count": len(verified_records),
+        "locked_prompt_version": LOCKED_PROMPT_VERSION,
+        "locked_prompt_sha256": locked_prompt_hash,
+        "real_external_llm_review_count": verified_count,
         "verified_independent_source_count": indep_summary["verified_independent_source_count"],
-        "unique_case_count": len(df_out["case_id"].unique()) if not df_out.empty else 0,
-        "unique_reviewer_count": len(df_out["reviewer_id"].unique()) if not df_out.empty else 0,
+        "unique_case_count": int(df_out["case_id"].nunique()) if not df_out.empty else 0,
+        "unique_reviewer_count": int(df_out["reviewer_id"].nunique()) if not df_out.empty else 0,
+        "panel_a_count": int((df_out["panel_id"] == "PANEL_A").sum()) if not df_out.empty else 0,
+        "panel_b_count": int((df_out["panel_id"] == "PANEL_B").sum()) if not df_out.empty else 0,
         "invalid_count": len(rejected_records),
         "rejected_count": len(rejected_records),
+        "abstention_count": int(df_out["abstain"].sum()) if not df_out.empty else 0,
         "independence_audit": indep_summary,
-        "fail_closed_triggered": len(verified_records) == 0,
+        "fail_closed_triggered": verified_count == 0,
+        "reason": blocked_reason,
     }
 
     (IMPORTS_DIR / "import_manifest.json").write_text(
-        json.dumps(manifest_data, indent=2), encoding="utf-8"
+        json.dumps(manifest, indent=2, ensure_ascii=False),
+        encoding="utf-8",
     )
-
     quality_report = {
-        "status": "PASS" if len(verified_records) > 0 else "BLOCKED",
-        "fail_closed": len(verified_records) == 0,
-        "total_imported_records": len(verified_records),
+        "status": "PASS" if verified_count > 0 else "BLOCKED",
+        "fail_closed": verified_count == 0,
+        "total_imported_records": verified_count,
         "rejected_records_count": len(rejected_records),
-        "validation_summary": manifest_data,
+        "validation_summary": manifest,
     }
     (IMPORTS_DIR / "import_quality_report.json").write_text(
-        json.dumps(quality_report, indent=2), encoding="utf-8"
+        json.dumps(quality_report, indent=2, ensure_ascii=False),
+        encoding="utf-8",
     )
+    return manifest
 
-    return manifest_data
+
+def import_annotations(
+    raw_dir: Path = RAW_DIR,
+    output_file: Path = ACCEPTED_RECORDS_PATH,
+) -> dict[str, Any]:
+    IMPORTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    provider_status, available_providers, audit_error = _load_capability_audit()
+
+    if not LOCKED_PROMPT_PATH.exists():
+        return _write_outputs(
+            output_file,
+            _empty_output(),
+            [],
+            provider_status,
+            None,
+            "Locked external-review prompt file missing",
+        )
+    locked_prompt_hash = canonical_text_sha256(LOCKED_PROMPT_PATH)
+
+    try:
+        (
+            known_cases,
+            case_panels,
+            case_candidate_actions,
+            case_allowed_evidence_ids,
+        ) = _load_case_registry()
+    except RuntimeError as exc:
+        return _write_outputs(
+            output_file,
+            _empty_output(),
+            [],
+            provider_status,
+            locked_prompt_hash,
+            f"Blinded case registry invalid: {exc}",
+        )
+
+    raw_files = sorted(raw_dir.glob("*.jsonl")) if raw_dir.exists() else []
+    if provider_status != "AVAILABLE" or not raw_files:
+        reason = audit_error or "No verified external provider available or raw response files missing"
+        return _write_outputs(
+            output_file,
+            _empty_output(),
+            [],
+            provider_status,
+            locked_prompt_hash,
+            reason,
+        )
+
+    verified_records: list[dict[str, Any]] = []
+    rejected_records: list[dict[str, Any]] = []
+    seen: set[tuple[str, str, str]] = set()
+
+    for raw_file in raw_files:
+        for line_number, line in enumerate(raw_file.read_text(encoding="utf-8").splitlines(), 1):
+            if not line.strip():
+                continue
+
+            source_record_sha = hashlib.sha256(line.encode("utf-8")).hexdigest()
+            now_iso = datetime.now(timezone.utc).isoformat()
+
+            try:
+                rec = json.loads(line)
+            except Exception as exc:
+                rejected_records.append(
+                    {
+                        "source_file": raw_file.name,
+                        "line_number": line_number,
+                        "record_sha256": source_record_sha,
+                        "case_id": None,
+                        "rejection_code": "MALFORMED_JSON",
+                        "rejection_message": str(exc),
+                        "created_at": now_iso,
+                    }
+                )
+                continue
+
+            case_id = rec.get("case_id", "") if isinstance(rec, dict) else ""
+            action_id = rec.get("action_id", "") if isinstance(rec, dict) else ""
+            reviewer_id = rec.get("reviewer_id", "") if isinstance(rec, dict) else ""
+
+            is_valid, code, msg = validate_record(
+                rec,
+                known_cases=known_cases,
+                case_panels=case_panels,
+                case_candidate_actions=case_candidate_actions,
+                case_allowed_evidence_ids=case_allowed_evidence_ids,
+                approved_providers=available_providers,
+                locked_prompt_hash=locked_prompt_hash,
+                locked_prompt_version=LOCKED_PROMPT_VERSION,
+                known_actions=KNOWN_ACTIONS,
+                envelope_root=ENVELOPE_ROOT,
+            )
+
+            if not is_valid:
+                rejected_records.append(
+                    {
+                        "source_file": raw_file.name,
+                        "line_number": line_number,
+                        "record_sha256": source_record_sha,
+                        "case_id": case_id or None,
+                        "rejection_code": code,
+                        "rejection_message": msg,
+                        "created_at": now_iso,
+                    }
+                )
+                continue
+
+            duplicate_key = (case_id, action_id, reviewer_id)
+            if duplicate_key in seen:
+                rejected_records.append(
+                    {
+                        "source_file": raw_file.name,
+                        "line_number": line_number,
+                        "record_sha256": source_record_sha,
+                        "case_id": case_id,
+                        "rejection_code": "DUPLICATE_REVIEW",
+                        "rejection_message": f"Duplicate reviewer-case-action key {duplicate_key}",
+                        "created_at": now_iso,
+                    }
+                )
+                continue
+            seen.add(duplicate_key)
+
+            verified_records.append(
+                {
+                    "case_id": case_id,
+                    "panel_id": rec["panel_id"],
+                    "action_id": action_id,
+                    "relevance_score": rec["relevance_score"],
+                    "abstain": rec["abstain"],
+                    "evidence_ids": json.dumps(rec["evidence_ids"], ensure_ascii=False),
+                    "rationale": rec["rationale"],
+                    "contraindication_detected": rec["contraindication_detected"],
+                    "safety_flag": rec["safety_flag"],
+                    "reviewer_id": reviewer_id,
+                    "reviewer_configuration_id": rec["reviewer_configuration_id"],
+                    "reviewer_type": rec["reviewer_type"],
+                    "provider": rec["provider"],
+                    "model_name": rec["model_name"],
+                    "model_version": rec.get("model_version"),
+                    "request_id": rec["request_id"],
+                    "response_id": rec["response_id"],
+                    "batch_id": rec["batch_id"],
+                    "prompt_version": rec["prompt_version"],
+                    "prompt_sha256": rec["prompt_sha256"],
+                    "request_batch_sha256": rec["request_batch_sha256"],
+                    "raw_request_sha256": rec["raw_request_sha256"],
+                    "raw_response_sha256": rec["raw_response_sha256"],
+                    "response_record_index": rec["response_record_index"],
+                    "response_record_sha256": rec["response_record_sha256"],
+                    "created_at": rec["created_at"],
+                    "source_record_sha256": source_record_sha,
+                    "eligible_for_final_snorkel": True,
+                    "classification": "VERIFIED_EXTERNAL_LLM_REVIEW",
+                }
+            )
+
+    df_out = pd.DataFrame(verified_records, columns=OUTPUT_COLUMNS)
+    return _write_outputs(
+        output_file,
+        df_out,
+        rejected_records,
+        provider_status,
+        locked_prompt_hash,
+        None if verified_records else "All external-review records were rejected",
+    )
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    args = parser.parse_args()
-    m = import_annotations()
-    print(f"IMPORT_STATUS={m['import_status']}")
-    print(f"REAL_EXTERNAL_LLM_REVIEW_COUNT={m['real_external_llm_review_count']}")
+    parser.parse_args()
+    result = import_annotations()
+    print(f"IMPORT_STATUS={result['import_status']}")
+    print(f"REAL_EXTERNAL_LLM_REVIEW_COUNT={result['real_external_llm_review_count']}")
