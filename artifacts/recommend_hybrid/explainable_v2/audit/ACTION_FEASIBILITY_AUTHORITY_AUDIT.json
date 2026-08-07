@@ -1,0 +1,75 @@
+{
+  "audit_classification": "ACTION_FEASIBILITY_AUTHORITY_AUDIT",
+  "version": "v2.0_policy",
+  "total_actions": 5,
+  "actions": [
+    {
+      "action_id": "QUIZ_RETRIEVAL_PRACTICE",
+      "authority_type": "EXISTING_SOURCE_FUNCTION",
+      "source_file": "src/recommend_hybrid/explainable_v2/action_eligibility.py",
+      "source_lines": "27-32",
+      "required_features": [
+        "quiz_available"
+      ],
+      "rule_version": "v2.0_policy",
+      "scientific_justification": "Retrieval practice requires quiz component availability; contraindicated when quizzes are absent.",
+      "approved_status": "APPROVED"
+    },
+    {
+      "action_id": "ASSESSMENT_COMPLETION",
+      "authority_type": "EXISTING_SOURCE_FUNCTION",
+      "source_file": "src/recommend_hybrid/explainable_v2/action_eligibility.py",
+      "source_lines": "34-41",
+      "required_features": [
+        "missing_assessment_count",
+        "assessments_due",
+        "due_soon_count"
+      ],
+      "rule_version": "v2.0_policy",
+      "scientific_justification": "Assessment completion intervention requires direct evidence of missing or due assessment deadlines.",
+      "approved_status": "APPROVED"
+    },
+    {
+      "action_id": "RECOVER_ENGAGEMENT",
+      "authority_type": "NEW_V2_POLICY",
+      "source_file": "src/recommend_hybrid/explainable_v2/action_eligibility.py",
+      "source_lines": "43-50",
+      "required_features": [
+        "inactivity_streak",
+        "active_day_rate",
+        "engagement_recovery_possible"
+      ],
+      "rule_version": "v2.0_policy",
+      "scientific_justification": "Re-engagement outreach triggered when active day rate falls below policy threshold (0.5) or inactivity streak exists.",
+      "approved_status": "APPROVED"
+    },
+    {
+      "action_id": "STUDY_REGULARITY",
+      "authority_type": "NEW_V2_POLICY",
+      "source_file": "src/recommend_hybrid/explainable_v2/action_eligibility.py",
+      "source_lines": "52-59",
+      "required_features": [
+        "regularity_score",
+        "study_consistency",
+        "active_day_rate"
+      ],
+      "rule_version": "v2.0_policy",
+      "scientific_justification": "Regularity coaching recommended when regularity score or study consistency falls below target threshold (0.8).",
+      "approved_status": "APPROVED"
+    },
+    {
+      "action_id": "TARGETED_CONTENT_REVIEW",
+      "authority_type": "NEW_V2_POLICY",
+      "source_file": "src/recommend_hybrid/explainable_v2/action_eligibility.py",
+      "source_lines": "61-68",
+      "required_features": [
+        "unviewed_content",
+        "low_coverage_topics",
+        "content_coverage"
+      ],
+      "rule_version": "v2.0_policy",
+      "scientific_justification": "Content review targeted to students with unviewed VLE resources or low coverage topics (< 0.8).",
+      "approved_status": "APPROVED"
+    }
+  ]
+}

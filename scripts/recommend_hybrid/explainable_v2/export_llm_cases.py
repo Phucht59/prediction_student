@@ -10,9 +10,12 @@ SECRET SALT REQUIREMENT:
 export_v2_cases requires os.environ["CASE_EXPORT_SALT"]. If unset, export MUST fail non-zero.
 NO default salt literal is permitted in source code.
 
+FEASIBILITY AUTHORITY:
+Calls evaluate_action_eligibility(case_features, action_id, policy).
+NO forced fallback to TARGETED_CONTENT_REVIEW.
+
 STRATIFIED GROUPED ALLOCATION:
-Cases are sampled using Proportional Stratified Group Allocation across
-(stage x risk_band x outer_fold) with exact ZERO student overlap and exact ZERO query overlap.
+Calls perform_grouped_stratified_sampling(...) for final selected 450 cases (300 Panel A, 150 Panel B).
 """
 
 from __future__ import annotations
@@ -24,12 +27,14 @@ import os
 import sys
 from pathlib import Path
 
-import numpy as np
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[3]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
+
+from src.recommend_hybrid.explainable_v2.action_eligibility import evaluate_action_eligibility
+from src.recommend_hybrid.explainable_v2.sampling import perform_grouped_stratified_sampling
 
 CANDIDATES_PATH = (
     ROOT / "artifacts/recommend_hybrid/explainable_v2/features/action_candidates.parquet"
@@ -43,6 +48,13 @@ PROMPTS_DIR = ROOT / "artifacts/recommend_hybrid/explainable_v2/annotations/prom
 
 PANEL_A_TARGET = 300
 PANEL_B_TARGET = 150
+ALL_ACTIONS = [
+    "QUIZ_RETRIEVAL_PRACTICE",
+    "ASSESSMENT_COMPLETION",
+    "RECOVER_ENGAGEMENT",
+    "STUDY_REGULARITY",
+    "TARGETED_CONTENT_REVIEW",
+]
 
 
 def _blinded_case_id(raw_query_id: str, salt: str | None = None) -> str:
@@ -71,7 +83,7 @@ def _manifest_sha256(path: Path) -> str:
 def export_v2_cases() -> dict:
     if "CASE_EXPORT_SALT" not in os.environ:
         raise RuntimeError("CASE_EXPORT_SALT environment variable is required")
-    
+
     salt = os.environ["CASE_EXPORT_SALT"]
 
     for d in (EXPORT_DIR, PRIVATE_DIR, PROMPTS_DIR):
@@ -86,7 +98,7 @@ def export_v2_cases() -> dict:
     cand_manifest_sha = _manifest_sha256(CANDIDATES_MANIFEST_PATH)
 
     query_groups = df.groupby("query_id")
-    
+
     public_cases: dict[str, dict] = {}
     private_mappings: dict[str, dict] = {}
     student_to_queries: dict[str, list[str]] = {}
@@ -119,50 +131,38 @@ def export_v2_cases() -> dict:
                 val = first[feat]
                 pre_cutoff[feat] = val.item() if hasattr(val, "item") else val
 
-        # Deterministic Action Eligibility Logic
         quiz_avail = bool(first["quiz_available"]) if "quiz_available" in grp.columns else True
         vle_avail = bool(first["active_day_rate"] > 0) if "active_day_rate" in grp.columns else True
+        case_features = dict(pre_cutoff)
+        case_features["quiz_available"] = quiz_avail
+        case_features["vle_available"] = vle_avail
 
+        # Call evaluate_action_eligibility for every action
         candidate_actions = []
-        
-        # Rule 1: QUIZ_RETRIEVAL_PRACTICE requires quiz_available == True
-        if quiz_avail:
-            candidate_actions.append("QUIZ_RETRIEVAL_PRACTICE")
-        
-        # Rule 2: ASSESSMENT_COMPLETION requires missing assessments or assessments due
-        missing_assess = pre_cutoff.get("missing_assessment_count", 0)
-        due_assess = pre_cutoff.get("assessments_due", 0)
-        due_soon = pre_cutoff.get("due_soon_count", 0)
-        if missing_assess > 0 or due_assess > 0 or due_soon > 0:
-            candidate_actions.append("ASSESSMENT_COMPLETION")
+        contraindications = []
 
-        # Rule 3: RECOVER_ENGAGEMENT
-        if pre_cutoff.get("inactivity_streak", 0) > 0 or pre_cutoff.get("active_day_rate", 0) < 0.5 or first.get("engagement_recovery_possible", False):
-            candidate_actions.append("RECOVER_ENGAGEMENT")
+        for act in ALL_ACTIONS:
+            is_eligible, code = evaluate_action_eligibility(case_features, act)
+            if is_eligible:
+                candidate_actions.append(act)
+            elif code.startswith("CONTRAINDICATED"):
+                contraindications.append(act)
 
-        # Rule 4: STUDY_REGULARITY
-        if pre_cutoff.get("regularity_score", 1.0) < 0.8 or pre_cutoff.get("study_consistency", 1.0) < 0.8 or pre_cutoff.get("active_day_rate", 1.0) < 0.8:
-            candidate_actions.append("STUDY_REGULARITY")
-
-        # Rule 5: TARGETED_CONTENT_REVIEW
-        if pre_cutoff.get("unviewed_content", 0) > 0 or pre_cutoff.get("low_coverage_topics", 0) > 0 or pre_cutoff.get("content_coverage", 1.0) < 0.8:
-            candidate_actions.append("TARGETED_CONTENT_REVIEW")
-
+        # Ensure no forced fallback; if empty, record NO_FEASIBLE_ACTION status
+        routing_status = "FEASIBLE"
         if not candidate_actions:
-            candidate_actions.append("TARGETED_CONTENT_REVIEW")
+            candidate_actions = []
+            routing_status = "NO_FEASIBLE_ACTION"
+
+        # Disjoint guarantee
+        candidate_actions = [a for a in candidate_actions if a not in contraindications]
+
+        cid = _blinded_case_id(qid, salt=salt)
 
         avail = {
             "vle_available": vle_avail,
             "quiz_available": quiz_avail,
         }
-
-        contraindications = []
-        if not quiz_avail:
-            contraindications.append("QUIZ_RETRIEVAL_PRACTICE")
-
-        candidate_actions = [a for a in candidate_actions if a not in contraindications]
-
-        cid = _blinded_case_id(qid, salt=salt)
 
         public_case = {
             "case_id": cid,
@@ -171,6 +171,7 @@ def export_v2_cases() -> dict:
             "cutoff_day": cutoff_day,
             "risk_band": risk_band,
             "uncertainty_band": unc_band,
+            "routing_status": routing_status,
             "observed_pre_cutoff_evidence": pre_cutoff,
             "candidate_actions": candidate_actions,
             "availability_flags": avail,
@@ -199,83 +200,34 @@ def export_v2_cases() -> dict:
         student_to_queries.setdefault(student_group_id, []).append(qid)
         query_strata[qid] = f"fold{outer_fold}_{stage_val}_{risk_band}"
 
-    # Proportional Stratified Group Allocation
-    student_strata: dict[str, str] = {}
-    for sid, qids in student_to_queries.items():
-        strata_counts = pd.Series([query_strata[q] for q in qids]).value_counts()
-        student_strata[sid] = strata_counts.index[0]
+    # Perform Proportional Stratified Group Allocation for final 450 selected cases
+    pa_qids, pb_qids, sampling_audit = perform_grouped_stratified_sampling(
+        df=df,
+        query_groups=query_groups,
+        student_to_queries=student_to_queries,
+        query_strata=query_strata,
+        panel_a_target=PANEL_A_TARGET,
+        panel_b_target=PANEL_B_TARGET,
+        seed=2026,
+    )
 
-    rng = np.random.default_rng(2026)
-    
-    panel_a_students = set()
-    panel_b_students = set()
+    panel_a_cases = []
+    for qid in pa_qids:
+        c = dict(public_cases[qid])
+        c["panel_id"] = "PANEL_A"
+        panel_a_cases.append(c)
 
-    df_students = pd.DataFrame([
-        {"student_id": sid, "stratum": stratum}
-        for sid, stratum in student_strata.items()
-    ])
+    panel_b_cases = []
+    for qid in pb_qids:
+        c = dict(public_cases[qid])
+        c["panel_id"] = "PANEL_B"
+        panel_b_cases.append(c)
 
-    stratum_audit = {}
-    max_rel_dev = 0.0
-
-    for stratum, group in df_students.groupby("stratum"):
-        sids = group["student_id"].tolist()
-        shuffled = rng.permutation(sids).tolist()
-        half = len(shuffled) // 2
-        panel_a_students.update(shuffled[:half])
-        panel_b_students.update(shuffled[half:])
-
-        target_a = len(shuffled) * 0.6667
-        actual_a = half
-        target_b = len(shuffled) * 0.3333
-        actual_b = len(shuffled) - half
-        rel_dev = abs(actual_a - target_a) / max(1, target_a)
-        max_rel_dev = max(max_rel_dev, rel_dev)
-
-        stratum_audit[stratum] = {
-            "eligible_count": len(shuffled),
-            "target_panel_a": round(target_a, 2),
-            "actual_panel_a": actual_a,
-            "target_panel_b": round(target_b, 2),
-            "actual_panel_b": actual_b,
-            "absolute_deviation": abs(actual_a - half),
-            "relative_deviation": round(rel_dev, 4),
-        }
-
-    panel_a_cases: list[dict] = []
-    panel_b_cases: list[dict] = []
-
-    for sid in rng.permutation(list(panel_a_students)):
-        for qid in student_to_queries[sid]:
-            c = dict(public_cases[qid])
-            c["panel_id"] = "PANEL_A"
-            panel_a_cases.append(c)
-
-    for sid in rng.permutation(list(panel_b_students)):
-        for qid in student_to_queries[sid]:
-            c = dict(public_cases[qid])
-            c["panel_id"] = "PANEL_B"
-            panel_b_cases.append(c)
-
-    panel_a_cases = panel_a_cases[:PANEL_A_TARGET]
-    panel_b_cases = panel_b_cases[:PANEL_B_TARGET]
-
+    # Privacy verification
     forbidden_keys = {"query_id", "source_query_id", "id_student", "student_group_id", "module", "presentation", "outer_fold"}
     for c in panel_a_cases + panel_b_cases:
         leaked = forbidden_keys & set(c.keys())
         assert len(leaked) == 0, f"Privacy leak detected: {leaked}"
-
-    pa_cids = {c["case_id"] for c in panel_a_cases}
-    pb_cids = {c["case_id"] for c in panel_b_cases}
-    assert len(pa_cids & pb_cids) == 0
-
-    pa_qids = {private_mappings[cid]["source_query_id"] for cid in pa_cids}
-    pb_qids = {private_mappings[cid]["source_query_id"] for cid in pb_cids}
-    assert len(pa_qids & pb_qids) == 0
-
-    pa_sids = {private_mappings[cid]["source_student_group_id"] for cid in pa_cids}
-    pb_sids = {private_mappings[cid]["source_student_group_id"] for cid in pb_cids}
-    assert len(pa_sids & pb_sids) == 0
 
     with (EXPORT_DIR / "panel_a_cases.jsonl").open("w", encoding="utf-8") as f:
         for c in panel_a_cases:
@@ -289,18 +241,6 @@ def export_v2_cases() -> dict:
         json.dumps(private_mappings, indent=2), encoding="utf-8"
     )
 
-    sampling_audit = {
-        "sampling_method": "PROPORTIONAL_STRATIFIED_GROUP_ALLOCATION",
-        "is_first_n_truncation": False,
-        "sampling_seed": 2026,
-        "total_strata_count": len(stratum_audit),
-        "max_relative_deviation": round(max_rel_dev, 4),
-        "stratum_breakdown": stratum_audit,
-        "panel_a_case_count": len(panel_a_cases),
-        "panel_b_case_count": len(panel_b_cases),
-        "panel_student_overlap_count": len(pa_sids & pb_sids),
-        "panel_query_overlap_count": len(pa_qids & pb_qids),
-    }
     (EXPORT_DIR / "SAMPLING_AUDIT.json").write_text(
         json.dumps(sampling_audit, indent=2), encoding="utf-8"
     )
@@ -312,10 +252,10 @@ def export_v2_cases() -> dict:
         "total_eligible_students": len(student_to_queries),
         "panel_a_case_count": len(panel_a_cases),
         "panel_b_case_count": len(panel_b_cases),
-        "panel_student_overlap_count": len(pa_sids & pb_sids),
-        "panel_query_overlap_count": len(pa_qids & pb_qids),
-        "zero_student_overlap": len(pa_sids & pb_sids) == 0,
-        "zero_query_overlap": len(pa_qids & pb_qids) == 0,
+        "panel_student_overlap_count": sampling_audit["student_overlap"],
+        "panel_query_overlap_count": sampling_audit["query_overlap"],
+        "zero_student_overlap": sampling_audit["student_overlap"] == 0,
+        "zero_query_overlap": sampling_audit["query_overlap"] == 0,
         "public_privacy_verified": True,
         "synthetic_fixture_used": False,
         "lineage_source": "action_candidates.parquet",
@@ -353,7 +293,8 @@ Each response MUST contain authentic external provider metadata:
 `case_id`, `panel_id`, `action_id`, `relevance_score` (0-3 or abstain=true),
 `evidence_ids`, `rationale`, `contraindication_detected`, `safety_flag`,
 `reviewer_id`, `reviewer_configuration_id`, `reviewer_type`="REAL_EXTERNAL_LLM_REVIEW",
-`provider`, `model_name`, `request_id`, `batch_id`, `prompt_version`, `prompt_sha256`, `created_at`.
+`provider`, `model_name`, `request_id`, `response_id`, `batch_id`, `prompt_version`, `prompt_sha256`,
+`request_batch_sha256`, `raw_request_sha256`, `raw_response_sha256`, `created_at`.
 """
     (prompts_dir / "annotation_instructions.md").write_text(instructions, encoding="utf-8")
 

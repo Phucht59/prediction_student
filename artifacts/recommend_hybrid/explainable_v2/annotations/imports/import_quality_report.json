@@ -16,6 +16,16 @@
     "invalid_count": 0,
     "unverified_count": 0,
     "abstention_count": 0,
+    "independence_audit": {
+      "unique_provider_count": 0,
+      "unique_model_family_count": 0,
+      "unique_endpoint_count": 0,
+      "unique_generation_run_count": 0,
+      "verified_independent_source_count": 0,
+      "same_provider_dependency": true,
+      "same_model_family_dependency": true,
+      "status": "BLOCKED_NO_VERIFIED_RAW_RESPONSES"
+    },
     "fail_closed_triggered": true,
     "reason": "No verified external LLM provider available or raw response files missing"
   }

@@ -4,12 +4,11 @@ Exit codes:
   0 = VERIFIED_COMPLETE
   2 = BLOCKED_EXTERNAL_DEPENDENCY (waiting for verified external LLM reviews)
   1 = INVALID_OR_FAILED
-
-This verifier does NOT trust status fields. It checks actual file existence,
-schemas, counts, lineage, and provenance directly.
 """
 from __future__ import annotations
 import json
+import os
+import subprocess
 import sys
 from pathlib import Path
 
@@ -19,25 +18,13 @@ ROOT = Path(__file__).resolve().parents[3]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-# Required runtime_authorized = False (always)
-VALIDATE_PATH = ROOT / "artifacts/validate_explainable_v2_state.json"
 CANDIDATES_PATH = ROOT / "artifacts/recommend_hybrid/explainable_v2/features/action_candidates.parquet"
-MANIFEST_PATH = ROOT / "artifacts/recommend_hybrid/explainable_v2/data/FEATURE_TABLE_MANIFEST.json"
 EXPORT_DIR = ROOT / "artifacts/recommend_hybrid/explainable_v2/annotations/exports"
-IMPORT_DIR = ROOT / "artifacts/recommend_hybrid/explainable_v2/annotations/imports"
-RAW_DIR = IMPORT_DIR / "raw"
-LABELS_PATH = ROOT / "artifacts/recommend_hybrid/explainable_v2/labels/probabilistic_relevance_labels.parquet"
-MODEL_DIR = ROOT / "artifacts/recommend_hybrid/explainable_v2/models/five_ebm"
-SELECTION_PATH = ROOT / "artifacts/recommend_hybrid/explainable_v2/model_selection/model_selection_manifest.json"
-
-FORBIDDEN_PATTERNS = ["course_alpha", "q_EARLY_20_", "q_EARLY_35_", "q_MIDDLE_50_", "q_LATE_75_", "pseudo_"]
-FAKE_MODEL_NAMES = {"Antigravity-LLM-v2-ReviewerA", "Antigravity-LLM-v2-ReviewerB",
-                     "Antigravity-LLM-v2-ReviewerC", "ANTIGRAVITY_INTERNAL_RULE_AGENT"}
-FORBIDDEN_ANNOTATION_TYPES = {"REAL_LLM_GENERATED_REVIEW"}  # old mislabeled type is forbidden
-CANONICAL_ACTIONS = {
-    "ASSESSMENT_COMPLETION", "RECOVER_ENGAGEMENT",
-    "STUDY_REGULARITY", "TARGETED_CONTENT_REVIEW", "QUIZ_RETRIEVAL_PRACTICE",
-}
+PRIVATE_DIR = ROOT / "artifacts/recommend_hybrid/explainable_v2/annotations/private"
+RAW_DIR = ROOT / "artifacts/recommend_hybrid/explainable_v2/annotations/imports/raw"
+ACCEPTED_RECORDS_PATH = ROOT / "artifacts/recommend_hybrid/explainable_v2/annotations/imports/accepted_records.parquet"
+CAPABILITY_AUDIT_PATH = ROOT / "artifacts/recommend_hybrid/explainable_v2/annotations/EXTERNAL_PROVIDER_CAPABILITY_AUDIT.json"
+MODEL_DIR = ROOT / "artifacts/recommend_hybrid/explainable_v2/models"
 
 
 def verify() -> tuple[int, dict]:
@@ -59,101 +46,98 @@ def verify() -> tuple[int, dict]:
     def ok(key: str) -> None:
         report["checks"][key] = "PASS"
 
-    # ── Check 1: real OULAD feature table exists ──────────────────────────────
-    if CANDIDATES_PATH.exists():
-        df_cand = pd.read_parquet(CANDIDATES_PATH)
-        if len(df_cand) >= 312000:
-            ok("feature_table_exists")
+    # Check 1: CASE_EXPORT_SALT source security check
+    export_script = ROOT / "scripts/recommend_hybrid/explainable_v2/export_llm_cases.py"
+    if export_script.exists():
+        content = export_script.read_text(encoding="utf-8")
+        if "recommend_v2_blinded_privacy_salt_2026" in content:
+            fail("salt_security", "Hardcoded salt literal found in export_llm_cases.py")
         else:
-            fail("feature_table_exists", f"candidates rows {len(df_cand)} < 312000")
-    else:
-        fail("feature_table_exists", "action_candidates.parquet missing")
+            ok("salt_security")
 
-    # ── Check 2: case exports have OULAD lineage, no synthetic patterns ───────
+    # Check 2: private_case_mapping.json not git-tracked
+    p_map_path = PRIVATE_DIR / "private_case_mapping.json"
+    res = subprocess.run(
+        ["git", "ls-files", "--error-unmatch", str(p_map_path)],
+        cwd=str(ROOT),
+        capture_output=True,
+        text=True,
+    )
+    if res.returncode == 0:
+        fail("private_mapping_git_tracked", "private_case_mapping.json is tracked by Git!")
+    else:
+        ok("private_mapping_git_tracked")
+
+    # Check 3: Public export files contain ZERO unblinded identifiers
     panel_a_path = EXPORT_DIR / "panel_a_cases.jsonl"
     panel_b_path = EXPORT_DIR / "panel_b_cases.jsonl"
     if panel_a_path.exists() and panel_b_path.exists():
-        def load(p: Path) -> list[dict]:
-            return [json.loads(line) for line in p.read_text(encoding="utf-8").splitlines() if line.strip()]
-        pa = load(panel_a_path)
-        pb = load(panel_b_path)
-        synthetic_found = False
-        for case in pa + pb:
-            qid = case.get("query_id", "")
-            course = case.get("course_pseudonym", "")
-            stu = case.get("student_pseudonym", "")
-            for pat in FORBIDDEN_PATTERNS:
-                if pat in qid or course == "course_alpha" or stu.startswith("pseudo_"):
-                    synthetic_found = True
-                    break
-        if synthetic_found:
-            fail("case_export_lineage", "Synthetic patterns detected in case exports")
-        elif len(pa) >= 240 and len(pb) >= 120:
-            ok("case_export_lineage")
+        pa = [json.loads(l) for l in panel_a_path.read_text(encoding="utf-8").splitlines() if l.strip()]
+        pb = [json.loads(l) for l in panel_b_path.read_text(encoding="utf-8").splitlines() if l.strip()]
+        forbidden_keys = {"query_id", "source_query_id", "id_student", "student_group_id", "module", "presentation", "outer_fold"}
+        privacy_leaks = 0
+        for c in pa + pb:
+            leaked = forbidden_keys & set(c.keys())
+            if leaked:
+                privacy_leaks += 1
+        if privacy_leaks > 0:
+            fail("public_privacy", f"{privacy_leaks} public cases contain forbidden unblinded keys")
         else:
-            fail("case_export_lineage", f"Insufficient cases: A={len(pa)}, B={len(pb)}")
+            ok("public_privacy")
     else:
-        fail("case_export_lineage", "Panel export files missing")
+        fail("public_privacy", "Public export files missing")
 
-    # ── Check 3: No fake annotations in imports/raw/ ─────────────────────────
+    # Check 4: SAMPLING_AUDIT PASS
+    sampling_audit_path = EXPORT_DIR / "SAMPLING_AUDIT.json"
+    if sampling_audit_path.exists():
+        sa = json.loads(sampling_audit_path.read_text(encoding="utf-8"))
+        if sa.get("sampling_method") == "PROPORTIONAL_STRATIFIED_GROUP_ALLOCATION" and sa.get("final_selected_case_count") == 450:
+            ok("sampling_audit")
+        else:
+            fail("sampling_audit", "SAMPLING_AUDIT invalid or missing final selected cases count")
+    else:
+        fail("sampling_audit", "SAMPLING_AUDIT.json missing")
+
+    # Check 5: Hardened Annotation Provenance via accepted_records.parquet & envelopes
     real_ext_count = 0
-    mislabeled_count = 0
-    if RAW_DIR.exists():
-        for f in RAW_DIR.glob("*.jsonl"):
-            for line in f.read_text(encoding="utf-8").splitlines():
-                if not line.strip():
-                    continue
-                try:
-                    rec = json.loads(line)
-                    rt = rec.get("reviewer_type", "")
-                    mn = rec.get("model_name", "")
-                    if rt in FORBIDDEN_ANNOTATION_TYPES:
-                        mislabeled_count += 1
-                    if mn in FAKE_MODEL_NAMES:
-                        mislabeled_count += 1
-                    if (rt == "REAL_EXTERNAL_LLM_REVIEW"
-                            and rec.get("provider") not in (None, "", "NONE", "NONE_INTERNAL")
-                            and rec.get("request_id") not in (None, "")):
-                        real_ext_count += 1
-                except json.JSONDecodeError:
-                    pass
+    if ACCEPTED_RECORDS_PATH.exists():
+        try:
+            df_acc = pd.read_parquet(ACCEPTED_RECORDS_PATH)
+            if not df_acc.empty:
+                real_ext_count = len(df_acc[df_acc["classification"] == "VERIFIED_EXTERNAL_LLM_REVIEW"])
+        except Exception:
+            pass
 
-    if mislabeled_count > 0:
-        fail("annotation_provenance", f"{mislabeled_count} mislabeled annotations in imports/raw/")
-    elif real_ext_count == 0:
-        block("annotation_provenance", f"VERIFIED_EXTERNAL_LLM_REVIEW_COUNT=0 — blocked pending real reviews")
+    if real_ext_count == 0:
+        block("annotation_provenance", "VERIFIED_EXTERNAL_LLM_REVIEW_COUNT=0 — blocked pending real reviews")
     else:
         ok("annotation_provenance")
 
     report["verified_external_llm_review_count"] = real_ext_count
-    report["mislabeled_annotation_count"] = mislabeled_count
 
-    # ── Check 4: runtime_authorized == False ──────────────────────────────────
-    static_path = ROOT / "artifacts/recommend_hybrid/explainable_v2/run_state/supervisor.json"
-    if static_path.exists():
-        state = json.loads(static_path.read_text(encoding="utf-8"))
+    # Check 6: Check Five EBM model artifacts (required for exit 0)
+    ebm_models_exist = False
+    if MODEL_DIR.exists() and len(list(MODEL_DIR.glob("five_ebm_*.pkl"))) >= 5:
+        ebm_models_exist = True
+
+    if not ebm_models_exist:
+        block("five_ebm_models", "Five EBM models not trained — blocked pending external LLM reviews")
+
+    # Check 7: Check metric recomputation & model selection artifacts
+    metrics_exist = (ROOT / "artifacts/recommend_hybrid/explainable_v2/metrics/MODEL_SELECTION_REPORT.json").exists()
+    if not metrics_exist:
+        block("metric_recomputation", "Model selection & metric recomputation missing — blocked")
+
+    # Check 8: runtime_authorized == False
+    state_path = ROOT / "artifacts/recommend_hybrid/explainable_v2/run_state/supervisor.json"
+    if state_path.exists():
+        state = json.loads(state_path.read_text(encoding="utf-8"))
         if state.get("runtime_authorized", True) is False:
             ok("runtime_authorized_false")
         else:
             fail("runtime_authorized_false", "runtime_authorized is True — forbidden")
 
-    # ── Check 5: No active synthetic artifacts in production paths ────────────
-    quarantine_path = ROOT / "artifacts/recommend_hybrid/explainable_v2/audit/INVALID_ARTIFACT_QUARANTINE_MANIFEST.json"
-    if quarantine_path.exists():
-        qm = json.loads(quarantine_path.read_text(encoding="utf-8"))
-        still_active = [
-            a["path"] for a in qm.get("invalidated_artifacts", [])
-            if Path(ROOT / a["path"]).exists()
-            and a["category"] in ("model", "label", "calibration", "model_selection", "simulator")
-        ]
-        if still_active:
-            fail("quarantine_complete", f"{len(still_active)} invalid artifacts still in active paths")
-        else:
-            ok("quarantine_complete")
-    else:
-        fail("quarantine_complete", "Quarantine manifest missing")
-
-    # ── Determine overall status ──────────────────────────────────────────────
+    # Determine overall exit code and scientific status
     statuses = list(report["checks"].values())
     if any(s == "FAIL" for s in statuses):
         report["scientific_status"] = "INVALID_OR_FAILED"

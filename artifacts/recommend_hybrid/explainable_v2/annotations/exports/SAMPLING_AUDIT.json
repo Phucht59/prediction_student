@@ -2,309 +2,381 @@
   "sampling_method": "PROPORTIONAL_STRATIFIED_GROUP_ALLOCATION",
   "is_first_n_truncation": false,
   "sampling_seed": 2026,
-  "total_strata_count": 33,
-  "max_relative_deviation": 0.5,
-  "stratum_breakdown": {
-    "fold0_EARLY_20_BORDERLINE": {
-      "eligible_count": 2237,
-      "target_panel_a": 1491.41,
-      "actual_panel_a": 1118,
-      "target_panel_b": 745.59,
-      "actual_panel_b": 1119,
-      "absolute_deviation": 0,
-      "relative_deviation": 0.2504
-    },
-    "fold0_EARLY_20_HIGH": {
-      "eligible_count": 1658,
-      "target_panel_a": 1105.39,
-      "actual_panel_a": 829,
-      "target_panel_b": 552.61,
-      "actual_panel_b": 829,
-      "absolute_deviation": 0,
-      "relative_deviation": 0.25
-    },
-    "fold0_EARLY_20_LOW": {
-      "eligible_count": 1241,
-      "target_panel_a": 827.37,
-      "actual_panel_a": 620,
-      "target_panel_b": 413.63,
-      "actual_panel_b": 621,
-      "absolute_deviation": 0,
-      "relative_deviation": 0.2506
-    },
-    "fold0_EARLY_35_BORDERLINE": {
-      "eligible_count": 14,
-      "target_panel_a": 9.33,
-      "actual_panel_a": 7,
-      "target_panel_b": 4.67,
-      "actual_panel_b": 7,
-      "absolute_deviation": 0,
-      "relative_deviation": 0.25
-    },
-    "fold0_EARLY_35_HIGH": {
-      "eligible_count": 19,
-      "target_panel_a": 12.67,
-      "actual_panel_a": 9,
-      "target_panel_b": 6.33,
-      "actual_panel_b": 10,
-      "absolute_deviation": 0,
-      "relative_deviation": 0.2895
-    },
-    "fold0_EARLY_35_LOW": {
-      "eligible_count": 25,
-      "target_panel_a": 16.67,
-      "actual_panel_a": 12,
-      "target_panel_b": 8.33,
-      "actual_panel_b": 13,
-      "absolute_deviation": 0,
-      "relative_deviation": 0.28
-    },
-    "fold0_LATE_75_HIGH": {
-      "eligible_count": 5,
-      "target_panel_a": 3.33,
-      "actual_panel_a": 2,
-      "target_panel_b": 1.67,
-      "actual_panel_b": 3,
-      "absolute_deviation": 0,
-      "relative_deviation": 0.4
-    },
-    "fold0_LATE_75_LOW": {
-      "eligible_count": 7,
-      "target_panel_a": 4.67,
-      "actual_panel_a": 3,
-      "target_panel_b": 2.33,
-      "actual_panel_b": 4,
-      "absolute_deviation": 0,
-      "relative_deviation": 0.3572
-    },
-    "fold0_MIDDLE_50_HIGH": {
-      "eligible_count": 9,
-      "target_panel_a": 6.0,
-      "actual_panel_a": 4,
-      "target_panel_b": 3.0,
-      "actual_panel_b": 5,
-      "absolute_deviation": 0,
-      "relative_deviation": 0.3334
-    },
-    "fold0_MIDDLE_50_LOW": {
-      "eligible_count": 11,
-      "target_panel_a": 7.33,
-      "actual_panel_a": 5,
-      "target_panel_b": 3.67,
-      "actual_panel_b": 6,
-      "absolute_deviation": 0,
-      "relative_deviation": 0.3182
-    },
-    "fold1_EARLY_20_BORDERLINE": {
-      "eligible_count": 2253,
-      "target_panel_a": 1502.08,
-      "actual_panel_a": 1126,
-      "target_panel_b": 750.92,
-      "actual_panel_b": 1127,
-      "absolute_deviation": 0,
-      "relative_deviation": 0.2504
-    },
-    "fold1_EARLY_20_HIGH": {
-      "eligible_count": 1657,
-      "target_panel_a": 1104.72,
-      "actual_panel_a": 828,
-      "target_panel_b": 552.28,
-      "actual_panel_b": 829,
-      "absolute_deviation": 0,
-      "relative_deviation": 0.2505
-    },
-    "fold1_EARLY_20_LOW": {
-      "eligible_count": 1239,
-      "target_panel_a": 826.04,
-      "actual_panel_a": 619,
-      "target_panel_b": 412.96,
-      "actual_panel_b": 620,
-      "absolute_deviation": 0,
-      "relative_deviation": 0.2506
-    },
-    "fold1_EARLY_35_BORDERLINE": {
-      "eligible_count": 18,
-      "target_panel_a": 12.0,
-      "actual_panel_a": 9,
-      "target_panel_b": 6.0,
-      "actual_panel_b": 9,
-      "absolute_deviation": 0,
-      "relative_deviation": 0.25
-    },
-    "fold1_EARLY_35_HIGH": {
-      "eligible_count": 15,
-      "target_panel_a": 10.0,
-      "actual_panel_a": 7,
-      "target_panel_b": 5.0,
-      "actual_panel_b": 8,
-      "absolute_deviation": 0,
-      "relative_deviation": 0.3
-    },
-    "fold1_EARLY_35_LOW": {
-      "eligible_count": 8,
-      "target_panel_a": 5.33,
-      "actual_panel_a": 4,
-      "target_panel_b": 2.67,
-      "actual_panel_b": 4,
-      "absolute_deviation": 0,
-      "relative_deviation": 0.25
-    },
-    "fold1_LATE_75_BORDERLINE": {
-      "eligible_count": 3,
-      "target_panel_a": 2.0,
-      "actual_panel_a": 1,
-      "target_panel_b": 1.0,
-      "actual_panel_b": 2,
-      "absolute_deviation": 0,
-      "relative_deviation": 0.5
-    },
-    "fold1_LATE_75_HIGH": {
-      "eligible_count": 3,
-      "target_panel_a": 2.0,
-      "actual_panel_a": 1,
-      "target_panel_b": 1.0,
-      "actual_panel_b": 2,
-      "absolute_deviation": 0,
-      "relative_deviation": 0.5
-    },
-    "fold1_LATE_75_LOW": {
-      "eligible_count": 5,
-      "target_panel_a": 3.33,
-      "actual_panel_a": 2,
-      "target_panel_b": 1.67,
-      "actual_panel_b": 3,
-      "absolute_deviation": 0,
-      "relative_deviation": 0.4
-    },
-    "fold1_MIDDLE_50_BORDERLINE": {
-      "eligible_count": 5,
-      "target_panel_a": 3.33,
-      "actual_panel_a": 2,
-      "target_panel_b": 1.67,
-      "actual_panel_b": 3,
-      "absolute_deviation": 0,
-      "relative_deviation": 0.4
-    },
-    "fold1_MIDDLE_50_HIGH": {
-      "eligible_count": 4,
-      "target_panel_a": 2.67,
-      "actual_panel_a": 2,
-      "target_panel_b": 1.33,
-      "actual_panel_b": 2,
-      "absolute_deviation": 0,
-      "relative_deviation": 0.25
-    },
-    "fold1_MIDDLE_50_LOW": {
-      "eligible_count": 15,
-      "target_panel_a": 10.0,
-      "actual_panel_a": 7,
-      "target_panel_b": 5.0,
-      "actual_panel_b": 8,
-      "absolute_deviation": 0,
-      "relative_deviation": 0.3
-    },
-    "fold2_EARLY_20_BORDERLINE": {
-      "eligible_count": 2202,
-      "target_panel_a": 1468.07,
-      "actual_panel_a": 1101,
-      "target_panel_b": 733.93,
-      "actual_panel_b": 1101,
-      "absolute_deviation": 0,
-      "relative_deviation": 0.25
-    },
-    "fold2_EARLY_20_HIGH": {
-      "eligible_count": 1731,
-      "target_panel_a": 1154.06,
-      "actual_panel_a": 865,
-      "target_panel_b": 576.94,
-      "actual_panel_b": 866,
-      "absolute_deviation": 0,
-      "relative_deviation": 0.2505
-    },
-    "fold2_EARLY_20_LOW": {
-      "eligible_count": 1198,
-      "target_panel_a": 798.71,
-      "actual_panel_a": 599,
-      "target_panel_b": 399.29,
-      "actual_panel_b": 599,
-      "absolute_deviation": 0,
-      "relative_deviation": 0.25
-    },
-    "fold2_EARLY_35_BORDERLINE": {
-      "eligible_count": 18,
-      "target_panel_a": 12.0,
-      "actual_panel_a": 9,
-      "target_panel_b": 6.0,
-      "actual_panel_b": 9,
-      "absolute_deviation": 0,
-      "relative_deviation": 0.25
-    },
-    "fold2_EARLY_35_HIGH": {
-      "eligible_count": 11,
-      "target_panel_a": 7.33,
-      "actual_panel_a": 5,
-      "target_panel_b": 3.67,
-      "actual_panel_b": 6,
-      "absolute_deviation": 0,
-      "relative_deviation": 0.3182
-    },
-    "fold2_EARLY_35_LOW": {
-      "eligible_count": 22,
-      "target_panel_a": 14.67,
-      "actual_panel_a": 11,
-      "target_panel_b": 7.33,
-      "actual_panel_b": 11,
-      "absolute_deviation": 0,
-      "relative_deviation": 0.25
-    },
-    "fold2_LATE_75_BORDERLINE": {
-      "eligible_count": 2,
-      "target_panel_a": 1.33,
-      "actual_panel_a": 1,
-      "target_panel_b": 0.67,
-      "actual_panel_b": 1,
-      "absolute_deviation": 0,
-      "relative_deviation": 0.25
-    },
-    "fold2_LATE_75_HIGH": {
-      "eligible_count": 3,
-      "target_panel_a": 2.0,
-      "actual_panel_a": 1,
-      "target_panel_b": 1.0,
-      "actual_panel_b": 2,
-      "absolute_deviation": 0,
-      "relative_deviation": 0.5
-    },
-    "fold2_LATE_75_LOW": {
-      "eligible_count": 16,
-      "target_panel_a": 10.67,
-      "actual_panel_a": 8,
-      "target_panel_b": 5.33,
-      "actual_panel_b": 8,
-      "absolute_deviation": 0,
-      "relative_deviation": 0.25
-    },
-    "fold2_MIDDLE_50_BORDERLINE": {
-      "eligible_count": 2,
-      "target_panel_a": 1.33,
-      "actual_panel_a": 1,
-      "target_panel_b": 0.67,
-      "actual_panel_b": 1,
-      "absolute_deviation": 0,
-      "relative_deviation": 0.25
-    },
-    "fold2_MIDDLE_50_LOW": {
-      "eligible_count": 19,
-      "target_panel_a": 12.67,
-      "actual_panel_a": 9,
-      "target_panel_b": 6.33,
-      "actual_panel_b": 10,
-      "absolute_deviation": 0,
-      "relative_deviation": 0.2895
-    }
-  },
+  "panel_a_count": 300,
+  "panel_b_count": 150,
   "panel_a_case_count": 300,
   "panel_b_case_count": 150,
+  "final_selected_case_count": 450,
+  "max_relative_deviation": 0.3636,
+  "student_overlap": 0,
+  "query_overlap": 0,
   "panel_student_overlap_count": 0,
-  "panel_query_overlap_count": 0
+  "panel_query_overlap_count": 0,
+  "all_stages_represented": true,
+  "all_outer_folds_represented": true,
+  "stratum_breakdown": {
+    "fold0_EARLY_20_BORDERLINE": {
+      "pool_count": 19,
+      "panel_a_target": 12.6667,
+      "panel_a_actual": 13,
+      "panel_b_target": 6.3333,
+      "panel_b_actual": 6,
+      "panel_a_absolute_deviation": 0.3333,
+      "panel_b_absolute_deviation": 0.3333,
+      "panel_a_relative_deviation": 0.0263,
+      "panel_b_relative_deviation": 0.0526
+    },
+    "fold0_EARLY_20_HIGH": {
+      "pool_count": 16,
+      "panel_a_target": 10.6667,
+      "panel_a_actual": 11,
+      "panel_b_target": 5.3333,
+      "panel_b_actual": 5,
+      "panel_a_absolute_deviation": 0.3333,
+      "panel_b_absolute_deviation": 0.3333,
+      "panel_a_relative_deviation": 0.0312,
+      "panel_b_relative_deviation": 0.0625
+    },
+    "fold0_EARLY_20_LOW": {
+      "pool_count": 11,
+      "panel_a_target": 7.3333,
+      "panel_a_actual": 7,
+      "panel_b_target": 3.6667,
+      "panel_b_actual": 4,
+      "panel_a_absolute_deviation": 0.3333,
+      "panel_b_absolute_deviation": 0.3333,
+      "panel_a_relative_deviation": 0.0455,
+      "panel_b_relative_deviation": 0.0909
+    },
+    "fold0_EARLY_35_BORDERLINE": {
+      "pool_count": 7,
+      "panel_a_target": 4.6667,
+      "panel_a_actual": 6,
+      "panel_b_target": 2.3333,
+      "panel_b_actual": 1,
+      "panel_a_absolute_deviation": 1.3333,
+      "panel_b_absolute_deviation": 1.3333,
+      "panel_a_relative_deviation": 0.2857,
+      "panel_b_relative_deviation": 0.5714
+    },
+    "fold0_EARLY_35_HIGH": {
+      "pool_count": 13,
+      "panel_a_target": 8.6667,
+      "panel_a_actual": 8,
+      "panel_b_target": 4.3333,
+      "panel_b_actual": 5,
+      "panel_a_absolute_deviation": 0.6667,
+      "panel_b_absolute_deviation": 0.6667,
+      "panel_a_relative_deviation": 0.0769,
+      "panel_b_relative_deviation": 0.1539
+    },
+    "fold0_EARLY_35_LOW": {
+      "pool_count": 18,
+      "panel_a_target": 12.0,
+      "panel_a_actual": 12,
+      "panel_b_target": 6.0,
+      "panel_b_actual": 6,
+      "panel_a_absolute_deviation": 0.0,
+      "panel_b_absolute_deviation": 0.0,
+      "panel_a_relative_deviation": 0.0,
+      "panel_b_relative_deviation": 0.0
+    },
+    "fold0_LATE_75_HIGH": {
+      "pool_count": 10,
+      "panel_a_target": 6.6667,
+      "panel_a_actual": 7,
+      "panel_b_target": 3.3333,
+      "panel_b_actual": 3,
+      "panel_a_absolute_deviation": 0.3333,
+      "panel_b_absolute_deviation": 0.3333,
+      "panel_a_relative_deviation": 0.05,
+      "panel_b_relative_deviation": 0.1
+    },
+    "fold0_LATE_75_LOW": {
+      "pool_count": 19,
+      "panel_a_target": 12.6667,
+      "panel_a_actual": 13,
+      "panel_b_target": 6.3333,
+      "panel_b_actual": 6,
+      "panel_a_absolute_deviation": 0.3333,
+      "panel_b_absolute_deviation": 0.3333,
+      "panel_a_relative_deviation": 0.0263,
+      "panel_b_relative_deviation": 0.0526
+    },
+    "fold0_MIDDLE_50_HIGH": {
+      "pool_count": 8,
+      "panel_a_target": 5.3333,
+      "panel_a_actual": 6,
+      "panel_b_target": 2.6667,
+      "panel_b_actual": 2,
+      "panel_a_absolute_deviation": 0.6667,
+      "panel_b_absolute_deviation": 0.6667,
+      "panel_a_relative_deviation": 0.125,
+      "panel_b_relative_deviation": 0.25
+    },
+    "fold0_MIDDLE_50_LOW": {
+      "pool_count": 20,
+      "panel_a_target": 13.3333,
+      "panel_a_actual": 14,
+      "panel_b_target": 6.6667,
+      "panel_b_actual": 6,
+      "panel_a_absolute_deviation": 0.6667,
+      "panel_b_absolute_deviation": 0.6667,
+      "panel_a_relative_deviation": 0.05,
+      "panel_b_relative_deviation": 0.1
+    },
+    "fold1_EARLY_20_BORDERLINE": {
+      "pool_count": 18,
+      "panel_a_target": 12.0,
+      "panel_a_actual": 12,
+      "panel_b_target": 6.0,
+      "panel_b_actual": 6,
+      "panel_a_absolute_deviation": 0.0,
+      "panel_b_absolute_deviation": 0.0,
+      "panel_a_relative_deviation": 0.0,
+      "panel_b_relative_deviation": 0.0
+    },
+    "fold1_EARLY_20_HIGH": {
+      "pool_count": 13,
+      "panel_a_target": 8.6667,
+      "panel_a_actual": 9,
+      "panel_b_target": 4.3333,
+      "panel_b_actual": 4,
+      "panel_a_absolute_deviation": 0.3333,
+      "panel_b_absolute_deviation": 0.3333,
+      "panel_a_relative_deviation": 0.0385,
+      "panel_b_relative_deviation": 0.0769
+    },
+    "fold1_EARLY_20_LOW": {
+      "pool_count": 10,
+      "panel_a_target": 6.6667,
+      "panel_a_actual": 6,
+      "panel_b_target": 3.3333,
+      "panel_b_actual": 4,
+      "panel_a_absolute_deviation": 0.6667,
+      "panel_b_absolute_deviation": 0.6667,
+      "panel_a_relative_deviation": 0.1,
+      "panel_b_relative_deviation": 0.2
+    },
+    "fold1_EARLY_35_BORDERLINE": {
+      "pool_count": 16,
+      "panel_a_target": 10.6667,
+      "panel_a_actual": 11,
+      "panel_b_target": 5.3333,
+      "panel_b_actual": 5,
+      "panel_a_absolute_deviation": 0.3333,
+      "panel_b_absolute_deviation": 0.3333,
+      "panel_a_relative_deviation": 0.0312,
+      "panel_b_relative_deviation": 0.0625
+    },
+    "fold1_EARLY_35_HIGH": {
+      "pool_count": 6,
+      "panel_a_target": 4.0,
+      "panel_a_actual": 3,
+      "panel_b_target": 2.0,
+      "panel_b_actual": 3,
+      "panel_a_absolute_deviation": 1.0,
+      "panel_b_absolute_deviation": 1.0,
+      "panel_a_relative_deviation": 0.25,
+      "panel_b_relative_deviation": 0.5
+    },
+    "fold1_EARLY_35_LOW": {
+      "pool_count": 16,
+      "panel_a_target": 10.6667,
+      "panel_a_actual": 11,
+      "panel_b_target": 5.3333,
+      "panel_b_actual": 5,
+      "panel_a_absolute_deviation": 0.3333,
+      "panel_b_absolute_deviation": 0.3333,
+      "panel_a_relative_deviation": 0.0312,
+      "panel_b_relative_deviation": 0.0625
+    },
+    "fold1_LATE_75_BORDERLINE": {
+      "pool_count": 5,
+      "panel_a_target": 3.3333,
+      "panel_a_actual": 3,
+      "panel_b_target": 1.6667,
+      "panel_b_actual": 2,
+      "panel_a_absolute_deviation": 0.3333,
+      "panel_b_absolute_deviation": 0.3333,
+      "panel_a_relative_deviation": 0.1,
+      "panel_b_relative_deviation": 0.2
+    },
+    "fold1_LATE_75_HIGH": {
+      "pool_count": 6,
+      "panel_a_target": 4.0,
+      "panel_a_actual": 4,
+      "panel_b_target": 2.0,
+      "panel_b_actual": 2,
+      "panel_a_absolute_deviation": 0.0,
+      "panel_b_absolute_deviation": 0.0,
+      "panel_a_relative_deviation": 0.0,
+      "panel_b_relative_deviation": 0.0
+    },
+    "fold1_LATE_75_LOW": {
+      "pool_count": 25,
+      "panel_a_target": 16.6667,
+      "panel_a_actual": 17,
+      "panel_b_target": 8.3333,
+      "panel_b_actual": 8,
+      "panel_a_absolute_deviation": 0.3333,
+      "panel_b_absolute_deviation": 0.3333,
+      "panel_a_relative_deviation": 0.02,
+      "panel_b_relative_deviation": 0.04
+    },
+    "fold1_MIDDLE_50_BORDERLINE": {
+      "pool_count": 4,
+      "panel_a_target": 2.6667,
+      "panel_a_actual": 4,
+      "panel_b_target": 1.3333,
+      "panel_b_actual": 0,
+      "panel_a_absolute_deviation": 1.3333,
+      "panel_b_absolute_deviation": 1.3333,
+      "panel_a_relative_deviation": 0.5,
+      "panel_b_relative_deviation": 1.0
+    },
+    "fold1_MIDDLE_50_HIGH": {
+      "pool_count": 6,
+      "panel_a_target": 4.0,
+      "panel_a_actual": 3,
+      "panel_b_target": 2.0,
+      "panel_b_actual": 3,
+      "panel_a_absolute_deviation": 1.0,
+      "panel_b_absolute_deviation": 1.0,
+      "panel_a_relative_deviation": 0.25,
+      "panel_b_relative_deviation": 0.5
+    },
+    "fold1_MIDDLE_50_LOW": {
+      "pool_count": 25,
+      "panel_a_target": 16.6667,
+      "panel_a_actual": 17,
+      "panel_b_target": 8.3333,
+      "panel_b_actual": 8,
+      "panel_a_absolute_deviation": 0.3333,
+      "panel_b_absolute_deviation": 0.3333,
+      "panel_a_relative_deviation": 0.02,
+      "panel_b_relative_deviation": 0.04
+    },
+    "fold2_EARLY_20_BORDERLINE": {
+      "pool_count": 22,
+      "panel_a_target": 14.6667,
+      "panel_a_actual": 15,
+      "panel_b_target": 7.3333,
+      "panel_b_actual": 7,
+      "panel_a_absolute_deviation": 0.3333,
+      "panel_b_absolute_deviation": 0.3333,
+      "panel_a_relative_deviation": 0.0227,
+      "panel_b_relative_deviation": 0.0455
+    },
+    "fold2_EARLY_20_HIGH": {
+      "pool_count": 13,
+      "panel_a_target": 8.6667,
+      "panel_a_actual": 8,
+      "panel_b_target": 4.3333,
+      "panel_b_actual": 5,
+      "panel_a_absolute_deviation": 0.6667,
+      "panel_b_absolute_deviation": 0.6667,
+      "panel_a_relative_deviation": 0.0769,
+      "panel_b_relative_deviation": 0.1539
+    },
+    "fold2_EARLY_20_LOW": {
+      "pool_count": 10,
+      "panel_a_target": 6.6667,
+      "panel_a_actual": 7,
+      "panel_b_target": 3.3333,
+      "panel_b_actual": 3,
+      "panel_a_absolute_deviation": 0.3333,
+      "panel_b_absolute_deviation": 0.3333,
+      "panel_a_relative_deviation": 0.05,
+      "panel_b_relative_deviation": 0.1
+    },
+    "fold2_EARLY_35_BORDERLINE": {
+      "pool_count": 11,
+      "panel_a_target": 7.3333,
+      "panel_a_actual": 6,
+      "panel_b_target": 3.6667,
+      "panel_b_actual": 5,
+      "panel_a_absolute_deviation": 1.3333,
+      "panel_b_absolute_deviation": 1.3333,
+      "panel_a_relative_deviation": 0.1818,
+      "panel_b_relative_deviation": 0.3636
+    },
+    "fold2_EARLY_35_HIGH": {
+      "pool_count": 9,
+      "panel_a_target": 6.0,
+      "panel_a_actual": 6,
+      "panel_b_target": 3.0,
+      "panel_b_actual": 3,
+      "panel_a_absolute_deviation": 0.0,
+      "panel_b_absolute_deviation": 0.0,
+      "panel_a_relative_deviation": 0.0,
+      "panel_b_relative_deviation": 0.0
+    },
+    "fold2_EARLY_35_LOW": {
+      "pool_count": 16,
+      "panel_a_target": 10.6667,
+      "panel_a_actual": 12,
+      "panel_b_target": 5.3333,
+      "panel_b_actual": 4,
+      "panel_a_absolute_deviation": 1.3333,
+      "panel_b_absolute_deviation": 1.3333,
+      "panel_a_relative_deviation": 0.125,
+      "panel_b_relative_deviation": 0.25
+    },
+    "fold2_LATE_75_BORDERLINE": {
+      "pool_count": 5,
+      "panel_a_target": 3.3333,
+      "panel_a_actual": 3,
+      "panel_b_target": 1.6667,
+      "panel_b_actual": 2,
+      "panel_a_absolute_deviation": 0.3333,
+      "panel_b_absolute_deviation": 0.3333,
+      "panel_a_relative_deviation": 0.1,
+      "panel_b_relative_deviation": 0.2
+    },
+    "fold2_LATE_75_HIGH": {
+      "pool_count": 11,
+      "panel_a_target": 7.3333,
+      "panel_a_actual": 6,
+      "panel_b_target": 3.6667,
+      "panel_b_actual": 5,
+      "panel_a_absolute_deviation": 1.3333,
+      "panel_b_absolute_deviation": 1.3333,
+      "panel_a_relative_deviation": 0.1818,
+      "panel_b_relative_deviation": 0.3636
+    },
+    "fold2_LATE_75_LOW": {
+      "pool_count": 20,
+      "panel_a_target": 13.3333,
+      "panel_a_actual": 15,
+      "panel_b_target": 6.6667,
+      "panel_b_actual": 5,
+      "panel_a_absolute_deviation": 1.6667,
+      "panel_b_absolute_deviation": 1.6667,
+      "panel_a_relative_deviation": 0.125,
+      "panel_b_relative_deviation": 0.25
+    },
+    "fold2_MIDDLE_50_BORDERLINE": {
+      "pool_count": 6,
+      "panel_a_target": 4.0,
+      "panel_a_actual": 4,
+      "panel_b_target": 2.0,
+      "panel_b_actual": 2,
+      "panel_a_absolute_deviation": 0.0,
+      "panel_b_absolute_deviation": 0.0,
+      "panel_a_relative_deviation": 0.0,
+      "panel_b_relative_deviation": 0.0
+    },
+    "fold2_MIDDLE_50_LOW": {
+      "pool_count": 19,
+      "panel_a_target": 12.6667,
+      "panel_a_actual": 13,
+      "panel_b_target": 6.3333,
+      "panel_b_actual": 6,
+      "panel_a_absolute_deviation": 0.3333,
+      "panel_b_absolute_deviation": 0.3333,
+      "panel_a_relative_deviation": 0.0263,
+      "panel_b_relative_deviation": 0.0526
+    }
+  }
 }
