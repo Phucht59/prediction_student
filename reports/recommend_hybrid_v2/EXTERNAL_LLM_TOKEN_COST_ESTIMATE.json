@@ -1,0 +1,46 @@
+{
+  "schema_version": "external_llm_cost_estimate_v1",
+  "case_counts": {
+    "panel_a_cases": 300,
+    "panel_b_cases": 150,
+    "candidate_actions_per_case": 5,
+    "panel_a_action_evaluations_per_reviewer": 1500,
+    "panel_b_action_evaluations_per_reviewer": 750,
+    "total_evaluations_per_reviewer": 2250,
+    "target_reviewers": 3,
+    "total_evaluations_all_reviewers": 6750
+  },
+  "token_estimates": {
+    "avg_prompt_input_tokens_per_eval": 700,
+    "avg_response_output_tokens_per_eval": 150,
+    "panel_a_input_tokens": 3150000,
+    "panel_a_output_tokens": 675000,
+    "panel_b_input_tokens": 1575000,
+    "panel_b_output_tokens": 337500,
+    "total_input_tokens": 4725000,
+    "total_output_tokens": 1012500
+  },
+  "cost_estimates_usd": {
+    "gpt_4o_batch_api": {
+      "input_cost_usd": 5.91,
+      "output_cost_usd": 5.06,
+      "total_estimated_usd": 10.97
+    },
+    "claude_3_5_sonnet_batch": {
+      "input_cost_usd": 7.09,
+      "output_cost_usd": 7.59,
+      "total_estimated_usd": 14.68
+    },
+    "gemini_1_5_pro_batch": {
+      "input_cost_usd": 5.91,
+      "output_cost_usd": 5.06,
+      "total_estimated_usd": 10.97
+    }
+  },
+  "external_dispatch_readiness": {
+    "panel_a_batches_prepared": 6,
+    "panel_b_batches_prepared": 3,
+    "schema_validated": true,
+    "lineage_verified": true
+  }
+}

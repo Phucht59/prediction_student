@@ -19,7 +19,7 @@ SCRIPT_DIR = ROOT / "scripts/recommend_hybrid/explainable_v2"
 def _load_cases(path: Path) -> list[dict]:
     if not path.exists():
         return []
-    return [json.loads(l) for l in path.read_text(encoding="utf-8").splitlines() if l.strip()]
+    return [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
 
 
 def _load_annotations(directory: Path) -> list[dict]:

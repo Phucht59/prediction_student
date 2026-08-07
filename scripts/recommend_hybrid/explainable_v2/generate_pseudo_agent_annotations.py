@@ -108,7 +108,7 @@ def generate_pseudo_annotations() -> None:
     def load(p: Path) -> list[dict]:
         if not p.exists():
             return []
-        return [json.loads(l) for l in p.read_text(encoding="utf-8").splitlines() if l.strip()]
+        return [json.loads(line) for line in p.read_text(encoding="utf-8").splitlines() if line.strip()]
 
     panel_a = load(panel_a_file)
     panel_b = load(panel_b_file)
@@ -137,7 +137,7 @@ def generate_pseudo_annotations() -> None:
                     "case_id": case.get("query_id", case.get("case_id", "")),
                     "action_id": act,
                     "reviewer_id": reviewer_id,
-                    "reviewer_type": AGENT_GENERATED_PSEUDO_REVIEW,
+                    "reviewer_type": ANNOTATION_TYPE,
                     "model_name": "ANTIGRAVITY_INTERNAL_RULE_AGENT",
                     "provider": "NONE_INTERNAL",
                     "request_id": None,

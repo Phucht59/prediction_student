@@ -74,7 +74,7 @@ def verify() -> tuple[int, dict]:
     panel_b_path = EXPORT_DIR / "panel_b_cases.jsonl"
     if panel_a_path.exists() and panel_b_path.exists():
         def load(p: Path) -> list[dict]:
-            return [json.loads(l) for l in p.read_text(encoding="utf-8").splitlines() if l.strip()]
+            return [json.loads(line) for line in p.read_text(encoding="utf-8").splitlines() if line.strip()]
         pa = load(panel_a_path)
         pb = load(panel_b_path)
         synthetic_found = False
@@ -159,7 +159,7 @@ def verify() -> tuple[int, dict]:
         report["scientific_status"] = "INVALID_OR_FAILED"
         return 1, report
     elif any(s == "BLOCKED" for s in statuses):
-        report["scientific_status"] = "BLOCKED_PENDING_VERIFIED_EXTERNAL_LLM_REVIEWS"
+        report["scientific_status"] = "BLOCKED_PENDING_EXTERNAL_LLM_ACCESS"
         return 2, report
     else:
         report["scientific_status"] = "VERIFIED_COMPLETE"

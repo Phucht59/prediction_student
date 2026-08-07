@@ -1,0 +1,12 @@
+{
+  "timestamp": "2026-08-07T04:47:42.191616+00:00",
+  "stage": "EXTERNAL_LLM_CAPABILITY_AUDIT_AND_PACKAGE_PREPARATION",
+  "case_lineage_status": "PASS",
+  "panel_a_case_count": 300,
+  "panel_b_case_count": 150,
+  "external_provider_status": "UNAVAILABLE",
+  "verified_external_llm_review_count": 0,
+  "scientific_status": "BLOCKED_PENDING_EXTERNAL_LLM_ACCESS",
+  "final_verifier_exit_code": 2,
+  "runtime_authorized": false
+}

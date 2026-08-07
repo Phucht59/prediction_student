@@ -45,7 +45,7 @@ def verify() -> dict:
     def load_cases(p: Path) -> list[dict]:
         if not p.exists():
             return []
-        return [json.loads(l) for l in p.read_text(encoding="utf-8").splitlines() if l.strip()]
+        return [json.loads(line) for line in p.read_text(encoding="utf-8").splitlines() if line.strip()]
 
     panel_a = load_cases(panel_a_path)
     panel_b = load_cases(panel_b_path)

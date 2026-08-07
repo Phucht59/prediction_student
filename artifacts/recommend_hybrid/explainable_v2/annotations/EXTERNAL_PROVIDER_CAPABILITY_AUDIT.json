@@ -1,0 +1,60 @@
+{
+  "audit_version": "external_llm_provider_v1",
+  "timestamp": "2026-08-07T11:45:00Z",
+  "external_provider_status": "UNAVAILABLE",
+  "scientific_status": "BLOCKED_PENDING_EXTERNAL_LLM_ACCESS",
+  "verified_independent_source_count": 0,
+  "environment_audit": {
+    "OPENAI_API_KEY": false,
+    "ANTHROPIC_API_KEY": false,
+    "GEMINI_API_KEY": false,
+    "GOOGLE_API_KEY": false,
+    "AZURE_OPENAI_KEY": false,
+    "MISTRAL_API_KEY": false,
+    "TOGETHER_API_KEY": false,
+    "GROQ_API_KEY": false,
+    "DEEPSEEK_API_KEY": false
+  },
+  "evaluated_providers": [
+    {
+      "provider_name": "OpenAI API",
+      "connector_or_sdk": "openai-python-sdk",
+      "authentication_available": false,
+      "model_endpoint": "gpt-4o",
+      "supports_request_id": true,
+      "supports_raw_response_capture": true,
+      "supports_batch_resume": true,
+      "estimated_review_capacity": 0,
+      "status": "UNAVAILABLE"
+    },
+    {
+      "provider_name": "Anthropic API",
+      "connector_or_sdk": "anthropic-python-sdk",
+      "authentication_available": false,
+      "model_endpoint": "claude-3-5-sonnet-20241022",
+      "supports_request_id": true,
+      "supports_raw_response_capture": true,
+      "supports_batch_resume": true,
+      "estimated_review_capacity": 0,
+      "status": "UNAVAILABLE"
+    },
+    {
+      "provider_name": "Google Gemini API",
+      "connector_or_sdk": "google-genai-sdk",
+      "authentication_available": false,
+      "model_endpoint": "gemini-1.5-pro",
+      "supports_request_id": true,
+      "supports_raw_response_capture": true,
+      "supports_batch_resume": true,
+      "estimated_review_capacity": 0,
+      "status": "UNAVAILABLE"
+    }
+  ],
+  "prohibition_enforcement": {
+    "ide_agent_as_external_reviewer_permitted": false,
+    "local_rule_derived_as_real_llm_permitted": false,
+    "synthetic_fixture_permitted": false,
+    "fake_persona_multi_review_permitted": false
+  },
+  "required_action": "Deploy request batches to external LLM provider API and place raw responses in artifacts/recommend_hybrid/explainable_v2/annotations/imports/raw/"
+}
