@@ -32,6 +32,74 @@ FORBIDDEN_TYPES = {"REAL_LLM_GENERATED_REVIEW", "AGENT_GENERATED_PSEUDO_REVIEW",
 FORBIDDEN_MODELS = {"Antigravity-LLM-v2-ReviewerA", "Antigravity-LLM-v2-ReviewerB",
                     "Antigravity-LLM-v2-ReviewerC", "ANTIGRAVITY_INTERNAL_RULE_AGENT"}
 
+REQUIRED_SCHEMA_FIELDS = [
+    "case_id", "panel_id", "action_id", "relevance_score", "abstain",
+    "evidence_ids", "rationale", "contraindication_detected", "safety_flag",
+    "reviewer_id", "reviewer_configuration_id", "reviewer_type", "provider",
+    "model_name", "request_id", "response_id", "batch_id", "prompt_version", "prompt_sha256",
+    "raw_response_sha256", "created_at"
+]
+
+
+def validate_record(
+    rec: dict,
+    known_cases: set | None = None,
+    case_panels: dict | None = None,
+    case_candidate_actions: dict | None = None,
+    approved_providers: set | None = None,
+    locked_prompt_hash: str | None = None,
+    known_actions: set | None = None,
+) -> tuple[bool, str, str]:
+    """Validate a single review record. Returns (is_valid, rejection_code, rejection_message)."""
+    if not isinstance(rec, dict):
+        return False, "MALFORMED_JSON", "Record is not a valid JSON dictionary"
+
+    rt = rec.get("reviewer_type", "")
+    mn = rec.get("model_name", "")
+    prov = rec.get("provider", "")
+    cid = rec.get("case_id", "")
+    pid = rec.get("panel_id", "")
+    aid = rec.get("action_id", "")
+    req_id = rec.get("request_id", "")
+
+    if rt in FORBIDDEN_TYPES or mn in FORBIDDEN_MODELS:
+        return False, "FORBIDDEN_TYPE_OR_MODEL", f"Forbidden reviewer_type '{rt}' or model '{mn}'"
+
+    if rt != "REAL_EXTERNAL_LLM_REVIEW":
+        return False, "INVALID_REVIEWER_TYPE", f"reviewer_type must be REAL_EXTERNAL_LLM_REVIEW, got '{rt}'"
+
+    if approved_providers is not None and prov not in approved_providers:
+        return False, "UNAPPROVED_PROVIDER", f"Provider '{prov}' not in approved runtime provider registry"
+
+    if not req_id:
+        return False, "MISSING_REQUEST_ID", "request_id is missing or empty"
+
+    if known_cases is not None and cid not in known_cases:
+        return False, "UNKNOWN_CASE_ID", f"case_id '{cid}' not found in exported case manifest"
+
+    if case_panels is not None and cid in case_panels and pid and case_panels[cid] != pid:
+        return False, "PANEL_MISMATCH", f"panel_id '{pid}' does not match case panel '{case_panels[cid]}'"
+
+    if case_candidate_actions is not None and cid in case_candidate_actions:
+        cands = case_candidate_actions[cid]
+        if aid not in cands:
+            return False, "INELIGIBLE_ACTION", f"action_id '{aid}' is not in candidate_actions {cands} for case '{cid}'"
+
+    rel = rec.get("relevance_score")
+    abstain = rec.get("abstain", False)
+    if not abstain and (not isinstance(rel, int) or rel not in (0, 1, 2, 3)):
+        return False, "INVALID_RELEVANCE_SCORE", f"relevance_score '{rel}' is invalid (must be integer 0..3 or abstain=True)"
+
+    rat = str(rec.get("rationale", "")).strip()
+    if not rat and not abstain:
+        return False, "EMPTY_RATIONALE", "rationale is empty"
+
+    if locked_prompt_hash is not None and rec.get("prompt_sha256"):
+        if rec.get("prompt_sha256") != locked_prompt_hash:
+            return False, "PROMPT_HASH_MISMATCH", f"prompt_sha256 '{rec.get('prompt_sha256')}' does not match locked prompt hash '{locked_prompt_hash}'"
+
+    return True, "OK", "Record is valid"
+
 
 def import_annotations(raw_dir: Path = RAW_DIR, output_file: Path = IMPORTS_DIR / "normalized_annotations.parquet") -> dict:
     IMPORTS_DIR.mkdir(parents=True, exist_ok=True)

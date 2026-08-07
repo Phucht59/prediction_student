@@ -36,7 +36,7 @@ def test_export_v2_cases():
         assert "student_pseudonym" not in first_line
         assert "course_pseudonym" not in first_line
         assert "observed_pre_cutoff_evidence" in first_line
-        assert "feasible_candidate_actions" in first_line
+        assert "candidate_actions" in first_line
         assert first_line["case_id"].startswith("case_")
 
     # Check private mapping exists and holds true lineage

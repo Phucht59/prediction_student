@@ -133,3 +133,8 @@ artifacts/recommend_hybrid/explainable_v2/run_state/*.pid
 artifacts/recommend_hybrid/explainable_v2/run_state/supervisor.json
 artifacts/recommend_hybrid/explainable_v2/run_state/progress.json
 artifacts/recommend_hybrid/explainable_v2/data/*.parquet
+
+artifacts/recommend_hybrid/explainable_v2/annotations/private/*
+!artifacts/recommend_hybrid/explainable_v2/annotations/private/.gitkeep
+artifacts/recommend_hybrid/explainable_v2/run_state/*.json
+artifacts/recommend_hybrid/explainable_v2/run_state/logs/*

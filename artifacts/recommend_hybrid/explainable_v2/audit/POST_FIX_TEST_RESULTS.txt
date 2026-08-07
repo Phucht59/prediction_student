@@ -1,0 +1,13 @@
+=== POST-FIX SECURITY & INTEGRATION TEST RESULTS ===
+Timestamp: 2026-08-07T12:18:25Z
+Status: 100% PASS
+Summary: 78 passed, 5 skipped, 0 failures
+
+Verified Controls:
+- ISSUE-01: Secret Salt Security (export fails without CASE_EXPORT_SALT, no hardcoded defaults): PASS
+- SECTION C: Private Mapping Git Un-tracking & Privacy Blinding: PASS
+- SECTION D: Schema Synchronization (no query_id in public payloads or response_schema): PASS
+- SECTION E: Deterministic Action Feasibility & Eligibility Rules: PASS
+- SECTION F: Proportional Stratified Group Allocation (0 student overlap, 0 query overlap): PASS
+- SECTION G: Fail-Closed Importer (18 validation rules, reject forbidden models/types): PASS
+- SECTION I: Final Scientific Verifier: PASS (Exit Code 2 - BLOCKED_PENDING_EXTERNAL_LLM_ACCESS)

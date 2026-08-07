@@ -4,7 +4,6 @@
   "type": "object",
   "required": [
     "case_id",
-    "query_id",
     "panel_id",
     "action_id",
     "relevance_score",
@@ -28,9 +27,6 @@
     "case_id": {
       "type": "string",
       "pattern": "^case_[a-f0-9]{24}$"
-    },
-    "query_id": {
-      "type": "string"
     },
     "panel_id": {
       "type": "string",

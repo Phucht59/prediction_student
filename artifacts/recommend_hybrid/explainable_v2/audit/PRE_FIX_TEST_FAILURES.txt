@@ -1,0 +1,20 @@
+=== PRE-FIX SECURITY & INTEGRATION TEST FAILURES ===
+Timestamp: 2026-08-07T12:12:48Z
+Summary: 19 failed, 12 passed, 2 skipped
+
+Failures Summary:
+- test_export_fails_without_case_export_salt: FAILED
+- test_export_uses_runtime_secret_salt: FAILED
+- test_no_hardcoded_salt_literal_in_source: FAILED
+- test_private_mapping_not_git_tracked: FAILED
+- test_every_response_field_has_importer_mapping: FAILED
+- test_sampling_not_first_n_truncation: FAILED
+- test_sampling_distribution_within_tolerance: FAILED
+- test_fake_provider_string_is_rejected: FAILED
+- test_fake_request_id_without_envelope_is_rejected: FAILED
+- test_wrong_prompt_hash_is_rejected: FAILED
+- test_unknown_case_is_rejected: FAILED
+- test_wrong_panel_is_rejected: FAILED
+- test_ineligible_action_is_rejected: FAILED
+- test_invalid_relevance_is_rejected: FAILED
+- test_empty_rationale_is_rejected: FAILED

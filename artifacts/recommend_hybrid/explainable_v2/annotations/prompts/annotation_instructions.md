@@ -8,7 +8,7 @@
 
 ## Required Response Provenance Fields
 Each response MUST contain authentic external provider metadata:
-`case_id`, `query_id`, `panel_id`, `action_id`, `relevance_score` (0-3 or abstain=true),
+`case_id`, `panel_id`, `action_id`, `relevance_score` (0-3 or abstain=true),
 `evidence_ids`, `rationale`, `contraindication_detected`, `safety_flag`,
 `reviewer_id`, `reviewer_configuration_id`, `reviewer_type`="REAL_EXTERNAL_LLM_REVIEW",
 `provider`, `model_name`, `request_id`, `batch_id`, `prompt_version`, `prompt_sha256`, `created_at`.
