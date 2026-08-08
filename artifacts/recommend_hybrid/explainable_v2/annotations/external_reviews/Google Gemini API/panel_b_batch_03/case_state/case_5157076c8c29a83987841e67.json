@@ -1,0 +1,129 @@
+{
+  "schema_version": "gemini_external_review_case_state_v3_1",
+  "status": "COMPLETE",
+  "case_number": 38,
+  "case_id": "case_5157076c8c29a83987841e67",
+  "provider": "Google Gemini API",
+  "model_name": "gemini-3.5-flash-lite",
+  "model_version": "gemini-3.5-flash-lite",
+  "request_id": "clientreq_e8a6b5e6f05048ea934e486eebb1ac3e",
+  "response_id": "jxJ3as6xEfLQjuMP4Pb-IA",
+  "http_status": 200,
+  "response_headers": {
+    "date": "Sat, 08 Aug 2026 11:27:12 GMT",
+    "content-type": "application/json; charset=UTF-8"
+  },
+  "finish_reason": "STOP",
+  "usage_metadata": {
+    "promptTokenCount": 631,
+    "candidatesTokenCount": 350,
+    "totalTokenCount": 981,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 631
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "response_schema_sha256": "8d2917c4490530e424d47da1901b2822a1be83dd1068336d9c62f9d89ea1f27d",
+  "raw_request_sha256": "e954910f0ec572d5663f29c4308362034ba7a212313abc173bb0e9dd67e54582",
+  "raw_response_sha256": "dbfaa3957fa19ec4b5a02beb2a64010113dd120b5c57fc4ebac880684f78ae32",
+  "raw_request_file": "raw_requests/case_5157076c8c29a83987841e67.json",
+  "raw_response_file": "raw_responses/case_5157076c8c29a83987841e67.json",
+  "normalized_records": [
+    {
+      "case_id": "case_5157076c8c29a83987841e67",
+      "panel_id": "PANEL_B",
+      "action_id": "RECOVER_ENGAGEMENT",
+      "relevance_score": 2,
+      "abstain": false,
+      "evidence_ids": [
+        "inactivity_streak",
+        "active_day_rate"
+      ],
+      "rationale": "Evidence shows an inactivity streak of 6.0 days and an active day rate of 0.27, supporting engagement recovery.",
+      "contraindication_detected": false,
+      "safety_flag": false,
+      "reviewer_id": "gemini_external_reviewer_01",
+      "reviewer_configuration_id": "gemini_external_8ccb20e81df7539a",
+      "reviewer_type": "REAL_EXTERNAL_LLM_REVIEW",
+      "provider": "Google Gemini API",
+      "model_name": "gemini-3.5-flash-lite",
+      "model_version": "gemini-3.5-flash-lite",
+      "request_id": "clientreq_e8a6b5e6f05048ea934e486eebb1ac3e",
+      "response_id": "jxJ3as6xEfLQjuMP4Pb-IA",
+      "batch_id": "panel_b_batch_03",
+      "prompt_version": "external_reviewer_v1",
+      "prompt_sha256": "f7edfaacd2fad67bf21a175ccc5c0a46abb81b669c08928ab78009c0a24624f3",
+      "request_batch_sha256": "3c82c532489c9dcd4d4bcd9c236be03c41465f32d8d3158356c059f414769b8a",
+      "raw_request_sha256": "e954910f0ec572d5663f29c4308362034ba7a212313abc173bb0e9dd67e54582",
+      "raw_response_sha256": "dbfaa3957fa19ec4b5a02beb2a64010113dd120b5c57fc4ebac880684f78ae32",
+      "response_record_index": 0,
+      "created_at": "2026-08-08T11:27:13.130510+00:00",
+      "response_record_sha256": "fd153e468de23352ede7fb4ff65af5623afaa92167b9c2bae118824ae7e0069b"
+    },
+    {
+      "case_id": "case_5157076c8c29a83987841e67",
+      "panel_id": "PANEL_B",
+      "action_id": "STUDY_REGULARITY",
+      "relevance_score": 1,
+      "abstain": false,
+      "evidence_ids": [
+        "regularity_score"
+      ],
+      "rationale": "Regularity score is provided at 0.62, representing a generic study pattern without acute gaps.",
+      "contraindication_detected": false,
+      "safety_flag": false,
+      "reviewer_id": "gemini_external_reviewer_01",
+      "reviewer_configuration_id": "gemini_external_8ccb20e81df7539a",
+      "reviewer_type": "REAL_EXTERNAL_LLM_REVIEW",
+      "provider": "Google Gemini API",
+      "model_name": "gemini-3.5-flash-lite",
+      "model_version": "gemini-3.5-flash-lite",
+      "request_id": "clientreq_e8a6b5e6f05048ea934e486eebb1ac3e",
+      "response_id": "jxJ3as6xEfLQjuMP4Pb-IA",
+      "batch_id": "panel_b_batch_03",
+      "prompt_version": "external_reviewer_v1",
+      "prompt_sha256": "f7edfaacd2fad67bf21a175ccc5c0a46abb81b669c08928ab78009c0a24624f3",
+      "request_batch_sha256": "3c82c532489c9dcd4d4bcd9c236be03c41465f32d8d3158356c059f414769b8a",
+      "raw_request_sha256": "e954910f0ec572d5663f29c4308362034ba7a212313abc173bb0e9dd67e54582",
+      "raw_response_sha256": "dbfaa3957fa19ec4b5a02beb2a64010113dd120b5c57fc4ebac880684f78ae32",
+      "response_record_index": 1,
+      "created_at": "2026-08-08T11:27:13.130510+00:00",
+      "response_record_sha256": "31327457f5f9123b2ea49bf6e7d4992a4d236a7c0cfbb756abd0b5c7b264566b"
+    },
+    {
+      "case_id": "case_5157076c8c29a83987841e67",
+      "panel_id": "PANEL_B",
+      "action_id": "TARGETED_CONTENT_REVIEW",
+      "relevance_score": 2,
+      "abstain": false,
+      "evidence_ids": [
+        "content_coverage",
+        "study_material_available"
+      ],
+      "rationale": "Content coverage is at 66.6% and study materials are available, making content review relevant.",
+      "contraindication_detected": false,
+      "safety_flag": false,
+      "reviewer_id": "gemini_external_reviewer_01",
+      "reviewer_configuration_id": "gemini_external_8ccb20e81df7539a",
+      "reviewer_type": "REAL_EXTERNAL_LLM_REVIEW",
+      "provider": "Google Gemini API",
+      "model_name": "gemini-3.5-flash-lite",
+      "model_version": "gemini-3.5-flash-lite",
+      "request_id": "clientreq_e8a6b5e6f05048ea934e486eebb1ac3e",
+      "response_id": "jxJ3as6xEfLQjuMP4Pb-IA",
+      "batch_id": "panel_b_batch_03",
+      "prompt_version": "external_reviewer_v1",
+      "prompt_sha256": "f7edfaacd2fad67bf21a175ccc5c0a46abb81b669c08928ab78009c0a24624f3",
+      "request_batch_sha256": "3c82c532489c9dcd4d4bcd9c236be03c41465f32d8d3158356c059f414769b8a",
+      "raw_request_sha256": "e954910f0ec572d5663f29c4308362034ba7a212313abc173bb0e9dd67e54582",
+      "raw_response_sha256": "dbfaa3957fa19ec4b5a02beb2a64010113dd120b5c57fc4ebac880684f78ae32",
+      "response_record_index": 2,
+      "created_at": "2026-08-08T11:27:13.130510+00:00",
+      "response_record_sha256": "099c1dff75a39cb90cfe33f4b277ea1e9b0d3de0bcb1fcbaafddb81d076ba5a5"
+    }
+  ],
+  "created_at": "2026-08-08T11:27:13.130510+00:00"
+}

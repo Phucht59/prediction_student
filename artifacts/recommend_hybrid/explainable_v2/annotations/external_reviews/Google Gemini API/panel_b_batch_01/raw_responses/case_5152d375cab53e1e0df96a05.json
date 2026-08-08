@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"QUIZ_RETRIEVAL_PRACTICE\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"quiz_available\",\n        \"quiz_activity\"\n      ],\n      \"rationale\": \"Quiz activity is observed at 0.0 despite quizzes being available, making retrieval practice relevant to support engagement.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIPClUD8PcbzDB2lGSiAUU48eJjKTZGBMKyDxVnbeX2Kuw2BaB7rCGgGbmzjF8P"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 593,
+    "candidatesTokenCount": 128,
+    "totalTokenCount": 721,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 593
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "vBB3as3-IYKxjuMPjpzJ8QU"
+}

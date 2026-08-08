@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"RECOVER_ENGAGEMENT\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"inactivity_streak\",\n        \"active_day_rate\"\n      ],\n      \"rationale\": \"The student exhibits a clear engagement gap with an inactivity streak of 5.0 days and a low active day rate of approximately 11.9%, directly supporting engagement recovery.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"STUDY_REGULARITY\",\n      \"relevance_score\": 1,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"regularity_score\"\n      ],\n      \"rationale\": \"Regularity score is provided at 0.525, but this is a generic metric without a distinct behavioral gap pointing to severe irregularity compared to the prominent inactivity streak.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"TARGETED_CONTENT_REVIEW\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"content_coverage\",\n        \"study_material_available\"\n      ],\n      \"rationale\": \"Content coverage stands at 50% and study material is available, supporting targeted review of the remaining uncovered content.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIPRxDJj4MX23h9YAwBgwz5oZuMSb9I2LQ/L3uCA5bbetxdegLwfRvvrthY+LJO"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 616,
+    "candidatesTokenCount": 375,
+    "totalTokenCount": 991,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 616
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "HhJ3ao3GEa6Cg8UPqNnHkQo"
+}

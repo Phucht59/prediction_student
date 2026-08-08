@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"ASSESSMENT_COMPLETION\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"assessments_due\",\n        \"due_soon_count\"\n      ],\n      \"rationale\": \"Evidence indicates there is 1 assessment due and due soon.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"STUDY_REGULARITY\",\n      \"relevance_score\": 1,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"regularity_score\"\n      ],\n      \"rationale\": \"Regularity score is provided as 0.92, showing generic study pattern data.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIPFnnTmTtjmfmf7UOGCDgmynDf8CDIhn8vycpYeJ8C0ga5Euun1L9UdZtkS4cz"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 589,
+    "candidatesTokenCount": 219,
+    "totalTokenCount": 808,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 589
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "jRJ3arigHOr5juMPqLdc"
+}

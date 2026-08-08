@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"QUIZ_RETRIEVAL_PRACTICE\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"quiz_activity\",\n        \"quiz_available\"\n      ],\n      \"rationale\": \"The student has zero quiz activity recorded (quiz_activity: 0.0) despite quizzes being available, representing a direct behavioral gap addressed by retrieval practice.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"STUDY_REGULARITY\",\n      \"relevance_score\": 1,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"regularity_score\",\n        \"active_day_rate\"\n      ],\n      \"rationale\": \"The student shows a moderate regularity score of ~0.80 and active day rate of 0.5, making study regularity a generic supportive action rather than targeting a critical behavioral gap.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIPevgCpPUdmGwyzhHYg1CQACUeZporLGUn2lYtEmkfX+qRtN5/kV+bcoZwrQHl"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 601,
+    "candidatesTokenCount": 269,
+    "totalTokenCount": 870,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 601
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "jBF3aoCWFv7Y4-EP7P7P6Ac"
+}

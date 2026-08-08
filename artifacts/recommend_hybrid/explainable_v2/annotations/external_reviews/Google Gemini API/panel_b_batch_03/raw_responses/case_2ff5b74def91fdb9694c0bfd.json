@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"QUIZ_RETRIEVAL_PRACTICE\",\n      \"relevance_score\": 0,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"quiz_activity\",\n        \"quiz_available\"\n      ],\n      \"rationale\": \"Quiz activity is 0.0 despite quiz availability, showing unsuitability for retrieval practice at this time.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"ASSESSMENT_COMPLETION\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"missing_assessment_count\",\n        \"assessments_due\"\n      ],\n      \"rationale\": \"Directly addresses the specific behavioral gap of missing assessments and due assessments.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"RECOVER_ENGAGEMENT\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"inactivity_streak\",\n        \"active_day_rate\"\n      ],\n      \"rationale\": \"Directly supported by an inactivity streak of 81.0 days and active day rate of 0.0.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"STUDY_REGULARITY\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"regularity_score\",\n        \"active_day_rate\"\n      ],\n      \"rationale\": \"Directly targeted by a regularity score of 0.0 and active day rate of 0.0.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"TARGETED_CONTENT_REVIEW\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"content_coverage\",\n        \"completion_rate\"\n      ],\n      \"rationale\": \"Supported by low content coverage of 0.0 and completion rate of 0.25.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIPcyPulbH1Gus3NUMmQPakZBd7aFJWzipxa697YUiyEk+97NhO0zBCMC8tTcSE"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 591,
+    "candidatesTokenCount": 577,
+    "totalTokenCount": 1168,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 591
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "ihJ3aqfWNorpjuMP5KPKkQo"
+}

@@ -15,9 +15,8 @@ EXPECTED_SELECTED_PARAMS = {
     "max_rounds": 2000,
     "min_samples_leaf": 20,
 }
-EXPECTED_RAW_NDCG = 0.9722541839577713
-EXPECTED_CASES = 300
-EXPECTED_ELIGIBLE = 1117
+EXPECTED_DEVELOPMENT_CASES = 299
+EXPECTED_ELIGIBLE = 1113
 
 
 def sha256_file(path: Path) -> str:
@@ -60,6 +59,11 @@ def main() -> int:
         / "artifacts/recommend_hybrid/explainable_v2/ranker_development"
         / "panel_a_v1/RANKER_SELECTION_BOOTSTRAP.json"
     )
+    retention_revalidation_path = (
+        root
+        / "artifacts/recommend_hybrid/explainable_v2/ranker_development"
+        / "ebm_locked_grid_v1/EBM_GRID_RETENTION_REVALIDATION.json"
+    )
     frozen_panel_a_manifest = (
         root
         / "artifacts/recommend_hybrid/explainable_v2/annotations/frozen/panel_a_v1"
@@ -78,6 +82,7 @@ def main() -> int:
         ranker_selection_path,
         frozen_panel_a_manifest,
         label_manifest,
+        retention_revalidation_path,
     ]
     for path in required:
         if not path.exists():
@@ -88,6 +93,9 @@ def main() -> int:
     ranker = json.loads(ranker_selection_path.read_text(encoding="utf-8"))
     panel_a_freeze = json.loads(frozen_panel_a_manifest.read_text(encoding="utf-8"))
     label = json.loads(label_manifest.read_text(encoding="utf-8"))
+    revalidation = json.loads(
+        retention_revalidation_path.read_text(encoding="utf-8")
+    )
 
     if ebm_manifest.get("status") != "PASS":
         raise RuntimeError("EBM_MANIFEST_NOT_PASS")
@@ -110,10 +118,13 @@ def main() -> int:
     if ranker.get("decision") != "KEEP_RAW_EBM_RANKER":
         raise RuntimeError(f"UNEXPECTED_RANKER_DECISION={ranker.get('decision')}")
     raw_ndcg = float(ranker["raw_eligible_metrics"]["ndcg_at_3"])
-    if abs(raw_ndcg - EXPECTED_RAW_NDCG) > 1e-12:
-        raise RuntimeError(
-            f"RAW_NDCG_REPRODUCIBILITY_FAILURE={raw_ndcg}"
-        )
+    if not 0.0 <= raw_ndcg <= 1.0:
+        raise RuntimeError(f"RAW_NDCG_OUT_OF_RANGE={raw_ndcg}")
+    if (
+        revalidation.get("status") != "PASS"
+        or revalidation.get("selected_config_unchanged") is not True
+    ):
+        raise RuntimeError("LOCKED_GRID_RETENTION_REVALIDATION_NOT_PASS")
     if ranker.get("panel_b_touched") is not False:
         raise RuntimeError("PANEL_B_TOUCHED_IN_RANKER_SELECTION")
     if ranker.get("runtime_authorized") is not False:
@@ -135,7 +146,7 @@ def main() -> int:
     freeze_dir = (
         root
         / "artifacts/recommend_hybrid/explainable_v2/frozen"
-        / "ranker_panel_a_v1"
+        / "ranker_panel_a_v2"
     )
     if freeze_dir.exists() and any(freeze_dir.iterdir()):
         raise RuntimeError(
@@ -145,6 +156,12 @@ def main() -> int:
     freeze_dir.mkdir(parents=True, exist_ok=True)
 
     copied = []
+    copied.append(
+        copy_with_hash(
+            retention_revalidation_path,
+            freeze_dir / "EBM_GRID_RETENTION_REVALIDATION.json",
+        )
+    )
     copied.append(
         copy_with_hash(
             ebm_dir / "FIVE_EBM_MANIFEST.json",
@@ -180,10 +197,11 @@ def main() -> int:
         )
 
     freeze_manifest = {
-        "schema_version": "ranker_panel_a_freeze_v1",
+        "schema_version": "ranker_panel_a_freeze_v2",
         "status": "PASS",
         "scope": "PANEL_A_DEVELOPMENT_FREEZE_NOT_FINAL_HELDOUT_EVALUATION",
-        "panel_a_cases": EXPECTED_CASES,
+        "panel_a_provenance_cases": 300,
+        "panel_a_development_evaluation_cases": EXPECTED_DEVELOPMENT_CASES,
         "eligible_action_rows": EXPECTED_ELIGIBLE,
         "panel_b_touched": False,
         "runtime_authorized": False,
@@ -192,6 +210,13 @@ def main() -> int:
         "ranker_calibration": "NONE_RAW_EBM_SELECTED",
         "selected_config_id": EXPECTED_SELECTED_CONFIG,
         "selected_params": EXPECTED_SELECTED_PARAMS,
+        "score_contract": {
+            "ground_truth_scale": "ORDINAL_0_3",
+            "native_prediction_scale": "ORDINAL_0_3",
+            "public_score_scale": "NORMALIZED_0_1",
+            "normalization": "clip(native_prediction / 3, 0, 1)",
+            "normalization_locations": 1,
+        },
         "development_operational_ndcg_at_3": raw_ndcg,
         "development_exact_best_top1_agreement": float(
             ranker["raw_eligible_metrics"]["exact_best_top1_agreement"]

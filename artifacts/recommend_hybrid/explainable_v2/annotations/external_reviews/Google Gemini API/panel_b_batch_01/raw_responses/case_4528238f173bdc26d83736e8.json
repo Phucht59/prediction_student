@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"QUIZ_RETRIEVAL_PRACTICE\",\n      \"relevance_score\": 0,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"quiz_activity\"\n      ],\n      \"rationale\": \"Quiz activity is at 0.0 before cutoff, indicating no engagement with quizzes to support retrieval practice.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"ASSESSMENT_COMPLETION\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"missing_assessment_count\",\n        \"assessments_due\",\n        \"completion_rate\"\n      ],\n      \"rationale\": \"There is a direct behavioral gap with 2 missing assessments and a completion rate of 0.0.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"RECOVER_ENGAGEMENT\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"inactivity_streak\",\n        \"active_day_rate\"\n      ],\n      \"rationale\": \"The student has an inactivity streak of 46.0 days and an active day rate of 0.0.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"STUDY_REGULARITY\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"regularity_score\",\n        \"content_coverage\"\n      ],\n      \"rationale\": \"Regularity score is 0.0 and content coverage is 0.0, indicating a severe deficit in study regularity.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIPfG98lJb7l3AVHGcyRH7iVHZRkpvSa9WsE6vZ5rQSJ5Fj+iGiVBGzDpXJ/BZM"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 587,
+    "candidatesTokenCount": 474,
+    "totalTokenCount": 1061,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 587
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "JxF3avfHGp6sjuMPlZ_L2Q8"
+}

@@ -24,10 +24,10 @@ class RiskBand(str, Enum):
 
 
 class RouteStatus(str, Enum):
-    NO_ACTION = "NO_ACTION"
-    MONITOR = "MONITOR"
     RECOMMEND = "RECOMMEND"
+    INSUFFICIENT_EVIDENCE = "INSUFFICIENT_EVIDENCE"
     HUMAN_REVIEW = "HUMAN_REVIEW"
+    NO_FEASIBLE_ACTION = "NO_FEASIBLE_ACTION"
 
 
 @dataclass(frozen=True)
@@ -58,7 +58,7 @@ class RecommendationFeatures:
     cutoff_day: int
     risk_probability: float
     hybrid_uncertainty: float
-    seed_disagreement: float
+    seed_disagreement: float | None
     course_progress: float
     assessment_progress: float | None = None
     assessments_due: int | None = None
@@ -90,13 +90,17 @@ class RecommendationFeatures:
         unit_interval = (
             self.risk_probability,
             self.hybrid_uncertainty,
-            self.seed_disagreement,
             self.course_progress,
             self.label_conflict,
             self.ood_score,
         )
         if any(not isfinite(value) or not 0.0 <= value <= 1.0 for value in unit_interval):
             raise ValueError("probability-like fields must be finite values in [0, 1]")
+        if self.seed_disagreement is not None and (
+            not isfinite(self.seed_disagreement)
+            or not 0.0 <= self.seed_disagreement <= 1.0
+        ):
+            raise ValueError("seed_disagreement must be unavailable or in [0, 1]")
         optional_unit_interval = (
             self.assessment_progress,
             self.active_day_rate,
@@ -153,7 +157,7 @@ class SafetyThresholds:
     minimum_top1_score: float
     minimum_top1_margin: float
     maximum_hybrid_uncertainty: float
-    maximum_seed_disagreement: float
+    maximum_seed_disagreement: float | None
     maximum_label_conflict: float
     maximum_ood_score: float
 
@@ -162,12 +166,18 @@ class SafetyThresholds:
             self.minimum_top1_score,
             self.minimum_top1_margin,
             self.maximum_hybrid_uncertainty,
-            self.maximum_seed_disagreement,
             self.maximum_label_conflict,
             self.maximum_ood_score,
         )
         if any(not isfinite(value) or not 0.0 <= value <= 1.0 for value in values):
             raise ValueError("safety thresholds must be finite values in [0, 1]")
+        if self.maximum_seed_disagreement is not None and (
+            not isfinite(self.maximum_seed_disagreement)
+            or not 0.0 <= self.maximum_seed_disagreement <= 1.0
+        ):
+            raise ValueError(
+                "maximum_seed_disagreement must be unavailable or in [0, 1]"
+            )
 
 
 @dataclass(frozen=True)
@@ -189,8 +199,13 @@ class RecommendationDecision:
             raise ValueError("V2 is offline-only until prospective evidence exists")
         if self.route is RouteStatus.RECOMMEND and not self.ranked_actions:
             raise ValueError("RECOMMEND requires at least one ranked action")
-        if self.route in {RouteStatus.NO_ACTION, RouteStatus.MONITOR} and self.ranked_actions:
-            raise ValueError("NO_ACTION and MONITOR cannot emit ranked actions")
+        if self.route in {
+            RouteStatus.INSUFFICIENT_EVIDENCE,
+            RouteStatus.NO_FEASIBLE_ACTION,
+        } and self.ranked_actions:
+            raise ValueError(
+                "insufficient-evidence and no-feasible-action routes cannot emit actions"
+            )
 
 
 __all__ = [

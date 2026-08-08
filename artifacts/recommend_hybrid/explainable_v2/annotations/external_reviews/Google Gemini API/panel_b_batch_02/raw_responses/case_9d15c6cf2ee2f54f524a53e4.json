@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"QUIZ_RETRIEVAL_PRACTICE\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"quiz_activity\",\n        \"quiz_available\"\n      ],\n      \"rationale\": \"The student has zero quiz activity despite quizzes being available, representing a direct behavioral gap for retrieval practice.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"RECOVER_ENGAGEMENT\",\n      \"relevance_score\": 1,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"active_day_rate\",\n        \"inactivity_streak\"\n      ],\n      \"rationale\": \"The student has an active day rate of 0.26 and an inactivity streak of 1 day, making engagement recovery weakly relevant.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"STUDY_REGULARITY\",\n      \"relevance_score\": 0,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"regularity_score\"\n      ],\n      \"rationale\": \"The student's study regularity score is high at 0.85, indicating that study regularity is not a behavioral gap.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIPTuK2mF7x3KWr4HrNC3PeyvmNrKF2cBIy8Xp3holSC+KFtErltTIRpH59Mlfw"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 608,
+    "candidatesTokenCount": 357,
+    "totalTokenCount": 965,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 608
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "lxF3apKnCcXnjuMPje2D-Ak"
+}

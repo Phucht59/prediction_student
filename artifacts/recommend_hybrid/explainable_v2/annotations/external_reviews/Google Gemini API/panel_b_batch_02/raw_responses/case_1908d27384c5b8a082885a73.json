@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"QUIZ_RETRIEVAL_PRACTICE\",\n      \"relevance_score\": 1,\n      \"abstain\": false,\n      \"evidence_ids\": [\"quiz_activity\", \"quiz_available\"],\n      \"rationale\": \"Quiz activity is observed at 0.2 and quizzes are available, but there is no specific performance deficit or urgent gap noted.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"ASSESSMENT_COMPLETION\",\n      \"relevance_score\": 0,\n      \"abstain\": false,\n      \"evidence_ids\": [\"missing_assessment_count\", \"completion_rate\"],\n      \"rationale\": \"Missing assessment count is 0 and completion rate is 1.0, rendering assessment completion actions unsuitable as there are no missing assessments.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"STUDY_REGULARITY\",\n      \"relevance_score\": 1,\n      \"abstain\": false,\n      \"evidence_ids\": [\"regularity_score\", \"active_day_rate\"],\n      \"rationale\": \"Regularity score is high (0.93) and active day rate is 0.78, indicating strong study habits without an identified behavioral gap.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIPH4qfTDjfwoc48vrNVrkRfsMSvjP1JG+bGKE7QO5RTKSIkeUp7FaRV2Puh1yl"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 611,
+    "candidatesTokenCount": 352,
+    "totalTokenCount": 963,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 611
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "-xF3avqILp7RjuMPtrKv6Qk"
+}

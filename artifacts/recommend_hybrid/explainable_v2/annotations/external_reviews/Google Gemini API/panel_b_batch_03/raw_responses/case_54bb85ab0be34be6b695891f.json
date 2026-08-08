@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"QUIZ_RETRIEVAL_PRACTICE\",\n      \"relevance_score\": 0,\n      \"abstain\": false,\n      \"evidence_ids\": [\"quiz_activity\"],\n      \"rationale\": \"Quiz retrieval practice is unsuitable as quiz_activity is currently 0.0.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"ASSESSMENT_COMPLETION\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\"missing_assessment_count\", \"assessments_due\"],\n      \"rationale\": \"Directly supported by missing_assessment_count of 1 and 4 assessments due in the high risk band.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"RECOVER_ENGAGEMENT\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\"active_day_rate\", \"inactivity_streak\"],\n      \"rationale\": \"Relevant due to a low active_day_rate of 0.183 and an inactivity_streak of 3.0 days.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"STUDY_REGULARITY\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\"regularity_score\", \"active_day_rate\"],\n      \"rationale\": \"Relevant to address the low active_day_rate and moderate regularity_score of 0.56.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"TARGETED_CONTENT_REVIEW\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\"content_coverage\"],\n      \"rationale\": \"Relevant based on the observed content_coverage of 0.667.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIPJBxbcQgFEK+XBC4r8QDpatRjyHjMvL1Jpii+iloT4TEWS882Y2spvNJU3PXy"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 637,
+    "candidatesTokenCount": 531,
+    "totalTokenCount": 1168,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 637
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "WRJ3ar7CCoaKjuMPpMiHiAo"
+}

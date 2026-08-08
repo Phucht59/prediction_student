@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"QUIZ_RETRIEVAL_PRACTICE\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\"quiz_activity\", \"quiz_available\"],\n      \"rationale\": \"Quiz activity is currently 0.0 despite quizzes being available, representing a specific behavioral gap for retrieval practice.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"ASSESSMENT_COMPLETION\",\n      \"relevance_score\": 1,\n      \"abstain\": false,\n      \"evidence_ids\": [\"completion_rate\", \"missing_assessment_count\"],\n      \"rationale\": \"Completion rate is 1.0 and missing assessment count is 0, making this action generic or weakly relevant given no current deficit.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"STUDY_REGULARITY\",\n      \"relevance_score\": 1,\n      \"abstain\": false,\n      \"evidence_ids\": [\"regularity_score\", \"active_day_rate\"],\n      \"rationale\": \"Regularity score is 0.877 and active day rate is 0.611, indicating steady study patterns without a significant behavioral gap.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIPjNxLLh6nB69FTZIMhK1vTAXnuQE/BtGYOzvFWG3dp4p9p5Nfjyc+Ndcp2ATx"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 611,
+    "candidatesTokenCount": 348,
+    "totalTokenCount": 959,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 611
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "hRF3aqeNOoOOmNMPn-n_qAk"
+}

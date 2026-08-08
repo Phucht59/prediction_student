@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"QUIZ_RETRIEVAL_PRACTICE\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\"quiz_available\", \"quiz_activity\"],\n      \"rationale\": \"Quiz activity is zero while quizzes are available, indicating an opportunity for retrieval practice.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"ASSESSMENT_COMPLETION\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\"assessments_due\", \"missing_assessment_count\"],\n      \"rationale\": \"There are assessments due and a missing assessment count, directly supported by assessment metrics.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"RECOVER_ENGAGEMENT\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\"inactivity_streak\", \"active_day_rate\"],\n      \"rationale\": \"The student shows a significant inactivity streak of 56 days and an active day rate of 0.0.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"STUDY_REGULARITY\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\"regularity_score\", \"active_day_rate\"],\n      \"rationale\": \"Regularity score is 0.0 with an active day rate of 0.0, highlighting an urgent need for study regularity.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"TARGETED_CONTENT_REVIEW\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\"study_material_available\", \"content_coverage\"],\n      \"rationale\": \"Content coverage is 0.0 while study material is available.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIP4NeCmn3ER6KwzRwqP2/9FO3H2eNCsrDX1GBFoixxIz6yP6mmn+pwAe5MaAsu"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 591,
+    "candidatesTokenCount": 532,
+    "totalTokenCount": 1123,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 591
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "rhF3aomzI7O2juMP-7Kp0As"
+}

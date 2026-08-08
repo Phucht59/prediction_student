@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"QUIZ_RETRIEVAL_PRACTICE\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"quiz_available\",\n        \"quiz_activity\"\n      ],\n      \"rationale\": \"Quiz retrieval practice is supported by quiz availability and zero prior quiz activity.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"ASSESSMENT_COMPLETION\",\n      \"relevance_score\": 0,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"missing_assessment_count\"\n      ],\n      \"rationale\": \"Assessment completion is unsuitable because missing_assessment_count is 0.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"RECOVER_ENGAGEMENT\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"active_day_rate\",\n        \"inactivity_streak\",\n        \"vle_available\"\n      ],\n      \"rationale\": \"Directly supported by a 6-day inactivity streak and low active day rate of 0.056.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"STUDY_REGULARITY\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"regularity_score\",\n        \"study_material_available\"\n      ],\n      \"rationale\": \"Study regularity is relevant given the low regularity score of 0.304 and study material availability.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIPZ+sV14Gcoe86OmgXov1efJjxEUizrB/f5l4kSg7f/X/+fsDP8OftTwEr2I/u"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 628,
+    "candidatesTokenCount": 458,
+    "totalTokenCount": 1086,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 628
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "WxF3aqCBMNfkjuMPt5m-uAg"
+}

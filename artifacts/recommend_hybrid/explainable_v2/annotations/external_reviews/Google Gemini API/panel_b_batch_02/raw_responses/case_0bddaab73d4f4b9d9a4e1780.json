@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"QUIZ_RETRIEVAL_PRACTICE\",\n      \"relevance_score\": 0,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"quiz_activity\",\n        \"quiz_available\"\n      ],\n      \"rationale\": \"Quiz activity is currently zero, making retrieval practice unsuitable at this stage.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"ASSESSMENT_COMPLETION\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"missing_assessment_count\",\n        \"due_soon_count\",\n        \"assessments_due\"\n      ],\n      \"rationale\": \"Directly addresses missing assessments and impending due dates.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"RECOVER_ENGAGEMENT\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"inactivity_streak\",\n        \"active_day_rate\",\n        \"regularity_score\"\n      ],\n      \"rationale\": \"Directly addresses the long inactivity streak and zero active day rate.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"STUDY_REGULARITY\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"regularity_score\",\n        \"active_day_rate\"\n      ],\n      \"rationale\": \"Supported by the low regularity score and active day rate.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"TARGETED_CONTENT_REVIEW\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"content_coverage\",\n        \"study_material_available\"\n      ],\n      \"rationale\": \"Supported by low content coverage and available study materials.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIPNwelnln4x7GsDSUi1J5YDJ0qYxC92p7l2oQnmw9CUk4HjZOyj8mk8E2PJQhn"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 607,
+    "candidatesTokenCount": 552,
+    "totalTokenCount": 1159,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 607
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "uBF3asi7MLvcqfkPg72PyQY"
+}

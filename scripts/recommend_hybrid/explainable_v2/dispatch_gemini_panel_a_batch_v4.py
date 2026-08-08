@@ -59,7 +59,7 @@ def main() -> int:
     parser.add_argument("--limit", type=int, default=None)
     parser.add_argument("--max-attempts", type=int, default=5)
     parser.add_argument("--base-delay", type=float, default=2.0)
-    parser.add_argument("--inter-request-delay", type=float, default=0.5)
+    parser.add_argument("--inter-request-delay", type=float, default=5.1)
     args = parser.parse_args()
 
     if args.limit is not None and args.limit < 1:

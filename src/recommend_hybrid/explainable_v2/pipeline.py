@@ -42,7 +42,7 @@ class ExplainableRecommendationPipeline:
                 course_key=features.course_key,
                 stage=features.stage,
                 risk_band=risk_band,
-                route=RouteStatus.NO_ACTION,
+                route=RouteStatus.INSUFFICIENT_EVIDENCE,
                 ranked_actions=(),
                 reason_codes=("FROZEN_HYBRID_LOW_RISK",),
             )
@@ -52,7 +52,7 @@ class ExplainableRecommendationPipeline:
                 course_key=features.course_key,
                 stage=features.stage,
                 risk_band=risk_band,
-                route=RouteStatus.MONITOR,
+                route=RouteStatus.HUMAN_REVIEW,
                 ranked_actions=(),
                 reason_codes=("FROZEN_HYBRID_BORDERLINE_OR_UNCERTAIN",),
             )
@@ -71,14 +71,18 @@ class ExplainableRecommendationPipeline:
                 course_key=features.course_key,
                 stage=features.stage,
                 risk_band=risk_band,
-                route=RouteStatus.HUMAN_REVIEW,
+                route=RouteStatus.NO_FEASIBLE_ACTION,
                 ranked_actions=(),
                 reason_codes=reasons or ("NO_FEASIBLE_AUTOMATIC_ACTION",),
             )
 
         ranked = self.ranker.score(features, eligible)
         route, reasons = route_ranked_actions(features, ranked, self.safety_thresholds)
-        selected = ranked[: self.top_k]
+        selected = (
+            ranked[: self.top_k]
+            if route in {RouteStatus.RECOMMEND, RouteStatus.HUMAN_REVIEW}
+            else ()
+        )
         return RecommendationDecision(
             student_key=features.student_key,
             course_key=features.course_key,

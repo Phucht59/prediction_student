@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"QUIZ_RETRIEVAL_PRACTICE\",\n      \"relevance_score\": 0,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"quiz_activity\",\n        \"quiz_available\"\n      ],\n      \"rationale\": \"Quiz activity is observed at 0.0 despite quiz_available being true, indicating no engagement with quizzes prior to cutoff.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"ASSESSMENT_COMPLETION\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"missing_assessment_count\",\n        \"assessments_due\",\n        \"due_soon_count\",\n        \"completion_rate\"\n      ],\n      \"rationale\": \"There are 2 missing assessments, 2 assessments due, 1 due soon, and a completion rate of 0.0, highlighting a critical direct gap in assessment submission.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"RECOVER_ENGAGEMENT\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"inactivity_streak\",\n        \"active_day_rate\"\n      ],\n      \"rationale\": \"The student has a high inactivity streak of 19.0 days and a very low active day rate of 0.025, directly supporting engagement recovery.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"STUDY_REGULARITY\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"regularity_score\",\n        \"content_coverage\"\n      ],\n      \"rationale\": \"Study regularity score is low at 0.212 and content coverage is minimal at 16.7 percent, supporting actions to build consistent study patterns.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIPDRlw3KpxSKQAx1yOpwzta9expFzfdoeKWAcCcKAL0Z6njJUdXLTz7ih3AjRw"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 618,
+    "candidatesTokenCount": 527,
+    "totalTokenCount": 1145,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 618
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "8xB3asH0CZ6sjuMPlZ_L2Q8"
+}

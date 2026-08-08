@@ -18,7 +18,7 @@
    - Offline ranking metrics (e.g. NDCG@3) evaluate ranking alignment with silver labels, not guaranteed real-world academic gain.
 
 4. **Plausibility Simulator Boundaries**:
-   - The simulator calculates **model-implied delta-risk** by modifying pre-cutoff raw features.
+   - The simulator calculates **model-implied risk delta** by modifying pre-cutoff raw features.
    - It serves as an internal plausibility sanity check, **NOT** prospective causal intervention proof.
 
 5. **Deployment Authority**:

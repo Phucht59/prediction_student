@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"RECOVER_ENGAGEMENT\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\"inactivity_streak\", \"active_day_rate\"],\n      \"rationale\": \"Evidence shows an inactivity streak of 5 days and a low active day rate of 14.9%, supporting an engagement recovery action.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"STUDY_REGULARITY\",\n      \"relevance_score\": 1,\n      \"abstain\": false,\n      \"evidence_ids\": [\"regularity_score\"],\n      \"rationale\": \"Regularity score is provided at 0.58, but lack of acute regularity gaps makes this weakly relevant compared to direct engagement metrics.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"TARGETED_CONTENT_REVIEW\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\"content_coverage\"],\n      \"rationale\": \"Content coverage is at 70%, which is directly supported by observed evidence regarding curriculum pacing.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIPk3v6V+BofCSoGnNYQqUqhSTdXnpz1WU6wzEJFvCuEKDJMkxnYUO/ueEDScBU"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 614,
+    "candidatesTokenCount": 327,
+    "totalTokenCount": 941,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 614
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "mxJ3aszwMubNjuMP2dS18QM"
+}

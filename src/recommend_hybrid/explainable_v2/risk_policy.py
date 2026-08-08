@@ -21,7 +21,11 @@ def stratify_risk(
 
     uncertain = (
         features.hybrid_uncertainty > thresholds.maximum_automatic_uncertainty
-        or features.seed_disagreement > thresholds.maximum_seed_disagreement
+        or (
+            features.seed_disagreement is not None
+            and features.seed_disagreement
+            > thresholds.maximum_seed_disagreement
+        )
     )
     if uncertain:
         return RiskBand.BORDERLINE

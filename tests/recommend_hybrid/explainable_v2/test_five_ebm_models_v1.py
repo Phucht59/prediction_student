@@ -1,4 +1,8 @@
 from scripts.recommend_hybrid.explainable_v2 import train_five_ebm_models as runner
+from src.recommend_hybrid.explainable_v2.ranker import (
+    canonical_ordinal_score_from_model_prediction,
+    public_score_from_ordinal_prediction,
+)
 
 
 def test_five_action_models_are_locked():
@@ -66,3 +70,49 @@ def test_locked_grid_selected_parameters_are_applied():
 
 def test_locked_grid_selected_config_id_is_frozen():
     assert runner.LOCKED_GRID_SELECTED_CONFIG_ID == "a70599afad40"
+
+
+def test_public_score_has_exactly_one_ordinal_normalization():
+    assert public_score_from_ordinal_prediction(0.0) == 0.0
+    assert public_score_from_ordinal_prediction(1.5) == 0.5
+    assert public_score_from_ordinal_prediction(3.0) == 1.0
+    assert public_score_from_ordinal_prediction(9.0) == 1.0
+
+
+def test_raw_regressor_output_is_bounded_before_single_normalization():
+    import numpy as np
+    import pytest
+
+    for raw, expected_ordinal in ((-0.5, 0.0), (1.5, 1.5), (3.5, 3.0)):
+        ordinal = canonical_ordinal_score_from_model_prediction(raw)
+        assert ordinal == expected_ordinal
+        assert public_score_from_ordinal_prediction(ordinal) == pytest.approx(
+            float(np.clip(raw / 3.0, 0.0, 1.0))
+        )
+
+
+def test_post_panel_b_ordinal_clamp_is_public_score_invariant():
+    import numpy as np
+    import pandas as pd
+
+    path = (
+        runner.ROOT
+        / "artifacts/recommend_hybrid/explainable_v2/final_heldout/panel_b_v1"
+        / "panel_b_final_heldout_scores.parquet"
+    )
+    scores = pd.read_parquet(path)
+    canonical = scores["native_ordinal_score"].map(
+        canonical_ordinal_score_from_model_prediction
+    )
+    hardened_public = canonical.map(public_score_from_ordinal_prediction)
+    assert np.array_equal(
+        hardened_public.to_numpy(dtype=float),
+        scores["public_score"].to_numpy(dtype=float),
+    )
+
+
+def test_public_score_rejects_nonfinite_native_predictions():
+    import pytest
+
+    with pytest.raises(ValueError, match="finite"):
+        public_score_from_ordinal_prediction(float("nan"))

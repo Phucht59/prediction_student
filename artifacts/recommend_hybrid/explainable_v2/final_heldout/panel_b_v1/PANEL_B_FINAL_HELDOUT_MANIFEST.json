@@ -1,0 +1,55 @@
+{
+  "schema_version": "panel_b_final_heldout_manifest_v1",
+  "status": "PASS",
+  "scope": "PANEL_B_FINAL_HELDOUT",
+  "created_at_utc": "2026-08-08T11:28:44.631756+00:00",
+  "panel_b_touched": true,
+  "runtime_authorized": false,
+  "final_metrics_claimed": true,
+  "panel_b_case_count": 150,
+  "real_external_review_record_count": 557,
+  "failed_provider_calls": 0,
+  "provider": "Google Gemini API",
+  "model_name": "gemini-3.5-flash-lite",
+  "prompt_sha256": "f7edfaacd2fad67bf21a175ccc5c0a46abb81b669c08928ab78009c0a24624f3",
+  "provider_batch_provenance": [
+    {
+      "batch_id": "panel_b_batch_01",
+      "manifest_sha256": "2a1401c19b9f4820c261f6a04c8a2ae34615da1379c43c397862959f1dcd33cb",
+      "normalized_records_sha256": "71036ef2d8f8b7cfc9c96ae39889985e7319e5381320a72dc88ecf256ffe82bc",
+      "raw_response_count": 50,
+      "model_versions_observed": [
+        "gemini-3.5-flash-lite"
+      ],
+      "source_batch_sha256": "9fd5c4d12f285547df82f6a4c236a8622d8d7a0f2f8fefcd2abf9266ff1d1bc0"
+    },
+    {
+      "batch_id": "panel_b_batch_02",
+      "manifest_sha256": "45b29d90ea1603d9c5b8a86715be824d634300f40983e9e4df58a668d5b8e494",
+      "normalized_records_sha256": "798cd22d366272009cf0a878036754d2681ca93f296f68ed6b7a17fbc90f78b0",
+      "raw_response_count": 50,
+      "model_versions_observed": [
+        "gemini-3.5-flash-lite"
+      ],
+      "source_batch_sha256": "5a6a4194fd6d8e2192d0d2491b62e16b4deb2ed124c6c28dd7072e81c408163d"
+    },
+    {
+      "batch_id": "panel_b_batch_03",
+      "manifest_sha256": "40738a53dfd25301fbcd54ac5931655fdfb430b3f5a334e97c982a46fa7a0703",
+      "normalized_records_sha256": "7e185815cc255abf5d94124d8e775859a349710259e204214da07e8b49f8464b",
+      "raw_response_count": 50,
+      "model_versions_observed": [
+        "gemini-3.5-flash-lite"
+      ],
+      "source_batch_sha256": "3c82c532489c9dcd4d4bcd9c236be03c41465f32d8d3158356c059f414769b8a"
+    }
+  ],
+  "protocol_sha256": "76f73069a5ae02f89170b551298ef37cd78b6c9b04eada8b9587a80e75aeff93",
+  "evaluator_sha256": "48574049b5f1c94654f6b8f103d551f15df2e987c755b4e473be85e43ec70272",
+  "frozen_reviews_sha256": "afe0a49472330d98949dde328da1db70d3aa5413a9fad9457f1a598c52c331ee",
+  "scores_sha256": "fd50f79ef3555d2eaf470734c5e725b09710caa67e17b03f548b8960a7f8e5a9",
+  "metrics_sha256": "6a5a729e21b6008d041450eaa587289f429d438042bf312a56bd7768d4ed8017",
+  "development_artifacts_changed": false,
+  "post_panel_b_tuning_permitted": false,
+  "simulator_language": "model-implied risk delta"
+}

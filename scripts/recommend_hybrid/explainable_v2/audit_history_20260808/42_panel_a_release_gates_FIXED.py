@@ -140,13 +140,13 @@ def paired_bootstrap_delta(
     right: pd.DataFrame,
     column: str = "ndcg_at_3",
 ) -> dict:
-    l = left.set_index("query_id")
-    r = right.set_index("query_id")
-    ids = sorted(set(l.index) & set(r.index))
+    left_indexed = left.set_index("query_id")
+    right_indexed = right.set_index("query_id")
+    ids = sorted(set(left_indexed.index) & set(right_indexed.index))
     if len(ids) != EXPECTED_CASES:
         raise RuntimeError(f"BOOTSTRAP_QUERY_COUNT={len(ids)}")
-    a = l.loc[ids, column].to_numpy(dtype=float)
-    b = r.loc[ids, column].to_numpy(dtype=float)
+    a = left_indexed.loc[ids, column].to_numpy(dtype=float)
+    b = right_indexed.loc[ids, column].to_numpy(dtype=float)
     diff = a - b
     rng = np.random.default_rng(BOOTSTRAP_SEED)
     n = len(diff)

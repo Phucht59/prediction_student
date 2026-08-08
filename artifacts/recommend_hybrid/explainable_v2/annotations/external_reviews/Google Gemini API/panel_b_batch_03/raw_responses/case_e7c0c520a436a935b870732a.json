@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"QUIZ_RETRIEVAL_PRACTICE\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"quiz_activity\",\n        \"quiz_available\"\n      ],\n      \"rationale\": \"Quiz retrieval practice is supported by available quiz tools and observed quiz activity.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"ASSESSMENT_COMPLETION\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"assessments_due\",\n        \"due_soon_count\"\n      ],\n      \"rationale\": \"Assessment completion is relevant given pending assessments due and upcoming deadlines.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"RECOVER_ENGAGEMENT\",\n      \"relevance_score\": 1,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"active_day_rate\"\n      ],\n      \"rationale\": \"Active day rate is low at 16.7%, but zero inactivity streak makes engagement recovery a generic recommendation.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"STUDY_REGULARITY\",\n      \"relevance_score\": 1,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"regularity_score\"\n      ],\n      \"rationale\": \"Regularity score is provided, but the score does not indicate a severe behavioral gap requiring targeted remediation.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"TARGETED_CONTENT_REVIEW\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"content_coverage\",\n        \"study_material_available\"\n      ],\n      \"rationale\": \"Content coverage is at 55.6% with study material available, supporting targeted content review.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIPVeoKFIo3F+D3LmjUPenL29ndeJRuHfKaLL6L2riOwGoEVSZPxdv7Mpo/6iae"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 656,
+    "candidatesTokenCount": 549,
+    "totalTokenCount": 1205,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 656
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "bxJ3aoWRC_njjuMP88qOiA4"
+}

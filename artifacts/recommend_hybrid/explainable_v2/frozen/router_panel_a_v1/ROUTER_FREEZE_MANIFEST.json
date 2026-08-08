@@ -1,0 +1,62 @@
+{
+  "development_query_count": 299,
+  "final_metrics_claimed": false,
+  "grid_candidate_count": 400,
+  "lineage": {
+    "candidate_sha256": "e0ab6398ed433198d6bdcd75b3fb55ef326f3e7c81315269e8b5dfd71ee0f49a",
+    "config_sha256": "0c606c3bb0ba2058e1a78f9284c63f6e61527375e223850610d22f8b7a484067",
+    "labels_sha256": "299e9ae94eec71b60781edaad3f5533d5bf7df7f989a71147481c305bc477bde",
+    "oof_sha256": "1a85210cd6f6ee56ddb889ac456050267b864ce6854c3f346d3c6158e88f05ad",
+    "ranker_freeze_sha256": "68fe3b81bcf0716e875e407b44bce179c9c54d717f5d613f009424db6b4339af",
+    "release_gate_sha256": "78f1dc1f5858fd1da6409231c9fbce38d35554a50f6bf6732534c62290d51d95"
+  },
+  "minimum_recommend_precision_constraint": 0.98,
+  "ood_evidence": {
+    "fail_closed_runtime_ceiling": 0.99,
+    "selection_status": "UNAVAILABLE_FOR_PANEL_A_THRESHOLD_TUNING"
+  },
+  "panel_b_touched": false,
+  "public_route_statuses": [
+    "RECOMMEND",
+    "INSUFFICIENT_EVIDENCE",
+    "HUMAN_REVIEW",
+    "NO_FEASIBLE_ACTION"
+  ],
+  "runtime_authorized": false,
+  "schema_version": "recommend_v2_router_freeze_v1",
+  "scope": "PANEL_A_DEVELOPMENT",
+  "seed_disagreement_evidence": {
+    "status": "UNAVAILABLE_IN_FROZEN_SOURCE_ARTIFACT",
+    "threshold_applied": false,
+    "zero_imputed": false
+  },
+  "selected_development_operating_point": {
+    "human_review_count": 189,
+    "insufficient_evidence_count": 4,
+    "maximum_hybrid_uncertainty": 0.6,
+    "maximum_label_conflict": 0.4,
+    "minimum_top1_margin": 0.0,
+    "minimum_top1_score": 0.5,
+    "recommend_count": 106,
+    "recommend_coverage": 0.35451505016722407,
+    "recommend_precision_relevance_ge_1": 0.9905660377358491
+  },
+  "selected_thresholds": {
+    "maximum_hybrid_uncertainty": 0.6,
+    "maximum_label_conflict": 0.4,
+    "maximum_ood_score": 0.99,
+    "maximum_seed_disagreement": null,
+    "minimum_top1_margin": 0.0,
+    "minimum_top1_score": 0.5
+  },
+  "selected_thresholds_sha256": "01b520db580dedd4a50d6fbcd51b27058bc820d95950033deac2580648e0f316",
+  "selection_objective": "maximum_recommend_coverage_then_precision_within_locked_yaml_grids",
+  "selection_panel": "A",
+  "semantics": {
+    "HUMAN_REVIEW": "evidence is sufficient but ambiguity or uncertainty is too high",
+    "INSUFFICIENT_EVIDENCE": "top feasible evidence is below the frozen sufficiency threshold",
+    "NO_FEASIBLE_ACTION": "hard feasibility leaves zero actions",
+    "RECOMMEND": "feasible, sufficient, and acceptably unambiguous"
+  },
+  "status": "PASS"
+}

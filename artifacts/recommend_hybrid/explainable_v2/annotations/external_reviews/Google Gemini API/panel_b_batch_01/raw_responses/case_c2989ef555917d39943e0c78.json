@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"QUIZ_RETRIEVAL_PRACTICE\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\"quiz_activity\", \"quiz_available\"],\n      \"rationale\": \"Directly supported by zero quiz activity despite quizzes being available.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"ASSESSMENT_COMPLETION\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\"missing_assessment_count\", \"completion_rate\"],\n      \"rationale\": \"Directly supported by 3 missing assessments and a 50% completion rate.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"RECOVER_ENGAGEMENT\",\n      \"relevance_score\": 1,\n      \"abstain\": false,\n      \"evidence_ids\": [\"active_day_rate\"],\n      \"rationale\": \"Weakly relevant given the low active day rate, though inactivity streak is currently zero.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"STUDY_REGULARITY\",\n      \"relevance_score\": 0,\n      \"abstain\": false,\n      \"evidence_ids\": [\"regularity_score\"],\n      \"rationale\": \"Unsuitable as the regularity score is high at approximately 0.80.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIPtayRqJzi8yAmIUBzRUHESAf4+1XBuBxu0irH4Yi5JOsI1YY2Lz0uyit/Ffrq"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 616,
+    "candidatesTokenCount": 401,
+    "totalTokenCount": 1017,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 616
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "_xB3aq2WH4bNjuMPn-TAiQo"
+}

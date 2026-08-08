@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"QUIZ_RETRIEVAL_PRACTICE\",\n      \"relevance_score\": 0,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"quiz_activity\",\n        \"quiz_available\"\n      ],\n      \"rationale\": \"Quiz activity is 0.0 despite quizzes being available, showing no current engagement with quiz practice.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"ASSESSMENT_COMPLETION\",\n      \"relevance_score\": 0,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"missing_assessment_count\",\n        \"assessments_due\"\n      ],\n      \"rationale\": \"Missing assessment count is 0 and assessments due is 0, indicating no assessment completion gap.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"RECOVER_ENGAGEMENT\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"inactivity_streak\",\n        \"active_day_rate\",\n        \"content_coverage\"\n      ],\n      \"rationale\": \"Inactivity streak is 36.0 days, active day rate is 0.0, and content coverage is 0.0, directly supporting engagement recovery.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"STUDY_REGULARITY\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"regularity_score\",\n        \"active_day_rate\"\n      ],\n      \"rationale\": \"Regularity score is 0.0 and active day rate is 0.0, indicating a clear need to improve study regularity.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIPaOZlf/dQzlbbZ/MqJUa6vo6n8Sog4FvUngUW+7rbpUKMGGNCA/stbtXERPPk"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 583,
+    "candidatesTokenCount": 492,
+    "totalTokenCount": 1075,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 583
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "DRF3aoLmItHSqfkP1Yvw8Aw"
+}

@@ -36,8 +36,14 @@ EXPECTED_FROZEN_SHA256 = (
 EXPECTED_PANEL_A_CASES = 300
 EXPECTED_FROZEN_RECORDS = 1117
 EXPECTED_ACTION_ROWS = 1500
+EXPECTED_CASE_LINEAGE_SHA256 = (
+    "5a804a74da464df22fe3a569156af6fcd9110ecc3ee81ee1348c9310ea4fc137"
+)
 SEED_BASE = 2026
 EPOCHS = 1000
+MINIMUM_INDEPENDENT_SOURCE_FAMILIES = 2
+RETAINED_LABEL_STATUS = "OOF_PANEL_A_SILVER_LABEL"
+INSUFFICIENT_SUPPORT_LABEL_STATUS = "INSUFFICIENT_SOURCE_SUPPORT"
 
 FROZEN_PATH = (
     ROOT
@@ -127,12 +133,65 @@ def _load_frozen() -> pd.DataFrame:
     return frame
 
 
-def _select_panel_a_candidates(frozen: pd.DataFrame) -> pd.DataFrame:
-    if "CASE_EXPORT_SALT" not in os.environ:
-        raise RuntimeError("CASE_EXPORT_SALT is required to reconstruct blinded Panel A lineage")
-    salt = os.environ["CASE_EXPORT_SALT"].strip()
-    if not salt:
-        raise RuntimeError("CASE_EXPORT_SALT is empty")
+def _case_lineage_sha256(mapping: pd.DataFrame) -> str:
+    canonical = (
+        mapping[["query_id", "blinded_case_id"]]
+        .astype(str)
+        .drop_duplicates()
+        .sort_values(["query_id", "blinded_case_id"])
+        .rename(columns={"blinded_case_id": "case_id"})
+    )
+    payload = json.dumps(
+        canonical.to_dict("records"),
+        sort_keys=True,
+        separators=(",", ":"),
+    ).encode("utf-8")
+    return hashlib.sha256(payload).hexdigest()
+
+
+def _load_case_mapping(candidates: pd.DataFrame) -> tuple[pd.DataFrame, str]:
+    salt = os.environ.get("CASE_EXPORT_SALT", "").strip()
+    if salt:
+        qids = candidates["query_id"].astype(str).drop_duplicates()
+        mapping = pd.DataFrame(
+            {
+                "query_id": qids,
+                "blinded_case_id": [
+                    _blinded_case_id(qid, salt)
+                    for qid in qids
+                ],
+            }
+        )
+        source = "CASE_EXPORT_SALT_RECONSTRUCTION"
+    else:
+        if not (OUTPUT_DIR / "probabilistic_relevance_labels.parquet").is_file():
+            raise RuntimeError(
+                "CASE_LINEAGE_UNAVAILABLE: set CASE_EXPORT_SALT or preserve the "
+                "verified prior Panel-A label artifact"
+            )
+        prior = pd.read_parquet(
+            OUTPUT_DIR / "probabilistic_relevance_labels.parquet",
+            columns=["query_id", "case_id"],
+        )
+        mapping = (
+            prior.astype(str)
+            .drop_duplicates()
+            .rename(columns={"case_id": "blinded_case_id"})
+        )
+        source = "PINNED_PRIOR_LABEL_CASE_LINEAGE"
+
+    actual_sha = _case_lineage_sha256(mapping)
+    if actual_sha != EXPECTED_CASE_LINEAGE_SHA256:
+        raise RuntimeError(
+            f"CASE_LINEAGE_SHA_MISMATCH={actual_sha} "
+            f"expected={EXPECTED_CASE_LINEAGE_SHA256}"
+        )
+    return mapping, source
+
+
+def _select_panel_a_candidates(
+    frozen: pd.DataFrame,
+) -> tuple[pd.DataFrame, str]:
     if not CANDIDATES_PATH.is_file():
         raise RuntimeError(f"MISSING_ACTION_CANDIDATES={CANDIDATES_PATH}")
 
@@ -161,16 +220,7 @@ def _select_panel_a_candidates(frozen: pd.DataFrame) -> pd.DataFrame:
     if candidates.duplicated(["query_id", "action_id"]).any():
         raise RuntimeError("DUPLICATE_QUERY_ACTION_IN_CANDIDATES")
 
-    qids = candidates["query_id"].astype(str).drop_duplicates()
-    mapping = pd.DataFrame(
-        {
-            "query_id": qids,
-            "blinded_case_id": [
-                _blinded_case_id(qid, salt)
-                for qid in qids
-            ],
-        }
-    )
+    mapping, lineage_source = _load_case_mapping(candidates)
     frozen_cases = set(frozen["case_id"].astype(str))
     mapping = mapping[mapping["blinded_case_id"].isin(frozen_cases)].copy()
 
@@ -194,7 +244,7 @@ def _select_panel_a_candidates(frozen: pd.DataFrame) -> pd.DataFrame:
         raise RuntimeError("PANEL_A_QUERY_COUNT_MISMATCH")
     if selected.groupby("query_id")["action_id"].nunique().ne(5).any():
         raise RuntimeError("PANEL_A_NOT_EXACTLY_FIVE_ACTIONS_PER_QUERY")
-    return selected.reset_index(drop=True)
+    return selected.reset_index(drop=True), lineage_source
 
 
 def _is_missing(value) -> bool:
@@ -304,9 +354,24 @@ def _family_count(matrix: np.ndarray) -> np.ndarray:
     return counts
 
 
+def _retention_metadata(family_count: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    """Return the frozen source-support decision without discarding audit rows."""
+
+    counts = np.asarray(family_count, dtype=int)
+    if counts.ndim != 1:
+        raise ValueError("family_count must be one-dimensional")
+    retained = counts >= MINIMUM_INDEPENDENT_SOURCE_FAMILIES
+    status = np.where(
+        retained,
+        RETAINED_LABEL_STATUS,
+        INSUFFICIENT_SUPPORT_LABEL_STATUS,
+    )
+    return retained, status
+
+
 def run() -> int:
     frozen = _load_frozen()
-    candidates = _select_panel_a_candidates(frozen)
+    candidates, case_lineage_source = _select_panel_a_candidates(frozen)
     votes, feasible = evaluate_votes(candidates, frozen)
 
     frozen_keys = set(
@@ -387,6 +452,7 @@ def run() -> int:
         axis=1,
     )
     family_count = _family_count(votes)
+    retained_for_training, label_status = _retention_metadata(family_count)
 
     labels = candidates[
         ["query_id", "case_id", "outer_fold", "stage", "action_id"]
@@ -399,11 +465,12 @@ def run() -> int:
     labels["label_confidence"] = confidence
     labels["label_entropy"] = entropy
     labels["independent_source_families"] = family_count
+    labels["retained_for_training"] = retained_for_training
     labels["external_review_present"] = [
         (str(cid), str(action)) in frozen_keys
         for cid, action in zip(labels["case_id"], labels["action_id"])
     ]
-    labels["label_status"] = "OOF_PANEL_A_SILVER_LABEL"
+    labels["label_status"] = label_status
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     labels_path = OUTPUT_DIR / "probabilistic_relevance_labels.parquet"
@@ -430,11 +497,24 @@ def run() -> int:
         "panel_b_touched": False,
         "runtime_authorized": False,
         "frozen_panel_a_sha256": EXPECTED_FROZEN_SHA256,
+        "case_lineage_sha256": EXPECTED_CASE_LINEAGE_SHA256,
+        "case_lineage_source": case_lineage_source,
         "cardinality": CARDINALITY,
         "case_count": int(labels["case_id"].nunique()),
         "action_row_count": int(len(labels)),
         "external_review_record_count": int(len(frozen)),
         "eligible_action_row_count": int(feasible.sum()),
+        "minimum_independent_source_families": (
+            MINIMUM_INDEPENDENT_SOURCE_FAMILIES
+        ),
+        "retained_row_count": int(retained_for_training.sum()),
+        "insufficient_support_row_count": int((~retained_for_training).sum()),
+        "eligible_retained_row_count": int(
+            (feasible & retained_for_training).sum()
+        ),
+        "eligible_insufficient_support_row_count": int(
+            (feasible & ~retained_for_training).sum()
+        ),
         "external_review_key_count": int(len(frozen_keys)),
         "outer_folds": folds,
         "fit_protocol": "OUTER_FOLD_TRAIN_ONLY",
@@ -459,6 +539,7 @@ def run() -> int:
             "Each fold model is fit on Panel A rows outside the held-out outer fold.",
             "No fallback or fabricated metric is permitted on fitting failure.",
             "External Gemini reviews are one provenance-preserving source, not three synthetic reviewers.",
+            "All OOF probabilities are retained for audit, but rows with fewer than two independent source families are not supervised targets.",
             "RUNTIME_AUTHORIZED remains FALSE.",
         ],
     }
@@ -473,6 +554,13 @@ def run() -> int:
     print(f"PANEL_A_CASES={labels['case_id'].nunique()}")
     print(f"ACTION_ROWS={len(labels)}")
     print(f"ELIGIBLE_ACTION_ROWS={int(feasible.sum())}")
+    print(f"MINIMUM_INDEPENDENT_SOURCE_FAMILIES={MINIMUM_INDEPENDENT_SOURCE_FAMILIES}")
+    print(f"RETAINED_ROWS={int(retained_for_training.sum())}")
+    print(f"INSUFFICIENT_SUPPORT_ROWS={int((~retained_for_training).sum())}")
+    print(
+        "ELIGIBLE_INSUFFICIENT_SUPPORT_ROWS="
+        f"{int((feasible & ~retained_for_training).sum())}"
+    )
     print(f"EXTERNAL_REVIEW_RECORDS={len(frozen)}")
     print(f"OUTER_FOLDS={','.join(map(str, folds))}")
     print("FIT_PROTOCOL=OUTER_FOLD_TRAIN_ONLY")

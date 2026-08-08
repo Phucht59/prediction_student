@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"ASSESSMENT_COMPLETION\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\"assessments_due\", \"due_soon_count\", \"completion_rate\", \"missing_assessment_count\"],\n      \"rationale\": \"Evidence indicates 1 assessment due and due soon, with a current completion rate of 1.0 and 0 missing assessments.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"STUDY_REGULARITY\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\"regularity_score\", \"active_day_rate\", \"inactivity_streak\"],\n      \"rationale\": \"Evidence shows a regularity score of 0.892, an active day rate of 0.575, and an inactivity streak of 0.0.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIP2DMUOoxLJLxYHrij2dxSIqpyWWAW/Q8W/wwd5n8PZyaP0Chu1+u5IX1Z6LXB"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 592,
+    "candidatesTokenCount": 261,
+    "totalTokenCount": 853,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 592
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "UxF3apXYCZW9juMPvoKa-Qc"
+}

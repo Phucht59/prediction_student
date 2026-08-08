@@ -4,10 +4,12 @@ from __future__ import annotations
 
 from dataclasses import asdict
 from importlib import import_module
+from pathlib import Path
 from typing import Protocol
 
 import numpy as np
 import pandas as pd
+import joblib
 
 from .contracts import ActionScore, CanonicalAction, RecommendationFeatures
 
@@ -33,6 +35,24 @@ FEATURE_COLUMNS = (
     "quiz_available",
     "stage",
 )
+
+ORDINAL_RELEVANCE_MAX = 3.0
+
+
+def canonical_ordinal_score_from_model_prediction(raw_prediction: float) -> float:
+    """Bound an unconstrained EBM regressor output to the frozen ordinal scale."""
+
+    if not np.isfinite(raw_prediction):
+        raise ValueError("raw EBM prediction must be finite")
+    return float(np.clip(raw_prediction, 0.0, ORDINAL_RELEVANCE_MAX))
+
+
+def public_score_from_ordinal_prediction(native_prediction: float) -> float:
+    """The single adapter from native ordinal EBM scale to public [0, 1]."""
+
+    if not np.isfinite(native_prediction):
+        raise ValueError("native EBM prediction must be finite")
+    return float(np.clip(native_prediction / ORDINAL_RELEVANCE_MAX, 0.0, 1.0))
 
 
 class ActionRanker(Protocol):
@@ -60,9 +80,27 @@ class FiveEBMRanker:
     data only. The class intentionally raises when an action model is missing.
     """
 
-    def __init__(self, model_parameters: dict | None = None) -> None:
+    def __init__(
+        self,
+        model_parameters: dict | None = None,
+        *,
+        native_prediction_scale: str = "NORMALIZED_0_1",
+    ) -> None:
+        if native_prediction_scale not in {"NORMALIZED_0_1", "ORDINAL_0_3"}:
+            raise ValueError("unsupported native prediction scale")
         self.model_parameters = dict(model_parameters or {})
+        self.native_prediction_scale = native_prediction_scale
         self.models: dict[CanonicalAction, object] = {}
+
+    @classmethod
+    def from_frozen_ordinal_artifacts(cls, model_dir: Path) -> "FiveEBMRanker":
+        ranker = cls(native_prediction_scale="ORDINAL_0_3")
+        for action in CanonicalAction:
+            path = Path(model_dir) / f"{action.value}.joblib"
+            if not path.is_file():
+                raise RuntimeError(f"missing frozen action model: {path}")
+            ranker.models[action] = joblib.load(path)
+        return ranker
 
     @staticmethod
     def _regressor_class():
@@ -136,8 +174,13 @@ class FiveEBMRanker:
             model = self.models.get(action)
             if model is None:
                 raise RuntimeError(f"no fitted relevance model for {action.value}")
-            prediction = float(np.asarray(model.predict(frame))[0])
-            bounded = min(max(prediction, 0.0), 1.0)
+            raw_prediction = float(np.asarray(model.predict(frame))[0])
+            prediction = canonical_ordinal_score_from_model_prediction(raw_prediction)
+            bounded = (
+                public_score_from_ordinal_prediction(prediction)
+                if self.native_prediction_scale == "ORDINAL_0_3"
+                else float(np.clip(prediction, 0.0, 1.0))
+            )
             explanation = self._local_explanation(model, frame)
             results.append(ActionScore(action, bounded, explanation))
         results.sort(key=lambda item: (-item.score, item.action.value))
@@ -165,5 +208,8 @@ __all__ = [
     "FEATURE_COLUMNS",
     "FiveEBMRanker",
     "FixedActionRanker",
+    "ORDINAL_RELEVANCE_MAX",
+    "canonical_ordinal_score_from_model_prediction",
     "feature_frame",
+    "public_score_from_ordinal_prediction",
 ]

@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"QUIZ_RETRIEVAL_PRACTICE\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\"quiz_activity\", \"quiz_available\", \"assessments_due\"],\n      \"rationale\": \"The student has 8 assessments due and zero quiz activity despite quizzes being available, representing a direct behavioral gap in quiz-based retrieval practice.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIPdykqqHoM+5EAPobgIQgwck2A4tiFsA2UnZvJPy5wfUFf+4yfg7j1fSNzL4/z"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 593,
+    "candidatesTokenCount": 132,
+    "totalTokenCount": 725,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 593
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "TRJ3auzqHofljuMPzZPcwAs"
+}

@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"QUIZ_RETRIEVAL_PRACTICE\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\"quiz_activity\", \"quiz_available\"],\n      \"rationale\": \"Quiz activity is observed at 0.0 while quizzes are available, indicating a direct behavioral gap for retrieval practice.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"RECOVER_ENGAGEMENT\",\n      \"relevance_score\": 0,\n      \"abstain\": false,\n      \"evidence_ids\": [\"inactivity_streak\", \"contraindications\"],\n      \"rationale\": \"Inactivity streak is 0.0, showing the student is actively engaged; recovery is contradicted by active participation.\",\n      \"contraindication_detected\": true,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"STUDY_REGULARITY\",\n      \"relevance_score\": 1,\n      \"abstain\": false,\n      \"evidence_ids\": [\"regularity_score\", \"active_day_rate\"],\n      \"rationale\": \"Regularity score is 0.699 and active day rate is 0.361, providing only weak or generic support for study regularity improvement.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIPKPzV3qQ5JQtKy/LiaJkjx6O1IkPA8KhLyuvPSukmYfRi3uMnqM2a47WwXfC+"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 624,
+    "candidatesTokenCount": 344,
+    "totalTokenCount": 968,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 624
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "LhJ3asbRCvvFjuMPsKba2Qk"
+}

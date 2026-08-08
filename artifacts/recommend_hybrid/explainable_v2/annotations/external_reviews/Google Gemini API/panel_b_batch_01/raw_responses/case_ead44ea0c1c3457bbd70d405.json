@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"QUIZ_RETRIEVAL_PRACTICE\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"quiz_activity\",\n        \"quiz_available\"\n      ],\n      \"rationale\": \"Quiz activity is observed at 0.333 and quizzes are available, supporting retrieval practice.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"ASSESSMENT_COMPLETION\",\n      \"relevance_score\": 1,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"missing_assessment_count\",\n        \"completion_rate\"\n      ],\n      \"rationale\": \"Completion rate is 1.0 and missing assessments count is 0, making assessment completion a generic action without a specific behavioral gap.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIPDIxKpynZ2R4FGQjL8++vPph7Is1mRMzBxECX+WMr3N1ZGKR4sSdNp1amo99h"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 614,
+    "candidatesTokenCount": 245,
+    "totalTokenCount": 859,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 614
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "MxF3av3QJoSmjuMPqYGZ6Qw"
+}

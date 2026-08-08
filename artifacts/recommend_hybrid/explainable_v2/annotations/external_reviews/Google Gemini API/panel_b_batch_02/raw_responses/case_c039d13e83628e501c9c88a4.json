@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"QUIZ_RETRIEVAL_PRACTICE\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\"quiz_available\", \"quiz_activity\"],\n      \"rationale\": \"Quiz activity is observed at 0.333 and quizzes are available.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"ASSESSMENT_COMPLETION\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\"missing_assessment_count\", \"due_soon_count\", \"assessments_due\"],\n      \"rationale\": \"There is a missing assessment count of 1 and 1 assessment due soon out of 2 due.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"RECOVER_ENGAGEMENT\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\"active_day_rate\", \"inactivity_streak\"],\n      \"rationale\": \"Active day rate is low at 0.175 alongside an inactivity streak of 2 days.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"STUDY_REGULARITY\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\"regularity_score\", \"active_day_rate\"],\n      \"rationale\": \"Regularity score is 0.623 with an active day rate of 0.175 indicating irregular study patterns.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIPZR1jjv6Dczgtflx2UwaGTW37gI/4QgQ961flzl/x15Vi4oN6VEuVwBEDYM27"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 635,
+    "candidatesTokenCount": 445,
+    "totalTokenCount": 1080,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 635
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "nRF3avrEOOuvjuMPsbeEyAk"
+}

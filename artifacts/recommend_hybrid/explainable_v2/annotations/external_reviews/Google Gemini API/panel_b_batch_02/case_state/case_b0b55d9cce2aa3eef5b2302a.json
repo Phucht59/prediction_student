@@ -1,0 +1,131 @@
+{
+  "schema_version": "gemini_external_review_case_state_v3_1",
+  "status": "COMPLETE",
+  "case_number": 50,
+  "case_id": "case_b0b55d9cce2aa3eef5b2302a",
+  "provider": "Google Gemini API",
+  "model_name": "gemini-3.5-flash-lite",
+  "model_version": "gemini-3.5-flash-lite",
+  "request_id": "clientreq_f498084ef5344a119c30b5e601e61401",
+  "response_id": "DRJ3atKgIKf3juMP1dCF4Qs",
+  "http_status": 200,
+  "response_headers": {
+    "content-type": "application/json; charset=UTF-8",
+    "date": "Sat, 08 Aug 2026 11:25:02 GMT"
+  },
+  "finish_reason": "STOP",
+  "usage_metadata": {
+    "promptTokenCount": 615,
+    "candidatesTokenCount": 343,
+    "totalTokenCount": 958,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 615
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "response_schema_sha256": "04430360b987d7804d0c6b9e24f078de6c4102b6ef0c7abedb7ae460739f7816",
+  "raw_request_sha256": "4b3445735a90300cc6f452c9e4f4ca4a3872f4b6ebbe66a79fe697ef68c75580",
+  "raw_response_sha256": "a392b5f6040a6328d5bdcfe7d2e7bcd069a6f26ab1cb4216dca02cc9c3ec818a",
+  "raw_request_file": "raw_requests/case_b0b55d9cce2aa3eef5b2302a.json",
+  "raw_response_file": "raw_responses/case_b0b55d9cce2aa3eef5b2302a.json",
+  "normalized_records": [
+    {
+      "case_id": "case_b0b55d9cce2aa3eef5b2302a",
+      "panel_id": "PANEL_B",
+      "action_id": "ASSESSMENT_COMPLETION",
+      "relevance_score": 2,
+      "abstain": false,
+      "evidence_ids": [
+        "assessments_due",
+        "due_soon_count",
+        "missing_assessment_count"
+      ],
+      "rationale": "There is 1 assessment due and 1 due soon, directly supporting assessment-focused engagement.",
+      "contraindication_detected": false,
+      "safety_flag": false,
+      "reviewer_id": "gemini_external_reviewer_01",
+      "reviewer_configuration_id": "gemini_external_d12eb748f2274c7c",
+      "reviewer_type": "REAL_EXTERNAL_LLM_REVIEW",
+      "provider": "Google Gemini API",
+      "model_name": "gemini-3.5-flash-lite",
+      "model_version": "gemini-3.5-flash-lite",
+      "request_id": "clientreq_f498084ef5344a119c30b5e601e61401",
+      "response_id": "DRJ3atKgIKf3juMP1dCF4Qs",
+      "batch_id": "panel_b_batch_02",
+      "prompt_version": "external_reviewer_v1",
+      "prompt_sha256": "f7edfaacd2fad67bf21a175ccc5c0a46abb81b669c08928ab78009c0a24624f3",
+      "request_batch_sha256": "5a6a4194fd6d8e2192d0d2491b62e16b4deb2ed124c6c28dd7072e81c408163d",
+      "raw_request_sha256": "4b3445735a90300cc6f452c9e4f4ca4a3872f4b6ebbe66a79fe697ef68c75580",
+      "raw_response_sha256": "a392b5f6040a6328d5bdcfe7d2e7bcd069a6f26ab1cb4216dca02cc9c3ec818a",
+      "response_record_index": 0,
+      "created_at": "2026-08-08T11:25:03.105955+00:00",
+      "response_record_sha256": "747082c238a953018153a03add6ea72c9ceb312197ad9d8237d605f84f97d54b"
+    },
+    {
+      "case_id": "case_b0b55d9cce2aa3eef5b2302a",
+      "panel_id": "PANEL_B",
+      "action_id": "RECOVER_ENGAGEMENT",
+      "relevance_score": 2,
+      "abstain": false,
+      "evidence_ids": [
+        "active_day_rate",
+        "regularity_score"
+      ],
+      "rationale": "The student shows a low active day rate of 0.05 and irregular study patterns supporting engagement recovery.",
+      "contraindication_detected": false,
+      "safety_flag": false,
+      "reviewer_id": "gemini_external_reviewer_01",
+      "reviewer_configuration_id": "gemini_external_d12eb748f2274c7c",
+      "reviewer_type": "REAL_EXTERNAL_LLM_REVIEW",
+      "provider": "Google Gemini API",
+      "model_name": "gemini-3.5-flash-lite",
+      "model_version": "gemini-3.5-flash-lite",
+      "request_id": "clientreq_f498084ef5344a119c30b5e601e61401",
+      "response_id": "DRJ3atKgIKf3juMP1dCF4Qs",
+      "batch_id": "panel_b_batch_02",
+      "prompt_version": "external_reviewer_v1",
+      "prompt_sha256": "f7edfaacd2fad67bf21a175ccc5c0a46abb81b669c08928ab78009c0a24624f3",
+      "request_batch_sha256": "5a6a4194fd6d8e2192d0d2491b62e16b4deb2ed124c6c28dd7072e81c408163d",
+      "raw_request_sha256": "4b3445735a90300cc6f452c9e4f4ca4a3872f4b6ebbe66a79fe697ef68c75580",
+      "raw_response_sha256": "a392b5f6040a6328d5bdcfe7d2e7bcd069a6f26ab1cb4216dca02cc9c3ec818a",
+      "response_record_index": 1,
+      "created_at": "2026-08-08T11:25:03.105955+00:00",
+      "response_record_sha256": "26332475a3032ed397bb28ad7f922f9c8a37ee8c75523a3821455468c870fe46"
+    },
+    {
+      "case_id": "case_b0b55d9cce2aa3eef5b2302a",
+      "panel_id": "PANEL_B",
+      "action_id": "STUDY_REGULARITY",
+      "relevance_score": 2,
+      "abstain": false,
+      "evidence_ids": [
+        "regularity_score",
+        "active_day_rate"
+      ],
+      "rationale": "Regularity score is 0.357 with a low active day rate of 0.05, indicating irregular study habits.",
+      "contraindication_detected": false,
+      "safety_flag": false,
+      "reviewer_id": "gemini_external_reviewer_01",
+      "reviewer_configuration_id": "gemini_external_d12eb748f2274c7c",
+      "reviewer_type": "REAL_EXTERNAL_LLM_REVIEW",
+      "provider": "Google Gemini API",
+      "model_name": "gemini-3.5-flash-lite",
+      "model_version": "gemini-3.5-flash-lite",
+      "request_id": "clientreq_f498084ef5344a119c30b5e601e61401",
+      "response_id": "DRJ3atKgIKf3juMP1dCF4Qs",
+      "batch_id": "panel_b_batch_02",
+      "prompt_version": "external_reviewer_v1",
+      "prompt_sha256": "f7edfaacd2fad67bf21a175ccc5c0a46abb81b669c08928ab78009c0a24624f3",
+      "request_batch_sha256": "5a6a4194fd6d8e2192d0d2491b62e16b4deb2ed124c6c28dd7072e81c408163d",
+      "raw_request_sha256": "4b3445735a90300cc6f452c9e4f4ca4a3872f4b6ebbe66a79fe697ef68c75580",
+      "raw_response_sha256": "a392b5f6040a6328d5bdcfe7d2e7bcd069a6f26ab1cb4216dca02cc9c3ec818a",
+      "response_record_index": 2,
+      "created_at": "2026-08-08T11:25:03.105955+00:00",
+      "response_record_sha256": "9c5b80d53d6b515c31e80358f02387180577df7a605df10b692306a848843614"
+    }
+  ],
+  "created_at": "2026-08-08T11:25:03.105955+00:00"
+}

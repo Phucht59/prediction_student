@@ -52,6 +52,9 @@ def test_context_permutation_preserves_query_action_rows() -> None:
                 "course_progress": 0.35,
                 "assessment_progress": 0.4,
                 "assessments_due": 1,
+                "missing_assessment_count": 0,
+                "due_soon_count": 1,
+                "completion_rate": 0.4,
                 "time_to_deadline_days": 7,
                 "inactivity_streak": 3,
                 "active_day_rate": 0.4,
@@ -59,6 +62,9 @@ def test_context_permutation_preserves_query_action_rows() -> None:
                 "regularity_score": 0.5,
                 "content_coverage": 0.6,
                 "quiz_activity": 0.3,
+                "vle_available": True,
+                "study_material_available": True,
+                "quiz_available": True,
                 "relevance": 2,
             }
             rows.append(row)

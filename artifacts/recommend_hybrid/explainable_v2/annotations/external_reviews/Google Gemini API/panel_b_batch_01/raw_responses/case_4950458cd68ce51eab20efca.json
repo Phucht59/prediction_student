@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"QUIZ_RETRIEVAL_PRACTICE\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"quiz_activity\",\n        \"quiz_available\"\n      ],\n      \"rationale\": \"Quiz activity is observed at 0.167 and quizzes are available, supporting retrieval practice.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"ASSESSMENT_COMPLETION\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"assessments_due\",\n        \"due_soon_count\",\n        \"missing_assessment_count\",\n        \"completion_rate\"\n      ],\n      \"rationale\": \"There are 3 assessments due and 2 due soon with a completion rate of 1.0 and 0 missing assessments.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"RECOVER_ENGAGEMENT\",\n      \"relevance_score\": 1,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"active_day_rate\"\n      ],\n      \"rationale\": \"Active day rate is low at 0.194, though the risk band is low and inactivity streak is zero.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"STUDY_REGULARITY\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"regularity_score\"\n      ],\n      \"rationale\": \"Regularity score is 0.688, providing a basis to encourage consistent study habits.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIPdsc4F8DNBTvQPzn1Z3tjUCOAK2mCESq4E2fjnqr/fm6CxsDkQVnx2qFPy5kU"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 644,
+    "candidatesTokenCount": 475,
+    "totalTokenCount": 1119,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 644
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "6hB3avm9BcLnqfkP06L3mAI"
+}

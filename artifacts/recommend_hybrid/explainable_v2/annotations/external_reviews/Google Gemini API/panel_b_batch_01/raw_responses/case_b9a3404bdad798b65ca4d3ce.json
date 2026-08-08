@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"QUIZ_RETRIEVAL_PRACTICE\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\"quiz_available\", \"quiz_activity\"],\n      \"rationale\": \"Quiz availability is true and quiz activity is observed at 0.33, making retrieval practice relevant.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"RECOVER_ENGAGEMENT\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\"active_day_rate\", \"inactivity_streak\"],\n      \"rationale\": \"Active day rate is low at 0.05 and an inactivity streak of 4 days is observed.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"STUDY_REGULARITY\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\"regularity_score\", \"active_day_rate\"],\n      \"rationale\": \"Regularity score is 0.34 and active day rate is very low at 0.05, supporting study regularity support.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"TARGETED_CONTENT_REVIEW\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\"content_coverage\", \"study_material_available\"],\n      \"rationale\": \"Content coverage is limited to 0.33 while study material is available.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIPtREOJECIb+yqNdIzWKmXtP4WdtaCOdJ10mUXQ7aOHnY9ZKtqFhE3KpHnnbPR"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 644,
+    "candidatesTokenCount": 439,
+    "totalTokenCount": 1083,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 644
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "LBF3av6fJP75juMP97-k4Ak"
+}

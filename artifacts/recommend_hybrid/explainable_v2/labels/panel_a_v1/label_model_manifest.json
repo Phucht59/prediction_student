@@ -2,8 +2,12 @@
   "action_row_count": 1500,
   "cardinality": 4,
   "case_count": 300,
+  "case_lineage_sha256": "5a804a74da464df22fe3a569156af6fcd9110ecc3ee81ee1348c9310ea4fc137",
+  "case_lineage_source": "PINNED_PRIOR_LABEL_CASE_LINEAGE",
   "correlation_audit_sha256": "f43bbb1a486b6b2461bf8e4a9f1f0539424f61a32934322577c600cf2ddd0f13",
   "eligible_action_row_count": 1117,
+  "eligible_insufficient_support_row_count": 1,
+  "eligible_retained_row_count": 1116,
   "external_review_key_count": 1117,
   "external_review_record_count": 1117,
   "fit_protocol": "OUTER_FOLD_TRAIN_ONLY",
@@ -67,10 +71,12 @@
     }
   ],
   "frozen_panel_a_sha256": "4a4871426880bdcd1257dc15c29a36c23de34481f07be68d8e5095dc20efefb9",
-  "labels_sha256": "985ea382ab62720a4e311df73c73efa78fdd628c49e89fe23f5729e70dd24784",
+  "insufficient_support_row_count": 1,
+  "labels_sha256": "299e9ae94eec71b60781edaad3f5533d5bf7df7f989a71147481c305bc477bde",
   "mean_confidence": 0.870828543119707,
   "mean_entropy": 0.35416148835886146,
   "mean_expected_relevance": 1.4909288533971048,
+  "minimum_independent_source_families": 2,
   "outer_folds": [
     0,
     1,
@@ -78,6 +84,7 @@
   ],
   "panel": "A",
   "panel_b_touched": false,
+  "retained_row_count": 1499,
   "runtime_authorized": false,
   "schema_version": "panel_a_snorkel_oof_v4",
   "scientific_constraints": [
@@ -86,6 +93,7 @@
     "Each fold model is fit on Panel A rows outside the held-out outer fold.",
     "No fallback or fabricated metric is permitted on fitting failure.",
     "External Gemini reviews are one provenance-preserving source, not three synthetic reviewers.",
+    "All OOF probabilities are retained for audit, but rows with fewer than two independent source families are not supervised targets.",
     "RUNTIME_AUTHORIZED remains FALSE."
   ],
   "source_family_count_distribution": {

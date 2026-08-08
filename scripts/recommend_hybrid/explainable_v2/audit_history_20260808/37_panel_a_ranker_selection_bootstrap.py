@@ -113,7 +113,10 @@ def _crossfit_isotonic(frame: pd.DataFrame) -> pd.Series:
     folds = sorted(int(v) for v in frame["outer_fold"].unique())
 
     for hold_fold in folds:
-        train = frame[frame["outer_fold"].astype(int) != hold_fold]
+        train = frame[
+            (frame["outer_fold"].astype(int) != hold_fold)
+            & frame["retained_for_training"].astype(bool)
+        ]
         hold = frame[frame["outer_fold"].astype(int) == hold_fold]
 
         for action in sorted(frame["action_id"].unique()):
@@ -314,9 +317,16 @@ def main() -> int:
     )
     eligible["isotonic_score_01"] = _crossfit_isotonic(eligible)
 
-    raw_contrib = _query_contributions(eligible, "raw_score_01")
+    complete_queries = eligible.groupby("query_id")[
+        "retained_for_training"
+    ].all()
+    evaluation = eligible[
+        eligible["query_id"].isin(complete_queries[complete_queries].index)
+    ].copy()
+
+    raw_contrib = _query_contributions(evaluation, "raw_score_01")
     iso_contrib = _query_contributions(
-        eligible,
+        evaluation,
         "isotonic_score_01",
     )
     raw_metrics = _aggregate(raw_contrib)
@@ -358,6 +368,12 @@ def main() -> int:
         "runtime_authorized": False,
         "final_metrics_claimed": False,
         "development_only": True,
+        "retained_calibration_rows": int(
+            eligible["retained_for_training"].sum()
+        ),
+        "excluded_incomplete_query_count": int(
+            eligible["query_id"].nunique() - evaluation["query_id"].nunique()
+        ),
         "feature_schema": list(train_features),
         "feature_count": len(train_features),
         "seed_disagreement_used_by_ebm": False,
@@ -409,6 +425,7 @@ def main() -> int:
             "action_id",
             "expected_relevance",
             "eligible",
+            "retained_for_training",
             "raw_score_01",
             "isotonic_score_01",
         ]
@@ -419,7 +436,7 @@ def main() -> int:
     )
 
     print("=== PANEL-A RANKER SELECTION WITH PAIRED BOOTSTRAP ===")
-    print("PANEL_A_CASES=300")
+    print(f"PANEL_A_DEVELOPMENT_EVALUATION_CASES={evaluation['query_id'].nunique()}")
     print("ELIGIBLE_ACTION_ROWS=1117")
     print("FEATURE_SCHEMA_MATCH=TRUE")
     print("FEATURE_COUNT=16")

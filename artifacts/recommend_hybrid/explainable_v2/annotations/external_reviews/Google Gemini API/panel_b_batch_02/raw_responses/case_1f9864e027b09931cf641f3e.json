@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"QUIZ_RETRIEVAL_PRACTICE\",\n      \"relevance_score\": 0,\n      \"abstain\": false,\n      \"evidence_ids\": [\"quiz_activity\", \"quiz_available\"],\n      \"rationale\": \"Quiz activity is currently at 0.0 despite quizzes being available, making retrieval practice unsuitable at this stage.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"RECOVER_ENGAGEMENT\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\"active_day_rate\", \"inactivity_streak\"],\n      \"rationale\": \"Active day rate is extremely low at 0.083 and an inactivity streak of 3.0 days is present, directly showing an engagement gap.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"STUDY_REGULARITY\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\"regularity_score\"],\n      \"rationale\": \"Regularity score is 0.452, indicating irregular study habits that support action.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"TARGETED_CONTENT_REVIEW\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\"content_coverage\"],\n      \"rationale\": \"Content coverage is at 0.444, showing that a significant portion of content remains unreviewed.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIPK0aV1wPTMJC34BCiXhr5OZmd+lrj9r6cpQg4HWYi0HbXiID3ATVNOEGPABk/"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 631,
+    "candidatesTokenCount": 433,
+    "totalTokenCount": 1064,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 631
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "qRF3atruNoicjuMPxuH4-A8"
+}

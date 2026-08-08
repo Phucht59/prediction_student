@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"QUIZ_RETRIEVAL_PRACTICE\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"quiz_available\",\n        \"quiz_activity\"\n      ],\n      \"rationale\": \"Quiz retrieval practice is available and supported by observed quiz activity of 0.33.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"STUDY_REGULARITY\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"inactivity_streak\",\n        \"study_material_available\"\n      ],\n      \"rationale\": \"Study material is available and the student shows an inactivity streak of 5.0 days.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIP29mAU81Cp84/bbOy1/eU4u2E/awmge8XoNbpVozl0V6nqvSyZ7HKcPdZSKXn"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 612,
+    "candidatesTokenCount": 236,
+    "totalTokenCount": 848,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 612
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "8RB3aqLEFb7djuMPkMf78A8"
+}

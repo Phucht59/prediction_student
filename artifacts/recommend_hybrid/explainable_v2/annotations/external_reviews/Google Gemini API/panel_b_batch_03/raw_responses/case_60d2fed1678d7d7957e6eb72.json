@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"RECOVER_ENGAGEMENT\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"inactivity_streak\",\n        \"active_day_rate\"\n      ],\n      \"rationale\": \"The student has a high inactivity streak of 23.0 days and a very low active day rate of 0.073, directly supporting engagement recovery.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"STUDY_REGULARITY\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"regularity_score\"\n      ],\n      \"rationale\": \"The student has a regularity score of 0.343, indicating irregular study habits that support a regularity-focused action.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"TARGETED_CONTENT_REVIEW\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"content_coverage\"\n      ],\n      \"rationale\": \"The student's content coverage is at 0.333, indicating that targeted content review is relevant for the remaining material.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIP8+ZqAYv+CD+qK0qjgYn3T5gDUD7g90xtnJsWRj7mB1AGMMproDwDdIwv/qUE"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 632,
+    "candidatesTokenCount": 359,
+    "totalTokenCount": 991,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 632
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "HBJ3arqABpmv4-EPo92Z8Qk"
+}

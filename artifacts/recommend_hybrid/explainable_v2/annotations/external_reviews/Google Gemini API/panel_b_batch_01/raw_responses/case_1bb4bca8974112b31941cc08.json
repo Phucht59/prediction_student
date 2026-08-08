@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"QUIZ_RETRIEVAL_PRACTICE\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"quiz_activity\",\n        \"quiz_available\"\n      ],\n      \"rationale\": \"The student has zero quiz activity despite quizzes being available, representing a direct behavioral gap addressed by retrieval practice.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"ASSESSMENT_COMPLETION\",\n      \"relevance_score\": 0,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"missing_assessment_count\",\n        \"completion_rate\"\n      ],\n      \"rationale\": \"The student has a missing assessment count of zero and a completion rate of 1.0, rendering assessment completion support unsuitable.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIPx4U4v+THV3JMc4xAzaZ+6mh4gdVOYsSOkFg2O4Y6MM6fOihHJ4xviWTuOo8/"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 600,
+    "candidatesTokenCount": 244,
+    "totalTokenCount": 844,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 600
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "_RB3asTlJvnjjuMP88qOiA4"
+}

@@ -1,0 +1,89 @@
+{
+  "blockers": [
+    "LABEL_SUPPORT_GATE_FAIL rows=1 minimum_source_families=2",
+    "EBM_SCORE_CONTRACT_MISMATCH_TRAINING_0_3_VS_PROTOCOL_0_1",
+    "SEED_DISAGREEMENT_MISSINGNESS_IS_ZERO_IMPUTED_IN_CANDIDATE_BUILDER",
+    "ROUTER_STATUS_CONTRACT_NOT_FINAL current=NO_ACTION,MONITOR,RECOMMEND,HUMAN_REVIEW",
+    "FEASIBILITY_POLICY_DIVERGENCE_RUNTIME_ONLY_FIELDS=assessment_window_open,knowledge_gap_evidence,recent_activity_trend,time_to_deadline_days",
+    "PANEL_A_RELEASE_GATES_CURRENTLY_NOT_PASS"
+  ],
+  "branch": "Module_recomend",
+  "checks": {
+    "branch_correct": true,
+    "candidate_builder_zero_imputes_seed_disagreement": true,
+    "config_score_range_0_1": true,
+    "family_count_recompute_matches_artifact": true,
+    "head_is_known_checkpoint": true,
+    "label_rows_1500": true,
+    "minimum_two_source_family_gate_currently_satisfied": false,
+    "panel_a_300_cases": true,
+    "panel_b_untouched": true,
+    "release_gate_currently_passes": false,
+    "route_status_contract_already_final": false,
+    "runtime_authorized_false": true,
+    "runtime_feasibility_uses_only_frozen_annotation_policy_fields": false,
+    "runtime_ranker_currently_uses_normalized_target": true,
+    "training_runner_currently_uses_0_3_target": true,
+    "worktree_clean": true
+  },
+  "current_route_statuses": [
+    "NO_ACTION",
+    "MONITOR",
+    "RECOMMEND",
+    "HUMAN_REVIEW"
+  ],
+  "expected_checkpoint": "a6d19ecffcab3b61adfe8912b890ce0a3fa6b85e",
+  "expected_final_route_statuses": [
+    "HUMAN_REVIEW",
+    "INSUFFICIENT_EVIDENCE",
+    "NO_FEASIBLE_ACTION",
+    "RECOMMEND"
+  ],
+  "finalization_ready_without_remediation": false,
+  "head": "a6d19ecffcab3b61adfe8912b890ce0a3fa6b85e",
+  "panel_a": {
+    "cases": 300,
+    "eligible_rows": 1117,
+    "family_count_distribution": {
+      "1": 1,
+      "2": 1499
+    },
+    "rows": 1500,
+    "support_violation_count": 1,
+    "support_violations": [
+      {
+        "action_id": "RECOVER_ENGAGEMENT",
+        "active_families": [
+          "LLM_EXPERT"
+        ],
+        "active_sources": [
+          "REAL_EXTERNAL_GEMINI_REVIEW_V4"
+        ],
+        "case_id": "case_3bed45903f5da99df23a2022",
+        "eligible": true,
+        "expected_relevance": 2.838797558732725,
+        "label_status": "OOF_PANEL_A_SILVER_LABEL",
+        "outer_fold": 0.0,
+        "query_id": "414696::GGG::2014B::EARLY_20",
+        "stage": "EARLY_20"
+      }
+    ]
+  },
+  "panel_b_touched": false,
+  "ranker_freeze": {
+    "ranker_calibration": "NONE_RAW_EBM_SELECTED",
+    "release_status": "NOT_YET_RELEASED",
+    "selected_config_id": "a70599afad40"
+  },
+  "release_gate_status": "FAIL",
+  "runtime_authorized": false,
+  "runtime_only_feasibility_fields": [
+    "assessment_window_open",
+    "knowledge_gap_evidence",
+    "recent_activity_trend",
+    "time_to_deadline_days"
+  ],
+  "schema_version": "recommend_v2_finalization_preflight_v1",
+  "scope": "READ_ONLY_PRE_MUTATION_AUDIT",
+  "worktree_clean": true
+}

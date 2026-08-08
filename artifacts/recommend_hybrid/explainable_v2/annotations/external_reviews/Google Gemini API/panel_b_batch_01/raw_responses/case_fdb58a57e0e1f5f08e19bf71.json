@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"QUIZ_RETRIEVAL_PRACTICE\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\"quiz_activity\", \"quiz_available\"],\n      \"rationale\": \"Quiz activity is currently zero despite quizzes being available, directly addressing a clear behavioral gap in retrieval practice.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"ASSESSMENT_COMPLETION\",\n      \"relevance_score\": 0,\n      \"abstain\": false,\n      \"evidence_ids\": [\"missing_assessment_count\", \"assessments_due\"],\n      \"rationale\": \"Missing assessment count is 0 and assessments due is 0, so assessment completion actions are unsupported by evidence.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"RECOVER_ENGAGEMENT\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\"inactivity_streak\", \"active_day_rate\"],\n      \"rationale\": \"An inactivity streak of 7.0 days and a low active day rate of 0.10 indicate a clear engagement gap.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"STUDY_REGULARITY\",\n      \"relevance_score\": 1,\n      \"abstain\": false,\n      \"evidence_ids\": [\"regularity_score\"],\n      \"rationale\": \"Regularity score is provided at 0.64, presenting a generic context rather than a severe behavioral gap.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIPeGbSkrvwRRscKp2KLbFbYbecJbjdMT0SQdqzvzMSS9rdt44I2nt/00EB+SRY"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 629,
+    "candidatesTokenCount": 438,
+    "totalTokenCount": 1067,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 629
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "KhF3avKqC_7Y4-EP7P7P6Ac"
+}

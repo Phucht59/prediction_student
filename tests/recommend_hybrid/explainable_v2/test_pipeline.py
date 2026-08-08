@@ -44,6 +44,8 @@ def features(**overrides) -> RecommendationFeatures:
         "course_progress": 0.35,
         "assessment_progress": 0.30,
         "assessments_due": 2,
+        "missing_assessment_count": 1,
+        "due_soon_count": 0,
         "assessment_window_open": True,
         "time_to_deadline_days": 10,
         "inactivity_streak": 8,
@@ -83,19 +85,28 @@ def complete_scores() -> dict[CanonicalAction, float]:
     }
 
 
-def test_low_risk_routes_to_no_action() -> None:
+def test_public_route_status_contract_is_exact() -> None:
+    assert {status.value for status in RouteStatus} == {
+        "RECOMMEND",
+        "INSUFFICIENT_EVIDENCE",
+        "HUMAN_REVIEW",
+        "NO_FEASIBLE_ACTION",
+    }
+
+
+def test_low_risk_routes_to_insufficient_evidence() -> None:
     decision = pipeline(complete_scores()).recommend(features(risk_probability=0.20))
     assert decision.risk_band is RiskBand.LOW
-    assert decision.route is RouteStatus.NO_ACTION
+    assert decision.route is RouteStatus.INSUFFICIENT_EVIDENCE
     assert decision.ranked_actions == ()
 
 
-def test_uncertain_high_probability_routes_to_monitor() -> None:
+def test_uncertain_high_probability_routes_to_human_review() -> None:
     decision = pipeline(complete_scores()).recommend(
         features(risk_probability=0.85, hybrid_uncertainty=0.60)
     )
     assert decision.risk_band is RiskBand.BORDERLINE
-    assert decision.route is RouteStatus.MONITOR
+    assert decision.route is RouteStatus.HUMAN_REVIEW
 
 
 def test_high_risk_with_clear_scores_recommends_top_three() -> None:
@@ -117,10 +128,12 @@ def test_small_top_action_margin_fails_closed() -> None:
     assert "TOP_ACTION_MARGIN_TOO_SMALL" in decision.reason_codes
 
 
-def test_high_risk_without_any_feasible_action_routes_to_human_review() -> None:
+def test_high_risk_without_any_feasible_action_uses_exact_status() -> None:
     decision = pipeline(complete_scores()).recommend(
         features(
             assessments_due=0,
+            missing_assessment_count=0,
+            due_soon_count=0,
             assessment_window_open=False,
             time_to_deadline_days=0,
             vle_access_available=False,
@@ -134,7 +147,33 @@ def test_high_risk_without_any_feasible_action_routes_to_human_review() -> None:
             quiz_activity=None,
         )
     )
-    assert decision.route is RouteStatus.HUMAN_REVIEW
+    assert decision.route is RouteStatus.NO_FEASIBLE_ACTION
+    assert decision.ranked_actions == ()
+
+
+def test_unavailable_seed_disagreement_does_not_trigger_threshold() -> None:
+    decision = pipeline(complete_scores()).recommend(
+        features(seed_disagreement=None)
+    )
+    assert decision.route is RouteStatus.RECOMMEND
+
+
+def test_unavailable_seed_threshold_is_a_valid_frozen_contract() -> None:
+    risk, safety = thresholds()
+    safety = SafetyThresholds(
+        **{**safety.__dict__, "maximum_seed_disagreement": None}
+    )
+    decision = ExplainableRecommendationPipeline(
+        FixedActionRanker(complete_scores()), risk, safety
+    ).recommend(features(seed_disagreement=None))
+    assert decision.route is RouteStatus.RECOMMEND
+
+
+def test_high_risk_low_relevance_is_insufficient_evidence() -> None:
+    decision = pipeline(
+        {action: 0.2 for action in CanonicalAction}
+    ).recommend(features())
+    assert decision.route is RouteStatus.INSUFFICIENT_EVIDENCE
     assert decision.ranked_actions == ()
 
 

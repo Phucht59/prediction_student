@@ -1,4 +1,5 @@
 from pathlib import Path
+from collections import deque
 import json
 
 from scripts.recommend_hybrid.explainable_v2 import dispatch_gemini_panel_a_batch01_v3 as dispatcher
@@ -144,6 +145,29 @@ def test_quarantine_is_not_resume_source():
 
 def test_retry_after_seconds_numeric():
     assert dispatcher.retry_after_seconds({"Retry-After": "7"}) == 7.0
+
+
+def test_rolling_rate_limit_caps_all_http_attempts_below_13_per_minute():
+    timestamps = deque([0.0] * dispatcher.MAX_REQUESTS_PER_MINUTE)
+    clock = [0.0]
+    sleeps = []
+
+    def sleep_and_advance(delay):
+        sleeps.append(delay)
+        clock[0] += delay
+
+    dispatcher.wait_for_rate_limit_slot(
+        timestamps=timestamps,
+        monotonic=lambda: clock[0],
+        sleeper=sleep_and_advance,
+    )
+
+    assert dispatcher.MAX_REQUESTS_PER_MINUTE == 12
+    assert sleeps == [
+        dispatcher.RATE_LIMIT_WINDOW_SECONDS
+        + dispatcher.RATE_LIMIT_SAFETY_SECONDS
+    ]
+    assert len(timestamps) == 1
 
 
 def test_safe_response_headers_are_allowlisted_only():

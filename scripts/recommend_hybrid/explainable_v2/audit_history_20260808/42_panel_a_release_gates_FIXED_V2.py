@@ -17,9 +17,9 @@ BOOTSTRAP_ITERATIONS = 5000
 BOOTSTRAP_SEED = 2026
 SOURCE_DEPENDENCY_MAX_ABS_NDCG_DROP = 0.05
 EXPECTED_CASES = 300
+EXPECTED_DEVELOPMENT_CASES = 299
 EXPECTED_ROWS = 1500
 EXPECTED_ELIGIBLE = 1117
-EXPECTED_FULL_NDCG = 0.9722541839577713
 EXPECTED_CONFIG_ID = "a70599afad40"
 
 META_COLS = ("query_id", "case_id", "outer_fold", "stage", "action_id")
@@ -140,13 +140,13 @@ def paired_bootstrap_delta(
     right: pd.DataFrame,
     column: str = "ndcg_at_3",
 ) -> dict:
-    l = left.set_index("query_id")
-    r = right.set_index("query_id")
-    ids = sorted(set(l.index) & set(r.index))
-    if len(ids) != EXPECTED_CASES:
+    left_indexed = left.set_index("query_id")
+    right_indexed = right.set_index("query_id")
+    ids = sorted(set(left_indexed.index) & set(right_indexed.index))
+    if len(ids) != EXPECTED_DEVELOPMENT_CASES:
         raise RuntimeError(f"BOOTSTRAP_QUERY_COUNT={len(ids)}")
-    a = l.loc[ids, column].to_numpy(dtype=float)
-    b = r.loc[ids, column].to_numpy(dtype=float)
+    a = left_indexed.loc[ids, column].to_numpy(dtype=float)
+    b = right_indexed.loc[ids, column].to_numpy(dtype=float)
     diff = a - b
     rng = np.random.default_rng(BOOTSTRAP_SEED)
     n = len(diff)
@@ -168,7 +168,10 @@ def build_action_stage_baseline(data: pd.DataFrame) -> np.ndarray:
     output = np.full(len(data), np.nan, dtype=float)
     folds = sorted(int(v) for v in data["outer_fold"].unique())
     for fold in folds:
-        train = data[data["outer_fold"].astype(int) != fold]
+        train = data[
+            (data["outer_fold"].astype(int) != fold)
+            & data["retained_for_training"].astype(bool)
+        ]
         hold = data[data["outer_fold"].astype(int) == fold]
         pair_mean = (
             train.groupby(["action_id", "stage"])["expected_relevance"]
@@ -256,10 +259,11 @@ def build_context_permutation_scores(base, data: pd.DataFrame) -> tuple[np.ndarr
         X = base._prepare_X(action_df)
         y = action_df["expected_relevance"].to_numpy(dtype=float)
         fold_values = action_df["outer_fold"].astype(int).to_numpy()
+        retained = action_df["retained_for_training"].astype(bool).to_numpy()
 
         for fold in folds:
-            train = fold_values != fold
-            hold = ~train
+            hold = fold_values == fold
+            train = (~hold) & retained
             model = make_ebm(base.EBM_PARAMS, action_index, fold)
             model.fit(X.loc[train], y[train])
 
@@ -373,7 +377,7 @@ def main() -> int:
 
     freeze_dir = (
         root
-        / "artifacts/recommend_hybrid/explainable_v2/frozen/ranker_panel_a_v1"
+        / "artifacts/recommend_hybrid/explainable_v2/frozen/ranker_panel_a_v2"
     )
     freeze_manifest_path = freeze_dir / "RANKER_PANEL_A_FREEZE_MANIFEST.json"
     votes_path = (
@@ -468,13 +472,19 @@ def main() -> int:
     )
     data["action_stage_score"] = build_action_stage_baseline(data)
 
-    eligible = data[data["eligible"].astype(bool)].copy()
+    complete_queries = data.groupby("query_id")["retained_for_training"].all()
+    development_queries = complete_queries[complete_queries].index
+    development = data[data["query_id"].isin(development_queries)].copy()
+    if development["query_id"].nunique() != EXPECTED_DEVELOPMENT_CASES:
+        raise RuntimeError("DEVELOPMENT_QUERY_RETENTION_COUNT_MISMATCH")
+    eligible = development[development["eligible"].astype(bool)].copy()
     full_contrib = query_contributions(eligible, "full_score")
     baseline_contrib = query_contributions(eligible, "action_stage_score")
     full_metrics = aggregate(full_contrib)
     baseline_metrics = aggregate(baseline_contrib)
 
-    if abs(full_metrics["ndcg_at_3"] - EXPECTED_FULL_NDCG) > 1e-12:
+    frozen_ndcg = float(freeze["development_operational_ndcg_at_3"])
+    if abs(full_metrics["ndcg_at_3"] - frozen_ndcg) > 1e-12:
         raise RuntimeError(
             "FROZEN_OPERATIONAL_NDCG_REPRODUCIBILITY_FAILURE="
             f"{full_metrics['ndcg_at_3']}"
@@ -506,7 +516,10 @@ def main() -> int:
         data,
     )
     data["context_permuted_score"] = permuted_scores
-    perm_eligible = data[data["eligible"].astype(bool)].copy()
+    perm_eligible = data[
+        data["query_id"].isin(development_queries)
+        & data["eligible"].astype(bool)
+    ].copy()
     perm_contrib = query_contributions(
         perm_eligible,
         "context_permuted_score",
@@ -554,7 +567,7 @@ def main() -> int:
         per_stage[str(stage)] = aggregate(c)
 
     per_action = {}
-    for action, group in data.groupby("action_id", sort=True):
+    for action, group in development.groupby("action_id", sort=True):
         err = (
             group["ebm_oof_score"].to_numpy(dtype=float)
             - group["expected_relevance"].to_numpy(dtype=float)
@@ -616,27 +629,30 @@ def main() -> int:
         family_map,
     )
     data["active_source_family_count"] = family_counts
-    eligible_family_violations = int(
+    retained_family_violations = int(
         (
-            data.loc[data["eligible"].astype(bool), "active_source_family_count"]
+            data.loc[
+                data["retained_for_training"].astype(bool),
+                "active_source_family_count",
+            ]
             < 2
         ).sum()
     )
-    family_support_gate = eligible_family_violations == 0
+    family_support_gate = retained_family_violations == 0
 
     print("=== RELEASE GATES: LABEL SOURCE SUPPORT ===")
     print(
-        "ELIGIBLE_ROWS_WITH_LT2_SOURCE_FAMILIES="
-        f"{eligible_family_violations}"
+        "RETAINED_ROWS_WITH_LT2_SOURCE_FAMILIES="
+        f"{retained_family_violations}"
     )
     print(
-        "ELIGIBLE_MINIMUM_2_SOURCE_FAMILIES="
+        "RETAINED_MINIMUM_2_SOURCE_FAMILIES="
         + str(family_support_gate).upper()
     )
 
     violating_rows = []
     violation_mask = (
-        data["eligible"].astype(bool)
+        data["retained_for_training"].astype(bool)
         & (data["active_source_family_count"] < 2)
     )
     if violation_mask.any():
@@ -681,7 +697,10 @@ def main() -> int:
         )
         temp = data.copy()
         temp["loo_expected_relevance"] = expected
-        temp = temp[temp["eligible"].astype(bool)].copy()
+        temp = temp[
+            temp["query_id"].isin(development_queries)
+            & temp["eligible"].astype(bool)
+        ].copy()
         contrib = query_contributions(
             temp,
             "full_score",
@@ -752,7 +771,10 @@ def main() -> int:
         )
         temp = data.copy()
         temp["loo_expected_relevance"] = expected
-        temp = temp[temp["eligible"].astype(bool)].copy()
+        temp = temp[
+            temp["query_id"].isin(development_queries)
+            & temp["eligible"].astype(bool)
+        ].copy()
         contrib = query_contributions(
             temp,
             "full_score",
@@ -794,7 +816,7 @@ def main() -> int:
         "full_minus_action_stage_only_ci_excludes_zero": baseline_gate,
         "context_permutation_degrades_metric": context_gate,
         "invalid_action_rate_zero": invalid_gate,
-        "eligible_minimum_two_source_families": family_support_gate,
+        "retained_minimum_two_source_families": family_support_gate,
         "no_single_label_source_dependency": source_dependency_gate,
         "panel_b_untouched": True,
         "runtime_authorized_false": True,
@@ -826,8 +848,8 @@ def main() -> int:
         "invalid_action_rate": invalid_action_rate,
         "per_stage_metrics": per_stage,
         "per_action_metrics": per_action,
-        "eligible_rows_with_lt2_active_source_families": (
-            eligible_family_violations
+        "retained_rows_with_lt2_active_source_families": (
+            retained_family_violations
         ),
         "source_family_violating_rows": violating_rows,
         "leave_one_source_out": loo_source_results,

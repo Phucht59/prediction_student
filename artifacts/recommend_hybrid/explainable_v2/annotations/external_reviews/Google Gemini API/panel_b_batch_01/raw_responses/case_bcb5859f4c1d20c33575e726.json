@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"QUIZ_RETRIEVAL_PRACTICE\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\"quiz_activity\", \"quiz_available\"],\n      \"rationale\": \"Evidence shows zero quiz activity despite quizzes being available, representing a direct behavioral gap.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"ASSESSMENT_COMPLETION\",\n      \"relevance_score\": 1,\n      \"abstain\": false,\n      \"evidence_ids\": [\"assessments_due\", \"missing_assessment_count\"],\n      \"rationale\": \"There is an assessment due soon, but missing assessment count is zero and completion rate is 1.0, making this generic.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"STUDY_REGULARITY\",\n      \"relevance_score\": 0,\n      \"abstain\": false,\n      \"evidence_ids\": [\"regularity_score\", \"active_day_rate\", \"inactivity_streak\"],\n      \"rationale\": \"Regularity score is high (0.904), active day rate is strong (0.72), and inactivity streak is zero, so this action is contradicted.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIP+dgRo0HjBAnYu/jC60AQ3f1E4rOLulyEp0VcR02S0dZCB4gh0ctUryp1HKBO"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 608,
+    "candidatesTokenCount": 351,
+    "totalTokenCount": 959,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 608
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "ARF3at_7LN7FjuMPoLCOmQE"
+}

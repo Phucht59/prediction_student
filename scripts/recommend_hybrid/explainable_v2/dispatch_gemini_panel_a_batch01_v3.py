@@ -10,6 +10,7 @@ Default mode is dry-run. Use --execute to make real API calls.
 from __future__ import annotations
 
 import argparse
+from collections import deque
 import email.utils
 import json
 import os
@@ -42,6 +43,8 @@ PROVIDER = "Google Gemini API"
 PROMPT_VERSION = "external_reviewer_v1"
 DEFAULT_MODEL = "gemini-3.6-flash"
 BATCH_ID = "panel_a_batch_01"
+EXPECTED_PANEL_ID = "PANEL_A"
+EXPECTED_PANEL_CASE_COUNT = 300
 MODEL_MIXING_POLICY = "EXPLICIT_GEMINI_3_5_FLASH_FAMILY_MIXED_REVIEWERS"
 ALLOWED_REVIEW_MODELS = frozenset({"gemini-3.5-flash", "gemini-3.5-flash-lite"})
 EXPECTED_CASE_EXPORT_CLASSIFICATION = "VERIFIED_OULAD_QUERY_LEVEL_LINEAGE_V4"
@@ -63,6 +66,10 @@ SAFE_RESPONSE_HEADER_NAMES = frozenset(
         "x-cloud-trace-context",
     }
 )
+MAX_REQUESTS_PER_MINUTE = 12
+RATE_LIMIT_WINDOW_SECONDS = 60.0
+RATE_LIMIT_SAFETY_SECONDS = 0.25
+_REQUEST_TIMESTAMPS: deque[float] = deque()
 
 PROMPT_PATH = (
     ROOT
@@ -110,8 +117,12 @@ def validate_v4_source_gate(cases: list[dict[str, Any]]) -> None:
         )
     if manifest.get("query_level_evidence_invariant_across_actions") is not True:
         raise RuntimeError("Query-level evidence invariance is not verified")
-    if int(manifest.get("panel_a_case_count", -1)) != 300:
-        raise RuntimeError("V4 case manifest Panel A count is not 300")
+    panel_count_field = f"{EXPECTED_PANEL_ID.lower()}_case_count"
+    if int(manifest.get(panel_count_field, -1)) != EXPECTED_PANEL_CASE_COUNT:
+        raise RuntimeError(
+            f"V4 case manifest {panel_count_field} is not "
+            f"{EXPECTED_PANEL_CASE_COUNT}"
+        )
     if manifest.get("zero_student_overlap") is not True:
         raise RuntimeError("V4 Panel A/B student overlap gate failed")
     if manifest.get("zero_query_overlap") is not True:
@@ -216,6 +227,31 @@ def retry_after_seconds(headers: Any) -> float | None:
             return None
 
 
+def wait_for_rate_limit_slot(
+    *,
+    timestamps: deque[float] | None = None,
+    monotonic=time.monotonic,
+    sleeper=time.sleep,
+) -> None:
+    """Enforce a conservative rolling limit for every HTTP attempt."""
+
+    observed = _REQUEST_TIMESTAMPS if timestamps is None else timestamps
+    while True:
+        now = monotonic()
+        while observed and now - observed[0] >= RATE_LIMIT_WINDOW_SECONDS:
+            observed.popleft()
+        if len(observed) < MAX_REQUESTS_PER_MINUTE:
+            observed.append(now)
+            return
+        delay = (
+            RATE_LIMIT_WINDOW_SECONDS
+            - (now - observed[0])
+            + RATE_LIMIT_SAFETY_SECONDS
+        )
+        print(f"RATE_LIMIT_WAIT_SECONDS={delay:.2f}")
+        sleeper(max(delay, RATE_LIMIT_SAFETY_SECONDS))
+
+
 def locked_model_versions_from_states(
     cases: list[dict[str, Any]],
 ) -> dict[str, str]:
@@ -308,9 +344,10 @@ def load_cases() -> list[dict[str, Any]]:
         case = json.loads(line)
         if not isinstance(case, dict):
             raise RuntimeError(f"Batch line {line_number} is not a JSON object")
-        if case.get("panel_id") != "PANEL_A":
+        if case.get("panel_id") != EXPECTED_PANEL_ID:
             raise RuntimeError(
-                f"Batch line {line_number} is not PANEL_A: {case.get('panel_id')}"
+                f"Batch line {line_number} is not {EXPECTED_PANEL_ID}: "
+                f"{case.get('panel_id')}"
             )
         actions = case.get("candidate_actions")
         if not isinstance(actions, list) or not actions:
@@ -568,6 +605,7 @@ def request_with_retry(
     retryable = {408, 429, 500, 502, 503, 504}
 
     for attempt in range(1, max_attempts + 1):
+        wait_for_rate_limit_slot()
         request = urllib.request.Request(
             endpoint,
             data=raw_request,
@@ -703,7 +741,7 @@ def rebuild_batch_artifacts(
         "model_versions_observed": sorted(model_versions),
         "model_mixing_policy": MODEL_MIXING_POLICY,
         "batch_id": BATCH_ID,
-        "panel_id": "PANEL_A",
+        "panel_id": EXPECTED_PANEL_ID,
         "source_case_count": len(cases),
         "completed_case_count": completed_cases,
         "annotation_record_count": len(normalized_records),
@@ -1036,7 +1074,7 @@ def main() -> int:
     parser.add_argument(
         "--inter-request-delay",
         type=float,
-        default=0.5,
+        default=5.1,
     )
     args = parser.parse_args()
 

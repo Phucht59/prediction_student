@@ -115,6 +115,7 @@ def _load_inputs() -> tuple[pd.DataFrame, pd.DataFrame, dict]:
     required_label = {
         "query_id", "case_id", "outer_fold", "stage", "action_id",
         "expected_relevance", "label_confidence", "label_entropy", "eligible",
+        "independent_source_families", "retained_for_training", "label_status",
     }
     missing = required_label - set(labels.columns)
     if missing:
@@ -131,6 +132,13 @@ def _load_inputs() -> tuple[pd.DataFrame, pd.DataFrame, dict]:
         raise RuntimeError("DUPLICATE_LABEL_QUERY_ACTION")
     if candidates.duplicated(["query_id", "action_id"]).any():
         raise RuntimeError("DUPLICATE_CANDIDATE_QUERY_ACTION")
+    retained = labels["retained_for_training"].astype(bool)
+    if int(retained.sum()) != int(manifest.get("retained_row_count", -1)):
+        raise RuntimeError("LABEL_RETENTION_COUNT_MISMATCH")
+    if (
+        labels.loc[retained, "independent_source_families"].astype(int) < 2
+    ).any():
+        raise RuntimeError("TRAINABLE_LABEL_WITH_INSUFFICIENT_SOURCE_SUPPORT")
 
     cols = ["query_id", "action_id", *FEATURES]
     features = candidates.loc[:, cols].copy()
@@ -179,6 +187,8 @@ def _ndcg_at_k(y_true: np.ndarray, y_score: np.ndarray, k: int = 3) -> float:
 
 
 def _ranking_metrics(oof: pd.DataFrame) -> dict:
+    complete_queries = oof.groupby("query_id")["retained_for_training"].all()
+    oof = oof[oof["query_id"].isin(complete_queries[complete_queries].index)]
     ndcgs = []
     top1_agree = []
     for _, group in oof.groupby("query_id", sort=False):
@@ -211,13 +221,16 @@ def run() -> int:
         action_df = data[data["action_id"] == action].copy().reset_index(drop=True)
         X_all = _prepare_X(action_df)
         y_all = action_df["expected_relevance"].to_numpy(dtype=float)
+        retained = action_df["retained_for_training"].astype(bool).to_numpy()
 
         oof_pred = np.full(len(action_df), np.nan, dtype=float)
         fold_rows = []
 
         for fold in folds:
-            train_mask = action_df["outer_fold"].astype(int).to_numpy() != fold
-            hold_mask = ~train_mask
+            fold_mask = action_df["outer_fold"].astype(int).to_numpy() == fold
+            train_mask = (~fold_mask) & retained
+            hold_mask = fold_mask
+            retained_hold_mask = hold_mask & retained
 
             model = _new_model(2026 + action_index * 100 + fold)
             model.fit(X_all.loc[train_mask], y_all[train_mask])
@@ -229,22 +242,28 @@ def run() -> int:
                 "outer_fold": fold,
                 "train_rows": int(train_mask.sum()),
                 "holdout_rows": int(hold_mask.sum()),
-                "rmse": float(math.sqrt(mean_squared_error(y_all[hold_mask], pred))),
-                "mae": float(mean_absolute_error(y_all[hold_mask], pred)),
+                "retained_holdout_rows": int(retained_hold_mask.sum()),
+                "rmse": float(math.sqrt(mean_squared_error(
+                    y_all[retained_hold_mask], oof_pred[retained_hold_mask]
+                ))),
+                "mae": float(mean_absolute_error(
+                    y_all[retained_hold_mask], oof_pred[retained_hold_mask]
+                )),
             })
 
         if np.isnan(oof_pred).any():
             raise RuntimeError(f"OOF_PREDICTIONS_INCOMPLETE action={action}")
 
         final_model = _new_model(2026 + action_index * 1000 + 99)
-        final_model.fit(X_all, y_all)
+        final_model.fit(X_all.loc[retained], y_all[retained])
 
         model_path = models_dir / f"{action}.joblib"
         joblib.dump(final_model, model_path)
 
         part = action_df[
             ["query_id", "case_id", "outer_fold", "stage", "action_id",
-             "expected_relevance", "label_confidence", "label_entropy", "eligible"]
+             "expected_relevance", "label_confidence", "label_entropy", "eligible",
+             "independent_source_families", "retained_for_training", "label_status"]
         ].copy()
         part["ebm_oof_score"] = oof_pred
         oof_parts.append(part)
@@ -252,8 +271,13 @@ def run() -> int:
         action_reports.append({
             "action_id": action,
             "rows": int(len(action_df)),
-            "oof_rmse": float(math.sqrt(mean_squared_error(y_all, oof_pred))),
-            "oof_mae": float(mean_absolute_error(y_all, oof_pred)),
+            "retained_training_rows": int(retained.sum()),
+            "oof_rmse": float(math.sqrt(mean_squared_error(
+                y_all[retained], oof_pred[retained]
+            ))),
+            "oof_mae": float(mean_absolute_error(
+                y_all[retained], oof_pred[retained]
+            )),
             "fold_metrics": fold_rows,
             "final_model_sha256": _sha256(model_path),
             "final_model_path": str(model_path.relative_to(ROOT)),
@@ -288,8 +312,16 @@ def run() -> int:
             "completion_rate": "retain_native_EBM_missing_bin",
         },
         "hyperparameters": EBM_PARAMS,
-        "training_target": "Snorkel OOF expected_relevance",
-        "training_protocol": "ACTION_SPECIFIC_OUTER_FOLD_OOF_THEN_FINAL_FIT_ON_ALL_PANEL_A",
+        "training_target": "Snorkel OOF ordinal expected_relevance in [0,3]",
+        "native_prediction_scale": "ORDINAL_0_3",
+        "public_score_scale": "NORMALIZED_0_1",
+        "public_score_adapter": "clip(native_prediction / 3, 0, 1)",
+        "normalization_locations": 1,
+        "retained_training_row_count": int(data["retained_for_training"].sum()),
+        "excluded_insufficient_support_row_count": int(
+            (~data["retained_for_training"].astype(bool)).sum()
+        ),
+        "training_protocol": "ACTION_SPECIFIC_OUTER_FOLD_OOF_THEN_FINAL_FIT_ON_RETAINED_PANEL_A_TARGETS",
         "snorkel_manifest_sha256": _sha256(LABEL_MANIFEST_PATH),
         "snorkel_labels_sha256": _sha256(LABEL_PATH),
         "frozen_panel_a_sha256": snorkel_manifest["frozen_panel_a_sha256"],
@@ -302,6 +334,7 @@ def run() -> int:
             "Each action has a distinct ExplainableBoostingRegressor.",
             "Outer-fold OOF predictions are generated without fitting that action model on the held-out fold.",
             "Final action models are fit only after OOF development predictions are complete.",
+            "Rows with fewer than two independent source families are predicted for audit but never used as supervised targets.",
             "RUNTIME_AUTHORIZED remains FALSE.",
         ],
     }

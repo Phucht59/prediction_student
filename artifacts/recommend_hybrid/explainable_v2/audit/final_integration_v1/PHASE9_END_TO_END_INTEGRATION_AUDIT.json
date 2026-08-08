@@ -1,0 +1,90 @@
+{
+  "checks": {
+    "canonical_native_ordinal_scale_0_3": "PASS",
+    "evidence_grounded_explanation": "PASS",
+    "evidence_grounded_learning_plan": "PASS",
+    "five_frozen_ebm_artifacts": "PASS",
+    "four_status_public_contract": "PASS",
+    "frozen_hybrid_authority": "PASS",
+    "frozen_panel_b_invalid_action_rate_zero": "PASS",
+    "hard_feasibility_before_ranking": "PASS",
+    "missing_seed_disagreement_remains_none": "PASS",
+    "no_double_normalization": "PASS",
+    "no_infeasible_action_returned": "PASS",
+    "outcome_leakage_count_zero": "PASS",
+    "pre_cutoff_feature_schema_only": "PASS",
+    "router_uses_frozen_panel_a_thresholds": "PASS",
+    "simulator_model_implied_risk_delta_only": "PASS",
+    "single_public_score_normalization": "PASS"
+  },
+  "eligible_actions": [
+    "ASSESSMENT_COMPLETION",
+    "RECOVER_ENGAGEMENT",
+    "STUDY_REGULARITY",
+    "TARGETED_CONTENT_REVIEW",
+    "QUIZ_RETRIEVAL_PRACTICE"
+  ],
+  "fixture_case_id": "case_04c2266a53cea8377792d2f2",
+  "fixture_route": "RECOMMEND",
+  "lineage": {
+    "development_freeze_sha256": "b9b9b2b99a0ae2b20d0d8e7b8c377792f1ccad9329139676e80bfb01157ff620",
+    "panel_b_final_manifest_sha256": "417a59dc10c3f6df0fa7135cb2570154b168a2f5cd71e599ad1f51b848063220",
+    "panel_b_final_metrics_sha256": "6a5a729e21b6008d041450eaa587289f429d438042bf312a56bd7768d4ed8017",
+    "post_panel_b_ranker_source_sha256": "0377463bd0bdb10e2e56c2256d6ffdaf6b8e05f65aa86e47a39d837416772c79",
+    "pre_engineering_ranker_source_sha256": "86427f48547c0d1400ede8b83c65f1d3d159631bd15a0aecfd3f76a5f513efee",
+    "router_freeze_sha256": "0413c202953fb68163bad6262fcf9637d54a469dd0fa9b439796b0e1bf0f300f"
+  },
+  "panel_b_recomputed": false,
+  "plan_action": "ASSESSMENT_COMPLETION",
+  "plan_observed_evidence": [
+    "completion_rate",
+    "missing_assessment_count",
+    "due_soon_count",
+    "risk_probability",
+    "regularity_score",
+    "inactivity_streak",
+    "course_progress"
+  ],
+  "post_panel_b_change_classification": [
+    {
+      "classification": "SCIENTIFIC_OUTPUT_INVARIANT_ENGINEERING_CHANGE",
+      "files": [
+        "src/recommend_hybrid/explainable_v2/ranker.py",
+        "tests/recommend_hybrid/explainable_v2/test_five_ebm_models_v1.py"
+      ],
+      "reason": "Canonical ordinal clamp makes the documented [0,3] intermediate explicit; public clip(raw/3,0,1), rankings, and frozen metrics are identical."
+    },
+    {
+      "classification": "SCIENTIFIC_OUTPUT_INVARIANT_ENGINEERING_CHANGE",
+      "files": [
+        "scripts/recommend_hybrid/explainable_v2/dispatch_gemini_panel_a_batch01_v3.py",
+        "scripts/recommend_hybrid/explainable_v2/dispatch_gemini_panel_a_batch_v4.py",
+        "scripts/recommend_hybrid/explainable_v2/dispatch_gemini_panel_b_batch_v1.py",
+        "tests/recommend_hybrid/explainable_v2/test_gemini_panel_a_dispatch_v3.py"
+      ],
+      "reason": "Provider rate limiting only; Panel B is frozen and no provider is called again."
+    },
+    {
+      "classification": "SCIENTIFIC_OUTPUT_INVARIANT_ENGINEERING_CHANGE",
+      "files": [
+        "scripts/recommend_hybrid/explainable_v2/run_plausibility_simulator.py",
+        "reports/recommend_hybrid_v2/SCIENTIFIC_CLAIM_BOUNDARIES.md"
+      ],
+      "reason": "Terminology normalized to model-implied risk delta; no numeric output changes."
+    }
+  ],
+  "provider_called": false,
+  "public_score_max": 1.0,
+  "public_score_min": 0.7506037045696862,
+  "ranked_actions": [
+    "ASSESSMENT_COMPLETION",
+    "RECOVER_ENGAGEMENT",
+    "STUDY_REGULARITY"
+  ],
+  "runtime_authorized": false,
+  "schema_version": "phase9_end_to_end_integration_audit_v1",
+  "scientific_outputs_changed": false,
+  "scope": "POST_PANEL_B_OUTPUT_INVARIANT_INTEGRATION_ONLY",
+  "simulator_language": "model-implied risk delta",
+  "status": "PASS"
+}
