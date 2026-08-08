@@ -2,14 +2,18 @@ from __future__ import annotations
 
 import numpy as np
 
-from src.recommend_hybrid.causal.imbalance import (
+from src.recommend_hybrid.imbalance import (
     IMBALANCE_MODES,
     run_frozen_embedding_imbalance_study,
     select_validation_threshold,
 )
 
 
-def _synthetic_split(seed: int, count: int, positive_fraction: float) -> tuple[np.ndarray, np.ndarray]:
+def _synthetic_split(
+    seed: int,
+    count: int,
+    positive_fraction: float,
+) -> tuple[np.ndarray, np.ndarray]:
     rng = np.random.default_rng(seed)
     target = np.zeros(count, dtype=np.int8)
     target[: max(2, int(count * positive_fraction))] = 1
@@ -23,12 +27,13 @@ def _synthetic_split(seed: int, count: int, positive_fraction: float) -> tuple[n
 def test_validation_threshold_is_deterministic() -> None:
     target = np.array([0, 0, 1, 1])
     probability = np.array([0.1, 0.4, 0.6, 0.9])
-    first = select_validation_threshold(target, probability)
-    second = select_validation_threshold(target, probability)
-    assert first == second
+    assert select_validation_threshold(target, probability) == select_validation_threshold(
+        target,
+        probability,
+    )
 
 
-def test_all_imbalance_modes_leave_checkpoint_frozen() -> None:
+def test_all_modes_resample_train_only_and_keep_checkpoint_frozen() -> None:
     train_x, train_y = _synthetic_split(1, 160, 0.15)
     validation_x, validation_y = _synthetic_split(2, 80, 0.20)
     test_x, test_y = _synthetic_split(3, 80, 0.20)
@@ -42,6 +47,7 @@ def test_all_imbalance_modes_leave_checkpoint_frozen() -> None:
         random_state=42,
     )
     assert result["modes"] == list(IMBALANCE_MODES)
+    assert result["canonical_prediction_checkpoint_replaced"] is False
     rows = result["results"]
     assert [row["mode"] for row in rows] == list(IMBALANCE_MODES)
     assert all(row["resampling_scope"] == "TRAIN_EMBEDDINGS_ONLY" for row in rows)

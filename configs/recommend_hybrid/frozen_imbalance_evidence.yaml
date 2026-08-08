@@ -1,0 +1,55 @@
+protocol_id: frozen_hybrid_imbalance_sensitivity_v1
+status: LOCKED_EVIDENCE
+random_state: 20260806
+
+representation:
+  source: frozen_hybrid_embedding
+  dimension: 96
+  canonical_checkpoint_replacement: forbidden
+
+modes:
+  - none
+  - class_weight
+  - smote
+  - adasyn
+
+split_policy:
+  grouping_key: student_id
+  train:
+    resampling_allowed: true
+  validation:
+    purpose: threshold_selection_only
+    resampling_allowed: false
+  test:
+    purpose: final_metrics_only
+    resampling_allowed: false
+
+head:
+  estimator: LogisticRegression
+  solver: lbfgs
+  max_iter: 3000
+
+threshold:
+  fit_scope: validation_only
+  objective:
+    - f1
+    - balanced_accuracy
+    - proximity_to_0_5
+
+metrics:
+  - roc_auc
+  - pr_auc
+  - precision
+  - recall
+  - f1
+  - balanced_accuracy
+  - specificity
+  - brier_score
+  - confusion_matrix
+
+claim_boundary:
+  supported: sensitivity analysis of imbalance handling on frozen embeddings
+  unsupported:
+    - automatic replacement of the canonical Hybrid checkpoint
+    - proof that synthetic oversampling improves early warning
+    - use of validation or test rows in resampling
