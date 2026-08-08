@@ -54,7 +54,17 @@ jobs:
           python scripts/recommend_hybrid/final/verify_release.py
 
       - name: Run final namespace tests
-        run: python -m pytest tests/recommend_hybrid/final -q
+        shell: bash
+        run: |
+          set +e
+          python -m pytest tests/recommend_hybrid/final -q > /tmp/final-pytest.log 2>&1
+          status=$?
+          cat /tmp/final-pytest.log
+          if [ "$status" -ne 0 ]; then
+            summary=$(tail -n 30 /tmp/final-pytest.log | tr '\n' ' ' | sed 's/%/%25/g; s/\r/%0D/g')
+            echo "::error title=Final namespace pytest::${summary}"
+            exit "$status"
+          fi
 
       - name: Import final public API
         run: |
