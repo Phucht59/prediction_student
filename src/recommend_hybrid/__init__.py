@@ -1,32 +1,44 @@
-"""Hybrid CNN-BiLSTM learning-support recommendation APIs.
+"""Hybrid CNN-BiLSTM risk-guided recommendation package.
 
-`ConditionalHybridActionRanker` is the scientifically validated final module.
-The older end-to-end plan pipelines remain available for compatibility, but
-their recommendation-issuance accuracy is not validated.
+The production recommendation authority is ``src.recommend_hybrid.final``.
+Older research and compatibility modules remain in the repository for lineage,
+but they are not exported as the validated recommendation model.
 """
 
-from .action_catalog import ActionCatalog
-from .candidate_generator import HybridCandidateGenerator
-from .common.service import HybridRecommendationService
-from .contracts import ObservedLearningState, PredictionContext, StudentRepresentation
-from .final import ConditionalHybridActionRanker
-from .oulad.policy import RecommendHybridOULAD
-from .pipeline import OULADPlanRequest, RecommendHybridPipeline, UCIPlanRequest
-from .prediction_adapter import HybridPredictionAdapter
-from .uci.policy import RecommendHybridUCI
+from .final import (
+    ActionScore,
+    CanonicalAction,
+    ExplainableRecommendationPipeline,
+    FeasibilityResult,
+    FiveEBMRanker,
+    RecommendationDecision,
+    RecommendationFeatures,
+    RecommendationPipeline,
+    RiskBand,
+    RiskThresholds,
+    RouteStatus,
+    SafetyThresholds,
+    evaluate_action,
+    feasible_actions,
+    route_ranked_actions,
+    stratify_risk,
+)
 
 __all__ = [
-    "ActionCatalog",
-    "ConditionalHybridActionRanker",
-    "HybridCandidateGenerator",
-    "HybridPredictionAdapter",
-    "HybridRecommendationService",
-    "RecommendHybridPipeline",
-    "RecommendHybridOULAD",
-    "RecommendHybridUCI",
-    "ObservedLearningState",
-    "PredictionContext",
-    "StudentRepresentation",
-    "OULADPlanRequest",
-    "UCIPlanRequest",
+    "ActionScore",
+    "CanonicalAction",
+    "ExplainableRecommendationPipeline",
+    "FeasibilityResult",
+    "FiveEBMRanker",
+    "RecommendationDecision",
+    "RecommendationFeatures",
+    "RecommendationPipeline",
+    "RiskBand",
+    "RiskThresholds",
+    "RouteStatus",
+    "SafetyThresholds",
+    "evaluate_action",
+    "feasible_actions",
+    "route_ranked_actions",
+    "stratify_risk",
 ]

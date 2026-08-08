@@ -1,16 +1,17 @@
-name: Final Recommendation Main
+name: Final Recommendation Release
 
 on:
   push:
     branches:
       - main
-      - codex/fix-final-recommendation-main
+      - release/recommendation-main
   pull_request:
     paths:
       - "src/recommend_hybrid/final/**"
       - "src/recommend_hybrid/__init__.py"
       - "src/recommend_hybrid/README.md"
       - "configs/recommend_hybrid/final/**"
+      - "scripts/recommend_hybrid/final/**"
       - "tests/recommend_hybrid/final/**"
       - "artifacts/recommend_hybrid/final/**"
       - "reports/recommend_hybrid/final/**"
@@ -40,37 +41,38 @@ jobs:
       - name: Install focused dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
-          python -m pip install \
-            numpy pandas scipy scikit-learn pyarrow PyYAML pytest ruff \
-            psycopg2-binary python-dotenv
+          python -m pip install numpy pandas scipy scikit-learn pyarrow PyYAML pytest ruff joblib
 
-      - name: Print final artifact checksums
+      - name: Verify canonical evidence copies
         run: |
-          sha256sum \
-            artifacts/recommend_hybrid/final/CONDITIONAL_ACTION_FINAL_EVIDENCE.json \
-            reports/recommend_hybrid/final/CONDITIONAL_ACTION_FINAL_RESULTS_VI.md
+          cmp \
+            artifacts/recommend_hybrid/final/release/FINAL_RELEASE_MANIFEST.json \
+            artifacts/recommend_hybrid/explainable_v2/frozen/final_release_v1/FINAL_RELEASE_MANIFEST.json
+          cmp \
+            artifacts/recommend_hybrid/final/heldout/PANEL_B_FINAL_HELDOUT_METRICS.json \
+            artifacts/recommend_hybrid/explainable_v2/final_heldout/panel_b_v1/PANEL_B_FINAL_HELDOUT_METRICS.json
+          python scripts/recommend_hybrid/final/verify_release.py
 
-      - name: Run final recommendation tests
+      - name: Run final namespace tests
         run: python -m pytest tests/recommend_hybrid/final -q
 
       - name: Import final public API
         run: |
-          python -c "from src.recommend_hybrid import ConditionalHybridActionRanker; print(ConditionalHybridActionRanker.module_boundary)"
+          python -c "from src.recommend_hybrid import RecommendationPipeline, FiveEBMRanker; from src.recommend_hybrid.final import RouteStatus; print(RecommendationPipeline.__name__, FiveEBMRanker.__name__, sorted(x.value for x in RouteStatus))"
 
       - name: Compile final recommendation scope
         run: |
           python -m py_compile \
-            src/recommend_hybrid/final/actions.py \
-            src/recommend_hybrid/final/api.py \
-            src/recommend_hybrid/final/model.py \
-            src/recommend_hybrid/final/metrics.py \
             src/recommend_hybrid/final/__init__.py \
-            src/recommend_hybrid/__init__.py
+            src/recommend_hybrid/__init__.py \
+            scripts/recommend_hybrid/final/verify_release.py \
+            tests/recommend_hybrid/final/test_public_api.py \
+            tests/recommend_hybrid/final/test_release_evidence.py
 
       - name: Ruff final recommendation scope
         run: |
           ruff check \
             src/recommend_hybrid/final \
             src/recommend_hybrid/__init__.py \
+            scripts/recommend_hybrid/final \
             tests/recommend_hybrid/final

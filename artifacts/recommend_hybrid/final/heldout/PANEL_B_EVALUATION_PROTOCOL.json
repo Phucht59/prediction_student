@@ -1,0 +1,50 @@
+{
+  "schema_version": "panel_b_final_heldout_protocol_v1",
+  "status": "PREREGISTERED_BEFORE_PROVIDER_REVIEW",
+  "created_at_utc": "2026-08-08T11:18:39.235612+00:00",
+  "panel": "B",
+  "case_count": 150,
+  "expected_real_external_review_records": 557,
+  "provider": "Google Gemini API",
+  "requested_model": "gemini-3.5-flash-lite",
+  "prompt_sha256": "f7edfaacd2fad67bf21a175ccc5c0a46abb81b669c08928ab78009c0a24624f3",
+  "request_batch_sha256": {
+    "batch_01.jsonl": "9fd5c4d12f285547df82f6a4c236a8622d8d7a0f2f8fefcd2abf9266ff1d1bc0",
+    "batch_02.jsonl": "5a6a4194fd6d8e2192d0d2491b62e16b4deb2ed124c6c28dd7072e81c408163d",
+    "batch_03.jsonl": "3c82c532489c9dcd4d4bcd9c236be03c41465f32d8d3158356c059f414769b8a"
+  },
+  "evaluator_sha256": "48574049b5f1c94654f6b8f103d551f15df2e987c755b4e473be85e43ec70272",
+  "development_freeze_sha256": "b9b9b2b99a0ae2b20d0d8e7b8c377792f1ccad9329139676e80bfb01157ff620",
+  "frozen_panel_a_manifest_sha256": "4a9af5a21ace08f13bfdc09504f19c1a9b5616d85df4151379815116d28eb5db",
+  "frozen_panel_a_reviews_sha256": "4a4871426880bdcd1257dc15c29a36c23de34481f07be68d8e5095dc20efefb9",
+  "frozen_ranker_manifest_sha256": "68fe3b81bcf0716e875e407b44bce179c9c54d717f5d613f009424db6b4339af",
+  "score_contract": "clip(native_ordinal_prediction / 3, 0, 1)",
+  "calibration": "NONE_RAW_EBM_SELECTED_ON_PANEL_A",
+  "primary_metric": "NDCG@3 across evidence-complete Panel-B cases",
+  "secondary_metrics": [
+    "exact_best_top1_agreement",
+    "precision_at_1_relevance_ge_1",
+    "mrr_relevance_ge_1",
+    "recall_at_3_relevance_ge_1",
+    "pairwise_accuracy",
+    "invalid_action_rate",
+    "ranker_score_mae_against_relevance_div_3",
+    "ranker_score_rmse_against_relevance_div_3"
+  ],
+  "baseline": "Panel-A retained action+stage mean relevance",
+  "abstention_policy": "Preserve every real review record; primary ranking metrics use only cases with non-abstained reviews for every feasible candidate action.",
+  "bootstrap": {
+    "iterations": 2000,
+    "seed": 2026,
+    "unit": "case",
+    "estimand": "full minus action+stage-only NDCG@3"
+  },
+  "prohibitions": [
+    "No Panel-B tuning or model selection",
+    "No synthetic, substituted, or fabricated reviews",
+    "No causal-effect claim"
+  ],
+  "simulator_language": "model-implied risk delta",
+  "runtime_authorized": false,
+  "final_metrics_claimed": false
+}

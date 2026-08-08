@@ -1,45 +1,47 @@
-"""Final conditional hybrid action-ranking namespace."""
+"""Production API for the scientifically frozen recommendation release.
 
-from .actions import (
-    ACTION_ALIASES,
-    ACTION_COUNT,
-    ACTION_INDEX,
-    ACTION_ORDER,
-    canonical_action_id,
+The validated Recommendation V2 implementation is exposed here through a
+version-neutral namespace.  The implementation package
+``recommend_hybrid.explainable_v2`` is intentionally retained unchanged as
+scientific lineage so the frozen hashes and audit trail remain reproducible.
+New application code should import recommendation components from this package.
+"""
+
+from ..explainable_v2 import (
+    ActionScore,
+    CanonicalAction,
+    ExplainableRecommendationPipeline,
+    FeasibilityResult,
+    FiveEBMRanker,
+    RecommendationDecision,
+    RecommendationFeatures,
+    RiskBand,
+    RiskThresholds,
+    RouteStatus,
+    SafetyThresholds,
+    evaluate_action,
+    feasible_actions,
+    route_ranked_actions,
+    stratify_risk,
 )
-from .api import ConditionalHybridActionRanker, EXPECTED_MODEL_ID, RankingResult
-from .metrics import (
-    LEGACY_STAGE_ORDER,
-    STAGE_ORDER,
-    ActionAwareDecision,
-    ActionAwareThresholds,
-    evaluate_action_aware,
-    ranking_metrics,
-)
-from .model import (
-    ActionAwareHeadConfig,
-    ActionAwareOutput,
-    HybridActionAwareRecommendationHeads,
-    action_aware_loss,
-)
+
+RecommendationPipeline = ExplainableRecommendationPipeline
 
 __all__ = [
-    "ACTION_ALIASES",
-    "ACTION_COUNT",
-    "ACTION_INDEX",
-    "ACTION_ORDER",
-    "ActionAwareDecision",
-    "ActionAwareHeadConfig",
-    "ActionAwareOutput",
-    "ActionAwareThresholds",
-    "ConditionalHybridActionRanker",
-    "EXPECTED_MODEL_ID",
-    "HybridActionAwareRecommendationHeads",
-    "LEGACY_STAGE_ORDER",
-    "RankingResult",
-    "STAGE_ORDER",
-    "action_aware_loss",
-    "canonical_action_id",
-    "evaluate_action_aware",
-    "ranking_metrics",
+    "ActionScore",
+    "CanonicalAction",
+    "ExplainableRecommendationPipeline",
+    "FeasibilityResult",
+    "FiveEBMRanker",
+    "RecommendationDecision",
+    "RecommendationFeatures",
+    "RecommendationPipeline",
+    "RiskBand",
+    "RiskThresholds",
+    "RouteStatus",
+    "SafetyThresholds",
+    "evaluate_action",
+    "feasible_actions",
+    "route_ranked_actions",
+    "stratify_risk",
 ]

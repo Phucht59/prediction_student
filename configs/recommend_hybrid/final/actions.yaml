@@ -1,0 +1,72 @@
+schema_version: recommend_hybrid_action_catalog_v2
+catalog_version: recommend_hybrid_actions_v2
+status: PROTOCOL_LOCKED_BEFORE_LOCAL_TRAINING
+
+actions:
+  - action_id: ASSESSMENT_COMPLETION
+    title_vi: Hoàn thành bài đánh giá còn thiếu
+    category: assessment
+    applicable_stages: [EARLY_20, EARLY_35, MIDDLE_50, LATE_75]
+    required_evidence: [assessment_progress, assessments_due]
+    feasibility_conditions:
+      - assessments_due > 0
+      - assessment_window_open == true
+      - time_to_deadline_days > 0
+    contraindications: [NO_OPEN_ASSESSMENT, EXTENSION_PENDING]
+    default_duration_days: 7
+    measurable_target: Hoàn thành các bài đánh giá được xác nhận còn hiệu lực trước hạn.
+    review_rule: next_validated_stage
+
+  - action_id: RECOVER_ENGAGEMENT
+    title_vi: Khôi phục mức độ tham gia học tập
+    category: engagement
+    applicable_stages: [EARLY_20, EARLY_35, MIDDLE_50, LATE_75]
+    required_evidence: [inactivity_streak, active_day_rate, recent_activity_trend]
+    feasibility_conditions:
+      - inactivity_streak is not null
+      - recent_activity_trend is not null
+      - vle_access_available == true
+    contraindications: [NO_VLE_ACCESS]
+    default_duration_days: 7
+    measurable_target: Hoàn thành ít nhất ba phiên học có mục tiêu trước lần đánh giá tiếp theo.
+    review_rule: next_validated_stage
+
+  - action_id: STUDY_REGULARITY
+    title_vi: Ổn định lịch học
+    category: planning
+    applicable_stages: [EARLY_20, EARLY_35, MIDDLE_50, LATE_75]
+    required_evidence: [regularity_score, active_day_rate, inactivity_streak]
+    feasibility_conditions:
+      - regularity_score is not null
+      - active_day_rate is not null
+    contraindications: [ACUTE_PERSONAL_CIRCUMSTANCE]
+    default_duration_days: 14
+    measurable_target: Duy trì tối thiểu ba ngày học mỗi tuần và tránh khoảng nghỉ dài hơn bốn ngày.
+    review_rule: next_validated_stage
+
+  - action_id: TARGETED_CONTENT_REVIEW
+    title_vi: Ôn tập nội dung có mục tiêu
+    category: content
+    applicable_stages: [EARLY_35, MIDDLE_50, LATE_75]
+    required_evidence: [content_coverage, knowledge_gap_evidence]
+    feasibility_conditions:
+      - content_coverage is not null
+      - knowledge_gap_evidence == true
+      - study_material_available == true
+    contraindications: [NO_STUDY_MATERIAL, ASSESSMENT_OVERLOAD]
+    default_duration_days: 7
+    measurable_target: Hoàn thành kế hoạch ôn tập cho nội dung được xác định còn thiếu bằng chứng học tập.
+    review_rule: next_validated_stage
+
+  - action_id: QUIZ_RETRIEVAL_PRACTICE
+    title_vi: Luyện quiz và truy hồi kiến thức
+    category: practice
+    applicable_stages: [EARLY_20, EARLY_35, MIDDLE_50, LATE_75]
+    required_evidence: [quiz_activity, quiz_available, course_progress]
+    feasibility_conditions:
+      - quiz_available == true
+      - course_progress > 0
+    contraindications: [NO_PRACTICE_MATERIAL, ASSESSMENT_OVERLOAD]
+    default_duration_days: 7
+    measurable_target: Hoàn thành ba phiên luyện truy hồi trên nội dung đã học và ghi nhận kết quả.
+    review_rule: next_validated_stage
