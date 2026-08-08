@@ -1,9 +1,0 @@
-{
-  "action_count": 15,
-  "evidence_mapped": 13,
-  "gate": "RECOMMEND_SCIENTIFIC_LABELING_PHASE1_PASS",
-  "insufficient_evidence": 2,
-  "source_count": 6,
-  "unverified_sources": 0,
-  "verified_sources": 6
-}

@@ -1,5 +1,0 @@
-variant,actionable_coverage,abstention_rate,evidence_support_rate,unsupported_action_rate,explanation_completeness,action_diversity,constraint_violation_rate
-A_RISK_CLASS_ONLY,1.0,0.0,0.0,1.0,0.0,3,0.07692307692307693
-B_RISK_PROBABILITY_ONLY,1.0,0.0,0.0,1.0,0.0,3,0.07692307692307693
-C_RISK_AND_EVIDENCE,1.0,0.0,1.0,0.0,1.0,14,0.0
-D_OFFICIAL_FULL_POLICY,0.9208333333333333,0.07916666666666666,1.0,0.0,1.0,14,0.0

@@ -1,9 +1,0 @@
-{
-  "authority": "user-reported Phase 3 diagnostic",
-  "macro_ndcg_at_3": 0.7486,
-  "macro_f1": 0.5982,
-  "conditional_f1": 0.0,
-  "ece": 0.2357,
-  "context_permutation_ndcg_change": 0.0302,
-  "status": "FAILED_DO_NOT_TUNE"
-}

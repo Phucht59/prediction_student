@@ -1,32 +1,27 @@
-"""Hybrid CNN-BiLSTM learning-support recommendation APIs.
+"""Official frozen Hybrid risk adapter and Recommendation V2 API."""
 
-`ConditionalHybridActionRanker` is the scientifically validated final module.
-The older end-to-end plan pipelines remain available for compatibility, but
-their recommendation-issuance accuracy is not validated.
-"""
-
-from .action_catalog import ActionCatalog
-from .candidate_generator import HybridCandidateGenerator
-from .common.service import HybridRecommendationService
-from .contracts import ObservedLearningState, PredictionContext, StudentRepresentation
-from .final import ConditionalHybridActionRanker
-from .oulad.policy import RecommendHybridOULAD
-from .pipeline import OULADPlanRequest, RecommendHybridPipeline, UCIPlanRequest
-from .prediction_adapter import HybridPredictionAdapter
-from .uci.policy import RecommendHybridUCI
+from .contracts import ObservedLearningState, PredictionContext, Stage, StudentRepresentation
+from .explainable_v2 import (
+    CanonicalAction,
+    ExplainableRecommendationPipeline,
+    FiveEBMRanker,
+    RecommendationDecision,
+    RecommendationFeatures,
+    RouteStatus,
+)
+from .prediction_adapter import HybridPredictionAdapter, HybridPredictionOutput
 
 __all__ = [
-    "ActionCatalog",
-    "ConditionalHybridActionRanker",
-    "HybridCandidateGenerator",
+    "CanonicalAction",
+    "ExplainableRecommendationPipeline",
+    "FiveEBMRanker",
     "HybridPredictionAdapter",
-    "HybridRecommendationService",
-    "RecommendHybridPipeline",
-    "RecommendHybridOULAD",
-    "RecommendHybridUCI",
+    "HybridPredictionOutput",
     "ObservedLearningState",
     "PredictionContext",
+    "RecommendationDecision",
+    "RecommendationFeatures",
+    "RouteStatus",
+    "Stage",
     "StudentRepresentation",
-    "OULADPlanRequest",
-    "UCIPlanRequest",
 ]
