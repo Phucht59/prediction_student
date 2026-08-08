@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"QUIZ_RETRIEVAL_PRACTICE\",\n      \"relevance_score\": 0,\n      \"abstain\": false,\n      \"evidence_ids\": [\"quiz_activity\"],\n      \"rationale\": \"Quiz activity is currently at 0.0, indicating zero engagement with quizzes, making retrieval practice unsuitable.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"RECOVER_ENGAGEMENT\",\n      \"relevance_score\": 1,\n      \"abstain\": false,\n      \"evidence_ids\": [\"active_day_rate\", \"inactivity_streak\"],\n      \"rationale\": \"Active day rate is low at 0.283 and there is an inactivity streak of 2.0 days, but risk is LOW and completion rate is 1.0, making engagement recovery weakly relevant.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"STUDY_REGULARITY\",\n      \"relevance_score\": 1,\n      \"abstain\": false,\n      \"evidence_ids\": [\"regularity_score\"],\n      \"rationale\": \"Regularity score is 0.733 and study material is available, but the student already shows high content coverage and no missing assessments.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIPC/33AaWy/Plj957ui87i9fiOUOSzeZ9EP7bLfqWdKUbRabhhuXSVZ6FKUvf4"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 625,
+    "candidatesTokenCount": 350,
+    "totalTokenCount": 975,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 625
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "s_J1avaGM7jGjuMPm7SpwQQ"
+}

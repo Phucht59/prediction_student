@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"QUIZ_RETRIEVAL_PRACTICE\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"quiz_activity\",\n        \"quiz_available\"\n      ],\n      \"rationale\": \"The student has demonstrated active quiz engagement (quiz_activity: 0.78) and quizzes are currently available (quiz_available: true), making retrieval practice relevant.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"STUDY_REGULARITY\",\n      \"relevance_score\": 1,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"regularity_score\",\n        \"active_day_rate\"\n      ],\n      \"rationale\": \"The student already exhibits a high regularity score (0.91) and strong active day rate (0.64), making study regularity a generic action with little room for targeted improvement.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIPRy4oZbJPvqPCan7X4r5vuFDHvwinJTQK5t5C41dk7CorK+maDOIa7LJbC7jT"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 615,
+    "candidatesTokenCount": 272,
+    "totalTokenCount": 887,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 615
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "dfR1asqoCJmv4-EPo92Z8Qk"
+}

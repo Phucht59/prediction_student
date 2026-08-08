@@ -1,0 +1,205 @@
+{
+  "provider": "Google Gemini API",
+  "model_name": "gemini-3.6-flash",
+  "batch_id": "panel_a_batch_01",
+  "records": [
+    {
+      "index": 0,
+      "case_id": "case_e0f9d4369e88a2e49acbb575",
+      "request_id": "clientreq_e833d8eea6c14147832d1c51a0b59ea4",
+      "response_id": "OOF1aov9HMXL4-EP8buL8Qk",
+      "action_id": "QUIZ_RETRIEVAL_PRACTICE",
+      "sha256": "4cd3ed698582b94558c3166726d27e072f947d2d4b4253925960b59cd68ab6b0",
+      "raw_response_sha256": "06f50cd63375cc479fc8a9e504a5d412348d9b5426329f34c67f266fb9d6e97a",
+      "raw_response_file": "raw_responses/case_e0f9d4369e88a2e49acbb575.json",
+      "model_version": "gemini-3.6-flash"
+    },
+    {
+      "index": 1,
+      "case_id": "case_e0f9d4369e88a2e49acbb575",
+      "request_id": "clientreq_e833d8eea6c14147832d1c51a0b59ea4",
+      "response_id": "OOF1aov9HMXL4-EP8buL8Qk",
+      "action_id": "ASSESSMENT_COMPLETION",
+      "sha256": "d801301e833fb05bfc63ceefea4a68acb4e7c9068f6fc99478c9a5e34489dbd9",
+      "raw_response_sha256": "06f50cd63375cc479fc8a9e504a5d412348d9b5426329f34c67f266fb9d6e97a",
+      "raw_response_file": "raw_responses/case_e0f9d4369e88a2e49acbb575.json",
+      "model_version": "gemini-3.6-flash"
+    },
+    {
+      "index": 2,
+      "case_id": "case_e0f9d4369e88a2e49acbb575",
+      "request_id": "clientreq_e833d8eea6c14147832d1c51a0b59ea4",
+      "response_id": "OOF1aov9HMXL4-EP8buL8Qk",
+      "action_id": "STUDY_REGULARITY",
+      "sha256": "d974bb7b2f9948de7dff4b1281ad8ec474106651519541ea5d35c8ed022ea88b",
+      "raw_response_sha256": "06f50cd63375cc479fc8a9e504a5d412348d9b5426329f34c67f266fb9d6e97a",
+      "raw_response_file": "raw_responses/case_e0f9d4369e88a2e49acbb575.json",
+      "model_version": "gemini-3.6-flash"
+    },
+    {
+      "index": 3,
+      "case_id": "case_1408271c35162d6753b4d2ea",
+      "request_id": "clientreq_5f732b5d5cdd4a51a2723670a599a7b4",
+      "response_id": "geF1armPOuuvjuMPsbeEyAk",
+      "action_id": "QUIZ_RETRIEVAL_PRACTICE",
+      "sha256": "778ac228c549d8413fdf8d77d3e1c698622ebf0d376074e026cc8245b54960a2",
+      "raw_response_sha256": "d3236cee08768327b74b0eb44db9087fbf749290be78b6b2c0cee0447711b15e",
+      "raw_response_file": "raw_responses/case_1408271c35162d6753b4d2ea.json",
+      "model_version": "gemini-3.6-flash"
+    },
+    {
+      "index": 4,
+      "case_id": "case_1408271c35162d6753b4d2ea",
+      "request_id": "clientreq_5f732b5d5cdd4a51a2723670a599a7b4",
+      "response_id": "geF1armPOuuvjuMPsbeEyAk",
+      "action_id": "ASSESSMENT_COMPLETION",
+      "sha256": "7047b6a7a9bb3b233dabc42dd7363e11429b14bdc33ab91a2a4c38738ea50f39",
+      "raw_response_sha256": "d3236cee08768327b74b0eb44db9087fbf749290be78b6b2c0cee0447711b15e",
+      "raw_response_file": "raw_responses/case_1408271c35162d6753b4d2ea.json",
+      "model_version": "gemini-3.6-flash"
+    },
+    {
+      "index": 5,
+      "case_id": "case_1408271c35162d6753b4d2ea",
+      "request_id": "clientreq_5f732b5d5cdd4a51a2723670a599a7b4",
+      "response_id": "geF1armPOuuvjuMPsbeEyAk",
+      "action_id": "STUDY_REGULARITY",
+      "sha256": "e6b1f7d352c9ea94653f3e5460d4bce615df70fb05f748dff3633b5ef3f9536c",
+      "raw_response_sha256": "d3236cee08768327b74b0eb44db9087fbf749290be78b6b2c0cee0447711b15e",
+      "raw_response_file": "raw_responses/case_1408271c35162d6753b4d2ea.json",
+      "model_version": "gemini-3.6-flash"
+    },
+    {
+      "index": 6,
+      "case_id": "case_74715b881d7e621bd79c238d",
+      "request_id": "clientreq_8a82396664094c938e7d5546385a71fc",
+      "response_id": "meJ1aomrF52xjuMPgc2y0Ak",
+      "action_id": "QUIZ_RETRIEVAL_PRACTICE",
+      "sha256": "b3212c2605023ad4efdafedbb62b4d095ffb3ce0c61c7259dc88ea84ccdd0251",
+      "raw_response_sha256": "9594042d32838d8668f289eda27dc5a91b803b428b26553fec1843a0205ecc51",
+      "raw_response_file": "raw_responses/case_74715b881d7e621bd79c238d.json",
+      "model_version": "gemini-3.6-flash"
+    },
+    {
+      "index": 7,
+      "case_id": "case_d1e0554b30b609b1847e66cc",
+      "request_id": "clientreq_b303d03f1cbe485f9cdf136d14a8c400",
+      "response_id": "ouJ1apXCNPGtjuMPs8jVsQ8",
+      "action_id": "QUIZ_RETRIEVAL_PRACTICE",
+      "sha256": "8b4680dee8645fc418aae864eeb516b8f6f3f12424ac9fa2ec5f803c30306c20",
+      "raw_response_sha256": "4202a661571e05d6f134dbe78e6855fa5cd07ba9d95c0e3214b08c89f7342cc7",
+      "raw_response_file": "raw_responses/case_d1e0554b30b609b1847e66cc.json",
+      "model_version": "gemini-3.6-flash"
+    },
+    {
+      "index": 8,
+      "case_id": "case_d1e0554b30b609b1847e66cc",
+      "request_id": "clientreq_b303d03f1cbe485f9cdf136d14a8c400",
+      "response_id": "ouJ1apXCNPGtjuMPs8jVsQ8",
+      "action_id": "ASSESSMENT_COMPLETION",
+      "sha256": "6267733aebf2915cbda9fedf8c22e43863149319dc5b49e082f90034af5a6508",
+      "raw_response_sha256": "4202a661571e05d6f134dbe78e6855fa5cd07ba9d95c0e3214b08c89f7342cc7",
+      "raw_response_file": "raw_responses/case_d1e0554b30b609b1847e66cc.json",
+      "model_version": "gemini-3.6-flash"
+    },
+    {
+      "index": 9,
+      "case_id": "case_d1e0554b30b609b1847e66cc",
+      "request_id": "clientreq_b303d03f1cbe485f9cdf136d14a8c400",
+      "response_id": "ouJ1apXCNPGtjuMPs8jVsQ8",
+      "action_id": "STUDY_REGULARITY",
+      "sha256": "8a33c418b3b4fd784d817e98dd203f597c209c9e89b84b92d678b164dad0605f",
+      "raw_response_sha256": "4202a661571e05d6f134dbe78e6855fa5cd07ba9d95c0e3214b08c89f7342cc7",
+      "raw_response_file": "raw_responses/case_d1e0554b30b609b1847e66cc.json",
+      "model_version": "gemini-3.6-flash"
+    },
+    {
+      "index": 10,
+      "case_id": "case_2b950dcf38b47cb652d7c740",
+      "request_id": "clientreq_431c5e1f11fa42c7833c1c6a5e19dadb",
+      "response_id": "seJ1ateuO8mujuMP9YmjuQU",
+      "action_id": "QUIZ_RETRIEVAL_PRACTICE",
+      "sha256": "aedf8e6955a313d0d93e59a3db6df4776efcd922ed7c9a3505fb455cad532110",
+      "raw_response_sha256": "8f108ec49a68199e762f07ee10a4678107d6704cdb1ea2faec5ca604e606aeb1",
+      "raw_response_file": "raw_responses/case_2b950dcf38b47cb652d7c740.json",
+      "model_version": "gemini-3.6-flash"
+    },
+    {
+      "index": 11,
+      "case_id": "case_2b950dcf38b47cb652d7c740",
+      "request_id": "clientreq_431c5e1f11fa42c7833c1c6a5e19dadb",
+      "response_id": "seJ1ateuO8mujuMP9YmjuQU",
+      "action_id": "ASSESSMENT_COMPLETION",
+      "sha256": "f5319a8a9a2e8378402ca2d58b37cc0006fd7b299fd627b382b74e2550cb8524",
+      "raw_response_sha256": "8f108ec49a68199e762f07ee10a4678107d6704cdb1ea2faec5ca604e606aeb1",
+      "raw_response_file": "raw_responses/case_2b950dcf38b47cb652d7c740.json",
+      "model_version": "gemini-3.6-flash"
+    },
+    {
+      "index": 12,
+      "case_id": "case_2b950dcf38b47cb652d7c740",
+      "request_id": "clientreq_431c5e1f11fa42c7833c1c6a5e19dadb",
+      "response_id": "seJ1ateuO8mujuMP9YmjuQU",
+      "action_id": "RECOVER_ENGAGEMENT",
+      "sha256": "133f754a65b21b10ea7720d54e32511bad978ed3b721b92bc9cff243a07174d3",
+      "raw_response_sha256": "8f108ec49a68199e762f07ee10a4678107d6704cdb1ea2faec5ca604e606aeb1",
+      "raw_response_file": "raw_responses/case_2b950dcf38b47cb652d7c740.json",
+      "model_version": "gemini-3.6-flash"
+    },
+    {
+      "index": 13,
+      "case_id": "case_2b950dcf38b47cb652d7c740",
+      "request_id": "clientreq_431c5e1f11fa42c7833c1c6a5e19dadb",
+      "response_id": "seJ1ateuO8mujuMP9YmjuQU",
+      "action_id": "STUDY_REGULARITY",
+      "sha256": "0fbc8c69401237add5226954d11f5c13b236798c90ee2d88c917282192611255",
+      "raw_response_sha256": "8f108ec49a68199e762f07ee10a4678107d6704cdb1ea2faec5ca604e606aeb1",
+      "raw_response_file": "raw_responses/case_2b950dcf38b47cb652d7c740.json",
+      "model_version": "gemini-3.6-flash"
+    },
+    {
+      "index": 14,
+      "case_id": "case_c5808e90a08995f4471db667",
+      "request_id": "clientreq_5d0eec4de1f04930a39d654a2ed97617",
+      "response_id": "veJ1apGuOZvvg8UP9artmAw",
+      "action_id": "QUIZ_RETRIEVAL_PRACTICE",
+      "sha256": "ec48eeacc15615107ce081b1ceb435509a22624d397ebdb0bc32174bdd5f8140",
+      "raw_response_sha256": "e814ceef17d225f2ef930c66612a17de848a5851d2ec86c929b31cece342172d",
+      "raw_response_file": "raw_responses/case_c5808e90a08995f4471db667.json",
+      "model_version": "gemini-3.6-flash"
+    },
+    {
+      "index": 15,
+      "case_id": "case_c5808e90a08995f4471db667",
+      "request_id": "clientreq_5d0eec4de1f04930a39d654a2ed97617",
+      "response_id": "veJ1apGuOZvvg8UP9artmAw",
+      "action_id": "ASSESSMENT_COMPLETION",
+      "sha256": "4d4ad2d9bbe2a6101e05886d9870092a3148dbd0a43a511e64913af96348aca1",
+      "raw_response_sha256": "e814ceef17d225f2ef930c66612a17de848a5851d2ec86c929b31cece342172d",
+      "raw_response_file": "raw_responses/case_c5808e90a08995f4471db667.json",
+      "model_version": "gemini-3.6-flash"
+    },
+    {
+      "index": 16,
+      "case_id": "case_c5808e90a08995f4471db667",
+      "request_id": "clientreq_5d0eec4de1f04930a39d654a2ed97617",
+      "response_id": "veJ1apGuOZvvg8UP9artmAw",
+      "action_id": "RECOVER_ENGAGEMENT",
+      "sha256": "721fe850c012b4c470399b5a27a0e32e7eceea2741cf0a44cf563e8422e6c7ac",
+      "raw_response_sha256": "e814ceef17d225f2ef930c66612a17de848a5851d2ec86c929b31cece342172d",
+      "raw_response_file": "raw_responses/case_c5808e90a08995f4471db667.json",
+      "model_version": "gemini-3.6-flash"
+    },
+    {
+      "index": 17,
+      "case_id": "case_c5808e90a08995f4471db667",
+      "request_id": "clientreq_5d0eec4de1f04930a39d654a2ed97617",
+      "response_id": "veJ1apGuOZvvg8UP9artmAw",
+      "action_id": "STUDY_REGULARITY",
+      "sha256": "f34fd44adea576401ca060b1954946370775160be11d3101984859e95cbc32f3",
+      "raw_response_sha256": "e814ceef17d225f2ef930c66612a17de848a5851d2ec86c929b31cece342172d",
+      "raw_response_file": "raw_responses/case_c5808e90a08995f4471db667.json",
+      "model_version": "gemini-3.6-flash"
+    }
+  ]
+}

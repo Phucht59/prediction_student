@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"QUIZ_RETRIEVAL_PRACTICE\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"quiz_activity\",\n        \"quiz_available\"\n      ],\n      \"rationale\": \"The student has zero quiz activity despite quizzes being available, representing a direct behavioral gap in retrieval practice.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"STUDY_REGULARITY\",\n      \"relevance_score\": 1,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"regularity_score\",\n        \"active_day_rate\",\n        \"inactivity_streak\"\n      ],\n      \"rationale\": \"The student already demonstrates a high regularity score and active day rate with only a minor 3-day inactivity streak, making this action generic or weakly relevant.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIP3coD4Yq/P063hAhV6zaporwqw206VDtnbwSrZldMhFgBTcd7DPD0zd7nqjdI"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 603,
+    "candidatesTokenCount": 258,
+    "totalTokenCount": 861,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 603
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "TPB1arvFOoDGjuMP6qnCgQY"
+}

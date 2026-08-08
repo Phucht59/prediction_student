@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"QUIZ_RETRIEVAL_PRACTICE\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"quiz_activity\",\n        \"quiz_available\"\n      ],\n      \"rationale\": \"The student has zero quiz activity recorded (quiz_activity: 0.0) while quizzes are available, directly supporting a retrieval practice intervention.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"ASSESSMENT_COMPLETION\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"missing_assessment_count\",\n        \"completion_rate\"\n      ],\n      \"rationale\": \"The student has 3 missing assessments and a completion rate of 72.7%, representing a direct behavioral gap addressed by assessment completion support.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"STUDY_REGULARITY\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"inactivity_streak\",\n        \"active_day_rate\"\n      ],\n      \"rationale\": \"The student exhibits an inactivity streak of 4.0 days and an active day rate of 51.7%, supporting study regularity interventions.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIPIlxEaJbhl65+qJ+g5O798xfb8Ule27hIDIP2sR/Yb+ss65ISnfdl+PdagJgx"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 640,
+    "candidatesTokenCount": 378,
+    "totalTokenCount": 1018,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 640
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "FPZ1avzKMMjSqfkP4t7aCQ"
+}

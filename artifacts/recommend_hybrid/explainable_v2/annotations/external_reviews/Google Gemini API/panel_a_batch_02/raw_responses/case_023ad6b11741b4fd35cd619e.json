@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"QUIZ_RETRIEVAL_PRACTICE\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\"quiz_activity\", \"quiz_available\"],\n      \"rationale\": \"Quiz activity is currently at 0.0 despite the quiz being available, directly indicating a specific behavioral gap in retrieval practice.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"ASSESSMENT_COMPLETION\",\n      \"relevance_score\": 1,\n      \"abstain\": false,\n      \"evidence_ids\": [\"assessments_due\", \"due_soon_count\", \"missing_assessment_count\"],\n      \"rationale\": \"There are 2 assessments due soon, but missing_assessment_count is 0 and completion_rate is 1.0, making this weakly relevant.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"RECOVER_ENGAGEMENT\",\n      \"relevance_score\": 1,\n      \"abstain\": false,\n      \"evidence_ids\": [\"active_day_rate\"],\n      \"rationale\": \"Active day rate is moderate at approximately 30.6%, presenting a minor engagement gap despite zero inactivity streak.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"STUDY_REGULARITY\",\n      \"relevance_score\": 1,\n      \"abstain\": false,\n      \"evidence_ids\": [\"regularity_score\"],\n      \"rationale\": \"Regularity score is provided at 0.722, indicating established study regularity patterns with minimal gap.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIPKYI9sLe/ZSqFQIw7gEQW8cHi4exL8R4AhvBMSnyLjXTj0ML5QzJE7dGASqUG"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 629,
+    "candidatesTokenCount": 449,
+    "totalTokenCount": 1078,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 629
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "-O91avbbE-KtjuMP7ofk2Ak"
+}

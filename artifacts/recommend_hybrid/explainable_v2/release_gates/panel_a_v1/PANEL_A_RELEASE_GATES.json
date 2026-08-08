@@ -1,0 +1,310 @@
+{
+  "action_stage_only_metrics": {
+    "exact_best_top1_agreement": 0.5666666666666667,
+    "mrr_relevance_ge_1": 0.9933333333333333,
+    "ndcg_at_3": 0.8839251922562718,
+    "pairwise_accuracy": 0.6746126340882003,
+    "precision_at_1_relevance_ge_1": 0.9866666666666667,
+    "query_count": 300,
+    "recall_at_3_relevance_ge_1": 0.8187222222222222,
+    "top1_action_counts": {
+      "ASSESSMENT_COMPLETION": 1,
+      "QUIZ_RETRIEVAL_PRACTICE": 259,
+      "RECOVER_ENGAGEMENT": 37,
+      "STUDY_REGULARITY": 3
+    },
+    "top1_diversity_normalized_entropy": 0.324645997679187,
+    "unique_top1_actions": 4
+  },
+  "context_permutation_metrics": {
+    "exact_best_top1_agreement": 0.4866666666666667,
+    "mrr_relevance_ge_1": 0.9966666666666667,
+    "ndcg_at_3": 0.870639610797485,
+    "pairwise_accuracy": 0.6224611708482676,
+    "precision_at_1_relevance_ge_1": 0.9933333333333333,
+    "query_count": 300,
+    "recall_at_3_relevance_ge_1": 0.8106666666666666,
+    "top1_action_counts": {
+      "ASSESSMENT_COMPLETION": 46,
+      "QUIZ_RETRIEVAL_PRACTICE": 149,
+      "RECOVER_ENGAGEMENT": 69,
+      "STUDY_REGULARITY": 32,
+      "TARGETED_CONTENT_REVIEW": 4
+    },
+    "top1_diversity_normalized_entropy": 0.7887374022094604,
+    "unique_top1_actions": 5
+  },
+  "development_only": true,
+  "eligible_rows_with_lt2_active_source_families": 1,
+  "final_metrics_claimed": false,
+  "frozen_ranker_manifest_sha256": "7f087076e172eaba97d3ff4cf007a2575d5eb0ac4bfbb7c805f0fa9101ef1dd6",
+  "full_metrics": {
+    "exact_best_top1_agreement": 0.8033333333333333,
+    "mrr_relevance_ge_1": 0.995,
+    "ndcg_at_3": 0.9722541839577711,
+    "pairwise_accuracy": 0.8532055122828041,
+    "precision_at_1_relevance_ge_1": 0.99,
+    "query_count": 300,
+    "recall_at_3_relevance_ge_1": 0.8170555555555555,
+    "top1_action_counts": {
+      "ASSESSMENT_COMPLETION": 46,
+      "QUIZ_RETRIEVAL_PRACTICE": 163,
+      "RECOVER_ENGAGEMENT": 86,
+      "STUDY_REGULARITY": 5
+    },
+    "top1_diversity_normalized_entropy": 0.754084431086098,
+    "unique_top1_actions": 4
+  },
+  "full_minus_action_stage_bootstrap": {
+    "bootstrap_mean_delta": 0.08815862221154389,
+    "ci_high_95": 0.10381594071162037,
+    "ci_low_95": 0.07362343797146807,
+    "iterations": 5000,
+    "point_delta": 0.08832899170149949,
+    "probability_positive": 1.0
+  },
+  "full_minus_context_permutation_bootstrap": {
+    "bootstrap_mean_delta": 0.1014777074356598,
+    "ci_high_95": 0.11767807537214753,
+    "ci_low_95": 0.08512256057575265,
+    "iterations": 5000,
+    "point_delta": 0.10161457316028628,
+    "probability_positive": 1.0
+  },
+  "invalid_action_rate": 0.0,
+  "label_model_manifest_sha256": "ffe826687ef8bd707a373f34861e965e486eae249f91ffe038750141ced90923",
+  "leave_one_family_out_diagnostic": {
+    "BEHAVIORAL": {
+      "excluded_sources": [
+        "LF_ASSESSMENT_NEED_V4",
+        "LF_CONTENT_REVIEW_V4",
+        "LF_ENGAGEMENT_RECOVERY_V4",
+        "LF_QUIZ_RETRIEVAL_V4",
+        "LF_STUDY_REGULARITY_V4"
+      ],
+      "remaining_sources": [
+        "LF_FEASIBILITY_CONSTRAINT_V4",
+        "REAL_EXTERNAL_GEMINI_REVIEW_V4"
+      ],
+      "status": "UNSUPPORTED_SNORKEL_REQUIRES_AT_LEAST_3_LFS"
+    },
+    "FEASIBILITY": {
+      "excluded_sources": [
+        "LF_FEASIBILITY_CONSTRAINT_V4"
+      ],
+      "full_minus_loo_ndcg": -0.00042574830666597396,
+      "ndcg_at_3": 0.972679932264437,
+      "remaining_sources": [
+        "LF_ASSESSMENT_NEED_V4",
+        "LF_ENGAGEMENT_RECOVERY_V4",
+        "LF_STUDY_REGULARITY_V4",
+        "LF_CONTENT_REVIEW_V4",
+        "LF_QUIZ_RETRIEVAL_V4",
+        "REAL_EXTERNAL_GEMINI_REVIEW_V4"
+      ],
+      "status": "PASS_DIAGNOSTIC"
+    },
+    "LLM_EXPERT": {
+      "excluded_sources": [
+        "REAL_EXTERNAL_GEMINI_REVIEW_V4"
+      ],
+      "full_minus_loo_ndcg": 0.033510107470300254,
+      "ndcg_at_3": 0.9387440764874708,
+      "remaining_sources": [
+        "LF_ASSESSMENT_NEED_V4",
+        "LF_ENGAGEMENT_RECOVERY_V4",
+        "LF_STUDY_REGULARITY_V4",
+        "LF_CONTENT_REVIEW_V4",
+        "LF_QUIZ_RETRIEVAL_V4",
+        "LF_FEASIBILITY_CONSTRAINT_V4"
+      ],
+      "status": "PASS_DIAGNOSTIC"
+    }
+  },
+  "leave_one_source_out": {
+    "LF_ASSESSMENT_NEED_V4": {
+      "catastrophic_dependency": false,
+      "family": "BEHAVIORAL",
+      "full_minus_loo_ndcg": 0.005478442821505558,
+      "ndcg_at_3": 0.9667757411362655
+    },
+    "LF_CONTENT_REVIEW_V4": {
+      "catastrophic_dependency": false,
+      "family": "BEHAVIORAL",
+      "full_minus_loo_ndcg": 0.004777777056721888,
+      "ndcg_at_3": 0.9674764069010492
+    },
+    "LF_ENGAGEMENT_RECOVERY_V4": {
+      "catastrophic_dependency": false,
+      "family": "BEHAVIORAL",
+      "full_minus_loo_ndcg": 0.007248673338572598,
+      "ndcg_at_3": 0.9650055106191985
+    },
+    "LF_FEASIBILITY_CONSTRAINT_V4": {
+      "catastrophic_dependency": false,
+      "family": "FEASIBILITY",
+      "full_minus_loo_ndcg": -0.00042574830666597396,
+      "ndcg_at_3": 0.972679932264437
+    },
+    "LF_QUIZ_RETRIEVAL_V4": {
+      "catastrophic_dependency": false,
+      "family": "BEHAVIORAL",
+      "full_minus_loo_ndcg": -0.0025482211229855833,
+      "ndcg_at_3": 0.9748024050807567
+    },
+    "LF_STUDY_REGULARITY_V4": {
+      "catastrophic_dependency": false,
+      "family": "BEHAVIORAL",
+      "full_minus_loo_ndcg": -0.0016843421651031587,
+      "ndcg_at_3": 0.9739385261228742
+    },
+    "REAL_EXTERNAL_GEMINI_REVIEW_V4": {
+      "catastrophic_dependency": false,
+      "family": "LLM_EXPERT",
+      "full_minus_loo_ndcg": 0.033510107470300254,
+      "ndcg_at_3": 0.9387440764874708
+    }
+  },
+  "oof_recompute_max_abs_diff": 0.0,
+  "panel": "A",
+  "panel_b_touched": false,
+  "per_action_metrics": {
+    "ASSESSMENT_COMPLETION": {
+      "eligible_row_count": 184,
+      "mae": 0.251819069446423,
+      "rmse": 0.35256753096304266,
+      "row_count": 300,
+      "top1_count": 46
+    },
+    "QUIZ_RETRIEVAL_PRACTICE": {
+      "eligible_row_count": 296,
+      "mae": 0.22618135089576788,
+      "rmse": 0.42686854606901775,
+      "row_count": 300,
+      "top1_count": 163
+    },
+    "RECOVER_ENGAGEMENT": {
+      "eligible_row_count": 230,
+      "mae": 0.2763983563846784,
+      "rmse": 0.3955988583797446,
+      "row_count": 300,
+      "top1_count": 86
+    },
+    "STUDY_REGULARITY": {
+      "eligible_row_count": 292,
+      "mae": 0.29901113763782905,
+      "rmse": 0.37608282064571075,
+      "row_count": 300,
+      "top1_count": 5
+    },
+    "TARGETED_CONTENT_REVIEW": {
+      "eligible_row_count": 115,
+      "mae": 0.1867507084491155,
+      "rmse": 0.2810581983211888,
+      "row_count": 300,
+      "top1_count": 0
+    }
+  },
+  "per_stage_metrics": {
+    "EARLY_20": {
+      "exact_best_top1_agreement": 0.8522727272727273,
+      "mrr_relevance_ge_1": 0.9943181818181818,
+      "ndcg_at_3": 0.9739462128936477,
+      "pairwise_accuracy": 0.8187134502923976,
+      "precision_at_1_relevance_ge_1": 0.9886363636363636,
+      "query_count": 88,
+      "recall_at_3_relevance_ge_1": 0.8882575757575757,
+      "top1_action_counts": {
+        "ASSESSMENT_COMPLETION": 11,
+        "QUIZ_RETRIEVAL_PRACTICE": 56,
+        "RECOVER_ENGAGEMENT": 21
+      },
+      "top1_diversity_normalized_entropy": 0.8096384060571481,
+      "unique_top1_actions": 3
+    },
+    "EARLY_35": {
+      "exact_best_top1_agreement": 0.84,
+      "mrr_relevance_ge_1": 1.0,
+      "ndcg_at_3": 0.9770096088722361,
+      "pairwise_accuracy": 0.875,
+      "precision_at_1_relevance_ge_1": 1.0,
+      "query_count": 75,
+      "recall_at_3_relevance_ge_1": 0.7813333333333332,
+      "top1_action_counts": {
+        "ASSESSMENT_COMPLETION": 8,
+        "QUIZ_RETRIEVAL_PRACTICE": 41,
+        "RECOVER_ENGAGEMENT": 24,
+        "STUDY_REGULARITY": 2
+      },
+      "top1_diversity_normalized_entropy": 0.7430844638702793,
+      "unique_top1_actions": 4
+    },
+    "LATE_75": {
+      "exact_best_top1_agreement": 0.7536231884057971,
+      "mrr_relevance_ge_1": 1.0,
+      "ndcg_at_3": 0.9654898231999205,
+      "pairwise_accuracy": 0.8637413394919169,
+      "precision_at_1_relevance_ge_1": 1.0,
+      "query_count": 69,
+      "recall_at_3_relevance_ge_1": 0.7840579710144928,
+      "top1_action_counts": {
+        "ASSESSMENT_COMPLETION": 14,
+        "QUIZ_RETRIEVAL_PRACTICE": 26,
+        "RECOVER_ENGAGEMENT": 27,
+        "STUDY_REGULARITY": 2
+      },
+      "top1_diversity_normalized_entropy": 0.8376219085420664,
+      "unique_top1_actions": 4
+    },
+    "MIDDLE_50": {
+      "exact_best_top1_agreement": 0.75,
+      "mrr_relevance_ge_1": 0.9852941176470589,
+      "ndcg_at_3": 0.9716833821540907,
+      "pairwise_accuracy": 0.8459715639810427,
+      "precision_at_1_relevance_ge_1": 0.9705882352941176,
+      "query_count": 68,
+      "recall_at_3_relevance_ge_1": 0.7977941176470589,
+      "top1_action_counts": {
+        "ASSESSMENT_COMPLETION": 13,
+        "QUIZ_RETRIEVAL_PRACTICE": 40,
+        "RECOVER_ENGAGEMENT": 14,
+        "STUDY_REGULARITY": 1
+      },
+      "top1_diversity_normalized_entropy": 0.7328063541535879,
+      "unique_top1_actions": 4
+    }
+  },
+  "release_gates": {
+    "context_permutation_degrades_metric": true,
+    "eligible_minimum_two_source_families": false,
+    "frozen_operational_metric_reproduced": true,
+    "full_beats_action_stage_only": true,
+    "full_minus_action_stage_only_ci_excludes_zero": true,
+    "invalid_action_rate_zero": true,
+    "no_single_label_source_dependency": true,
+    "panel_b_untouched": true,
+    "runtime_authorized_false": true
+  },
+  "runtime_authorized": false,
+  "schema_version": "panel_a_release_gates_v1",
+  "selected_config_id": "a70599afad40",
+  "source_dependency_max_allowed_ndcg_drop": 0.05,
+  "source_family_violating_rows": [
+    {
+      "action_id": "RECOVER_ENGAGEMENT",
+      "active_families": [
+        "LLM_EXPERT"
+      ],
+      "active_source_family_count": 1,
+      "active_sources": [
+        "REAL_EXTERNAL_GEMINI_REVIEW_V4"
+      ],
+      "case_id": "case_3bed45903f5da99df23a2022",
+      "outer_fold": 0,
+      "query_id": "414696::GGG::2014B::EARLY_20",
+      "stage": "EARLY_20"
+    }
+  ],
+  "status": "FAIL",
+  "weak_vote_matrix_sha256": "336ab0e1af16d9082917e1d84c80a7896c4ba51baa758e8cdc9ae30eb2759c71"
+}

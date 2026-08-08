@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"QUIZ_RETRIEVAL_PRACTICE\",\n      \"relevance_score\": 0,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"quiz_activity\"\n      ],\n      \"rationale\": \"Quiz activity is at 0.0, indicating no engagement with quizzes prior to cutoff.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"ASSESSMENT_COMPLETION\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"missing_assessment_count\",\n        \"assessments_due\",\n        \"due_soon_count\"\n      ],\n      \"rationale\": \"The student has 5 missing assessments and 9 due with 2 due soon, directly supported by assessment metrics.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"RECOVER_ENGAGEMENT\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"inactivity_streak\",\n        \"active_day_rate\"\n      ],\n      \"rationale\": \"Inactivity streak is 105 days and active day rate is 0.0, showing a severe disengagement gap.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"STUDY_REGULARITY\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"regularity_score\",\n        \"active_day_rate\"\n      ],\n      \"rationale\": \"Regularity score is 0.0, directly addressing the complete lack of study consistency.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"TARGETED_CONTENT_REVIEW\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"content_coverage\",\n        \"completion_rate\"\n      ],\n      \"rationale\": \"Content coverage is 0.0 and completion rate is low at 0.444, supporting targeted content review.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIPtwYIvTLcJCeWC7T8mT+fZOhAffhkR7HpHYY5Br7BJGBR3id0/Wv50TJ9C5gR"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 610,
+    "candidatesTokenCount": 587,
+    "totalTokenCount": 1197,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 610
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "PPR1aqG6JZ2xjuMPgc2y0Ak"
+}

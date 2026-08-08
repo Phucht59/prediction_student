@@ -1,0 +1,127 @@
+{
+  "action_row_count": 1500,
+  "cardinality": 4,
+  "case_count": 300,
+  "correlation_audit_sha256": "f43bbb1a486b6b2461bf8e4a9f1f0539424f61a32934322577c600cf2ddd0f13",
+  "eligible_action_row_count": 1117,
+  "external_review_key_count": 1117,
+  "external_review_record_count": 1117,
+  "fit_protocol": "OUTER_FOLD_TRAIN_ONLY",
+  "fold_models": [
+    {
+      "epochs": 1000,
+      "fit_scope": "PANEL_A_OUTER_FOLD_TRAIN_ONLY",
+      "holdout_case_count": 99,
+      "holdout_rows": 495,
+      "outer_fold": 0,
+      "seed": 2026,
+      "source_weights": {
+        "LF_ASSESSMENT_NEED_V4": 0.4364185340000404,
+        "LF_CONTENT_REVIEW_V4": 0.23022200933155545,
+        "LF_ENGAGEMENT_RECOVERY_V4": 0.5338136318368925,
+        "LF_FEASIBILITY_CONSTRAINT_V4": 0.9483028144485666,
+        "LF_QUIZ_RETRIEVAL_V4": 0.44739966788256424,
+        "LF_STUDY_REGULARITY_V4": 0.7051131480602635,
+        "REAL_EXTERNAL_GEMINI_REVIEW_V4": 0.8197912972143575
+      },
+      "train_case_count": 201,
+      "train_rows": 1005
+    },
+    {
+      "epochs": 1000,
+      "fit_scope": "PANEL_A_OUTER_FOLD_TRAIN_ONLY",
+      "holdout_case_count": 100,
+      "holdout_rows": 500,
+      "outer_fold": 1,
+      "seed": 2027,
+      "source_weights": {
+        "LF_ASSESSMENT_NEED_V4": 0.39344191769487225,
+        "LF_CONTENT_REVIEW_V4": 0.20646288743591867,
+        "LF_ENGAGEMENT_RECOVERY_V4": 0.6040183442057433,
+        "LF_FEASIBILITY_CONSTRAINT_V4": 0.9671814797462313,
+        "LF_QUIZ_RETRIEVAL_V4": 0.41582835590816103,
+        "LF_STUDY_REGULARITY_V4": 0.6657715955225285,
+        "REAL_EXTERNAL_GEMINI_REVIEW_V4": 0.8570915521669243
+      },
+      "train_case_count": 200,
+      "train_rows": 1000
+    },
+    {
+      "epochs": 1000,
+      "fit_scope": "PANEL_A_OUTER_FOLD_TRAIN_ONLY",
+      "holdout_case_count": 101,
+      "holdout_rows": 505,
+      "outer_fold": 2,
+      "seed": 2028,
+      "source_weights": {
+        "LF_ASSESSMENT_NEED_V4": 0.4638199483451899,
+        "LF_CONTENT_REVIEW_V4": 0.20475964513025247,
+        "LF_ENGAGEMENT_RECOVERY_V4": 0.6250291755324466,
+        "LF_FEASIBILITY_CONSTRAINT_V4": 1.0,
+        "LF_QUIZ_RETRIEVAL_V4": 0.4474990906601306,
+        "LF_STUDY_REGULARITY_V4": 0.7204305355844554,
+        "REAL_EXTERNAL_GEMINI_REVIEW_V4": 0.7799460367357747
+      },
+      "train_case_count": 199,
+      "train_rows": 995
+    }
+  ],
+  "frozen_panel_a_sha256": "4a4871426880bdcd1257dc15c29a36c23de34481f07be68d8e5095dc20efefb9",
+  "labels_sha256": "985ea382ab62720a4e311df73c73efa78fdd628c49e89fe23f5729e70dd24784",
+  "mean_confidence": 0.870828543119707,
+  "mean_entropy": 0.35416148835886146,
+  "mean_expected_relevance": 1.4909288533971048,
+  "outer_folds": [
+    0,
+    1,
+    2
+  ],
+  "panel": "A",
+  "panel_b_touched": false,
+  "runtime_authorized": false,
+  "schema_version": "panel_a_snorkel_oof_v4",
+  "scientific_constraints": [
+    "Panel B files are not read by this runner.",
+    "Snorkel cardinality is fixed at 4 for relevance classes 0..3.",
+    "Each fold model is fit on Panel A rows outside the held-out outer fold.",
+    "No fallback or fabricated metric is permitted on fitting failure.",
+    "External Gemini reviews are one provenance-preserving source, not three synthetic reviewers.",
+    "RUNTIME_AUTHORIZED remains FALSE."
+  ],
+  "source_family_count_distribution": {
+    "1": 1,
+    "2": 1499
+  },
+  "sources": [
+    {
+      "family": "BEHAVIORAL",
+      "name": "LF_ASSESSMENT_NEED_V4"
+    },
+    {
+      "family": "BEHAVIORAL",
+      "name": "LF_ENGAGEMENT_RECOVERY_V4"
+    },
+    {
+      "family": "BEHAVIORAL",
+      "name": "LF_STUDY_REGULARITY_V4"
+    },
+    {
+      "family": "BEHAVIORAL",
+      "name": "LF_CONTENT_REVIEW_V4"
+    },
+    {
+      "family": "BEHAVIORAL",
+      "name": "LF_QUIZ_RETRIEVAL_V4"
+    },
+    {
+      "family": "FEASIBILITY",
+      "name": "LF_FEASIBILITY_CONSTRAINT_V4"
+    },
+    {
+      "family": "LLM_EXPERT",
+      "name": "REAL_EXTERNAL_GEMINI_REVIEW_V4"
+    }
+  ],
+  "status": "PASS",
+  "votes_sha256": "336ab0e1af16d9082917e1d84c80a7896c4ba51baa758e8cdc9ae30eb2759c71"
+}

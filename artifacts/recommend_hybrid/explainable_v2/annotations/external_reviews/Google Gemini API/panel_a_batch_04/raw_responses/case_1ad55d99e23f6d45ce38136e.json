@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"QUIZ_RETRIEVAL_PRACTICE\",\n      \"relevance_score\": 1,\n      \"abstain\": false,\n      \"evidence_ids\": [\"quiz_available\", \"quiz_activity\"],\n      \"rationale\": \"Quiz activity is present and quizzes are available, but there is no specific performance gap or deficiency identified in quiz retrieval practice.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"ASSESSMENT_COMPLETION\",\n      \"relevance_score\": 1,\n      \"abstain\": false,\n      \"evidence_ids\": [\"assessments_due\", \"missing_assessment_count\", \"completion_rate\"],\n      \"rationale\": \"Missing assessment count is 0 and completion rate is 1.0, though there is 1 assessment due soon.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"STUDY_REGULARITY\",\n      \"relevance_score\": 1,\n      \"abstain\": false,\n      \"evidence_ids\": [\"regularity_score\", \"active_day_rate\", \"inactivity_streak\"],\n      \"rationale\": \"The student exhibits a high regularity score and active day rate with zero inactivity streak, leaving little immediate behavioral gap to address.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIPlbykVV+VcZ6+n48tJh6EbXP/HgD7YZ5tnn9J/DuNIUuqFFTL3YaplNE34PPT"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 594,
+    "candidatesTokenCount": 351,
+    "totalTokenCount": 945,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 594
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "Z_R1auqHIebNjuMP2dS18QM"
+}

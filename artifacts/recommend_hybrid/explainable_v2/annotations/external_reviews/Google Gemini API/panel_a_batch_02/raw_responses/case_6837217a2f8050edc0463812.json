@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"QUIZ_RETRIEVAL_PRACTICE\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\"quiz_available\", \"quiz_activity\"],\n      \"rationale\": \"Quiz activity is at 0.0 while quizzes are available, directly pointing to a gap in retrieval practice.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"ASSESSMENT_COMPLETION\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\"missing_assessment_count\", \"assessments_due\", \"due_soon_count\"],\n      \"rationale\": \"There are 3 missing assessments and 5 assessments due with one due soon, directly supporting assessment completion support.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"RECOVER_ENGAGEMENT\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\"inactivity_streak\", \"active_day_rate\", \"regularity_score\"],\n      \"rationale\": \"An inactivity streak of 127 days with an active day rate and regularity score of 0.0 directly highlights severe disengagement.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"STUDY_REGULARITY\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\"regularity_score\", \"active_day_rate\"],\n      \"rationale\": \"Regularity score and active_day_rate are both 0.0, indicating a clear need to improve study regularity.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"TARGETED_CONTENT_REVIEW\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\"content_coverage\", \"completion_rate\", \"study_material_available\"],\n      \"rationale\": \"Content coverage is 0.0 and study materials are available, directly supporting targeted content review.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIPLyWKB1NDh+La1o9KxTqOdzPOJ7bAX+mBVRW+2erObJJydksGSy6OtkGOUBz3"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 596,
+    "candidatesTokenCount": 571,
+    "totalTokenCount": 1167,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 596
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "iu91aqWeOriqjuMPntCIWA"
+}

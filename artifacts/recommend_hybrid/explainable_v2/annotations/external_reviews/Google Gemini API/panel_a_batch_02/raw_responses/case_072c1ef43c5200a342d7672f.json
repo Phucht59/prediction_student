@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"QUIZ_RETRIEVAL_PRACTICE\",\n      \"relevance_score\": 0,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"quiz_activity\"\n      ],\n      \"rationale\": \"Quiz activity is 0.0, indicating no engagement with quizzes prior to cutoff.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"ASSESSMENT_COMPLETION\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"missing_assessment_count\",\n        \"completion_rate\",\n        \"assessments_due\"\n      ],\n      \"rationale\": \"Student has 5 missing assessments and a low completion rate of 0.167 out of 6 due assessments, showing a direct behavioral gap in assessment completion.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"RECOVER_ENGAGEMENT\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"inactivity_streak\",\n        \"active_day_rate\",\n        \"regularity_score\"\n      ],\n      \"rationale\": \"Student exhibits an extreme inactivity streak of 159.0 days, an active day rate of 0.0, and a regularity score of 0.0.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"STUDY_REGULARITY\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"regularity_score\",\n        \"active_day_rate\"\n      ],\n      \"rationale\": \"Regularity score and active_day_rate are both 0.0, indicating a complete absence of consistent study habits.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"TARGETED_CONTENT_REVIEW\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"content_coverage\"\n      ],\n      \"rationale\": \"Content coverage is 0.0, indicating zero material has been reviewed.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIPrfFQflJ/EFXzlY+EShVozTwOOpUfvQjPOLc3rxN5QgrwayoTOSXSi9YvLALT"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 612,
+    "candidatesTokenCount": 602,
+    "totalTokenCount": 1214,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 612
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "I_B1auGjCcnmjuMP6-D1iQ0"
+}

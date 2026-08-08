@@ -1,0 +1,68 @@
+{
+  "schema_version": "gemini_external_review_case_state_v3_1",
+  "status": "COMPLETE",
+  "case_number": 35,
+  "case_id": "case_8b75e2b6d14adaeddc33e8c9",
+  "provider": "Google Gemini API",
+  "model_name": "gemini-3.5-flash-lite",
+  "model_version": "gemini-3.5-flash-lite",
+  "request_id": "clientreq_4fbf0d9a42f8453eb57bafdd7b58bbcc",
+  "response_id": "fPB1auHFOp6sjuMP6JDdGA",
+  "http_status": 200,
+  "response_headers": {
+    "content-type": "application/json; charset=UTF-8",
+    "date": "Fri, 07 Aug 2026 14:49:33 GMT"
+  },
+  "finish_reason": "STOP",
+  "usage_metadata": {
+    "promptTokenCount": 598,
+    "candidatesTokenCount": 140,
+    "totalTokenCount": 738,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 598
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "response_schema_sha256": "5b242ae619f0aa6e991eb9ceb52773ffd9fabcd53fd506901ce0dc91eb468ea0",
+  "raw_request_sha256": "61937c87ba44b68950fceae0c19dc614b1f20dfe180ee4b63994f6c861c0ad5d",
+  "raw_response_sha256": "889c5ad2ccc0ceb07636b879107e24f277f76f4eb971da07b21bca67e30068e1",
+  "raw_request_file": "raw_requests/case_8b75e2b6d14adaeddc33e8c9.json",
+  "raw_response_file": "raw_responses/case_8b75e2b6d14adaeddc33e8c9.json",
+  "normalized_records": [
+    {
+      "case_id": "case_8b75e2b6d14adaeddc33e8c9",
+      "panel_id": "PANEL_A",
+      "action_id": "STUDY_REGULARITY",
+      "relevance_score": 1,
+      "abstain": false,
+      "evidence_ids": [
+        "regularity_score",
+        "active_day_rate"
+      ],
+      "rationale": "The regularity_score of 0.91 and active_day_rate of 0.66 indicate established study habits, making generic study regularity support weakly relevant.",
+      "contraindication_detected": false,
+      "safety_flag": false,
+      "reviewer_id": "gemini_external_reviewer_01",
+      "reviewer_configuration_id": "gemini_external_3c58f1eea7e91cf4",
+      "reviewer_type": "REAL_EXTERNAL_LLM_REVIEW",
+      "provider": "Google Gemini API",
+      "model_name": "gemini-3.5-flash-lite",
+      "model_version": "gemini-3.5-flash-lite",
+      "request_id": "clientreq_4fbf0d9a42f8453eb57bafdd7b58bbcc",
+      "response_id": "fPB1auHFOp6sjuMP6JDdGA",
+      "batch_id": "panel_a_batch_02",
+      "prompt_version": "external_reviewer_v1",
+      "prompt_sha256": "f7edfaacd2fad67bf21a175ccc5c0a46abb81b669c08928ab78009c0a24624f3",
+      "request_batch_sha256": "e56f16b7ada1167da7d5b00271ef6b2ea3be4328a73035d8b4ab045a3530e2ce",
+      "raw_request_sha256": "61937c87ba44b68950fceae0c19dc614b1f20dfe180ee4b63994f6c861c0ad5d",
+      "raw_response_sha256": "889c5ad2ccc0ceb07636b879107e24f277f76f4eb971da07b21bca67e30068e1",
+      "response_record_index": 0,
+      "created_at": "2026-08-07T14:49:34.070290+00:00",
+      "response_record_sha256": "747054c473857f7fd9abf5c8afdfdd5df41270c3e31254bf420937b14d51f3e8"
+    }
+  ],
+  "created_at": "2026-08-07T14:49:34.070290+00:00"
+}

@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"QUIZ_RETRIEVAL_PRACTICE\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"quiz_activity\",\n        \"quiz_available\"\n      ],\n      \"rationale\": \"Quiz activity is low at 0.167 while quizzes are available, supporting targeted retrieval practice.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"ASSESSMENT_COMPLETION\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"assessments_due\",\n        \"completion_rate\",\n        \"missing_assessment_count\"\n      ],\n      \"rationale\": \"Completion rate is 0.5 with missing assessments and 2 assessments due, directly indicating a gap in assessment completion.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"RECOVER_ENGAGEMENT\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"active_day_rate\",\n        \"inactivity_streak\"\n      ],\n      \"rationale\": \"Inactivity streak is 27 days and active day rate is very low at 0.139, showing a severe disengagement gap.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"STUDY_REGULARITY\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"regularity_score\",\n        \"active_day_rate\"\n      ],\n      \"rationale\": \"Regularity score is low at 0.268 alongside an active day rate of 0.139, reflecting irregular study patterns.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIPdOaWs0cbDs68sKdf2A+SVJIwYPHZmiD53NacxGx+A7xAYEeLg5pqalB/0rJm"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 649,
+    "candidatesTokenCount": 498,
+    "totalTokenCount": 1147,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 649
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "FPB1asTiMoTajuMPrfnRuA8"
+}

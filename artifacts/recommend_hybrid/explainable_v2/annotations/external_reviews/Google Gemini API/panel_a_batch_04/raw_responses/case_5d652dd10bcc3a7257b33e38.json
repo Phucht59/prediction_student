@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"QUIZ_RETRIEVAL_PRACTICE\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"quiz_available\",\n        \"quiz_activity\"\n      ],\n      \"rationale\": \"Quiz activity is at 0.5 and quizzes are available, supporting retrieval practice.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"STUDY_REGULARITY\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"regularity_score\",\n        \"active_day_rate\"\n      ],\n      \"rationale\": \"Regularity score is 0.88 with an active day rate of 0.55, providing direct evidence on study patterns.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIPseDvmR+7Tme6T25XiKL8Dw9Sa5zclCYglXkkdS7+NG5BKiH+eLGrJ5f5dq8g"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 587,
+    "candidatesTokenCount": 244,
+    "totalTokenCount": 831,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 587
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "LPV1aoi0GeG74-EP5aPy6Qo"
+}

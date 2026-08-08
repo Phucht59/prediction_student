@@ -18,17 +18,19 @@ from .contracts import ActionScore, CanonicalAction, RecommendationFeatures
 FEATURE_COLUMNS = (
     "risk_probability",
     "hybrid_uncertainty",
-    "seed_disagreement",
     "course_progress",
-    "assessment_progress",
-    "assessments_due",
-    "time_to_deadline_days",
     "inactivity_streak",
     "active_day_rate",
-    "recent_activity_trend",
+    "assessments_due",
     "regularity_score",
     "content_coverage",
     "quiz_activity",
+    "missing_assessment_count",
+    "due_soon_count",
+    "completion_rate",
+    "vle_available",
+    "study_material_available",
+    "quiz_available",
     "stage",
 )
 
@@ -44,6 +46,7 @@ class ActionRanker(Protocol):
 def feature_frame(features: RecommendationFeatures) -> pd.DataFrame:
     raw = asdict(features)
     row = {column: raw.get(column) for column in FEATURE_COLUMNS}
+    row["vle_available"] = features.vle_access_available
     row["stage"] = features.stage.value
     return pd.DataFrame([row], columns=list(FEATURE_COLUMNS))
 

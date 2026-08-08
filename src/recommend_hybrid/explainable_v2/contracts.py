@@ -62,6 +62,9 @@ class RecommendationFeatures:
     course_progress: float
     assessment_progress: float | None = None
     assessments_due: int | None = None
+    missing_assessment_count: int | None = None
+    due_soon_count: int | None = None
+    completion_rate: float | None = None
     assessment_window_open: bool | None = None
     time_to_deadline_days: int | None = None
     inactivity_streak: int | None = None
@@ -107,6 +110,18 @@ class RecommendationFeatures:
             raise ValueError("normalized optional features must be in [0, 1]")
         if self.assessments_due is not None and self.assessments_due < 0:
             raise ValueError("assessments_due must be non-negative")
+        if (
+            self.missing_assessment_count is not None
+            and self.missing_assessment_count < 0
+        ):
+            raise ValueError("missing_assessment_count must be non-negative")
+        if self.due_soon_count is not None and self.due_soon_count < 0:
+            raise ValueError("due_soon_count must be non-negative")
+        if self.completion_rate is not None and (
+            not isfinite(self.completion_rate)
+            or not 0.0 <= self.completion_rate <= 1.0
+        ):
+            raise ValueError("completion_rate must be in [0, 1]")
         if self.inactivity_streak is not None and self.inactivity_streak < 0:
             raise ValueError("inactivity_streak must be non-negative")
 

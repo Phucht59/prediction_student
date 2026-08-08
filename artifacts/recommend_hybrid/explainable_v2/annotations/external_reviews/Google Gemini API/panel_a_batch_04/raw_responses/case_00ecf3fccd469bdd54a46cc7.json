@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"QUIZ_RETRIEVAL_PRACTICE\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"quiz_activity\",\n        \"quiz_available\"\n      ],\n      \"rationale\": \"Quiz activity is observed at 0.222, and quizzes are available, supporting retrieval practice.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"ASSESSMENT_COMPLETION\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"assessments_due\",\n        \"due_soon_count\",\n        \"missing_assessment_count\"\n      ],\n      \"rationale\": \"There are 5 assessments due with 2 due soon, while missing assessment count is 0.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"STUDY_REGULARITY\",\n      \"relevance_score\": 1,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"regularity_score\",\n        \"active_day_rate\",\n        \"inactivity_streak\"\n      ],\n      \"rationale\": \"Regularity score is high at 0.899 with an active day rate of 0.638, making this generic.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIP6tf6kB1WNnfg9QOJjTrNw69jWWUlnIrdpqKCFA7lmYGL3X9N8HHb9TZIi1qd"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 619,
+    "candidatesTokenCount": 379,
+    "totalTokenCount": 998,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 619
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "4fR1ap6cMIqJjuMPxtz2uQQ"
+}

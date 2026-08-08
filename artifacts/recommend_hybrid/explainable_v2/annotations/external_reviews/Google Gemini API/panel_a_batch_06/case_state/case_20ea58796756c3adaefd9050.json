@@ -1,0 +1,129 @@
+{
+  "schema_version": "gemini_external_review_case_state_v3_1",
+  "status": "COMPLETE",
+  "case_number": 43,
+  "case_id": "case_20ea58796756c3adaefd9050",
+  "provider": "Google Gemini API",
+  "model_name": "gemini-3.5-flash-lite",
+  "model_version": "gemini-3.5-flash-lite",
+  "request_id": "clientreq_e808a8924c604d43985504dbd61b5596",
+  "response_id": "8fl1atDiB6D44-EPkMqGkA0",
+  "http_status": 200,
+  "response_headers": {
+    "content-type": "application/json; charset=UTF-8",
+    "date": "Fri, 07 Aug 2026 15:29:54 GMT"
+  },
+  "finish_reason": "STOP",
+  "usage_metadata": {
+    "promptTokenCount": 605,
+    "candidatesTokenCount": 336,
+    "totalTokenCount": 941,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 605
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "response_schema_sha256": "b781b4f4d4c5e82139c88e6f7f49a84508cd025c1457498253a206191bc64767",
+  "raw_request_sha256": "5d265c81a796c81e57b885af7abe4acd86f506b17a291e03facb793e002dfd67",
+  "raw_response_sha256": "141dcee64733a74608911f37d29662379d2239cc80ca4bc37811bd3c53adcee9",
+  "raw_request_file": "raw_requests/case_20ea58796756c3adaefd9050.json",
+  "raw_response_file": "raw_responses/case_20ea58796756c3adaefd9050.json",
+  "normalized_records": [
+    {
+      "case_id": "case_20ea58796756c3adaefd9050",
+      "panel_id": "PANEL_A",
+      "action_id": "QUIZ_RETRIEVAL_PRACTICE",
+      "relevance_score": 3,
+      "abstain": false,
+      "evidence_ids": [
+        "quiz_activity",
+        "quiz_available"
+      ],
+      "rationale": "Quiz activity is currently 0.0 despite quizzes being available, directly indicating a specific behavioral gap in retrieval practice.",
+      "contraindication_detected": false,
+      "safety_flag": false,
+      "reviewer_id": "gemini_external_reviewer_01",
+      "reviewer_configuration_id": "gemini_external_4037b4b8dab750b4",
+      "reviewer_type": "REAL_EXTERNAL_LLM_REVIEW",
+      "provider": "Google Gemini API",
+      "model_name": "gemini-3.5-flash-lite",
+      "model_version": "gemini-3.5-flash-lite",
+      "request_id": "clientreq_e808a8924c604d43985504dbd61b5596",
+      "response_id": "8fl1atDiB6D44-EPkMqGkA0",
+      "batch_id": "panel_a_batch_06",
+      "prompt_version": "external_reviewer_v1",
+      "prompt_sha256": "f7edfaacd2fad67bf21a175ccc5c0a46abb81b669c08928ab78009c0a24624f3",
+      "request_batch_sha256": "033d8acb4452785d905cccdb9b07e281dd31b14181767fa7864ab4af0a656c0b",
+      "raw_request_sha256": "5d265c81a796c81e57b885af7abe4acd86f506b17a291e03facb793e002dfd67",
+      "raw_response_sha256": "141dcee64733a74608911f37d29662379d2239cc80ca4bc37811bd3c53adcee9",
+      "response_record_index": 0,
+      "created_at": "2026-08-07T15:29:54.564514+00:00",
+      "response_record_sha256": "55dc2c36c3ff77e02b1471447c48915417479f979f0e3b5c3b2114e75b383cee"
+    },
+    {
+      "case_id": "case_20ea58796756c3adaefd9050",
+      "panel_id": "PANEL_A",
+      "action_id": "RECOVER_ENGAGEMENT",
+      "relevance_score": 1,
+      "abstain": false,
+      "evidence_ids": [
+        "inactivity_streak",
+        "active_day_rate"
+      ],
+      "rationale": "The student has a minor inactivity streak of 2 days and an active day rate of 0.37, making engagement recovery weakly relevant.",
+      "contraindication_detected": false,
+      "safety_flag": false,
+      "reviewer_id": "gemini_external_reviewer_01",
+      "reviewer_configuration_id": "gemini_external_4037b4b8dab750b4",
+      "reviewer_type": "REAL_EXTERNAL_LLM_REVIEW",
+      "provider": "Google Gemini API",
+      "model_name": "gemini-3.5-flash-lite",
+      "model_version": "gemini-3.5-flash-lite",
+      "request_id": "clientreq_e808a8924c604d43985504dbd61b5596",
+      "response_id": "8fl1atDiB6D44-EPkMqGkA0",
+      "batch_id": "panel_a_batch_06",
+      "prompt_version": "external_reviewer_v1",
+      "prompt_sha256": "f7edfaacd2fad67bf21a175ccc5c0a46abb81b669c08928ab78009c0a24624f3",
+      "request_batch_sha256": "033d8acb4452785d905cccdb9b07e281dd31b14181767fa7864ab4af0a656c0b",
+      "raw_request_sha256": "5d265c81a796c81e57b885af7abe4acd86f506b17a291e03facb793e002dfd67",
+      "raw_response_sha256": "141dcee64733a74608911f37d29662379d2239cc80ca4bc37811bd3c53adcee9",
+      "response_record_index": 1,
+      "created_at": "2026-08-07T15:29:54.564514+00:00",
+      "response_record_sha256": "3212602d4b59530de1d14c27e6c5a53ab478042038df5eab78a4e2d9ac28069b"
+    },
+    {
+      "case_id": "case_20ea58796756c3adaefd9050",
+      "panel_id": "PANEL_A",
+      "action_id": "STUDY_REGULARITY",
+      "relevance_score": 1,
+      "abstain": false,
+      "evidence_ids": [
+        "regularity_score"
+      ],
+      "rationale": "The regularity score is 0.89, showing generally steady study patterns with minimal need for intervention on regularity.",
+      "contraindication_detected": false,
+      "safety_flag": false,
+      "reviewer_id": "gemini_external_reviewer_01",
+      "reviewer_configuration_id": "gemini_external_4037b4b8dab750b4",
+      "reviewer_type": "REAL_EXTERNAL_LLM_REVIEW",
+      "provider": "Google Gemini API",
+      "model_name": "gemini-3.5-flash-lite",
+      "model_version": "gemini-3.5-flash-lite",
+      "request_id": "clientreq_e808a8924c604d43985504dbd61b5596",
+      "response_id": "8fl1atDiB6D44-EPkMqGkA0",
+      "batch_id": "panel_a_batch_06",
+      "prompt_version": "external_reviewer_v1",
+      "prompt_sha256": "f7edfaacd2fad67bf21a175ccc5c0a46abb81b669c08928ab78009c0a24624f3",
+      "request_batch_sha256": "033d8acb4452785d905cccdb9b07e281dd31b14181767fa7864ab4af0a656c0b",
+      "raw_request_sha256": "5d265c81a796c81e57b885af7abe4acd86f506b17a291e03facb793e002dfd67",
+      "raw_response_sha256": "141dcee64733a74608911f37d29662379d2239cc80ca4bc37811bd3c53adcee9",
+      "response_record_index": 2,
+      "created_at": "2026-08-07T15:29:54.564514+00:00",
+      "response_record_sha256": "25d9ea44f4f19c385d001468fe22085153a04ceed5d74d6ac92fd063e422ab83"
+    }
+  ],
+  "created_at": "2026-08-07T15:29:54.564514+00:00"
+}

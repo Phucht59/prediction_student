@@ -1,0 +1,132 @@
+{
+  "schema_version": "gemini_external_review_case_state_v3_1",
+  "status": "COMPLETE",
+  "case_number": 1,
+  "case_id": "case_e0f9d4369e88a2e49acbb575",
+  "provider": "Google Gemini API",
+  "model_name": "gemini-3.5-flash",
+  "model_version": "gemini-3.5-flash",
+  "request_id": "clientreq_4227e9d1b472430bb48e11ba9ba1013d",
+  "response_id": "ceV1aveDLuuvjuMPsbeEyAk",
+  "http_status": 200,
+  "response_headers": {
+    "date": "Fri, 07 Aug 2026 14:02:35 GMT",
+    "content-type": "application/json; charset=UTF-8"
+  },
+  "finish_reason": "STOP",
+  "usage_metadata": {
+    "promptTokenCount": 624,
+    "candidatesTokenCount": 405,
+    "totalTokenCount": 2884,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 624
+      }
+    ],
+    "thoughtsTokenCount": 1855,
+    "serviceTier": "standard"
+  },
+  "response_schema_sha256": "3d6778f2b9f87d37a7c9fc09ab33efae4dc34deb80041f6db900f58ad7fa11d0",
+  "raw_request_sha256": "695e28d364b0b7294d36dc3d28e5be62676007477455f4e958a0666b45e2044b",
+  "raw_response_sha256": "1601b2a2c7c0e11fd411e36ed2cd25fd1f8c9453f5abe0a99627c414be950491",
+  "raw_request_file": "raw_requests/case_e0f9d4369e88a2e49acbb575.json",
+  "raw_response_file": "raw_responses/case_e0f9d4369e88a2e49acbb575.json",
+  "normalized_records": [
+    {
+      "case_id": "case_e0f9d4369e88a2e49acbb575",
+      "panel_id": "PANEL_A",
+      "action_id": "QUIZ_RETRIEVAL_PRACTICE",
+      "relevance_score": 1,
+      "abstain": false,
+      "evidence_ids": [
+        "quiz_available",
+        "quiz_activity"
+      ],
+      "rationale": "Quizzes are available, but the student already demonstrates high quiz participation (0.83), making this action only weakly relevant or generic.",
+      "contraindication_detected": false,
+      "safety_flag": false,
+      "reviewer_id": "gemini_external_reviewer_01",
+      "reviewer_configuration_id": "gemini_external_e2231bcb0b3a15d0",
+      "reviewer_type": "REAL_EXTERNAL_LLM_REVIEW",
+      "provider": "Google Gemini API",
+      "model_name": "gemini-3.5-flash",
+      "model_version": "gemini-3.5-flash",
+      "request_id": "clientreq_4227e9d1b472430bb48e11ba9ba1013d",
+      "response_id": "ceV1aveDLuuvjuMPsbeEyAk",
+      "batch_id": "panel_a_batch_01",
+      "prompt_version": "external_reviewer_v1",
+      "prompt_sha256": "f7edfaacd2fad67bf21a175ccc5c0a46abb81b669c08928ab78009c0a24624f3",
+      "request_batch_sha256": "c0210f8a82ffd2a487079911bb80c2d6a10205fc3532ac4529c50300bda57cbe",
+      "raw_request_sha256": "695e28d364b0b7294d36dc3d28e5be62676007477455f4e958a0666b45e2044b",
+      "raw_response_sha256": "1601b2a2c7c0e11fd411e36ed2cd25fd1f8c9453f5abe0a99627c414be950491",
+      "response_record_index": 0,
+      "created_at": "2026-08-07T14:02:36.283197+00:00",
+      "response_record_sha256": "3997235ec73763353e6873a4da3f77b5ec7f0c5c2860ef77ef84d5e53ec33111"
+    },
+    {
+      "case_id": "case_e0f9d4369e88a2e49acbb575",
+      "panel_id": "PANEL_A",
+      "action_id": "ASSESSMENT_COMPLETION",
+      "relevance_score": 2,
+      "abstain": false,
+      "evidence_ids": [
+        "assessments_due",
+        "due_soon_count",
+        "completion_rate"
+      ],
+      "rationale": "The student has an assessment due soon (due_soon_count = 1). While they have maintained a perfect 1.0 completion rate so far, prompting timely submission is relevant to maintain their progress.",
+      "contraindication_detected": false,
+      "safety_flag": false,
+      "reviewer_id": "gemini_external_reviewer_01",
+      "reviewer_configuration_id": "gemini_external_e2231bcb0b3a15d0",
+      "reviewer_type": "REAL_EXTERNAL_LLM_REVIEW",
+      "provider": "Google Gemini API",
+      "model_name": "gemini-3.5-flash",
+      "model_version": "gemini-3.5-flash",
+      "request_id": "clientreq_4227e9d1b472430bb48e11ba9ba1013d",
+      "response_id": "ceV1aveDLuuvjuMPsbeEyAk",
+      "batch_id": "panel_a_batch_01",
+      "prompt_version": "external_reviewer_v1",
+      "prompt_sha256": "f7edfaacd2fad67bf21a175ccc5c0a46abb81b669c08928ab78009c0a24624f3",
+      "request_batch_sha256": "c0210f8a82ffd2a487079911bb80c2d6a10205fc3532ac4529c50300bda57cbe",
+      "raw_request_sha256": "695e28d364b0b7294d36dc3d28e5be62676007477455f4e958a0666b45e2044b",
+      "raw_response_sha256": "1601b2a2c7c0e11fd411e36ed2cd25fd1f8c9453f5abe0a99627c414be950491",
+      "response_record_index": 1,
+      "created_at": "2026-08-07T14:02:36.283197+00:00",
+      "response_record_sha256": "499bc0e6b01ed86ef6c81acfd8a9dc2cbc75464c4684c5143b66b3fed8b9cd34"
+    },
+    {
+      "case_id": "case_e0f9d4369e88a2e49acbb575",
+      "panel_id": "PANEL_A",
+      "action_id": "STUDY_REGULARITY",
+      "relevance_score": 1,
+      "abstain": false,
+      "evidence_ids": [
+        "regularity_score",
+        "active_day_rate"
+      ],
+      "rationale": "The student already exhibits a high regularity score of 0.89 and a strong active day rate of 0.56, rendering generic advice on study regularity weakly relevant.",
+      "contraindication_detected": false,
+      "safety_flag": false,
+      "reviewer_id": "gemini_external_reviewer_01",
+      "reviewer_configuration_id": "gemini_external_e2231bcb0b3a15d0",
+      "reviewer_type": "REAL_EXTERNAL_LLM_REVIEW",
+      "provider": "Google Gemini API",
+      "model_name": "gemini-3.5-flash",
+      "model_version": "gemini-3.5-flash",
+      "request_id": "clientreq_4227e9d1b472430bb48e11ba9ba1013d",
+      "response_id": "ceV1aveDLuuvjuMPsbeEyAk",
+      "batch_id": "panel_a_batch_01",
+      "prompt_version": "external_reviewer_v1",
+      "prompt_sha256": "f7edfaacd2fad67bf21a175ccc5c0a46abb81b669c08928ab78009c0a24624f3",
+      "request_batch_sha256": "c0210f8a82ffd2a487079911bb80c2d6a10205fc3532ac4529c50300bda57cbe",
+      "raw_request_sha256": "695e28d364b0b7294d36dc3d28e5be62676007477455f4e958a0666b45e2044b",
+      "raw_response_sha256": "1601b2a2c7c0e11fd411e36ed2cd25fd1f8c9453f5abe0a99627c414be950491",
+      "response_record_index": 2,
+      "created_at": "2026-08-07T14:02:36.283197+00:00",
+      "response_record_sha256": "846f05684da64d2b61b7a1094405c388300c2a1d18109814bedda687843f0824"
+    }
+  ],
+  "created_at": "2026-08-07T14:02:36.283197+00:00"
+}

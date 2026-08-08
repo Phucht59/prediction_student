@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"QUIZ_RETRIEVAL_PRACTICE\",\n      \"relevance_score\": 2,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"quiz_activity\",\n        \"quiz_available\"\n      ],\n      \"rationale\": \"Observed quiz_activity is low at 0.111, while quiz_available is true, supporting practice.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"STUDY_REGULARITY\",\n      \"relevance_score\": 1,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"regularity_score\",\n        \"inactivity_streak\"\n      ],\n      \"rationale\": \"Regularity score is 0.815 and inactivity streak is 10 days, making study regularity weakly relevant.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIPFYmjaVS5848FYUouIcmo/c6jdpy2TJa4GdQJ+tFD58t0ZkOOwq78IspA1wOv"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 632,
+    "candidatesTokenCount": 248,
+    "totalTokenCount": 880,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 632
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "BPN1aoX8GNrdqfkP7a-KgAg"
+}

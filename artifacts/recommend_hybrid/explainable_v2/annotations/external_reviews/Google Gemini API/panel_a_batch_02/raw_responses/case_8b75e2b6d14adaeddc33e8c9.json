@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"STUDY_REGULARITY\",\n      \"relevance_score\": 1,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"regularity_score\",\n        \"active_day_rate\"\n      ],\n      \"rationale\": \"The regularity_score of 0.91 and active_day_rate of 0.66 indicate established study habits, making generic study regularity support weakly relevant.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIPeZ/Vg6Qbhjj09KjohnmlFEJYlvBHD8zWplXGtiM1b7bFlXrIMUxxVyQPoT8i"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 598,
+    "candidatesTokenCount": 140,
+    "totalTokenCount": 738,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 598
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "fPB1auHFOp6sjuMP6JDdGA"
+}

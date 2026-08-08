@@ -1,0 +1,69 @@
+{
+  "schema_version": "gemini_external_review_case_state_v3_1",
+  "status": "COMPLETE",
+  "case_number": 34,
+  "case_id": "case_f3fffe7d564bb5837edc474b",
+  "provider": "Google Gemini API",
+  "model_name": "gemini-3.5-flash-lite",
+  "model_version": "gemini-3.5-flash-lite",
+  "request_id": "clientreq_dfd7600029c04cb1856a5b6c5737112d",
+  "response_id": "dvB1arSqK5vvg8UP9artmAw",
+  "http_status": 200,
+  "response_headers": {
+    "content-type": "application/json; charset=UTF-8",
+    "date": "Fri, 07 Aug 2026 14:49:27 GMT"
+  },
+  "finish_reason": "STOP",
+  "usage_metadata": {
+    "promptTokenCount": 583,
+    "candidatesTokenCount": 134,
+    "totalTokenCount": 717,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 583
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "response_schema_sha256": "1e510d7f5a5cd43071a703258d04bd06037ca9dbd42e7acdcca3ff4bc66348c0",
+  "raw_request_sha256": "d9d935ea6428932c9353519ce637664490f847641dcf0d1837834fbf36d9a531",
+  "raw_response_sha256": "b1367f99123042b15fbb4b1f3c71f39801eb895b87421f8722521d8092d11d05",
+  "raw_request_file": "raw_requests/case_f3fffe7d564bb5837edc474b.json",
+  "raw_response_file": "raw_responses/case_f3fffe7d564bb5837edc474b.json",
+  "normalized_records": [
+    {
+      "case_id": "case_f3fffe7d564bb5837edc474b",
+      "panel_id": "PANEL_A",
+      "action_id": "ASSESSMENT_COMPLETION",
+      "relevance_score": 1,
+      "abstain": false,
+      "evidence_ids": [
+        "assessments_due",
+        "due_soon_count",
+        "missing_assessment_count"
+      ],
+      "rationale": "The student has 1 assessment due soon and 0 missing assessments, making completion support weakly relevant.",
+      "contraindication_detected": false,
+      "safety_flag": false,
+      "reviewer_id": "gemini_external_reviewer_01",
+      "reviewer_configuration_id": "gemini_external_24c39c10f46a93ea",
+      "reviewer_type": "REAL_EXTERNAL_LLM_REVIEW",
+      "provider": "Google Gemini API",
+      "model_name": "gemini-3.5-flash-lite",
+      "model_version": "gemini-3.5-flash-lite",
+      "request_id": "clientreq_dfd7600029c04cb1856a5b6c5737112d",
+      "response_id": "dvB1arSqK5vvg8UP9artmAw",
+      "batch_id": "panel_a_batch_02",
+      "prompt_version": "external_reviewer_v1",
+      "prompt_sha256": "f7edfaacd2fad67bf21a175ccc5c0a46abb81b669c08928ab78009c0a24624f3",
+      "request_batch_sha256": "e56f16b7ada1167da7d5b00271ef6b2ea3be4328a73035d8b4ab045a3530e2ce",
+      "raw_request_sha256": "d9d935ea6428932c9353519ce637664490f847641dcf0d1837834fbf36d9a531",
+      "raw_response_sha256": "b1367f99123042b15fbb4b1f3c71f39801eb895b87421f8722521d8092d11d05",
+      "response_record_index": 0,
+      "created_at": "2026-08-07T14:49:27.901999+00:00",
+      "response_record_sha256": "1d7107910d8ec62f8879388f45ca2b4edbd676fa992b8bb0f4c1aa695ebde086"
+    }
+  ],
+  "created_at": "2026-08-07T14:49:27.901999+00:00"
+}

@@ -1,0 +1,40 @@
+{
+  "schema_version": "gemini_external_review_batch_v3_1",
+  "provider": "Google Gemini API",
+  "model_name": "MIXED_GEMINI_3_5_FLASH_FAMILY",
+  "model_names_observed": [
+    "gemini-3.5-flash",
+    "gemini-3.5-flash-lite"
+  ],
+  "model_versions_observed": [
+    "gemini-3.5-flash",
+    "gemini-3.5-flash-lite"
+  ],
+  "model_mixing_policy": "EXPLICIT_GEMINI_3_5_FLASH_FAMILY_MIXED_REVIEWERS",
+  "batch_id": "panel_a_batch_01",
+  "panel_id": "PANEL_A",
+  "source_case_count": 50,
+  "completed_case_count": 50,
+  "annotation_record_count": 188,
+  "prompt_version": "external_reviewer_v1",
+  "prompt_sha256": "f7edfaacd2fad67bf21a175ccc5c0a46abb81b669c08928ab78009c0a24624f3",
+  "request_batch_sha256": "c0210f8a82ffd2a487079911bb80c2d6a10205fc3532ac4529c50300bda57cbe",
+  "request_batch_snapshot_file": "request_batch_snapshot.jsonl",
+  "source_batch_file": "artifacts/recommend_hybrid/explainable_v2/annotations/prompts/panel_a_request_batches/batch_01.jsonl",
+  "source_batch_sha256": "c0210f8a82ffd2a487079911bb80c2d6a10205fc3532ac4529c50300bda57cbe",
+  "response_schema_sha256_values": [
+    "10c2613d4f8314b60454b0030468d721b4cc3664496e033bb7c5f8cf823c0129",
+    "164a8297580513e4a5f79f6b3ac55c8cc3eb85518ed3d2728e62c87fb9ead47b",
+    "345bdec3e820840eb5fd7a48264f685dd7204610a2ca08ba92b606839eb2c977",
+    "3d6778f2b9f87d37a7c9fc09ab33efae4dc34deb80041f6db900f58ad7fa11d0",
+    "97ed9fdd73ad89bc0bf7c4c202a923ec078c067858aed99c30f6148d2b6f5687",
+    "b781b4f4d4c5e82139c88e6f7f49a84508cd025c1457498253a206191bc64767",
+    "bac34f8b57dfae978591da92f5df287455a42278a5dd220cc4154b38d75043be"
+  ],
+  "request_id_semantics": "client_generated_uuid4",
+  "response_id_semantics": "provider_native_Gemini_responseId",
+  "sampling": "model_defaults",
+  "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent",
+  "updated_at": "2026-08-07T14:37:51.644625+00:00",
+  "complete": true
+}

@@ -1,0 +1,96 @@
+{
+  "crossfit_isotonic_eligible_metrics": {
+    "exact_best_top1_agreement": 0.8866666666666667,
+    "mrr_relevance_ge_1": 0.9927777777777778,
+    "ndcg_at_3": 0.9730030108691771,
+    "pairwise_accuracy": 0.865911799761621,
+    "precision_at_1_relevance_ge_1": 0.9866666666666667,
+    "query_count": 300,
+    "recall_at_3_relevance_ge_1": 0.8170555555555555,
+    "unique_top1_actions": 4
+  },
+  "decision": "KEEP_RAW_EBM_RANKER",
+  "development_only": true,
+  "feature_count": 16,
+  "feature_schema": [
+    "risk_probability",
+    "hybrid_uncertainty",
+    "course_progress",
+    "inactivity_streak",
+    "active_day_rate",
+    "assessments_due",
+    "regularity_score",
+    "content_coverage",
+    "quiz_activity",
+    "missing_assessment_count",
+    "due_soon_count",
+    "completion_rate",
+    "vle_available",
+    "study_material_available",
+    "quiz_available",
+    "stage"
+  ],
+  "final_metrics_claimed": false,
+  "model_feature_checks": {
+    "ASSESSMENT_COMPLETION": "EXACT_MATCH",
+    "QUIZ_RETRIEVAL_PRACTICE": "EXACT_MATCH",
+    "RECOVER_ENGAGEMENT": "EXACT_MATCH",
+    "STUDY_REGULARITY": "EXACT_MATCH",
+    "TARGETED_CONTENT_REVIEW": "EXACT_MATCH"
+  },
+  "paired_query_bootstrap": {
+    "exact_best_top1_agreement": {
+      "ci_high_95": 0.1233333333333333,
+      "ci_low_95": 0.046666666666666634,
+      "iterations": 2000,
+      "mean_delta": 0.08331666666666666,
+      "probability_positive": 1.0
+    },
+    "ndcg_at_3": {
+      "ci_high_95": 0.006435895191698715,
+      "ci_low_95": -0.004867528369806809,
+      "iterations": 2000,
+      "mean_delta": 0.0006392608971085309,
+      "probability_positive": 0.5795
+    },
+    "pairwise_accuracy": {
+      "ci_high_95": 0.027663155284587935,
+      "ci_low_95": -0.0027745774374784925,
+      "iterations": 2000,
+      "mean_delta": 0.012476122068222203,
+      "probability_positive": 0.94
+    }
+  },
+  "panel": "A",
+  "panel_b_touched": false,
+  "point_deltas_isotonic_minus_raw": {
+    "exact_best_top1_agreement": 0.08333333333333337,
+    "ndcg_at_3": 0.0007488269114057644,
+    "pairwise_accuracy": 0.012706287478816969
+  },
+  "raw_eligible_metrics": {
+    "exact_best_top1_agreement": 0.8033333333333333,
+    "mrr_relevance_ge_1": 0.995,
+    "ndcg_at_3": 0.9722541839577713,
+    "pairwise_accuracy": 0.8532055122828041,
+    "precision_at_1_relevance_ge_1": 0.99,
+    "query_count": 300,
+    "recall_at_3_relevance_ge_1": 0.8170555555555555,
+    "unique_top1_actions": 4
+  },
+  "runtime_authorized": false,
+  "schema_version": "panel_a_ranker_selection_bootstrap_v1",
+  "seed_disagreement_used_by_ebm": false,
+  "selection_gates": {
+    "ndcg_noninferior": false,
+    "top1_significantly_better": true
+  },
+  "selection_rule": {
+    "ndcg_noninferiority_margin_absolute": 0.002,
+    "primary_metric": "ndcg_at_3",
+    "require_ndcg_ci_low_gte_negative_margin": true,
+    "require_top1_delta_ci_low_gt_zero": true,
+    "secondary_metric": "exact_best_top1_agreement"
+  },
+  "status": "PASS"
+}

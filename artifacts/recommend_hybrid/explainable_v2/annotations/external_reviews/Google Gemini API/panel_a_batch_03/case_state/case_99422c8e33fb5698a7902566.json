@@ -1,0 +1,128 @@
+{
+  "schema_version": "gemini_external_review_case_state_v3_1",
+  "status": "COMPLETE",
+  "case_number": 21,
+  "case_id": "case_99422c8e33fb5698a7902566",
+  "provider": "Google Gemini API",
+  "model_name": "gemini-3.5-flash-lite",
+  "model_version": "gemini-3.5-flash-lite",
+  "request_id": "clientreq_ae9797b8eeb04758bb33618c9c880af0",
+  "response_id": "s_J1avaGM7jGjuMPm7SpwQQ",
+  "http_status": 200,
+  "response_headers": {
+    "date": "Fri, 07 Aug 2026 14:59:01 GMT",
+    "content-type": "application/json; charset=UTF-8"
+  },
+  "finish_reason": "STOP",
+  "usage_metadata": {
+    "promptTokenCount": 625,
+    "candidatesTokenCount": 350,
+    "totalTokenCount": 975,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 625
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "response_schema_sha256": "b781b4f4d4c5e82139c88e6f7f49a84508cd025c1457498253a206191bc64767",
+  "raw_request_sha256": "959c10f31ad1d386f0347788d4ee6b28a7bfbb97ab94f81fdca0805e99320aff",
+  "raw_response_sha256": "a87a956fe7c701097a6bc7aefca2431bb8d4a6b7341e9ef5b1b06c254133d1fa",
+  "raw_request_file": "raw_requests/case_99422c8e33fb5698a7902566.json",
+  "raw_response_file": "raw_responses/case_99422c8e33fb5698a7902566.json",
+  "normalized_records": [
+    {
+      "case_id": "case_99422c8e33fb5698a7902566",
+      "panel_id": "PANEL_A",
+      "action_id": "QUIZ_RETRIEVAL_PRACTICE",
+      "relevance_score": 0,
+      "abstain": false,
+      "evidence_ids": [
+        "quiz_activity"
+      ],
+      "rationale": "Quiz activity is currently at 0.0, indicating zero engagement with quizzes, making retrieval practice unsuitable.",
+      "contraindication_detected": false,
+      "safety_flag": false,
+      "reviewer_id": "gemini_external_reviewer_01",
+      "reviewer_configuration_id": "gemini_external_4037b4b8dab750b4",
+      "reviewer_type": "REAL_EXTERNAL_LLM_REVIEW",
+      "provider": "Google Gemini API",
+      "model_name": "gemini-3.5-flash-lite",
+      "model_version": "gemini-3.5-flash-lite",
+      "request_id": "clientreq_ae9797b8eeb04758bb33618c9c880af0",
+      "response_id": "s_J1avaGM7jGjuMPm7SpwQQ",
+      "batch_id": "panel_a_batch_03",
+      "prompt_version": "external_reviewer_v1",
+      "prompt_sha256": "f7edfaacd2fad67bf21a175ccc5c0a46abb81b669c08928ab78009c0a24624f3",
+      "request_batch_sha256": "6e63d0ac661133f00d1d75e9fe177173825dd591783f2ea54febde826328183c",
+      "raw_request_sha256": "959c10f31ad1d386f0347788d4ee6b28a7bfbb97ab94f81fdca0805e99320aff",
+      "raw_response_sha256": "a87a956fe7c701097a6bc7aefca2431bb8d4a6b7341e9ef5b1b06c254133d1fa",
+      "response_record_index": 0,
+      "created_at": "2026-08-07T14:59:01.428789+00:00",
+      "response_record_sha256": "e3a0ac4c434fd250c585530652bb3cfde42f3ceec965afc54d59a31213c8b719"
+    },
+    {
+      "case_id": "case_99422c8e33fb5698a7902566",
+      "panel_id": "PANEL_A",
+      "action_id": "RECOVER_ENGAGEMENT",
+      "relevance_score": 1,
+      "abstain": false,
+      "evidence_ids": [
+        "active_day_rate",
+        "inactivity_streak"
+      ],
+      "rationale": "Active day rate is low at 0.283 and there is an inactivity streak of 2.0 days, but risk is LOW and completion rate is 1.0, making engagement recovery weakly relevant.",
+      "contraindication_detected": false,
+      "safety_flag": false,
+      "reviewer_id": "gemini_external_reviewer_01",
+      "reviewer_configuration_id": "gemini_external_4037b4b8dab750b4",
+      "reviewer_type": "REAL_EXTERNAL_LLM_REVIEW",
+      "provider": "Google Gemini API",
+      "model_name": "gemini-3.5-flash-lite",
+      "model_version": "gemini-3.5-flash-lite",
+      "request_id": "clientreq_ae9797b8eeb04758bb33618c9c880af0",
+      "response_id": "s_J1avaGM7jGjuMPm7SpwQQ",
+      "batch_id": "panel_a_batch_03",
+      "prompt_version": "external_reviewer_v1",
+      "prompt_sha256": "f7edfaacd2fad67bf21a175ccc5c0a46abb81b669c08928ab78009c0a24624f3",
+      "request_batch_sha256": "6e63d0ac661133f00d1d75e9fe177173825dd591783f2ea54febde826328183c",
+      "raw_request_sha256": "959c10f31ad1d386f0347788d4ee6b28a7bfbb97ab94f81fdca0805e99320aff",
+      "raw_response_sha256": "a87a956fe7c701097a6bc7aefca2431bb8d4a6b7341e9ef5b1b06c254133d1fa",
+      "response_record_index": 1,
+      "created_at": "2026-08-07T14:59:01.428789+00:00",
+      "response_record_sha256": "a86fdef86a50942aca2d55496fb6102eb90c72561f39ea6450b6a1ce30d3c5d3"
+    },
+    {
+      "case_id": "case_99422c8e33fb5698a7902566",
+      "panel_id": "PANEL_A",
+      "action_id": "STUDY_REGULARITY",
+      "relevance_score": 1,
+      "abstain": false,
+      "evidence_ids": [
+        "regularity_score"
+      ],
+      "rationale": "Regularity score is 0.733 and study material is available, but the student already shows high content coverage and no missing assessments.",
+      "contraindication_detected": false,
+      "safety_flag": false,
+      "reviewer_id": "gemini_external_reviewer_01",
+      "reviewer_configuration_id": "gemini_external_4037b4b8dab750b4",
+      "reviewer_type": "REAL_EXTERNAL_LLM_REVIEW",
+      "provider": "Google Gemini API",
+      "model_name": "gemini-3.5-flash-lite",
+      "model_version": "gemini-3.5-flash-lite",
+      "request_id": "clientreq_ae9797b8eeb04758bb33618c9c880af0",
+      "response_id": "s_J1avaGM7jGjuMPm7SpwQQ",
+      "batch_id": "panel_a_batch_03",
+      "prompt_version": "external_reviewer_v1",
+      "prompt_sha256": "f7edfaacd2fad67bf21a175ccc5c0a46abb81b669c08928ab78009c0a24624f3",
+      "request_batch_sha256": "6e63d0ac661133f00d1d75e9fe177173825dd591783f2ea54febde826328183c",
+      "raw_request_sha256": "959c10f31ad1d386f0347788d4ee6b28a7bfbb97ab94f81fdca0805e99320aff",
+      "raw_response_sha256": "a87a956fe7c701097a6bc7aefca2431bb8d4a6b7341e9ef5b1b06c254133d1fa",
+      "response_record_index": 2,
+      "created_at": "2026-08-07T14:59:01.428789+00:00",
+      "response_record_sha256": "9aad2345469d9e8ea32e14cdbd905511f112a375576176cacfd395cf6d867ffe"
+    }
+  ],
+  "created_at": "2026-08-07T14:59:01.428789+00:00"
+}

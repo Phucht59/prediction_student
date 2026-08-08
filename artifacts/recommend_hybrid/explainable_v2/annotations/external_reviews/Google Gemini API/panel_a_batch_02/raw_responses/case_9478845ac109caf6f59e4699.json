@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"STUDY_REGULARITY\",\n      \"relevance_score\": 1,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"regularity_score\"\n      ],\n      \"rationale\": \"The regularity score is very high (0.949), indicating strong study regularity already; therefore, this action is only weakly relevant as a generic reinforcement.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIP4FgjdFYz3WUooMb7VrJ32GadMw5yq8tjSX8n+ReYefkNhNkEc6QCdb1oA7CZ"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 599,
+    "candidatesTokenCount": 128,
+    "totalTokenCount": 727,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 599
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "ifB1av-iDPnPjuMP3uGFuQQ"
+}

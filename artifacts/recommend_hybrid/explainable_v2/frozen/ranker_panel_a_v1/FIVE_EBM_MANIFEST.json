@@ -1,0 +1,234 @@
+{
+  "action_model_count": 5,
+  "action_reports": [
+    {
+      "action_id": "ASSESSMENT_COMPLETION",
+      "final_model_path": "artifacts\\recommend_hybrid\\explainable_v2\\models\\ebm_panel_a_v1\\final_models\\ASSESSMENT_COMPLETION.joblib",
+      "final_model_sha256": "3dc0492cbe796f8b7a79bda850dd6bb4da17c61605343c9f863c1a65b1c9608b",
+      "fold_metrics": [
+        {
+          "holdout_rows": 99,
+          "mae": 0.2762820502427985,
+          "outer_fold": 0,
+          "rmse": 0.4115082604194252,
+          "train_rows": 201
+        },
+        {
+          "holdout_rows": 100,
+          "mae": 0.25944783630806467,
+          "outer_fold": 1,
+          "rmse": 0.33646862663788624,
+          "train_rows": 200
+        },
+        {
+          "holdout_rows": 101,
+          "mae": 0.22028726959488507,
+          "outer_fold": 2,
+          "rmse": 0.30189959160775026,
+          "train_rows": 199
+        }
+      ],
+      "oof_mae": 0.251819069446423,
+      "oof_rmse": 0.35256753096304266,
+      "rows": 300
+    },
+    {
+      "action_id": "RECOVER_ENGAGEMENT",
+      "final_model_path": "artifacts\\recommend_hybrid\\explainable_v2\\models\\ebm_panel_a_v1\\final_models\\RECOVER_ENGAGEMENT.joblib",
+      "final_model_sha256": "9fab2dd641b8f777e738117969d3e924aa34fab9d9bc2acd1e2bfb773b9d547c",
+      "fold_metrics": [
+        {
+          "holdout_rows": 99,
+          "mae": 0.2327306553720039,
+          "outer_fold": 0,
+          "rmse": 0.3178118618317568,
+          "train_rows": 201
+        },
+        {
+          "holdout_rows": 100,
+          "mae": 0.2757134867578366,
+          "outer_fold": 1,
+          "rmse": 0.3695396556405701,
+          "train_rows": 200
+        },
+        {
+          "holdout_rows": 101,
+          "mae": 0.3198794391860541,
+          "outer_fold": 2,
+          "rmse": 0.4802448606446576,
+          "train_rows": 199
+        }
+      ],
+      "oof_mae": 0.2763983563846784,
+      "oof_rmse": 0.3955988583797446,
+      "rows": 300
+    },
+    {
+      "action_id": "STUDY_REGULARITY",
+      "final_model_path": "artifacts\\recommend_hybrid\\explainable_v2\\models\\ebm_panel_a_v1\\final_models\\STUDY_REGULARITY.joblib",
+      "final_model_sha256": "26ac2c0ae6503beea6e92fd718afd5015ea883dd3efc5f8f58de95989ad6d2fd",
+      "fold_metrics": [
+        {
+          "holdout_rows": 99,
+          "mae": 0.33756762790979383,
+          "outer_fold": 0,
+          "rmse": 0.43724044077348245,
+          "train_rows": 201
+        },
+        {
+          "holdout_rows": 100,
+          "mae": 0.2750471204198596,
+          "outer_fold": 1,
+          "rmse": 0.33229948535605475,
+          "train_rows": 200
+        },
+        {
+          "holdout_rows": 101,
+          "mae": 0.2849448919434966,
+          "outer_fold": 2,
+          "rmse": 0.35126998018546424,
+          "train_rows": 199
+        }
+      ],
+      "oof_mae": 0.29901113763782905,
+      "oof_rmse": 0.37608282064571075,
+      "rows": 300
+    },
+    {
+      "action_id": "TARGETED_CONTENT_REVIEW",
+      "final_model_path": "artifacts\\recommend_hybrid\\explainable_v2\\models\\ebm_panel_a_v1\\final_models\\TARGETED_CONTENT_REVIEW.joblib",
+      "final_model_sha256": "b643fcb26ab708e873ba935518fbc4d824199a5501b51b8aefb08e11592fb51c",
+      "fold_metrics": [
+        {
+          "holdout_rows": 99,
+          "mae": 0.20261874125183585,
+          "outer_fold": 0,
+          "rmse": 0.3203078307949415,
+          "train_rows": 201
+        },
+        {
+          "holdout_rows": 100,
+          "mae": 0.17561752148265458,
+          "outer_fold": 1,
+          "rmse": 0.26244716257718625,
+          "train_rows": 200
+        },
+        {
+          "holdout_rows": 101,
+          "mae": 0.18221985151027173,
+          "outer_fold": 2,
+          "rmse": 0.2566568846101519,
+          "train_rows": 199
+        }
+      ],
+      "oof_mae": 0.1867507084491155,
+      "oof_rmse": 0.2810581983211888,
+      "rows": 300
+    },
+    {
+      "action_id": "QUIZ_RETRIEVAL_PRACTICE",
+      "final_model_path": "artifacts\\recommend_hybrid\\explainable_v2\\models\\ebm_panel_a_v1\\final_models\\QUIZ_RETRIEVAL_PRACTICE.joblib",
+      "final_model_sha256": "44248e965051224f121cbca4efbfac457829892a4983970caccb1510eb0a8823",
+      "fold_metrics": [
+        {
+          "holdout_rows": 99,
+          "mae": 0.3460571817377032,
+          "outer_fold": 0,
+          "rmse": 0.6716583974084915,
+          "train_rows": 201
+        },
+        {
+          "holdout_rows": 100,
+          "mae": 0.18504956740556047,
+          "outer_fold": 1,
+          "rmse": 0.2433889499280888,
+          "train_rows": 200
+        },
+        {
+          "holdout_rows": 101,
+          "mae": 0.14940383699150186,
+          "outer_fold": 2,
+          "rmse": 0.20098355467151985,
+          "train_rows": 199
+        }
+      ],
+      "oof_mae": 0.22618135089576788,
+      "oof_rmse": 0.42686854606901775,
+      "rows": 300
+    }
+  ],
+  "actions": [
+    "ASSESSMENT_COMPLETION",
+    "RECOVER_ENGAGEMENT",
+    "STUDY_REGULARITY",
+    "TARGETED_CONTENT_REVIEW",
+    "QUIZ_RETRIEVAL_PRACTICE"
+  ],
+  "development_metrics": {
+    "development_ndcg_at_3": 0.965896455189259,
+    "development_top1_agreement": 0.79,
+    "query_count": 300,
+    "scope": "PANEL_A_DEVELOPMENT_ONLY_NOT_FINAL_EVALUATION"
+  },
+  "excluded_all_nan_features": [
+    "seed_disagreement"
+  ],
+  "features": [
+    "risk_probability",
+    "hybrid_uncertainty",
+    "course_progress",
+    "inactivity_streak",
+    "active_day_rate",
+    "assessments_due",
+    "regularity_score",
+    "content_coverage",
+    "quiz_activity",
+    "missing_assessment_count",
+    "due_soon_count",
+    "completion_rate",
+    "vle_available",
+    "study_material_available",
+    "quiz_available",
+    "stage"
+  ],
+  "frozen_panel_a_sha256": "4a4871426880bdcd1257dc15c29a36c23de34481f07be68d8e5095dc20efefb9",
+  "hyperparameters": {
+    "early_stopping_rounds": 100,
+    "early_stopping_tolerance": 1e-05,
+    "inner_bags": 0,
+    "interactions": 3,
+    "learning_rate": 0.025,
+    "max_bins": 64,
+    "max_rounds": 2000,
+    "min_samples_leaf": 20,
+    "outer_bags": 8,
+    "random_state": 2026,
+    "validation_size": 0.15
+  },
+  "locked_grid_selected_config_id": "a70599afad40",
+  "locked_grid_selection_path": "artifacts/recommend_hybrid/explainable_v2/ranker_development/ebm_locked_grid_v1/EBM_GRID_SELECTION.json",
+  "missing_value_policy": {
+    "completion_rate": "retain_native_EBM_missing_bin",
+    "inactivity_streak": "retain_native_EBM_missing_bin"
+  },
+  "model_class": "interpret.glassbox.ExplainableBoostingRegressor",
+  "oof_predictions_sha256": "1a2826976d37d2688e7c66a4263defce478805fead16e721c748ba7465060325",
+  "panel": "A",
+  "panel_b_touched": false,
+  "ranker_calibration": "NONE_RAW_EBM_SELECTED",
+  "runtime_authorized": false,
+  "schema_version": "panel_a_five_ebm_v1",
+  "scientific_constraints": [
+    "Panel B is not read or used.",
+    "Development metrics are not final held-out performance.",
+    "Each action has a distinct ExplainableBoostingRegressor.",
+    "Outer-fold OOF predictions are generated without fitting that action model on the held-out fold.",
+    "Final action models are fit only after OOF development predictions are complete.",
+    "RUNTIME_AUTHORIZED remains FALSE."
+  ],
+  "snorkel_labels_sha256": "985ea382ab62720a4e311df73c73efa78fdd628c49e89fe23f5729e70dd24784",
+  "snorkel_manifest_sha256": "ffe826687ef8bd707a373f34861e965e486eae249f91ffe038750141ced90923",
+  "status": "PASS",
+  "training_protocol": "ACTION_SPECIFIC_OUTER_FOLD_OOF_THEN_FINAL_FIT_ON_ALL_PANEL_A",
+  "training_target": "Snorkel OOF expected_relevance"
+}

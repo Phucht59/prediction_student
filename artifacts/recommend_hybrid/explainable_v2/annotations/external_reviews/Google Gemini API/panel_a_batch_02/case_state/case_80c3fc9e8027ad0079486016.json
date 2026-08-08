@@ -1,0 +1,67 @@
+{
+  "schema_version": "gemini_external_review_case_state_v3_1",
+  "status": "COMPLETE",
+  "case_number": 36,
+  "case_id": "case_80c3fc9e8027ad0079486016",
+  "provider": "Google Gemini API",
+  "model_name": "gemini-3.5-flash-lite",
+  "model_version": "gemini-3.5-flash-lite",
+  "request_id": "clientreq_0869f9503ad54835acc983da6646a97b",
+  "response_id": "g_B1avfTBdrdqfkP7a-KgAg",
+  "http_status": 200,
+  "response_headers": {
+    "content-type": "application/json; charset=UTF-8",
+    "date": "Fri, 07 Aug 2026 14:49:39 GMT"
+  },
+  "finish_reason": "STOP",
+  "usage_metadata": {
+    "promptTokenCount": 600,
+    "candidatesTokenCount": 117,
+    "totalTokenCount": 717,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 600
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "response_schema_sha256": "5b242ae619f0aa6e991eb9ceb52773ffd9fabcd53fd506901ce0dc91eb468ea0",
+  "raw_request_sha256": "62fd65eb9611284ab349ce670c6a25e335488467fdbc7120074a5531b9c3800e",
+  "raw_response_sha256": "876641dc6b3b47f7b5f4a26770d5e519b8c31b7c68ec6f9ec0667922107d86c2",
+  "raw_request_file": "raw_requests/case_80c3fc9e8027ad0079486016.json",
+  "raw_response_file": "raw_responses/case_80c3fc9e8027ad0079486016.json",
+  "normalized_records": [
+    {
+      "case_id": "case_80c3fc9e8027ad0079486016",
+      "panel_id": "PANEL_A",
+      "action_id": "STUDY_REGULARITY",
+      "relevance_score": 1,
+      "abstain": false,
+      "evidence_ids": [
+        "regularity_score"
+      ],
+      "rationale": "The student already demonstrates a high regularity score of 0.90, making an intervention focused on study regularity generic and weakly relevant.",
+      "contraindication_detected": false,
+      "safety_flag": false,
+      "reviewer_id": "gemini_external_reviewer_01",
+      "reviewer_configuration_id": "gemini_external_3c58f1eea7e91cf4",
+      "reviewer_type": "REAL_EXTERNAL_LLM_REVIEW",
+      "provider": "Google Gemini API",
+      "model_name": "gemini-3.5-flash-lite",
+      "model_version": "gemini-3.5-flash-lite",
+      "request_id": "clientreq_0869f9503ad54835acc983da6646a97b",
+      "response_id": "g_B1avfTBdrdqfkP7a-KgAg",
+      "batch_id": "panel_a_batch_02",
+      "prompt_version": "external_reviewer_v1",
+      "prompt_sha256": "f7edfaacd2fad67bf21a175ccc5c0a46abb81b669c08928ab78009c0a24624f3",
+      "request_batch_sha256": "e56f16b7ada1167da7d5b00271ef6b2ea3be4328a73035d8b4ab045a3530e2ce",
+      "raw_request_sha256": "62fd65eb9611284ab349ce670c6a25e335488467fdbc7120074a5531b9c3800e",
+      "raw_response_sha256": "876641dc6b3b47f7b5f4a26770d5e519b8c31b7c68ec6f9ec0667922107d86c2",
+      "response_record_index": 0,
+      "created_at": "2026-08-07T14:49:40.128213+00:00",
+      "response_record_sha256": "36746c571f8d5ab491891817f6f2d50c41d693356ad734c5ad187d79acad2455"
+    }
+  ],
+  "created_at": "2026-08-07T14:49:40.128213+00:00"
+}

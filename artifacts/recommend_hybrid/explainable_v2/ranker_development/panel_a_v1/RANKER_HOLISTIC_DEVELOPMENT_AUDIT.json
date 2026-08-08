@@ -1,0 +1,334 @@
+{
+  "architecture_consistency": {
+    "blockers": [
+      "GLOBAL_ALL_NAN_TRAIN_FEATURE",
+      "TRAIN_RUNTIME_FEATURE_SCHEMA_MISMATCH",
+      "KNOWN_MISSING_SEED_DISAGREEMENT_STILL_IN_TRAIN_SCHEMA"
+    ],
+    "global_all_nan_features": [
+      "seed_disagreement"
+    ],
+    "partially_missing_features": {
+      "completion_rate": 0.03,
+      "inactivity_streak": 0.0033333333333333335
+    },
+    "runtime_feature_count": 14,
+    "runtime_only_features": [
+      "assessment_progress",
+      "recent_activity_trend",
+      "time_to_deadline_days"
+    ],
+    "shared_features": [
+      "active_day_rate",
+      "assessments_due",
+      "content_coverage",
+      "course_progress",
+      "hybrid_uncertainty",
+      "inactivity_streak",
+      "quiz_activity",
+      "regularity_score",
+      "risk_probability",
+      "seed_disagreement",
+      "stage"
+    ],
+    "training_feature_count": 17,
+    "training_only_features": [
+      "completion_rate",
+      "due_soon_count",
+      "missing_assessment_count",
+      "quiz_available",
+      "study_material_available",
+      "vle_available"
+    ]
+  },
+  "case_count": 300,
+  "ebm_action_reports": [
+    {
+      "action_id": "ASSESSMENT_COMPLETION",
+      "final_model_path": "artifacts\\recommend_hybrid\\explainable_v2\\models\\ebm_panel_a_v1\\final_models\\ASSESSMENT_COMPLETION.joblib",
+      "final_model_sha256": "9b2feb2af6b3f271267b7697a80871a44486247a5d0105a1436f53f851d7cc13",
+      "fold_metrics": [
+        {
+          "holdout_rows": 99,
+          "mae": 0.3029905463105961,
+          "outer_fold": 0,
+          "rmse": 0.4482490767116921,
+          "train_rows": 201
+        },
+        {
+          "holdout_rows": 100,
+          "mae": 0.2948581059223134,
+          "outer_fold": 1,
+          "rmse": 0.3771791504351841,
+          "train_rows": 200
+        },
+        {
+          "holdout_rows": 101,
+          "mae": 0.21835142085904455,
+          "outer_fold": 2,
+          "rmse": 0.3101013106372297,
+          "train_rows": 199
+        }
+      ],
+      "oof_mae": 0.27178456061247946,
+      "oof_rmse": 0.3822331422206783,
+      "rows": 300
+    },
+    {
+      "action_id": "RECOVER_ENGAGEMENT",
+      "final_model_path": "artifacts\\recommend_hybrid\\explainable_v2\\models\\ebm_panel_a_v1\\final_models\\RECOVER_ENGAGEMENT.joblib",
+      "final_model_sha256": "1549d9b993a8f1d14089f918e37f1eff4082c5fb7387fe5e3b27d2d901ebc562",
+      "fold_metrics": [
+        {
+          "holdout_rows": 99,
+          "mae": 0.25580347668654363,
+          "outer_fold": 0,
+          "rmse": 0.3364864823799716,
+          "train_rows": 201
+        },
+        {
+          "holdout_rows": 100,
+          "mae": 0.2824765962155502,
+          "outer_fold": 1,
+          "rmse": 0.3776452215739412,
+          "train_rows": 200
+        },
+        {
+          "holdout_rows": 101,
+          "mae": 0.32334913157669204,
+          "outer_fold": 2,
+          "rmse": 0.4610325991291923,
+          "train_rows": 199
+        }
+      ],
+      "oof_mae": 0.2874348870092291,
+      "oof_rmse": 0.3955516833943239,
+      "rows": 300
+    },
+    {
+      "action_id": "STUDY_REGULARITY",
+      "final_model_path": "artifacts\\recommend_hybrid\\explainable_v2\\models\\ebm_panel_a_v1\\final_models\\STUDY_REGULARITY.joblib",
+      "final_model_sha256": "efb76c66d94ec880b3e29b2886d4921b638556acd3cc84849e6e7100c4bfd8ae",
+      "fold_metrics": [
+        {
+          "holdout_rows": 99,
+          "mae": 0.33594838676836825,
+          "outer_fold": 0,
+          "rmse": 0.44049862328002837,
+          "train_rows": 201
+        },
+        {
+          "holdout_rows": 100,
+          "mae": 0.28209102231681266,
+          "outer_fold": 1,
+          "rmse": 0.3329616602090069,
+          "train_rows": 200
+        },
+        {
+          "holdout_rows": 101,
+          "mae": 0.28263357401761796,
+          "outer_fold": 2,
+          "rmse": 0.3484031297430754,
+          "train_rows": 199
+        }
+      ],
+      "oof_mae": 0.30004661165843044,
+      "oof_rmse": 0.37663452759606825,
+      "rows": 300
+    },
+    {
+      "action_id": "TARGETED_CONTENT_REVIEW",
+      "final_model_path": "artifacts\\recommend_hybrid\\explainable_v2\\models\\ebm_panel_a_v1\\final_models\\TARGETED_CONTENT_REVIEW.joblib",
+      "final_model_sha256": "5c36e7649bd74cbfe1e9664212ba9df0704aff8b79fed5bfdb4c19b6cc5733d4",
+      "fold_metrics": [
+        {
+          "holdout_rows": 99,
+          "mae": 0.29473667497743183,
+          "outer_fold": 0,
+          "rmse": 0.40649461881264953,
+          "train_rows": 201
+        },
+        {
+          "holdout_rows": 100,
+          "mae": 0.2812792700319321,
+          "outer_fold": 1,
+          "rmse": 0.3970144832408552,
+          "train_rows": 200
+        },
+        {
+          "holdout_rows": 101,
+          "mae": 0.25729660702947305,
+          "outer_fold": 2,
+          "rmse": 0.3688489329513303,
+          "train_rows": 199
+        }
+      ],
+      "oof_mae": 0.2776460504531191,
+      "oof_rmse": 0.39098850237491484,
+      "rows": 300
+    },
+    {
+      "action_id": "QUIZ_RETRIEVAL_PRACTICE",
+      "final_model_path": "artifacts\\recommend_hybrid\\explainable_v2\\models\\ebm_panel_a_v1\\final_models\\QUIZ_RETRIEVAL_PRACTICE.joblib",
+      "final_model_sha256": "87d451b78e85bd485b74f275ac6cf79678139a4f46f4ad429f947ec58ee78451",
+      "fold_metrics": [
+        {
+          "holdout_rows": 99,
+          "mae": 0.35209565365781986,
+          "outer_fold": 0,
+          "rmse": 0.6553893651111738,
+          "train_rows": 201
+        },
+        {
+          "holdout_rows": 100,
+          "mae": 0.18921569102962604,
+          "outer_fold": 1,
+          "rmse": 0.24863987000144722,
+          "train_rows": 200
+        },
+        {
+          "holdout_rows": 101,
+          "mae": 0.1643121429550692,
+          "outer_fold": 2,
+          "rmse": 0.21352305660142593,
+          "train_rows": 199
+        }
+      ],
+      "oof_mae": 0.23458188417849588,
+      "oof_rmse": 0.42154860111797937,
+      "rows": 300
+    }
+  ],
+  "metrics": {
+    "crossfit_isotonic_eligible_only": {
+      "exact_best_top1_agreement": 0.8633333333333333,
+      "mrr_relevance_ge_1": 0.9927777777777778,
+      "ndcg_at_3": 0.9699150210759551,
+      "pairwise_accuracy": 0.8575685339690108,
+      "precision_at_1_relevance_ge_1": 0.9866666666666667,
+      "query_count": 300,
+      "recall_at_3_relevance_ge_1": 0.8159444444444445,
+      "unique_top1_actions": 4
+    },
+    "delta_isotonic_minus_raw": {
+      "exact_best_top1_agreement": 0.06666666666666665,
+      "ndcg_at_3": -8.358047090339937e-05,
+      "pairwise_accuracy": 0.006249589124886046
+    },
+    "raw_all_5_actions": {
+      "exact_best_top1_agreement": 0.7833333333333333,
+      "mrr_relevance_ge_1": 0.9877777777777778,
+      "ndcg_at_3": 0.9637998653724577,
+      "pairwise_accuracy": 0.8934316353887399,
+      "precision_at_1_relevance_ge_1": 0.9766666666666667,
+      "query_count": 300,
+      "recall_at_3_relevance_ge_1": 0.8164999999999999,
+      "unique_top1_actions": 4
+    },
+    "raw_eligible_only": {
+      "exact_best_top1_agreement": 0.7966666666666666,
+      "mrr_relevance_ge_1": 0.995,
+      "ndcg_at_3": 0.9699986015468585,
+      "pairwise_accuracy": 0.8513189448441247,
+      "precision_at_1_relevance_ge_1": 0.99,
+      "query_count": 300,
+      "recall_at_3_relevance_ge_1": 0.8187222222222221,
+      "unique_top1_actions": 4
+    }
+  },
+  "next_action": "HARDEN_TRAIN_RUNTIME_SCHEMA_BEFORE_FREEZE",
+  "panel": "A",
+  "panel_b_touched": false,
+  "per_stage": {
+    "crossfit_isotonic_eligible_only": {
+      "EARLY_20": {
+        "exact_best_top1_agreement": 0.8636363636363636,
+        "mrr_relevance_ge_1": 0.9943181818181818,
+        "ndcg_at_3": 0.9687384822651265,
+        "pairwise_accuracy": 0.8202898550724638,
+        "precision_at_1_relevance_ge_1": 0.9886363636363636,
+        "query_count": 88,
+        "recall_at_3_relevance_ge_1": 0.8882575757575757,
+        "unique_top1_actions": 3
+      },
+      "EARLY_35": {
+        "exact_best_top1_agreement": 0.8933333333333333,
+        "mrr_relevance_ge_1": 1.0,
+        "ndcg_at_3": 0.9714545137606138,
+        "pairwise_accuracy": 0.8670886075949367,
+        "precision_at_1_relevance_ge_1": 1.0,
+        "query_count": 75,
+        "recall_at_3_relevance_ge_1": 0.7813333333333333,
+        "unique_top1_actions": 4
+      },
+      "LATE_75": {
+        "exact_best_top1_agreement": 0.9130434782608695,
+        "mrr_relevance_ge_1": 0.9903381642512077,
+        "ndcg_at_3": 0.9720518754925505,
+        "pairwise_accuracy": 0.8876146788990825,
+        "precision_at_1_relevance_ge_1": 0.9855072463768116,
+        "query_count": 69,
+        "recall_at_3_relevance_ge_1": 0.7840579710144929,
+        "unique_top1_actions": 4
+      },
+      "MIDDLE_50": {
+        "exact_best_top1_agreement": 0.7794117647058824,
+        "mrr_relevance_ge_1": 0.9852941176470589,
+        "ndcg_at_3": 0.967571352094461,
+        "pairwise_accuracy": 0.8463356973995272,
+        "precision_at_1_relevance_ge_1": 0.9705882352941176,
+        "query_count": 68,
+        "recall_at_3_relevance_ge_1": 0.7928921568627452,
+        "unique_top1_actions": 4
+      }
+    },
+    "raw_eligible_only": {
+      "EARLY_20": {
+        "exact_best_top1_agreement": 0.8295454545454546,
+        "mrr_relevance_ge_1": 0.9943181818181818,
+        "ndcg_at_3": 0.9739796574599938,
+        "pairwise_accuracy": 0.8299120234604106,
+        "precision_at_1_relevance_ge_1": 0.9886363636363636,
+        "query_count": 88,
+        "recall_at_3_relevance_ge_1": 0.8882575757575757,
+        "unique_top1_actions": 3
+      },
+      "EARLY_35": {
+        "exact_best_top1_agreement": 0.8133333333333334,
+        "mrr_relevance_ge_1": 1.0,
+        "ndcg_at_3": 0.9701365774980979,
+        "pairwise_accuracy": 0.8598726114649682,
+        "precision_at_1_relevance_ge_1": 1.0,
+        "query_count": 75,
+        "recall_at_3_relevance_ge_1": 0.7813333333333333,
+        "unique_top1_actions": 4
+      },
+      "LATE_75": {
+        "exact_best_top1_agreement": 0.782608695652174,
+        "mrr_relevance_ge_1": 1.0,
+        "ndcg_at_3": 0.9681910301933387,
+        "pairwise_accuracy": 0.8729792147806005,
+        "precision_at_1_relevance_ge_1": 1.0,
+        "query_count": 69,
+        "recall_at_3_relevance_ge_1": 0.791304347826087,
+        "unique_top1_actions": 4
+      },
+      "MIDDLE_50": {
+        "exact_best_top1_agreement": 0.75,
+        "mrr_relevance_ge_1": 0.9852941176470589,
+        "ndcg_at_3": 0.9665286207629471,
+        "pairwise_accuracy": 0.8368794326241135,
+        "precision_at_1_relevance_ge_1": 0.9705882352941176,
+        "query_count": 68,
+        "recall_at_3_relevance_ge_1": 0.7977941176470589,
+        "unique_top1_actions": 4
+      }
+    }
+  },
+  "row_count_all_actions": 1500,
+  "row_count_eligible_actions": 1117,
+  "runtime_authorized": false,
+  "schema_version": "ranker_holistic_development_audit_v1",
+  "scope": "DEVELOPMENT_ONLY_NOT_FINAL_EVALUATION",
+  "status": "PASS"
+}

@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"ASSESSMENT_COMPLETION\",\n      \"relevance_score\": 1,\n      \"abstain\": false,\n      \"evidence_ids\": [\n        \"assessments_due\",\n        \"due_soon_count\",\n        \"missing_assessment_count\"\n      ],\n      \"rationale\": \"The student has 1 assessment due soon and 0 missing assessments, making completion support weakly relevant.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIPVkDzXAu+Brj+uqRjR7TJqr5v9keqC7ktBEY+pxeXdiO9Qa4ULFUI31voHTcW"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 583,
+    "candidatesTokenCount": 134,
+    "totalTokenCount": 717,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 583
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "dvB1arSqK5vvg8UP9artmAw"
+}

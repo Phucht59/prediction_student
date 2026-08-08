@@ -1,0 +1,31 @@
+{
+  "candidates": [
+    {
+      "content": {
+        "parts": [
+          {
+            "text": "{\n  \"reviews\": [\n    {\n      \"action_id\": \"QUIZ_RETRIEVAL_PRACTICE\",\n      \"relevance_score\": 0,\n      \"abstain\": false,\n      \"evidence_ids\": [\"quiz_activity\"],\n      \"rationale\": \"Quiz activity is recorded at 0.0, indicating zero engagement with quizzes pre-cutoff, making retrieval practice unsuitable without prior foundational interaction.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"ASSESSMENT_COMPLETION\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\"missing_assessment_count\", \"assessments_due\", \"due_soon_count\"],\n      \"rationale\": \"There are 2 missing assessments, 5 assessments due, and 1 due soon, indicating an urgent and direct behavioral gap in assessment completion.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"RECOVER_ENGAGEMENT\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\"inactivity_streak\", \"active_day_rate\"],\n      \"rationale\": \"The student exhibits a severe inactivity streak of 49 days and a very low active day rate of 0.015, directly justifying engagement recovery.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"STUDY_REGULARITY\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\"regularity_score\", \"active_day_rate\"],\n      \"rationale\": \"The regularity score is critically low at 0.14 alongside an active day rate of 0.015, demonstrating an extreme deficit in study regularity.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    },\n    {\n      \"action_id\": \"TARGETED_CONTENT_REVIEW\",\n      \"relevance_score\": 3,\n      \"abstain\": false,\n      \"evidence_ids\": [\"content_coverage\", \"completion_rate\"],\n      \"rationale\": \"Content coverage is low at 0.1 despite a 0.6 completion rate, indicating a clear gap in material coverage that targeted review can address.\",\n      \"contraindication_detected\": false,\n      \"safety_flag\": false\n    }\n  ]\n}",
+            "thoughtSignature": "EjQKMgERTTIPiMeDyl34ntEvOJgsiazZHOeFMumutgwXBmRQx0utecnFyfDOHhqLU3lZhIiQ"
+          }
+        ],
+        "role": "model"
+      },
+      "finishReason": "STOP",
+      "index": 0
+    }
+  ],
+  "usageMetadata": {
+    "promptTokenCount": 609,
+    "candidatesTokenCount": 590,
+    "totalTokenCount": 1199,
+    "promptTokensDetails": [
+      {
+        "modality": "TEXT",
+        "tokenCount": 609
+      }
+    ],
+    "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.5-flash-lite",
+  "responseId": "_Ph1as_fOcnmjuMP6-D1iQ0"
+}

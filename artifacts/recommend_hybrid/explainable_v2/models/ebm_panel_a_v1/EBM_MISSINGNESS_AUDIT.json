@@ -1,0 +1,146 @@
+{
+  "case_count": 300,
+  "features": [
+    "risk_probability",
+    "hybrid_uncertainty",
+    "seed_disagreement",
+    "course_progress",
+    "inactivity_streak",
+    "active_day_rate",
+    "assessments_due",
+    "regularity_score",
+    "content_coverage",
+    "quiz_activity",
+    "missing_assessment_count",
+    "due_soon_count",
+    "completion_rate",
+    "vle_available",
+    "study_material_available",
+    "quiz_available",
+    "stage"
+  ],
+  "global_all_nan_features": [
+    "seed_disagreement"
+  ],
+  "panel": "A",
+  "panel_b_touched": false,
+  "partially_missing_features": {
+    "completion_rate": 0.03,
+    "inactivity_streak": 0.0033333333333333335
+  },
+  "per_action_all_nan_features": {
+    "ASSESSMENT_COMPLETION": [
+      "seed_disagreement"
+    ],
+    "QUIZ_RETRIEVAL_PRACTICE": [
+      "seed_disagreement"
+    ],
+    "RECOVER_ENGAGEMENT": [
+      "seed_disagreement"
+    ],
+    "STUDY_REGULARITY": [
+      "seed_disagreement"
+    ],
+    "TARGETED_CONTENT_REVIEW": [
+      "seed_disagreement"
+    ]
+  },
+  "per_action_fold_holdout_all_nan_features": {
+    "ASSESSMENT_COMPLETION|fold=0": [
+      "seed_disagreement"
+    ],
+    "ASSESSMENT_COMPLETION|fold=1": [
+      "seed_disagreement"
+    ],
+    "ASSESSMENT_COMPLETION|fold=2": [
+      "seed_disagreement"
+    ],
+    "QUIZ_RETRIEVAL_PRACTICE|fold=0": [
+      "seed_disagreement"
+    ],
+    "QUIZ_RETRIEVAL_PRACTICE|fold=1": [
+      "seed_disagreement"
+    ],
+    "QUIZ_RETRIEVAL_PRACTICE|fold=2": [
+      "seed_disagreement"
+    ],
+    "RECOVER_ENGAGEMENT|fold=0": [
+      "seed_disagreement"
+    ],
+    "RECOVER_ENGAGEMENT|fold=1": [
+      "seed_disagreement"
+    ],
+    "RECOVER_ENGAGEMENT|fold=2": [
+      "seed_disagreement"
+    ],
+    "STUDY_REGULARITY|fold=0": [
+      "seed_disagreement"
+    ],
+    "STUDY_REGULARITY|fold=1": [
+      "seed_disagreement"
+    ],
+    "STUDY_REGULARITY|fold=2": [
+      "seed_disagreement"
+    ],
+    "TARGETED_CONTENT_REVIEW|fold=0": [
+      "seed_disagreement"
+    ],
+    "TARGETED_CONTENT_REVIEW|fold=1": [
+      "seed_disagreement"
+    ],
+    "TARGETED_CONTENT_REVIEW|fold=2": [
+      "seed_disagreement"
+    ]
+  },
+  "per_action_fold_train_all_nan_features": {
+    "ASSESSMENT_COMPLETION|fold=0": [
+      "seed_disagreement"
+    ],
+    "ASSESSMENT_COMPLETION|fold=1": [
+      "seed_disagreement"
+    ],
+    "ASSESSMENT_COMPLETION|fold=2": [
+      "seed_disagreement"
+    ],
+    "QUIZ_RETRIEVAL_PRACTICE|fold=0": [
+      "seed_disagreement"
+    ],
+    "QUIZ_RETRIEVAL_PRACTICE|fold=1": [
+      "seed_disagreement"
+    ],
+    "QUIZ_RETRIEVAL_PRACTICE|fold=2": [
+      "seed_disagreement"
+    ],
+    "RECOVER_ENGAGEMENT|fold=0": [
+      "seed_disagreement"
+    ],
+    "RECOVER_ENGAGEMENT|fold=1": [
+      "seed_disagreement"
+    ],
+    "RECOVER_ENGAGEMENT|fold=2": [
+      "seed_disagreement"
+    ],
+    "STUDY_REGULARITY|fold=0": [
+      "seed_disagreement"
+    ],
+    "STUDY_REGULARITY|fold=1": [
+      "seed_disagreement"
+    ],
+    "STUDY_REGULARITY|fold=2": [
+      "seed_disagreement"
+    ],
+    "TARGETED_CONTENT_REVIEW|fold=0": [
+      "seed_disagreement"
+    ],
+    "TARGETED_CONTENT_REVIEW|fold=1": [
+      "seed_disagreement"
+    ],
+    "TARGETED_CONTENT_REVIEW|fold=2": [
+      "seed_disagreement"
+    ]
+  },
+  "row_count": 1500,
+  "runtime_authorized": false,
+  "schema_version": "ebm_missingness_audit_v1",
+  "status": "PASS"
+}
