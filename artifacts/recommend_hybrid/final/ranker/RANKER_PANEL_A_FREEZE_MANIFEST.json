@@ -1,0 +1,98 @@
+{
+  "development_exact_best_top1_agreement": 0.7959866220735786,
+  "development_operational_ndcg_at_3": 0.9714273055957157,
+  "development_pairwise_accuracy": 0.85207456404089,
+  "eligible_action_rows": 1113,
+  "files": [
+    {
+      "frozen": "C:\\hufit\\kltn\\artifacts\\recommend_hybrid\\explainable_v2\\frozen\\ranker_panel_a_v2\\EBM_GRID_RETENTION_REVALIDATION.json",
+      "sha256": "7069b085a5de09d301d3e2ab788b892a90d04549e678eb9bb063f96fc56c554b",
+      "size_bytes": 193299,
+      "source": "C:\\hufit\\kltn\\artifacts\\recommend_hybrid\\explainable_v2\\ranker_development\\ebm_locked_grid_v1\\EBM_GRID_RETENTION_REVALIDATION.json"
+    },
+    {
+      "frozen": "C:\\hufit\\kltn\\artifacts\\recommend_hybrid\\explainable_v2\\frozen\\ranker_panel_a_v2\\FIVE_EBM_MANIFEST.json",
+      "sha256": "3cce3853e73d1ec0a4a62913256aa3817a62515db0430a15c99e1f9a2ebfbcb1",
+      "size_bytes": 9058,
+      "source": "C:\\hufit\\kltn\\artifacts\\recommend_hybrid\\explainable_v2\\models\\ebm_panel_a_v1\\FIVE_EBM_MANIFEST.json"
+    },
+    {
+      "frozen": "C:\\hufit\\kltn\\artifacts\\recommend_hybrid\\explainable_v2\\frozen\\ranker_panel_a_v2\\panel_a_ebm_oof_predictions.parquet",
+      "sha256": "1a85210cd6f6ee56ddb889ac456050267b864ce6854c3f346d3c6158e88f05ad",
+      "size_bytes": 40185,
+      "source": "C:\\hufit\\kltn\\artifacts\\recommend_hybrid\\explainable_v2\\models\\ebm_panel_a_v1\\panel_a_ebm_oof_predictions.parquet"
+    },
+    {
+      "frozen": "C:\\hufit\\kltn\\artifacts\\recommend_hybrid\\explainable_v2\\frozen\\ranker_panel_a_v2\\EBM_GRID_SELECTION.json",
+      "sha256": "ee326adb74d0fba15c845ab26196bfd07b40e27b97f8fef6070a8611ac09ffff",
+      "size_bytes": 228335,
+      "source": "C:\\hufit\\kltn\\artifacts\\recommend_hybrid\\explainable_v2\\ranker_development\\ebm_locked_grid_v1\\EBM_GRID_SELECTION.json"
+    },
+    {
+      "frozen": "C:\\hufit\\kltn\\artifacts\\recommend_hybrid\\explainable_v2\\frozen\\ranker_panel_a_v2\\RANKER_SELECTION_BOOTSTRAP.json",
+      "sha256": "5e8f6fdf844d07d07e6444c16b6495838fdeb91d2f27532d0455498fa2fffb35",
+      "size_bytes": 3160,
+      "source": "C:\\hufit\\kltn\\artifacts\\recommend_hybrid\\explainable_v2\\ranker_development\\panel_a_v1\\RANKER_SELECTION_BOOTSTRAP.json"
+    },
+    {
+      "frozen": "C:\\hufit\\kltn\\artifacts\\recommend_hybrid\\explainable_v2\\frozen\\ranker_panel_a_v2\\final_models\\ASSESSMENT_COMPLETION.joblib",
+      "sha256": "3dc0492cbe796f8b7a79bda850dd6bb4da17c61605343c9f863c1a65b1c9608b",
+      "size_bytes": 98507,
+      "source": "C:\\hufit\\kltn\\artifacts\\recommend_hybrid\\explainable_v2\\models\\ebm_panel_a_v1\\final_models\\ASSESSMENT_COMPLETION.joblib"
+    },
+    {
+      "frozen": "C:\\hufit\\kltn\\artifacts\\recommend_hybrid\\explainable_v2\\frozen\\ranker_panel_a_v2\\final_models\\QUIZ_RETRIEVAL_PRACTICE.joblib",
+      "sha256": "44248e965051224f121cbca4efbfac457829892a4983970caccb1510eb0a8823",
+      "size_bytes": 320683,
+      "source": "C:\\hufit\\kltn\\artifacts\\recommend_hybrid\\explainable_v2\\models\\ebm_panel_a_v1\\final_models\\QUIZ_RETRIEVAL_PRACTICE.joblib"
+    },
+    {
+      "frozen": "C:\\hufit\\kltn\\artifacts\\recommend_hybrid\\explainable_v2\\frozen\\ranker_panel_a_v2\\final_models\\RECOVER_ENGAGEMENT.joblib",
+      "sha256": "8383b165513cf29da88422de0d2fd34dbe19cfdb9eed208636fcf02320801be2",
+      "size_bytes": 825627,
+      "source": "C:\\hufit\\kltn\\artifacts\\recommend_hybrid\\explainable_v2\\models\\ebm_panel_a_v1\\final_models\\RECOVER_ENGAGEMENT.joblib"
+    },
+    {
+      "frozen": "C:\\hufit\\kltn\\artifacts\\recommend_hybrid\\explainable_v2\\frozen\\ranker_panel_a_v2\\final_models\\STUDY_REGULARITY.joblib",
+      "sha256": "26ac2c0ae6503beea6e92fd718afd5015ea883dd3efc5f8f58de95989ad6d2fd",
+      "size_bytes": 651915,
+      "source": "C:\\hufit\\kltn\\artifacts\\recommend_hybrid\\explainable_v2\\models\\ebm_panel_a_v1\\final_models\\STUDY_REGULARITY.joblib"
+    },
+    {
+      "frozen": "C:\\hufit\\kltn\\artifacts\\recommend_hybrid\\explainable_v2\\frozen\\ranker_panel_a_v2\\final_models\\TARGETED_CONTENT_REVIEW.joblib",
+      "sha256": "b643fcb26ab708e873ba935518fbc4d824199a5501b51b8aefb08e11592fb51c",
+      "size_bytes": 234187,
+      "source": "C:\\hufit\\kltn\\artifacts\\recommend_hybrid\\explainable_v2\\models\\ebm_panel_a_v1\\final_models\\TARGETED_CONTENT_REVIEW.joblib"
+    }
+  ],
+  "final_metrics_claimed": false,
+  "label_model_manifest_sha256": "ab5da97af4c61cabaffd5a78476edbc5ffa3cdc1e61a6a0322b34eca302edfbe",
+  "next_required_gate": "RELEASE_GATES_AND_SAFETY_ROUTER_FREEZE",
+  "panel_a_annotation_freeze_manifest_sha256": "4a9af5a21ace08f13bfdc09504f19c1a9b5616d85df4151379815116d28eb5db",
+  "panel_a_development_evaluation_cases": 299,
+  "panel_a_provenance_cases": 300,
+  "panel_b_touched": false,
+  "ranker_calibration": "NONE_RAW_EBM_SELECTED",
+  "ranker_family": "five_action_ebm",
+  "release_status": "NOT_YET_RELEASED",
+  "runtime_authorized": false,
+  "schema_version": "ranker_panel_a_freeze_v2",
+  "scope": "PANEL_A_DEVELOPMENT_FREEZE_NOT_FINAL_HELDOUT_EVALUATION",
+  "score_contract": {
+    "ground_truth_scale": "ORDINAL_0_3",
+    "native_prediction_scale": "ORDINAL_0_3",
+    "normalization": "clip(native_prediction / 3, 0, 1)",
+    "normalization_locations": 1,
+    "public_score_scale": "NORMALIZED_0_1"
+  },
+  "selected_config_id": "a70599afad40",
+  "selected_params": {
+    "interactions": 3,
+    "learning_rate": 0.025,
+    "max_bins": 64,
+    "max_rounds": 2000,
+    "min_samples_leaf": 20
+  },
+  "selection_rule": "simplest_statistically_indistinguishable_from_empirical_best",
+  "status": "PASS"
+}

@@ -1,0 +1,295 @@
+{
+  "action_stage_only_metrics": {
+    "exact_best_top1_agreement": 0.568561872909699,
+    "mrr_relevance_ge_1": 0.9933110367892977,
+    "ndcg_at_3": 0.8840234512930876,
+    "pairwise_accuracy": 0.6752392344497608,
+    "precision_at_1_relevance_ge_1": 0.9866220735785953,
+    "query_count": 299,
+    "recall_at_3_relevance_ge_1": 0.8189520624303233,
+    "top1_action_counts": {
+      "ASSESSMENT_COMPLETION": 1,
+      "QUIZ_RETRIEVAL_PRACTICE": 258,
+      "RECOVER_ENGAGEMENT": 37,
+      "STUDY_REGULARITY": 3
+    },
+    "top1_diversity_normalized_entropy": 0.3253765997585272,
+    "unique_top1_actions": 4
+  },
+  "context_permutation_metrics": {
+    "exact_best_top1_agreement": 0.48494983277591974,
+    "mrr_relevance_ge_1": 0.9966555183946488,
+    "ndcg_at_3": 0.8701929678535628,
+    "pairwise_accuracy": 0.6199040767386091,
+    "precision_at_1_relevance_ge_1": 0.9933110367892977,
+    "query_count": 299,
+    "recall_at_3_relevance_ge_1": 0.8108695652173913,
+    "top1_action_counts": {
+      "ASSESSMENT_COMPLETION": 45,
+      "QUIZ_RETRIEVAL_PRACTICE": 148,
+      "RECOVER_ENGAGEMENT": 70,
+      "STUDY_REGULARITY": 32,
+      "TARGETED_CONTENT_REVIEW": 4
+    },
+    "top1_diversity_normalized_entropy": 0.7890371954143455,
+    "unique_top1_actions": 5
+  },
+  "development_only": true,
+  "final_metrics_claimed": false,
+  "frozen_ranker_manifest_sha256": "68fe3b81bcf0716e875e407b44bce179c9c54d717f5d613f009424db6b4339af",
+  "full_metrics": {
+    "exact_best_top1_agreement": 0.7959866220735786,
+    "mrr_relevance_ge_1": 0.9949832775919732,
+    "ndcg_at_3": 0.9714273055957157,
+    "pairwise_accuracy": 0.85207456404089,
+    "precision_at_1_relevance_ge_1": 0.9899665551839465,
+    "query_count": 299,
+    "recall_at_3_relevance_ge_1": 0.8172798216276477,
+    "top1_action_counts": {
+      "ASSESSMENT_COMPLETION": 46,
+      "QUIZ_RETRIEVAL_PRACTICE": 165,
+      "RECOVER_ENGAGEMENT": 82,
+      "STUDY_REGULARITY": 6
+    },
+    "top1_diversity_normalized_entropy": 0.7568903777141159,
+    "unique_top1_actions": 4
+  },
+  "full_minus_action_stage_bootstrap": {
+    "bootstrap_mean_delta": 0.08719411947317288,
+    "ci_high_95": 0.1027894158960526,
+    "ci_low_95": 0.07233241094692675,
+    "iterations": 5000,
+    "point_delta": 0.08740385430262813,
+    "probability_positive": 1.0
+  },
+  "full_minus_context_permutation_bootstrap": {
+    "bootstrap_mean_delta": 0.10110854760641867,
+    "ci_high_95": 0.11739538592458232,
+    "ci_low_95": 0.08435351058671696,
+    "iterations": 5000,
+    "point_delta": 0.101234337742153,
+    "probability_positive": 1.0
+  },
+  "invalid_action_rate": 0.0,
+  "label_model_manifest_sha256": "ab5da97af4c61cabaffd5a78476edbc5ffa3cdc1e61a6a0322b34eca302edfbe",
+  "leave_one_family_out_diagnostic": {
+    "BEHAVIORAL": {
+      "excluded_sources": [
+        "LF_ASSESSMENT_NEED_V4",
+        "LF_CONTENT_REVIEW_V4",
+        "LF_ENGAGEMENT_RECOVERY_V4",
+        "LF_QUIZ_RETRIEVAL_V4",
+        "LF_STUDY_REGULARITY_V4"
+      ],
+      "remaining_sources": [
+        "LF_FEASIBILITY_CONSTRAINT_V4",
+        "REAL_EXTERNAL_GEMINI_REVIEW_V4"
+      ],
+      "status": "UNSUPPORTED_SNORKEL_REQUIRES_AT_LEAST_3_LFS"
+    },
+    "FEASIBILITY": {
+      "excluded_sources": [
+        "LF_FEASIBILITY_CONSTRAINT_V4"
+      ],
+      "full_minus_loo_ndcg": -0.0004905676436766093,
+      "ndcg_at_3": 0.9719178732393923,
+      "remaining_sources": [
+        "LF_ASSESSMENT_NEED_V4",
+        "LF_ENGAGEMENT_RECOVERY_V4",
+        "LF_STUDY_REGULARITY_V4",
+        "LF_CONTENT_REVIEW_V4",
+        "LF_QUIZ_RETRIEVAL_V4",
+        "REAL_EXTERNAL_GEMINI_REVIEW_V4"
+      ],
+      "status": "PASS_DIAGNOSTIC"
+    },
+    "LLM_EXPERT": {
+      "excluded_sources": [
+        "REAL_EXTERNAL_GEMINI_REVIEW_V4"
+      ],
+      "full_minus_loo_ndcg": 0.0308019369024628,
+      "ndcg_at_3": 0.9406253686932529,
+      "remaining_sources": [
+        "LF_ASSESSMENT_NEED_V4",
+        "LF_ENGAGEMENT_RECOVERY_V4",
+        "LF_STUDY_REGULARITY_V4",
+        "LF_CONTENT_REVIEW_V4",
+        "LF_QUIZ_RETRIEVAL_V4",
+        "LF_FEASIBILITY_CONSTRAINT_V4"
+      ],
+      "status": "PASS_DIAGNOSTIC"
+    }
+  },
+  "leave_one_source_out": {
+    "LF_ASSESSMENT_NEED_V4": {
+      "catastrophic_dependency": false,
+      "family": "BEHAVIORAL",
+      "full_minus_loo_ndcg": 0.005537380915527024,
+      "ndcg_at_3": 0.9658899246801886
+    },
+    "LF_CONTENT_REVIEW_V4": {
+      "catastrophic_dependency": false,
+      "family": "BEHAVIORAL",
+      "full_minus_loo_ndcg": 0.0049565244675950915,
+      "ndcg_at_3": 0.9664707811281206
+    },
+    "LF_ENGAGEMENT_RECOVERY_V4": {
+      "catastrophic_dependency": false,
+      "family": "BEHAVIORAL",
+      "full_minus_loo_ndcg": 0.007449172333096832,
+      "ndcg_at_3": 0.9639781332626188
+    },
+    "LF_FEASIBILITY_CONSTRAINT_V4": {
+      "catastrophic_dependency": false,
+      "family": "FEASIBILITY",
+      "full_minus_loo_ndcg": -0.0004905676436766093,
+      "ndcg_at_3": 0.9719178732393923
+    },
+    "LF_QUIZ_RETRIEVAL_V4": {
+      "catastrophic_dependency": false,
+      "family": "BEHAVIORAL",
+      "full_minus_loo_ndcg": -0.0025281822552591926,
+      "ndcg_at_3": 0.9739554878509749
+    },
+    "LF_STUDY_REGULARITY_V4": {
+      "catastrophic_dependency": false,
+      "family": "BEHAVIORAL",
+      "full_minus_loo_ndcg": -0.0018992588178907699,
+      "ndcg_at_3": 0.9733265644136064
+    },
+    "REAL_EXTERNAL_GEMINI_REVIEW_V4": {
+      "catastrophic_dependency": false,
+      "family": "LLM_EXPERT",
+      "full_minus_loo_ndcg": 0.0308019369024628,
+      "ndcg_at_3": 0.9406253686932529
+    }
+  },
+  "oof_recompute_max_abs_diff": 0.0,
+  "panel": "A",
+  "panel_b_touched": false,
+  "per_action_metrics": {
+    "ASSESSMENT_COMPLETION": {
+      "eligible_row_count": 183,
+      "mae": 0.24963956356777042,
+      "rmse": 0.3492699629013741,
+      "row_count": 299,
+      "top1_count": 46
+    },
+    "QUIZ_RETRIEVAL_PRACTICE": {
+      "eligible_row_count": 295,
+      "mae": 0.22545137208514332,
+      "rmse": 0.42680854744445695,
+      "row_count": 299,
+      "top1_count": 165
+    },
+    "RECOVER_ENGAGEMENT": {
+      "eligible_row_count": 229,
+      "mae": 0.2798005075036841,
+      "rmse": 0.39237268644885476,
+      "row_count": 299,
+      "top1_count": 82
+    },
+    "STUDY_REGULARITY": {
+      "eligible_row_count": 291,
+      "mae": 0.29837083845337314,
+      "rmse": 0.37564185783245274,
+      "row_count": 299,
+      "top1_count": 6
+    },
+    "TARGETED_CONTENT_REVIEW": {
+      "eligible_row_count": 115,
+      "mae": 0.18737181969449615,
+      "rmse": 0.28152779658466737,
+      "row_count": 299,
+      "top1_count": 0
+    }
+  },
+  "per_stage_metrics": {
+    "EARLY_20": {
+      "exact_best_top1_agreement": 0.8620689655172413,
+      "mrr_relevance_ge_1": 0.9942528735632183,
+      "ndcg_at_3": 0.9738427187994599,
+      "pairwise_accuracy": 0.8184523809523809,
+      "precision_at_1_relevance_ge_1": 0.9885057471264368,
+      "query_count": 87,
+      "recall_at_3_relevance_ge_1": 0.889846743295019,
+      "top1_action_counts": {
+        "ASSESSMENT_COMPLETION": 11,
+        "QUIZ_RETRIEVAL_PRACTICE": 56,
+        "RECOVER_ENGAGEMENT": 20
+      },
+      "top1_diversity_normalized_entropy": 0.8037602597503539,
+      "unique_top1_actions": 3
+    },
+    "EARLY_35": {
+      "exact_best_top1_agreement": 0.8133333333333334,
+      "mrr_relevance_ge_1": 1.0,
+      "ndcg_at_3": 0.9722184793883015,
+      "pairwise_accuracy": 0.8665254237288136,
+      "precision_at_1_relevance_ge_1": 1.0,
+      "query_count": 75,
+      "recall_at_3_relevance_ge_1": 0.7813333333333332,
+      "top1_action_counts": {
+        "ASSESSMENT_COMPLETION": 8,
+        "QUIZ_RETRIEVAL_PRACTICE": 43,
+        "RECOVER_ENGAGEMENT": 22,
+        "STUDY_REGULARITY": 2
+      },
+      "top1_diversity_normalized_entropy": 0.7314968114998689,
+      "unique_top1_actions": 4
+    },
+    "LATE_75": {
+      "exact_best_top1_agreement": 0.7536231884057971,
+      "mrr_relevance_ge_1": 1.0,
+      "ndcg_at_3": 0.9656257384568573,
+      "pairwise_accuracy": 0.8683602771362586,
+      "precision_at_1_relevance_ge_1": 1.0,
+      "query_count": 69,
+      "recall_at_3_relevance_ge_1": 0.7840579710144928,
+      "top1_action_counts": {
+        "ASSESSMENT_COMPLETION": 14,
+        "QUIZ_RETRIEVAL_PRACTICE": 26,
+        "RECOVER_ENGAGEMENT": 27,
+        "STUDY_REGULARITY": 2
+      },
+      "top1_diversity_normalized_entropy": 0.8376219085420664,
+      "unique_top1_actions": 4
+    },
+    "MIDDLE_50": {
+      "exact_best_top1_agreement": 0.7352941176470589,
+      "mrr_relevance_ge_1": 0.9852941176470589,
+      "ndcg_at_3": 0.9733512636752968,
+      "pairwise_accuracy": 0.8459715639810427,
+      "precision_at_1_relevance_ge_1": 0.9705882352941176,
+      "query_count": 68,
+      "recall_at_3_relevance_ge_1": 0.7977941176470589,
+      "top1_action_counts": {
+        "ASSESSMENT_COMPLETION": 13,
+        "QUIZ_RETRIEVAL_PRACTICE": 40,
+        "RECOVER_ENGAGEMENT": 13,
+        "STUDY_REGULARITY": 2
+      },
+      "top1_diversity_normalized_entropy": 0.756315564248972,
+      "unique_top1_actions": 4
+    }
+  },
+  "release_gates": {
+    "context_permutation_degrades_metric": true,
+    "frozen_operational_metric_reproduced": true,
+    "full_beats_action_stage_only": true,
+    "full_minus_action_stage_only_ci_excludes_zero": true,
+    "invalid_action_rate_zero": true,
+    "no_single_label_source_dependency": true,
+    "panel_b_untouched": true,
+    "retained_minimum_two_source_families": true,
+    "runtime_authorized_false": true
+  },
+  "retained_rows_with_lt2_active_source_families": 0,
+  "runtime_authorized": false,
+  "schema_version": "panel_a_release_gates_v1",
+  "selected_config_id": "a70599afad40",
+  "source_dependency_max_allowed_ndcg_drop": 0.05,
+  "source_family_violating_rows": [],
+  "status": "PASS",
+  "weak_vote_matrix_sha256": "336ab0e1af16d9082917e1d84c80a7896c4ba51baa758e8cdc9ae30eb2759c71"
+}

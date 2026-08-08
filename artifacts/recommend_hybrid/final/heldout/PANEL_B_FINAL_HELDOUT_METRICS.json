@@ -1,0 +1,39 @@
+{
+  "scope": "PANEL_B_FINAL_HELDOUT",
+  "panel_b_case_count": 150,
+  "real_external_review_record_count": 557,
+  "abstained_review_record_count": 0,
+  "evidence_complete_case_count": 150,
+  "evidence_complete_case_coverage": 1.0,
+  "frozen_five_ebm_ranker": {
+    "evaluated_complete_case_count": 150,
+    "ndcg_at_3": 0.9526603067902532,
+    "exact_best_top1_agreement": 0.92,
+    "precision_at_1_relevance_ge_1": 0.9733333333333334,
+    "mrr_relevance_ge_1": 0.9855555555555556,
+    "recall_at_3_relevance_ge_1": 0.8247777777777778,
+    "pairwise_accuracy": 0.8353552859618717,
+    "unique_top1_actions": 4,
+    "invalid_action_rate": 0.0,
+    "ranker_score_mae_against_relevance_div_3": 0.1597176748506363,
+    "ranker_score_rmse_against_relevance_div_3": 0.24925475728934524
+  },
+  "panel_a_action_stage_only_baseline": {
+    "evaluated_complete_case_count": 150,
+    "ndcg_at_3": 0.8275943281032121,
+    "exact_best_top1_agreement": 0.6,
+    "precision_at_1_relevance_ge_1": 0.8066666666666666,
+    "mrr_relevance_ge_1": 0.9022222222222223,
+    "recall_at_3_relevance_ge_1": 0.7975555555555555,
+    "pairwise_accuracy": 0.5684575389948007,
+    "unique_top1_actions": 3,
+    "invalid_action_rate": 0.0
+  },
+  "paired_case_bootstrap": {
+    "iterations": 2000,
+    "seed": 2026,
+    "mean_full_minus_baseline_ndcg_at_3": 0.12466302441561493,
+    "ci_low_95": 0.09508467988207753,
+    "ci_high_95": 0.15361541252930452
+  }
+}

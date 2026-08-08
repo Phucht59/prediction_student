@@ -1,0 +1,159 @@
+schema_version: recommend_hybrid_feature_contract_v2
+status: PROTOCOL_LOCKED_BEFORE_LOCAL_TRAINING
+cutoff_rule: Every ranker feature must be computable from information timestamped strictly before cutoff_day unless explicitly marked as a known course schedule field.
+student_split_rule: All rows for one student must remain in exactly one outer split.
+
+identity_fields:
+  - student_key
+  - course_key
+  - stage
+  - cutoff_day
+
+ranker_features:
+  risk_probability:
+    source: frozen OOF Hybrid five-seed ensemble
+    definition: Mean at-risk probability across the five frozen checkpoints assigned to the learner outer fold and stage.
+    range: [0.0, 1.0]
+    trainable_in_v2: false
+
+  hybrid_uncertainty:
+    source: frozen Hybrid probabilities
+    definition: Binary predictive entropy of the mean at-risk probability, normalized to [0, 1].
+    range: [0.0, 1.0]
+    trainable_in_v2: false
+
+  seed_disagreement:
+    source: frozen Hybrid probabilities
+    definition: Standard deviation of at-risk probability across the five frozen seeds.
+    range: [0.0, 1.0]
+    trainable_in_v2: false
+
+  course_progress:
+    source: canonical stage schedule
+    definition: cutoff_day divided by verified module presentation length, clipped to [0, 1].
+    range: [0.0, 1.0]
+
+  assessment_progress:
+    source: assessments.csv and studentAssessment.csv
+    definition: Fraction of assessments scheduled before cutoff_day that were submitted before cutoff_day. If no assessment was scheduled before cutoff, record missing rather than inventing a perfect score.
+    range: [0.0, 1.0]
+
+  assessments_due:
+    source: assessments.csv and studentAssessment.csv
+    definition: Count of scheduled non-exam assessments whose verified due date is after cutoff_day and on or before the next validated stage, excluding already submitted assessments.
+    range: non_negative_integer
+    schedule_field: true
+
+  time_to_deadline_days:
+    source: assessments.csv
+    definition: Minimum positive days from cutoff_day to a remaining scheduled assessment due date. Missing when no remaining scheduled assessment exists.
+    range: non_negative_integer_or_missing
+    schedule_field: true
+
+  inactivity_streak:
+    source: studentVle.csv
+    definition: Number of days from the last observed VLE activity strictly before cutoff_day to cutoff_day. Missing when VLE history is unavailable; never infer from future activity.
+    range: non_negative_integer_or_missing
+
+  active_day_rate:
+    source: studentVle.csv
+    definition: Number of distinct active days divided by observed days in the train-defined baseline window ending immediately before cutoff_day.
+    range: [0.0, 1.0]
+
+  recent_activity_trend:
+    source: studentVle.csv
+    definition: Robust normalized difference between the most recent train-defined activity window and the preceding equal-length window, using only dates before cutoff_day.
+    range: [-1.0, 1.0]
+    window_selection: train_only
+
+  regularity_score:
+    source: pre-cutoff weekly VLE activity
+    definition: Existing study_regularity_score applied only to weekly activity ending before cutoff_day; any scaling parameters are train-only.
+    range: [0.0, 1.0]
+
+  content_coverage:
+    source: studentVle.csv joined to vle.csv
+    definition: Fraction of train-defined pre-cutoff weeks with at least one purposeful content interaction among verified content activity types.
+    range: [0.0, 1.0]
+
+  quiz_activity:
+    source: studentVle.csv joined to vle.csv
+    definition: Fraction of train-defined pre-cutoff weeks with at least one quiz interaction.
+    range: [0.0, 1.0]
+
+  stage:
+    source: validated landmark protocol
+    definition: One of EARLY_20, EARLY_35, MIDDLE_50, LATE_75.
+    encoding: categorical
+
+feasibility_only_fields:
+  assessment_window_open:
+    source: verified assessment schedule
+    definition: True only when a remaining scheduled assessment opportunity is verifiably after cutoff_day. It does not assert knowledge of extensions or institution-specific submission reopening.
+    unknown_policy: ineligible
+
+  knowledge_gap_evidence:
+    source: pre-cutoff assessment evidence
+    definition: True only when a train-defined low-performance criterion is met using a score released before cutoff_day. Topic-level knowledge gaps must not be claimed unless topic-level evidence exists.
+    threshold_selection: inner_train_only
+    unknown_policy: ineligible
+
+  quiz_available:
+    source: vle.csv and course schedule
+    definition: True only when a quiz activity exists for studied content available by the recommendation horizon.
+    unknown_policy: ineligible
+
+  vle_access_available:
+    source: verified platform/course metadata
+    definition: True only when VLE access is known to be available.
+    unknown_policy: ineligible
+
+  study_material_available:
+    source: vle.csv and course schedule
+    definition: True only when relevant study material is verifiably available.
+    unknown_policy: ineligible
+
+routing_and_audit_only_fields:
+  label_conflict:
+    source: weak-supervision vote matrix
+    definition: Validation-compatible weak-label disagreement statistic.
+    forbidden_as_ranker_feature: true
+    runtime_policy: If unavailable outside offline evaluation, route conservatively and do not substitute zero without an explicit manifest.
+
+  ood_score:
+    source: train-fitted out-of-distribution detector
+    definition: Validation-calibrated score measuring distance from the training support.
+    forbidden_as_ranker_feature: true
+    fit_scope: inner_train_only
+
+forbidden_ranker_features:
+  - action_id
+  - final_result
+  - post_cutoff_behavior
+  - label_confidence
+  - label_conflict
+  - label_entropy
+  - ood_score
+  - current_action_head_prediction
+  - causal_ate
+  - causal_cate
+  - raw_student_identifier
+  - sensitive_demographics
+
+missing_value_policy:
+  fit_scope: inner_train_only
+  numeric: missing_indicator_plus_train_median_or_native_ebm_missing_support
+  categorical: explicit_missing_category
+  prohibition: Never fit imputation statistics on validation or test data.
+
+lineage_requirements:
+  required_columns:
+    - feature_name
+    - source_table
+    - source_column
+    - aggregation
+    - observation_start_day
+    - observation_end_day
+    - cutoff_day
+    - fit_split
+  hard_gate: observation_end_day must be strictly less than cutoff_day for behavioral fields.

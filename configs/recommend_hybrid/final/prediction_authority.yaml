@@ -1,8 +1,0 @@
-schema_version: frozen_prediction_authority_v1
-status: RELEASE_FROZEN
-architecture: residual_cnn_bilstm
-parameter_count: 160492
-architecture_hash: df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e
-checkpoint_manifest: artifacts/recommend_hybrid/RECOMMEND_HYBRID_CHECKPOINT_MANIFEST.json
-preprocessing_authority: configs/final/oulad_prediction.yaml
-trainable_at_runtime: false
