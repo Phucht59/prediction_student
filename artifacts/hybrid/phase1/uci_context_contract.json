@@ -1,0 +1,57 @@
+{
+  "categorical_features": [
+    "school",
+    "sex",
+    "address",
+    "famsize",
+    "Pstatus",
+    "Mjob",
+    "Fjob",
+    "reason",
+    "guardian",
+    "schoolsup",
+    "famsup",
+    "paid",
+    "activities",
+    "nursery",
+    "higher",
+    "internet",
+    "romantic",
+    "subject"
+  ],
+  "forbidden_predictors": [
+    "G1",
+    "G2",
+    "G3",
+    "absences"
+  ],
+  "numeric_features": [
+    "age",
+    "Medu",
+    "Fedu",
+    "traveltime",
+    "studytime",
+    "failures",
+    "famrel",
+    "freetime",
+    "goout",
+    "Dalc",
+    "Walc",
+    "health"
+  ],
+  "quasi_identity_fields": [
+    "school",
+    "sex",
+    "age",
+    "address",
+    "famsize",
+    "Pstatus",
+    "Medu",
+    "Fedu",
+    "Mjob",
+    "Fjob",
+    "reason",
+    "nursery",
+    "internet"
+  ]
+}

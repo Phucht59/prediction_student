@@ -1,0 +1,57 @@
+{
+  "base_student_presentation_records": 32593,
+  "cutoffs": {
+    "20pct": {
+      "cutoff_fraction": 0.2,
+      "eligible_records": 26697,
+      "excluded_early_unregistration": 5886,
+      "excluded_late_registration": 10,
+      "max_sequence_length": 8,
+      "risk_prevalence": 0.4238678503202607,
+      "risk_records": 11316,
+      "temporal_channels_count": 37,
+      "total_base_records": 32593,
+      "unique_students": 24262
+    },
+    "35pct": {
+      "cutoff_fraction": 0.35,
+      "eligible_records": 25606,
+      "excluded_early_unregistration": 6983,
+      "excluded_late_registration": 4,
+      "max_sequence_length": 14,
+      "risk_prevalence": 0.39920331172381474,
+      "risk_records": 10222,
+      "temporal_channels_count": 37,
+      "total_base_records": 32593,
+      "unique_students": 23436
+    },
+    "50pct": {
+      "cutoff_fraction": 0.5,
+      "eligible_records": 24599,
+      "excluded_early_unregistration": 7992,
+      "excluded_late_registration": 2,
+      "max_sequence_length": 20,
+      "risk_prevalence": 0.37456807187284036,
+      "risk_records": 9214,
+      "temporal_channels_count": 37,
+      "total_base_records": 32593,
+      "unique_students": 22704
+    },
+    "75pct": {
+      "cutoff_fraction": 0.75,
+      "eligible_records": 23159,
+      "excluded_early_unregistration": 9434,
+      "excluded_late_registration": 0,
+      "max_sequence_length": 29,
+      "risk_prevalence": 0.33567943348158386,
+      "risk_records": 7774,
+      "temporal_channels_count": 37,
+      "total_base_records": 32593,
+      "unique_students": 21646
+    }
+  },
+  "overall_risk_prevalence": 0.527966127696131,
+  "overall_risk_records": 17208,
+  "temporal_channels_count": 37,
+  "unique_students": 28785
+}

@@ -1,0 +1,101 @@
+[
+  {
+    "column_count": 33,
+    "dataset": "uci",
+    "filename": "student-mat.csv",
+    "protocol_id": "hybrid_binary_risk_phase2",
+    "row_count": 395,
+    "sha256": "e47f9ee225e1ee6e69b7564e6dac7123e80b8486677fe111f351964cef5dec80",
+    "source_type": "official_download",
+    "source_uri": "https://archive.ics.uci.edu/static/public/320/student%2Bperformance.zip",
+    "validated_at": "2026-08-14T10:45:00.158993+00:00"
+  },
+  {
+    "column_count": 33,
+    "dataset": "uci",
+    "filename": "student-por.csv",
+    "protocol_id": "hybrid_binary_risk_phase2",
+    "row_count": 649,
+    "sha256": "a7594a11d7771c0efe1a740824e0e833da9c4cad07c39a9766a874575563fb3f",
+    "source_type": "official_download",
+    "source_uri": "https://archive.ics.uci.edu/static/public/320/student%2Bperformance.zip",
+    "validated_at": "2026-08-14T10:45:00.159994+00:00"
+  },
+  {
+    "column_count": 3,
+    "dataset": "oulad",
+    "filename": "courses.csv",
+    "protocol_id": "hybrid_binary_risk_phase2",
+    "row_count": 22,
+    "sha256": "4f16eee7454b15e109b0a21a0e43be820e6846ed6f9301bb7feb5ab5ad737a75",
+    "source_type": "official_download",
+    "source_uri": "https://schools.stem.open.ac.uk/cdn/files/anonymisedData.zip",
+    "validated_at": "2026-08-14T10:45:00.159994+00:00"
+  },
+  {
+    "column_count": 12,
+    "dataset": "oulad",
+    "filename": "studentInfo.csv",
+    "protocol_id": "hybrid_binary_risk_phase2",
+    "row_count": 32593,
+    "sha256": "7e6f3e474a5eee00639d2a414a6c7e928745823c2d2c2563ca1780145f99b0d6",
+    "source_type": "official_download",
+    "source_uri": "https://schools.stem.open.ac.uk/cdn/files/anonymisedData.zip",
+    "validated_at": "2026-08-14T10:45:00.177424+00:00"
+  },
+  {
+    "column_count": 5,
+    "dataset": "oulad",
+    "filename": "studentRegistration.csv",
+    "protocol_id": "hybrid_binary_risk_phase2",
+    "row_count": 32593,
+    "sha256": "0d32676285372aaf2e7a80304e5b274b4fba24313e2ca4c04317225e1ec90170",
+    "source_type": "official_download",
+    "source_uri": "https://schools.stem.open.ac.uk/cdn/files/anonymisedData.zip",
+    "validated_at": "2026-08-14T10:45:00.185557+00:00"
+  },
+  {
+    "column_count": 6,
+    "dataset": "oulad",
+    "filename": "assessments.csv",
+    "protocol_id": "hybrid_binary_risk_phase2",
+    "row_count": 206,
+    "sha256": "8cc738fb88ad760571d6f2a23059bfee0ffcae3bcd830514c9cbd5c6d5a046f1",
+    "source_type": "official_download",
+    "source_uri": "https://schools.stem.open.ac.uk/cdn/files/anonymisedData.zip",
+    "validated_at": "2026-08-14T10:45:00.186732+00:00"
+  },
+  {
+    "column_count": 5,
+    "dataset": "oulad",
+    "filename": "studentAssessment.csv",
+    "protocol_id": "hybrid_binary_risk_phase2",
+    "row_count": 173912,
+    "sha256": "fd5320786328d05af841ee7dd4b5871b9dada3b9fe9d6a3642b2f42635510a6e",
+    "source_type": "official_download",
+    "source_uri": "https://schools.stem.open.ac.uk/cdn/files/anonymisedData.zip",
+    "validated_at": "2026-08-14T10:45:00.226072+00:00"
+  },
+  {
+    "column_count": 6,
+    "dataset": "oulad",
+    "filename": "studentVle.csv",
+    "protocol_id": "hybrid_binary_risk_phase2",
+    "row_count": 10655280,
+    "sha256": "52668253d876c5becbcb72185977152700cecab2942aca807fecc3dd54b937f0",
+    "source_type": "official_download",
+    "source_uri": "https://schools.stem.open.ac.uk/cdn/files/anonymisedData.zip",
+    "validated_at": "2026-08-14T10:45:02.926350+00:00"
+  },
+  {
+    "column_count": 6,
+    "dataset": "oulad",
+    "filename": "vle.csv",
+    "protocol_id": "hybrid_binary_risk_phase2",
+    "row_count": 6364,
+    "sha256": "d1b28303dea802ad87b4484e1196e878e06824850b9a4fe8aa34693439fe87e9",
+    "source_type": "official_download",
+    "source_uri": "https://schools.stem.open.ac.uk/cdn/files/anonymisedData.zip",
+    "validated_at": "2026-08-14T10:45:02.928667+00:00"
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "outer_fold": 0,
+  "population": 21728,
+  "outer_test_used": false,
+  "stages": [
+    "20pct",
+    "35pct",
+    "50pct",
+    "75pct",
+    "FINAL-100"
+  ]
+}

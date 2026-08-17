@@ -1,0 +1,213 @@
+{
+  "identity": {
+    "phase": "phase8_final_development_oulad_v1",
+    "domain": "oulad",
+    "protocol": "P1_stage_balanced",
+    "fusion": "F3_adaptive_entropy",
+    "entropy_floor_coefficient": 0.002,
+    "data_variant": "D3_both_safe",
+    "include_final100": true,
+    "fold": 0,
+    "seed": 2026,
+    "max_epochs": 12,
+    "outer_test_used": false
+  },
+  "result": {
+    "scope": "single-fold single-seed screening; outer test unused",
+    "domain": "oulad",
+    "protocol": "P1_stage_balanced",
+    "temporal_variant": "raw",
+    "fold": 0,
+    "seed": 2026,
+    "best_epoch": 11,
+    "fusion": "adaptive_entropy",
+    "entropy_floor_coefficient": 0.002,
+    "branch_mode": "full",
+    "model_family": "representation",
+    "residual_sample_gate": true,
+    "data_variant": "D3_both_safe",
+    "include_final100": true,
+    "stop_macro_pr_auc": 0.8388838870916022,
+    "runtime_seconds": 34.85900000000038,
+    "parameter_count": 514247,
+    "metrics": {
+      "20pct": {
+        "pr_auc": 0.7420123936230497,
+        "roc_auc": 0.7678684865290561,
+        "accuracy": 0.6586938083121289,
+        "risk_precision": 0.5735546651402404,
+        "risk_recall": 0.7933491686460807,
+        "risk_f1": 0.66578073089701,
+        "selected_threshold": 0.47,
+        "threshold_source": "stop_only",
+        "train_pr_auc": 0.7529638043698144,
+        "generalization_gap": 0.010951410746764645,
+        "recall_fail": 0.8106765983860956,
+        "recall_withdrawn": 0.7628415300546448
+      },
+      "35pct": {
+        "pr_auc": 0.7955742294909921,
+        "roc_auc": 0.818040647228369,
+        "accuracy": 0.7383638928067701,
+        "risk_precision": 0.6708385481852316,
+        "risk_recall": 0.6982197134172818,
+        "risk_f1": 0.6842553191489362,
+        "selected_threshold": 0.54,
+        "threshold_source": "stop_only",
+        "train_pr_auc": 0.8049721053693631,
+        "generalization_gap": 0.009397875878371043,
+        "recall_fail": 0.7119801365611421,
+        "recall_withdrawn": 0.6661849710982659
+      },
+      "50pct": {
+        "pr_auc": 0.8458162303587757,
+        "roc_auc": 0.8682396635162462,
+        "accuracy": 0.7883171580296648,
+        "risk_precision": 0.7113821138211383,
+        "risk_recall": 0.752868068833652,
+        "risk_f1": 0.7315373896888063,
+        "selected_threshold": 0.54,
+        "threshold_source": "stop_only",
+        "train_pr_auc": 0.8469142540960335,
+        "generalization_gap": 0.0010980237372577584,
+        "recall_fail": 0.7672253258845437,
+        "recall_withdrawn": 0.7047817047817048
+      },
+      "75pct": {
+        "pr_auc": 0.8902649343188628,
+        "roc_auc": 0.9122473623141477,
+        "accuracy": 0.8594267888477286,
+        "risk_precision": 0.8236760124610591,
+        "risk_recall": 0.7511363636363636,
+        "risk_f1": 0.7857355126300148,
+        "selected_threshold": 0.59,
+        "threshold_source": "stop_only",
+        "train_pr_auc": 0.8877374784832784,
+        "generalization_gap": -0.0025274558355843357,
+        "recall_fail": 0.7603972687771571,
+        "recall_withdrawn": 0.6510067114093959
+      },
+      "FINAL-100": {
+        "pr_auc": 0.9633660834139093,
+        "roc_auc": 0.949595882079997,
+        "accuracy": 0.8750694058856191,
+        "risk_precision": 0.8820619630304608,
+        "risk_recall": 0.8834419817470665,
+        "risk_f1": 0.8827514330380406,
+        "selected_threshold": 0.48,
+        "threshold_source": "stop_only",
+        "train_pr_auc": 0.9657636444644521,
+        "generalization_gap": 0.0023975610505427847,
+        "recall_fail": 0.8184634448574969,
+        "recall_withdrawn": 0.9306618640252139
+      }
+    },
+    "gate_diagnostics": [
+      {
+        "stage": "20pct",
+        "tabular_mean": 0.9890598654747009,
+        "tabular_std": 0.02374262735247612,
+        "cnn_mean": 0.0005186668713577092,
+        "cnn_std": 0.0017563425935804844,
+        "bilstm_mean": 0.010421394370496273,
+        "bilstm_std": 0.022686203941702843,
+        "gate_entropy_mean": 0.0512194000184536,
+        "gate_entropy_std": 0.07102631777524948,
+        "temporal_utilization": 0.010940060950815678
+      },
+      {
+        "stage": "35pct",
+        "tabular_mean": 0.9962365031242371,
+        "tabular_std": 0.010615849867463112,
+        "cnn_mean": 0.00012053256068611518,
+        "cnn_std": 0.0006142116035334766,
+        "bilstm_mean": 0.0036430261097848415,
+        "bilstm_std": 0.010209008120000362,
+        "gate_entropy_mean": 0.019851988181471825,
+        "gate_entropy_std": 0.04134533554315567,
+        "temporal_utilization": 0.0037635585758835077
+      },
+      {
+        "stage": "50pct",
+        "tabular_mean": 0.9987934827804565,
+        "tabular_std": 0.003154386766254902,
+        "cnn_mean": 2.505443262634799e-05,
+        "cnn_std": 0.00015161780174821615,
+        "bilstm_mean": 0.0011814780300483108,
+        "bilstm_std": 0.0030183764174580574,
+        "gate_entropy_mean": 0.007925187237560749,
+        "gate_entropy_std": 0.016034193336963654,
+        "temporal_utilization": 0.0012065324699506164
+      },
+      {
+        "stage": "75pct",
+        "tabular_mean": 0.9980557560920715,
+        "tabular_std": 0.014627241529524326,
+        "cnn_mean": 5.035802678321488e-05,
+        "cnn_std": 0.0002622291212901473,
+        "bilstm_mean": 0.0018938977736979723,
+        "bilstm_std": 0.014485464431345463,
+        "gate_entropy_mean": 0.01076420210301876,
+        "gate_entropy_std": 0.02205878496170044,
+        "temporal_utilization": 0.0019442557822912931
+      },
+      {
+        "stage": "FINAL-100",
+        "tabular_mean": 0.8549633026123047,
+        "tabular_std": 0.34502673149108887,
+        "cnn_mean": 0.0006452494999393821,
+        "cnn_std": 0.005751216318458319,
+        "bilstm_mean": 0.14439146220684052,
+        "bilstm_std": 0.3438904285430908,
+        "gate_entropy_mean": 0.022104578092694283,
+        "gate_entropy_std": 0.08914874494075775,
+        "temporal_utilization": 0.1450366973876953
+      }
+    ],
+    "outer_test_used": false,
+    "final100_audit": {
+      "endpoint": "FINAL-100",
+      "population": 32593,
+      "base_population": 32593,
+      "row_loss": 0,
+      "target_risk_n": 17208,
+      "target_risk_prevalence": 0.527966127696131,
+      "class_counts": {
+        "Pass": 12361,
+        "Withdrawn": 10156,
+        "Fail": 7052,
+        "Distinction": 3024
+      },
+      "sequence_length": {
+        "mean": 28.456140889147978,
+        "std": 14.300473069217214,
+        "min": 0.0,
+        "median": 35.0,
+        "max": 39.0
+      },
+      "exposure_fraction": {
+        "n": 927471,
+        "mean": 0.9813075661659241,
+        "min": 0.1428571492433548,
+        "max": 1.0
+      },
+      "missingness": {
+        "date_registration": 45,
+        "date_unregistration": 22521
+      },
+      "target_classes": [
+        "Fail",
+        "Withdrawn",
+        "Pass",
+        "Distinction"
+      ],
+      "forbidden_predictors": [
+        "final_result",
+        "target",
+        "score",
+        "date_unregistration"
+      ],
+      "outer_test_used": false
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "manifest_type": "technical_recovery_source_bundle",
+  "authority_commit": "155499f631b9c53e379e5dc7f63cb8dcf00082fb",
+  "original_frozen_source_bundle_sha256": "133b8b293f2db638742a7979097815b44caa4cea96e8a5cb5f3e0bcc0fee302d",
+  "original_source_bundle_preserved": true,
+  "recovery_source_bundle_sha256": "4a8c1c530c385730ec07759e61f5d63ef5bf6144521f519c140f396f5bbb0ce9",
+  "added_recovery_entries": [
+    {"path": "scripts/hybrid/run_hybrid_phase8_outer_final.py", "sha256": "89dd49fb5d5d1fc11ed538a710cfe89fe7911af207e769138413b3c3ca026546", "role": "approved_mechanical_patch"},
+    {"path": "scripts/hybrid/run_hybrid_phase8_outer_recovery_resume.py", "sha256": "08ccd1d59903ea3f43410981c425fe3b84b71c92ec0714a3ce50e123f1652885", "role": "manifest_preserving_resume_wrapper"},
+    {"path": "tests/hybrid/test_phase8_outer_recovery.py", "sha256": "9ddc5b34848e392de3f0f0caaecf6b179002dd095095e4dd7049c93d7788788d", "role": "synthetic_regression"}
+  ],
+  "protected_scientific_entries_unchanged": true,
+  "baseline_metric_threshold_split_seed_bundles_unchanged": true
+}

@@ -1,0 +1,4 @@
+path,status,reference,current_hash,reference_hash,phase8_dependency,required_for_outer,decision
+reports/final/FINAL_HYBRID_EVIDENCE.md,dirty_or_protected,frozen staging authority,11109f4134d5fb0cbfd6a79600f1d880d7e24875b6c5360800244ecb009d1045,ABSENT,False,False,use clean staging reference; do not use research worktree
+src/hybrid/phase7/data.py,dirty_or_protected,frozen staging authority,f833917013863b058666bc9af6466af3f3039379db27c28036f78d8d93326c28,dcda333126c8c4062bb58fb13f118f59103837ae4b74af33d1af758273e91f70,True,True,use clean staging reference; do not use research worktree
+tests/hybrid/test_phase7_data_contract.py,dirty_or_protected,frozen staging authority,eafb82cec3e4edb72ae81d4d6f891305a3e775ed27b9d45e84b193d66cbed75e,31c57cf29fa237cd904a880642bf0b7f079dd1d5c60f0ba7423aae5b01d0de8f,False,False,use clean staging reference; do not use research worktree

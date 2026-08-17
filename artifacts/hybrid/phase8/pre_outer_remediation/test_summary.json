@@ -1,0 +1,16 @@
+{
+  "collected": 356,
+  "command": "py -3 -m pytest -q tests/hybrid",
+  "errors": 0,
+  "evaluation_workspace": "C:\\hufit\\kltn_outer_eval_staging_v2",
+  "failed": 0,
+  "focused_phase8": {
+    "collected": 25,
+    "command": "py -3 -m pytest -q tests/hybrid/test_phase8_protocol_correction.py tests/hybrid/test_phase8_final100.py tests/hybrid/test_phase8_data_variants.py tests/hybrid/test_phase8_model.py",
+    "failed": 0,
+    "passed": 25
+  },
+  "passed": 356,
+  "skipped": 0,
+  "source_bundle_sha256": "133b8b293f2db638742a7979097815b44caa4cea96e8a5cb5f3e0bcc0fee302d"
+}

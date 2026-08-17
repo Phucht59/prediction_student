@@ -1,0 +1,63 @@
+{
+  "protocol_id": "hybrid_binary_risk_phase2",
+  "audit_target": "vle_activity_type_mapping",
+  "total_vle_rows": 6364,
+  "unique_id_sites": 6364,
+  "duplicate_sites": 0,
+  "activity_type_site_counts": {
+    "resource": 2660,
+    "subpage": 1055,
+    "oucontent": 996,
+    "url": 886,
+    "forumng": 194,
+    "quiz": 127,
+    "page": 102,
+    "oucollaborate": 82,
+    "questionnaire": 61,
+    "ouwiki": 49,
+    "dataplus": 28,
+    "externalquiz": 26,
+    "homepage": 22,
+    "glossary": 21,
+    "ouelluminate": 21,
+    "dualpane": 20,
+    "repeatactivity": 5,
+    "htmlactivity": 4,
+    "sharedsubpage": 3,
+    "folder": 2
+  },
+  "semantic_feature_mappings": {
+    "content_clicks": [
+      "oucontent",
+      "resource",
+      "page",
+      "url",
+      "glossary",
+      "homepage",
+      "subpage",
+      "dataplus"
+    ],
+    "forum_clicks": [
+      "forumng"
+    ],
+    "quiz_clicks": [
+      "quiz"
+    ],
+    "assessment_related_clicks": [
+      "quiz",
+      "questionnaire",
+      "externalquiz"
+    ]
+  },
+  "unmapped_activity_types": [
+    "oucollaborate",
+    "ouwiki",
+    "ouelluminate",
+    "dualpane",
+    "repeatactivity",
+    "htmlactivity",
+    "sharedsubpage",
+    "folder"
+  ],
+  "unmapped_semantics_note": "All unmapped types contribute strictly to total_clicks, active_days, unique_sites, and unique_activity_types. They are not assigned to domain sub-counts without explicit scientific justification."
+}

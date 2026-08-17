@@ -1,0 +1,30 @@
+{
+  "categorical_features": [
+    "gender",
+    "region",
+    "highest_education",
+    "imd_band",
+    "age_band",
+    "disability",
+    "code_module",
+    "presentation_season"
+  ],
+  "forbidden_predictors": [
+    "final_result",
+    "date_unregistration",
+    "score"
+  ],
+  "numeric_features": [
+    "num_of_prev_attempts",
+    "studied_credits",
+    "registration_lead_time",
+    "module_presentation_length"
+  ],
+  "sensitive_features": [
+    "gender",
+    "region",
+    "disability",
+    "age_band",
+    "imd_band"
+  ]
+}

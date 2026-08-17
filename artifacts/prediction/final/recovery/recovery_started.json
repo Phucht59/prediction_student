@@ -1,0 +1,12 @@
+{
+  "technical_recovery_attempt": 1,
+  "technical_recovery_authorized": true,
+  "pre_recovery_verification": "PASS",
+  "outer_test_consumed_before_recovery": true,
+  "outer_test_run_count": 1,
+  "post_test_tuning_allowed": false,
+  "original_consumption_manifest_rewritten": false,
+  "original_incident_rewritten": false,
+  "resume_mode": "manifest_preserving_frozen_runner_resume",
+  "source_bundle_sha256": "133b8b293f2db638742a7979097815b44caa4cea96e8a5cb5f3e0bcc0fee302d"
+}

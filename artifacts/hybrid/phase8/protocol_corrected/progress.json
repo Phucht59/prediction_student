@@ -1,0 +1,12 @@
+{
+  "state": "COMPLETED",
+  "current_phase": "protocol_corrected_reports",
+  "completed_jobs": 9,
+  "total_jobs": 9,
+  "current_best": "Hybrid independent FINAL-100 task",
+  "last_completed_job": {
+    "fold": 2,
+    "seed": 2026
+  },
+  "outer_test_used": false
+}

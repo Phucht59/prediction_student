@@ -1,0 +1,149 @@
+{
+  "identity": {
+    "phase": "phase8_protocol_corrected_final_v2",
+    "task": "final_outcome",
+    "model_id": "hybrid",
+    "display_name": "Hybrid",
+    "protocol": "P1_stage_balanced",
+    "fusion": "F3_adaptive_entropy",
+    "entropy_floor_coefficient": 0.002,
+    "data_variant": "D3_both_safe",
+    "include_final100": true,
+    "final_only": true,
+    "fold": 0,
+    "seed": 2026,
+    "max_epochs": 12,
+    "outer_test_used": false
+  },
+  "result": {
+    "scope": "single-fold single-seed screening; outer test unused",
+    "domain": "oulad",
+    "protocol": "P1_stage_balanced",
+    "temporal_variant": "raw",
+    "fold": 0,
+    "seed": 2026,
+    "best_epoch": 11,
+    "fusion": "adaptive_entropy",
+    "entropy_floor_coefficient": 0.002,
+    "branch_mode": "full",
+    "model_family": "representation",
+    "residual_sample_gate": true,
+    "data_variant": "D3_both_safe",
+    "include_final100": true,
+    "final_only": true,
+    "stop_macro_pr_auc": 0.9755028855643736,
+    "runtime_seconds": 28.485000000000582,
+    "parameter_count": 514247,
+    "metrics": {
+      "FINAL-100": {
+        "pr_auc": 0.9794684571031889,
+        "roc_auc": 0.9695100624104351,
+        "accuracy": 0.9246252082176568,
+        "risk_precision": 0.9526952695269527,
+        "risk_recall": 0.9032594524119948,
+        "risk_f1": 0.9273189666711283,
+        "selected_threshold": 0.48,
+        "threshold_source": "stop_only",
+        "train_pr_auc": 0.9835348375677577,
+        "generalization_gap": 0.004066380464568864,
+        "recall_fail": 0.79182156133829,
+        "recall_withdrawn": 0.9842413327330032,
+        "non_withdrawn_risk_recall": 0.79182156133829
+      }
+    },
+    "gate_diagnostics": [
+      {
+        "stage": "FINAL-100",
+        "tabular_mean": 0.6186410784721375,
+        "tabular_std": 0.21655836701393127,
+        "cnn_mean": 0.11642396450042725,
+        "cnn_std": 0.09067501127719879,
+        "bilstm_mean": 0.2649350166320801,
+        "bilstm_std": 0.1591733694076538,
+        "gate_entropy_mean": 0.7677395939826965,
+        "gate_entropy_std": 0.2755557894706726,
+        "temporal_utilization": 0.3813589811325073
+      }
+    ],
+    "outer_test_used": false,
+    "final100_audit": {
+      "endpoint": "FINAL-100",
+      "population": 32593,
+      "base_population": 32593,
+      "row_loss": 0,
+      "target_risk_n": 17208,
+      "target_risk_prevalence": 0.527966127696131,
+      "class_counts": {
+        "Pass": 12361,
+        "Withdrawn": 10156,
+        "Fail": 7052,
+        "Distinction": 3024
+      },
+      "sequence_length": {
+        "mean": 28.456140889147978,
+        "std": 14.300473069217214,
+        "min": 0.0,
+        "median": 35.0,
+        "max": 39.0
+      },
+      "sequence_length_by_class": {
+        "Distinction": {
+          "mean": 37.29695767195767,
+          "std": 1.9154586421150919,
+          "min": 31.0,
+          "median": 38.0,
+          "max": 39.0
+        },
+        "Fail": {
+          "mean": 36.92938173567782,
+          "std": 2.3157637204390955,
+          "min": 0.0,
+          "median": 38.0,
+          "max": 39.0
+        },
+        "Pass": {
+          "mean": 37.3122724698649,
+          "std": 1.86846224319176,
+          "min": 24.0,
+          "median": 38.0,
+          "max": 39.0
+        },
+        "Withdrawn": {
+          "mean": 9.161283970066956,
+          "std": 10.313595053153676,
+          "min": 0.0,
+          "median": 5.0,
+          "max": 39.0
+        }
+      },
+      "sequence_length_shortcut_diagnostic": {
+        "short_history_definition": "length <= 20 weeks",
+        "withdrawn_rate_in_short_history": 0.9989167067886374,
+        "flagged_as_shortcut_risk": true
+      },
+      "exposure_fraction": {
+        "n": 927471,
+        "mean": 0.9813075661659241,
+        "min": 0.1428571492433548,
+        "max": 1.0
+      },
+      "missingness": {
+        "date_registration": 45,
+        "date_unregistration": 22521
+      },
+      "target_classes": [
+        "Fail",
+        "Withdrawn",
+        "Pass",
+        "Distinction"
+      ],
+      "forbidden_predictors": [
+        "final_result",
+        "target",
+        "score",
+        "date_unregistration"
+      ],
+      "outer_test_used": false
+    }
+  }
+}

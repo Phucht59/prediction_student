@@ -1,0 +1,21 @@
+services:
+  postgres-v5:
+    image: postgres:18
+    container_name: student-predict-postgres-v5
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${V5_POSTGRES_DB:-student_predict_v5}
+      POSTGRES_USER: ${V5_POSTGRES_USER:-student_predict_migrator_login}
+      POSTGRES_PASSWORD: ${V5_POSTGRES_PASSWORD:?Set V5_POSTGRES_PASSWORD in the local environment}
+    ports:
+      - "${V5_POSTGRES_PORT:-5433}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    volumes:
+      - student_predict_v5_data:/var/lib/postgresql/data
+
+volumes:
+  student_predict_v5_data:

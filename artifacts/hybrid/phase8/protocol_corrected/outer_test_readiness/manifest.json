@@ -1,0 +1,23 @@
+{
+  "protocol": "corrected",
+  "early_selected": "artifacts/hybrid/phase8/protocol_corrected/early/selection.json",
+  "final_selected": "artifacts/hybrid/phase8/protocol_corrected/final100/selection.json",
+  "same_topology": true,
+  "independent_weights": true,
+  "source_hashes": {
+    "src\\hybrid\\phase8\\model.py": "12b4610cafe4b34552bc84a0c59740e833b74070c2ea3834aa7751d3dc276498",
+    "src\\hybrid\\phase8\\execution.py": "3a7df268a962ecdcb010235a2e4da62b085fc9eb80d6ab953c49ad314ba8b4fb",
+    "src\\hybrid\\phase8\\data_variants.py": "0fdf9bb6013ddef506bfc36f09986e5789c2b38989ff76f61808bfdc08f80ee1",
+    "src\\hybrid\\phase8\\final100.py": "7dbf2ff96cacb3ee60ff9a3e61df9f45aa835e6c51a9f3bd0a1795cdc46cfd15"
+  },
+  "early_macro_excludes_final": true,
+  "baseline_early_excludes_final": true,
+  "shortcut_documented": true,
+  "tests_required": [
+    "focused_phase8",
+    "protocol_correction"
+  ],
+  "outer_test_authorized": false,
+  "outer_test_used": false,
+  "selected_model_id": "hybrid"
+}

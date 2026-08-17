@@ -1,0 +1,13 @@
+{
+  "input": "static/context + D3 aggregate + last/mean/max temporal summaries + progress",
+  "raw_sequence_order": false,
+  "models": [
+    "LR",
+    "DT",
+    "RF",
+    "XGB",
+    "MLP"
+  ],
+  "outer_test_used": false,
+  "threshold_source": "stop_only"
+}

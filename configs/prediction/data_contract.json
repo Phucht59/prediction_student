@@ -1,0 +1,11 @@
+{
+  "oulad_variant": "D3_both_safe",
+  "forbidden_predictors": [
+    "final_result",
+    "target",
+    "score",
+    "date_unregistration"
+  ],
+  "final100_observation": "registration to min(course_end, recorded_unregistration), no post-boundary padding",
+  "outer_test_used": false
+}

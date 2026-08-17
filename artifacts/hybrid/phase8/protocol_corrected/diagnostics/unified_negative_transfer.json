@@ -1,0 +1,7 @@
+{
+  "joint_five_stage_early_macro": 0.8104290852756664,
+  "corrected_independent_early_macro": 0.8223460880315723,
+  "negative_transfer_delta": 0.011917002755905903,
+  "source_joint": "artifacts/hybrid/phase8/final_development/oulad/macro_summary.json",
+  "outer_test_used": false
+}

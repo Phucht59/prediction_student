@@ -1,0 +1,12 @@
+{
+  "state": "AUTHORIZED_FOR_RESUME",
+  "phase": "pre_recovery_pass",
+  "technical_recovery_attempt": 1,
+  "technical_recovery_authorized": true,
+  "completed": 0,
+  "total": 198,
+  "outer_test_consumed": true,
+  "outer_test_run_count": 1,
+  "post_test_tuning_allowed": false,
+  "next_action": "resume_frozen_outer_computation_once"
+}

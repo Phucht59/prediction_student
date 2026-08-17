@@ -1,0 +1,65 @@
+{
+  "identity": {
+    "domain": "uci",
+    "model": "MLP",
+    "fold": 2,
+    "seed": 1201,
+    "outer_test_used": false
+  },
+  "rows": [
+    {
+      "domain": "uci",
+      "model": "MLP",
+      "fold": 2,
+      "seed": 1201,
+      "stage": "S0",
+      "pr_auc": 0.4083876675945265,
+      "roc_auc": 0.7240682351038887,
+      "accuracy": 0.6970802919708029,
+      "risk_precision": 0.3522727272727273,
+      "risk_recall": 0.543859649122807,
+      "risk_f1": 0.42758620689655175,
+      "selected_threshold": 0.39,
+      "train_pr_auc": 0.96071386052159,
+      "generalization_gap": 0.5523261929270635,
+      "feature_count": 66,
+      "outer_test_used": false
+    },
+    {
+      "domain": "uci",
+      "model": "MLP",
+      "fold": 2,
+      "seed": 1201,
+      "stage": "S1",
+      "pr_auc": 0.6847321380267323,
+      "roc_auc": 0.8971622604899345,
+      "accuracy": 0.7846715328467153,
+      "risk_precision": 0.4897959183673469,
+      "risk_recall": 0.8421052631578947,
+      "risk_f1": 0.6193548387096774,
+      "selected_threshold": 0.5,
+      "train_pr_auc": 0.8716652795238391,
+      "generalization_gap": 0.18693314149710683,
+      "feature_count": 66,
+      "outer_test_used": false
+    },
+    {
+      "domain": "uci",
+      "model": "MLP",
+      "fold": 2,
+      "seed": 1201,
+      "stage": "S2",
+      "pr_auc": 0.7616710328923998,
+      "roc_auc": 0.9186676368340206,
+      "accuracy": 0.8686131386861314,
+      "risk_precision": 0.6981132075471698,
+      "risk_recall": 0.6491228070175439,
+      "risk_f1": 0.6727272727272727,
+      "selected_threshold": 0.7,
+      "train_pr_auc": 0.9535232589987376,
+      "generalization_gap": 0.1918522261063378,
+      "feature_count": 66,
+      "outer_test_used": false
+    }
+  ]
+}

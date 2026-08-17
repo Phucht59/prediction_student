@@ -1,0 +1,6 @@
+{
+  "diagnostic_only": true,
+  "fit_only": true,
+  "outer_test_used": false,
+  "not_used_in_hybrid": true
+}
