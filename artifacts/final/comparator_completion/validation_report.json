@@ -1,0 +1,36 @@
+{
+  "datasets": [
+    {
+      "dataset": "student_mat",
+      "models": 9,
+      "records": 395,
+      "status": "PASS"
+    },
+    {
+      "dataset": "student_por",
+      "models": 9,
+      "records": 649,
+      "status": "PASS"
+    },
+    {
+      "dataset": "oulad",
+      "models": 9,
+      "records": 15378,
+      "status": "PASS"
+    }
+  ],
+  "future_oulad_executed": false,
+  "nine_models_each_dataset": true,
+  "no_applicable_na": true,
+  "no_change_guard": {
+    "changed": [],
+    "current_aggregate_sha256": "fe9aaf1d532fba85025eb39662e0c6e3fccb08e55d64d30d6f1b5d3ff208aa2d",
+    "expected_aggregate_sha256": "fe9aaf1d532fba85025eb39662e0c6e3fccb08e55d64d30d6f1b5d3ff208aa2d",
+    "missing": [],
+    "status": "PASS"
+  },
+  "official_deep_models_retrained": false,
+  "protocol_hash": "2cdc30713990ecf6932e69b484b3a1eb3f2c96a1329e682381ad09a5b136f5c2",
+  "schema_version": "comparator_completion_validation_v1",
+  "status": "PASS"
+}

@@ -1,0 +1,19 @@
+name: student-performance-paper
+channels:
+  - pytorch
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - pandas
+  - numpy
+  - scikit-learn
+  - imbalanced-learn
+  - pytorch
+  - psycopg2
+  - python-dotenv
+  - pip
+  - pip:
+      - optuna
+      - pytest
+      - xgboost

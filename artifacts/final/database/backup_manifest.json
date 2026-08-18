@@ -1,0 +1,60 @@
+{
+  "backup_byte_count": 9450715,
+  "backup_filename": "student_predict_pre_30_model_cutover_20260728T043451Z.dump",
+  "backup_managed_path": "backups/student_predict_pre_30_model_cutover_20260728T043451Z.dump",
+  "backup_sha256": "725d26e93493038f5f6f87812e29137287d6c43092c0617846bcefd70eee62b2",
+  "byte_count": 9450715,
+  "created_at": "2026-07-28T04:34:52.625595+00:00",
+  "credentials": "REDACTED",
+  "database_name": "student_predict",
+  "disposable_database_removed": true,
+  "expected_pre_cutover_counts": {
+    "actions": 27355,
+    "models": 27,
+    "plans": 15378,
+    "risk_profiles": 15378
+  },
+  "postgres_version": "pg_dump (PostgreSQL) 18.4",
+  "restore_command_template": "pg_restore --exit-on-error --no-owner --no-acl --dbname <disposable_database> backups/student_predict_pre_30_model_cutover_20260728T043451Z.dump",
+  "restore_test": {
+    "database": "student_predict_backup_restore_test_20260728043452",
+    "database_removed": true,
+    "schema_hash": "ae06a0afce55148dbe2b5452a9fe4efbf4d37860c5c05209fdb73799f40bf57e",
+    "status": "PASS"
+  },
+  "restore_test_database": "student_predict_backup_restore_test_20260728043452",
+  "restore_tested": true,
+  "restored_counts": {
+    "actions": 27355,
+    "dataset_versions": 3,
+    "datasets": 3,
+    "metrics": 891,
+    "models": 27,
+    "plans": 15378,
+    "reviews": 0,
+    "risk_profiles": 15378,
+    "runs": 27
+  },
+  "restored_schema_hash": "ae06a0afce55148dbe2b5452a9fe4efbf4d37860c5c05209fdb73799f40bf57e",
+  "schema_hash_match": true,
+  "schema_version": "final_database_backup_v2",
+  "server_version": "18.4",
+  "sha256": "725d26e93493038f5f6f87812e29137287d6c43092c0617846bcefd70eee62b2",
+  "source_counts": {
+    "actions": 27355,
+    "dataset_versions": 3,
+    "datasets": 3,
+    "metrics": 891,
+    "models": 27,
+    "plans": 15378,
+    "reviews": 0,
+    "risk_profiles": 15378,
+    "runs": 27
+  },
+  "source_database": "student_predict",
+  "source_migration_ledger_hash": "7e282754ed65cc3fb8922ec027a4cd91662526a18b35701395c3001c64c4e089",
+  "source_schema_hash": "ae06a0afce55148dbe2b5452a9fe4efbf4d37860c5c05209fdb73799f40bf57e",
+  "starting_schema_hash": "ae06a0afce55148dbe2b5452a9fe4efbf4d37860c5c05209fdb73799f40bf57e",
+  "status": "PASS",
+  "validation_artifact": "artifacts/final/database/backup_restore_validation.json"
+}

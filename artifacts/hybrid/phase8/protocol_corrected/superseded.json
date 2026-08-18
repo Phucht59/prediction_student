@@ -1,6 +1,0 @@
-{
-  "old_namespace": "artifacts/hybrid/phase8/final_development",
-  "superseded_by_protocol_correction": true,
-  "reason": "FINAL-100 was jointly inserted into early-warning training; corrected namespace separates tasks",
-  "outer_test_used": false
-}

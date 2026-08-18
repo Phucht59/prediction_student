@@ -1,0 +1,55 @@
+dataset,prediction_stage,base_model_id,comparator_model_id,metric,delta,ci_95_low,ci_95_high,replicates,conclusion
+student_mat,S0_EARLY_NO_GRADE,cnn_bilstm_mat,logistic_regression_mat,macro_f1,0.01563750681724113,-0.025551035884480933,0.056780058784545305,5000,insufficient evidence of difference
+student_mat,S1_MID_G1_ONLY,cnn_bilstm_mat,logistic_regression_mat,macro_f1,0.021404735718705936,-0.007713530725146597,0.051238292803483625,5000,insufficient evidence of difference
+student_mat,S2_LATE_G1_G2,cnn_bilstm_mat,logistic_regression_mat,macro_f1,-0.02928531334570994,-0.054195264840893,-0.0057440835285567735,5000,CNN-BiLSTM lower
+student_mat,S0_EARLY_NO_GRADE,cnn_bilstm_mat,decision_tree_mat,macro_f1,0.003167772826817461,-0.05259296359899678,0.05949535265226894,5000,insufficient evidence of difference
+student_mat,S1_MID_G1_ONLY,cnn_bilstm_mat,decision_tree_mat,macro_f1,0.01279974984470622,-0.028805111752833183,0.05417929892737441,5000,insufficient evidence of difference
+student_mat,S2_LATE_G1_G2,cnn_bilstm_mat,decision_tree_mat,macro_f1,-0.016120019952567177,-0.05429977884857362,0.021527297386745244,5000,insufficient evidence of difference
+student_mat,S0_EARLY_NO_GRADE,cnn_bilstm_mat,random_forest_mat,macro_f1,-0.016053409290306686,-0.06092457902837277,0.030176809663241044,5000,insufficient evidence of difference
+student_mat,S1_MID_G1_ONLY,cnn_bilstm_mat,random_forest_mat,macro_f1,0.03201509589758411,-0.001308135893327885,0.06513898825669352,5000,insufficient evidence of difference
+student_mat,S2_LATE_G1_G2,cnn_bilstm_mat,random_forest_mat,macro_f1,-0.043151976045042395,-0.07283369955808022,-0.013947106055348987,5000,CNN-BiLSTM lower
+student_mat,S0_EARLY_NO_GRADE,cnn_bilstm_mat,hist_gradient_boosting_mat,macro_f1,-0.024326836474342417,-0.0759667217153164,0.02981217699176176,5000,insufficient evidence of difference
+student_mat,S1_MID_G1_ONLY,cnn_bilstm_mat,hist_gradient_boosting_mat,macro_f1,0.042444981045252184,-0.004179682144990232,0.09049009252516063,5000,insufficient evidence of difference
+student_mat,S2_LATE_G1_G2,cnn_bilstm_mat,hist_gradient_boosting_mat,macro_f1,-0.008033705837497518,-0.045809010412731874,0.029692429602081228,5000,insufficient evidence of difference
+student_mat,S0_EARLY_NO_GRADE,cnn_bilstm_mat,svm_mat,macro_f1,-0.03871224311122334,-0.08699158970087853,0.011078962939427155,5000,insufficient evidence of difference
+student_mat,S1_MID_G1_ONLY,cnn_bilstm_mat,svm_mat,macro_f1,0.019350086876095296,-0.022528982794835332,0.06251830995970828,5000,insufficient evidence of difference
+student_mat,S2_LATE_G1_G2,cnn_bilstm_mat,svm_mat,macro_f1,-0.0039890967437408165,-0.04043758835206809,0.033592143341398574,5000,insufficient evidence of difference
+student_mat,S0_EARLY_NO_GRADE,cnn_bilstm_mat,xgboost_mat,macro_f1,0.001954032588722343,-0.04896134973790317,0.05506404134252105,5000,insufficient evidence of difference
+student_mat,S1_MID_G1_ONLY,cnn_bilstm_mat,xgboost_mat,macro_f1,0.03458655523182086,-0.009475563955775203,0.07826460352066687,5000,insufficient evidence of difference
+student_mat,S2_LATE_G1_G2,cnn_bilstm_mat,xgboost_mat,macro_f1,-0.027938438546528332,-0.06173995671122037,0.004837332488103742,5000,insufficient evidence of difference
+student_mat,S0_EARLY_NO_GRADE,cnn_bilstm_mat,mlp_mat,macro_f1,-0.008333355495035999,-0.05784748300508759,0.04397078713848313,5000,insufficient evidence of difference
+student_mat,S1_MID_G1_ONLY,cnn_bilstm_mat,mlp_mat,macro_f1,0.013234063618300596,-0.026189126260168095,0.05145975111749255,5000,insufficient evidence of difference
+student_mat,S2_LATE_G1_G2,cnn_bilstm_mat,mlp_mat,macro_f1,-0.008555581317047367,-0.0400401398433616,0.022416284603511066,5000,insufficient evidence of difference
+student_mat,S0_EARLY_NO_GRADE,cnn_bilstm_mat,cnn_only_mat,macro_f1,-0.010343012776538762,-0.04329439476798038,0.0231278187368209,5000,insufficient evidence of difference
+student_mat,S1_MID_G1_ONLY,cnn_bilstm_mat,cnn_only_mat,macro_f1,-0.00841171407619623,-0.02701583667212313,0.009392623781630702,5000,insufficient evidence of difference
+student_mat,S2_LATE_G1_G2,cnn_bilstm_mat,cnn_only_mat,macro_f1,-0.005645693827547427,-0.020644428140771456,0.00875294605938811,5000,insufficient evidence of difference
+student_mat,S0_EARLY_NO_GRADE,cnn_bilstm_mat,bilstm_only_mat,macro_f1,-0.017699654280321886,-0.050347879033199525,0.01572649202275887,5000,insufficient evidence of difference
+student_mat,S1_MID_G1_ONLY,cnn_bilstm_mat,bilstm_only_mat,macro_f1,0.07534931775515208,0.04417618685984389,0.10875082532737033,5000,CNN-BiLSTM higher
+student_mat,S2_LATE_G1_G2,cnn_bilstm_mat,bilstm_only_mat,macro_f1,0.09134514706617125,0.06055234530864771,0.12366724492149177,5000,CNN-BiLSTM higher
+student_por,S0_EARLY_NO_GRADE,cnn_bilstm_por,logistic_regression_por,macro_f1,0.07382580757773377,0.041214766989164875,0.10600372274323147,5000,CNN-BiLSTM higher
+student_por,S1_MID_G1_ONLY,cnn_bilstm_por,logistic_regression_por,macro_f1,-0.0030307996959151318,-0.023481188701925396,0.01661913511510855,5000,insufficient evidence of difference
+student_por,S2_LATE_G1_G2,cnn_bilstm_por,logistic_regression_por,macro_f1,0.01150311184006969,-0.007660399913417321,0.030432934749205227,5000,insufficient evidence of difference
+student_por,S0_EARLY_NO_GRADE,cnn_bilstm_por,decision_tree_por,macro_f1,0.0776970365865659,0.03644012939282068,0.12038228942495645,5000,CNN-BiLSTM higher
+student_por,S1_MID_G1_ONLY,cnn_bilstm_por,decision_tree_por,macro_f1,0.03437391236139442,0.0013619365382183696,0.06623878028976839,5000,CNN-BiLSTM higher
+student_por,S2_LATE_G1_G2,cnn_bilstm_por,decision_tree_por,macro_f1,0.05651190048545196,0.02486642504586375,0.0883397289530431,5000,CNN-BiLSTM higher
+student_por,S0_EARLY_NO_GRADE,cnn_bilstm_por,random_forest_por,macro_f1,0.0006708362939686907,-0.02405222100614178,0.02506508532642692,5000,insufficient evidence of difference
+student_por,S1_MID_G1_ONLY,cnn_bilstm_por,random_forest_por,macro_f1,-0.02936517879242917,-0.05072066488872134,-0.00862745069076147,5000,CNN-BiLSTM lower
+student_por,S2_LATE_G1_G2,cnn_bilstm_por,random_forest_por,macro_f1,-0.005108779681484266,-0.023215729683659612,0.014298109831577076,5000,insufficient evidence of difference
+student_por,S0_EARLY_NO_GRADE,cnn_bilstm_por,hist_gradient_boosting_por,macro_f1,0.050252629903998536,0.0029213624806034948,0.09864501807581252,5000,CNN-BiLSTM higher
+student_por,S1_MID_G1_ONLY,cnn_bilstm_por,hist_gradient_boosting_por,macro_f1,0.0708911050051656,0.0312816907922114,0.11105717858483842,5000,CNN-BiLSTM higher
+student_por,S2_LATE_G1_G2,cnn_bilstm_por,hist_gradient_boosting_por,macro_f1,0.03377328223165976,0.0016503421355288238,0.06803281981741333,5000,CNN-BiLSTM higher
+student_por,S0_EARLY_NO_GRADE,cnn_bilstm_por,svm_por,macro_f1,0.059587069440211915,0.01246642949475069,0.10750857682810867,5000,CNN-BiLSTM higher
+student_por,S1_MID_G1_ONLY,cnn_bilstm_por,svm_por,macro_f1,0.001249673799109896,-0.031528814498265736,0.035054912937305886,5000,insufficient evidence of difference
+student_por,S2_LATE_G1_G2,cnn_bilstm_por,svm_por,macro_f1,0.05213211836337128,0.016875860423885766,0.08979838417987661,5000,CNN-BiLSTM higher
+student_por,S0_EARLY_NO_GRADE,cnn_bilstm_por,xgboost_por,macro_f1,0.05553917699899652,0.007737243829609763,0.10575732832839337,5000,CNN-BiLSTM higher
+student_por,S1_MID_G1_ONLY,cnn_bilstm_por,xgboost_por,macro_f1,-0.010570323888006716,-0.043581933604876645,0.023110358443078825,5000,insufficient evidence of difference
+student_por,S2_LATE_G1_G2,cnn_bilstm_por,xgboost_por,macro_f1,0.009112295015755723,-0.019321605545045164,0.040326504783647694,5000,insufficient evidence of difference
+student_por,S0_EARLY_NO_GRADE,cnn_bilstm_por,mlp_por,macro_f1,0.10864462306560263,0.05915158378645767,0.15883065024713378,5000,CNN-BiLSTM higher
+student_por,S1_MID_G1_ONLY,cnn_bilstm_por,mlp_por,macro_f1,0.0018432209820365975,-0.03290322447047438,0.038620063496471305,5000,insufficient evidence of difference
+student_por,S2_LATE_G1_G2,cnn_bilstm_por,mlp_por,macro_f1,-9.785502676185054e-05,-0.02652537746587139,0.027614920697797047,5000,insufficient evidence of difference
+student_por,S0_EARLY_NO_GRADE,cnn_bilstm_por,cnn_only_por,macro_f1,0.010467050223209207,-0.0106075832885096,0.03239180727326563,5000,insufficient evidence of difference
+student_por,S1_MID_G1_ONLY,cnn_bilstm_por,cnn_only_por,macro_f1,-0.012254551272665282,-0.024562043039201308,-0.00024167581636427323,5000,CNN-BiLSTM lower
+student_por,S2_LATE_G1_G2,cnn_bilstm_por,cnn_only_por,macro_f1,0.017632316192549125,0.0013596199010019296,0.03430719845642124,5000,CNN-BiLSTM higher
+student_por,S0_EARLY_NO_GRADE,cnn_bilstm_por,bilstm_only_por,macro_f1,-0.0004988501479925578,-0.020448220045030004,0.018996312449678594,5000,insufficient evidence of difference
+student_por,S1_MID_G1_ONLY,cnn_bilstm_por,bilstm_only_por,macro_f1,0.01339452701396604,-0.001474081722133308,0.02846702995094555,5000,insufficient evidence of difference
+student_por,S2_LATE_G1_G2,cnn_bilstm_por,bilstm_only_por,macro_f1,0.03275511736273895,0.01391300084114438,0.05155631518534209,5000,CNN-BiLSTM higher

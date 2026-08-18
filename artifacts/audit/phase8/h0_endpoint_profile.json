@@ -1,0 +1,346 @@
+{
+  "endpoint": {
+    "cutoff": "floor(module_presentation_length * 0.50)",
+    "event_filter": "0 <= event_day < cutoff_day",
+    "id": "F2_MIDDLE"
+  },
+  "feature_schema_hash": "375f230e4e9ab00ae089da91eaadab6eb98879a27cec1df3c1a19f2d59f865a3",
+  "features": {
+    "aggregate_feature_names": [
+      "total_clicks__sum",
+      "total_clicks__mean",
+      "total_clicks__last",
+      "total_clicks__slope",
+      "total_clicks__recent_2_week_mean",
+      "active_days__sum",
+      "active_days__mean",
+      "active_days__last",
+      "active_days__slope",
+      "active_days__recent_2_week_mean",
+      "unique_sites__mean",
+      "unique_sites__last",
+      "unique_sites__recent_2_week_mean",
+      "unique_activity_types__mean",
+      "unique_activity_types__last",
+      "unique_activity_types__recent_2_week_mean",
+      "content_clicks__sum",
+      "content_clicks__slope",
+      "content_clicks__recent_2_week_mean",
+      "forum_clicks__sum",
+      "forum_clicks__slope",
+      "forum_clicks__recent_2_week_mean",
+      "quiz_clicks__sum",
+      "quiz_clicks__slope",
+      "quiz_clicks__recent_2_week_mean",
+      "assessment_related_clicks__sum",
+      "assessment_related_clicks__slope",
+      "assessment_related_clicks__recent_2_week_mean",
+      "submitted_assessment_count__sum",
+      "submitted_assessment_count__last",
+      "late_submission_count__sum",
+      "late_submission_count__last",
+      "available_score_count__sum",
+      "available_score_count__last",
+      "cumulative_mean_score__last",
+      "cumulative_mean_score__slope",
+      "cumulative_mean_score__recent_2_week_mean",
+      "cumulative_weighted_score__last",
+      "cumulative_weighted_score__slope",
+      "cumulative_weighted_score__recent_2_week_mean",
+      "days_since_last_vle_activity__last",
+      "days_since_last_vle_activity__slope",
+      "days_since_last_vle_activity__recent_2_week_mean",
+      "weeks_without_activity__sum",
+      "weeks_without_activity__last",
+      "weeks_without_activity__recent_2_week_mean",
+      "score_missing_mask__sum",
+      "score_missing_mask__last",
+      "inactive_week_count"
+    ],
+    "aggregate_input_dimension": 49,
+    "score_policy": "Scores are treated as available at max(date_submitted, assessment_due_date), with both dates before cutoff.",
+    "sequence_length_max": 20,
+    "static_runtime_dimension": 13,
+    "static_source_feature_names": [
+      "code_module",
+      "presentation_season",
+      "num_of_prev_attempts",
+      "studied_credits",
+      "registration_lead_time",
+      "module_presentation_length"
+    ],
+    "temporal_feature_names": [
+      "total_clicks",
+      "active_days",
+      "unique_sites",
+      "unique_activity_types",
+      "content_clicks",
+      "forum_clicks",
+      "quiz_clicks",
+      "assessment_related_clicks",
+      "submitted_assessment_count",
+      "late_submission_count",
+      "available_score_count",
+      "cumulative_mean_score",
+      "cumulative_weighted_score",
+      "days_since_last_vle_activity",
+      "weeks_without_activity",
+      "score_missing_mask",
+      "log1p_total_clicks",
+      "log1p_active_days",
+      "log1p_unique_sites",
+      "log1p_assessment_related_clicks",
+      "log1p_submitted_assessment_count",
+      "delta_total_clicks",
+      "delta_active_days",
+      "delta_unique_sites",
+      "delta_content_clicks",
+      "delta_forum_clicks",
+      "delta_quiz_clicks",
+      "delta_assessment_related_clicks",
+      "delta_submitted_assessment_count",
+      "delta_cumulative_mean_score",
+      "delta_cumulative_weighted_score",
+      "rolling_2_week_mean_total_clicks",
+      "rolling_2_week_mean_active_days",
+      "rolling_2_week_mean_assessment_clicks",
+      "rolling_2_week_submission_count",
+      "rolling_2_week_score_change",
+      "current_inactivity_streak",
+      "activity_resumed_indicator",
+      "new_inactivity_indicator",
+      "content_share",
+      "forum_share",
+      "quiz_share",
+      "assessment_share",
+      "score_delta",
+      "weighted_score_delta",
+      "late_submission_rate_to_date",
+      "submission_rate_last_2_weeks"
+    ],
+    "temporal_input_dimension": 47
+  },
+  "metric_aggregation": "five-seed probability ensemble then pooled outer OOF",
+  "model": {
+    "architecture": {
+      "aggregate_hidden": 64,
+      "bidirectional": true,
+      "bilstm_hidden": 64,
+      "bilstm_layers": 1,
+      "conv_channels": 24,
+      "dilation": 2,
+      "family": "CNN-BiLSTM",
+      "fusion": "scalar_gated_residual",
+      "fusion_hidden": 64,
+      "heads": [
+        "risk",
+        "survival",
+        "outcome"
+      ],
+      "input_projection": 48,
+      "kernels": [
+        2,
+        3
+      ],
+      "pooling": "masked_mean_max",
+      "pooling_projection": 48,
+      "residual": true,
+      "static_hidden": 32
+    },
+    "architecture_hash": "cef996ea88bedaaba07ad41e3f4f90a6750e5733bc81e442f1a985dc5faa57a8",
+    "architecture_hash_authority": "PHASE8_DERIVED_FROM_V6_TOPOLOGY",
+    "candidate_id": "C_TEMPORAL_MULTITASK_W0",
+    "checkpoint_count": 15,
+    "checkpoint_hashes": [
+      "11e4c7124659344c1f28e42dba78ee64d3ce4c313c7ff629edc188d48a934a10",
+      "1d5cc3cb855da92af6c807a31a518c6e523d491baf79160214a8fa704295d895",
+      "425fb186be774729fe7206fd1041baae0c0f4f6cda86983b7e529e71e6eaed0e",
+      "43fe7125892052366eb0a154b7092ddf500b2a810b5e96bf014498877e13959f",
+      "452f27f284def28fb449f7a3733241a8f421f70a6f1b76b430a63fa30b09ea88",
+      "4b77e50c411fafbfb4bd8ec8c03b694df38be3b5c1dc38e48dae6abf76c04e48",
+      "5b0a47479662a51fba45eaf40a183c7b28c53f58b1e62401135e62800537b1fc",
+      "6238cf482d862dfe1a163a7fd3600ae95f8982df3551383b81552e1b73ceecf6",
+      "639c185d05c67e5e36c365f077d958f6a5171bf67c09a14da54a8c2bcbc0e245",
+      "8832f2be009957efd96d4ba0da864885e1a9d7518a9f63fb8ca56c28a18384e6",
+      "8ec5899f36a0959f8ec785c6c4cc58eda83f864e2e37c518301ce41eb4746048",
+      "c8837d90cbba6056a842573fe99dbaab08fb10db4d7185167b7b6b788a18729d",
+      "d24da45a59e1ec441b4b1ee7833ca69d5518dfcdc38ecd0914d4025eda6b70da",
+      "fda8e7953da42ffd3206757cab36b0309e142af64fd1cd6de24106af38f12a57",
+      "fff26d5d18eebc05a067cbdd8e54a2c5b20d8d0afa85d54bd426d0c9d2dea703"
+    ],
+    "model_class": "src.studies.v6.multitask.V6TemporalMultiTask",
+    "parameter_count": 100938
+  },
+  "preprocessing": {
+    "aggregate": "median imputation then StandardScaler",
+    "fit_scope": "outer_train_only or inner_train_only",
+    "future_padding": "right zero padding with boolean mask",
+    "sequence": "masked train mean/std; padding excluded; zero after scale",
+    "static_categorical": "most-frequent imputation then train-fit OneHotEncoder handle_unknown=ignore",
+    "static_numeric": "median imputation then StandardScaler"
+  },
+  "profile_id": "H0_OFFICIAL_ENDPOINT",
+  "provenance": {
+    "canonical_config": "configs/final/cnn_bilstm_oulad.yaml",
+    "historical_checkpoint_metadata": "git:da25cf5:artifacts/v6/prediction/final/checkpoint_metadata.json",
+    "selected_model": "artifacts/final/protocol_snapshots/cnn_bilstm_oulad_selected_model.json",
+    "source_commit": "da25cf5"
+  },
+  "reproduced_metrics": {
+    "accuracy": 0.840096241383795,
+    "balanced_accuracy": 0.8203325597306252,
+    "brier": 0.11335526438611301,
+    "ece_10_bin": 0.00868338922803935,
+    "ece_15_bin": 0.009462555042264651,
+    "fn": 1691,
+    "fp": 768,
+    "macro_f1": 0.8280835945631038,
+    "nll": 0.3587775601633183,
+    "pr_auc": 0.893354764945997,
+    "predicted_positive_rate": 0.33782026271296656,
+    "risk_f1": 0.7826394413506585,
+    "risk_precision": 0.8521655437921078,
+    "risk_recall": 0.7236024844720497,
+    "roc_auc": 0.908155801278951,
+    "specificity": 0.9170626349892008,
+    "tn": 8492,
+    "tp": 4427
+  },
+  "splits": {
+    "fold_counts": {
+      "0": 5120,
+      "1": 5109,
+      "2": 5149
+    },
+    "group_key": "id_student",
+    "inner_folds": 3,
+    "outer_folds": 3,
+    "seeds": [
+      42,
+      1201,
+      2026,
+      3407,
+      7319
+    ]
+  },
+  "target_and_population": {
+    "all_record_id_hash": "bb0e5d71e8ab29967ebb8c5fda447ac3c3bf8f7df5e2c81809b46e231f461e77",
+    "eligible_population": "historical_development and registered at F2 cutoff",
+    "eligible_records": 15378,
+    "evidence_sources": [
+      "artifacts/final/predictions/cnn_bilstm_oulad/oof_predictions.parquet",
+      "artifacts/audit/phase7/endpoint_final_predictions.parquet",
+      "artifacts/audit/phase7/endpoint_protocol_audit.json"
+    ],
+    "exclusion_rules": [
+      "not registered before cutoff",
+      "unregistered before cutoff",
+      "non-historical development role"
+    ],
+    "fold_assignment_identity_exact": true,
+    "fold_counts": {
+      "0": 5120,
+      "1": 5109,
+      "2": 5149
+    },
+    "fold_positive_counts": {
+      "0": 2018,
+      "1": 2025,
+      "2": 2075
+    },
+    "fold_record_id_hashes": {
+      "0": "eba04f8c1bf597a14fcb34c00fe0d20abe72a6d8e53207f333b1482a104503a0",
+      "1": "702267284c782b2a93c7294ff1b5434f72ca57f616e33988cbc9782d2922aee1",
+      "2": "0743401e81876d77df76d236e1f300db39d437999a11269bcd84f4d64d51e873"
+    },
+    "fold_student_id_hashes": {
+      "0": "2a59e6bc1c39f641c3975b38106e6b72cdd73888364670bae0726772fdd827a2",
+      "1": "a73619c8bbaa5e9d8f78746ea6167b65bd2ab36e3358454a736fd966293352be",
+      "2": "be4f998d5857e754a549e67c930bf26755e1842c9321c771d43584c84a476763"
+    },
+    "group_key": "id_student",
+    "module_presentations": 15,
+    "modules": 7,
+    "negative_count": 9260,
+    "outer_group_overlap": 0,
+    "positive_count": 6118,
+    "positive_prevalence": 0.39784107166081417,
+    "record_identity_exact": true,
+    "status": "IDENTICAL",
+    "target": {
+      "negative": [
+        "Pass",
+        "Distinction"
+      ],
+      "positive": [
+        "Withdrawn",
+        "Fail"
+      ]
+    },
+    "unique_students": 14687
+  },
+  "threshold": {
+    "outer_labels_used": false,
+    "policy": "per-outer-fold inner-OOF Macro-F1",
+    "values": {
+      "0": 0.45500000000000007,
+      "1": 0.49500000000000005,
+      "2": 0.5
+    }
+  },
+  "training": {
+    "auxiliary_weights": {
+      "outcome": 0.15,
+      "survival": 0.15
+    },
+    "batch_size": 256,
+    "checkpoint_criterion": "fixed epoch frozen after inner gates",
+    "class_weight": null,
+    "dropout": 0.28548926103262684,
+    "final_epochs": 8,
+    "learning_rate": 0.001462740013487936,
+    "loss": "standard_bce",
+    "optimizer": "AdamW",
+    "pretraining": {
+      "checkpoint_hashes": [
+        "1ffaebb65a3fb8bf14e59f06d8a1dc872be7ea1a286fcfda3c77a7ac8ff9ae5c",
+        "39dbf95bcb6dd8a5012cd12f86d64adfe0ceffe1cb323d79a40af1d2b086d77e",
+        "4fa26e996c0fa4fc346f0f39681a39e8de9bb505a69e241d404f0fd92e12210b",
+        "5823147edaf3643c47d5a6c10c6a73e5fe274cb98342b3c92e1698e2c2af58f9",
+        "688cf34a654f9fde3ed276bad8f6c787698fa37e4564537cb9a16908f51a449a",
+        "8065d06368fd837c97f1d733e402edc8edc69ca0d8b7dbcf752aa07ab4d1ba7c",
+        "966b2886dfad0a9febb66dacbfa4db74027cb6381d66aeea5f5aca11a4e5ab0d",
+        "a9668366d66a52eb0fecb3215fdc64b9de96d4c314a5fffcf80cd0f5b8e5821e",
+        "c3f151b6750a10d94748c3a3a1f1166bdd8e6f6814f050f6e1a7e4f0feda7c87",
+        "cc8d9f7800647333a5a4595b0e8d266af9a2f38d42d51d7290a15e9a36d5d606",
+        "d4709f6dbb96062445fb855239fd6873f7986b900d60b3b0a37c052e0b5dbf46",
+        "d48d8dcf95e8bdf51ab8572d0fd9f032f1d8b6ce37237622ee6a173330e92ea9",
+        "e410e6e7532ba922248c603c6506772fc9d1903482cb67ee905a253768899cfc",
+        "e96492fc4c97377a953d71c76547bd9f4b206d45f783cb916e9f70587df13621",
+        "e9d2da4d3409a3556fd87c19b2cf4c3409e76f7792e95c61cf9633fa7d5301d4"
+      ],
+      "checkpoint_provenance": "15 distinct pretraining checkpoint hashes",
+      "epochs": 5,
+      "gate_inner_macro_f1_gain": 0.0019109047000002155,
+      "gate_inner_pr_auc_gain": 0.0022831749666667456,
+      "id": "P1_MASKED_AND_NEXT_WEEK",
+      "scope": "each outer-training partition only",
+      "tasks": [
+        "masked_activity_band",
+        "masked_active_state",
+        "masked_submission_band",
+        "masked_score_availability",
+        "masked_inactivity_transition",
+        "next_active_state",
+        "next_activity_direction",
+        "next_submission_band",
+        "next_inactivity_transition",
+        "next_score_state_transition"
+      ]
+    },
+    "pretraining_executed": true,
+    "pretraining_requested": true,
+    "scheduler": null,
+    "weight_decay": 1.9904886022582856e-07
+  }
+}

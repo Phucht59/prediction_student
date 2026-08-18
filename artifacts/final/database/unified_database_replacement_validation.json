@@ -1,0 +1,161 @@
+{
+  "canonical_database_modified": false,
+  "canonical_load": {
+    "actions": 27355,
+    "datasets": 3,
+    "expert_status": "PENDING_EXPERT_LABELS",
+    "future_oulad": "LOCKED",
+    "metric_reconciliation": {
+      "actual_metric_rows": 995,
+      "all_metrics_match_canonical_json": true,
+      "deleted_stale_rows": 0,
+      "detail_mismatches": 0,
+      "duplicate_natural_keys": 0,
+      "expected_metric_rows": 995,
+      "extra_rows": 0,
+      "inserted_rows": 995,
+      "matched_rows": 0,
+      "missing_rows": 0,
+      "updated_rows": 0,
+      "value_mismatches": 0
+    },
+    "models": 30,
+    "plans": 15378,
+    "risk_profiles": 15378,
+    "status": "PASS"
+  },
+  "credentials": "REDACTED",
+  "disposable_cleanup": {
+    "credentials": "REDACTED",
+    "kept": "student_predict_unified_replacement_3",
+    "removed_failed_replacements": [],
+    "status": "PASS"
+  },
+  "future_oulad": "LOCKED_NOT_EXECUTED",
+  "generated_at": "2026-07-28T11:45:47.450505+00:00",
+  "migration": {
+    "applied": [
+      "001_create_final_schemas.sql",
+      "002_create_catalog.sql",
+      "003_create_ml.sql",
+      "004_create_recommendation.sql",
+      "005_create_indexes_views.sql",
+      "006_create_roles_permissions.sql",
+      "007_migrate_legacy_data.sql",
+      "008_finalize_cutover.sql",
+      "009_prune_redundant_indexes.sql",
+      "010_archive_legacy_functions.sql",
+      "011_create_v6_2_expert_review_validation.sql",
+      "012_add_stage_aware_prediction.sql"
+    ],
+    "skipped": [],
+    "status": "PASS"
+  },
+  "oulad_retrained": false,
+  "post_build_migration": {
+    "applied": [],
+    "skipped": [
+      "001_create_final_schemas.sql",
+      "002_create_catalog.sql",
+      "003_create_ml.sql",
+      "004_create_recommendation.sql",
+      "005_create_indexes_views.sql",
+      "006_create_roles_permissions.sql",
+      "007_migrate_legacy_data.sql",
+      "008_finalize_cutover.sql",
+      "009_prune_redundant_indexes.sql",
+      "010_archive_legacy_functions.sql",
+      "011_create_v6_2_expert_review_validation.sql",
+      "012_add_stage_aware_prediction.sql",
+      "013_complete_stage_result_view.sql"
+    ],
+    "status": "PASS"
+  },
+  "replacement_database": "student_predict_unified_replacement_3",
+  "replacement_database_test_suite": {
+    "failed": 0,
+    "passed": 51,
+    "status": "PASS"
+  },
+  "replacement_validation": {
+    "checks": {
+      "30_model_identities": true,
+      "actions_unchanged": true,
+      "no_duplicate_prediction_keys": true,
+      "plans_unchanged": true,
+      "prediction_runs": true,
+      "recommendation_stage_provenance": true,
+      "reviews_unchanged": true,
+      "risk_profiles_unchanged": true,
+      "uci_and_oulad_prediction_rows": true,
+      "uci_stage_view_rows": true
+    },
+    "counts": {
+      "actions": 27355,
+      "metrics": 2715,
+      "models": 30,
+      "plans": 15378,
+      "reviews": 0,
+      "risk_profiles": 15378,
+      "runs": 30
+    },
+    "credentials": "REDACTED",
+    "prediction_rows": 185100,
+    "stage_view_rows": [
+      {
+        "dataset": "oulad",
+        "prediction_stage": "F2_MIDDLE",
+        "rows": 10
+      },
+      {
+        "dataset": "student-mat",
+        "prediction_stage": "S0_EARLY_NO_GRADE",
+        "rows": 10
+      },
+      {
+        "dataset": "student-mat",
+        "prediction_stage": "S1_MID_G1_ONLY",
+        "rows": 10
+      },
+      {
+        "dataset": "student-mat",
+        "prediction_stage": "S2_LATE_G1_G2",
+        "rows": 10
+      },
+      {
+        "dataset": "student-por",
+        "prediction_stage": "S0_EARLY_NO_GRADE",
+        "rows": 10
+      },
+      {
+        "dataset": "student-por",
+        "prediction_stage": "S1_MID_G1_ONLY",
+        "rows": 10
+      },
+      {
+        "dataset": "student-por",
+        "prediction_stage": "S2_LATE_G1_G2",
+        "rows": 10
+      }
+    ],
+    "status": "PASS"
+  },
+  "schema_version": "unified_database_replacement_v1",
+  "source_counts": {
+    "actions": 27355,
+    "metrics": 995,
+    "models": 30,
+    "plans": 15378,
+    "reviews": 0,
+    "risk_profiles": 15378,
+    "runs": 30
+  },
+  "source_database": "student_predict",
+  "source_opened_read_only": true,
+  "status": "READY_FOR_DATABASE_CUTOVER",
+  "unified_load": {
+    "oulad_prediction_rows": 153780,
+    "stage_metric_rows": 1720,
+    "uci_prediction_rows": 31320
+  }
+}

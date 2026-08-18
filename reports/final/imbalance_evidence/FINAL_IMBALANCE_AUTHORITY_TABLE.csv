@@ -1,0 +1,4 @@
+dataset,frozen_authority_macro_f1,reproduction_macro_f1,absolute_delta,authority_policy,uniform_none,control_status,root_cause_if_not_exact
+MAT,0.9014601961315334,0.9014601961315334,0.0,MIXED_EFFECTIVE_LOSS,False,PASS,
+POR,0.8622587167738002,0.8622587167738002,0.0,MIXED_FOLD_SPECIFIC,False,PASS,Fold 1 CLASS_WEIGHT authority replay
+OULAD,0.8940709888551659,0.8942454181505014,0.00017442929533550977,UNIFORM_NONE_STANDARD_BCE,True,PROTOCOL_EQUIVALENT_WITH_CUDA_VARIATION,CUDA nondeterminism; exact control remains FAIL

@@ -1,0 +1,13 @@
+{
+  "compileall": "PASS",
+  "failed_runs": 0,
+  "final_release_verifier": "FINAL_COMPARATOR_COMPLETION_PASS",
+  "old_official_checksums_unchanged": true,
+  "optuna_trials": 0,
+  "oulad_validator": "PASS",
+  "outer_runs": 45,
+  "ruff": "PASS",
+  "status": "PASS",
+  "tests": "133 passed",
+  "uci_regression_validator": "PASS"
+}

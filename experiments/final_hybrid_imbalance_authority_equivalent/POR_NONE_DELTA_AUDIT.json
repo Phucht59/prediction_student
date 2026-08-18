@@ -1,0 +1,389 @@
+{
+  "absolute_delta": 0.0007814145093779645,
+  "aggregation": {
+    "dtype_authority": "float64",
+    "dtype_reproduction": "float64",
+    "method": "record-aligned arithmetic mean of all five seed probability vectors before argmax",
+    "rounding_before_mean": false
+  },
+  "authority_macro_f1": 0.8622587167738002,
+  "class_order_match": true,
+  "ensemble_rows": 649,
+  "imbalance_treatments_allowed": false,
+  "outer_fold_assignment_match": true,
+  "per_fold_seed_probability_comparison": [
+    {
+      "different_values_gt_1e8": 0,
+      "max_abs_probability_delta": 0.0,
+      "mean_abs_probability_delta": 0.0,
+      "outer_fold": 0,
+      "seed_rows": 650
+    },
+    {
+      "different_values_gt_1e8": 1950,
+      "max_abs_probability_delta": 0.6156788319349289,
+      "mean_abs_probability_delta": 0.10361743009816378,
+      "outer_fold": 1,
+      "seed_rows": 650
+    },
+    {
+      "different_values_gt_1e8": 0,
+      "max_abs_probability_delta": 0.0,
+      "mean_abs_probability_delta": 0.0,
+      "outer_fold": 2,
+      "seed_rows": 650
+    },
+    {
+      "different_values_gt_1e8": 0,
+      "max_abs_probability_delta": 0.0,
+      "mean_abs_probability_delta": 0.0,
+      "outer_fold": 3,
+      "seed_rows": 650
+    },
+    {
+      "different_values_gt_1e8": 0,
+      "max_abs_probability_delta": 0.0,
+      "mean_abs_probability_delta": 0.0,
+      "outer_fold": 4,
+      "seed_rows": 645
+    }
+  ],
+  "por_fold_recipes": [
+    {
+      "classification_loss": "standard",
+      "fixed_epochs": 17,
+      "historical_selected_imbalance": "none",
+      "outer_fold": 0
+    },
+    {
+      "classification_loss": "standard",
+      "fixed_epochs": 29,
+      "historical_selected_imbalance": "class_weight",
+      "outer_fold": 1
+    },
+    {
+      "classification_loss": "standard",
+      "fixed_epochs": 17,
+      "historical_selected_imbalance": "none",
+      "outer_fold": 2
+    },
+    {
+      "classification_loss": "standard",
+      "fixed_epochs": 19,
+      "historical_selected_imbalance": "none",
+      "outer_fold": 3
+    },
+    {
+      "classification_loss": "focal",
+      "fixed_epochs": 13,
+      "historical_selected_imbalance": "focal",
+      "outer_fold": 4
+    }
+  ],
+  "por_none_control": "FAIL",
+  "predictions": {
+    "different_predicted_rows": 15,
+    "different_rows": [
+      {
+        "authority_prediction": 0,
+        "authority_probabilities": [
+          0.6941892445087433,
+          0.27965930104255676,
+          0.02615146115422249
+        ],
+        "outer_fold": 1,
+        "record_id": "25583514fb711cf5055024b7",
+        "reproduced_prediction": 1,
+        "reproduced_probabilities": [
+          0.3460622698068619,
+          0.6223894774913787,
+          0.031548279151320455
+        ],
+        "source_row": 0,
+        "true_class": 1
+      },
+      {
+        "authority_prediction": 0,
+        "authority_probabilities": [
+          0.7871615052223205,
+          0.19093834161758422,
+          0.02190018370747566
+        ],
+        "outer_fold": 1,
+        "record_id": "78105273acc8ff4d7ba913ee",
+        "reproduced_prediction": 1,
+        "reproduced_probabilities": [
+          0.4693813621997833,
+          0.4989407122135162,
+          0.03167792558670044
+        ],
+        "source_row": 136,
+        "true_class": 1
+      },
+      {
+        "authority_prediction": 2,
+        "authority_probabilities": [
+          0.0313539270311594,
+          0.39440053701400757,
+          0.57424556016922
+        ],
+        "outer_fold": 1,
+        "record_id": "7dbe2ee95d150b79f26144d9",
+        "reproduced_prediction": 1,
+        "reproduced_probabilities": [
+          0.03592800125479698,
+          0.5264377415180206,
+          0.43763420879840853
+        ],
+        "source_row": 151,
+        "true_class": 1
+      },
+      {
+        "authority_prediction": 2,
+        "authority_probabilities": [
+          0.03337552882730961,
+          0.44772255420684814,
+          0.5189019024372101
+        ],
+        "outer_fold": 1,
+        "record_id": "10b4058da59f4391abafb682",
+        "reproduced_prediction": 1,
+        "reproduced_probabilities": [
+          0.03079635128378868,
+          0.784379243850708,
+          0.18482437878847122
+        ],
+        "source_row": 201,
+        "true_class": 2
+      },
+      {
+        "authority_prediction": 0,
+        "authority_probabilities": [
+          0.7847133040428161,
+          0.19389374554157257,
+          0.021392935141921043
+        ],
+        "outer_fold": 1,
+        "record_id": "b7bb5b26676989c2e81d3cb3",
+        "reproduced_prediction": 1,
+        "reproduced_probabilities": [
+          0.45720852017402647,
+          0.5109525859355927,
+          0.03183888345956802
+        ],
+        "source_row": 203,
+        "true_class": 1
+      },
+      {
+        "authority_prediction": 0,
+        "authority_probabilities": [
+          0.6883607506752014,
+          0.28907640278339386,
+          0.022562825120985508
+        ],
+        "outer_fold": 1,
+        "record_id": "ec4821a43fdc18c00ca657e9",
+        "reproduced_prediction": 1,
+        "reproduced_probabilities": [
+          0.3932508945465088,
+          0.5775905072689056,
+          0.029158627986907958
+        ],
+        "source_row": 237,
+        "true_class": 1
+      },
+      {
+        "authority_prediction": 2,
+        "authority_probabilities": [
+          0.0313135702162981,
+          0.4046238213777542,
+          0.5640626132488251
+        ],
+        "outer_fold": 1,
+        "record_id": "4190e088e60e3f07a810c9a6",
+        "reproduced_prediction": 1,
+        "reproduced_probabilities": [
+          0.03187853731215,
+          0.7569968461990356,
+          0.21112461686134337
+        ],
+        "source_row": 272,
+        "true_class": 2
+      },
+      {
+        "authority_prediction": 2,
+        "authority_probabilities": [
+          0.02408334445208311,
+          0.23735081106424333,
+          0.7385658204555512
+        ],
+        "outer_fold": 1,
+        "record_id": "7ec7018339f9b1d6dd828343",
+        "reproduced_prediction": 1,
+        "reproduced_probabilities": [
+          0.034693562611937526,
+          0.5181143283843994,
+          0.4471921056509018
+        ],
+        "source_row": 404,
+        "true_class": 2
+      },
+      {
+        "authority_prediction": 2,
+        "authority_probabilities": [
+          0.02703435979783535,
+          0.3364389821887016,
+          0.6365266680717468
+        ],
+        "outer_fold": 1,
+        "record_id": "5efe74a48355532333671941",
+        "reproduced_prediction": 1,
+        "reproduced_probabilities": [
+          0.03175913505256176,
+          0.6628499388694763,
+          0.30539093911647797
+        ],
+        "source_row": 411,
+        "true_class": 2
+      },
+      {
+        "authority_prediction": 0,
+        "authority_probabilities": [
+          0.6415158629417419,
+          0.3361017793416977,
+          0.02238237075507641
+        ],
+        "outer_fold": 1,
+        "record_id": "a6b969690cb0eeeffcb813c8",
+        "reproduced_prediction": 1,
+        "reproduced_probabilities": [
+          0.3135630518198013,
+          0.6619909524917602,
+          0.02444598488509655
+        ],
+        "source_row": 421,
+        "true_class": 1
+      },
+      {
+        "authority_prediction": 0,
+        "authority_probabilities": [
+          0.5923217952251434,
+          0.38317824006080625,
+          0.024499964341521262
+        ],
+        "outer_fold": 1,
+        "record_id": "d719f632285cf52ae4f49bbc",
+        "reproduced_prediction": 1,
+        "reproduced_probabilities": [
+          0.2959690481424332,
+          0.6779779911041259,
+          0.026052969321608544
+        ],
+        "source_row": 447,
+        "true_class": 0
+      },
+      {
+        "authority_prediction": 0,
+        "authority_probabilities": [
+          0.7739115357398987,
+          0.2039796382188797,
+          0.02210879996418953
+        ],
+        "outer_fold": 1,
+        "record_id": "005065870c9a314198939180",
+        "reproduced_prediction": 1,
+        "reproduced_probabilities": [
+          0.4551467776298523,
+          0.5134750723838806,
+          0.03137817345559597
+        ],
+        "source_row": 493,
+        "true_class": 1
+      },
+      {
+        "authority_prediction": 0,
+        "authority_probabilities": [
+          0.5655275523662567,
+          0.41004905104637146,
+          0.024423389136791228
+        ],
+        "outer_fold": 1,
+        "record_id": "b95de708b224e6ac86f8b566",
+        "reproduced_prediction": 1,
+        "reproduced_probabilities": [
+          0.2776559054851532,
+          0.6980319738388061,
+          0.024312105774879456
+        ],
+        "source_row": 577,
+        "true_class": 1
+      },
+      {
+        "authority_prediction": 0,
+        "authority_probabilities": [
+          0.5370663523674011,
+          0.43770407438278197,
+          0.02522958777844906
+        ],
+        "outer_fold": 1,
+        "record_id": "4a2381da9e26e648324b4f0f",
+        "reproduced_prediction": 1,
+        "reproduced_probabilities": [
+          0.2252378061413765,
+          0.7517614364624023,
+          0.0230007816106081
+        ],
+        "source_row": 588,
+        "true_class": 0
+      },
+      {
+        "authority_prediction": 0,
+        "authority_probabilities": [
+          0.49404855370521544,
+          0.4786027491092682,
+          0.02734871208667755
+        ],
+        "outer_fold": 1,
+        "record_id": "969444fd1bedd84c5e27eabc",
+        "reproduced_prediction": 1,
+        "reproduced_probabilities": [
+          0.20457454323768615,
+          0.773021686077118,
+          0.02240375876426697
+        ],
+        "source_row": 622,
+        "true_class": 0
+      }
+    ],
+    "total_rows": 649
+  },
+  "probability_comparison": {
+    "ensemble_max_absolute_difference": 0.35293799638748174,
+    "ensemble_mean_absolute_difference": 0.0206186114624334,
+    "max_absolute_difference": 0.6156788319349289,
+    "mean_absolute_difference": 0.020755417431065164,
+    "median_absolute_difference": 0.0,
+    "values_differing_gt_1e-3": 1940,
+    "values_differing_gt_1e-4": 1948,
+    "values_differing_gt_1e-6": 1950,
+    "values_differing_gt_1e-8": 1950
+  },
+  "recomputed_authority_macro_f1": 0.8622587167738002,
+  "record_ids_match": true,
+  "reproduced_macro_f1": 0.8614773022644222,
+  "retrain_required": true,
+  "root_cause": "The adapter intentionally passed imbalance_strategy=\"none\" for every POR job. The frozen historical POR final recipe selected class_weight for outer fold 1; the frozen runner passes selected[\"imbalance\"] into fit_uci_model_v5_1. This is a scientific training-path difference, not numerical nondeterminism, aggregation, or metric drift.",
+  "root_cause_class": "D. POR_SPECIFIC_PROTOCOL_MISMATCH",
+  "row_count_match": true,
+  "scientific_protocol_match": false,
+  "seed_level_rows": 3245,
+  "seeds": [
+    42,
+    1201,
+    2026,
+    3407,
+    7319
+  ],
+  "status": "COMPLETE",
+  "true_labels_match": true
+}

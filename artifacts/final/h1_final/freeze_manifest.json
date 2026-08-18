@@ -1,0 +1,484 @@
+{
+  "architecture_frozen": true,
+  "architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+  "candidate_id": "H1_TABULAR_RESIDUAL_EXPERT",
+  "dataset_version": {
+    "dataset": "OULAD",
+    "feature_contract": "oulad_unified_stage_aware_v2",
+    "raw_data_hash_deferred": "not_read_pre_freeze_to_preserve_outer-label firewall",
+    "target": {
+      "at_risk": [
+        "Withdrawn",
+        "Fail"
+      ],
+      "not_at_risk": [
+        "Pass",
+        "Distinction"
+      ]
+    }
+  },
+  "environment": {
+    "cuda": "11.8",
+    "python": "3.10.0",
+    "pytorch": "2.7.1+cu118"
+  },
+  "evaluation_protocol_hash": "1bae9bb20c5cfa69b686365728e7527cda059fc60807be14bcbff0479b7f183c",
+  "feature_schema_hash": "f69dcbfcef83fb0081ebf761c4322bd109724d5e58b9788367680f7867438e2f",
+  "features_frozen": true,
+  "final_candidate_hash": "56f57a59652bbd002dc64c12a6a3f8f35bdab4c620e76c63752a3c72493ce3de",
+  "freeze_status": "IMMUTABLE_PRE_OUTER",
+  "h2_rejected": true,
+  "hyperparameters_frozen": true,
+  "model_class": "src.models.oulad_tabular_residual.CNNBiLSTMTabularResidualOULAD",
+  "outer_folds_frozen": true,
+  "outer_test_accessed_before_freeze": false,
+  "parameter_count": 160492,
+  "phase5_commit": "2c8baa96f563d7a4a5188abfd0c700828a91e301",
+  "preprocessing_hash": "34c41964da738a5da67407c5f3f74d7698a3cd1e1aeecfa89b1ca5b88ad066a7",
+  "protocol_version": "h1_final_outer_v1",
+  "schema_version": "final_h1_freeze_manifest_v1",
+  "scientific_configuration": {
+    "architecture": {
+      "aggregate_hidden": 64,
+      "auxiliary_heads": [
+        "survival",
+        "outcome"
+      ],
+      "branch_dropout": 0.1,
+      "candidate_id": "H1_TABULAR_RESIDUAL_EXPERT",
+      "conv_channels": 32,
+      "dilation": 1,
+      "fusion": "gated_residual",
+      "fusion_hidden": 64,
+      "input_projection": 48,
+      "kernels": [
+        2,
+        3,
+        5
+      ],
+      "lstm_hidden": 64,
+      "lstm_layers": 1,
+      "model_class": "src.models.oulad_tabular_residual.CNNBiLSTMTabularResidualOULAD",
+      "pooling": "masked_mean_max",
+      "pooling_projection": 64,
+      "residual": true,
+      "sequence_channels": 47,
+      "static_hidden": 32,
+      "tabular_residual_expert": {
+        "alpha_initial": 0.05,
+        "alpha_policy": "learnable_bounded_sigmoid",
+        "input": [
+          "aggregate_165",
+          "static_runtime_13"
+        ],
+        "layers": [
+          "Linear(178,48)",
+          "LayerNorm(48)",
+          "GELU",
+          "Dropout",
+          "Linear(48,32)",
+          "GELU",
+          "Linear(32,1)"
+        ],
+        "maximum_hidden_transforms": 2,
+        "residual_formula": "z_final=z_hybrid+sigmoid(a)*z_tabular",
+        "sample_dependent": false
+      }
+    },
+    "candidate_id": "H1_TABULAR_RESIDUAL_EXPERT",
+    "evaluation_protocol": {
+      "base_protocol_id": "final_oulad_prediction_v1",
+      "bootstrap": {
+        "grouped_by": "id_student",
+        "paired": true,
+        "replicates": 5000,
+        "seed": 7319
+      },
+      "candidate_count_h1": 1,
+      "comparator_reuse": "RECOMPUTE_PROTOCOL_MATCHED",
+      "comparators": [
+        "H0_CURRENT_HYBRID",
+        "M0_MLP"
+      ],
+      "final_seeds": [
+        42,
+        1201,
+        2026,
+        3407,
+        7319
+      ],
+      "inner_folds": 2,
+      "one_checkpoint_all_stages": true,
+      "operational_threshold": {
+        "affects_scientific_comparison": false,
+        "objective": "maximize_risk_recall_subject_to_precision>=0.75",
+        "role": "deployment_analysis_only"
+      },
+      "optuna_trials": 0,
+      "outer_folds": 3,
+      "post_outer_development": "PROHIBITED",
+      "protocol_id": "h1_final_outer_v1",
+      "research_threshold": {
+        "objective": "maximize_macro_f1",
+        "outer_labels_used": false,
+        "source": "Phase5 pooled inner OOF seed42",
+        "topology": "candidate_outer_fold_stage"
+      },
+      "seed_aggregation": "record_aligned_mean_probability_all_fixed_seeds",
+      "stage_policy_version": "one_estimator_four_cutoffs_v1",
+      "stages": {
+        "E1_EARLY_20PCT": {
+          "cutoff_rule": "floor(length * 0.20)",
+          "target_progress_fraction": 0.2
+        },
+        "E2_EARLY_35PCT": {
+          "cutoff_rule": "floor(length * 0.35)",
+          "target_progress_fraction": 0.35
+        },
+        "L1_LATE_75PCT": {
+          "cutoff_rule": "floor(length * 0.75)",
+          "outcome_guard_days": 14,
+          "target_progress_fraction": 0.75
+        },
+        "M1_MIDDLE_FROZEN": {
+          "cutoff_rule": "exact_legacy_F2_MIDDLE",
+          "target_progress_fraction": 0.5
+        }
+      }
+    },
+    "feature_schema": {
+      "aggregate_contract": "10 statistics x 16 stage-safe channels + inactive_count + 4 context",
+      "aggregate_feature_count": 165,
+      "aggregate_features": 165,
+      "categorical_columns": [
+        "code_module",
+        "presentation_season"
+      ],
+      "categorical_encoding": "train_fit_one_hot",
+      "dataset": "oulad",
+      "forbidden_predictors": [
+        "final_result",
+        "date_unregistration",
+        "code_presentation"
+      ],
+      "stage_context": [
+        "progress_fraction",
+        "observed_week_count",
+        "weeks_remaining",
+        "assessment_available_fraction"
+      ],
+      "stages": [
+        "E1_EARLY_20PCT",
+        "E2_EARLY_35PCT",
+        "M1_MIDDLE_FROZEN",
+        "L1_LATE_75PCT"
+      ],
+      "static_columns": [
+        "code_module",
+        "presentation_season",
+        "num_of_prev_attempts",
+        "studied_credits",
+        "registration_lead_time",
+        "module_presentation_length"
+      ],
+      "static_raw_features": 6,
+      "static_runtime_dimension": 13,
+      "temporal_base_channel_order": [
+        "total_clicks",
+        "active_days",
+        "unique_sites",
+        "unique_activity_types",
+        "content_clicks",
+        "forum_clicks",
+        "quiz_clicks",
+        "assessment_related_clicks",
+        "submitted_assessment_count",
+        "late_submission_count",
+        "available_score_count",
+        "cumulative_mean_score",
+        "cumulative_weighted_score",
+        "days_since_last_vle_activity",
+        "weeks_without_activity",
+        "score_missing_mask"
+      ],
+      "temporal_channel_order": [
+        "total_clicks",
+        "active_days",
+        "unique_sites",
+        "unique_activity_types",
+        "content_clicks",
+        "forum_clicks",
+        "quiz_clicks",
+        "assessment_related_clicks",
+        "submitted_assessment_count",
+        "late_submission_count",
+        "available_score_count",
+        "cumulative_mean_score",
+        "cumulative_weighted_score",
+        "days_since_last_vle_activity",
+        "weeks_without_activity",
+        "score_missing_mask",
+        "log1p_total_clicks",
+        "log1p_active_days",
+        "log1p_unique_sites",
+        "log1p_assessment_related_clicks",
+        "log1p_submitted_assessment_count",
+        "delta_total_clicks",
+        "delta_active_days",
+        "delta_unique_sites",
+        "delta_content_clicks",
+        "delta_forum_clicks",
+        "delta_quiz_clicks",
+        "delta_assessment_related_clicks",
+        "delta_submitted_assessment_count",
+        "delta_cumulative_mean_score",
+        "delta_cumulative_weighted_score",
+        "rolling_2_week_mean_total_clicks",
+        "rolling_2_week_mean_active_days",
+        "rolling_2_week_mean_assessment_clicks",
+        "rolling_2_week_submission_count",
+        "rolling_2_week_score_change",
+        "current_inactivity_streak",
+        "activity_resumed_indicator",
+        "new_inactivity_indicator",
+        "content_share",
+        "forum_share",
+        "quiz_share",
+        "assessment_share",
+        "score_delta",
+        "weighted_score_delta",
+        "late_submission_rate_to_date",
+        "submission_rate_last_2_weeks"
+      ],
+      "temporal_channels": 47
+    },
+    "inner_authority": {
+      "H0_CURRENT_HYBRID": {
+        "0": {
+          "inner_selected_epochs": [
+            7,
+            5
+          ],
+          "outer_labels_used": false,
+          "research_thresholds": {
+            "E1_EARLY_20PCT": 0.5410787463188171,
+            "E2_EARLY_35PCT": 0.5371037125587463,
+            "L1_LATE_75PCT": 0.44191834330558777,
+            "M1_MIDDLE_FROZEN": 0.47516071796417236
+          },
+          "selected_refit_epoch": 6,
+          "source_commit": "PHASE5_COMMIT",
+          "source_run_id": "screening_H0_CURRENT_HYBRID_outer0_seed42_79cd37c8956f95e2",
+          "threshold_source": "pooled_inner_oof_only",
+          "training_seed": 42
+        },
+        "1": {
+          "inner_selected_epochs": [
+            7,
+            6
+          ],
+          "outer_labels_used": false,
+          "research_thresholds": {
+            "E1_EARLY_20PCT": 0.5116491317749023,
+            "E2_EARLY_35PCT": 0.48122143745422363,
+            "L1_LATE_75PCT": 0.46541064977645874,
+            "M1_MIDDLE_FROZEN": 0.38408827781677246
+          },
+          "selected_refit_epoch": 7,
+          "source_commit": "PHASE5_COMMIT",
+          "source_run_id": "screening_H0_CURRENT_HYBRID_outer1_seed42_2b5ade175e2f63d1",
+          "threshold_source": "pooled_inner_oof_only",
+          "training_seed": 42
+        },
+        "2": {
+          "inner_selected_epochs": [
+            3,
+            8
+          ],
+          "outer_labels_used": false,
+          "research_thresholds": {
+            "E1_EARLY_20PCT": 0.4736296832561493,
+            "E2_EARLY_35PCT": 0.4874732792377472,
+            "L1_LATE_75PCT": 0.547484278678894,
+            "M1_MIDDLE_FROZEN": 0.4507487714290619
+          },
+          "selected_refit_epoch": 6,
+          "source_commit": "PHASE5_COMMIT",
+          "source_run_id": "screening_H0_CURRENT_HYBRID_outer2_seed42_5c91585f60e651ee",
+          "threshold_source": "pooled_inner_oof_only",
+          "training_seed": 42
+        }
+      },
+      "H1_TABULAR_RESIDUAL_EXPERT": {
+        "0": {
+          "inner_selected_epochs": [
+            4,
+            4
+          ],
+          "outer_labels_used": false,
+          "research_thresholds": {
+            "E1_EARLY_20PCT": 0.5126526951789856,
+            "E2_EARLY_35PCT": 0.5132769346237183,
+            "L1_LATE_75PCT": 0.5382355451583862,
+            "M1_MIDDLE_FROZEN": 0.48503485321998596
+          },
+          "selected_refit_epoch": 4,
+          "source_commit": "PHASE5_COMMIT",
+          "source_run_id": "screening_H1_TABULAR_RESIDUAL_EXPERT_outer0_seed42_5822d74c1dec5058",
+          "threshold_source": "pooled_inner_oof_only",
+          "training_seed": 42
+        },
+        "1": {
+          "inner_selected_epochs": [
+            7,
+            6
+          ],
+          "outer_labels_used": false,
+          "research_thresholds": {
+            "E1_EARLY_20PCT": 0.5128452777862549,
+            "E2_EARLY_35PCT": 0.4967553913593292,
+            "L1_LATE_75PCT": 0.394863486289978,
+            "M1_MIDDLE_FROZEN": 0.42052173614501953
+          },
+          "selected_refit_epoch": 7,
+          "source_commit": "PHASE5_COMMIT",
+          "source_run_id": "screening_H1_TABULAR_RESIDUAL_EXPERT_outer1_seed42_d639bab9fc90df45",
+          "threshold_source": "pooled_inner_oof_only",
+          "training_seed": 42
+        },
+        "2": {
+          "inner_selected_epochs": [
+            4,
+            5
+          ],
+          "outer_labels_used": false,
+          "research_thresholds": {
+            "E1_EARLY_20PCT": 0.5003455877304077,
+            "E2_EARLY_35PCT": 0.44745388627052307,
+            "L1_LATE_75PCT": 0.48298126459121704,
+            "M1_MIDDLE_FROZEN": 0.4230407178401947
+          },
+          "selected_refit_epoch": 5,
+          "source_commit": "PHASE5_COMMIT",
+          "source_run_id": "screening_H1_TABULAR_RESIDUAL_EXPERT_outer2_seed42_ce5dd0f7be0dc0f1",
+          "threshold_source": "pooled_inner_oof_only",
+          "training_seed": 42
+        }
+      },
+      "M0_MLP": {
+        "0": {
+          "inner_selected_epochs": [],
+          "outer_labels_used": false,
+          "research_thresholds": {
+            "E1_EARLY_20PCT": 0.47625651540392644,
+            "E2_EARLY_35PCT": 0.4793155542599686,
+            "L1_LATE_75PCT": 0.5280424371822173,
+            "M1_MIDDLE_FROZEN": 0.4628549719865981
+          },
+          "selected_refit_epoch": null,
+          "source_commit": "PHASE5_COMMIT",
+          "source_run_id": "screening_M0_MLP_outer0_seed42_83afbe24bdcb8858",
+          "threshold_source": "pooled_inner_oof_only",
+          "training_seed": 42
+        },
+        "1": {
+          "inner_selected_epochs": [],
+          "outer_labels_used": false,
+          "research_thresholds": {
+            "E1_EARLY_20PCT": 0.48138871332957917,
+            "E2_EARLY_35PCT": 0.5047597660498634,
+            "L1_LATE_75PCT": 0.4373657367194228,
+            "M1_MIDDLE_FROZEN": 0.4840611678496037
+          },
+          "selected_refit_epoch": null,
+          "source_commit": "PHASE5_COMMIT",
+          "source_run_id": "screening_M0_MLP_outer1_seed42_cbe2e8be27d72227",
+          "threshold_source": "pooled_inner_oof_only",
+          "training_seed": 42
+        },
+        "2": {
+          "inner_selected_epochs": [],
+          "outer_labels_used": false,
+          "research_thresholds": {
+            "E1_EARLY_20PCT": 0.47293734785093505,
+            "E2_EARLY_35PCT": 0.45529954205218676,
+            "L1_LATE_75PCT": 0.5158668452029939,
+            "M1_MIDDLE_FROZEN": 0.44732885504264835
+          },
+          "selected_refit_epoch": null,
+          "source_commit": "PHASE5_COMMIT",
+          "source_run_id": "screening_M0_MLP_outer2_seed42_da1789460fc9baff",
+          "threshold_source": "pooled_inner_oof_only",
+          "training_seed": 42
+        }
+      }
+    },
+    "loss_policy": {
+      "outcome_auxiliary": "per_fold_Phase3_selected",
+      "risk": "per_fold_Phase3_selected",
+      "survival_auxiliary": "per_fold_Phase3_selected"
+    },
+    "parameter_count": 160492,
+    "preprocessing": {
+      "aggregate": "train_mean_std_nan_to_zero",
+      "categorical": "train_fit_one_hot_unknown_all_zero",
+      "class": "src.pipelines.oulad._DeepPreprocessor",
+      "fit_scope": "outer_train_only",
+      "future_mask": "event_day<cutoff_day_and_zero_padded",
+      "static_numeric": "train_mean_std"
+    },
+    "training_policy": {
+      "augmentation": null,
+      "checkpoint_criterion": "minimize_mean_stage_validation_nll",
+      "class_imbalance": "Phase3 selected loss policy; no resampling",
+      "gradient_clip_norm": 1.0,
+      "inner_epoch_selection_rule": "round_half_up_median",
+      "max_epochs": 15,
+      "optimizer": "AdamW",
+      "per_outer_fold_config": {
+        "0": {
+          "batch_size": 256,
+          "dropout": 0.2368400954250437,
+          "learning_rate": 0.0011484568466276783,
+          "loss_policy": "standard_bce",
+          "outcome_weight": 0.2,
+          "pos_weight_strategy": "not_applicable",
+          "selected_phase3_trial": 23,
+          "survival_weight": 0.0,
+          "weight_decay": 1.3278646414039475e-06
+        },
+        "1": {
+          "batch_size": 256,
+          "dropout": 0.24970281620434753,
+          "learning_rate": 0.0009342889927929933,
+          "loss_policy": "standard_bce",
+          "outcome_weight": 0.0,
+          "pos_weight_strategy": "not_applicable",
+          "selected_phase3_trial": 12,
+          "survival_weight": 0.15,
+          "weight_decay": 2.33364982516221e-05
+        },
+        "2": {
+          "batch_size": 128,
+          "dropout": 0.14788186212273952,
+          "learning_rate": 0.001427490474468405,
+          "loss_policy": "standard_bce",
+          "outcome_weight": 0.15,
+          "pos_weight_strategy": "not_applicable",
+          "selected_phase3_trial": 15,
+          "survival_weight": 0.0,
+          "weight_decay": 1.0731619628337453e-07
+        }
+      },
+      "pretraining_executed": false,
+      "pretraining_requested": false,
+      "scheduler": null
+    }
+  },
+  "seeds_frozen": true,
+  "source_commit": "2c8baa96f563d7a4a5188abfd0c700828a91e301",
+  "temporal_backbone_hash": "367b30a4f4cbc58ef380d2735fb1e8ff0efafcac1172db7b3695f4a0bdedcf46",
+  "threshold_policy_frozen": true,
+  "timestamp": "2026-07-30T14:26:19.749059+00:00",
+  "training_policy_hash": "476667918107b4a21c64e96c8e13442eb2801c9b52ff069fdaf6a627e3949ab2"
+}

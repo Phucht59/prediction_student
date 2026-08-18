@@ -1,0 +1,214 @@
+{
+  "datasets": [
+    {
+      "dataset": "student_mat",
+      "group_safe": false,
+      "inner_split": "3-fold stratified/group-aware",
+      "leakage_status": "POTENTIAL QUASI-GROUP OVERLAP; RECORD IDs DISJOINT",
+      "outer_split": "frozen 5-fold outer OOF",
+      "preprocess_train_only": true,
+      "threshold_inner_only": "NOT_APPLICABLE_MULTICLASS_ARGMAX"
+    },
+    {
+      "dataset": "student_por",
+      "group_safe": false,
+      "inner_split": "3-fold stratified/group-aware",
+      "leakage_status": "POTENTIAL QUASI-GROUP OVERLAP; RECORD IDs DISJOINT",
+      "outer_split": "frozen 5-fold outer OOF",
+      "preprocess_train_only": true,
+      "threshold_inner_only": "NOT_APPLICABLE_MULTICLASS_ARGMAX"
+    },
+    {
+      "dataset": "oulad",
+      "group_safe": true,
+      "inner_split": "2-fold StratifiedGroupKFold",
+      "leakage_status": "PASS",
+      "outer_split": "frozen 3-fold StratifiedGroupKFold membership",
+      "preprocess_train_only": true,
+      "threshold_inner_only": true
+    }
+  ],
+  "group_warnings": [
+    {
+      "dataset": "student_mat",
+      "group_overlap": 1,
+      "outer_fold": 0,
+      "train_test_intersection": 0,
+      "train_validation_intersection": 0,
+      "validation_test_intersection": 0
+    },
+    {
+      "dataset": "student_mat",
+      "group_overlap": 1,
+      "outer_fold": 1,
+      "train_test_intersection": 0,
+      "train_validation_intersection": 0,
+      "validation_test_intersection": 0
+    },
+    {
+      "dataset": "student_mat",
+      "group_overlap": 4,
+      "outer_fold": 2,
+      "train_test_intersection": 0,
+      "train_validation_intersection": 0,
+      "validation_test_intersection": 0
+    },
+    {
+      "dataset": "student_mat",
+      "group_overlap": 2,
+      "outer_fold": 3,
+      "train_test_intersection": 0,
+      "train_validation_intersection": 0,
+      "validation_test_intersection": 0
+    },
+    {
+      "dataset": "student_por",
+      "group_overlap": 5,
+      "outer_fold": 0,
+      "train_test_intersection": 0,
+      "train_validation_intersection": 0,
+      "validation_test_intersection": 0
+    },
+    {
+      "dataset": "student_por",
+      "group_overlap": 5,
+      "outer_fold": 1,
+      "train_test_intersection": 0,
+      "train_validation_intersection": 0,
+      "validation_test_intersection": 0
+    },
+    {
+      "dataset": "student_por",
+      "group_overlap": 6,
+      "outer_fold": 2,
+      "train_test_intersection": 0,
+      "train_validation_intersection": 0,
+      "validation_test_intersection": 0
+    },
+    {
+      "dataset": "student_por",
+      "group_overlap": 3,
+      "outer_fold": 3,
+      "train_test_intersection": 0,
+      "train_validation_intersection": 0,
+      "validation_test_intersection": 0
+    },
+    {
+      "dataset": "student_por",
+      "group_overlap": 3,
+      "outer_fold": 4,
+      "train_test_intersection": 0,
+      "train_validation_intersection": 0,
+      "validation_test_intersection": 0
+    }
+  ],
+  "hard_failures": [],
+  "intersection_checks": [
+    {
+      "dataset": "student_mat",
+      "group_overlap": 1,
+      "outer_fold": 0,
+      "train_test_intersection": 0,
+      "train_validation_intersection": 0,
+      "validation_test_intersection": 0
+    },
+    {
+      "dataset": "student_mat",
+      "group_overlap": 1,
+      "outer_fold": 1,
+      "train_test_intersection": 0,
+      "train_validation_intersection": 0,
+      "validation_test_intersection": 0
+    },
+    {
+      "dataset": "student_mat",
+      "group_overlap": 4,
+      "outer_fold": 2,
+      "train_test_intersection": 0,
+      "train_validation_intersection": 0,
+      "validation_test_intersection": 0
+    },
+    {
+      "dataset": "student_mat",
+      "group_overlap": 2,
+      "outer_fold": 3,
+      "train_test_intersection": 0,
+      "train_validation_intersection": 0,
+      "validation_test_intersection": 0
+    },
+    {
+      "dataset": "student_mat",
+      "group_overlap": 0,
+      "outer_fold": 4,
+      "train_test_intersection": 0,
+      "train_validation_intersection": 0,
+      "validation_test_intersection": 0
+    },
+    {
+      "dataset": "student_por",
+      "group_overlap": 5,
+      "outer_fold": 0,
+      "train_test_intersection": 0,
+      "train_validation_intersection": 0,
+      "validation_test_intersection": 0
+    },
+    {
+      "dataset": "student_por",
+      "group_overlap": 5,
+      "outer_fold": 1,
+      "train_test_intersection": 0,
+      "train_validation_intersection": 0,
+      "validation_test_intersection": 0
+    },
+    {
+      "dataset": "student_por",
+      "group_overlap": 6,
+      "outer_fold": 2,
+      "train_test_intersection": 0,
+      "train_validation_intersection": 0,
+      "validation_test_intersection": 0
+    },
+    {
+      "dataset": "student_por",
+      "group_overlap": 3,
+      "outer_fold": 3,
+      "train_test_intersection": 0,
+      "train_validation_intersection": 0,
+      "validation_test_intersection": 0
+    },
+    {
+      "dataset": "student_por",
+      "group_overlap": 3,
+      "outer_fold": 4,
+      "train_test_intersection": 0,
+      "train_validation_intersection": 0,
+      "validation_test_intersection": 0
+    },
+    {
+      "dataset": "oulad",
+      "group_overlap": 0,
+      "outer_fold": 0,
+      "train_test_intersection": 0,
+      "train_validation_intersection": 0,
+      "validation_test_intersection": 0
+    },
+    {
+      "dataset": "oulad",
+      "group_overlap": 0,
+      "outer_fold": 1,
+      "train_test_intersection": 0,
+      "train_validation_intersection": 0,
+      "validation_test_intersection": 0
+    },
+    {
+      "dataset": "oulad",
+      "group_overlap": 0,
+      "outer_fold": 2,
+      "train_test_intersection": 0,
+      "train_validation_intersection": 0,
+      "validation_test_intersection": 0
+    }
+  ],
+  "schema_version": "phase1_split_audit_v1",
+  "status": "PASS_WITH_QUASI_GROUP_WARNINGS"
+}

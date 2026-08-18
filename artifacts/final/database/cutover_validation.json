@@ -1,0 +1,86 @@
+{
+  "at": "2026-07-28T05:04:23.424621+00:00",
+  "atomic_validation": {
+    "checks": {
+      "actions_unchanged": true,
+      "metric_reconciliation_converged": true,
+      "metrics_exact": true,
+      "models_30": true,
+      "no_duplicate_metric_natural_keys": true,
+      "plans_unchanged": true,
+      "recommendation_integrity": true,
+      "reviews_unchanged": true,
+      "risk_profiles_unchanged": true,
+      "runs_30": true,
+      "selected_models_unchanged": true,
+      "strict_public": true,
+      "ten_models_per_dataset": true,
+      "views_valid": true
+    },
+    "counts": {
+      "actions": 27355,
+      "metrics": 995,
+      "models": 30,
+      "plans": 15378,
+      "reviews": 0,
+      "risk_profiles": 15378,
+      "runs": 30
+    },
+    "models_per_dataset": {
+      "oulad": 10,
+      "student-mat": 10,
+      "student-por": 10
+    },
+    "selected_models": [
+      "oulad:cnn_bilstm",
+      "student_mat:cnn_bilstm",
+      "student_por:cnn_bilstm"
+    ],
+    "status": "PASS"
+  },
+  "credentials": "REDACTED",
+  "database": "student_predict_replacement_20260728t050000",
+  "legacy_disposition": [],
+  "loaded": {
+    "actions": 27355,
+    "datasets": 3,
+    "expert_status": "PENDING_EXPERT_LABELS",
+    "future_oulad": "LOCKED",
+    "metric_reconciliation": {
+      "actual_metric_rows": 995,
+      "all_metrics_match_canonical_json": true,
+      "deleted_stale_rows": 0,
+      "detail_mismatches": 0,
+      "duplicate_natural_keys": 0,
+      "expected_metric_rows": 995,
+      "extra_rows": 0,
+      "inserted_rows": 0,
+      "matched_rows": 995,
+      "missing_rows": 0,
+      "updated_rows": 0,
+      "value_mismatches": 0
+    },
+    "models": 30,
+    "plans": 15378,
+    "risk_profiles": 15378,
+    "status": "PASS"
+  },
+  "migrations": {
+    "applied": [],
+    "skipped": [
+      "001_create_final_schemas.sql",
+      "002_create_catalog.sql",
+      "003_create_ml.sql",
+      "004_create_recommendation.sql",
+      "005_create_indexes_views.sql",
+      "006_create_roles_permissions.sql",
+      "007_migrate_legacy_data.sql",
+      "008_finalize_cutover.sql",
+      "009_prune_redundant_indexes.sql",
+      "010_archive_legacy_functions.sql",
+      "011_create_v6_2_expert_review_validation.sql"
+    ]
+  },
+  "post_cutover_validation": "PASS",
+  "status": "PASS"
+}

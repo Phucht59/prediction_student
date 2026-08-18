@@ -1,0 +1,527 @@
+[
+  {
+    "migration_references": [
+      "database/final/LEGACY_TO_FINAL_MAPPING.yaml",
+      "database/final/migrations/007_migrate_legacy_data.sql",
+      "database/migrations/004_governed_recommendation_phase_d.sql"
+    ],
+    "read_references": [],
+    "runtime_status": "MIGRATION_ONLY",
+    "schema": "public",
+    "table": "advisor_decisions",
+    "test_references": [],
+    "write_references": []
+  },
+  {
+    "migration_references": [
+      "database/final/LEGACY_TO_FINAL_MAPPING.yaml",
+      "database/final/migrations/007_migrate_legacy_data.sql",
+      "database/migrations/005_oulad_lineage_and_snapshot_registry.sql",
+      "database/migrations/006_oulad_v3_fair_evidence_registry.sql"
+    ],
+    "read_references": [],
+    "runtime_status": "MIGRATION_ONLY",
+    "schema": "public",
+    "table": "cutoff_feature_snapshots",
+    "test_references": [
+      "tests/test_extension_protocol.py"
+    ],
+    "write_references": []
+  },
+  {
+    "migration_references": [
+      "database/final/LEGACY_TO_FINAL_MAPPING.yaml",
+      "database/final/migrations/007_migrate_legacy_data.sql",
+      "database/migrations/004_governed_recommendation_phase_d.sql"
+    ],
+    "read_references": [],
+    "runtime_status": "MIGRATION_ONLY",
+    "schema": "public",
+    "table": "expert_review_cases",
+    "test_references": [],
+    "write_references": []
+  },
+  {
+    "migration_references": [
+      "database/final/LEGACY_TO_FINAL_MAPPING.yaml",
+      "database/final/migrations/007_migrate_legacy_data.sql",
+      "database/migrations/004_governed_recommendation_phase_d.sql"
+    ],
+    "read_references": [],
+    "runtime_status": "MIGRATION_ONLY",
+    "schema": "public",
+    "table": "expert_review_ratings",
+    "test_references": [],
+    "write_references": []
+  },
+  {
+    "migration_references": [
+      "database/final/LEGACY_TO_FINAL_MAPPING.yaml",
+      "database/final/migrations/007_migrate_legacy_data.sql",
+      "database/migrations/006_oulad_v3_fair_evidence_registry.sql"
+    ],
+    "read_references": [
+      "scripts/database_register_evidence.py",
+      "tests/test_oulad_v3_fair_db_closure.py"
+    ],
+    "runtime_status": "MIGRATION_ONLY",
+    "schema": "public",
+    "table": "ml_evidence_bundles",
+    "test_references": [
+      "tests/test_oulad_v3_fair_db_closure.py"
+    ],
+    "write_references": [
+      "scripts/database_register_evidence.py"
+    ]
+  },
+  {
+    "migration_references": [
+      "database/final/LEGACY_TO_FINAL_MAPPING.yaml",
+      "database/final/migrations/007_migrate_legacy_data.sql",
+      "database/migrations/001_create_source_ml_schema.sql",
+      "database/migrations/002_allow_append_only_recommendation_policy_versions.sql",
+      "database/migrations/007_optimize_bulk_lineage_integrity_triggers.sql"
+    ],
+    "read_references": [
+      "database/migrations/001_create_source_ml_schema.sql",
+      "database/migrations/002_allow_append_only_recommendation_policy_versions.sql",
+      "database/migrations/007_optimize_bulk_lineage_integrity_triggers.sql",
+      "scripts/database_audit.py",
+      "scripts/database_register_evidence.py",
+      "src/evaluation/evaluation.py",
+      "src/postgres_data_source.py",
+      "tests/test_oulad_v3_fair_db_closure.py"
+    ],
+    "runtime_status": "MIGRATION_ONLY",
+    "schema": "public",
+    "table": "ml_experiment_runs",
+    "test_references": [
+      "tests/test_oulad_v3_fair_db_closure.py",
+      "tests/test_postgres_source_ml_integration.py"
+    ],
+    "write_references": [
+      "scripts/database_register_evidence.py",
+      "src/evaluation/evaluation.py",
+      "tests/test_postgres_source_ml_integration.py"
+    ]
+  },
+  {
+    "migration_references": [
+      "database/final/LEGACY_TO_FINAL_MAPPING.yaml",
+      "database/final/migrations/007_migrate_legacy_data.sql",
+      "database/migrations/001_create_source_ml_schema.sql",
+      "database/migrations/002_allow_append_only_recommendation_policy_versions.sql",
+      "database/migrations/006_oulad_v3_fair_evidence_registry.sql",
+      "database/migrations/007_optimize_bulk_lineage_integrity_triggers.sql"
+    ],
+    "read_references": [
+      "database/migrations/001_create_source_ml_schema.sql",
+      "database/migrations/002_allow_append_only_recommendation_policy_versions.sql",
+      "scripts/database_audit.py",
+      "scripts/database_register_evidence.py",
+      "src/evaluation/evaluation.py",
+      "tests/test_oulad_v3_fair_db_closure.py",
+      "tests/test_postgres_source_ml_integration.py"
+    ],
+    "runtime_status": "MIGRATION_ONLY",
+    "schema": "public",
+    "table": "ml_predictions",
+    "test_references": [
+      "tests/test_oulad_v3_fair_db_closure.py",
+      "tests/test_postgres_source_ml_integration.py",
+      "tests/test_thesis_pipeline.py"
+    ],
+    "write_references": [
+      "scripts/database_register_evidence.py",
+      "src/evaluation/evaluation.py",
+      "tests/test_postgres_source_ml_integration.py"
+    ]
+  },
+  {
+    "migration_references": [
+      "database/final/LEGACY_TO_FINAL_MAPPING.yaml",
+      "database/final/migrations/007_migrate_legacy_data.sql",
+      "database/migrations/001_create_source_ml_schema.sql",
+      "database/migrations/002_allow_append_only_recommendation_policy_versions.sql"
+    ],
+    "read_references": [
+      "src/evaluation/evaluation.py",
+      "tests/test_postgres_source_ml_integration.py"
+    ],
+    "runtime_status": "MIGRATION_ONLY",
+    "schema": "public",
+    "table": "ml_recommendations",
+    "test_references": [
+      "tests/test_postgres_source_ml_integration.py",
+      "tests/test_thesis_pipeline.py"
+    ],
+    "write_references": [
+      "src/evaluation/evaluation.py",
+      "tests/test_postgres_source_ml_integration.py"
+    ]
+  },
+  {
+    "migration_references": [
+      "database/final/LEGACY_TO_FINAL_MAPPING.yaml",
+      "database/final/migrations/007_migrate_legacy_data.sql",
+      "database/migrations/001_create_source_ml_schema.sql",
+      "database/migrations/007_optimize_bulk_lineage_integrity_triggers.sql"
+    ],
+    "read_references": [
+      "scripts/database_register_evidence.py",
+      "src/evaluation/evaluation.py"
+    ],
+    "runtime_status": "MIGRATION_ONLY",
+    "schema": "public",
+    "table": "ml_run_metrics",
+    "test_references": [
+      "tests/test_postgres_source_ml_integration.py"
+    ],
+    "write_references": [
+      "scripts/database_register_evidence.py",
+      "src/evaluation/evaluation.py",
+      "tests/test_postgres_source_ml_integration.py"
+    ]
+  },
+  {
+    "migration_references": [
+      "database/final/LEGACY_TO_FINAL_MAPPING.yaml",
+      "database/final/migrations/007_migrate_legacy_data.sql",
+      "database/migrations/001_create_source_ml_schema.sql",
+      "database/migrations/007_optimize_bulk_lineage_integrity_triggers.sql"
+    ],
+    "read_references": [
+      "database/migrations/001_create_source_ml_schema.sql",
+      "scripts/database_audit.py",
+      "scripts/database_register_evidence.py",
+      "src/evaluation/evaluation.py",
+      "src/postgres_data_source.py",
+      "tests/test_postgres_source_ml_integration.py"
+    ],
+    "runtime_status": "MIGRATION_ONLY",
+    "schema": "public",
+    "table": "ml_run_record_splits",
+    "test_references": [
+      "tests/test_postgres_source_ml_integration.py"
+    ],
+    "write_references": [
+      "scripts/database_register_evidence.py",
+      "src/evaluation/evaluation.py",
+      "tests/test_postgres_source_ml_integration.py"
+    ]
+  },
+  {
+    "migration_references": [
+      "database/final/LEGACY_TO_FINAL_MAPPING.yaml",
+      "database/final/migrations/007_migrate_legacy_data.sql",
+      "database/migrations/006_oulad_v3_fair_evidence_registry.sql"
+    ],
+    "read_references": [
+      "scripts/database_register_evidence.py",
+      "tests/test_oulad_v3_fair_db_closure.py"
+    ],
+    "runtime_status": "MIGRATION_ONLY",
+    "schema": "public",
+    "table": "ml_schema_migrations",
+    "test_references": [
+      "tests/test_oulad_v3_fair_db_closure.py"
+    ],
+    "write_references": [
+      "scripts/database_register_evidence.py"
+    ]
+  },
+  {
+    "migration_references": [
+      "database/final/LEGACY_TO_FINAL_MAPPING.yaml",
+      "database/final/migrations/007_migrate_legacy_data.sql",
+      "database/migrations/005_oulad_lineage_and_snapshot_registry.sql",
+      "database/migrations/006_oulad_v3_fair_evidence_registry.sql"
+    ],
+    "read_references": [],
+    "runtime_status": "MIGRATION_ONLY",
+    "schema": "public",
+    "table": "prediction_cohorts",
+    "test_references": [
+      "tests/test_extension_protocol.py"
+    ],
+    "write_references": []
+  },
+  {
+    "migration_references": [
+      "database/final/LEGACY_TO_FINAL_MAPPING.yaml",
+      "database/final/migrations/007_migrate_legacy_data.sql",
+      "database/migrations/004_governed_recommendation_phase_d.sql",
+      "database/migrations/008_v5_2_recommendation_evaluation.sql"
+    ],
+    "read_references": [],
+    "runtime_status": "MIGRATION_ONLY",
+    "schema": "public",
+    "table": "prediction_snapshots",
+    "test_references": [],
+    "write_references": []
+  },
+  {
+    "migration_references": [
+      "database/final/LEGACY_TO_FINAL_MAPPING.yaml",
+      "database/final/migrations/007_migrate_legacy_data.sql",
+      "database/migrations/004_governed_recommendation_phase_d.sql"
+    ],
+    "read_references": [],
+    "runtime_status": "MIGRATION_ONLY",
+    "schema": "public",
+    "table": "recommendation_action_catalog",
+    "test_references": [],
+    "write_references": []
+  },
+  {
+    "migration_references": [
+      "database/final/LEGACY_TO_FINAL_MAPPING.yaml",
+      "database/final/migrations/007_migrate_legacy_data.sql",
+      "database/migrations/004_governed_recommendation_phase_d.sql"
+    ],
+    "read_references": [],
+    "runtime_status": "MIGRATION_ONLY",
+    "schema": "public",
+    "table": "recommendation_actions",
+    "test_references": [],
+    "write_references": []
+  },
+  {
+    "migration_references": [
+      "database/final/LEGACY_TO_FINAL_MAPPING.yaml",
+      "database/final/migrations/007_migrate_legacy_data.sql",
+      "database/migrations/004_governed_recommendation_phase_d.sql"
+    ],
+    "read_references": [],
+    "runtime_status": "MIGRATION_ONLY",
+    "schema": "public",
+    "table": "recommendation_feature_registry",
+    "test_references": [],
+    "write_references": []
+  },
+  {
+    "migration_references": [
+      "database/final/LEGACY_TO_FINAL_MAPPING.yaml",
+      "database/final/migrations/007_migrate_legacy_data.sql",
+      "database/migrations/004_governed_recommendation_phase_d.sql"
+    ],
+    "read_references": [],
+    "runtime_status": "MIGRATION_ONLY",
+    "schema": "public",
+    "table": "recommendation_follow_ups",
+    "test_references": [],
+    "write_references": []
+  },
+  {
+    "migration_references": [
+      "database/final/LEGACY_TO_FINAL_MAPPING.yaml",
+      "database/final/migrations/007_migrate_legacy_data.sql",
+      "database/migrations/004_governed_recommendation_phase_d.sql"
+    ],
+    "read_references": [],
+    "runtime_status": "MIGRATION_ONLY",
+    "schema": "public",
+    "table": "recommendation_goals",
+    "test_references": [],
+    "write_references": []
+  },
+  {
+    "migration_references": [
+      "database/final/LEGACY_TO_FINAL_MAPPING.yaml",
+      "database/final/migrations/007_migrate_legacy_data.sql",
+      "database/migrations/004_governed_recommendation_phase_d.sql"
+    ],
+    "read_references": [],
+    "runtime_status": "MIGRATION_ONLY",
+    "schema": "public",
+    "table": "recommendation_instances",
+    "test_references": [],
+    "write_references": []
+  },
+  {
+    "migration_references": [
+      "database/final/LEGACY_TO_FINAL_MAPPING.yaml",
+      "database/final/migrations/007_migrate_legacy_data.sql",
+      "database/migrations/004_governed_recommendation_phase_d.sql"
+    ],
+    "read_references": [],
+    "runtime_status": "MIGRATION_ONLY",
+    "schema": "public",
+    "table": "recommendation_outcomes",
+    "test_references": [],
+    "write_references": []
+  },
+  {
+    "migration_references": [
+      "database/final/LEGACY_TO_FINAL_MAPPING.yaml",
+      "database/final/migrations/007_migrate_legacy_data.sql",
+      "database/migrations/004_governed_recommendation_phase_d.sql",
+      "database/migrations/008_v5_2_recommendation_evaluation.sql"
+    ],
+    "read_references": [],
+    "runtime_status": "MIGRATION_ONLY",
+    "schema": "public",
+    "table": "recommendation_policies",
+    "test_references": [],
+    "write_references": []
+  },
+  {
+    "migration_references": [
+      "database/final/LEGACY_TO_FINAL_MAPPING.yaml",
+      "database/final/migrations/007_migrate_legacy_data.sql",
+      "database/migrations/004_governed_recommendation_phase_d.sql",
+      "database/migrations/008_v5_2_recommendation_evaluation.sql"
+    ],
+    "read_references": [],
+    "runtime_status": "MIGRATION_ONLY",
+    "schema": "public",
+    "table": "recommendation_revisions",
+    "test_references": [],
+    "write_references": []
+  },
+  {
+    "migration_references": [
+      "database/final/LEGACY_TO_FINAL_MAPPING.yaml",
+      "database/final/migrations/007_migrate_legacy_data.sql",
+      "database/migrations/005_oulad_lineage_and_snapshot_registry.sql",
+      "database/migrations/006_oulad_v3_fair_evidence_registry.sql"
+    ],
+    "read_references": [],
+    "runtime_status": "MIGRATION_ONLY",
+    "schema": "public",
+    "table": "snapshot_record_index",
+    "test_references": [
+      "tests/test_extension_protocol.py"
+    ],
+    "write_references": []
+  },
+  {
+    "migration_references": [
+      "database/final/LEGACY_TO_FINAL_MAPPING.yaml",
+      "database/final/migrations/007_migrate_legacy_data.sql",
+      "database/migrations/005_oulad_lineage_and_snapshot_registry.sql",
+      "database/migrations/006_oulad_v3_fair_evidence_registry.sql"
+    ],
+    "read_references": [],
+    "runtime_status": "MIGRATION_ONLY",
+    "schema": "public",
+    "table": "source_dataset_files",
+    "test_references": [
+      "tests/test_extension_protocol.py"
+    ],
+    "write_references": []
+  },
+  {
+    "migration_references": [
+      "database/final/LEGACY_TO_FINAL_MAPPING.yaml",
+      "database/final/migrations/007_migrate_legacy_data.sql",
+      "database/migrations/001_create_source_ml_schema.sql",
+      "database/migrations/003_add_source_record_targets.sql",
+      "database/migrations/005_oulad_lineage_and_snapshot_registry.sql",
+      "database/migrations/006_oulad_v3_fair_evidence_registry.sql"
+    ],
+    "read_references": [
+      "database/migrations/001_create_source_ml_schema.sql",
+      "database/migrations/003_add_source_record_targets.sql",
+      "scripts/database_register_evidence.py",
+      "src/evaluation/evaluation.py",
+      "src/postgres_data_source.py"
+    ],
+    "runtime_status": "MIGRATION_ONLY",
+    "schema": "public",
+    "table": "source_dataset_versions",
+    "test_references": [
+      "tests/test_postgres_source_ml_integration.py",
+      "tests/test_postgresql_target_contract.py",
+      "tests/test_thesis_pipeline.py"
+    ],
+    "write_references": [
+      "scripts/database_register_evidence.py",
+      "src/evaluation/evaluation.py",
+      "tests/test_postgres_source_ml_integration.py"
+    ]
+  },
+  {
+    "migration_references": [
+      "database/final/LEGACY_TO_FINAL_MAPPING.yaml",
+      "database/final/migrations/007_migrate_legacy_data.sql",
+      "database/migrations/003_add_source_record_targets.sql"
+    ],
+    "read_references": [
+      "src/postgres_data_source.py"
+    ],
+    "runtime_status": "MIGRATION_ONLY",
+    "schema": "public",
+    "table": "source_record_targets",
+    "test_references": [
+      "tests/test_postgresql_first_contract.py",
+      "tests/test_postgresql_target_contract.py"
+    ],
+    "write_references": [
+      "database/migrations/003_add_source_record_targets.sql",
+      "scripts/database_register_evidence.py",
+      "src/postgres_data_source.py"
+    ]
+  },
+  {
+    "migration_references": [
+      "database/final/LEGACY_TO_FINAL_MAPPING.yaml",
+      "database/final/migrations/007_migrate_legacy_data.sql",
+      "database/migrations/001_create_source_ml_schema.sql",
+      "database/migrations/003_add_source_record_targets.sql",
+      "database/migrations/006_oulad_v3_fair_evidence_registry.sql",
+      "database/migrations/007_optimize_bulk_lineage_integrity_triggers.sql"
+    ],
+    "read_references": [
+      "database/migrations/001_create_source_ml_schema.sql",
+      "database/migrations/003_add_source_record_targets.sql",
+      "scripts/database_register_evidence.py",
+      "src/evaluation/evaluation.py",
+      "src/postgres_data_source.py",
+      "tests/test_postgres_source_ml_integration.py"
+    ],
+    "runtime_status": "MIGRATION_ONLY",
+    "schema": "public",
+    "table": "source_records",
+    "test_references": [
+      "tests/test_postgres_source_ml_integration.py",
+      "tests/test_postgresql_target_contract.py",
+      "tests/test_thesis_pipeline.py"
+    ],
+    "write_references": [
+      "scripts/database_register_evidence.py",
+      "src/evaluation/evaluation.py",
+      "tests/test_postgres_source_ml_integration.py"
+    ]
+  },
+  {
+    "migration_references": [
+      "database/final/LEGACY_TO_FINAL_MAPPING.yaml",
+      "database/final/migrations/007_migrate_legacy_data.sql",
+      "database/migrations/005_oulad_lineage_and_snapshot_registry.sql",
+      "database/migrations/006_oulad_v3_fair_evidence_registry.sql"
+    ],
+    "read_references": [],
+    "runtime_status": "MIGRATION_ONLY",
+    "schema": "public",
+    "table": "split_manifest_registry",
+    "test_references": [
+      "tests/test_extension_protocol.py"
+    ],
+    "write_references": []
+  },
+  {
+    "migration_references": [
+      "database/final/LEGACY_TO_FINAL_MAPPING.yaml",
+      "database/final/migrations/007_migrate_legacy_data.sql",
+      "database/migrations/005_oulad_lineage_and_snapshot_registry.sql",
+      "database/migrations/006_oulad_v3_fair_evidence_registry.sql"
+    ],
+    "read_references": [],
+    "runtime_status": "MIGRATION_ONLY",
+    "schema": "public",
+    "table": "study_extension_runs",
+    "test_references": [],
+    "write_references": []
+  }
+]

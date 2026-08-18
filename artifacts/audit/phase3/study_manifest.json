@@ -1,0 +1,40 @@
+{
+  "commit_sha": "8c7a53fac02680473f2fc21588da25921e70a749",
+  "gpu_concurrency": 1,
+  "max_epochs": 15,
+  "n_startup_trials": 6,
+  "optuna_version": "4.9.0",
+  "platform": "Windows-10-10.0.26220-SP0",
+  "pruner": "MedianPruner",
+  "pruning_warmup_epochs": 3,
+  "sampler": "TPESampler",
+  "sampler_seed_by_fold": {
+    "0": 42,
+    "1": 43,
+    "2": 44
+  },
+  "search_seed": 42,
+  "stability_seeds": [
+    1201,
+    2026
+  ],
+  "status": "PASS",
+  "studies": {
+    "0": {
+      "database": "artifacts/audit/phase3/optuna/outer0.db",
+      "name": "oulad_hybrid_vnext_outer0",
+      "scheduled_trials": 24
+    },
+    "1": {
+      "database": "artifacts/audit/phase3/optuna/outer1.db",
+      "name": "oulad_hybrid_vnext_outer1",
+      "scheduled_trials": 24
+    },
+    "2": {
+      "database": "artifacts/audit/phase3/optuna/outer2.db",
+      "name": "oulad_hybrid_vnext_outer2",
+      "scheduled_trials": 24
+    }
+  },
+  "torch_version": "2.7.1+cu118"
+}

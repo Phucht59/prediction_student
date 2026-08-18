@@ -1,0 +1,44 @@
+{
+  "schema_version": "v6_selected_prediction_model_v1",
+  "status": "FROZEN_AFTER_INNER_GATES_BEFORE_OUTER_REVIEW",
+  "candidate": "C_TEMPORAL_MULTITASK_W0",
+  "pretraining": "P1_MASKED_AND_NEXT_WEEK",
+  "multitask_weights": {
+    "survival": 0.15,
+    "outcome": 0.15
+  },
+  "ranking": "REJECTED_BY_GUARDRAIL",
+  "graph": "SKIPPED_CANDIDATE_D_GATE_FAILED",
+  "fixed_seeds": [
+    42,
+    1201,
+    2026,
+    3407,
+    7319
+  ],
+  "outer_folds": [
+    0,
+    1,
+    2
+  ],
+  "parameter_count": 100938,
+  "thresholds": {
+    "0": {
+      "threshold": 0.45500000000000007,
+      "source": "V5.1 inner-OOF threshold frozen before V6 outer evaluation",
+      "epochs": 8
+    },
+    "1": {
+      "threshold": 0.49500000000000005,
+      "source": "V5.1 inner-OOF threshold frozen before V6 outer evaluation",
+      "epochs": 8
+    },
+    "2": {
+      "threshold": 0.5,
+      "source": "V5.1 inner-OOF threshold frozen before V6 outer evaluation",
+      "epochs": 8
+    }
+  },
+  "outer_test_used_for_selection": false,
+  "future_accessed": false
+}

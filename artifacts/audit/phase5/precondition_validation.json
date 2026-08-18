@@ -1,0 +1,14 @@
+{
+  "checkpoint_policy": "minimize_mean_stage_validation_nll",
+  "commit_sha": "cc5bfc086f219589f56173cd89e779e996423c2d",
+  "concurrency": 1,
+  "device": "NVIDIA GeForce RTX 2060",
+  "fusion_a0_changed": false,
+  "gpu_count": 1,
+  "max_epochs": 15,
+  "outer_labels_available_to_runner": false,
+  "phase4_gate": "PASS",
+  "research_threshold": "pooled_inner_oof_macro_f1",
+  "status": "PASS",
+  "temporal_cnn_changed": false
+}

@@ -1,0 +1,112 @@
+[
+  {
+    "dataset": "student_mat",
+    "inner_selected_epochs": [
+      11,
+      28,
+      14
+    ],
+    "outer_fold": 0,
+    "outer_labels_used": false,
+    "selected_epoch": 14
+  },
+  {
+    "dataset": "student_mat",
+    "inner_selected_epochs": [
+      11,
+      29,
+      29
+    ],
+    "outer_fold": 1,
+    "outer_labels_used": false,
+    "selected_epoch": 29
+  },
+  {
+    "dataset": "student_mat",
+    "inner_selected_epochs": [
+      30,
+      13,
+      30
+    ],
+    "outer_fold": 2,
+    "outer_labels_used": false,
+    "selected_epoch": 30
+  },
+  {
+    "dataset": "student_mat",
+    "inner_selected_epochs": [
+      14,
+      13,
+      30
+    ],
+    "outer_fold": 3,
+    "outer_labels_used": false,
+    "selected_epoch": 14
+  },
+  {
+    "dataset": "student_mat",
+    "inner_selected_epochs": [
+      27,
+      13,
+      29
+    ],
+    "outer_fold": 4,
+    "outer_labels_used": false,
+    "selected_epoch": 27
+  },
+  {
+    "dataset": "student_por",
+    "inner_selected_epochs": [
+      21,
+      30,
+      23
+    ],
+    "outer_fold": 0,
+    "outer_labels_used": false,
+    "selected_epoch": 23
+  },
+  {
+    "dataset": "student_por",
+    "inner_selected_epochs": [
+      21,
+      25,
+      21
+    ],
+    "outer_fold": 1,
+    "outer_labels_used": false,
+    "selected_epoch": 21
+  },
+  {
+    "dataset": "student_por",
+    "inner_selected_epochs": [
+      28,
+      24,
+      30
+    ],
+    "outer_fold": 2,
+    "outer_labels_used": false,
+    "selected_epoch": 28
+  },
+  {
+    "dataset": "student_por",
+    "inner_selected_epochs": [
+      18,
+      23,
+      23
+    ],
+    "outer_fold": 3,
+    "outer_labels_used": false,
+    "selected_epoch": 23
+  },
+  {
+    "dataset": "student_por",
+    "inner_selected_epochs": [
+      29,
+      19,
+      29
+    ],
+    "outer_fold": 4,
+    "outer_labels_used": false,
+    "selected_epoch": 29
+  }
+]

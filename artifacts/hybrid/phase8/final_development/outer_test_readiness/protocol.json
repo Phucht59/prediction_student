@@ -1,8 +1,0 @@
-{
-  "fit": "inner FIT only",
-  "threshold": "STOP only",
-  "report": "one-shot outer evaluation",
-  "reject_if_hash_changed": true,
-  "reject_retraining_after_test": true,
-  "outer_test_authorized": false
-}

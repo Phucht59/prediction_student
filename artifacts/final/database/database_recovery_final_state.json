@@ -1,0 +1,113 @@
+{
+  "checks": {
+    "actions": true,
+    "canonical_accepts_connections": true,
+    "database_identity": true,
+    "dataset_versions": true,
+    "datasets": true,
+    "expert_tables_empty": true,
+    "metrics": true,
+    "models": true,
+    "plans": true,
+    "quarantine_present_blocked": true,
+    "recommendation_integrity": true,
+    "reviews": true,
+    "risk_profiles": true,
+    "runs": true,
+    "schema_hash": true,
+    "views_valid": true
+  },
+  "credentials": "REDACTED",
+  "database": "student_predict",
+  "entity_checksums": {
+    "actions": {
+      "row_count": 27355,
+      "sha256": "5f6902986d76ea7151c2b97ec3f4183c87b2fb7cd23782b36ec8df8874a7b65f"
+    },
+    "artifacts": {
+      "row_count": 130,
+      "sha256": "46bc4aa8ac92f3a547bc1fd79eb5bb34f632b98e424b19802c524848fd8b3c8d"
+    },
+    "dataset_versions": {
+      "row_count": 3,
+      "sha256": "c70deeda5539328667f0dcc219092cd92f997868f17c69f5a8c93358066df69a"
+    },
+    "datasets": {
+      "row_count": 3,
+      "sha256": "d1c18461dcdd808cdcfb471df4dba800c40044c080c7604ecaa68f0b96b11cec"
+    },
+    "metrics": {
+      "row_count": 995,
+      "sha256": "43c6702283bc8fd819bf487c88102878ec54c529d27ea22d1784d7e09cc9c1eb"
+    },
+    "models": {
+      "row_count": 30,
+      "sha256": "7e4f28290ddd970412e6ec891f8c01f175df4623284b6a89b03239216132b09c"
+    },
+    "plans": {
+      "row_count": 15378,
+      "sha256": "5de93431e1b04c7020bee8f0b586f5ed9b567e572fc753d9dc1168ac18f3ab66"
+    },
+    "reviews": {
+      "row_count": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "risk_profiles": {
+      "row_count": 15378,
+      "sha256": "1269939ac2edc5f6b34dfbb003022e161cc1b50bb27f73243737b1e61c6926eb"
+    },
+    "runs": {
+      "row_count": 30,
+      "sha256": "3f52574cf6f381c4e3e87b0de5898763ae837849bebd717481c56858e9ad33ca"
+    }
+  },
+  "expert_evaluation": "PENDING_EXPERT_LABELS",
+  "expert_table_counts": {
+    "expert_action_review": 0,
+    "expert_plan_review": 0,
+    "expert_review_case": 0
+  },
+  "future_oulad": "LOCKED_NOT_EXECUTED",
+  "quarantine_database": "student_predict_broken_restore_20260728t050600",
+  "schema_version": "database_recovery_final_state_v1",
+  "state": {
+    "counts": {
+      "actions": 27355,
+      "dataset_versions": 3,
+      "datasets": 3,
+      "metrics": 995,
+      "models": 30,
+      "plans": 15378,
+      "reviews": 0,
+      "risk_profiles": 15378,
+      "runs": 30
+    },
+    "database": "student_predict",
+    "integrity": {
+      "abstained_plan_actions": 0,
+      "orphan_actions": 0,
+      "orphan_plans": 0,
+      "status": "PASS"
+    },
+    "migration_ledger_hash": "9f6e27f551752f27af8f33c0b0f7623ade08f27934e88a167d396cdae6265a11",
+    "migration_ledger_rows": 11,
+    "schema_hash": "b7dc52279a51987dc11a65170dc71b04535e7d7018d9d9aa55352a36a9acffb6",
+    "sequences": {
+      "count": 9,
+      "sha256": "40cecc24693dd32f9e2d4426fcf9a43b073aec4395d6eef8eedb3b89fc1e92ad"
+    },
+    "views": {
+      "ml.final_model_results": true,
+      "recommendation.plan_summary": true,
+      "status": "PASS"
+    }
+  },
+  "status": "PASS",
+  "validated_30_model_backup": {
+    "byte_count": 9466681,
+    "filename": "student_predict_validated_30_model_20260728T050437Z.dump",
+    "sha256": "9e6f6dd011edc9f93a894eddf8b9e224982310f709909c778e606244ac422060"
+  },
+  "validated_at": "2026-07-28T05:05:57.431632+00:00",
+  "xapi": "ABSENT"
+}

@@ -1,0 +1,62 @@
+{
+  "calibration_decision": "NONE_RAW_EBM_SELECTED",
+  "failed_provider_calls": 0,
+  "final_metrics_claimed": true,
+  "final_metrics_scope": "PANEL_B_FINAL_HELDOUT",
+  "five_model_sha256": {
+    "ASSESSMENT_COMPLETION": "3dc0492cbe796f8b7a79bda850dd6bb4da17c61605343c9f863c1a65b1c9608b",
+    "QUIZ_RETRIEVAL_PRACTICE": "44248e965051224f121cbca4efbfac457829892a4983970caccb1510eb0a8823",
+    "RECOVER_ENGAGEMENT": "8383b165513cf29da88422de0d2fd34dbe19cfdb9eed208636fcf02320801be2",
+    "STUDY_REGULARITY": "26ac2c0ae6503beea6e92fd718afd5015ea883dd3efc5f8f58de95989ad6d2fd",
+    "TARGETED_CONTENT_REVIEW": "b643fcb26ab708e873ba935518fbc4d824199a5501b51b8aefb08e11592fb51c"
+  },
+  "lineage_sha256": {
+    "current_ranker_source": "0377463bd0bdb10e2e56c2256d6ffdaf6b8e05f65aa86e47a39d837416772c79",
+    "development_freeze": "b9b9b2b99a0ae2b20d0d8e7b8c377792f1ccad9329139676e80bfb01157ff620",
+    "feasibility_policy": "4da2b66d8ce2e8fc587bf286c0eb2ed181e6c013eaccffe87a9390bc395fafa8",
+    "five_ebm_manifest": "3cce3853e73d1ec0a4a62913256aa3817a62515db0430a15c99e1f9a2ebfbcb1",
+    "label_manifest": "ab5da97af4c61cabaffd5a78476edbc5ffa3cdc1e61a6a0322b34eca302edfbe",
+    "panel_a_review_freeze": "4a9af5a21ace08f13bfdc09504f19c1a9b5616d85df4151379815116d28eb5db",
+    "panel_b_final_manifest": "417a59dc10c3f6df0fa7135cb2570154b168a2f5cd71e599ad1f51b848063220",
+    "panel_b_final_metrics": "6a5a729e21b6008d041450eaa587289f429d438042bf312a56bd7768d4ed8017",
+    "panel_b_frozen_reviews": "afe0a49472330d98949dde328da1db70d3aa5413a9fad9457f1a598c52c331ee",
+    "panel_b_scores": "fd50f79ef3555d2eaf470734c5e725b09710caa67e17b03f548b8960a7f8e5a9",
+    "phase10_final_audit": "46bead7b2c6553a3186c752d3f23d3d09684a04d5c298323289457921628fc44",
+    "phase9_integration_audit": "8d187fa1a5bad421b4808684967e146eef7dc572fa650b7d5cafbe8b25155b4d",
+    "ranker_freeze": "68fe3b81bcf0716e875e407b44bce179c9c54d717f5d613f009424db6b4339af",
+    "release_gates": "78f1dc1f5858fd1da6409231c9fbce38d35554a50f6bf6732534c62290d51d95",
+    "risk_checkpoint_manifest": "4d5af44c89628e7f2ba9d13205af95efe7d8a5307a51e3d4602de746b16fc52e",
+    "router_freeze": "0413c202953fb68163bad6262fcf9637d54a469dd0fa9b439796b0e1bf0f300f"
+  },
+  "panel_b_case_count": 150,
+  "panel_b_touched": true,
+  "post_panel_b_tuning_permitted": false,
+  "provider_calls_after_panel_b_freeze": 0,
+  "real_external_review_record_count": 557,
+  "report_sha256": {
+    "FINAL_IMPLEMENTATION_STATUS.md": "e129bb2d76f4d7269903f16b4cfc1cbfc5c98ebf8a81e31f494e527460bd0d9f",
+    "FINAL_MODEL_ARCHITECTURE_AND_PIPELINE.md": "397444d81152ddffe53e8495ef84f3b60aaf45fcf9b949d67a0d035cbb53a0c5",
+    "FINAL_RELEASE_SUMMARY.md": "39915f83d4769f4f2bad00f16090c208b2ce4fa08389f993c731f89f4be22efe",
+    "FINAL_SCIENTIFIC_AUDIT.md": "0e3cec64962c3157e28645cb351c4856054625251535fd64e8705f9a13fb0163",
+    "PANEL_B_FINAL_HELDOUT_RESULTS.md": "b5d256f79ec46dbac4e6061948bfd53d425d2ced6bfb8dc0a124bea44de9968e"
+  },
+  "router_statuses": [
+    "RECOMMEND",
+    "INSUFFICIENT_EVIDENCE",
+    "HUMAN_REVIEW",
+    "NO_FEASIBLE_ACTION"
+  ],
+  "runtime_authorized": true,
+  "schema_version": "recommendation_v2_final_release_v1",
+  "scope": "FINAL_RELEASE",
+  "score_contract": {
+    "ground_truth_scale": "ORDINAL_0_3",
+    "native_prediction_scale": "ORDINAL_0_3",
+    "normalization": "clip(native_prediction / 3, 0, 1)",
+    "normalization_locations": 1,
+    "public_score_scale": "NORMALIZED_0_1"
+  },
+  "selected_config_id": "a70599afad40",
+  "simulator_language": "model-implied risk delta",
+  "status": "PASS"
+}

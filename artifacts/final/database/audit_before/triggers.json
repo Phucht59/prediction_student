@@ -1,0 +1,240 @@
+[
+  {
+    "definition": "CREATE TRIGGER trg_advisor_decisions_append_only BEFORE DELETE OR UPDATE ON advisor_decisions FOR EACH ROW EXECUTE FUNCTION reject_governed_recommendation_mutation()",
+    "enabled": "O",
+    "schema_name": "public",
+    "table_name": "advisor_decisions",
+    "trigger_name": "trg_advisor_decisions_append_only"
+  },
+  {
+    "definition": "CREATE TRIGGER trg_cutoff_feature_snapshots_append_only BEFORE DELETE OR UPDATE ON cutoff_feature_snapshots FOR EACH ROW EXECUTE FUNCTION reject_append_only_update_delete()",
+    "enabled": "O",
+    "schema_name": "public",
+    "table_name": "cutoff_feature_snapshots",
+    "trigger_name": "trg_cutoff_feature_snapshots_append_only"
+  },
+  {
+    "definition": "CREATE TRIGGER trg_expert_review_cases_append_only BEFORE DELETE OR UPDATE ON expert_review_cases FOR EACH ROW EXECUTE FUNCTION reject_governed_recommendation_mutation()",
+    "enabled": "O",
+    "schema_name": "public",
+    "table_name": "expert_review_cases",
+    "trigger_name": "trg_expert_review_cases_append_only"
+  },
+  {
+    "definition": "CREATE TRIGGER trg_expert_review_ratings_append_only BEFORE DELETE OR UPDATE ON expert_review_ratings FOR EACH ROW EXECUTE FUNCTION reject_governed_recommendation_mutation()",
+    "enabled": "O",
+    "schema_name": "public",
+    "table_name": "expert_review_ratings",
+    "trigger_name": "trg_expert_review_ratings_append_only"
+  },
+  {
+    "definition": "CREATE TRIGGER trg_ml_evidence_bundles_append_only BEFORE DELETE OR UPDATE ON ml_evidence_bundles FOR EACH ROW EXECUTE FUNCTION reject_append_only_update_delete()",
+    "enabled": "O",
+    "schema_name": "public",
+    "table_name": "ml_evidence_bundles",
+    "trigger_name": "trg_ml_evidence_bundles_append_only"
+  },
+  {
+    "definition": "CREATE TRIGGER trg_ml_runs_insert_lifecycle BEFORE INSERT ON ml_experiment_runs FOR EACH ROW EXECUTE FUNCTION validate_ml_experiment_run_insert()",
+    "enabled": "O",
+    "schema_name": "public",
+    "table_name": "ml_experiment_runs",
+    "trigger_name": "trg_ml_runs_insert_lifecycle"
+  },
+  {
+    "definition": "CREATE TRIGGER trg_ml_runs_update_lifecycle BEFORE UPDATE ON ml_experiment_runs FOR EACH ROW EXECUTE FUNCTION validate_ml_experiment_run_update()",
+    "enabled": "O",
+    "schema_name": "public",
+    "table_name": "ml_experiment_runs",
+    "trigger_name": "trg_ml_runs_update_lifecycle"
+  },
+  {
+    "definition": "CREATE TRIGGER trg_ml_predictions_append_only BEFORE DELETE OR UPDATE ON ml_predictions FOR EACH ROW EXECUTE FUNCTION reject_append_only_update_delete()",
+    "enabled": "O",
+    "schema_name": "public",
+    "table_name": "ml_predictions",
+    "trigger_name": "trg_ml_predictions_append_only"
+  },
+  {
+    "definition": "CREATE TRIGGER trg_ml_predictions_running_run AFTER INSERT ON ml_predictions REFERENCING NEW TABLE AS inserted_run_rows FOR EACH STATEMENT EXECUTE FUNCTION require_running_run_for_insert_batch()",
+    "enabled": "O",
+    "schema_name": "public",
+    "table_name": "ml_predictions",
+    "trigger_name": "trg_ml_predictions_running_run"
+  },
+  {
+    "definition": "CREATE TRIGGER trg_ml_recommendations_append_only BEFORE DELETE OR UPDATE ON ml_recommendations FOR EACH ROW EXECUTE FUNCTION reject_append_only_update_delete()",
+    "enabled": "O",
+    "schema_name": "public",
+    "table_name": "ml_recommendations",
+    "trigger_name": "trg_ml_recommendations_append_only"
+  },
+  {
+    "definition": "CREATE TRIGGER trg_ml_recommendations_running_run BEFORE INSERT ON ml_recommendations FOR EACH ROW EXECUTE FUNCTION require_materializable_recommendation_parent_run()",
+    "enabled": "O",
+    "schema_name": "public",
+    "table_name": "ml_recommendations",
+    "trigger_name": "trg_ml_recommendations_running_run"
+  },
+  {
+    "definition": "CREATE TRIGGER trg_ml_run_metrics_append_only BEFORE DELETE OR UPDATE ON ml_run_metrics FOR EACH ROW EXECUTE FUNCTION reject_append_only_update_delete()",
+    "enabled": "O",
+    "schema_name": "public",
+    "table_name": "ml_run_metrics",
+    "trigger_name": "trg_ml_run_metrics_append_only"
+  },
+  {
+    "definition": "CREATE TRIGGER trg_ml_run_metrics_running_run AFTER INSERT ON ml_run_metrics REFERENCING NEW TABLE AS inserted_run_rows FOR EACH STATEMENT EXECUTE FUNCTION require_running_run_for_insert_batch()",
+    "enabled": "O",
+    "schema_name": "public",
+    "table_name": "ml_run_metrics",
+    "trigger_name": "trg_ml_run_metrics_running_run"
+  },
+  {
+    "definition": "CREATE TRIGGER trg_ml_run_record_splits_append_only BEFORE DELETE OR UPDATE ON ml_run_record_splits FOR EACH ROW EXECUTE FUNCTION reject_append_only_update_delete()",
+    "enabled": "O",
+    "schema_name": "public",
+    "table_name": "ml_run_record_splits",
+    "trigger_name": "trg_ml_run_record_splits_append_only"
+  },
+  {
+    "definition": "CREATE TRIGGER trg_ml_run_record_splits_running_run AFTER INSERT ON ml_run_record_splits REFERENCING NEW TABLE AS inserted_run_rows FOR EACH STATEMENT EXECUTE FUNCTION require_running_run_for_insert_batch()",
+    "enabled": "O",
+    "schema_name": "public",
+    "table_name": "ml_run_record_splits",
+    "trigger_name": "trg_ml_run_record_splits_running_run"
+  },
+  {
+    "definition": "CREATE TRIGGER trg_prediction_cohorts_append_only BEFORE DELETE OR UPDATE ON prediction_cohorts FOR EACH ROW EXECUTE FUNCTION reject_append_only_update_delete()",
+    "enabled": "O",
+    "schema_name": "public",
+    "table_name": "prediction_cohorts",
+    "trigger_name": "trg_prediction_cohorts_append_only"
+  },
+  {
+    "definition": "CREATE TRIGGER trg_prediction_snapshots_append_only BEFORE DELETE OR UPDATE ON prediction_snapshots FOR EACH ROW EXECUTE FUNCTION reject_governed_recommendation_mutation()",
+    "enabled": "O",
+    "schema_name": "public",
+    "table_name": "prediction_snapshots",
+    "trigger_name": "trg_prediction_snapshots_append_only"
+  },
+  {
+    "definition": "CREATE TRIGGER trg_recommendation_action_catalog_append_only BEFORE DELETE OR UPDATE ON recommendation_action_catalog FOR EACH ROW EXECUTE FUNCTION reject_governed_recommendation_mutation()",
+    "enabled": "O",
+    "schema_name": "public",
+    "table_name": "recommendation_action_catalog",
+    "trigger_name": "trg_recommendation_action_catalog_append_only"
+  },
+  {
+    "definition": "CREATE TRIGGER trg_recommendation_actions_append_only BEFORE DELETE OR UPDATE ON recommendation_actions FOR EACH ROW EXECUTE FUNCTION reject_governed_recommendation_mutation()",
+    "enabled": "O",
+    "schema_name": "public",
+    "table_name": "recommendation_actions",
+    "trigger_name": "trg_recommendation_actions_append_only"
+  },
+  {
+    "definition": "CREATE TRIGGER trg_recommendation_feature_registry_append_only BEFORE DELETE OR UPDATE ON recommendation_feature_registry FOR EACH ROW EXECUTE FUNCTION reject_governed_recommendation_mutation()",
+    "enabled": "O",
+    "schema_name": "public",
+    "table_name": "recommendation_feature_registry",
+    "trigger_name": "trg_recommendation_feature_registry_append_only"
+  },
+  {
+    "definition": "CREATE TRIGGER trg_recommendation_follow_ups_append_only BEFORE DELETE OR UPDATE ON recommendation_follow_ups FOR EACH ROW EXECUTE FUNCTION reject_governed_recommendation_mutation()",
+    "enabled": "O",
+    "schema_name": "public",
+    "table_name": "recommendation_follow_ups",
+    "trigger_name": "trg_recommendation_follow_ups_append_only"
+  },
+  {
+    "definition": "CREATE TRIGGER trg_recommendation_goals_append_only BEFORE DELETE OR UPDATE ON recommendation_goals FOR EACH ROW EXECUTE FUNCTION reject_governed_recommendation_mutation()",
+    "enabled": "O",
+    "schema_name": "public",
+    "table_name": "recommendation_goals",
+    "trigger_name": "trg_recommendation_goals_append_only"
+  },
+  {
+    "definition": "CREATE TRIGGER trg_recommendation_instances_append_only BEFORE DELETE OR UPDATE ON recommendation_instances FOR EACH ROW EXECUTE FUNCTION reject_governed_recommendation_mutation()",
+    "enabled": "O",
+    "schema_name": "public",
+    "table_name": "recommendation_instances",
+    "trigger_name": "trg_recommendation_instances_append_only"
+  },
+  {
+    "definition": "CREATE TRIGGER trg_recommendation_outcomes_append_only BEFORE DELETE OR UPDATE ON recommendation_outcomes FOR EACH ROW EXECUTE FUNCTION reject_governed_recommendation_mutation()",
+    "enabled": "O",
+    "schema_name": "public",
+    "table_name": "recommendation_outcomes",
+    "trigger_name": "trg_recommendation_outcomes_append_only"
+  },
+  {
+    "definition": "CREATE TRIGGER trg_recommendation_policies_append_only BEFORE DELETE OR UPDATE ON recommendation_policies FOR EACH ROW EXECUTE FUNCTION reject_governed_recommendation_mutation()",
+    "enabled": "O",
+    "schema_name": "public",
+    "table_name": "recommendation_policies",
+    "trigger_name": "trg_recommendation_policies_append_only"
+  },
+  {
+    "definition": "CREATE TRIGGER trg_recommendation_revisions_append_only BEFORE DELETE OR UPDATE ON recommendation_revisions FOR EACH ROW EXECUTE FUNCTION reject_governed_recommendation_mutation()",
+    "enabled": "O",
+    "schema_name": "public",
+    "table_name": "recommendation_revisions",
+    "trigger_name": "trg_recommendation_revisions_append_only"
+  },
+  {
+    "definition": "CREATE TRIGGER trg_snapshot_record_index_append_only BEFORE DELETE OR UPDATE ON snapshot_record_index FOR EACH ROW EXECUTE FUNCTION reject_append_only_update_delete()",
+    "enabled": "O",
+    "schema_name": "public",
+    "table_name": "snapshot_record_index",
+    "trigger_name": "trg_snapshot_record_index_append_only"
+  },
+  {
+    "definition": "CREATE TRIGGER trg_source_dataset_files_append_only BEFORE DELETE OR UPDATE ON source_dataset_files FOR EACH ROW EXECUTE FUNCTION reject_append_only_update_delete()",
+    "enabled": "O",
+    "schema_name": "public",
+    "table_name": "source_dataset_files",
+    "trigger_name": "trg_source_dataset_files_append_only"
+  },
+  {
+    "definition": "CREATE TRIGGER trg_source_dataset_versions_append_only BEFORE DELETE OR UPDATE ON source_dataset_versions FOR EACH ROW EXECUTE FUNCTION reject_append_only_update_delete()",
+    "enabled": "O",
+    "schema_name": "public",
+    "table_name": "source_dataset_versions",
+    "trigger_name": "trg_source_dataset_versions_append_only"
+  },
+  {
+    "definition": "CREATE TRIGGER trg_source_record_targets_append_only BEFORE DELETE OR UPDATE ON source_record_targets FOR EACH ROW EXECUTE FUNCTION reject_append_only_update_delete()",
+    "enabled": "O",
+    "schema_name": "public",
+    "table_name": "source_record_targets",
+    "trigger_name": "trg_source_record_targets_append_only"
+  },
+  {
+    "definition": "CREATE TRIGGER trg_source_records_append_only BEFORE DELETE OR UPDATE ON source_records FOR EACH ROW EXECUTE FUNCTION reject_append_only_update_delete()",
+    "enabled": "O",
+    "schema_name": "public",
+    "table_name": "source_records",
+    "trigger_name": "trg_source_records_append_only"
+  },
+  {
+    "definition": "CREATE TRIGGER trg_source_records_sealed_dataset AFTER INSERT ON source_records REFERENCING NEW TABLE AS inserted_source_records FOR EACH STATEMENT EXECUTE FUNCTION reject_source_record_batch_after_run()",
+    "enabled": "O",
+    "schema_name": "public",
+    "table_name": "source_records",
+    "trigger_name": "trg_source_records_sealed_dataset"
+  },
+  {
+    "definition": "CREATE TRIGGER trg_split_manifest_registry_append_only BEFORE DELETE OR UPDATE ON split_manifest_registry FOR EACH ROW EXECUTE FUNCTION reject_append_only_update_delete()",
+    "enabled": "O",
+    "schema_name": "public",
+    "table_name": "split_manifest_registry",
+    "trigger_name": "trg_split_manifest_registry_append_only"
+  },
+  {
+    "definition": "CREATE TRIGGER trg_study_extension_runs_append_only BEFORE DELETE OR UPDATE ON study_extension_runs FOR EACH ROW EXECUTE FUNCTION reject_append_only_update_delete()",
+    "enabled": "O",
+    "schema_name": "public",
+    "table_name": "study_extension_runs",
+    "trigger_name": "trg_study_extension_runs_append_only"
+  }
+]

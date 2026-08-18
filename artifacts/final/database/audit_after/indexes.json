@@ -1,0 +1,299 @@
+[
+  {
+    "definition": "CREATE UNIQUE INDEX dataset_pkey ON catalog.dataset USING btree (dataset_id)",
+    "index_bytes": 16384,
+    "index_name": "dataset_pkey",
+    "is_primary": true,
+    "is_unique": true,
+    "schema_name": "catalog",
+    "table_name": "dataset"
+  },
+  {
+    "definition": "CREATE UNIQUE INDEX dataset_slug_key ON catalog.dataset USING btree (slug)",
+    "index_bytes": 16384,
+    "index_name": "dataset_slug_key",
+    "is_primary": false,
+    "is_unique": true,
+    "schema_name": "catalog",
+    "table_name": "dataset"
+  },
+  {
+    "definition": "CREATE UNIQUE INDEX dataset_version_dataset_id_version_label_key ON catalog.dataset_version USING btree (dataset_id, version_label)",
+    "index_bytes": 16384,
+    "index_name": "dataset_version_dataset_id_version_label_key",
+    "is_primary": false,
+    "is_unique": true,
+    "schema_name": "catalog",
+    "table_name": "dataset_version"
+  },
+  {
+    "definition": "CREATE UNIQUE INDEX dataset_version_pkey ON catalog.dataset_version USING btree (dataset_version_id)",
+    "index_bytes": 16384,
+    "index_name": "dataset_version_pkey",
+    "is_primary": true,
+    "is_unique": true,
+    "schema_name": "catalog",
+    "table_name": "dataset_version"
+  },
+  {
+    "definition": "CREATE UNIQUE INDEX record_dataset_version_id_source_record_id_key ON catalog.record USING btree (dataset_version_id, source_record_id)",
+    "index_bytes": 1695744,
+    "index_name": "record_dataset_version_id_source_record_id_key",
+    "is_primary": false,
+    "is_unique": true,
+    "schema_name": "catalog",
+    "table_name": "record"
+  },
+  {
+    "definition": "CREATE UNIQUE INDEX record_pkey ON catalog.record USING btree (record_pk)",
+    "index_bytes": 385024,
+    "index_name": "record_pkey",
+    "is_primary": true,
+    "is_unique": true,
+    "schema_name": "catalog",
+    "table_name": "record"
+  },
+  {
+    "definition": "CREATE INDEX record_student_key_idx ON catalog.record USING btree (student_key) WHERE (student_key IS NOT NULL)",
+    "index_bytes": 499712,
+    "index_name": "record_student_key_idx",
+    "is_primary": false,
+    "is_unique": false,
+    "schema_name": "catalog",
+    "table_name": "record"
+  },
+  {
+    "definition": "CREATE INDEX artifact_dataset_idx ON ml.artifact USING btree (dataset_version_id) WHERE (dataset_version_id IS NOT NULL)",
+    "index_bytes": 16384,
+    "index_name": "artifact_dataset_idx",
+    "is_primary": false,
+    "is_unique": false,
+    "schema_name": "ml",
+    "table_name": "artifact"
+  },
+  {
+    "definition": "CREATE UNIQUE INDEX artifact_pkey ON ml.artifact USING btree (artifact_id)",
+    "index_bytes": 16384,
+    "index_name": "artifact_pkey",
+    "is_primary": true,
+    "is_unique": true,
+    "schema_name": "ml",
+    "table_name": "artifact"
+  },
+  {
+    "definition": "CREATE UNIQUE INDEX artifact_run_id_artifact_kind_storage_path_key ON ml.artifact USING btree (run_id, artifact_kind, storage_path)",
+    "index_bytes": 40960,
+    "index_name": "artifact_run_id_artifact_kind_storage_path_key",
+    "is_primary": false,
+    "is_unique": true,
+    "schema_name": "ml",
+    "table_name": "artifact"
+  },
+  {
+    "definition": "CREATE UNIQUE INDEX metric_natural_key_idx ON ml.metric USING btree (run_id, metric_name, scope, aggregation, class_label, budget, fold, seed) NULLS NOT DISTINCT",
+    "index_bytes": 131072,
+    "index_name": "metric_natural_key_idx",
+    "is_primary": false,
+    "is_unique": true,
+    "schema_name": "ml",
+    "table_name": "metric"
+  },
+  {
+    "definition": "CREATE UNIQUE INDEX metric_pkey ON ml.metric USING btree (metric_id)",
+    "index_bytes": 40960,
+    "index_name": "metric_pkey",
+    "is_primary": true,
+    "is_unique": true,
+    "schema_name": "ml",
+    "table_name": "metric"
+  },
+  {
+    "definition": "CREATE UNIQUE INDEX model_dataset_id_model_key_key ON ml.model USING btree (dataset_id, model_key)",
+    "index_bytes": 16384,
+    "index_name": "model_dataset_id_model_key_key",
+    "is_primary": false,
+    "is_unique": true,
+    "schema_name": "ml",
+    "table_name": "model"
+  },
+  {
+    "definition": "CREATE UNIQUE INDEX model_pkey ON ml.model USING btree (model_id)",
+    "index_bytes": 16384,
+    "index_name": "model_pkey",
+    "is_primary": true,
+    "is_unique": true,
+    "schema_name": "ml",
+    "table_name": "model"
+  },
+  {
+    "definition": "CREATE INDEX run_dataset_version_idx ON ml.run USING btree (dataset_version_id)",
+    "index_bytes": 16384,
+    "index_name": "run_dataset_version_idx",
+    "is_primary": false,
+    "is_unique": false,
+    "schema_name": "ml",
+    "table_name": "run"
+  },
+  {
+    "definition": "CREATE UNIQUE INDEX run_model_id_dataset_version_id_result_scope_key ON ml.run USING btree (model_id, dataset_version_id, result_scope)",
+    "index_bytes": 16384,
+    "index_name": "run_model_id_dataset_version_id_result_scope_key",
+    "is_primary": false,
+    "is_unique": true,
+    "schema_name": "ml",
+    "table_name": "run"
+  },
+  {
+    "definition": "CREATE INDEX run_model_status_idx ON ml.run USING btree (model_id, status)",
+    "index_bytes": 16384,
+    "index_name": "run_model_status_idx",
+    "is_primary": false,
+    "is_unique": false,
+    "schema_name": "ml",
+    "table_name": "run"
+  },
+  {
+    "definition": "CREATE UNIQUE INDEX run_pkey ON ml.run USING btree (run_id)",
+    "index_bytes": 16384,
+    "index_name": "run_pkey",
+    "is_primary": true,
+    "is_unique": true,
+    "schema_name": "ml",
+    "table_name": "run"
+  },
+  {
+    "definition": "CREATE UNIQUE INDEX action_pkey ON recommendation.action USING btree (action_id)",
+    "index_bytes": 630784,
+    "index_name": "action_pkey",
+    "is_primary": true,
+    "is_unique": true,
+    "schema_name": "recommendation",
+    "table_name": "action"
+  },
+  {
+    "definition": "CREATE UNIQUE INDEX action_plan_id_action_code_week_no_priority_key ON recommendation.action USING btree (plan_id, action_code, week_no, priority)",
+    "index_bytes": 2596864,
+    "index_name": "action_plan_id_action_code_week_no_priority_key",
+    "is_primary": false,
+    "is_unique": true,
+    "schema_name": "recommendation",
+    "table_name": "action"
+  },
+  {
+    "definition": "CREATE INDEX action_plan_week_idx ON recommendation.action USING btree (plan_id, week_no)",
+    "index_bytes": 1179648,
+    "index_name": "action_plan_week_idx",
+    "is_primary": false,
+    "is_unique": false,
+    "schema_name": "recommendation",
+    "table_name": "action"
+  },
+  {
+    "definition": "CREATE UNIQUE INDEX plan_pkey ON recommendation.plan USING btree (plan_id)",
+    "index_bytes": 1048576,
+    "index_name": "plan_pkey",
+    "is_primary": true,
+    "is_unique": true,
+    "schema_name": "recommendation",
+    "table_name": "plan"
+  },
+  {
+    "definition": "CREATE UNIQUE INDEX plan_risk_profile_id_revision_no_key ON recommendation.plan USING btree (risk_profile_id, revision_no)",
+    "index_bytes": 1277952,
+    "index_name": "plan_risk_profile_id_revision_no_key",
+    "is_primary": false,
+    "is_unique": true,
+    "schema_name": "recommendation",
+    "table_name": "plan"
+  },
+  {
+    "definition": "CREATE UNIQUE INDEX policy_pkey ON recommendation.policy USING btree (policy_id)",
+    "index_bytes": 16384,
+    "index_name": "policy_pkey",
+    "is_primary": true,
+    "is_unique": true,
+    "schema_name": "recommendation",
+    "table_name": "policy"
+  },
+  {
+    "definition": "CREATE UNIQUE INDEX policy_policy_name_version_label_key ON recommendation.policy USING btree (policy_name, version_label)",
+    "index_bytes": 16384,
+    "index_name": "policy_policy_name_version_label_key",
+    "is_primary": false,
+    "is_unique": true,
+    "schema_name": "recommendation",
+    "table_name": "policy"
+  },
+  {
+    "definition": "CREATE UNIQUE INDEX review_pkey ON recommendation.review USING btree (review_id)",
+    "index_bytes": 8192,
+    "index_name": "review_pkey",
+    "is_primary": true,
+    "is_unique": true,
+    "schema_name": "recommendation",
+    "table_name": "review"
+  },
+  {
+    "definition": "CREATE INDEX review_plan_type_idx ON recommendation.review USING btree (plan_id, review_type)",
+    "index_bytes": 8192,
+    "index_name": "review_plan_type_idx",
+    "is_primary": false,
+    "is_unique": false,
+    "schema_name": "recommendation",
+    "table_name": "review"
+  },
+  {
+    "definition": "CREATE UNIQUE INDEX risk_profile_pkey ON recommendation.risk_profile USING btree (risk_profile_id)",
+    "index_bytes": 1220608,
+    "index_name": "risk_profile_pkey",
+    "is_primary": true,
+    "is_unique": true,
+    "schema_name": "recommendation",
+    "table_name": "risk_profile"
+  },
+  {
+    "definition": "CREATE INDEX risk_profile_record_idx ON recommendation.risk_profile USING btree (record_pk)",
+    "index_bytes": 360448,
+    "index_name": "risk_profile_record_idx",
+    "is_primary": false,
+    "is_unique": false,
+    "schema_name": "recommendation",
+    "table_name": "risk_profile"
+  },
+  {
+    "definition": "CREATE UNIQUE INDEX risk_profile_run_id_record_pk_key ON recommendation.risk_profile USING btree (run_id, record_pk)",
+    "index_bytes": 778240,
+    "index_name": "risk_profile_run_id_record_pk_key",
+    "is_primary": false,
+    "is_unique": true,
+    "schema_name": "recommendation",
+    "table_name": "risk_profile"
+  },
+  {
+    "definition": "CREATE INDEX risk_profile_run_idx ON recommendation.risk_profile USING btree (run_id)",
+    "index_bytes": 155648,
+    "index_name": "risk_profile_run_idx",
+    "is_primary": false,
+    "is_unique": false,
+    "schema_name": "recommendation",
+    "table_name": "risk_profile"
+  },
+  {
+    "definition": "CREATE UNIQUE INDEX schema_migration_pkey ON system.schema_migration USING btree (filename)",
+    "index_bytes": 16384,
+    "index_name": "schema_migration_pkey",
+    "is_primary": true,
+    "is_unique": true,
+    "schema_name": "system",
+    "table_name": "schema_migration"
+  },
+  {
+    "definition": "CREATE UNIQUE INDEX schema_migration_version_key ON system.schema_migration USING btree (version)",
+    "index_bytes": 16384,
+    "index_name": "schema_migration_version_key",
+    "is_primary": false,
+    "is_unique": true,
+    "schema_name": "system",
+    "table_name": "schema_migration"
+  }
+]

@@ -1,0 +1,2266 @@
+{
+  "schema_version": "missing_result_audit_v1",
+  "protocol_id": "final-comparator-completion-20260723-v1",
+  "starting_commit": "f702aea20e0df5d8c23cc0f637c31b83c7c58748",
+  "serialized_missing_field_count": {
+    "student_mat": 27,
+    "student_por": 27,
+    "oulad": 198,
+    "total": 252
+  },
+  "classification": [
+    {
+      "datasets": [
+        "student_mat",
+        "student_por"
+      ],
+      "models": [
+        "cnn_bilstm",
+        "cnn_only",
+        "bilstm_only",
+        "logistic_regression",
+        "decision_tree",
+        "random_forest",
+        "hist_gradient_boosting",
+        "svm"
+      ],
+      "action": "DERIVE_ONLY",
+      "reason": "record-aligned frozen native probabilities exist"
+    },
+    {
+      "datasets": [
+        "student_mat",
+        "student_por"
+      ],
+      "models": [
+        "xgboost"
+      ],
+      "action": "TRAIN_COMPLETION_MODEL",
+      "reason": "no final model or OOF probability artifact exists"
+    },
+    {
+      "datasets": [
+        "oulad"
+      ],
+      "models": [
+        "cnn_bilstm",
+        "cnn_only",
+        "bilstm_only"
+      ],
+      "action": "DERIVE_ONLY",
+      "reason": "record-aligned frozen probabilities exist; missing probability metrics are derivable"
+    },
+    {
+      "datasets": [
+        "oulad"
+      ],
+      "models": [
+        "logistic_regression",
+        "hist_gradient_boosting",
+        "xgboost"
+      ],
+      "action": "DO_NOT_IMPORT",
+      "followup_action": "TRAIN_COMPLETION_MODEL",
+      "reason": "historical summaries lack a complete unified-contract probability and replay bundle"
+    },
+    {
+      "datasets": [
+        "oulad"
+      ],
+      "models": [
+        "decision_tree",
+        "random_forest",
+        "svm"
+      ],
+      "action": "TRAIN_COMPLETION_MODEL",
+      "reason": "no final unified-protocol model and OOF probability artifact exists"
+    }
+  ],
+  "replay_inference_candidates": [],
+  "future_oulad": {
+    "status": "LOCKED_NOT_EXECUTED",
+    "allowed_scope": "development_oof",
+    "allowed_forecast": "F2_MIDDLE"
+  },
+  "missing_cells": [
+    {
+      "dataset": "student_mat",
+      "model_id": "xgboost",
+      "table": "overall",
+      "cell": "accuracy",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_mat",
+      "model_id": "xgboost",
+      "table": "overall",
+      "cell": "balanced_accuracy",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_mat",
+      "model_id": "xgboost",
+      "table": "overall",
+      "cell": "macro_precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_mat",
+      "model_id": "xgboost",
+      "table": "overall",
+      "cell": "macro_recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_mat",
+      "model_id": "xgboost",
+      "table": "overall",
+      "cell": "macro_f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_mat",
+      "model_id": "xgboost",
+      "table": "overall",
+      "cell": "weighted_f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_mat",
+      "model_id": "xgboost",
+      "table": "overall",
+      "cell": "pr_auc",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_mat",
+      "model_id": "xgboost",
+      "table": "overall",
+      "cell": "roc_auc",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_mat",
+      "model_id": "xgboost",
+      "table": "overall",
+      "cell": "brier",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_mat",
+      "model_id": "xgboost",
+      "table": "overall",
+      "cell": "nll",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_mat",
+      "model_id": "xgboost",
+      "table": "overall",
+      "cell": "ece",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_mat",
+      "model_id": "xgboost",
+      "table": "per_class",
+      "class_index": 0,
+      "cell": "precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_mat",
+      "model_id": "xgboost",
+      "table": "per_class",
+      "class_index": 0,
+      "cell": "recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_mat",
+      "model_id": "xgboost",
+      "table": "per_class",
+      "class_index": 0,
+      "cell": "f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_mat",
+      "model_id": "xgboost",
+      "table": "per_class",
+      "class_index": 0,
+      "cell": "support",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_mat",
+      "model_id": "xgboost",
+      "table": "per_class",
+      "class_index": 0,
+      "cell": "macro_f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_mat",
+      "model_id": "xgboost",
+      "table": "per_class",
+      "class_index": 1,
+      "cell": "precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_mat",
+      "model_id": "xgboost",
+      "table": "per_class",
+      "class_index": 1,
+      "cell": "recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_mat",
+      "model_id": "xgboost",
+      "table": "per_class",
+      "class_index": 1,
+      "cell": "f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_mat",
+      "model_id": "xgboost",
+      "table": "per_class",
+      "class_index": 1,
+      "cell": "support",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_mat",
+      "model_id": "xgboost",
+      "table": "per_class",
+      "class_index": 1,
+      "cell": "macro_f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_mat",
+      "model_id": "xgboost",
+      "table": "per_class",
+      "class_index": 2,
+      "cell": "precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_mat",
+      "model_id": "xgboost",
+      "table": "per_class",
+      "class_index": 2,
+      "cell": "recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_mat",
+      "model_id": "xgboost",
+      "table": "per_class",
+      "class_index": 2,
+      "cell": "f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_mat",
+      "model_id": "xgboost",
+      "table": "per_class",
+      "class_index": 2,
+      "cell": "support",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_mat",
+      "model_id": "xgboost",
+      "table": "per_class",
+      "class_index": 2,
+      "cell": "macro_f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_mat",
+      "model_id": "xgboost",
+      "table": "confusion_matrix",
+      "cell": "matrix",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_por",
+      "model_id": "xgboost",
+      "table": "overall",
+      "cell": "accuracy",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_por",
+      "model_id": "xgboost",
+      "table": "overall",
+      "cell": "balanced_accuracy",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_por",
+      "model_id": "xgboost",
+      "table": "overall",
+      "cell": "macro_precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_por",
+      "model_id": "xgboost",
+      "table": "overall",
+      "cell": "macro_recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_por",
+      "model_id": "xgboost",
+      "table": "overall",
+      "cell": "macro_f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_por",
+      "model_id": "xgboost",
+      "table": "overall",
+      "cell": "weighted_f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_por",
+      "model_id": "xgboost",
+      "table": "overall",
+      "cell": "pr_auc",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_por",
+      "model_id": "xgboost",
+      "table": "overall",
+      "cell": "roc_auc",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_por",
+      "model_id": "xgboost",
+      "table": "overall",
+      "cell": "brier",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_por",
+      "model_id": "xgboost",
+      "table": "overall",
+      "cell": "nll",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_por",
+      "model_id": "xgboost",
+      "table": "overall",
+      "cell": "ece",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_por",
+      "model_id": "xgboost",
+      "table": "per_class",
+      "class_index": 0,
+      "cell": "precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_por",
+      "model_id": "xgboost",
+      "table": "per_class",
+      "class_index": 0,
+      "cell": "recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_por",
+      "model_id": "xgboost",
+      "table": "per_class",
+      "class_index": 0,
+      "cell": "f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_por",
+      "model_id": "xgboost",
+      "table": "per_class",
+      "class_index": 0,
+      "cell": "support",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_por",
+      "model_id": "xgboost",
+      "table": "per_class",
+      "class_index": 0,
+      "cell": "macro_f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_por",
+      "model_id": "xgboost",
+      "table": "per_class",
+      "class_index": 1,
+      "cell": "precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_por",
+      "model_id": "xgboost",
+      "table": "per_class",
+      "class_index": 1,
+      "cell": "recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_por",
+      "model_id": "xgboost",
+      "table": "per_class",
+      "class_index": 1,
+      "cell": "f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_por",
+      "model_id": "xgboost",
+      "table": "per_class",
+      "class_index": 1,
+      "cell": "support",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_por",
+      "model_id": "xgboost",
+      "table": "per_class",
+      "class_index": 1,
+      "cell": "macro_f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_por",
+      "model_id": "xgboost",
+      "table": "per_class",
+      "class_index": 2,
+      "cell": "precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_por",
+      "model_id": "xgboost",
+      "table": "per_class",
+      "class_index": 2,
+      "cell": "recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_por",
+      "model_id": "xgboost",
+      "table": "per_class",
+      "class_index": 2,
+      "cell": "f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_por",
+      "model_id": "xgboost",
+      "table": "per_class",
+      "class_index": 2,
+      "cell": "support",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_por",
+      "model_id": "xgboost",
+      "table": "per_class",
+      "class_index": 2,
+      "cell": "macro_f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "student_por",
+      "model_id": "xgboost",
+      "table": "confusion_matrix",
+      "cell": "matrix",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "cnn_bilstm",
+      "table": "overall",
+      "cell": "roc_auc",
+      "action": "DERIVE_ONLY",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "cnn_only",
+      "table": "overall",
+      "cell": "roc_auc",
+      "action": "DERIVE_ONLY",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "bilstm_only",
+      "table": "overall",
+      "cell": "roc_auc",
+      "action": "DERIVE_ONLY",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "logistic_regression",
+      "table": "overall",
+      "cell": "accuracy",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "logistic_regression",
+      "table": "overall",
+      "cell": "macro_precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "logistic_regression",
+      "table": "overall",
+      "cell": "macro_recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "logistic_regression",
+      "table": "overall",
+      "cell": "weighted_f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "logistic_regression",
+      "table": "overall",
+      "cell": "roc_auc",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "logistic_regression",
+      "table": "per_class",
+      "class_index": 0,
+      "cell": "precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "logistic_regression",
+      "table": "per_class",
+      "class_index": 0,
+      "cell": "recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "logistic_regression",
+      "table": "per_class",
+      "class_index": 0,
+      "cell": "f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "logistic_regression",
+      "table": "per_class",
+      "class_index": 0,
+      "cell": "support",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "logistic_regression",
+      "table": "per_class",
+      "class_index": 0,
+      "cell": "macro_f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "logistic_regression",
+      "table": "per_class",
+      "class_index": 1,
+      "cell": "precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "logistic_regression",
+      "table": "per_class",
+      "class_index": 1,
+      "cell": "recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "logistic_regression",
+      "table": "per_class",
+      "class_index": 1,
+      "cell": "f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "logistic_regression",
+      "table": "per_class",
+      "class_index": 1,
+      "cell": "support",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "logistic_regression",
+      "table": "per_class",
+      "class_index": 1,
+      "cell": "macro_f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "logistic_regression",
+      "table": "confusion_matrix",
+      "cell": "matrix",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "logistic_regression",
+      "table": "top_k",
+      "budget_index": 0,
+      "cell": "precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "logistic_regression",
+      "table": "top_k",
+      "budget_index": 0,
+      "cell": "recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "logistic_regression",
+      "table": "top_k",
+      "budget_index": 0,
+      "cell": "f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "logistic_regression",
+      "table": "top_k",
+      "budget_index": 0,
+      "cell": "ndcg",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "logistic_regression",
+      "table": "top_k",
+      "budget_index": 1,
+      "cell": "precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "logistic_regression",
+      "table": "top_k",
+      "budget_index": 1,
+      "cell": "recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "logistic_regression",
+      "table": "top_k",
+      "budget_index": 1,
+      "cell": "f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "logistic_regression",
+      "table": "top_k",
+      "budget_index": 1,
+      "cell": "ndcg",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "logistic_regression",
+      "table": "top_k",
+      "budget_index": 2,
+      "cell": "precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "logistic_regression",
+      "table": "top_k",
+      "budget_index": 2,
+      "cell": "recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "logistic_regression",
+      "table": "top_k",
+      "budget_index": 2,
+      "cell": "f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "logistic_regression",
+      "table": "top_k",
+      "budget_index": 2,
+      "cell": "ndcg",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "decision_tree",
+      "table": "overall",
+      "cell": "accuracy",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "decision_tree",
+      "table": "overall",
+      "cell": "balanced_accuracy",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "decision_tree",
+      "table": "overall",
+      "cell": "macro_precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "decision_tree",
+      "table": "overall",
+      "cell": "macro_recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "decision_tree",
+      "table": "overall",
+      "cell": "macro_f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "decision_tree",
+      "table": "overall",
+      "cell": "weighted_f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "decision_tree",
+      "table": "overall",
+      "cell": "pr_auc",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "decision_tree",
+      "table": "overall",
+      "cell": "roc_auc",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "decision_tree",
+      "table": "overall",
+      "cell": "brier",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "decision_tree",
+      "table": "overall",
+      "cell": "nll",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "decision_tree",
+      "table": "overall",
+      "cell": "ece",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "decision_tree",
+      "table": "overall",
+      "cell": "risk_precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "decision_tree",
+      "table": "overall",
+      "cell": "risk_recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "decision_tree",
+      "table": "overall",
+      "cell": "risk_f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "decision_tree",
+      "table": "per_class",
+      "class_index": 0,
+      "cell": "precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "decision_tree",
+      "table": "per_class",
+      "class_index": 0,
+      "cell": "recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "decision_tree",
+      "table": "per_class",
+      "class_index": 0,
+      "cell": "f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "decision_tree",
+      "table": "per_class",
+      "class_index": 0,
+      "cell": "support",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "decision_tree",
+      "table": "per_class",
+      "class_index": 0,
+      "cell": "macro_f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "decision_tree",
+      "table": "per_class",
+      "class_index": 1,
+      "cell": "precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "decision_tree",
+      "table": "per_class",
+      "class_index": 1,
+      "cell": "recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "decision_tree",
+      "table": "per_class",
+      "class_index": 1,
+      "cell": "f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "decision_tree",
+      "table": "per_class",
+      "class_index": 1,
+      "cell": "support",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "decision_tree",
+      "table": "per_class",
+      "class_index": 1,
+      "cell": "macro_f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "decision_tree",
+      "table": "confusion_matrix",
+      "cell": "matrix",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "decision_tree",
+      "table": "top_k",
+      "budget_index": 0,
+      "cell": "precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "decision_tree",
+      "table": "top_k",
+      "budget_index": 0,
+      "cell": "recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "decision_tree",
+      "table": "top_k",
+      "budget_index": 0,
+      "cell": "f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "decision_tree",
+      "table": "top_k",
+      "budget_index": 0,
+      "cell": "ndcg",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "decision_tree",
+      "table": "top_k",
+      "budget_index": 1,
+      "cell": "precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "decision_tree",
+      "table": "top_k",
+      "budget_index": 1,
+      "cell": "recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "decision_tree",
+      "table": "top_k",
+      "budget_index": 1,
+      "cell": "f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "decision_tree",
+      "table": "top_k",
+      "budget_index": 1,
+      "cell": "ndcg",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "decision_tree",
+      "table": "top_k",
+      "budget_index": 2,
+      "cell": "precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "decision_tree",
+      "table": "top_k",
+      "budget_index": 2,
+      "cell": "recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "decision_tree",
+      "table": "top_k",
+      "budget_index": 2,
+      "cell": "f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "decision_tree",
+      "table": "top_k",
+      "budget_index": 2,
+      "cell": "ndcg",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "random_forest",
+      "table": "overall",
+      "cell": "accuracy",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "random_forest",
+      "table": "overall",
+      "cell": "balanced_accuracy",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "random_forest",
+      "table": "overall",
+      "cell": "macro_precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "random_forest",
+      "table": "overall",
+      "cell": "macro_recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "random_forest",
+      "table": "overall",
+      "cell": "macro_f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "random_forest",
+      "table": "overall",
+      "cell": "weighted_f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "random_forest",
+      "table": "overall",
+      "cell": "pr_auc",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "random_forest",
+      "table": "overall",
+      "cell": "roc_auc",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "random_forest",
+      "table": "overall",
+      "cell": "brier",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "random_forest",
+      "table": "overall",
+      "cell": "nll",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "random_forest",
+      "table": "overall",
+      "cell": "ece",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "random_forest",
+      "table": "overall",
+      "cell": "risk_precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "random_forest",
+      "table": "overall",
+      "cell": "risk_recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "random_forest",
+      "table": "overall",
+      "cell": "risk_f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "random_forest",
+      "table": "per_class",
+      "class_index": 0,
+      "cell": "precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "random_forest",
+      "table": "per_class",
+      "class_index": 0,
+      "cell": "recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "random_forest",
+      "table": "per_class",
+      "class_index": 0,
+      "cell": "f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "random_forest",
+      "table": "per_class",
+      "class_index": 0,
+      "cell": "support",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "random_forest",
+      "table": "per_class",
+      "class_index": 0,
+      "cell": "macro_f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "random_forest",
+      "table": "per_class",
+      "class_index": 1,
+      "cell": "precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "random_forest",
+      "table": "per_class",
+      "class_index": 1,
+      "cell": "recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "random_forest",
+      "table": "per_class",
+      "class_index": 1,
+      "cell": "f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "random_forest",
+      "table": "per_class",
+      "class_index": 1,
+      "cell": "support",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "random_forest",
+      "table": "per_class",
+      "class_index": 1,
+      "cell": "macro_f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "random_forest",
+      "table": "confusion_matrix",
+      "cell": "matrix",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "random_forest",
+      "table": "top_k",
+      "budget_index": 0,
+      "cell": "precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "random_forest",
+      "table": "top_k",
+      "budget_index": 0,
+      "cell": "recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "random_forest",
+      "table": "top_k",
+      "budget_index": 0,
+      "cell": "f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "random_forest",
+      "table": "top_k",
+      "budget_index": 0,
+      "cell": "ndcg",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "random_forest",
+      "table": "top_k",
+      "budget_index": 1,
+      "cell": "precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "random_forest",
+      "table": "top_k",
+      "budget_index": 1,
+      "cell": "recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "random_forest",
+      "table": "top_k",
+      "budget_index": 1,
+      "cell": "f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "random_forest",
+      "table": "top_k",
+      "budget_index": 1,
+      "cell": "ndcg",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "random_forest",
+      "table": "top_k",
+      "budget_index": 2,
+      "cell": "precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "random_forest",
+      "table": "top_k",
+      "budget_index": 2,
+      "cell": "recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "random_forest",
+      "table": "top_k",
+      "budget_index": 2,
+      "cell": "f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "random_forest",
+      "table": "top_k",
+      "budget_index": 2,
+      "cell": "ndcg",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "hist_gradient_boosting",
+      "table": "overall",
+      "cell": "accuracy",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "hist_gradient_boosting",
+      "table": "overall",
+      "cell": "macro_precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "hist_gradient_boosting",
+      "table": "overall",
+      "cell": "macro_recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "hist_gradient_boosting",
+      "table": "overall",
+      "cell": "weighted_f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "hist_gradient_boosting",
+      "table": "overall",
+      "cell": "roc_auc",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "hist_gradient_boosting",
+      "table": "per_class",
+      "class_index": 0,
+      "cell": "precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "hist_gradient_boosting",
+      "table": "per_class",
+      "class_index": 0,
+      "cell": "recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "hist_gradient_boosting",
+      "table": "per_class",
+      "class_index": 0,
+      "cell": "f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "hist_gradient_boosting",
+      "table": "per_class",
+      "class_index": 0,
+      "cell": "support",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "hist_gradient_boosting",
+      "table": "per_class",
+      "class_index": 0,
+      "cell": "macro_f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "hist_gradient_boosting",
+      "table": "per_class",
+      "class_index": 1,
+      "cell": "precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "hist_gradient_boosting",
+      "table": "per_class",
+      "class_index": 1,
+      "cell": "recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "hist_gradient_boosting",
+      "table": "per_class",
+      "class_index": 1,
+      "cell": "f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "hist_gradient_boosting",
+      "table": "per_class",
+      "class_index": 1,
+      "cell": "support",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "hist_gradient_boosting",
+      "table": "per_class",
+      "class_index": 1,
+      "cell": "macro_f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "hist_gradient_boosting",
+      "table": "confusion_matrix",
+      "cell": "matrix",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "hist_gradient_boosting",
+      "table": "top_k",
+      "budget_index": 0,
+      "cell": "precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "hist_gradient_boosting",
+      "table": "top_k",
+      "budget_index": 0,
+      "cell": "recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "hist_gradient_boosting",
+      "table": "top_k",
+      "budget_index": 0,
+      "cell": "f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "hist_gradient_boosting",
+      "table": "top_k",
+      "budget_index": 0,
+      "cell": "ndcg",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "hist_gradient_boosting",
+      "table": "top_k",
+      "budget_index": 1,
+      "cell": "precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "hist_gradient_boosting",
+      "table": "top_k",
+      "budget_index": 1,
+      "cell": "recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "hist_gradient_boosting",
+      "table": "top_k",
+      "budget_index": 1,
+      "cell": "f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "hist_gradient_boosting",
+      "table": "top_k",
+      "budget_index": 1,
+      "cell": "ndcg",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "hist_gradient_boosting",
+      "table": "top_k",
+      "budget_index": 2,
+      "cell": "precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "hist_gradient_boosting",
+      "table": "top_k",
+      "budget_index": 2,
+      "cell": "recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "hist_gradient_boosting",
+      "table": "top_k",
+      "budget_index": 2,
+      "cell": "f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "hist_gradient_boosting",
+      "table": "top_k",
+      "budget_index": 2,
+      "cell": "ndcg",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "svm",
+      "table": "overall",
+      "cell": "accuracy",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "svm",
+      "table": "overall",
+      "cell": "balanced_accuracy",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "svm",
+      "table": "overall",
+      "cell": "macro_precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "svm",
+      "table": "overall",
+      "cell": "macro_recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "svm",
+      "table": "overall",
+      "cell": "macro_f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "svm",
+      "table": "overall",
+      "cell": "weighted_f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "svm",
+      "table": "overall",
+      "cell": "pr_auc",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "svm",
+      "table": "overall",
+      "cell": "roc_auc",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "svm",
+      "table": "overall",
+      "cell": "brier",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "svm",
+      "table": "overall",
+      "cell": "nll",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "svm",
+      "table": "overall",
+      "cell": "ece",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "svm",
+      "table": "overall",
+      "cell": "risk_precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "svm",
+      "table": "overall",
+      "cell": "risk_recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "svm",
+      "table": "overall",
+      "cell": "risk_f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "svm",
+      "table": "per_class",
+      "class_index": 0,
+      "cell": "precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "svm",
+      "table": "per_class",
+      "class_index": 0,
+      "cell": "recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "svm",
+      "table": "per_class",
+      "class_index": 0,
+      "cell": "f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "svm",
+      "table": "per_class",
+      "class_index": 0,
+      "cell": "support",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "svm",
+      "table": "per_class",
+      "class_index": 0,
+      "cell": "macro_f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "svm",
+      "table": "per_class",
+      "class_index": 1,
+      "cell": "precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "svm",
+      "table": "per_class",
+      "class_index": 1,
+      "cell": "recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "svm",
+      "table": "per_class",
+      "class_index": 1,
+      "cell": "f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "svm",
+      "table": "per_class",
+      "class_index": 1,
+      "cell": "support",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "svm",
+      "table": "per_class",
+      "class_index": 1,
+      "cell": "macro_f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "svm",
+      "table": "confusion_matrix",
+      "cell": "matrix",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "svm",
+      "table": "top_k",
+      "budget_index": 0,
+      "cell": "precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "svm",
+      "table": "top_k",
+      "budget_index": 0,
+      "cell": "recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "svm",
+      "table": "top_k",
+      "budget_index": 0,
+      "cell": "f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "svm",
+      "table": "top_k",
+      "budget_index": 0,
+      "cell": "ndcg",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "svm",
+      "table": "top_k",
+      "budget_index": 1,
+      "cell": "precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "svm",
+      "table": "top_k",
+      "budget_index": 1,
+      "cell": "recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "svm",
+      "table": "top_k",
+      "budget_index": 1,
+      "cell": "f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "svm",
+      "table": "top_k",
+      "budget_index": 1,
+      "cell": "ndcg",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "svm",
+      "table": "top_k",
+      "budget_index": 2,
+      "cell": "precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "svm",
+      "table": "top_k",
+      "budget_index": 2,
+      "cell": "recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "svm",
+      "table": "top_k",
+      "budget_index": 2,
+      "cell": "f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "svm",
+      "table": "top_k",
+      "budget_index": 2,
+      "cell": "ndcg",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": null
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "xgboost",
+      "table": "overall",
+      "cell": "accuracy",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "xgboost",
+      "table": "overall",
+      "cell": "macro_precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "xgboost",
+      "table": "overall",
+      "cell": "macro_recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "xgboost",
+      "table": "overall",
+      "cell": "weighted_f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "xgboost",
+      "table": "overall",
+      "cell": "roc_auc",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "xgboost",
+      "table": "per_class",
+      "class_index": 0,
+      "cell": "precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "xgboost",
+      "table": "per_class",
+      "class_index": 0,
+      "cell": "recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "xgboost",
+      "table": "per_class",
+      "class_index": 0,
+      "cell": "f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "xgboost",
+      "table": "per_class",
+      "class_index": 0,
+      "cell": "support",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "xgboost",
+      "table": "per_class",
+      "class_index": 0,
+      "cell": "macro_f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "xgboost",
+      "table": "per_class",
+      "class_index": 1,
+      "cell": "precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "xgboost",
+      "table": "per_class",
+      "class_index": 1,
+      "cell": "recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "xgboost",
+      "table": "per_class",
+      "class_index": 1,
+      "cell": "f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "xgboost",
+      "table": "per_class",
+      "class_index": 1,
+      "cell": "support",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "xgboost",
+      "table": "per_class",
+      "class_index": 1,
+      "cell": "macro_f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "xgboost",
+      "table": "confusion_matrix",
+      "cell": "matrix",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "xgboost",
+      "table": "top_k",
+      "budget_index": 0,
+      "cell": "precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "xgboost",
+      "table": "top_k",
+      "budget_index": 0,
+      "cell": "recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "xgboost",
+      "table": "top_k",
+      "budget_index": 0,
+      "cell": "f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "xgboost",
+      "table": "top_k",
+      "budget_index": 0,
+      "cell": "ndcg",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "xgboost",
+      "table": "top_k",
+      "budget_index": 1,
+      "cell": "precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "xgboost",
+      "table": "top_k",
+      "budget_index": 1,
+      "cell": "recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "xgboost",
+      "table": "top_k",
+      "budget_index": 1,
+      "cell": "f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "xgboost",
+      "table": "top_k",
+      "budget_index": 1,
+      "cell": "ndcg",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "xgboost",
+      "table": "top_k",
+      "budget_index": 2,
+      "cell": "precision",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "xgboost",
+      "table": "top_k",
+      "budget_index": 2,
+      "cell": "recall",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "xgboost",
+      "table": "top_k",
+      "budget_index": 2,
+      "cell": "f1",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    },
+    {
+      "dataset": "oulad",
+      "model_id": "xgboost",
+      "table": "top_k",
+      "budget_index": 2,
+      "cell": "ndcg",
+      "action": "TRAIN_COMPLETION_MODEL",
+      "historical_artifact_action": "DO_NOT_IMPORT"
+    }
+  ],
+  "all_missing_cells_classified": true
+}

@@ -1,9 +1,0 @@
-{
-  "model_id": "hybrid",
-  "representation": "D3_both_safe",
-  "fusion": "F3_adaptive_entropy",
-  "protocol": "P1_stage_balanced",
-  "early_macro_pr_auc": 0.8104290852756664,
-  "all_endpoint_macro_pr_auc": 0.8410161035121628,
-  "outer_test_used": false
-}

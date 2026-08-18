@@ -1,0 +1,2 @@
+architecture_id,base_architecture_id,numerical_stability_winner,status,reason,existing_fields,outer_labels_used
+B1_A0_SCALAR_GATE_STAGE_CONDITIONED,A0_SCALAR_GATE,A1_VECTOR_GATE,EXPLICIT_STAGE_CONDITIONING_REDUNDANT,Four legal cutoff/stage-context fields already enter the authoritative aggregate branch.,progress_fraction|observed_week_count|weeks_remaining|assessment_available_fraction,False

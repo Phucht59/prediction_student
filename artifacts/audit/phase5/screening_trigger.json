@@ -1,0 +1,9 @@
+{
+  "closed_gap_fraction": null,
+  "closure_trigger": false,
+  "compensating_trigger": true,
+  "h1_minus_h0": 0.0010831456106631387,
+  "initial_gap": -0.003978903763928177,
+  "macro_trigger": false,
+  "passed": true
+}

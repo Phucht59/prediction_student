@@ -1,0 +1,28 @@
+{
+  "schema_version": "uci_baseline_revalidation_v1",
+  "status": "PASS",
+  "historical_source_commit": "b20747dea0b2e80242b92e737e6080a24b022a3f",
+  "safe_revalidation_commit": "248ca8ca7f5f22a6e470dbc5dd1dc11c52231a31",
+  "reason_for_revalidation": "Historical plain SMOTE/ADASYN after categorical preprocessing was superseded by safe S2 revalidation with no synthetic resampling.",
+  "protocol": {
+    "same_frozen_outer_splits": true,
+    "preprocessing_fit_training_only": true,
+    "synthetic_resampling_used": false,
+    "outer_used_for_tuning": false,
+    "official_cnn_bilstm_affected": false
+  },
+  "rows": [
+    {"dataset": "student_mat", "model": "logistic_regression", "old_macro_f1": 0.8793180019908625, "new_macro_f1": 0.8951984435013155, "old_accuracy": 0.8734177215189873, "new_accuracy": 0.8860759493670886, "status": "PASS"},
+    {"dataset": "student_mat", "model": "decision_tree", "old_macro_f1": 0.9066544140712939, "new_macro_f1": 0.9024249717831561, "old_accuracy": 0.8987341772151899, "new_accuracy": 0.8936708860759494, "status": "PASS"},
+    {"dataset": "student_mat", "model": "random_forest", "old_macro_f1": 0.9013865704188285, "new_macro_f1": 0.8998331533550239, "old_accuracy": 0.8936708860759494, "new_accuracy": 0.8911392405063291, "status": "PASS"},
+    {"dataset": "student_mat", "model": "hist_gradient_boosting", "old_macro_f1": 0.8785461958764588, "new_macro_f1": 0.8696861886517059, "old_accuracy": 0.8708860759493671, "new_accuracy": 0.8607594936708861, "status": "PASS"},
+    {"dataset": "student_mat", "model": "svm", "old_macro_f1": 0.8142714606002981, "new_macro_f1": 0.8710297543355626, "old_accuracy": 0.810126582278481, "new_accuracy": 0.8632911392405064, "status": "PASS"},
+    {"dataset": "student_mat", "model": "xgboost", "old_macro_f1": 0.8880001338150677, "new_macro_f1": 0.8815265387865198, "old_accuracy": 0.8784810126582279, "new_accuracy": 0.8734177215189873, "status": "PASS"},
+    {"dataset": "student_por", "model": "logistic_regression", "old_macro_f1": 0.8205410888586723, "new_macro_f1": 0.8378767571281749, "old_accuracy": 0.8520801232665639, "new_accuracy": 0.864406779661017, "status": "PASS"},
+    {"dataset": "student_por", "model": "decision_tree", "old_macro_f1": 0.8487179154783511, "new_macro_f1": 0.8460876710013042, "old_accuracy": 0.8705701078582434, "new_accuracy": 0.8828967642526965, "status": "PASS"},
+    {"dataset": "student_por", "model": "random_forest", "old_macro_f1": 0.8692436817866236, "new_macro_f1": 0.8513805162482108, "old_accuracy": 0.8921417565485362, "new_accuracy": 0.8798151001540832, "status": "PASS"},
+    {"dataset": "student_por", "model": "hist_gradient_boosting", "old_macro_f1": 0.850629682857171, "new_macro_f1": 0.8440556722833327, "old_accuracy": 0.8828967642526965, "new_accuracy": 0.8767334360554699, "status": "PASS"},
+    {"dataset": "student_por", "model": "svm", "old_macro_f1": 0.7824770193282303, "new_macro_f1": 0.8501911605004389, "old_accuracy": 0.8382126348228043, "new_accuracy": 0.8828967642526965, "status": "PASS"},
+    {"dataset": "student_por", "model": "xgboost", "old_macro_f1": 0.8663880491374553, "new_macro_f1": 0.8676585159508289, "old_accuracy": 0.8952234206471494, "new_accuracy": 0.8952234206471494, "status": "PASS"}
+  ]
+}

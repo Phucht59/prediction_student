@@ -1,12 +1,122 @@
-.env
-.venv/
+# Python caches and tooling
 __pycache__/
+**/__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
 
-# Local secrets
+# Virtual environments and local agents
+.venv/
+.venv*/
+venv/
+.agents/
+
+# Secrets and machine-local configuration
 .env
+.env.*
+!.env.example
+*.pid
+*.lock
 
-# Raw datasets
-data/raw/
-raw/
-raw_data/
-data/raw_data/
+# IDE and operating-system files
+.idea/
+.vscode/
+.vs/
+.DS_Store
+
+# JavaScript dependencies
+node_modules/
+
+# Temporary/runtime output
+tmp/
+temp/
+scratch/
+logs/
+outputs/
+results/
+wandb/
+lightning_logs/
+reports/runtime/
+reports/debug/
+artifacts/smoke/
+artifacts/preflight/
+artifacts/experiments/
+*.log
+*.tmp
+*.temp
+Thumbs.db
+.ipynb_checkpoints/
+/%SystemDrive%/
+artifacts/**/runtime/
+artifacts/**/failed_checkpoints/
+artifacts/**/debug/
+reports/**/scratch/
+*.inspect.ndjson
+
+# Local data and model materialization
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+models/saved/*
+!models/saved/.gitkeep
+**/runtime_cache/
+**/.runtime_cache/
+**/job_cache/
+**/search_cache/
+**/preprocessors/
+**/threshold_replay_cache/
+**/optuna.db
+/artifacts/audit/phase4/runtime/smoke_*.pt
+/artifacts/audit/phase5/runtime/smoke_*.pt
+/artifacts/audit/phase5/runtime/predictions/
+/artifacts/final/h1_final/runtime/checkpoints/
+/artifacts/final/h1_final/seed_predictions.parquet
+/artifacts/audit/phase7/optuna/*.db
+/artifacts/audit/phase7/runtime/checkpoints/
+/artifacts/audit/phase7/runtime/predictions/
+/artifacts/audit/phase7/runtime/endpoint_smoke_checkpoint.pt
+/artifacts/audit/phase9/runtime/predictions/
+/artifacts/audit/phase9/runtime/pretraining/
+/artifacts/audit/phase9/runtime/runs/
+/artifacts/canonical_v3/checkpoints/
+/artifacts/canonical_v3/logs/
+/artifacts/canonical_v3/predictions/runs/
+/artifacts/canonical_v3/runtime/canonical_bundle.joblib
+/artifacts/canonical_v3/runtime/runs/
+/artifacts/canonical_v3/runtime/*
+!/artifacts/canonical_v3/runtime/phase11_status.json
+!/artifacts/canonical_v3/runtime/PHASE11_COMPLETE
+/artifacts/recommend_hybrid/scientific_labeling/candidates.parquet
+/artifacts/recommend_hybrid/scientific_labeling/silver_labels.parquet
+
+# Database volumes and safety backups
+database/**/volume/
+database/**/backups/
+backups/
+db_backups/
+*.dump
+*.backup
+*.sql.gz
+
+# Local research history; never a release dependency
+/test_lab/
+/notebooks/
+/backup_git/
+/archive/*
+!/archive/non_release_research/
+!/archive/non_release_research/**
+/artifacts/history/
+/artifacts/refactor/
+/reports/history/
+/reports/refactor/
+/reports/final/explanations/
+/reports/final/manifests/
+/reports/final/metrics/
+/reports/final/predictions/
+/reports/final/recommendations/
+/reports/final/student-mat_3class_final_report.txt

@@ -1,0 +1,220 @@
+{
+  "aggregation": "mean probability across five seeds before argmax; no rounding",
+  "authority_macro_f1": 0.8622587167738002,
+  "class_order": [
+    "low",
+    "medium",
+    "high"
+  ],
+  "control": "PASS",
+  "delta": 0.0,
+  "macro_f1": 0.8622587167738002,
+  "new_runs_completed": 5,
+  "records": 649,
+  "reused_runs": 20,
+  "runs": [
+    {
+      "fold": 0,
+      "mode": "NONE",
+      "run_id": "student_por__none__fold0__seed42",
+      "seed": 42,
+      "weights": null
+    },
+    {
+      "fold": 0,
+      "mode": "NONE",
+      "run_id": "student_por__none__fold0__seed1201",
+      "seed": 1201,
+      "weights": null
+    },
+    {
+      "fold": 0,
+      "mode": "NONE",
+      "run_id": "student_por__none__fold0__seed2026",
+      "seed": 2026,
+      "weights": null
+    },
+    {
+      "fold": 0,
+      "mode": "NONE",
+      "run_id": "student_por__none__fold0__seed3407",
+      "seed": 3407,
+      "weights": null
+    },
+    {
+      "fold": 0,
+      "mode": "NONE",
+      "run_id": "student_por__none__fold0__seed7319",
+      "seed": 7319,
+      "weights": null
+    },
+    {
+      "fold": 1,
+      "mode": "AUTHORITY_CLASS_WEIGHT",
+      "run_id": "student_por__authority_class_weight__fold1__seed42",
+      "seed": 42,
+      "weights": [
+        2.1625,
+        0.5179640718562875,
+        1.6476190476190475
+      ]
+    },
+    {
+      "fold": 1,
+      "mode": "AUTHORITY_CLASS_WEIGHT",
+      "run_id": "student_por__authority_class_weight__fold1__seed1201",
+      "seed": 1201,
+      "weights": [
+        2.1625,
+        0.5179640718562875,
+        1.6476190476190475
+      ]
+    },
+    {
+      "fold": 1,
+      "mode": "AUTHORITY_CLASS_WEIGHT",
+      "run_id": "student_por__authority_class_weight__fold1__seed2026",
+      "seed": 2026,
+      "weights": [
+        2.1625,
+        0.5179640718562875,
+        1.6476190476190475
+      ]
+    },
+    {
+      "fold": 1,
+      "mode": "AUTHORITY_CLASS_WEIGHT",
+      "run_id": "student_por__authority_class_weight__fold1__seed3407",
+      "seed": 3407,
+      "weights": [
+        2.1625,
+        0.5179640718562875,
+        1.6476190476190475
+      ]
+    },
+    {
+      "fold": 1,
+      "mode": "AUTHORITY_CLASS_WEIGHT",
+      "run_id": "student_por__authority_class_weight__fold1__seed7319",
+      "seed": 7319,
+      "weights": [
+        2.1625,
+        0.5179640718562875,
+        1.6476190476190475
+      ]
+    },
+    {
+      "fold": 2,
+      "mode": "NONE",
+      "run_id": "student_por__none__fold2__seed42",
+      "seed": 42,
+      "weights": null
+    },
+    {
+      "fold": 2,
+      "mode": "NONE",
+      "run_id": "student_por__none__fold2__seed1201",
+      "seed": 1201,
+      "weights": null
+    },
+    {
+      "fold": 2,
+      "mode": "NONE",
+      "run_id": "student_por__none__fold2__seed2026",
+      "seed": 2026,
+      "weights": null
+    },
+    {
+      "fold": 2,
+      "mode": "NONE",
+      "run_id": "student_por__none__fold2__seed3407",
+      "seed": 3407,
+      "weights": null
+    },
+    {
+      "fold": 2,
+      "mode": "NONE",
+      "run_id": "student_por__none__fold2__seed7319",
+      "seed": 7319,
+      "weights": null
+    },
+    {
+      "fold": 3,
+      "mode": "NONE",
+      "run_id": "student_por__none__fold3__seed42",
+      "seed": 42,
+      "weights": null
+    },
+    {
+      "fold": 3,
+      "mode": "NONE",
+      "run_id": "student_por__none__fold3__seed1201",
+      "seed": 1201,
+      "weights": null
+    },
+    {
+      "fold": 3,
+      "mode": "NONE",
+      "run_id": "student_por__none__fold3__seed2026",
+      "seed": 2026,
+      "weights": null
+    },
+    {
+      "fold": 3,
+      "mode": "NONE",
+      "run_id": "student_por__none__fold3__seed3407",
+      "seed": 3407,
+      "weights": null
+    },
+    {
+      "fold": 3,
+      "mode": "NONE",
+      "run_id": "student_por__none__fold3__seed7319",
+      "seed": 7319,
+      "weights": null
+    },
+    {
+      "fold": 4,
+      "mode": "NONE",
+      "run_id": "student_por__none__fold4__seed42",
+      "seed": 42,
+      "weights": null
+    },
+    {
+      "fold": 4,
+      "mode": "NONE",
+      "run_id": "student_por__none__fold4__seed1201",
+      "seed": 1201,
+      "weights": null
+    },
+    {
+      "fold": 4,
+      "mode": "NONE",
+      "run_id": "student_por__none__fold4__seed2026",
+      "seed": 2026,
+      "weights": null
+    },
+    {
+      "fold": 4,
+      "mode": "NONE",
+      "run_id": "student_por__none__fold4__seed3407",
+      "seed": 3407,
+      "weights": null
+    },
+    {
+      "fold": 4,
+      "mode": "NONE",
+      "run_id": "student_por__none__fold4__seed7319",
+      "seed": 7319,
+      "weights": null
+    }
+  ],
+  "seeds": [
+    42,
+    1201,
+    2026,
+    3407,
+    7319
+  ],
+  "status": "PASS"
+}

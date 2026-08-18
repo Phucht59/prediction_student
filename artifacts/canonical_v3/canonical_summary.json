@@ -1,0 +1,44 @@
+{
+  "authority_id": "UNIFIED_CANONICAL_BENCHMARK_V3",
+  "gate": "PASS",
+  "information_policy": "STRICT_REAL_TIME",
+  "model_families": {
+    "oulad": "H1_TABULAR_RESIDUAL_EXPERT",
+    "uci": "CNN_BILSTM_UCI_CANONICAL"
+  },
+  "oulad_75_vs_final": {
+    "final_macro_f1": 0.8940709888551659,
+    "final_minus_75_macro_f1": 0.04158001996147309,
+    "stage_75_macro_f1": 0.8524909688936928
+  },
+  "primary_results": {
+    "oulad": {
+      "best_ml": "mlp",
+      "best_ml_macro_f1": 0.8953491254756264,
+      "hybrid_macro_f1": 0.8940709888551659,
+      "hybrid_rank": 2,
+      "hybrid_vs_best_ml_ci95": [-0.00422168555820811, 0.0016682982257444365],
+      "hybrid_vs_best_ml_delta": -0.0012781366204605016
+    },
+    "student_mat": {
+      "best_ml": "decision_tree",
+      "best_ml_macro_f1": 0.906654414071294,
+      "hybrid_macro_f1": 0.8528409745895296,
+      "hybrid_rank": 7,
+      "hybrid_vs_best_ml_ci95": [-0.08594023882135603, -0.02339929604282368],
+      "hybrid_vs_best_ml_delta": -0.053813439481764314
+    },
+    "student_por": {
+      "best_ml": "random_forest",
+      "best_ml_macro_f1": 0.8692436817866236,
+      "hybrid_macro_f1": 0.8519305469609959,
+      "hybrid_rank": 3,
+      "hybrid_vs_best_ml_ci95": [-0.03846405704645306, 0.004419037218355515],
+      "hybrid_vs_best_ml_delta": -0.017313134825627685
+    }
+  },
+  "post_result_tuning": false,
+  "scientific_support": "PARTIALLY",
+  "training_performed": true,
+  "validation": "PASS"
+}

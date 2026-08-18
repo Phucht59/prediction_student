@@ -1,0 +1,1 @@
+{"status": "COMPLETE", "mode": "FIXED_CLASS_WEIGHT", "fold": 0, "seed": 42, "parameter_count": 160492, "fixed_epochs": 11, "train_only_pos_weight": 1.8365642708022667}

@@ -1,0 +1,6 @@
+schema_version: recommend_hybrid_llm_annotation_protocol_v2
+blinded: true
+permit_abstention: true
+final_result_visible: false
+current_model_output_visible: false
+runtime_authorized: false

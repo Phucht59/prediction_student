@@ -1,9 +1,0 @@
-{
-  "authority_commit": "155499f631b9c53e379e5dc7f63cb8dcf00082fb",
-  "git_clean_before_materialization": true,
-  "outer_namespace_present": false,
-  "path": "C:\\hufit\\kltn_outer_eval_staging_v2",
-  "protected_paths_from_frozen_authority": true,
-  "research_worktree_dirty": true,
-  "research_worktree_modified_destructively": false
-}

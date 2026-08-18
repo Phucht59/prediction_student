@@ -1,0 +1,5 @@
+{
+  "status": "STARTED_EXACTLY_ONCE",
+  "started_at_utc": "2026-08-08T11:28:35.875946+00:00",
+  "evaluator_sha256": "48574049b5f1c94654f6b8f103d551f15df2e987c755b4e473be85e43ec70272"
+}

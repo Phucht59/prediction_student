@@ -1,0 +1,99 @@
+{
+  "schema_version": "frozen_hybrid_imbalance_evidence_v1",
+  "status": "COMPLETE",
+  "study_id": "frozen_hybrid_embedding_imbalance_sensitivity",
+  "source_commit": "f2a06a7b77b2bf7519cc2ff70b3997c703ae6819",
+  "random_state": 20260806,
+  "embedding_dimension": 96,
+  "canonical_prediction_checkpoint_replaced": false,
+  "resampling_scope": "TRAIN_EMBEDDINGS_ONLY",
+  "validation_used_for": "THRESHOLD_SELECTION_ONLY",
+  "test_used_for": "FINAL_METRICS_ONLY",
+  "modes": ["none", "class_weight", "smote", "adasyn"],
+  "overall": {
+    "none": {
+      "threshold": 0.633622942534849,
+      "roc_auc": 0.8437520839355729,
+      "pr_auc": 0.8213850291663569,
+      "precision": 0.7436908517350158,
+      "recall": 0.6745350500715308,
+      "f1": 0.7074268567141786,
+      "balanced_accuracy": 0.7586828550913791,
+      "specificity": 0.8428306601112275,
+      "brier_score": 0.16723605297123986,
+      "confusion_matrix": {"tn": 10457, "fp": 1950, "fn": 2730, "tp": 5658}
+    },
+    "class_weight": {
+      "threshold": 0.7569404912951769,
+      "roc_auc": 0.844648481315196,
+      "pr_auc": 0.8218950115512182,
+      "precision": 0.7901866345574955,
+      "recall": 0.6258941344778255,
+      "f1": 0.6985098456625864,
+      "balanced_accuracy": 0.7567691031863617,
+      "specificity": 0.887644071894898,
+      "brier_score": 0.18413135598954583,
+      "confusion_matrix": {"tn": 11013, "fp": 1394, "fn": 3138, "tp": 5250}
+    },
+    "smote": {
+      "threshold": 0.8713767002141407,
+      "roc_auc": 0.8457151968874463,
+      "pr_auc": 0.8218207395598268,
+      "precision": 0.8722121760096444,
+      "recall": 0.5175250357653791,
+      "f1": 0.6496071829405162,
+      "balanced_accuracy": 0.7331318255315975,
+      "specificity": 0.9487386152978158,
+      "brier_score": 0.19091429879969687,
+      "confusion_matrix": {"tn": 11771, "fp": 636, "fn": 4047, "tp": 4341}
+    },
+    "adasyn": {
+      "threshold": 0.8461713205378948,
+      "roc_auc": 0.8472770411383825,
+      "pr_auc": 0.8233028289568495,
+      "precision": 0.8982330574815478,
+      "recall": 0.4787792083929423,
+      "f1": 0.624620888093942,
+      "balanced_accuracy": 0.7210531812094476,
+      "specificity": 0.963327154025953,
+      "brier_score": 0.18144106657982997,
+      "confusion_matrix": {"tn": 11952, "fp": 455, "fn": 4372, "tp": 4016}
+    }
+  },
+  "stage_summary": {
+    "EARLY_20": {
+      "finding": "All evaluated modes selected thresholds that predicted every test row as positive; balanced_accuracy=0.5 and specificity=0.0.",
+      "best_pr_auc_mode": "none",
+      "best_pr_auc": 0.6695094495446,
+      "authority_change": false
+    },
+    "EARLY_35": {
+      "recommended_reporting_mode": "class_weight",
+      "balanced_accuracy": 0.7148966690701551,
+      "precision": 0.609446598519563,
+      "recall": 0.7869822485207101,
+      "f1": 0.6869288835915772,
+      "authority_change": false
+    },
+    "MIDDLE_50": {
+      "recommended_reporting_mode": "none",
+      "precision": 0.9115770282588879,
+      "recall": 0.49554013875123887,
+      "f1": 0.6420545746388443,
+      "balanced_accuracy": 0.732134995229907,
+      "authority_change": false
+    },
+    "LATE_75": {
+      "recommended_reporting_mode": "class_weight",
+      "precision": 0.9754385964912281,
+      "recall": 0.6314593980692789,
+      "f1": 0.7666321957945536,
+      "balanced_accuracy": 0.8112164817554647,
+      "adasyn_recall": 0.8268029528676888,
+      "adasyn_precision": 0.7462839569451564,
+      "authority_change": false
+    }
+  },
+  "conclusion": "No imbalance mode improved precision, recall, F1, balanced accuracy and calibration simultaneously. Synthetic oversampling increased precision in several settings but often reduced recall. The canonical Hybrid checkpoint remains unchanged.",
+  "claim_boundary": "SENSITIVITY_EVIDENCE_ONLY_NOT_CANONICAL_CHECKPOINT_REPLACEMENT"
+}

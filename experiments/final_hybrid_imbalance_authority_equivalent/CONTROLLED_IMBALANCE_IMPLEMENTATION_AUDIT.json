@@ -1,0 +1,50 @@
+{
+  "status": "PASS",
+  "input_contract_ready": true,
+  "roundtrip_max_abs_error": 0.0,
+  "roundtrip_validation": "PASS",
+  "smote": "PASS",
+  "adasyn": "PASS",
+  "checks": [
+    {
+      "mode": "SMOTE",
+      "status": "PASS",
+      "original_train_n": 9511,
+      "synthetic_n": 2805,
+      "resampled_train_n": 12316,
+      "original_class_counts": [
+        6158,
+        3353
+      ],
+      "resampled_class_counts": [
+        6158,
+        6158
+      ],
+      "forward_backward": "PASS",
+      "parameter_count": 160492,
+      "validation_untouched_n": 4732,
+      "test_untouched_n": 4732
+    },
+    {
+      "mode": "ADASYN",
+      "status": "PASS",
+      "original_train_n": 9511,
+      "synthetic_n": 3039,
+      "resampled_train_n": 12550,
+      "original_class_counts": [
+        6158,
+        3353
+      ],
+      "resampled_class_counts": [
+        6158,
+        6392
+      ],
+      "forward_backward": "PASS",
+      "parameter_count": 160492,
+      "validation_untouched_n": 4732,
+      "test_untouched_n": 4732
+    }
+  ],
+  "limitation": "Synthetic samples are numeric input-space sensitivity artifacts, not physically real student trajectories; no causal or behavioral claims are permitted.",
+  "config_identity": "PASS"
+}

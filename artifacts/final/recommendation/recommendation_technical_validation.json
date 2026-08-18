@@ -1,0 +1,38 @@
+{
+  "schema_version": "v6_2_recommendation_scientific_validation_v1",
+  "status": "PASS",
+  "records": 15378,
+  "coverage_generated_or_partial": 0.7908700741318767,
+  "abstention_rate": 0.2091299258681233,
+  "status_counts": {
+    "ABSTAINED": 3216,
+    "GENERATED": 10953,
+    "PARTIAL_EVIDENCE": 1209
+  },
+  "abstention_reasons": {
+    "HIGH_MODEL_DISAGREEMENT": 836,
+    "LOW_CONFIDENCE": 3216,
+    "PREDICTION_ABSTAINED": 3216
+  },
+  "partial_evidence_reasons": {
+    "MISSING_GRADE_TREND_EVIDENCE": 1281
+  },
+  "action_counts": {
+    "ADVISOR_ESCALATION": 3735,
+    "ASSESSMENT_COMPLETION": 2109,
+    "PROGRESS_MONITORING": 12162,
+    "VLE_ENGAGEMENT": 5186
+  },
+  "workload_violations": 0,
+  "action_cap_violations": 0,
+  "duplicate_action_violations": 0,
+  "missing_action_lineage": 0,
+  "deterministic_replay": true,
+  "circular_pseudo_feature_logic": false,
+  "withdrawal_mechanism_enabled": false,
+  "withdrawal_action_paths": 0,
+  "post_cutoff_used": false,
+  "future_oulad_accessed": false,
+  "sensitive_attributes_in_payload_or_reasoning": false,
+  "causal_effectiveness_claimed": false
+}

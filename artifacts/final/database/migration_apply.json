@@ -1,0 +1,19 @@
+{
+  "applied": [],
+  "at": "2026-07-28T05:00:25.505322+00:00",
+  "database": "student_predict_replacement_20260728t050000",
+  "skipped": [
+    "001_create_final_schemas.sql",
+    "002_create_catalog.sql",
+    "003_create_ml.sql",
+    "004_create_recommendation.sql",
+    "005_create_indexes_views.sql",
+    "006_create_roles_permissions.sql",
+    "007_migrate_legacy_data.sql",
+    "008_finalize_cutover.sql",
+    "009_prune_redundant_indexes.sql",
+    "010_archive_legacy_functions.sql",
+    "011_create_v6_2_expert_review_validation.sql"
+  ],
+  "status": "PASS"
+}

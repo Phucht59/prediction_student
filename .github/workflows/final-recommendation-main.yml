@@ -1,0 +1,74 @@
+name: Final Recommendation Release
+
+on:
+  pull_request:
+    paths:
+      - "src/recommend_hybrid/final/**"
+      - "src/recommend_hybrid/__init__.py"
+      - "src/recommend_hybrid/README.md"
+      - "configs/recommend_hybrid/final/**"
+      - "scripts/recommend_hybrid/final/**"
+      - "tests/recommend_hybrid/final/**"
+      - "artifacts/recommend_hybrid/final/**"
+      - "reports/recommend_hybrid/final/**"
+      - ".github/workflows/final-recommendation-main.yml"
+  push:
+    branches:
+      - main
+      - release/recommendation-final-clean
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  final-recommendation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: false
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install focused dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install \
+            numpy pandas scipy scikit-learn pyarrow PyYAML pytest ruff joblib \
+            psycopg2-binary python-dotenv
+
+      - name: Verify frozen release evidence
+        run: python scripts/recommend_hybrid/final/verify_release.py
+
+      - name: Run final namespace tests
+        run: python -m pytest tests/recommend_hybrid/final -q
+
+      - name: Import final public API
+        run: |
+          python -c "from src.recommend_hybrid import RecommendationPipeline, FiveEBMRanker; from src.recommend_hybrid.final import RouteStatus; print(RecommendationPipeline.__name__, FiveEBMRanker.__name__, sorted(x.value for x in RouteStatus))"
+
+      - name: Compile final production scope
+        run: |
+          python -m compileall -q src/recommend_hybrid/final
+          python -m py_compile \
+            src/recommend_hybrid/__init__.py \
+            scripts/recommend_hybrid/final/verify_release.py \
+            tests/recommend_hybrid/final/test_public_api.py \
+            tests/recommend_hybrid/final/test_release_evidence.py
+
+      - name: Ruff final production scope
+        run: |
+          ruff check \
+            src/recommend_hybrid/final \
+            src/recommend_hybrid/__init__.py \
+            scripts/recommend_hybrid/final \
+            tests/recommend_hybrid/final

@@ -1,0 +1,24 @@
+{
+  "schema_version": "disposable_atomic_rollback_validation_v1",
+  "status": "PASS",
+  "disposable_database": "sp_cutover_rollback_test_20260728t045000",
+  "failure_injection": "CONTROLLED_TEST_VALIDATION_FAILURE",
+  "failure_hook_scope": "private_python_test_hook_not_exposed_by_cli",
+  "transaction_rolled_back": true,
+  "post_failure_counts": {
+    "models": 27,
+    "runs": 27,
+    "metrics": 891,
+    "risk_profiles": 15378,
+    "plans": 15378,
+    "actions": 27355,
+    "reviews": 0
+  },
+  "post_failure_schema_hash": "ae06a0afce55148dbe2b5452a9fe4efbf4d37860c5c05209fdb73799f40bf57e",
+  "post_failure_migration_ledger_hash": "7e282754ed65cc3fb8922ec027a4cd91662526a18b35701395c3001c64c4e089",
+  "canonical_rows_committed": false,
+  "recommendation_counts_changed": false,
+  "disposable_database_removed": true,
+  "note": "PostgreSQL identity sequences are non-transactional; logical rows, schema, and migration ledger returned to the verified pre-cutover state.",
+  "credentials": "REDACTED"
+}

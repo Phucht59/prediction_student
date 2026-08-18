@@ -1,0 +1,48 @@
+{
+  "completed_at": 1786214900.552406,
+  "dataset": "student-por",
+  "files": {
+    "checkpoint": "2a044f1273b2328dcc8d17ee018308c63ff43b821b4a6e6c7fed5fd46988bfeb",
+    "predictions": "57c0a63c8b8f7d2ed95ad139c2474aedd2f4b75ebea423f637c1da68c4be7f0b"
+  },
+  "historical_selected_imbalance": "focal",
+  "imbalance_mode": "NONE",
+  "outer_fold": 4,
+  "recipe": {
+    "config": {
+      "activation": "relu",
+      "batch_size": 32,
+      "classification_loss": "focal",
+      "cnn_channels": 48,
+      "context_hidden": 32,
+      "context_layers": 2,
+      "dropout": 0.1762349241106188,
+      "focal_gamma": 2.0,
+      "fusion": "gated",
+      "fusion_hidden": 24,
+      "gradient_clip": 1.0,
+      "input_projection": 16,
+      "learning_rate": 0.0024850009778072126,
+      "lstm_hidden": 16,
+      "lstm_layers": 2,
+      "max_epochs": 70,
+      "objective": "classification_only",
+      "ordinal_weight": 0.0,
+      "parameter_limit": 1500000,
+      "patience": 10,
+      "regression_weight": 0.0,
+      "weight_decay": 1.1211717366533063e-06
+    },
+    "fixed_epochs": 13,
+    "imbalance": "focal",
+    "screening_seed_mean_macro_f1": 0.8910184094718415,
+    "screening_seed_std_macro_f1": 0.012974915907318581,
+    "trial": 32,
+    "worst_score": 0.8700082401574939
+  },
+  "run_id": "student_por__none__fold4__seed1201",
+  "seed": 1201,
+  "source_overlap_safe_records": 0,
+  "status": "COMPLETE",
+  "transfer": "standalone"
+}

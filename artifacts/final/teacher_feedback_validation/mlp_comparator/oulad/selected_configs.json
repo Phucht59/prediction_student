@@ -1,0 +1,48 @@
+[
+  {
+    "dataset": "oulad",
+    "model_id": "mlp",
+    "outer_fold": 0,
+    "outer_rows_used_for_selection": false,
+    "selected_inner_macro_f1": 0.8271600150028563,
+    "selected_params": {
+      "alpha": 0.001,
+      "hidden_layer_sizes": [
+        64
+      ],
+      "learning_rate_init": 0.001
+    },
+    "selected_threshold": 0.515
+  },
+  {
+    "dataset": "oulad",
+    "model_id": "mlp",
+    "outer_fold": 1,
+    "outer_rows_used_for_selection": false,
+    "selected_inner_macro_f1": 0.8270937977251029,
+    "selected_params": {
+      "alpha": 0.001,
+      "hidden_layer_sizes": [
+        128,
+        64
+      ],
+      "learning_rate_init": 0.001
+    },
+    "selected_threshold": 0.475
+  },
+  {
+    "dataset": "oulad",
+    "model_id": "mlp",
+    "outer_fold": 2,
+    "outer_rows_used_for_selection": false,
+    "selected_inner_macro_f1": 0.8246457351488035,
+    "selected_params": {
+      "alpha": 0.01,
+      "hidden_layer_sizes": [
+        64
+      ],
+      "learning_rate_init": 0.001
+    },
+    "selected_threshold": 0.475
+  }
+]

@@ -1,0 +1,32 @@
+[
+  {
+    "comment": "Canonical datasets, versions, and final cohort records.",
+    "owner": "postgres",
+    "schema_name": "catalog"
+  },
+  {
+    "comment": "Read-only legacy structures retained only when non-empty.",
+    "owner": "postgres",
+    "schema_name": "legacy_202607"
+  },
+  {
+    "comment": "Canonical model, run, artifact, and metric metadata.",
+    "owner": "postgres",
+    "schema_name": "ml"
+  },
+  {
+    "comment": "standard public schema",
+    "owner": "pg_database_owner",
+    "schema_name": "public"
+  },
+  {
+    "comment": "Risk profiles and final recommendation entities.",
+    "owner": "postgres",
+    "schema_name": "recommendation"
+  },
+  {
+    "comment": "Final migration control plane.",
+    "owner": "postgres",
+    "schema_name": "system"
+  }
+]

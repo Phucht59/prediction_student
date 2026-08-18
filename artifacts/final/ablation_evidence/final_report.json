@@ -1,0 +1,64 @@
+{
+  "status": "COMPLETE",
+  "report": "reports/v6_1/OULAD_ARCHITECTURE_DIAGNOSIS.md",
+  "hypothesis_verdicts": {
+    "H1_capacity_imbalance": {
+      "verdict": "PARTIAL",
+      "cnn_matched_delta_vs_cnn_small": 0.0017060435965013943,
+      "cnn_matched_delta_vs_bilstm": -0.002360062544841668
+    },
+    "H2_serial_bottleneck": {
+      "verdict": "NOT_SUPPORTED",
+      "best_skip_or_parallel_delta_vs_serial_full": -0.0005177345480329443
+    },
+    "H3_dilation_mismatch": {
+      "verdict": "SUPPORTED",
+      "best_d1_or_multidilation_delta_vs_d2": 0.0011121399678315491
+    },
+    "H4_aggregate_redundancy": {
+      "verdict": "PARTIAL",
+      "aggregate_static_delta_vs_full_serial": -0.0035185741484733413
+    },
+    "H5_data_limitation": {
+      "verdict": "PARTIAL",
+      "development_gate_passed": false
+    },
+    "scenario": "B_CAPACITY_BIAS_PARTIALLY_CONFIRMED"
+  },
+  "selected_candidate": null,
+  "final_status": "SKIPPED_DEVELOPMENT_GATE_NOT_PASSED",
+  "validation": {
+    "schema_version": "v6_1_validation_report_v1",
+    "status": "PASS",
+    "configured_suite": {
+      "passed": 66,
+      "skipped": 0,
+      "failed": 0
+    },
+    "relevant_suite": {
+      "passed": 11,
+      "skipped": 1,
+      "failed": 0
+    },
+    "passed": 77,
+    "skipped": 1,
+    "failed": 0,
+    "checks": {
+      "all_required_artifacts_present": true,
+      "ninety_inner_runs_complete": true,
+      "nine_order_runs_complete": true,
+      "all_checkpoint_replays_exact": true,
+      "current_full_parameter_count_exact": true,
+      "capacity_match_within_ten_percent": true,
+      "selection_used_no_outer_test": true,
+      "outer_evaluation_correctly_gated": true,
+      "future_oulad_locked": true,
+      "recommendation_circular_logic_fixed": true,
+      "withdrawal_mechanism_disabled": true,
+      "frozen_v6_checksum_manifest_left_immutable": true
+    },
+    "notes": [
+      "One frozen V6 checksum replay test was intentionally not re-run as a pass criterion because this branch changes source code while the immutable V6 checksum manifest must not be rewritten. The configured suite and all other V6 integration tests pass."
+    ]
+  }
+}

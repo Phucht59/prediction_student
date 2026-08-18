@@ -1,0 +1,54 @@
+{
+  "checks": {
+    "actions": true,
+    "metrics": true,
+    "migration_ledger_match": true,
+    "models": true,
+    "plans": true,
+    "recommendation_integrity": true,
+    "reviews": true,
+    "risk_profiles": true,
+    "runs": true,
+    "schema_hash_match": true,
+    "sequences_match": true,
+    "views_valid": true
+  },
+  "credentials": "REDACTED",
+  "database": "student_predict_replacement_20260728t050000",
+  "schema_version": "replacement_raw_restore_validation_v1",
+  "source_backup": "student_predict_pre_30_model_cutover_20260728T043451Z.dump",
+  "source_backup_sha256": "725d26e93493038f5f6f87812e29137287d6c43092c0617846bcefd70eee62b2",
+  "state": {
+    "counts": {
+      "actions": 27355,
+      "dataset_versions": 3,
+      "datasets": 3,
+      "metrics": 891,
+      "models": 27,
+      "plans": 15378,
+      "reviews": 0,
+      "risk_profiles": 15378,
+      "runs": 27
+    },
+    "database": "student_predict_replacement_20260728t050000",
+    "integrity": {
+      "abstained_plan_actions": 0,
+      "orphan_actions": 0,
+      "orphan_plans": 0,
+      "status": "PASS"
+    },
+    "migration_ledger_hash": "7e282754ed65cc3fb8922ec027a4cd91662526a18b35701395c3001c64c4e089",
+    "migration_ledger_rows": 10,
+    "schema_hash": "ae06a0afce55148dbe2b5452a9fe4efbf4d37860c5c05209fdb73799f40bf57e",
+    "sequences": {
+      "count": 7,
+      "sha256": "6be91660a71cc50551e96b955bef913e036c727839920429bd62e4cc2c4f3386"
+    },
+    "views": {
+      "ml.final_model_results": true,
+      "recommendation.plan_summary": true,
+      "status": "PASS"
+    }
+  },
+  "status": "PASS"
+}

@@ -1,0 +1,21 @@
+{
+  "checkpoint_policy": "minimize_mean_stage_validation_nll",
+  "commit_sha": "89272ed8bd58f85e3486a00efd0fe3187725f5ab",
+  "concurrency": 1,
+  "device": "NVIDIA GeForce RTX 2060",
+  "gpu_count": 1,
+  "max_epochs": 15,
+  "outer_labels_available_to_runner": false,
+  "phase3_gate": "PASS",
+  "stage_conditioning": {
+    "legal_existing_fields": [
+      "progress_fraction",
+      "observed_week_count",
+      "weeks_remaining",
+      "assessment_available_fraction"
+    ],
+    "status": "EXPLICIT_STAGE_CONDITIONING_REDUNDANT"
+  },
+  "status": "PASS",
+  "temporal_backbone_hash_count": 1
+}

@@ -1,0 +1,43 @@
+schema_version: final_mlp_comparator_v1
+status: PREREGISTERED_BEFORE_OUTER_SCORING
+model_id: mlp
+display_name: MLP
+role: standalone_tabular_comparator
+selected_model_replacement: false
+datasets:
+  student_mat:
+    feature_contract: UCI_S2_LATE_G1_G2
+    split_contract: frozen_final_5_outer_folds
+    classes: [Low, Medium, High]
+  student_por:
+    feature_contract: UCI_S2_LATE_G1_G2
+    split_contract: frozen_final_5_outer_folds
+    classes: [Low, Medium, High]
+  oulad:
+    feature_contract: UNIFIED_OULAD_ML_FEATURE_CONTRACT_V1
+    inputs: [compact_aggregate, static]
+    raw_weekly_tensor_used: false
+    split_contract: frozen_final_3_outer_folds_grouped_by_id_student
+    classes: [Not-at-risk, At-risk]
+seeds: [42, 1201, 2026, 3407, 7319]
+selection:
+  partition: inner_only
+  objective: macro_f1
+  best_seed_selection: prohibited
+  outer_used_for_tuning: false
+search:
+  hidden_layer_sizes: [[64], [64, 32], [128, 64]]
+  activation: relu
+  alpha: [0.0001, 0.001, 0.01]
+  learning_rate_init: 0.001
+  solver: adam
+  max_iter: 300
+  early_stopping: true
+aggregation: record_aligned_mean_probability_across_all_fixed_seeds
+paired_bootstrap:
+  replicates: 5000
+  seed: 20260728
+  student_mat_unit: record_id
+  student_por_unit: record_id
+  oulad_unit: id_student
+future_oulad: LOCKED_NOT_EXECUTED

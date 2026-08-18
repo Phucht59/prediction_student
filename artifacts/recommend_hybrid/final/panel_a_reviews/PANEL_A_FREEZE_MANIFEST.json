@@ -1,0 +1,92 @@
+{
+  "schema_version": "panel_a_external_review_freeze_v1",
+  "status": "FROZEN",
+  "training_eligible": true,
+  "runtime_authorized": false,
+  "panel": "A",
+  "case_count": 300,
+  "annotation_record_count": 1117,
+  "prompt_sha256": "f7edfaacd2fad67bf21a175ccc5c0a46abb81b669c08928ab78009c0a24624f3",
+  "provider": "Google Gemini API",
+  "model_policy": "EXPLICIT_GEMINI_3_5_FLASH_FAMILY_MIXED_REVIEWERS",
+  "case_model_counts": {
+    "gemini-3.5-flash": 20,
+    "gemini-3.5-flash-lite": 280
+  },
+  "record_model_counts": {
+    "gemini-3.5-flash": 77,
+    "gemini-3.5-flash-lite": 1040
+  },
+  "unique_case_action_keys": 1117,
+  "frozen_jsonl_sha256": "4a4871426880bdcd1257dc15c29a36c23de34481f07be68d8e5095dc20efefb9",
+  "batches": [
+    {
+      "batch_id": "panel_a_batch_01",
+      "case_count": 50,
+      "record_count": 188,
+      "prompt_sha256": "f7edfaacd2fad67bf21a175ccc5c0a46abb81b669c08928ab78009c0a24624f3",
+      "source_batch_sha256": "c0210f8a82ffd2a487079911bb80c2d6a10205fc3532ac4529c50300bda57cbe",
+      "manifest_sha256": "5372667a9686a72962a5f9f7391f36f32ffaaa760782ec75d7c5baed0a1a5587",
+      "normalized_sha256": "ba8f608f75819c690b1833ba8b635261308332ea102fcc6f0ee3f884acc66e83",
+      "import_sha256": "ba8f608f75819c690b1833ba8b635261308332ea102fcc6f0ee3f884acc66e83"
+    },
+    {
+      "batch_id": "panel_a_batch_02",
+      "case_count": 50,
+      "record_count": 193,
+      "prompt_sha256": "f7edfaacd2fad67bf21a175ccc5c0a46abb81b669c08928ab78009c0a24624f3",
+      "source_batch_sha256": "e56f16b7ada1167da7d5b00271ef6b2ea3be4328a73035d8b4ab045a3530e2ce",
+      "manifest_sha256": "87477b95743303455f155d41e6f3851d4fcaa19877ba4bfe0fa75faa5d449572",
+      "normalized_sha256": "f1c4decefa371f9418f8860ebf061f4b87e794c884b10fc231e55dbcb7ee385b",
+      "import_sha256": "f1c4decefa371f9418f8860ebf061f4b87e794c884b10fc231e55dbcb7ee385b"
+    },
+    {
+      "batch_id": "panel_a_batch_03",
+      "case_count": 50,
+      "record_count": 180,
+      "prompt_sha256": "f7edfaacd2fad67bf21a175ccc5c0a46abb81b669c08928ab78009c0a24624f3",
+      "source_batch_sha256": "6e63d0ac661133f00d1d75e9fe177173825dd591783f2ea54febde826328183c",
+      "manifest_sha256": "e28228075de7981d2c03afbdf0d8f22d3dbbdbc3bf3443b4d1170dcd60e1b878",
+      "normalized_sha256": "9e8ef3cdb511c83b951a19ce91ce18430ca8cd8c035aa4ba147dcf4e9f8902a2",
+      "import_sha256": "9e8ef3cdb511c83b951a19ce91ce18430ca8cd8c035aa4ba147dcf4e9f8902a2"
+    },
+    {
+      "batch_id": "panel_a_batch_04",
+      "case_count": 50,
+      "record_count": 194,
+      "prompt_sha256": "f7edfaacd2fad67bf21a175ccc5c0a46abb81b669c08928ab78009c0a24624f3",
+      "source_batch_sha256": "a1772098ed10ce79ea3093a6b3b010d5a35b1690c14cc5c850d9e1d772f95463",
+      "manifest_sha256": "d8e67c13bfc1e5b40b95f0e3f6ed6ac1f31fdb33dc64669afd7ddd4dfdbf09e8",
+      "normalized_sha256": "751cb15643a86a62f2189029641ed842f74b9e8edf5bb2993d8a1572ea94786e",
+      "import_sha256": "751cb15643a86a62f2189029641ed842f74b9e8edf5bb2993d8a1572ea94786e"
+    },
+    {
+      "batch_id": "panel_a_batch_05",
+      "case_count": 50,
+      "record_count": 175,
+      "prompt_sha256": "f7edfaacd2fad67bf21a175ccc5c0a46abb81b669c08928ab78009c0a24624f3",
+      "source_batch_sha256": "77855be73ec725375e0169e7edaa9aad3b89ede0245967aef09a009a6c24c61b",
+      "manifest_sha256": "370ebd3c6449b98fade42012267d2acd0d7229402c62843326eb1283430e205a",
+      "normalized_sha256": "519364b06e23bda8be901111df1096721f5c9d5ee326d90374ce4a6c43dbbc32",
+      "import_sha256": "519364b06e23bda8be901111df1096721f5c9d5ee326d90374ce4a6c43dbbc32"
+    },
+    {
+      "batch_id": "panel_a_batch_06",
+      "case_count": 50,
+      "record_count": 187,
+      "prompt_sha256": "f7edfaacd2fad67bf21a175ccc5c0a46abb81b669c08928ab78009c0a24624f3",
+      "source_batch_sha256": "033d8acb4452785d905cccdb9b07e281dd31b14181767fa7864ab4af0a656c0b",
+      "manifest_sha256": "7fd4078ba69d5fa431a14a93a86a8cb5ce4aaa4d9df439fe93f8f3f12ab38930",
+      "normalized_sha256": "9b926c8eb00d1793281ea7d3022faab1e33eb220a39d8a9e9262021b3dc7ff3e",
+      "import_sha256": "9b926c8eb00d1793281ea7d3022faab1e33eb220a39d8a9e9262021b3dc7ff3e"
+    }
+  ],
+  "created_at_utc": "2026-08-07T15:38:09.916029+00:00",
+  "scientific_constraints": [
+    "Panel A only; Panel B remains held out.",
+    "Frozen risk model must not be retrained or changed.",
+    "No causal-effect claim is implied by reviewer labels.",
+    "RUNTIME_AUTHORIZED remains FALSE.",
+    "Training must consume this frozen snapshot or prove byte-equivalent lineage."
+  ]
+}

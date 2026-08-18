@@ -1,0 +1,232 @@
+{
+  "checks": {
+    "counts": true,
+    "deterministic_replay": true,
+    "deterministic_sequence_replay": true,
+    "expert_tables_empty": true,
+    "metric_reconciliation": true,
+    "plan_summary_count": true,
+    "recommendation_integrity": true,
+    "representative_metrics": true,
+    "view_model_counts": true,
+    "views_valid": true
+  },
+  "credentials": "REDACTED",
+  "database": "student_predict_replacement_20260728t050000",
+  "deterministic_sequence_replay": {
+    "after_sha256": "40cecc24693dd32f9e2d4426fcf9a43b073aec4395d6eef8eedb3b89fc1e92ad",
+    "before_sha256": "40cecc24693dd32f9e2d4426fcf9a43b073aec4395d6eef8eedb3b89fc1e92ad",
+    "match": true
+  },
+  "expert_table_counts": {
+    "expert_action_review": 0,
+    "expert_plan_review": 0,
+    "expert_review_case": 0
+  },
+  "final_model_results_counts": {
+    "oulad": 10,
+    "student-mat": 10,
+    "student-por": 10
+  },
+  "idempotent_replay": {
+    "actual_metric_rows": 995,
+    "all_metrics_match_canonical_json": true,
+    "deleted_stale_rows": 0,
+    "detail_mismatches": 0,
+    "duplicate_natural_keys": 0,
+    "expected_metric_rows": 995,
+    "extra_rows": 0,
+    "inserted_rows": 0,
+    "matched_rows": 995,
+    "missing_rows": 0,
+    "updated_rows": 0,
+    "value_mismatches": 0
+  },
+  "metric_reconciliation": {
+    "actual_metric_rows": 995,
+    "all_metrics_match_canonical_json": true,
+    "deleted_stale_rows": 5,
+    "detail_mismatches": 0,
+    "duplicate_natural_keys": 0,
+    "expected_metric_rows": 995,
+    "extra_rows": 0,
+    "inserted_rows": 109,
+    "matched_rows": 886,
+    "missing_rows": 0,
+    "updated_rows": 339,
+    "value_mismatches": 0
+  },
+  "plan_summary_count": 15378,
+  "representative_metric_comparisons": [
+    {
+      "actual": 0.9014601961315334,
+      "dataset": "student_mat",
+      "expected": 0.9014601961315334,
+      "match": true,
+      "metric_name": "macro_f1",
+      "model_id": "cnn_bilstm"
+    },
+    {
+      "actual": 0.8595069898734821,
+      "dataset": "student_mat",
+      "expected": 0.8595069898734821,
+      "match": true,
+      "metric_name": "macro_f1",
+      "model_id": "mlp"
+    },
+    {
+      "actual": 0.8951984435013155,
+      "dataset": "student_mat",
+      "expected": 0.8951984435013155,
+      "match": true,
+      "metric_name": "macro_f1",
+      "model_id": "logistic_regression"
+    },
+    {
+      "actual": 0.9024249717831561,
+      "dataset": "student_mat",
+      "expected": 0.9024249717831561,
+      "match": true,
+      "metric_name": "macro_f1",
+      "model_id": "decision_tree"
+    },
+    {
+      "actual": 0.8710297543355626,
+      "dataset": "student_mat",
+      "expected": 0.8710297543355626,
+      "match": true,
+      "metric_name": "macro_f1",
+      "model_id": "svm"
+    },
+    {
+      "actual": 0.8622587167738002,
+      "dataset": "student_por",
+      "expected": 0.8622587167738002,
+      "match": true,
+      "metric_name": "macro_f1",
+      "model_id": "cnn_bilstm"
+    },
+    {
+      "actual": 0.8303986867455508,
+      "dataset": "student_por",
+      "expected": 0.8303986867455508,
+      "match": true,
+      "metric_name": "macro_f1",
+      "model_id": "mlp"
+    },
+    {
+      "actual": 0.8378767571281749,
+      "dataset": "student_por",
+      "expected": 0.8378767571281749,
+      "match": true,
+      "metric_name": "macro_f1",
+      "model_id": "logistic_regression"
+    },
+    {
+      "actual": 0.8460876710013042,
+      "dataset": "student_por",
+      "expected": 0.8460876710013042,
+      "match": true,
+      "metric_name": "macro_f1",
+      "model_id": "decision_tree"
+    },
+    {
+      "actual": 0.8501911605004389,
+      "dataset": "student_por",
+      "expected": 0.8501911605004389,
+      "match": true,
+      "metric_name": "macro_f1",
+      "model_id": "svm"
+    },
+    {
+      "actual": 0.8676585159508289,
+      "dataset": "student_por",
+      "expected": 0.8676585159508289,
+      "match": true,
+      "metric_name": "macro_f1",
+      "model_id": "xgboost"
+    },
+    {
+      "actual": 0.8280835945631038,
+      "dataset": "oulad",
+      "expected": 0.8280835945631038,
+      "match": true,
+      "metric_name": "macro_f1",
+      "model_id": "cnn_bilstm"
+    },
+    {
+      "actual": 0.8282857900281345,
+      "dataset": "oulad",
+      "expected": 0.8282857900281345,
+      "match": true,
+      "metric_name": "macro_f1",
+      "model_id": "mlp"
+    },
+    {
+      "actual": 0.8258770525030403,
+      "dataset": "oulad",
+      "expected": 0.8258770525030403,
+      "match": true,
+      "metric_name": "macro_f1",
+      "model_id": "xgboost"
+    },
+    {
+      "actual": 0.00868338922803935,
+      "dataset": "oulad",
+      "expected": 0.00868338922803935,
+      "match": true,
+      "metric_name": "ece",
+      "model_id": "cnn_bilstm"
+    },
+    {
+      "actual": 0.8521655437921078,
+      "dataset": "oulad",
+      "expected": 0.8521655437921078,
+      "match": true,
+      "metric_name": "risk_precision",
+      "model_id": "cnn_bilstm"
+    },
+    {
+      "actual": 0.7236024844720497,
+      "dataset": "oulad",
+      "expected": 0.7236024844720497,
+      "match": true,
+      "metric_name": "risk_recall",
+      "model_id": "cnn_bilstm"
+    }
+  ],
+  "schema_version": "replacement_post_cutover_validation_v1",
+  "state": {
+    "counts": {
+      "actions": 27355,
+      "dataset_versions": 3,
+      "datasets": 3,
+      "metrics": 995,
+      "models": 30,
+      "plans": 15378,
+      "reviews": 0,
+      "risk_profiles": 15378,
+      "runs": 30
+    },
+    "database": "student_predict_replacement_20260728t050000",
+    "integrity": {
+      "abstained_plan_actions": 0,
+      "orphan_actions": 0,
+      "orphan_plans": 0,
+      "status": "PASS"
+    },
+    "migration_ledger_hash": "9f6e27f551752f27af8f33c0b0f7623ade08f27934e88a167d396cdae6265a11",
+    "migration_ledger_rows": 11,
+    "schema_hash": "b7dc52279a51987dc11a65170dc71b04535e7d7018d9d9aa55352a36a9acffb6",
+    "sequences": {
+      "count": 9,
+      "sha256": "5fa383a1c774807bf6099452c545ef74b4b32fc46504d7e8f548d6805ec8c553"
+    },
+    "views": {
+      "ml.final_model_results": true,
+      "recommendation.plan_summary": true,
+      "status": "PASS"
+    }
+  },
+  "status": "PASS"
+}

@@ -1,7 +1,0 @@
-{
-  "fit": "inner FIT only",
-  "threshold": "STOP only",
-  "early_task": "20/35/50/75",
-  "final_task": "FINAL-100 independent weights",
-  "outer_test_authorized": false
-}

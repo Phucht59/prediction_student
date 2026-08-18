@@ -1,0 +1,48 @@
+{
+  "completed_at": 1786214725.5464153,
+  "dataset": "student-mat",
+  "files": {
+    "checkpoint": "3d1f803b51c6cdffc0e1b241ab49ce428501c240b97d845a84f93adeb2508062",
+    "predictions": "4dbae4400efce06d3403525d4dfe00334ec4396dffebf2e2618b4935e42ded78"
+  },
+  "historical_selected_imbalance": "focal",
+  "imbalance_mode": "NONE",
+  "outer_fold": 4,
+  "recipe": {
+    "config": {
+      "activation": "relu",
+      "batch_size": 64,
+      "classification_loss": "focal",
+      "cnn_channels": 32,
+      "context_hidden": 48,
+      "context_layers": 2,
+      "dropout": 0.2428028918216966,
+      "focal_gamma": 2.0,
+      "fusion": "gated",
+      "fusion_hidden": 16,
+      "gradient_clip": 1.0,
+      "input_projection": 32,
+      "learning_rate": 0.0028855708714899575,
+      "lstm_hidden": 24,
+      "lstm_layers": 2,
+      "max_epochs": 70,
+      "objective": "classification_only",
+      "ordinal_weight": 0.0,
+      "parameter_limit": 1500000,
+      "patience": 10,
+      "regression_weight": 0.0,
+      "weight_decay": 6.291395897914781e-05
+    },
+    "fixed_epochs": 16,
+    "imbalance": "focal",
+    "screening_seed_mean_macro_f1": 0.896330654018029,
+    "screening_seed_std_macro_f1": 0.039544917306129614,
+    "trial": 51,
+    "worst_score": 0.8420096781374857
+  },
+  "run_id": "student_mat__none__fold4__seed7319",
+  "seed": 7319,
+  "source_overlap_safe_records": 572,
+  "status": "COMPLETE",
+  "transfer": "shared_trunk_subject_specific_heads"
+}

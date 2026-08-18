@@ -1,0 +1,26 @@
+{
+  "schema_version": "final_checksum_manifest_v1",
+  "files": {
+    "artifacts/final/final_results.json": "07afefd254ad8950746c92cc064f3c6f0c8a2273cd2e14496d70ac826f49a5ba",
+    "artifacts/final/final_results.csv": "682c99357fae996624bdca65e2ca999559c4b859a8f9cd3b96d48f0b68be209a",
+    "artifacts/final/model_registry.json": "49ebd0f168ab42f96d4221613cc66796ff7eb1feaef7a101703e51497704788c",
+    "configs/final/comparator_completion_amendment_001.yaml": "b2eeec08fd370419c5a00e6932f1924e5838238c613b5efe873fdf6d3f865175",
+    "configs/final/comparator_completion_amendment_002.yaml": "ab0e090feac157eece09f9ee0d70549500dfca659069b1802bf015095ce38f97",
+    "configs/final/comparator_completion_protocol.yaml": "2cdc30713990ecf6932e69b484b3a1eb3f2c96a1329e682381ad09a5b136f5c2",
+    "configs/final/model_registry.yaml": "c5c05fe3e5b616b288fb105c91093b4b69553951a04efcc444b0e947202f7af2",
+    "configs/final/oulad.yaml": "f2714d2c1f21fb3fd971d9a05ca1e3bac9c63602c72a201a15744b562876c0a2",
+    "configs/final/recommendation.yaml": "8b34efad9b05927a2c6ea4ed035e24bcbbb09510c83620d73b0d2a49a69d51e8",
+    "configs/final/student_mat.yaml": "e3b0cc7c6f7e0c36074f31d6e96dadf83ffad8a6a91118d4f43f80c80263e2dc",
+    "configs/final/student_por.yaml": "2adcfdad63ec93ec9dd89c2feebf0493c973aa5e5c962598d29ed6226477990a",
+    "reports/final/CLAIM_BOUNDARIES.md": "aeed9774fcd16335fd0cbe8c2defbe2e282420f440c8983cb4be156df17d4812",
+    "reports/final/COMPARATOR_COMPLETION_REPORT.md": "1c6725bcd6ddbc9867d9e120ef423040a7f8eec11900e40a7b06aaebd031b78a",
+    "reports/final/FINAL_MODEL_RESULTS.md": "f6305057d3d2e28401ed27ccc57fcfd93ee35326476e5fa947e33942a0c3b6ee",
+    "reports/final/FINAL_PROJECT_REVIEW.md": "2ba6bfdda3afe0ff02102f937440b41f476f583e2da081ef429db4e69809fd4a",
+    "reports/final/IMBALANCE_RESULTS.md": "f6cf5f3a892c9fc7b902b4e888864e127055cd72fa51cef6f96d5db5cee246d4",
+    "reports/final/MISSING_RESULT_AUDIT.md": "dfd452b7170c24baffeebb99c2e45cccc196a74f14d74484d908d29c191f0d9e",
+    "reports/final/OULAD_RESULTS.md": "00d6841494b5e052fa9c8db1538a81a2c860004da9dd3eb68979d023d8db0d33",
+    "reports/final/RECOMMENDATION_RESULTS.md": "88838b25b2f55dcc59705fcc5f58bb1dd551f4a1023c61bd0085462a5231e8b9",
+    "reports/final/STUDENT_MAT_RESULTS.md": "c82575f4101ce8759b4c93b2a07f335098480543463eaeb68498ca1bed4e5c21",
+    "reports/final/STUDENT_POR_RESULTS.md": "3398ffa1e5d94d951848cc3e3c821a126ef05747d256b23c67362b38802f722b"
+  }
+}

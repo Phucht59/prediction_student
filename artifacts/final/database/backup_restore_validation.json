@@ -1,0 +1,61 @@
+{
+  "constraints_valid": true,
+  "counts_match": true,
+  "credentials": "REDACTED",
+  "disposable_database": "student_predict_backup_restore_test_20260728043452",
+  "disposable_database_removed": true,
+  "dry_run_cutover_plan": {
+    "actions_before_after": [
+      27355,
+      27355
+    ],
+    "current_model_dataset_identities": 27,
+    "expected_model_dataset_identities_after_cutover": 30,
+    "plans_before_after": [
+      15378,
+      15378
+    ],
+    "reviews_before_after": [
+      0,
+      0
+    ],
+    "risk_profiles_before_after": [
+      15378,
+      15378
+    ],
+    "status": "PASS"
+  },
+  "migration_ledger_match": true,
+  "restored_counts": {
+    "actions": 27355,
+    "dataset_versions": 3,
+    "datasets": 3,
+    "metrics": 891,
+    "models": 27,
+    "plans": 15378,
+    "reviews": 0,
+    "risk_profiles": 15378,
+    "runs": 27
+  },
+  "restored_migration_ledger_hash": "7e282754ed65cc3fb8922ec027a4cd91662526a18b35701395c3001c64c4e089",
+  "restored_schema_hash": "ae06a0afce55148dbe2b5452a9fe4efbf4d37860c5c05209fdb73799f40bf57e",
+  "schema_hash_match": true,
+  "schema_version": "backup_restore_validation_v1",
+  "sequences_match": true,
+  "source_counts": {
+    "actions": 27355,
+    "dataset_versions": 3,
+    "datasets": 3,
+    "metrics": 891,
+    "models": 27,
+    "plans": 15378,
+    "reviews": 0,
+    "risk_profiles": 15378,
+    "runs": 27
+  },
+  "source_database": "student_predict",
+  "source_migration_ledger_hash": "7e282754ed65cc3fb8922ec027a4cd91662526a18b35701395c3001c64c4e089",
+  "source_schema_hash": "ae06a0afce55148dbe2b5452a9fe4efbf4d37860c5c05209fdb73799f40bf57e",
+  "status": "PASS",
+  "views_valid": true
+}

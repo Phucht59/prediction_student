@@ -1,0 +1,12 @@
+{
+  "architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+  "checkpoint_save_load": true,
+  "forward_loss_backward": true,
+  "metric_serialization": true,
+  "outer_labels_used": false,
+  "parameter_count": 160492,
+  "resume_did_not_duplicate": true,
+  "smoke_only": true,
+  "sqlite_persistent": true,
+  "status": "PASS"
+}

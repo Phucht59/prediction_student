@@ -1,0 +1,85 @@
+{
+  "archive_readable": true,
+  "backup_byte_count": 9466681,
+  "backup_filename": "student_predict_validated_30_model_20260728T050437Z.dump",
+  "backup_managed_path": "backups/student_predict_validated_30_model_20260728T050437Z.dump",
+  "backup_sha256": "9e6f6dd011edc9f93a894eddf8b9e224982310f709909c778e606244ac422060",
+  "checks": {
+    "counts_match": true,
+    "integrity_valid": true,
+    "ledger_match": true,
+    "schema_hash_match": true,
+    "sequences_match": true,
+    "views_valid": true
+  },
+  "credentials": "REDACTED",
+  "restore_test_database": "sp_30_backup_final_test_20260728t050500",
+  "restore_tested": true,
+  "restored_state": {
+    "counts": {
+      "actions": 27355,
+      "dataset_versions": 3,
+      "datasets": 3,
+      "metrics": 995,
+      "models": 30,
+      "plans": 15378,
+      "reviews": 0,
+      "risk_profiles": 15378,
+      "runs": 30
+    },
+    "database": "sp_30_backup_final_test_20260728t050500",
+    "integrity": {
+      "abstained_plan_actions": 0,
+      "orphan_actions": 0,
+      "orphan_plans": 0,
+      "status": "PASS"
+    },
+    "migration_ledger_hash": "9f6e27f551752f27af8f33c0b0f7623ade08f27934e88a167d396cdae6265a11",
+    "migration_ledger_rows": 11,
+    "schema_hash": "b7dc52279a51987dc11a65170dc71b04535e7d7018d9d9aa55352a36a9acffb6",
+    "sequences": {
+      "count": 9,
+      "sha256": "40cecc24693dd32f9e2d4426fcf9a43b073aec4395d6eef8eedb3b89fc1e92ad"
+    },
+    "views": {
+      "ml.final_model_results": true,
+      "recommendation.plan_summary": true,
+      "status": "PASS"
+    }
+  },
+  "schema_version": "validated_30_model_backup_manifest_v1",
+  "source_database": "student_predict_replacement_20260728t050000",
+  "source_state": {
+    "counts": {
+      "actions": 27355,
+      "dataset_versions": 3,
+      "datasets": 3,
+      "metrics": 995,
+      "models": 30,
+      "plans": 15378,
+      "reviews": 0,
+      "risk_profiles": 15378,
+      "runs": 30
+    },
+    "database": "student_predict_replacement_20260728t050000",
+    "integrity": {
+      "abstained_plan_actions": 0,
+      "orphan_actions": 0,
+      "orphan_plans": 0,
+      "status": "PASS"
+    },
+    "migration_ledger_hash": "9f6e27f551752f27af8f33c0b0f7623ade08f27934e88a167d396cdae6265a11",
+    "migration_ledger_rows": 11,
+    "schema_hash": "b7dc52279a51987dc11a65170dc71b04535e7d7018d9d9aa55352a36a9acffb6",
+    "sequences": {
+      "count": 9,
+      "sha256": "40cecc24693dd32f9e2d4426fcf9a43b073aec4395d6eef8eedb3b89fc1e92ad"
+    },
+    "views": {
+      "ml.final_model_results": true,
+      "recommendation.plan_summary": true,
+      "status": "PASS"
+    }
+  },
+  "status": "PASS"
+}

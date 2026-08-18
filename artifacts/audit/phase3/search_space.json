@@ -1,0 +1,69 @@
+{
+  "batch_size": {
+    "choices": [
+      128,
+      256
+    ],
+    "type": "categorical"
+  },
+  "dropout": {
+    "high": 0.35,
+    "low": 0.1,
+    "type": "float"
+  },
+  "frozen": {
+    "amp": false,
+    "architecture": "oulad_unified_stage_aware_v2",
+    "branch_dropout": 0.1,
+    "checkpoint_policy": "minimize_mean_stage_validation_nll",
+    "max_epochs": 15,
+    "optimizer": "AdamW",
+    "pretraining_executed": false,
+    "scheduler": null
+  },
+  "learning_rate": {
+    "high": 0.002,
+    "log": true,
+    "low": 0.0001,
+    "type": "float"
+  },
+  "loss_policy": {
+    "choices": [
+      "standard_bce",
+      "weighted_bce"
+    ],
+    "type": "categorical"
+  },
+  "outcome_weight": {
+    "choices": [
+      0.0,
+      0.1,
+      0.15,
+      0.2
+    ],
+    "type": "categorical"
+  },
+  "pos_weight_strategy": {
+    "choices": [
+      "sqrt_ratio",
+      "full_ratio"
+    ],
+    "type": "conditional_categorical",
+    "when": "loss_policy == weighted_bce"
+  },
+  "survival_weight": {
+    "choices": [
+      0.0,
+      0.1,
+      0.15,
+      0.2
+    ],
+    "type": "categorical"
+  },
+  "weight_decay": {
+    "high": 0.0005,
+    "log": true,
+    "low": 1e-08,
+    "type": "float"
+  }
+}

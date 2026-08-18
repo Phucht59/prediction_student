@@ -1,0 +1,98 @@
+schema_version: final_database_mapping_v1
+source_database:
+  expected_base_tables: 29
+  audited_exact_rows: 0
+  audit_commit: 8c244e60b1f8c38d1ab04cb650ea9d4c24bf7f7f
+rules:
+  preserve_nonempty: true
+  unknown_destination_allowed: false
+  empty_drop_requires_explicit_flag: true
+  archive_schema: legacy_202607
+mappings:
+  - old_table: public.advisor_decisions
+    decision: MERGE
+    destination: recommendation.review
+  - old_table: public.cutoff_feature_snapshots
+    decision: MIGRATE_TO_ARTIFACT
+    destination: ml.artifact
+  - old_table: public.expert_review_cases
+    decision: MERGE
+    destination: recommendation.review
+  - old_table: public.expert_review_ratings
+    decision: MERGE
+    destination: recommendation.review
+  - old_table: public.ml_evidence_bundles
+    decision: MERGE
+    destination: ml.artifact
+  - old_table: public.ml_experiment_runs
+    decision: MERGE
+    destination: ml.run
+  - old_table: public.ml_predictions
+    decision: MIGRATE_TO_ARTIFACT
+    destination: ml.artifact
+  - old_table: public.ml_recommendations
+    decision: MERGE
+    destination: recommendation.plan
+  - old_table: public.ml_run_metrics
+    decision: MERGE
+    destination: ml.metric
+  - old_table: public.ml_run_record_splits
+    decision: MIGRATE_TO_ARTIFACT
+    destination: ml.artifact
+  - old_table: public.ml_schema_migrations
+    decision: MERGE
+    destination: system.schema_migration
+  - old_table: public.prediction_cohorts
+    decision: MERGE
+    destination: catalog.dataset_version
+  - old_table: public.prediction_snapshots
+    decision: MIGRATE_TO_ARTIFACT
+    destination: ml.artifact
+  - old_table: public.recommendation_action_catalog
+    decision: MERGE
+    destination: recommendation.policy
+  - old_table: public.recommendation_actions
+    decision: MERGE
+    destination: recommendation.action
+  - old_table: public.recommendation_feature_registry
+    decision: MERGE
+    destination: recommendation.policy
+  - old_table: public.recommendation_follow_ups
+    decision: MERGE
+    destination: recommendation.review
+  - old_table: public.recommendation_goals
+    decision: MERGE
+    destination: recommendation.plan
+  - old_table: public.recommendation_instances
+    decision: MERGE
+    destination: recommendation.risk_profile
+  - old_table: public.recommendation_outcomes
+    decision: MERGE
+    destination: recommendation.review
+  - old_table: public.recommendation_policies
+    decision: MERGE
+    destination: recommendation.policy
+  - old_table: public.recommendation_revisions
+    decision: MERGE
+    destination: recommendation.plan
+  - old_table: public.snapshot_record_index
+    decision: MIGRATE_TO_ARTIFACT
+    destination: ml.artifact
+  - old_table: public.source_dataset_files
+    decision: MERGE
+    destination: catalog.dataset_version
+  - old_table: public.source_dataset_versions
+    decision: RENAME
+    destination: catalog.dataset_version
+  - old_table: public.source_record_targets
+    decision: MERGE
+    destination: catalog.record
+  - old_table: public.source_records
+    decision: RENAME
+    destination: catalog.record
+  - old_table: public.split_manifest_registry
+    decision: MIGRATE_TO_ARTIFACT
+    destination: ml.artifact
+  - old_table: public.study_extension_runs
+    decision: MERGE
+    destination: ml.run

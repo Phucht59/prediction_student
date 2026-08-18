@@ -1,0 +1,71 @@
+{
+  "files": [
+    {
+      "byte_count": 57418,
+      "path": "artifacts/final/database/audit_after/columns.json",
+      "sha256": "5d76363f783ec43e3269b2e1f07b14387cc5d51e6a1e070b2521b65cfedfb283"
+    },
+    {
+      "byte_count": 51164,
+      "path": "artifacts/final/database/audit_after/constraints.json",
+      "sha256": "232502f6e9bcd7d5245356813f7c2480359746f1c17de3a949a69756c4e4417c"
+    },
+    {
+      "byte_count": 557,
+      "path": "artifacts/final/database/audit_after/database_profile.json",
+      "sha256": "29ebd8d0f40dddb53c6aa8a98050cc4a250569e750ea50e1b16f5d68e27da8d4"
+    },
+    {
+      "byte_count": 2553,
+      "path": "artifacts/final/database/audit_after/functions.json",
+      "sha256": "e75edaeb51811fe915ee9589f3bb8a7a825561257fc65f310abedac4f8670aae"
+    },
+    {
+      "byte_count": 41610,
+      "path": "artifacts/final/database/audit_after/grants.json",
+      "sha256": "e52abb7a139cb6a7ff46845bf97f556fff72385a330ef422b3fd7e5ab95d225e"
+    },
+    {
+      "byte_count": 10465,
+      "path": "artifacts/final/database/audit_after/indexes.json",
+      "sha256": "0e218aeff91449db94d361d306fbbf81639f244fd77c403e4f5af4c97ec48782"
+    },
+    {
+      "byte_count": 882,
+      "path": "artifacts/final/database/audit_after/integrity_checks.json",
+      "sha256": "710ec8356b792c05f589289a76792ee206cdfca1d887bc0bc5810e96887dd33d"
+    },
+    {
+      "byte_count": 2824,
+      "path": "artifacts/final/database/audit_after/objects.json",
+      "sha256": "bef7e4957630f273ae52b3e6b68105c0fac16745a030e2e33aa0eb16196c4092"
+    },
+    {
+      "byte_count": 316,
+      "path": "artifacts/final/database/audit_after/row_counts.csv",
+      "sha256": "271289044fb11e8d6c21a00c6b25045996da3f425ca7f75170e119917006b657"
+    },
+    {
+      "byte_count": 806,
+      "path": "artifacts/final/database/audit_after/schemas.json",
+      "sha256": "f52397524efd66877fcb1eb8a8f919dfb5511f82c283c8dc5073571f4fc4bb22"
+    },
+    {
+      "byte_count": 458,
+      "path": "artifacts/final/database/audit_after/table_sizes.csv",
+      "sha256": "ad6958c875b1660bbde3364a52880db9997cda7282ac7395e2d9d8ed940389ad"
+    },
+    {
+      "byte_count": 4407,
+      "path": "artifacts/final/database/audit_after/tables.json",
+      "sha256": "d9ade92dd84dd2d281d15e6ceb3d7c2c16f5c99b2f84f23949ecc454f6f4240e"
+    },
+    {
+      "byte_count": 658,
+      "path": "artifacts/final/database/audit_after/triggers.json",
+      "sha256": "30297d3dc75696169fe4c65c0842a1c6917da41217508c95b22e6ae5bb9f402c"
+    }
+  ],
+  "generated_at": "2026-07-23T15:43:15.681426+00:00",
+  "schema_version": 1
+}

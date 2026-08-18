@@ -1,0 +1,34 @@
+status: FINAL_AUTHORITY
+model_id: h1_tabular_residual_oulad
+display_name: H1 Tabular Residual CNN-BiLSTM OULAD
+dataset: oulad
+task: binary_student_risk
+information_policy: STRICT_REAL_TIME
+input_contract:
+  temporal_channels: 47
+  aggregate_features: 165
+  score_values: excluded
+  score_derived_aggregates: excluded
+  stages: [E1_EARLY_20PCT, E2_EARLY_35PCT, M1_MIDDLE_50PCT, L1_LATE_75PCT, FINAL]
+architecture:
+  family: H1_TABULAR_RESIDUAL_EXPERT
+  architecture_hash: df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e
+  temporal_backbone_hash: 367b30a4f4cbc58ef380d2735fb1e8ff0efafcac1172db7b3695f4a0bdedcf46
+  parameter_count: 160492
+  topology_frozen: true
+selection:
+  selected_on: inner_validation_only
+  outer_test_used_for_selection: false
+training_protocol:
+  outer_folds: 3
+  fixed_seeds: [42, 1201, 2026, 3407, 7319]
+  threshold: pooled_inner_oof_maximize_macro_f1
+  training_enabled_in_release: false
+artifacts:
+  metrics: artifacts/canonical_v3/oulad_full_metrics_aggregate.csv
+  predictions: artifacts/canonical_v3/predictions/oulad_oof_predictions.parquet
+  checkpoints: artifacts/canonical_v3/checkpoints
+  freeze_manifest: artifacts/canonical_v3/CANONICAL_BENCHMARK_FREEZE.json
+provenance:
+  authority: UNIFIED_CANONICAL_BENCHMARK_V3
+  role: final_oulad_authority

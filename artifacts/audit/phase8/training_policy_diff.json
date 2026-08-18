@@ -1,0 +1,111 @@
+{
+  "H0": {
+    "auxiliary_weights": {
+      "outcome": 0.15,
+      "survival": 0.15
+    },
+    "batch_size": 256,
+    "checkpoint_criterion": "fixed epoch frozen after inner gates",
+    "class_weight": null,
+    "dropout": 0.28548926103262684,
+    "final_epochs": 8,
+    "learning_rate": 0.001462740013487936,
+    "loss": "standard_bce",
+    "optimizer": "AdamW",
+    "pretraining": {
+      "checkpoint_hashes": [
+        "1ffaebb65a3fb8bf14e59f06d8a1dc872be7ea1a286fcfda3c77a7ac8ff9ae5c",
+        "39dbf95bcb6dd8a5012cd12f86d64adfe0ceffe1cb323d79a40af1d2b086d77e",
+        "4fa26e996c0fa4fc346f0f39681a39e8de9bb505a69e241d404f0fd92e12210b",
+        "5823147edaf3643c47d5a6c10c6a73e5fe274cb98342b3c92e1698e2c2af58f9",
+        "688cf34a654f9fde3ed276bad8f6c787698fa37e4564537cb9a16908f51a449a",
+        "8065d06368fd837c97f1d733e402edc8edc69ca0d8b7dbcf752aa07ab4d1ba7c",
+        "966b2886dfad0a9febb66dacbfa4db74027cb6381d66aeea5f5aca11a4e5ab0d",
+        "a9668366d66a52eb0fecb3215fdc64b9de96d4c314a5fffcf80cd0f5b8e5821e",
+        "c3f151b6750a10d94748c3a3a1f1166bdd8e6f6814f050f6e1a7e4f0feda7c87",
+        "cc8d9f7800647333a5a4595b0e8d266af9a2f38d42d51d7290a15e9a36d5d606",
+        "d4709f6dbb96062445fb855239fd6873f7986b900d60b3b0a37c052e0b5dbf46",
+        "d48d8dcf95e8bdf51ab8572d0fd9f032f1d8b6ce37237622ee6a173330e92ea9",
+        "e410e6e7532ba922248c603c6506772fc9d1903482cb67ee905a253768899cfc",
+        "e96492fc4c97377a953d71c76547bd9f4b206d45f783cb916e9f70587df13621",
+        "e9d2da4d3409a3556fd87c19b2cf4c3409e76f7792e95c61cf9633fa7d5301d4"
+      ],
+      "checkpoint_provenance": "15 distinct pretraining checkpoint hashes",
+      "epochs": 5,
+      "gate_inner_macro_f1_gain": 0.0019109047000002155,
+      "gate_inner_pr_auc_gain": 0.0022831749666667456,
+      "id": "P1_MASKED_AND_NEXT_WEEK",
+      "scope": "each outer-training partition only",
+      "tasks": [
+        "masked_activity_band",
+        "masked_active_state",
+        "masked_submission_band",
+        "masked_score_availability",
+        "masked_inactivity_transition",
+        "next_active_state",
+        "next_activity_direction",
+        "next_submission_band",
+        "next_inactivity_transition",
+        "next_score_state_transition"
+      ]
+    },
+    "pretraining_executed": true,
+    "pretraining_requested": true,
+    "scheduler": null,
+    "weight_decay": 1.9904886022582856e-07
+  },
+  "H1": {
+    "checkpoint_criterion": "minimum_inner_endpoint_validation_nll",
+    "class_weight": null,
+    "configs_by_outer_fold": {
+      "0": {
+        "batch_size": 256,
+        "dropout": 0.2368400954250437,
+        "learning_rate": 0.0011484568466276783,
+        "loss_policy": "standard_bce",
+        "outcome_weight": 0.2,
+        "pos_weight_strategy": "not_applicable",
+        "survival_weight": 0.0,
+        "weight_decay": 1.3278646414039475e-06
+      },
+      "1": {
+        "batch_size": 256,
+        "dropout": 0.24970281620434753,
+        "learning_rate": 0.0009342889927929933,
+        "loss_policy": "standard_bce",
+        "outcome_weight": 0.0,
+        "pos_weight_strategy": "not_applicable",
+        "survival_weight": 0.15,
+        "weight_decay": 2.33364982516221e-05
+      },
+      "2": {
+        "batch_size": 128,
+        "dropout": 0.14788186212273952,
+        "learning_rate": 0.001427490474468405,
+        "loss_policy": "standard_bce",
+        "outcome_weight": 0.15,
+        "pos_weight_strategy": "not_applicable",
+        "survival_weight": 0.0,
+        "weight_decay": 1.0731619628337453e-07
+      }
+    },
+    "epoch_aggregation": "round_half_up_median",
+    "loss": "standard_bce",
+    "max_epochs": 15,
+    "optimizer": "AdamW",
+    "pretraining_executed": false,
+    "pretraining_requested": false,
+    "refit_epochs_by_outer_fold": {
+      "0": 10,
+      "1": 12,
+      "2": 5
+    },
+    "scheduler": null
+  },
+  "pretraining_effect_evidence": {
+    "historical_inner_macro_f1_gain": 0.0019109047000002155,
+    "historical_inner_pr_auc_gain": 0.0022831749666667456,
+    "interpretation": "confirmed small/secondary gain, insufficient alone for the 0.029684 final difference"
+  },
+  "status": "MATERIAL_RECIPE_DIFFERENCE"
+}

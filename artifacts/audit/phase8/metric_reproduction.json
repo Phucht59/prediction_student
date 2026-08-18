@@ -1,0 +1,31 @@
+{
+  "H0": {
+    "absolute_difference": 0.0,
+    "pass": true,
+    "reported_macro_f1": 0.8280835945631038,
+    "reproduced_macro_f1": 0.8280835945631038
+  },
+  "H1": {
+    "absolute_difference": 0.0,
+    "pass": true,
+    "reported_macro_f1": 0.7984000886272689,
+    "reproduced_macro_f1": 0.7984000886272689
+  },
+  "early_warning_m1": {
+    "brier": 0.1314677247044063,
+    "macro_f1": 0.7939529749949714,
+    "nll": 0.4078442130774767,
+    "pr_auc": 0.8614981669261308,
+    "source": "artifacts/final/h1_final/stage_metrics.csv"
+  },
+  "macro_f1_delta_h1_minus_h0": -0.02968350593583491,
+  "metric_implementation": "sklearn f1_score average=macro; positive class 1; per-record outer-fold thresholds",
+  "outer_labels_used_for_diagnosis_only": true,
+  "outer_labels_used_for_selection": false,
+  "probability_correlation": 0.9154544340679444,
+  "same_cutoff_days": true,
+  "same_outer_folds": true,
+  "same_record_ids": true,
+  "same_targets": true,
+  "status": "PASS"
+}

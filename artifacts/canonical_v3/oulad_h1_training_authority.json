@@ -1,0 +1,162 @@
+{
+  "endpoint_final": [
+    {
+      "config": {
+        "batch_size": 256,
+        "dropout": 0.2368400954250437,
+        "learning_rate": 0.0011484568466276783,
+        "loss_policy": "standard_bce",
+        "outcome_weight": 0.2,
+        "pos_weight_strategy": "not_applicable",
+        "survival_weight": 0.0,
+        "weight_decay": 1.3278646414039475e-06
+      },
+      "config_hash": "a6c77dcd632281985f6d1acc66c28e40277fc515d450ba8f79c922d100b16d22",
+      "inner_selected_epochs": [
+        12,
+        10
+      ],
+      "outer_fold": 0,
+      "outer_labels_used": false,
+      "role": "endpoint_final",
+      "selected_epoch": 11,
+      "thresholds": {
+        "FINAL": 0.4131951928138733
+      }
+    },
+    {
+      "config": {
+        "batch_size": 256,
+        "dropout": 0.24970281620434753,
+        "learning_rate": 0.0009342889927929933,
+        "loss_policy": "standard_bce",
+        "outcome_weight": 0.0,
+        "pos_weight_strategy": "not_applicable",
+        "survival_weight": 0.15,
+        "weight_decay": 2.33364982516221e-05
+      },
+      "config_hash": "215c846aba5d356cff789659736a6f993280c5915f454a8ce4511765aa5d72b1",
+      "inner_selected_epochs": [
+        7,
+        11
+      ],
+      "outer_fold": 1,
+      "outer_labels_used": false,
+      "role": "endpoint_final",
+      "selected_epoch": 9,
+      "thresholds": {
+        "FINAL": 0.5307857990264893
+      }
+    },
+    {
+      "config": {
+        "batch_size": 128,
+        "dropout": 0.14788186212273952,
+        "learning_rate": 0.001427490474468405,
+        "loss_policy": "standard_bce",
+        "outcome_weight": 0.15,
+        "pos_weight_strategy": "not_applicable",
+        "survival_weight": 0.0,
+        "weight_decay": 1.0731619628337453e-07
+      },
+      "config_hash": "fd7e93437d2c2c073aa84ec3eeb76924df15dd2a5bd219ebee3a5c1575befb8b",
+      "inner_selected_epochs": [
+        6,
+        9
+      ],
+      "outer_fold": 2,
+      "outer_labels_used": false,
+      "role": "endpoint_final",
+      "selected_epoch": 8,
+      "thresholds": {
+        "FINAL": 0.4587457776069641
+      }
+    }
+  ],
+  "shared_stage": [
+    {
+      "config": {
+        "batch_size": 256,
+        "dropout": 0.2368400954250437,
+        "learning_rate": 0.0011484568466276783,
+        "loss_policy": "standard_bce",
+        "outcome_weight": 0.2,
+        "pos_weight_strategy": "not_applicable",
+        "survival_weight": 0.0,
+        "weight_decay": 1.3278646414039475e-06
+      },
+      "config_hash": "a6c77dcd632281985f6d1acc66c28e40277fc515d450ba8f79c922d100b16d22",
+      "inner_selected_epochs": [
+        7,
+        5
+      ],
+      "outer_fold": 0,
+      "outer_labels_used": false,
+      "role": "shared_stage",
+      "selected_epoch": 6,
+      "thresholds": {
+        "E1_EARLY_20PCT": 0.49262160062789917,
+        "E2_EARLY_35PCT": 0.5469506978988647,
+        "FINAL": 0.452163428068161,
+        "L1_LATE_75PCT": 0.45466622710227966,
+        "M1_MIDDLE_50PCT": 0.4668826162815094
+      }
+    },
+    {
+      "config": {
+        "batch_size": 256,
+        "dropout": 0.24970281620434753,
+        "learning_rate": 0.0009342889927929933,
+        "loss_policy": "standard_bce",
+        "outcome_weight": 0.0,
+        "pos_weight_strategy": "not_applicable",
+        "survival_weight": 0.15,
+        "weight_decay": 2.33364982516221e-05
+      },
+      "config_hash": "215c846aba5d356cff789659736a6f993280c5915f454a8ce4511765aa5d72b1",
+      "inner_selected_epochs": [
+        8,
+        6
+      ],
+      "outer_fold": 1,
+      "outer_labels_used": false,
+      "role": "shared_stage",
+      "selected_epoch": 7,
+      "thresholds": {
+        "E1_EARLY_20PCT": 0.4852922260761261,
+        "E2_EARLY_35PCT": 0.47704434394836426,
+        "FINAL": 0.46783462166786194,
+        "L1_LATE_75PCT": 0.3961465060710907,
+        "M1_MIDDLE_50PCT": 0.48205679655075073
+      }
+    },
+    {
+      "config": {
+        "batch_size": 128,
+        "dropout": 0.14788186212273952,
+        "learning_rate": 0.001427490474468405,
+        "loss_policy": "standard_bce",
+        "outcome_weight": 0.15,
+        "pos_weight_strategy": "not_applicable",
+        "survival_weight": 0.0,
+        "weight_decay": 1.0731619628337453e-07
+      },
+      "config_hash": "fd7e93437d2c2c073aa84ec3eeb76924df15dd2a5bd219ebee3a5c1575befb8b",
+      "inner_selected_epochs": [
+        2,
+        6
+      ],
+      "outer_fold": 2,
+      "outer_labels_used": false,
+      "role": "shared_stage",
+      "selected_epoch": 4,
+      "thresholds": {
+        "E1_EARLY_20PCT": 0.48247113823890686,
+        "E2_EARLY_35PCT": 0.44265249371528625,
+        "FINAL": 0.4340582489967346,
+        "L1_LATE_75PCT": 0.5388476848602295,
+        "M1_MIDDLE_50PCT": 0.4547904431819916
+      }
+    }
+  ]
+}

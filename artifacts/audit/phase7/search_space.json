@@ -1,0 +1,49 @@
+{
+  "batch_size": [
+    128,
+    256
+  ],
+  "dropout": [
+    0.1,
+    0.35
+  ],
+  "frozen": {
+    "architecture": "H1_TABULAR_RESIDUAL_EXPERT",
+    "checkpoint": "minimum_endpoint_validation_nll",
+    "max_epochs": 15,
+    "optimizer": "AdamW",
+    "residual_alpha_initial": 0.05,
+    "scheduler": null
+  },
+  "learning_rate": [
+    0.0001,
+    0.002,
+    "log"
+  ],
+  "loss_policy": [
+    "standard_bce",
+    "weighted_bce"
+  ],
+  "outcome_weight": [
+    0.0,
+    0.1,
+    0.15,
+    0.2
+  ],
+  "pos_weight_strategy": [
+    "sqrt_ratio",
+    "full_ratio",
+    "conditional"
+  ],
+  "survival_weight": [
+    0.0,
+    0.1,
+    0.15,
+    0.2
+  ],
+  "weight_decay": [
+    1e-08,
+    0.0005,
+    "log"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "exit_code": 0,
+  "failure_reason": "Aggregation-only resume validation initially rejected the authorized 15-run manifest after outer artifacts existed.",
+  "failure_type": "RESOLVED_INFRASTRUCTURE",
+  "finished_at": "2026-07-30T18:48:51.612577+00:00",
+  "resolution": "Safe resume required the original freeze commit, complete run count, invariant architecture/parameter/candidate hashes, and false outer-label selection flags. No checkpoint was retrained or replaced.",
+  "state": "RESOLVED"
+}

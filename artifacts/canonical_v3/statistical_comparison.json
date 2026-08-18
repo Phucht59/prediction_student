@@ -1,0 +1,23 @@
+{
+  "oulad": {
+    "best_ml": "mlp",
+    "ci_lower": -0.00422168555820811,
+    "ci_upper": 0.0016682982257444365,
+    "delta_macro_f1": -0.0012781366204605016,
+    "replicates": 5000
+  },
+  "student_mat": {
+    "best_ml": "decision_tree",
+    "ci_lower": -0.08594023882135603,
+    "ci_upper": -0.02339929604282368,
+    "delta_macro_f1": -0.053813439481764314,
+    "replicates": 5000
+  },
+  "student_por": {
+    "best_ml": "random_forest",
+    "ci_lower": -0.03846405704645306,
+    "ci_upper": 0.004419037218355515,
+    "delta_macro_f1": -0.017313134825627685,
+    "replicates": 5000
+  }
+}

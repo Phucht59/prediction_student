@@ -1,0 +1,12 @@
+{
+  "checks": {
+    "migrator_not_runtime": true,
+    "reader_cannot_write": true,
+    "roles_least_privileged": true,
+    "roles_present": true,
+    "runtime_search_paths": true,
+    "writer_cannot_drop": true
+  },
+  "credentials": "REDACTED",
+  "status": "PASS"
+}

@@ -1,0 +1,125 @@
+{
+  "decision": {
+    "chosen": "CONTROL",
+    "delta_macro_f1": -7.260424122845777e-05,
+    "reason": "TUNED_NOT_MATERIAL_OR_STABILITY_CALIBRATION_NOT_BETTER",
+    "rule": "tuned if delta>=0.002; otherwise only if positive with nonworse NLL and std<=control+0.001"
+  },
+  "outer_labels_used": false,
+  "selected_source": "CONTROL",
+  "selected_trials": {
+    "0": {
+      "architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+      "config": {
+        "batch_size": 256,
+        "dropout": 0.15343359458470193,
+        "learning_rate": 0.0009211889126976048,
+        "loss_policy": "standard_bce",
+        "outcome_weight": 0.1,
+        "pos_weight_strategy": "not_applicable",
+        "survival_weight": 0.2,
+        "weight_decay": 1.3424601058819086e-08
+      },
+      "config_hash": "b9825e91d7752920c29c24ca5a7cbe1b6041f943c9028d0ca5f8afc125e9e901",
+      "inner_selected_epochs": [
+        10,
+        10
+      ],
+      "metrics": {
+        "brier": 0.13326393180702864,
+        "ece": 0.016573654151806533,
+        "macro_f1": 0.7986268645032875,
+        "nll": 0.4129443359805548,
+        "pr_auc": 0.8586515115222709,
+        "roc_auc": 0.8715376389229952
+      },
+      "outer_fold": 0,
+      "outer_labels_used": false,
+      "parameter_count": 160492,
+      "trial_number": 13,
+      "value": 0.7986268645032875
+    },
+    "1": {
+      "architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+      "config": {
+        "batch_size": 128,
+        "dropout": 0.155828039595897,
+        "learning_rate": 0.001263093016126881,
+        "loss_policy": "standard_bce",
+        "outcome_weight": 0.2,
+        "pos_weight_strategy": "not_applicable",
+        "survival_weight": 0.1,
+        "weight_decay": 0.00039352199757291135
+      },
+      "config_hash": "9fa9d402e90b46cb76feb097ff80a02fc5828a8676bf965d7f37175e10d4b1f2",
+      "inner_selected_epochs": [
+        7,
+        5
+      ],
+      "metrics": {
+        "brier": 0.13301472688562843,
+        "ece": 0.013448266776463451,
+        "macro_f1": 0.7975289461573861,
+        "nll": 0.4138699049949323,
+        "pr_auc": 0.8579992380800192,
+        "roc_auc": 0.8705526203273881
+      },
+      "outer_fold": 1,
+      "outer_labels_used": false,
+      "parameter_count": 160492,
+      "trial_number": 13,
+      "value": 0.7975289461573861
+    },
+    "2": {
+      "architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+      "config": {
+        "batch_size": 256,
+        "dropout": 0.12374299582411452,
+        "learning_rate": 0.0016221523733041955,
+        "loss_policy": "standard_bce",
+        "outcome_weight": 0.0,
+        "pos_weight_strategy": "not_applicable",
+        "survival_weight": 0.15,
+        "weight_decay": 0.00013898047783742103
+      },
+      "config_hash": "8a78ecf62880401601ddc9f91c7c341853530286571ce8aa5899b4c139bb0c97",
+      "inner_selected_epochs": [
+        10,
+        10
+      ],
+      "metrics": {
+        "brier": 0.13402194446958257,
+        "ece": 0.016117804225868154,
+        "macro_f1": 0.7957220546991508,
+        "nll": 0.4164958606222991,
+        "pr_auc": 0.8553520863058439,
+        "roc_auc": 0.8695058472215792
+      },
+      "outer_fold": 2,
+      "outer_labels_used": false,
+      "parameter_count": 160492,
+      "trial_number": 3,
+      "value": 0.7957220546991508
+    }
+  },
+  "stability_summary": {
+    "CONTROL": {
+      "mean_brier": 0.133401955075902,
+      "mean_ece": 0.015221697172977833,
+      "mean_macro_f1": 0.7959128387339325,
+      "mean_nll": 0.4142192251423917,
+      "mean_pr_auc": 0.8575564546697877,
+      "mean_roc_auc": 0.8710407275560167,
+      "std_macro_f1": 0.0017876965865446708
+    },
+    "TUNED": {
+      "mean_brier": 0.13329031854892984,
+      "mean_ece": 0.015075935257538848,
+      "mean_macro_f1": 0.795840234492704,
+      "mean_nll": 0.4138336471197019,
+      "mean_pr_auc": 0.8576999820495242,
+      "mean_roc_auc": 0.8713364502451023,
+      "std_macro_f1": 0.0010445551201689821
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "canonical_fields": {
+    "dataset": "oulad",
+    "model_family": "cnn_bilstm",
+    "outer_fold": 0,
+    "seed": 42,
+    "protocol_id": "final_oulad_prediction_v1",
+    "stage_policy_version": "one_estimator_four_cutoffs_v1",
+    "config_hash": "4033e0a96522ad3b5d23719f1aa73e56793d4f205fde4478ec7aec6b2f15226a",
+    "training_mode": "fixed_epoch_refit"
+  },
+  "training_run_id": "9ceb4b54d286d89df754f14e",
+  "checkpoint_id": "0992195ea8510be21e8b2b9a",
+  "corrected_oulad_deep_checkpoint_manifest_mapping_share_helper": true,
+  "legacy_frozen_artifacts_rewritten": false,
+  "legacy_identity_policy": "read-only frozen evidence; corrected runs require v2 identity",
+  "phase1_legacy_mismatch_count": 45
+}

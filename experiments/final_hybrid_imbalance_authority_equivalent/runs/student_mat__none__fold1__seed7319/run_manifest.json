@@ -1,0 +1,48 @@
+{
+  "completed_at": 1786214647.46145,
+  "dataset": "student-mat",
+  "files": {
+    "checkpoint": "a195feaf9cb7b3921f8c85a2166a413730931f93738f6a4dc625c2c9a403e312",
+    "predictions": "69e5c2d3b37ef2269e23f2d9eceb9fecac0ebc41b84e476e9844c0fd96f0af69"
+  },
+  "historical_selected_imbalance": "focal",
+  "imbalance_mode": "NONE",
+  "outer_fold": 1,
+  "recipe": {
+    "config": {
+      "activation": "relu",
+      "batch_size": 32,
+      "classification_loss": "focal",
+      "cnn_channels": 24,
+      "context_hidden": 16,
+      "context_layers": 2,
+      "dropout": 0.25765725543007967,
+      "focal_gamma": 2.0,
+      "fusion": "concatenation",
+      "fusion_hidden": 24,
+      "gradient_clip": 1.0,
+      "input_projection": 24,
+      "learning_rate": 0.0010162830885790677,
+      "lstm_hidden": 32,
+      "lstm_layers": 1,
+      "max_epochs": 70,
+      "objective": "classification_plus_huber_regression",
+      "ordinal_weight": 0.0,
+      "parameter_limit": 1500000,
+      "patience": 10,
+      "regression_weight": 0.05,
+      "weight_decay": 0.00022625001803713507
+    },
+    "fixed_epochs": 20,
+    "imbalance": "focal",
+    "screening_seed_mean_macro_f1": 0.9079736796268923,
+    "screening_seed_std_macro_f1": 0.018293350035915916,
+    "trial": 37,
+    "worst_score": 0.87003367003367
+  },
+  "run_id": "student_mat__none__fold1__seed7319",
+  "seed": 7319,
+  "source_overlap_safe_records": 573,
+  "status": "COMPLETE",
+  "transfer": "shared_trunk_subject_specific_heads"
+}

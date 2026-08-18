@@ -1,3 +1,175 @@
-artifacts/hybrid/phase1/runtime/downloads/oulad_extracted/studentVle.csv filter=lfs diff=lfs merge=lfs -text
-artifacts/prediction/final/predictions/predictions.csv filter=lfs diff=lfs merge=lfs -text
-data/raw/studentVle.csv filter=lfs diff=lfs merge=lfs -text
+# Protocol files are hashed as repository-canonical LF text.
+configs/*.yaml text eol=lf
+
+# The public final release is byte-stable across Windows/Linux checkouts.
+configs/final/** text eol=lf
+reports/final/** text eol=lf
+artifacts/final/** -text whitespace=-trailing-space,-blank-at-eof
+
+# Unified OULAD replay binaries are versioned through Git LFS. Compact
+# checksums, metrics, manifests, and reports remain ordinary Git objects.
+artifacts/final/unified_stage_aware_oulad/checkpoints/**/*.joblib filter=lfs diff=lfs merge=lfs -text
+artifacts/final/unified_stage_aware_oulad/checkpoints/**/*.pt filter=lfs diff=lfs merge=lfs -text
+artifacts/final/unified_stage_aware_oulad/**/*.parquet filter=lfs diff=lfs merge=lfs -text
+artifacts/canonical_v3/predictions/*.parquet filter=lfs diff=lfs merge=lfs -text
+
+# Windows-generated Study B/C evidence is intentionally hashed with CRLF for
+# machine-readable text outputs. YAML protocols and JSONL decision logs remain LF.
+artifacts/study_b_student_por/**/*.csv text eol=crlf
+artifacts/study_b_student_por/**/*.json text eol=crlf
+artifacts/study_b_student_por/**/*.md text eol=crlf
+artifacts/study_b_student_por/**/*.txt text eol=crlf
+artifacts/study_b_student_por/**/*.yaml text eol=lf
+artifacts/study_b_student_por/**/resolved_config.yaml text eol=crlf
+artifacts/study_b_student_por/**/selected_configs.json text eol=lf
+
+artifacts/study_c_oulad/**/*.csv text eol=crlf
+artifacts/study_c_oulad/**/*.json text eol=crlf
+artifacts/study_c_oulad/**/*.md text eol=crlf
+artifacts/study_c_oulad/**/*.txt text eol=crlf
+artifacts/study_c_oulad/**/*.yaml text eol=lf
+
+artifacts/study_c_oulad_v2/**/*.csv text eol=crlf
+artifacts/study_c_oulad_v2/**/*.json text eol=crlf
+artifacts/study_c_oulad_v2/**/*.md text eol=crlf
+artifacts/study_c_oulad_v2/**/*.txt text eol=crlf
+artifacts/study_c_oulad_v2/**/*.yaml text eol=lf
+artifacts/study_c_oulad_v2/**/*.jsonl text eol=lf
+
+artifacts/study_c_oulad_v3/**/*.csv text eol=crlf
+artifacts/study_c_oulad_v3/**/*.json text eol=crlf
+artifacts/study_c_oulad_v3/**/*.md text eol=crlf
+artifacts/study_c_oulad_v3/**/*.txt text eol=crlf
+artifacts/study_c_oulad_v3/**/*.yaml text eol=lf
+artifacts/study_c_oulad_v3/**/*.jsonl text eol=lf
+
+artifacts/study_c_oulad_v3_closure/**/*.csv text eol=crlf
+artifacts/study_c_oulad_v3_closure/**/*.json text eol=crlf
+artifacts/study_c_oulad_v3_closure/**/*.md text eol=crlf
+artifacts/study_c_oulad_v3_closure/**/*.txt text eol=crlf
+artifacts/study_c_oulad_v3_closure/**/*.yaml text eol=lf
+artifacts/study_c_oulad_v3_closure/**/*.jsonl text eol=lf
+artifacts/study_c_oulad_v3_closure/**/postgres_backup_manifest.json text eol=lf
+
+# Thesis-friendly evidence namespaces retain the byte-level EOL contracts of
+# their immutable pre-cleanup locations.
+artifacts/student_por/**/*.csv text eol=crlf
+artifacts/student_por/**/*.json text eol=crlf
+artifacts/student_por/**/*.md text eol=crlf
+artifacts/student_por/**/*.txt text eol=crlf
+artifacts/student_por/**/*.yaml text eol=lf
+artifacts/student_por/**/resolved_config.yaml text eol=crlf
+artifacts/student_por/**/selected_configs.json text eol=lf
+
+artifacts/oulad/baseline/**/*.csv text eol=crlf
+artifacts/oulad/baseline/**/*.json text eol=crlf
+artifacts/oulad/baseline/**/*.md text eol=crlf
+artifacts/oulad/baseline/**/*.txt text eol=crlf
+artifacts/oulad/baseline/**/*.yaml text eol=lf
+artifacts/oulad/tuning/**/*.csv text eol=crlf
+artifacts/oulad/tuning/**/*.json text eol=crlf
+artifacts/oulad/tuning/**/*.md text eol=crlf
+artifacts/oulad/tuning/**/*.txt text eol=crlf
+artifacts/oulad/tuning/**/*.yaml text eol=lf
+artifacts/oulad/tuning/**/*.jsonl text eol=lf
+artifacts/oulad/temporal/**/*.csv text eol=crlf
+artifacts/oulad/temporal/**/*.json text eol=crlf
+artifacts/oulad/temporal/**/*.md text eol=crlf
+artifacts/oulad/temporal/**/*.txt text eol=crlf
+artifacts/oulad/temporal/**/*.yaml text eol=lf
+artifacts/oulad/temporal/**/*.jsonl text eol=lf
+artifacts/oulad/final/**/*.csv text eol=crlf
+artifacts/oulad/final/**/*.json text eol=crlf
+artifacts/oulad/final/**/*.md text eol=crlf
+artifacts/oulad/final/**/*.txt text eol=crlf
+artifacts/oulad/final/**/*.yaml text eol=lf
+artifacts/oulad/final/**/*.jsonl text eol=lf
+artifacts/oulad/final/**/postgres_backup_manifest.json text eol=lf
+
+# Report mirrors use the same platform-stable presentation encoding.
+reports/study_b_student_por/**/*.csv text eol=crlf
+reports/study_b_student_por/**/*.json text eol=crlf
+reports/study_b_student_por/**/*.md text eol=crlf
+reports/study_b_student_por/**/*.txt text eol=crlf
+reports/study_b_student_por/**/*.yaml text eol=lf
+reports/study_b_student_por/**/resolved_config.yaml text eol=crlf
+reports/study_b_student_por/**/selected_configs.json text eol=lf
+reports/study_c_oulad/**/*.csv text eol=crlf
+reports/study_c_oulad/**/*.json text eol=crlf
+reports/study_c_oulad/**/*.md text eol=crlf
+reports/study_c_oulad/**/*.txt text eol=crlf
+reports/study_c_oulad/**/*.yaml text eol=lf
+reports/study_c_oulad_v2/**/*.csv text eol=crlf
+reports/study_c_oulad_v2/**/*.json text eol=crlf
+reports/study_c_oulad_v2/**/*.md text eol=crlf
+reports/study_c_oulad_v2/**/*.txt text eol=crlf
+reports/study_c_oulad_v2/**/*.yaml text eol=lf
+reports/study_c_oulad_v3/**/*.csv text eol=crlf
+reports/study_c_oulad_v3/**/*.json text eol=crlf
+reports/study_c_oulad_v3/**/*.md text eol=crlf
+reports/study_c_oulad_v3/**/*.txt text eol=crlf
+reports/study_c_oulad_v3/**/*.yaml text eol=lf
+reports/study_c_oulad_v3_closure/**/*.csv text eol=crlf
+reports/study_c_oulad_v3_closure/**/*.json text eol=crlf
+reports/study_c_oulad_v3_closure/**/*.md text eol=crlf
+reports/study_c_oulad_v3_closure/**/*.txt text eol=crlf
+reports/study_c_oulad_v3_closure/**/*.yaml text eol=lf
+
+reports/student_por/**/*.csv text eol=crlf
+reports/student_por/**/*.json text eol=crlf
+reports/student_por/**/*.md text eol=crlf
+reports/student_por/**/*.txt text eol=crlf
+reports/student_por/**/*.yaml text eol=lf
+reports/student_por/**/resolved_config.yaml text eol=crlf
+reports/student_por/**/selected_configs.json text eol=lf
+reports/oulad/baseline/**/*.csv text eol=crlf
+reports/oulad/baseline/**/*.json text eol=crlf
+reports/oulad/baseline/**/*.md text eol=crlf
+reports/oulad/baseline/**/*.txt text eol=crlf
+reports/oulad/baseline/**/*.yaml text eol=lf
+reports/oulad/tuning/**/*.csv text eol=crlf
+reports/oulad/tuning/**/*.json text eol=crlf
+reports/oulad/tuning/**/*.md text eol=crlf
+reports/oulad/tuning/**/*.txt text eol=crlf
+reports/oulad/tuning/**/*.yaml text eol=lf
+reports/oulad/temporal/**/*.csv text eol=crlf
+reports/oulad/temporal/**/*.json text eol=crlf
+reports/oulad/temporal/**/*.md text eol=crlf
+reports/oulad/temporal/**/*.txt text eol=crlf
+reports/oulad/temporal/**/*.yaml text eol=lf
+reports/oulad/final/**/*.csv text eol=crlf
+reports/oulad/final/**/*.json text eol=crlf
+reports/oulad/final/**/*.md text eol=crlf
+reports/oulad/final/**/*.txt text eol=crlf
+reports/oulad/final/**/*.yaml text eol=lf
+
+# V5 protocols, migrations and compact evidence use repository-canonical LF.
+configs/*_v5.yaml text eol=lf
+configs/project_v5_protocol.yaml text eol=lf
+database/v5/**/*.sql text eol=lf
+artifacts/v5/**/*.csv text eol=lf
+artifacts/v5/**/*.json text eol=lf
+artifacts/v5/**/*.jsonl text eol=lf
+artifacts/v5/**/*.md text eol=lf
+artifacts/v5/**/*.txt text eol=lf
+reports/v5/**/*.csv text eol=lf
+reports/v5/**/*.json text eol=lf
+reports/v5/**/*.md text eol=lf
+
+# Frozen imported evidence retains its byte-level whitespace. Whitespace-only
+# endings in these registered files are not release-code defects.
+artifacts/v6/*.json whitespace=-blank-at-eof
+configs/v5_1/*.yaml whitespace=-blank-at-eof
+configs/v6/*.yaml whitespace=-blank-at-eof
+reports/v6/*.md whitespace=-trailing-space,-blank-at-eof
+src/studies/v5/**/*.py whitespace=-blank-at-eof
+src/studies/v5_1/**/*.py whitespace=-blank-at-eof
+src/studies/v6/**/*.py whitespace=-trailing-space,-blank-at-eof
+src/database/**/*.py whitespace=-blank-at-eof
+scripts/*v5*.py whitespace=-blank-at-eof
+scripts/v5_1/*.py whitespace=-blank-at-eof
+scripts/v6/*.py whitespace=-blank-at-eof
+tests/test_v5*.py whitespace=-blank-at-eof
+tests/test_database_v5.py whitespace=-blank-at-eof
+tests/v5_1/*.py whitespace=-blank-at-eof
+tests/v6/*.py whitespace=-blank-at-eof
