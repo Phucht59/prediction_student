@@ -1,0 +1,156 @@
+{
+  "actual_sizes": {
+    "Panel A": 500,
+    "Panel B": 150
+  },
+  "case_overlap": 0,
+  "checksums": {
+    "panel_a": "8980047221bc83a4a9f7f9ce4c3ecde5be5c275193a1cecd3000c5db5c67b20f",
+    "panel_b": "bea69335b089c7a7de365f33176f758cb0bd1fcadff6c8bb6b196d44df77ef84"
+  },
+  "enrollment_overlap": 0,
+  "exclusions": {
+    "final_stage_rows": 0,
+    "invalid_state_rows": 0,
+    "outcome_based_sampling": false
+  },
+  "identity_unit": "student_id; one enrollment_identity and one stage-case selected per sampled student",
+  "outer_fold_counts": {
+    "Panel A": {
+      "0": 168,
+      "1": 167,
+      "2": 165
+    },
+    "Panel B": {
+      "0": 49,
+      "1": 51,
+      "2": 50
+    }
+  },
+  "prediction_authority_version": [
+    "artifacts/prediction/final/predictions/predictions.parquet#sha256=bd3ea11558fce882ae4371af1d6421b2a86f6adaf2ff57254c14b8ec54fca768"
+  ],
+  "risk_band_counts": {
+    "Panel A": {
+      "Borderline": 119,
+      "High": 109,
+      "Low": 272
+    },
+    "Panel B": {
+      "Borderline": 37,
+      "High": 36,
+      "Low": 77
+    }
+  },
+  "risk_band_definition": {
+    "Borderline": "0.33 <= risk_probability < 0.66",
+    "High": "risk_probability >= 0.66",
+    "Low": "risk_probability < 0.33",
+    "meaning": "sampling construct only; not a Hybrid prediction classification threshold"
+  },
+  "sampling_seed": 2026,
+  "source_state_version": "60d9f7d2e2bb4307271ebaf329e6062d1ad4c8058863625f863edff50f55b162",
+  "stage_counts": {
+    "Panel A": {
+      "20pct": 133,
+      "35pct": 129,
+      "50pct": 122,
+      "75pct": 116
+    },
+    "Panel B": {
+      "20pct": 39,
+      "35pct": 38,
+      "50pct": 37,
+      "75pct": 36
+    }
+  },
+  "strata_counts": {
+    "Panel A": {
+      "20pct|0|Borderline": 14,
+      "20pct|0|High": 9,
+      "20pct|0|Low": 22,
+      "20pct|1|Borderline": 16,
+      "20pct|1|High": 8,
+      "20pct|1|Low": 20,
+      "20pct|2|Borderline": 17,
+      "20pct|2|High": 9,
+      "20pct|2|Low": 18,
+      "35pct|0|Borderline": 11,
+      "35pct|0|High": 9,
+      "35pct|0|Low": 23,
+      "35pct|1|Borderline": 12,
+      "35pct|1|High": 9,
+      "35pct|1|Low": 22,
+      "35pct|2|Borderline": 12,
+      "35pct|2|High": 9,
+      "35pct|2|Low": 22,
+      "50pct|0|Borderline": 7,
+      "50pct|0|High": 9,
+      "50pct|0|Low": 25,
+      "50pct|1|Borderline": 8,
+      "50pct|1|High": 9,
+      "50pct|1|Low": 24,
+      "50pct|2|Borderline": 7,
+      "50pct|2|High": 9,
+      "50pct|2|Low": 24,
+      "75pct|0|Borderline": 5,
+      "75pct|0|High": 10,
+      "75pct|0|Low": 24,
+      "75pct|1|Borderline": 5,
+      "75pct|1|High": 10,
+      "75pct|1|Low": 24,
+      "75pct|2|Borderline": 5,
+      "75pct|2|High": 9,
+      "75pct|2|Low": 24
+    },
+    "Panel B": {
+      "20pct|0|Borderline": 4,
+      "20pct|0|High": 3,
+      "20pct|0|Low": 6,
+      "20pct|1|Borderline": 4,
+      "20pct|1|High": 3,
+      "20pct|1|Low": 6,
+      "20pct|2|Borderline": 5,
+      "20pct|2|High": 3,
+      "20pct|2|Low": 5,
+      "35pct|0|Borderline": 3,
+      "35pct|0|High": 3,
+      "35pct|0|Low": 6,
+      "35pct|1|Borderline": 4,
+      "35pct|1|High": 3,
+      "35pct|1|Low": 6,
+      "35pct|2|Borderline": 4,
+      "35pct|2|High": 3,
+      "35pct|2|Low": 6,
+      "50pct|0|Borderline": 2,
+      "50pct|0|High": 3,
+      "50pct|0|Low": 7,
+      "50pct|1|Borderline": 3,
+      "50pct|1|High": 3,
+      "50pct|1|Low": 7,
+      "50pct|2|Borderline": 2,
+      "50pct|2|High": 3,
+      "50pct|2|Low": 7,
+      "75pct|0|Borderline": 2,
+      "75pct|0|High": 3,
+      "75pct|0|Low": 7,
+      "75pct|1|Borderline": 2,
+      "75pct|1|High": 3,
+      "75pct|1|Low": 7,
+      "75pct|2|Borderline": 2,
+      "75pct|2|High": 3,
+      "75pct|2|Low": 7
+    }
+  },
+  "strata_coverage": {
+    "Panel A": 36,
+    "Panel B": 36,
+    "total": 36
+  },
+  "student_overlap": 0,
+  "target_sizes": {
+    "Panel A": 500,
+    "Panel B": 150
+  },
+  "version": "recommendation.panels.v1"
+}

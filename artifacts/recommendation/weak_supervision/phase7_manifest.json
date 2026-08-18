@@ -1,0 +1,157 @@
+{
+  "actions": [
+    "assessment_recovery",
+    "re_engagement",
+    "study_planning",
+    "progress_monitoring",
+    "retrieval_practice"
+  ],
+  "aggregator_by_action": {
+    "assessment_recovery": "SNORKEL",
+    "progress_monitoring": "TWO_SOURCE_CONSENSUS",
+    "re_engagement": "SNORKEL",
+    "retrieval_practice": "SNORKEL",
+    "study_planning": "SNORKEL"
+  },
+  "artifact_checksums": {
+    "case_index": "160cb5e938f286bf98eccd556bd7a377d05214ef2a7c64b31114d106b0e9671e",
+    "matrix_assessment_recovery": "78181e46d069d1f88e66696976c71cc511265561e7b0c61dd5909036a99155cf",
+    "matrix_progress_monitoring": "7fb22a863d603cf9bdec698802d03b62d00a072be175000f3cf1a9e8310d7a13",
+    "matrix_re_engagement": "8c1cd0bdd18a7b3226028db978f0b84d59b23f94e9e59f582653b3f4091d96fa",
+    "matrix_retrieval_practice": "b78f67d7ac01795b3c62ad570111238c53866b02708baff0f13b233853c7c238",
+    "matrix_study_planning": "802e870f7cf1284e7d40889677572b57bb709307389ea9aadac90348e58f86c4",
+    "phase6_source_manifest": "64ee13b4d8a8262244b5acf40f3d21df356743be594531ff78ea77699af9c03c",
+    "silver_labels": "2947735f3b073cba037d640547c7d08bb67102798048aba0111d8a348e7bd2fc",
+    "weak_supervision_yaml": "647f5990f585e4e1a6c4890f16de8bdd9b0a1f1f1cf30ec1d30a9e413004ad50"
+  },
+  "case_counts": {
+    "assessment_recovery": 500,
+    "progress_monitoring": 500,
+    "re_engagement": 500,
+    "retrieval_practice": 500,
+    "study_planning": 500
+  },
+  "config": {
+    "classes": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "label_cardinality": 4,
+    "label_model": {
+      "l2": 0.0,
+      "log_freq": 100,
+      "lr": 0.01,
+      "mu_eps": 1e-08,
+      "n_epochs": 100,
+      "optimizer": "sgd"
+    },
+    "project_seeds": [
+      42,
+      1201,
+      2026
+    ],
+    "stochasticity": {
+      "average_if_stochastic": 1,
+      "max_abs_deviation_threshold": 1e-06,
+      "same_seed_repeats": 2
+    },
+    "version": "recommendation.weak_supervision.v5"
+  },
+  "label_model_version": "recommendation.weak_supervision.v5",
+  "lf_names_by_action": {
+    "assessment_recovery": [
+      "LF_GEMINI35",
+      "LF_GEMMA4",
+      "LF_BEHAVIOR"
+    ],
+    "progress_monitoring": [
+      "LF_GEMINI35",
+      "LF_GEMINI31"
+    ],
+    "re_engagement": [
+      "LF_GEMINI35",
+      "LF_GEMMA4",
+      "LF_BEHAVIOR"
+    ],
+    "retrieval_practice": [
+      "LF_GEMINI35",
+      "LF_GEMMA4",
+      "LF_BEHAVIOR"
+    ],
+    "study_planning": [
+      "LF_GEMINI35",
+      "LF_GEMMA4",
+      "LF_BEHAVIOR"
+    ]
+  },
+  "no_evidence_counts": {
+    "assessment_recovery": 359,
+    "progress_monitoring": 0,
+    "re_engagement": 0,
+    "retrieval_practice": 189,
+    "study_planning": 0
+  },
+  "panel_b_overlap": 0,
+  "phase6_source_manifest_checksum": "64ee13b4d8a8262244b5acf40f3d21df356743be594531ff78ea77699af9c03c",
+  "phase6_source_manifest_version": "recommendation.phase6_source_manifest.v1",
+  "quality_reasons_by_action": {
+    "assessment_recovery": [
+      "prevalence_hard_label_concentration",
+      "seed_averaged_label_model"
+    ],
+    "progress_monitoring": [
+      "correlated_gemini_family",
+      "two_source_consensus_fallback"
+    ],
+    "re_engagement": [
+      "seed_averaged_label_model"
+    ],
+    "retrieval_practice": [
+      "high_source_conflict"
+    ],
+    "study_planning": [
+      "seed_averaged_label_model"
+    ]
+  },
+  "review_counts": {
+    "assessment_recovery": 0,
+    "progress_monitoring": 0,
+    "re_engagement": 0,
+    "retrieval_practice": 311,
+    "study_planning": 0
+  },
+  "seed_policy_by_action": {
+    "assessment_recovery": "average_three_seeds",
+    "progress_monitoring": "not_applicable_two_source_consensus",
+    "re_engagement": "average_three_seeds",
+    "retrieval_practice": "average_three_seeds",
+    "study_planning": "average_three_seeds"
+  },
+  "seeds": [
+    42,
+    1201,
+    2026
+  ],
+  "silver_status_counts": {
+    "NO_WEAK_EVIDENCE": 548,
+    "REVIEW": 311,
+    "VALID": 1641
+  },
+  "status_by_action": {
+    "assessment_recovery": "PASS",
+    "progress_monitoring": "PASS_WITH_WARNING",
+    "re_engagement": "PASS",
+    "retrieval_practice": "REVIEW",
+    "study_planning": "PASS"
+  },
+  "valid_counts": {
+    "assessment_recovery": 141,
+    "progress_monitoring": 500,
+    "re_engagement": 500,
+    "retrieval_practice": 0,
+    "study_planning": 500
+  },
+  "version": "recommendation.phase7_manifest.v1"
+}

@@ -1,0 +1,37 @@
+prompt_version: recommendation_label_v1
+schema_version: recommendation.labeling.v1
+transport: local_user_api_only
+identity:
+  pseudonymous_key: case_id
+  forbidden: [student_id, module, presentation, enrollment_identity, record_id]
+semantic_fields:
+  - case_id
+  - stage
+  - risk_probability
+  - risk_band
+  - inactive_streak
+  - active_days_ratio
+  - recent_activity
+  - activity_trend
+  - assessment_completion
+  - missing_assessments
+  - course_progress
+  - quiz_activity
+  - vle_available
+action_taxonomy: [A1, A2, A3, A4, A5]
+feasibility_context:
+  statuses: [FEASIBLE, INFEASIBLE, UNKNOWN]
+  infeasible_output: {label: ABSTAIN, reason: INFEASIBLE}
+rubric:
+  0: not relevant
+  1: slightly relevant
+  2: relevant
+  3: highly relevant / priority
+  ABSTAIN: insufficient information
+output:
+  one_result_per_case: true
+  labels: [A1, A2, A3, A4, A5]
+  allowed_values: [0, 1, 2, 3, ABSTAIN]
+  confidence: [LOW, MEDIUM, HIGH]
+  confidence_weighting: forbidden
+forbidden_fields: [final_result, target, score, outer_fold, future_features, raw_features]

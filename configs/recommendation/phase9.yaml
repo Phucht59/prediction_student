@@ -1,0 +1,16 @@
+version: recommendation.phase9.v1
+phase8_manifest: artifacts/recommendation/models/phase8_model_manifest.json
+feasibility_version: recommendation.feasibility.v2
+top_k: 3
+seed: 2026
+bootstrap_iterations: 2000
+reference:
+  prompt_version: recommendation_panel_b_reference_v1
+  batch_size: 10
+  providers:
+    REF_GEMINI35:
+      model: gemini-3.5-flash-lite
+    REF_GEMINI31:
+      model: gemini-3.1-flash-lite
+relevant_threshold: 2.0
+a5_release_status: REVIEW_REQUIRED

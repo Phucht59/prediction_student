@@ -1,0 +1,61 @@
+version: recommendation.phase8.v1
+phase7_manifest: artifacts/recommendation/weak_supervision/phase7_manifest.json
+silver_labels: artifacts/recommendation/weak_supervision/silver_labels.parquet
+phase6_source_manifest: artifacts/recommendation/labeling/phase6_source_manifest.json
+seed: 2026
+target: expected_relevance
+training_statuses: [VALID, REVIEW]
+actions:
+  A1: assessment_recovery
+  A2: re_engagement
+  A3: study_planning
+  A4: progress_monitoring
+  A5: retrieval_practice
+features:
+  approved:
+    - stage_code
+    - risk_probability
+    - inactive_streak
+    - active_days_ratio
+    - recent_activity
+    - activity_trend
+    - assessment_completion
+    - missing_assessments
+    - quiz_activity
+    - vle_available
+  excluded:
+    course_progress: FEATURE_EXCLUDED_REDUNDANT_STAGE
+    risk_band: FEATURE_EXCLUDED_DISCRETIZED_DUPLICATE
+cv:
+  n_splits: 5
+  a1_small_n_splits: 3
+  a1_small_n_threshold: 100
+  seed: 2026
+ebm:
+  search:
+    max_bins: [16, 32]
+    interactions: [0, 3]
+    min_samples_leaf: [5, 10]
+  fixed:
+    max_leaves: 3
+    outer_bags: 8
+    inner_bags: 0
+    learning_rate: 0.04
+    early_stopping_rounds: 50
+    early_stopping_tolerance: 1.0e-5
+    validation_size: 0.15
+    max_rounds: 5000
+    n_jobs: 1
+    random_state: 2026
+  a1_prefer_no_interactions: true
+  interaction_keep_relative_mae_gain: 0.01
+ridge:
+  alpha: 1.0
+random_forest:
+  n_estimators: 100
+  max_depth: 4
+  min_samples_leaf: 10
+  random_state: 2026
+  n_jobs: 1
+sample_weight: silver_confidence
+feasibility_version: recommendation.feasibility.v2

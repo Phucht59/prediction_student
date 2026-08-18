@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "checked_snapshots": 135738,
+  "violations": [],
+  "forbidden_predictor_fields": [
+    "G3",
+    "date_unregistration",
+    "final_result",
+    "score",
+    "target"
+  ]
+}

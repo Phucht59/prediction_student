@@ -1,0 +1,24 @@
+version: recommendation.progress_monitoring_gemini31.v1
+model: gemini-3.1-flash-lite
+comparison_model: gemini-3.5-flash-lite
+prompt_version: recommendation_progress_monitoring_gemini31_v1
+comparison_prompt_version: recommendation_a4_replacement_v1
+batch_size: 10
+rate_limit_rpm: 25
+cases: 500
+allowed_evidence:
+  - stage
+  - risk_probability
+  - risk_band
+  - recent_activity
+  - activity_trend
+  - active_days_ratio
+  - assessment_completion
+  - missing_assessments
+  - course_progress
+rubric: [0, 1, 2, 3, ABSTAIN]
+gate:
+  decision: human_review
+  fail_on_degenerate_single_class: true
+  agreement_threshold: null
+  note: Material agreement is reviewed from exact agreement, weighted kappa, distributions, and state-conditioned diagnostics; no automatic hard threshold is asserted.

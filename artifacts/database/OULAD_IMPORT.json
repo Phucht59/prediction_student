@@ -1,0 +1,14 @@
+{
+  "dataset_key": "OULAD",
+  "version": "checked-in-static",
+  "source_path": "C:\\hufit\\student\\data\\raw",
+  "started_at": "2026-08-17T14:14:13.660516+00:00",
+  "source_sha256": "0d514603844ee21494fc687a6080ba4d77cbe50608343a3261708847ac7211f2",
+  "student_count": 28785,
+  "course_count": 22,
+  "enrollment_count": 32593,
+  "snapshot_count": 132654,
+  "temporal_observation_count": 1212577,
+  "status": "COMPLETED",
+  "completed_at": "2026-08-17T14:33:21.492116+00:00"
+}

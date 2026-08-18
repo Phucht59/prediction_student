@@ -1,0 +1,458 @@
+{
+  "action_status": {
+    "assessment_recovery": "PASS",
+    "progress_monitoring": "PASS_WITH_WARNING",
+    "re_engagement": "PASS",
+    "retrieval_practice": "REVIEW",
+    "study_planning": "PASS"
+  },
+  "bundle_version": "recommendation.final_freeze.v1",
+  "final_actions": [
+    "assessment_recovery",
+    "re_engagement",
+    "study_planning",
+    "progress_monitoring",
+    "retrieval_practice"
+  ],
+  "freeze_version": "recommendation.final_freeze.v1",
+  "phase6": {
+    "behavioral_rows": 2500,
+    "effective_llm_rows": 5000,
+    "panel_a_case_count": 500,
+    "panel_b_case_count": 150,
+    "panel_b_overlap_count": 0,
+    "version": "recommendation.phase6_source_manifest.v1"
+  },
+  "phase7": {
+    "aggregator_by_action": {
+      "assessment_recovery": "SNORKEL",
+      "progress_monitoring": "TWO_SOURCE_CONSENSUS",
+      "re_engagement": "SNORKEL",
+      "retrieval_practice": "SNORKEL",
+      "study_planning": "SNORKEL"
+    },
+    "no_evidence_counts": {
+      "assessment_recovery": 359,
+      "progress_monitoring": 0,
+      "re_engagement": 0,
+      "retrieval_practice": 189,
+      "study_planning": 0
+    },
+    "review_counts": {
+      "assessment_recovery": 0,
+      "progress_monitoring": 0,
+      "re_engagement": 0,
+      "retrieval_practice": 311,
+      "study_planning": 0
+    },
+    "silver_status_counts": {
+      "NO_WEAK_EVIDENCE": 548,
+      "REVIEW": 311,
+      "VALID": 1641
+    },
+    "valid_counts": {
+      "assessment_recovery": 141,
+      "progress_monitoring": 500,
+      "re_engagement": 500,
+      "retrieval_practice": 0,
+      "study_planning": 500
+    }
+  },
+  "phase8": {
+    "course_progress": "FEATURE_EXCLUDED_REDUNDANT_STAGE",
+    "features": [
+      "stage_code",
+      "risk_probability",
+      "inactive_streak",
+      "active_days_ratio",
+      "recent_activity",
+      "activity_trend",
+      "assessment_completion",
+      "missing_assessments",
+      "quiz_activity",
+      "vle_available"
+    ],
+    "models": {
+      "assessment_recovery": {
+        "checksum": "fba7378735bd492712b50a07f2c07d833b6b00839a62d3db87f6da76ea2b3ab5",
+        "excluded_no_evidence_rows": 359,
+        "oof_mae": 0.03654340568611426,
+        "oof_rmse": 0.09908330993098402,
+        "quality_status": "PASS",
+        "selected_config": {
+          "interactions": 0,
+          "max_bins": 16,
+          "min_samples_leaf": 10
+        },
+        "training_rows": 141
+      },
+      "progress_monitoring": {
+        "checksum": "bf101f0c38355831e0b9fdeea2174708c60c844cbf941c0776850399593d75fb",
+        "excluded_no_evidence_rows": 0,
+        "oof_mae": 0.36760926036585195,
+        "oof_rmse": 0.4542979137714326,
+        "quality_status": "PASS_WITH_WARNING",
+        "selected_config": {
+          "interactions": 0,
+          "max_bins": 32,
+          "min_samples_leaf": 5
+        },
+        "training_rows": 500
+      },
+      "re_engagement": {
+        "checksum": "ccedddf3f4b01c6f1d8ec0b73bebac5982ac6ac7f4ef91b00c92f8082de46eaa",
+        "excluded_no_evidence_rows": 0,
+        "oof_mae": 0.25666874937254225,
+        "oof_rmse": 0.355348237178209,
+        "quality_status": "PASS",
+        "selected_config": {
+          "interactions": 3,
+          "max_bins": 32,
+          "min_samples_leaf": 10
+        },
+        "training_rows": 500
+      },
+      "retrieval_practice": {
+        "checksum": "3c254509e4ab05faac32735450505859f05ed8d91436a0fbb51cdf17ae8d700a",
+        "excluded_no_evidence_rows": 189,
+        "oof_mae": 0.12346721989145841,
+        "oof_rmse": 0.1528006865482001,
+        "quality_status": "REVIEW",
+        "selected_config": {
+          "interactions": 3,
+          "max_bins": 16,
+          "min_samples_leaf": 5
+        },
+        "training_rows": 311
+      },
+      "study_planning": {
+        "checksum": "878fbb04b9e11fafd6d79846ab56d3d516eadfb58ae34a334a8606b6ddb32091",
+        "excluded_no_evidence_rows": 0,
+        "oof_mae": 0.16577760841115918,
+        "oof_rmse": 0.23232218553318287,
+        "quality_status": "PASS",
+        "selected_config": {
+          "interactions": 3,
+          "max_bins": 32,
+          "min_samples_leaf": 10
+        },
+        "training_rows": 500
+      }
+    },
+    "panel_a_oof_ranking": {
+      "ACTION_STAGE_PRIOR": {
+        "a5_top1_rate": 0.086,
+        "a5_top3_rate": 0.528,
+        "coverage": 1.0,
+        "invalid_action_rate": 0.0,
+        "mrr": 0.9166666666666666,
+        "n_cases": 500,
+        "n_ndcg": 500,
+        "ndcg@3": 0.8426912570907714,
+        "pairwise_accuracy": 0.5772,
+        "precision@1": 0.398,
+        "recall@3": 0.8252923976608187,
+        "review_plan_rate": 0.086
+      },
+      "EBM": {
+        "a5_top1_rate": 0.278,
+        "a5_top3_rate": 0.434,
+        "coverage": 1.0,
+        "invalid_action_rate": 0.0,
+        "mrr": 0.9583333333333334,
+        "n_cases": 500,
+        "n_ndcg": 500,
+        "ndcg@3": 0.9748577117201827,
+        "pairwise_accuracy": 0.8168666666666667,
+        "precision@1": 0.426,
+        "recall@3": 0.9345760233918128,
+        "review_plan_rate": 0.278
+      },
+      "RANDOM_FOREST": {
+        "a5_top1_rate": 0.26,
+        "a5_top3_rate": 0.434,
+        "coverage": 1.0,
+        "invalid_action_rate": 0.0,
+        "mrr": 0.9671052631578947,
+        "n_cases": 500,
+        "n_ndcg": 500,
+        "ndcg@3": 0.9773974197949056,
+        "pairwise_accuracy": 0.8315333333333333,
+        "precision@1": 0.432,
+        "recall@3": 0.9396929824561403,
+        "review_plan_rate": 0.26
+      },
+      "RIDGE": {
+        "a5_top1_rate": 0.266,
+        "a5_top3_rate": 0.422,
+        "coverage": 1.0,
+        "invalid_action_rate": 0.0,
+        "mrr": 0.9466374269005848,
+        "n_cases": 500,
+        "n_ndcg": 500,
+        "ndcg@3": 0.9686321735866429,
+        "pairwise_accuracy": 0.8046,
+        "precision@1": 0.416,
+        "recall@3": 0.9192251461988303,
+        "review_plan_rate": 0.266
+      }
+    }
+  },
+  "phase9": {
+    "a5": {
+      "review_plan_rate": 0.38,
+      "top1_rate": 0.38,
+      "top3_rate": 0.5933333333333334,
+      "warning": "REVIEW"
+    },
+    "agreement": {
+      "_overall": {
+        "exact_agreement": 596,
+        "exact_agreement_rate": 0.7946666666666666,
+        "n": 750,
+        "same_family_warning": "Gemini 3.5 and Gemini 3.1 are the same model family and are not independent expert annotators."
+      },
+      "assessment_recovery": {
+        "exact_agreement": 150,
+        "exact_agreement_rate": 1.0,
+        "gemini31_distribution": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 41,
+          "ABSTAIN": 109
+        },
+        "gemini35_distribution": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 41,
+          "ABSTAIN": 109
+        },
+        "linear_weighted_kappa": null,
+        "n": 150,
+        "numeric_overlap": 41,
+        "quadratic_weighted_kappa": null,
+        "reference_status_counts": {
+          "DUAL_SOURCE": 41,
+          "NO_REFERENCE": 109
+        }
+      },
+      "progress_monitoring": {
+        "exact_agreement": 105,
+        "exact_agreement_rate": 0.7,
+        "gemini31_distribution": {
+          "0": 4,
+          "1": 44,
+          "2": 87,
+          "3": 15,
+          "ABSTAIN": 0
+        },
+        "gemini35_distribution": {
+          "0": 1,
+          "1": 28,
+          "2": 103,
+          "3": 18,
+          "ABSTAIN": 0
+        },
+        "linear_weighted_kappa": 0.5150165253628395,
+        "n": 150,
+        "numeric_overlap": 150,
+        "quadratic_weighted_kappa": 0.6221027880416526,
+        "reference_status_counts": {
+          "DUAL_SOURCE": 150
+        }
+      },
+      "re_engagement": {
+        "exact_agreement": 114,
+        "exact_agreement_rate": 0.76,
+        "gemini31_distribution": {
+          "0": 39,
+          "1": 37,
+          "2": 28,
+          "3": 46,
+          "ABSTAIN": 0
+        },
+        "gemini35_distribution": {
+          "0": 44,
+          "1": 37,
+          "2": 29,
+          "3": 40,
+          "ABSTAIN": 0
+        },
+        "linear_weighted_kappa": 0.8168001085628986,
+        "n": 150,
+        "numeric_overlap": 150,
+        "quadratic_weighted_kappa": 0.9130014499758338,
+        "reference_status_counts": {
+          "DUAL_SOURCE": 150
+        }
+      },
+      "retrieval_practice": {
+        "exact_agreement": 119,
+        "exact_agreement_rate": 0.7933333333333333,
+        "gemini31_distribution": {
+          "0": 0,
+          "1": 37,
+          "2": 57,
+          "3": 9,
+          "ABSTAIN": 47
+        },
+        "gemini35_distribution": {
+          "0": 0,
+          "1": 29,
+          "2": 68,
+          "3": 6,
+          "ABSTAIN": 47
+        },
+        "linear_weighted_kappa": 0.475611758909509,
+        "n": 150,
+        "numeric_overlap": 103,
+        "quadratic_weighted_kappa": 0.5474131821403261,
+        "reference_status_counts": {
+          "DUAL_SOURCE": 103,
+          "NO_REFERENCE": 47
+        }
+      },
+      "study_planning": {
+        "exact_agreement": 108,
+        "exact_agreement_rate": 0.72,
+        "gemini31_distribution": {
+          "0": 12,
+          "1": 44,
+          "2": 67,
+          "3": 27,
+          "ABSTAIN": 0
+        },
+        "gemini35_distribution": {
+          "0": 13,
+          "1": 51,
+          "2": 60,
+          "3": 26,
+          "ABSTAIN": 0
+        },
+        "linear_weighted_kappa": 0.6829362029208301,
+        "n": 150,
+        "numeric_overlap": 150,
+        "quadratic_weighted_kappa": 0.7819371252044339,
+        "reference_status_counts": {
+          "DUAL_SOURCE": 150
+        }
+      }
+    },
+    "bootstrap": {
+      "deltas": {
+        "ACTION_STAGE_PRIOR": {
+          "high": 0.1309900894529398,
+          "low": 0.07500179190390967,
+          "mean": 0.10301776914100515
+        },
+        "RANDOM_FOREST": {
+          "high": 0.012428179983640479,
+          "low": -0.0038768484592260287,
+          "mean": 0.003845705221448444
+        },
+        "RIDGE": {
+          "high": 0.030343151571012257,
+          "low": 0.004037998698433634,
+          "mean": 0.016408962815196205
+        }
+      },
+      "iterations": 2000,
+      "ndcg_ci": {
+        "ACTION_STAGE_PRIOR": {
+          "high": 0.8463203807947126,
+          "low": 0.8008631653986591,
+          "mean": 0.8238262123125901
+        },
+        "EBM": {
+          "high": 0.9405707559219645,
+          "low": 0.9122265817055445,
+          "mean": 0.9268439814535953
+        },
+        "RANDOM_FOREST": {
+          "high": 0.9375837191226964,
+          "low": 0.9081893781323408,
+          "mean": 0.9229982762321467
+        },
+        "RIDGE": {
+          "high": 0.9293987153888813,
+          "low": 0.8888363184664413,
+          "mean": 0.910435018638399
+        }
+      },
+      "seed": 2026
+    },
+    "evaluation_name": "AUTOMATED_REFERENCE_EVALUATION",
+    "metrics": {
+      "ACTION_STAGE_PRIOR": {
+        "a5_top1_rate": 0.0,
+        "a5_top3_rate": 0.92,
+        "coverage": 1.0,
+        "invalid_action_rate": 0.0,
+        "mrr": 0.8628205128205128,
+        "n_cases": 150,
+        "n_ndcg": 150,
+        "ndcg@3": 0.8237770688663177,
+        "pairwise_accuracy": 0.6589975233592255,
+        "precision@1": 0.6533333333333333,
+        "recall@3": 0.793974358974359,
+        "review_plan_rate": 0.0
+      },
+      "EBM": {
+        "a5_top1_rate": 0.38,
+        "a5_top3_rate": 0.5933333333333334,
+        "coverage": 1.0,
+        "invalid_action_rate": 0.0,
+        "mrr": 0.9179487179487179,
+        "n_cases": 150,
+        "n_ndcg": 150,
+        "ndcg@3": 0.9267668986727309,
+        "pairwise_accuracy": 0.8095435100754249,
+        "precision@1": 0.7533333333333333,
+        "recall@3": 0.849102564102564,
+        "review_plan_rate": 0.38
+      },
+      "RANDOM_FOREST": {
+        "a5_top1_rate": 0.36666666666666664,
+        "a5_top3_rate": 0.62,
+        "coverage": 1.0,
+        "invalid_action_rate": 0.0,
+        "mrr": 0.9141025641025641,
+        "n_cases": 150,
+        "n_ndcg": 150,
+        "ndcg@3": 0.9230844696328802,
+        "pairwise_accuracy": 0.8019278396937972,
+        "precision@1": 0.7533333333333333,
+        "recall@3": 0.8471794871794871,
+        "review_plan_rate": 0.36666666666666664
+      },
+      "RIDGE": {
+        "a5_top1_rate": 0.4,
+        "a5_top3_rate": 0.6133333333333333,
+        "coverage": 1.0,
+        "invalid_action_rate": 0.0,
+        "mrr": 0.9038461538461539,
+        "n_cases": 150,
+        "n_ndcg": 150,
+        "ndcg@3": 0.9102467866136722,
+        "pairwise_accuracy": 0.7746144320612406,
+        "precision@1": 0.7466666666666667,
+        "recall@3": 0.8298717948717949,
+        "review_plan_rate": 0.4
+      }
+    },
+    "models_tuned_on_panel_b": 0,
+    "panel_b_overlap_with_training": 0,
+    "reference_status_counts": {
+      "DUAL_SOURCE": 594,
+      "NO_REFERENCE": 156
+    }
+  },
+  "state_version": "recommendation.student_state.v1",
+  "warnings": {
+    "a4": "Gemini 3.5 and Gemini 3.1 are same-family weak sources, not independent experts. Feasibility v2 marks Progress Monitoring FEASIBLE.",
+    "a5": "A5 remains REVIEW due to high weak-source conflict and is not suppressed at runtime.",
+    "reference": "Panel B evaluation is AUTOMATED_REFERENCE_EVALUATION, not expert ground truth and not causal efficacy."
+  }
+}

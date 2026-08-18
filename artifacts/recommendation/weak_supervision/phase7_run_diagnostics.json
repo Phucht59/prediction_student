@@ -1,0 +1,127 @@
+{
+  "assessment_recovery": {
+    "a4_decision": null,
+    "aggregator_type": "SNORKEL",
+    "all_abstain_count": 359,
+    "cross_seed_max_abs_deviation": 0.15243916826903192,
+    "estimated_lf_reliability": {
+      "LF_BEHAVIOR": 0.8789583729167525,
+      "LF_GEMINI35": 0.8535304627543391,
+      "LF_GEMMA4": 0.8768975123804118
+    },
+    "meaningfully_stochastic": 1,
+    "same_seed_max_abs_deviation": 0.0,
+    "seed_policy": "average_three_seeds",
+    "seeds_used": [
+      42,
+      1201,
+      2026
+    ],
+    "sources": [
+      "LF_GEMINI35",
+      "LF_GEMMA4",
+      "LF_BEHAVIOR"
+    ],
+    "usable_count": 141
+  },
+  "progress_monitoring": {
+    "a4_decision": {
+      "aggregator_type": "TWO_SOURCE_CONSENSUS",
+      "correlated_family": 1,
+      "fallback_reason": "snorkel_label_model_requires_at_least_3_labeling_functions",
+      "family": "gemini",
+      "snorkel_usable": 0
+    },
+    "aggregator_type": "TWO_SOURCE_CONSENSUS",
+    "all_abstain_count": 0,
+    "cross_seed_max_abs_deviation": 0.0,
+    "estimated_lf_reliability": {
+      "LF_GEMINI31": null,
+      "LF_GEMINI35": null
+    },
+    "meaningfully_stochastic": 0,
+    "same_seed_max_abs_deviation": 0.0,
+    "seed_policy": "not_applicable_two_source_consensus",
+    "seeds_used": [],
+    "sources": [
+      "LF_GEMINI35",
+      "LF_GEMINI31"
+    ],
+    "usable_count": 500
+  },
+  "re_engagement": {
+    "a4_decision": null,
+    "aggregator_type": "SNORKEL",
+    "all_abstain_count": 0,
+    "cross_seed_max_abs_deviation": 0.1815022576319696,
+    "estimated_lf_reliability": {
+      "LF_BEHAVIOR": 0.682005892197291,
+      "LF_GEMINI35": 0.6634001930554708,
+      "LF_GEMMA4": 0.6834475348393122
+    },
+    "meaningfully_stochastic": 1,
+    "same_seed_max_abs_deviation": 0.0,
+    "seed_policy": "average_three_seeds",
+    "seeds_used": [
+      42,
+      1201,
+      2026
+    ],
+    "sources": [
+      "LF_GEMINI35",
+      "LF_GEMMA4",
+      "LF_BEHAVIOR"
+    ],
+    "usable_count": 500
+  },
+  "retrieval_practice": {
+    "a4_decision": null,
+    "aggregator_type": "SNORKEL",
+    "all_abstain_count": 189,
+    "cross_seed_max_abs_deviation": 0.13076422458922554,
+    "estimated_lf_reliability": {
+      "LF_BEHAVIOR": 0.485682175250171,
+      "LF_GEMINI35": 0.5028214006677733,
+      "LF_GEMMA4": 0.5002001017229579
+    },
+    "meaningfully_stochastic": 1,
+    "same_seed_max_abs_deviation": 0.0,
+    "seed_policy": "average_three_seeds",
+    "seeds_used": [
+      42,
+      1201,
+      2026
+    ],
+    "sources": [
+      "LF_GEMINI35",
+      "LF_GEMMA4",
+      "LF_BEHAVIOR"
+    ],
+    "usable_count": 311
+  },
+  "study_planning": {
+    "a4_decision": null,
+    "aggregator_type": "SNORKEL",
+    "all_abstain_count": 0,
+    "cross_seed_max_abs_deviation": 0.32028252370233157,
+    "estimated_lf_reliability": {
+      "LF_BEHAVIOR": 0.37958706491866573,
+      "LF_GEMINI35": 0.551305333773295,
+      "LF_GEMMA4": 0.5090142364468002
+    },
+    "meaningfully_stochastic": 1,
+    "same_seed_max_abs_deviation": 0.0,
+    "seed_policy": "average_three_seeds",
+    "seeds_used": [
+      42,
+      1201,
+      2026
+    ],
+    "sources": [
+      "LF_GEMINI35",
+      "LF_GEMMA4",
+      "LF_BEHAVIOR"
+    ],
+    "usable_count": 500
+  }
+}

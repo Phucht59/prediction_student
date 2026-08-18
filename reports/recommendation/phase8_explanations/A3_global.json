@@ -1,0 +1,54 @@
+[
+  {
+    "term":"risk_probability",
+    "importance":0.1488157284
+  },
+  {
+    "term":"recent_activity",
+    "importance":0.1141362254
+  },
+  {
+    "term":"active_days_ratio",
+    "importance":0.0947832851
+  },
+  {
+    "term":"activity_trend",
+    "importance":0.0939775409
+  },
+  {
+    "term":"assessment_completion",
+    "importance":0.0751295721
+  },
+  {
+    "term":"inactive_streak",
+    "importance":0.0432181833
+  },
+  {
+    "term":"risk_probability & recent_activity",
+    "importance":0.02049895
+  },
+  {
+    "term":"stage_code & risk_probability",
+    "importance":0.0193429803
+  },
+  {
+    "term":"missing_assessments",
+    "importance":0.0189692024
+  },
+  {
+    "term":"quiz_activity",
+    "importance":0.0176706735
+  },
+  {
+    "term":"risk_probability & activity_trend",
+    "importance":0.0152448938
+  },
+  {
+    "term":"stage_code",
+    "importance":0.0145603622
+  },
+  {
+    "term":"vle_available",
+    "importance":0.0
+  }
+]

@@ -1,0 +1,28 @@
+version: recommendation.label_sources.v1
+phase: 6
+actions:
+  assessment_recovery:
+    effective_sources: [LF_GEMINI35, LF_GEMMA4, LF_BEHAVIOR]
+  re_engagement:
+    effective_sources: [LF_GEMINI35, LF_GEMMA4, LF_BEHAVIOR]
+  study_planning:
+    effective_sources: [LF_GEMINI35, LF_GEMMA4, LF_BEHAVIOR]
+  progress_monitoring:
+    effective_sources: [LF_GEMINI35, LF_GEMINI31]
+    audited_non_effective_sources:
+      - LF_BEHAVIOR
+      - LF_GEMMA4
+  retrieval_practice:
+    effective_sources: [LF_GEMINI35, LF_GEMMA4, LF_BEHAVIOR]
+forbidden_for_progress_monitoring:
+  - gemma4_progress_monitoring_labels
+  - old_content_review_labels
+  - academic_help_seeking_labels
+  - gemini_repeatability_labels
+  - gemini_prompt_v1b_robustness_labels
+quality_status:
+  assessment_recovery: PASS
+  re_engagement: PASS
+  study_planning: PASS
+  progress_monitoring: PASS_WITH_CORRELATED_FAMILY_WARNING
+  retrieval_practice: REVIEW_HIGH_CONFLICT

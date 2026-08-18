@@ -1,0 +1,12 @@
+.env
+.venv/
+__pycache__/
+
+# Local secrets
+.env
+
+# Raw datasets
+data/raw/
+raw/
+raw_data/
+data/raw_data/

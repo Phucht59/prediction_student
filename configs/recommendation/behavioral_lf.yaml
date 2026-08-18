@@ -1,0 +1,118 @@
+version: recommendation.behavioral_lf.v1
+threshold_source: Panel A only; deterministic q25/q50/q75 operational cut points
+panel_a_seed: 2026
+active_actions:
+- assessment_recovery
+- re_engagement
+- study_planning
+- progress_monitoring
+- retrieval_practice
+lf_names:
+  assessment_recovery: LF_BEHAVIOR_A1
+  re_engagement: LF_BEHAVIOR_A2
+  study_planning: LF_BEHAVIOR_A3
+  progress_monitoring: LF_BEHAVIOR_A4
+  retrieval_practice: LF_BEHAVIOR_A5
+rules:
+  assessment_recovery:
+    feasibility_required: FEASIBLE
+    evidence:
+    - missing_assessments
+    - assessment_completion
+    - course_progress
+    direction: missing_assessments_high_completion_low
+  re_engagement:
+    feasibility_required: FEASIBLE
+    vle_required: true
+    evidence:
+    - inactive_streak
+    - active_days_ratio
+    - recent_activity
+    - activity_trend
+    - vle_available
+    direction: inactivity_high_activity_low_trend_negative
+  study_planning:
+    feasibility_required: FEASIBLE
+    evidence:
+    - active_days_ratio
+    - recent_activity
+    - activity_trend
+    - course_progress
+    - stage
+    distinction_gate: participating_and_not_strongly_disengaged
+    direction: conservative_pattern_organization
+  progress_monitoring:
+    feasibility_required: FEASIBLE
+    evidence:
+    - course_progress
+    - stage
+    - assessment_completion
+    - missing_assessments
+    - activity_trend
+    progress_gap_formula: disabled_until_course_progress_semantics_are_observable
+    direction: stage_consistent_progress_gap_only
+  retrieval_practice:
+    feasibility_required: FEASIBLE
+    quiz_activity_zero: availability_unknown
+    evidence:
+    - quiz_activity
+    direction: positive_quiz_evidence_relative_activity
+quantiles:
+  active_days_ratio:
+    q25: 0.13333334028720856
+    q50: 0.2845238149166107
+    q75: 0.4737083837389946
+  activity_trend:
+    q25: -0.17944857478141785
+    q50: -0.08887138962745667
+    q75: -0.02346486458554864
+  assessment_completion:
+    q25: 0.75
+    q50: 1.0
+    q75: 1.0
+  course_progress:
+    q25: 0.20000000298023224
+    q50: 0.3499999940395355
+    q75: 0.5
+  inactive_streak:
+    q25: 0.0
+    q50: 0.0
+    q75: 2.0
+  missing_assessments:
+    q25: 0.0
+    q50: 0.0
+    q75: 1.0
+  quiz_activity:
+    q25: 0.0
+    q50: 25.0
+    q75: 124.25
+  recent_activity:
+    q25: 0.0
+    q50: 0.6931471824645996
+    q75: 3.1882593631744385
+operational_score_cutpoints:
+  assessment_recovery:
+    q25: 1.0
+    q50: 1.0
+    q75: 2.0
+  re_engagement:
+    q25: 0.75
+    q50: 1.5
+    q75: 2.25
+  study_planning:
+    q25: 0.75
+    q50: 1.5
+    q75: 2.25
+  retrieval_practice_positive_quiz:
+    q25: 34.0
+    q50: 92.0
+    q75: 200.5
+source_audit:
+  course_progress: stage indicator only; progress-gap formula disabled
+  study_regularness: UNAVAILABLE; no proxy created
+  quiz_available: UNAVAILABLE; quiz_activity=0 is not treated as unavailable by itself
+derived_from: C:/hufit/student/artifacts/recommendation/panels/panel_a.parquet
+rule_parameters:
+  planning_min_active_level: 1
+  planning_min_recent_level: 1
+  planning_max_inactive_level: 1

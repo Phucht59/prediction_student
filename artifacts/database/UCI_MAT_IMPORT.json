@@ -1,0 +1,14 @@
+{
+  "dataset_key": "UCI_MAT",
+  "version": "checked-in",
+  "source_path": "C:\\hufit\\student\\data\\raw\\student-mat.csv",
+  "source_sha256": "e47f9ee225e1ee6e69b7564e6dac7123e80b8486677fe111f351964cef5dec80",
+  "student_count": 391,
+  "course_count": 1,
+  "enrollment_count": 391,
+  "snapshot_count": 1185,
+  "temporal_observation_count": 1185,
+  "started_at": "2026-08-17T14:05:01.531809+00:00",
+  "completed_at": "2026-08-17T14:05:01.531809+00:00",
+  "status": "COMPLETED"
+}

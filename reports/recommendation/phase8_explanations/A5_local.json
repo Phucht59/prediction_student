@@ -1,0 +1,139 @@
+[
+  {
+    "action_id": "retrieval_practice",
+    "case_id": "88f23f51097828293390ffa0dad65fdc",
+    "contributions": {
+      "active_days_ratio": 0.01544116341907931,
+      "active_days_ratio & quiz_activity": -0.015032863552673246,
+      "activity_trend": -0.0017823817973813732,
+      "activity_trend & quiz_activity": -0.0018888548543264556,
+      "assessment_completion": -0.01783159034905205,
+      "inactive_streak": 0.0018114021005106624,
+      "missing_assessments": -0.00905057225086789,
+      "quiz_activity": -0.260730095340022,
+      "recent_activity": -0.017935251004945668,
+      "recent_activity & activity_trend": -0.007264968446013152,
+      "risk_probability": 0.004669933844942553,
+      "stage_code": 0.016194790063205174,
+      "vle_available": 0.0
+    },
+    "intercept": 1.4810657942122096,
+    "raw_score": 1.1876665060446654,
+    "relevance_score": 1.1876665060446654,
+    "source": "PANEL_A_OOF_REPRESENTATIVE",
+    "top_negative_reasons": [
+      {
+        "contribution": -0.260730095340022,
+        "term": "quiz_activity"
+      },
+      {
+        "contribution": -0.017935251004945668,
+        "term": "recent_activity"
+      }
+    ],
+    "top_positive_reasons": [
+      {
+        "contribution": 0.016194790063205174,
+        "term": "stage_code"
+      },
+      {
+        "contribution": 0.01544116341907931,
+        "term": "active_days_ratio"
+      },
+      {
+        "contribution": 0.004669933844942553,
+        "term": "risk_probability"
+      }
+    ]
+  },
+  {
+    "action_id": "retrieval_practice",
+    "case_id": "f22b99984950d87ad7d83b0f54189416",
+    "contributions": {
+      "active_days_ratio": -0.032685708435370706,
+      "active_days_ratio & quiz_activity": 0.003700298285606015,
+      "activity_trend": -0.055259314881893194,
+      "activity_trend & quiz_activity": -0.0015882135797377528,
+      "assessment_completion": -0.01783159034905205,
+      "inactive_streak": -0.014315232388767647,
+      "missing_assessments": -0.00905057225086789,
+      "quiz_activity": -0.21868561315871712,
+      "recent_activity": -0.003981959842608767,
+      "recent_activity & activity_trend": 0.001297976556084251,
+      "risk_probability": -0.014378174821717217,
+      "stage_code": -0.013264014236554504,
+      "vle_available": 0.0
+    },
+    "intercept": 1.4810657942122096,
+    "raw_score": 1.105023675108613,
+    "relevance_score": 1.105023675108613,
+    "source": "PANEL_A_OOF_REPRESENTATIVE",
+    "top_negative_reasons": [
+      {
+        "contribution": -0.21868561315871712,
+        "term": "quiz_activity"
+      },
+      {
+        "contribution": -0.055259314881893194,
+        "term": "activity_trend"
+      }
+    ],
+    "top_positive_reasons": [
+      {
+        "contribution": 0.003700298285606015,
+        "term": "active_days_ratio & quiz_activity"
+      },
+      {
+        "contribution": 0.001297976556084251,
+        "term": "recent_activity & activity_trend"
+      }
+    ]
+  },
+  {
+    "action_id": "retrieval_practice",
+    "case_id": "a3be3ae7e6700f6f58032478ff9e54b7",
+    "contributions": {
+      "active_days_ratio": 0.030107731002636806,
+      "active_days_ratio & quiz_activity": 0.01481798573786707,
+      "activity_trend": 0.023044316006179143,
+      "activity_trend & quiz_activity": -0.000258718263955866,
+      "assessment_completion": -0.01783159034905205,
+      "inactive_streak": 0.0018114021005106624,
+      "missing_assessments": -0.00905057225086789,
+      "quiz_activity": 0.07670950947528798,
+      "recent_activity": 0.0010464961454185154,
+      "recent_activity & activity_trend": 0.012634012536275682,
+      "risk_probability": -0.02041060233574888,
+      "stage_code": -0.003978832668690278,
+      "vle_available": 0.0
+    },
+    "intercept": 1.4810657942122096,
+    "raw_score": 1.5897069313480705,
+    "relevance_score": 1.5897069313480705,
+    "source": "PANEL_A_OOF_REPRESENTATIVE",
+    "top_negative_reasons": [
+      {
+        "contribution": -0.02041060233574888,
+        "term": "risk_probability"
+      },
+      {
+        "contribution": -0.01783159034905205,
+        "term": "assessment_completion"
+      }
+    ],
+    "top_positive_reasons": [
+      {
+        "contribution": 0.07670950947528798,
+        "term": "quiz_activity"
+      },
+      {
+        "contribution": 0.030107731002636806,
+        "term": "active_days_ratio"
+      },
+      {
+        "contribution": 0.023044316006179143,
+        "term": "activity_trend"
+      }
+    ]
+  }
+]

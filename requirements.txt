@@ -4,4 +4,11 @@ scikit-learn
 scipy
 pyarrow
 torch
+snorkel==0.9.9
+interpret
+joblib
+PyYAML
 pytest
+SQLAlchemy
+psycopg[binary]
+python-dotenv
