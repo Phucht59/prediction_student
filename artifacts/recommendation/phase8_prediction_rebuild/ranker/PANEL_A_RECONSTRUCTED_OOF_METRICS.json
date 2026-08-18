@@ -1,0 +1,16 @@
+{
+  "metrics": {
+    "invalid_action_rate": 0.11333333333333333,
+    "mrr": 0.985,
+    "ndcg_at_3": 0.9621875903328528,
+    "pairwise_accuracy": 0.8763404825737265,
+    "positive_query_count": 300,
+    "precision_at_1": 0.97,
+    "query_count": 300,
+    "recall_at_3": 0.8112222222222221,
+    "unique_top1_actions": 4
+  },
+  "panel_b_touched": false,
+  "prediction_identity": "RECONSTRUCTED_FROM_FROZEN_PROTOCOL_OOF_AND_FINAL_HOLDOUT_INFERENCE",
+  "status": "DEVELOPMENT_ONLY"
+}

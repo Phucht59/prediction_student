@@ -1,0 +1,165 @@
+{
+  "fixture_scope": "deterministic non-outer fixtures plus read-only authority raw contract counts; no outer labels or metrics",
+  "oulad": {
+    "aggregate_channels": 13,
+    "endpoints": [
+      "20pct",
+      "35pct",
+      "50pct",
+      "75pct",
+      "FINAL-100"
+    ],
+    "field_max_abs_errors_after_d3": {
+      "aggregate": 0.0,
+      "aggregate_available": 0.0,
+      "group_id": 0.0,
+      "lengths": 0.0,
+      "progress": 0.0,
+      "record_id": 0.0,
+      "static": 0.0,
+      "target": 0.0,
+      "temporal": 0.0,
+      "temporal_mask": 0.0
+    },
+    "forbidden_predictor_guard": "PASS_FORBIDDEN_REJECTED",
+    "mask_length_progress_aggregate_availability_checked": true,
+    "static_dim": 49,
+    "target_rule": "Fail/Withdrawn => 1; Pass/Distinction => 0",
+    "temporal_channels": 11
+  },
+  "raw_local_data": {
+    "actual_counts": {
+      "oulad_final_result": {
+        "execution": "PASS_ACTIVE_BINARY_MAPPING",
+        "final_result_counts": {
+          "Distinction": 3024,
+          "Fail": 7052,
+          "Pass": 12361,
+          "Withdrawn": 10156
+        },
+        "records": 32593,
+        "risk_count": 17208,
+        "risk_prevalence": 0.527966127696131
+      },
+      "uci_combined": {
+        "by_subject": {
+          "math": {
+            "records": 395,
+            "risk_count": 130,
+            "risk_prevalence": 0.3291139240506329
+          },
+          "portuguese": {
+            "records": 649,
+            "risk_count": 100,
+            "risk_prevalence": 0.15408320493066255
+          }
+        },
+        "cross_subject_groups": 366,
+        "dataset": "uci_combined",
+        "execution": "PASS_ACTIVE_BUILD_UCI_COMBINED",
+        "g1_g2_g3_absences_excluded_from_static_predictor_contract": true,
+        "risk_count": 230,
+        "risk_prevalence": 0.22030651340996169,
+        "target_counts": {
+          "0": 814,
+          "1": 230
+        },
+        "target_rule": "G3 < 10",
+        "total_combined_records": 1044,
+        "total_mat_records": 395,
+        "total_por_records": 649,
+        "unique_global_student_groups": 662
+      }
+    },
+    "available": true,
+    "expected_uci_contract_counts": {
+      "student_mat": 395,
+      "student_por": 649
+    },
+    "files": {
+      "assessments.csv": "C:\\hufit\\kltn\\data\\raw\\assessments.csv",
+      "courses.csv": "C:\\hufit\\kltn\\data\\raw\\courses.csv",
+      "student-mat.csv": "C:\\hufit\\kltn\\data\\raw\\student-mat.csv",
+      "student-por.csv": "C:\\hufit\\kltn\\data\\raw\\student-por.csv",
+      "studentAssessment.csv": "C:\\hufit\\kltn\\data\\raw\\studentAssessment.csv",
+      "studentInfo.csv": "C:\\hufit\\kltn\\data\\raw\\studentInfo.csv",
+      "studentRegistration.csv": "C:\\hufit\\kltn\\data\\raw\\studentRegistration.csv",
+      "studentVle.csv": "C:\\hufit\\kltn\\data\\raw\\studentVle.csv",
+      "vle.csv": "C:\\hufit\\kltn\\data\\raw\\vle.csv"
+    },
+    "source": "C:\\hufit\\kltn\\data\\raw"
+  },
+  "reconstruction_check": {
+    "non_oof_rows_are_not_called_oof": true,
+    "oof_rows_tagged_non_oof_inference": {
+      "oulad_early": 121,
+      "oulad_final": 0,
+      "uci": 0
+    },
+    "oulad_early_oof_group_overlap": 0,
+    "oulad_final_oof_group_overlap": 0,
+    "uci_oof_group_overlap": 0
+  },
+  "status": "PASS",
+  "uci": {
+    "combined_adapter": true,
+    "cross_subject_group_fixture": 2,
+    "g3_predictor": false,
+    "stages": {
+      "S0": {
+        "field_max_abs_errors": {
+          "aggregate": 0.0,
+          "aggregate_available": 0.0,
+          "group_id": 0.0,
+          "lengths": 0.0,
+          "progress": 0.0,
+          "record_id": 0.0,
+          "static": 0.0,
+          "target": 0.0,
+          "temporal": 0.0,
+          "temporal_mask": 0.0
+        },
+        "has_g1": false,
+        "has_g2": false,
+        "status": "PASS"
+      },
+      "S1": {
+        "field_max_abs_errors": {
+          "aggregate": 0.0,
+          "aggregate_available": 0.0,
+          "group_id": 0.0,
+          "lengths": 0.0,
+          "progress": 0.0,
+          "record_id": 0.0,
+          "static": 0.0,
+          "target": 0.0,
+          "temporal": 0.0,
+          "temporal_mask": 0.0
+        },
+        "has_g1": true,
+        "has_g2": false,
+        "status": "PASS"
+      },
+      "S2": {
+        "field_max_abs_errors": {
+          "aggregate": 0.0,
+          "aggregate_available": 0.0,
+          "group_id": 0.0,
+          "lengths": 0.0,
+          "progress": 0.0,
+          "record_id": 0.0,
+          "static": 0.0,
+          "target": 0.0,
+          "temporal": 0.0,
+          "temporal_mask": 0.0
+        },
+        "has_g1": true,
+        "has_g2": true,
+        "status": "PASS"
+      }
+    },
+    "student_group_leakage_guard": "PASS_OVERLAP_REJECTED",
+    "target_binary": true,
+    "target_rule": "1 if G3 < 10 else 0"
+  }
+}

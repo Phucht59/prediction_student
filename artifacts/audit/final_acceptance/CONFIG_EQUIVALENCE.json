@@ -1,0 +1,171 @@
+{
+  "active_config_path": "configs\\prediction\\hybrid_phase8.json",
+  "active_config_sha256": "4574f3fa2f25aff251bc13123c50cd42128b90b84c317fab63b8f3624190d348",
+  "authority_config_path": "artifacts/hybrid/phase8/final_development/hybrid_config.json",
+  "authority_config_sha256": "4574f3fa2f25aff251bc13123c50cd42128b90b84c317fab63b8f3624190d348",
+  "byte_exact_to_copied_evidence": true,
+  "cosmetic_alias": {
+    "active_display_name": "Hybrid",
+    "classification": "COSMETIC_PUBLIC_NAME",
+    "source_display_name": "Unified Hybrid"
+  },
+  "field_comparisons": [
+    {
+      "active": 96,
+      "equivalent": true,
+      "field": "d_fuse",
+      "frozen_authority": 96,
+      "mismatch_class": null,
+      "source": 96
+    },
+    {
+      "active": 128,
+      "equivalent": true,
+      "field": "cnn_channels",
+      "frozen_authority": 128,
+      "mismatch_class": null,
+      "source": 128
+    },
+    {
+      "active": 2,
+      "equivalent": true,
+      "field": "cnn_blocks",
+      "frozen_authority": 2,
+      "mismatch_class": null,
+      "source": 2
+    },
+    {
+      "active": 2,
+      "equivalent": true,
+      "field": "cnn_kernel_size",
+      "frozen_authority": 2,
+      "mismatch_class": null,
+      "source": 2
+    },
+    {
+      "active": [
+        1,
+        2
+      ],
+      "equivalent": true,
+      "field": "cnn_dilations",
+      "frozen_authority": [
+        1,
+        2
+      ],
+      "mismatch_class": null,
+      "source": [
+        1,
+        2
+      ]
+    },
+    {
+      "active": 128,
+      "equivalent": true,
+      "field": "bilstm_hidden",
+      "frozen_authority": 128,
+      "mismatch_class": null,
+      "source": 128
+    },
+    {
+      "active": 1,
+      "equivalent": true,
+      "field": "bilstm_layers",
+      "frozen_authority": 1,
+      "mismatch_class": null,
+      "source": 1
+    },
+    {
+      "active": true,
+      "equivalent": true,
+      "field": "bilstm_bidirectional",
+      "frozen_authority": true,
+      "mismatch_class": null,
+      "source": true
+    },
+    {
+      "active": 0.2,
+      "equivalent": true,
+      "field": "dropout",
+      "frozen_authority": 0.2,
+      "mismatch_class": null,
+      "source": 0.2
+    },
+    {
+      "active": 64,
+      "equivalent": true,
+      "field": "gate_hidden",
+      "frozen_authority": 64,
+      "mismatch_class": null,
+      "source": 64
+    },
+    {
+      "active": "F3_adaptive_entropy",
+      "equivalent": true,
+      "field": "fusion",
+      "frozen_authority": "F3_adaptive_entropy",
+      "mismatch_class": null,
+      "source": "F3_adaptive_entropy"
+    },
+    {
+      "active": 0.002,
+      "equivalent": true,
+      "field": "entropy_floor_coefficient",
+      "frozen_authority": 0.002,
+      "mismatch_class": null,
+      "source": 0.002
+    },
+    {
+      "active": "full",
+      "equivalent": true,
+      "field": "branch_mode",
+      "frozen_authority": "full",
+      "mismatch_class": null,
+      "source": "full"
+    },
+    {
+      "active": 128,
+      "equivalent": true,
+      "field": "head_hidden",
+      "frozen_authority": 128,
+      "mismatch_class": null,
+      "source": 128
+    },
+    {
+      "active": 1,
+      "equivalent": true,
+      "field": "head_output_dim",
+      "frozen_authority": 1,
+      "mismatch_class": null,
+      "source": 1
+    }
+  ],
+  "full_json_exact": true,
+  "head_weight_shape": [
+    1,
+    128
+  ],
+  "reconstruction_check": {
+    "active_display_name": "Hybrid",
+    "active_instances": [
+      "uci",
+      "oulad_early",
+      "oulad_final"
+    ],
+    "active_model_id": "hybrid",
+    "architecture_tree": "Static -> projector; Aggregate -> projector; Temporal -> adapter -> CNN and BiLSTM; F3 adaptive entropy gate -> fusion -> binary head (one logit) -> sigmoid P(Risk)",
+    "forbidden_active_models": [
+      "cnn_bilstm_mat",
+      "cnn_bilstm_por",
+      "cnn_bilstm_oulad",
+      "active_3_class_classifier"
+    ],
+    "one_public_architecture": true,
+    "runtime_only_difference": "reconstructed checkpoint identity and runtime n_jobs=1 workaround for Windows EBM; no scientific parameter change",
+    "same_class_for_uci_oulad": true,
+    "scientific_fields_equivalent": true
+  },
+  "scientific_mismatch_count": 0,
+  "status": "PASS",
+  "training_fields_exact": true
+}

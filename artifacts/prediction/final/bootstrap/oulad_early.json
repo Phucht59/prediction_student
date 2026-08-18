@@ -1,0 +1,22 @@
+{
+  "outer_predictions_only": true,
+  "primary": {
+    "bootstrap_reps": 2000,
+    "ci95_high": -0.006379736502982343,
+    "ci95_low": -0.009082421587350934,
+    "comparator": "XGB",
+    "delta_mean": -0.007722727715730949,
+    "delta_median": -0.0077222596587440545,
+    "groups": 24265,
+    "interpretation": "bootstrap probability that the paired PR-AUC difference is positive",
+    "p_delta_gt_0": 0.0,
+    "paired_rows": 300183
+  },
+  "stages": [
+    "20pct",
+    "35pct",
+    "50pct",
+    "75pct"
+  ],
+  "task": "oulad_early"
+}

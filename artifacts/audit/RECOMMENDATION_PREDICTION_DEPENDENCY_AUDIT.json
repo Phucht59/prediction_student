@@ -1,0 +1,34 @@
+{
+  "classifications": [
+    {
+      "classification": "A_COMPATIBLE",
+      "path": "src/recommend_hybrid/final/",
+      "reason": "Ranking, canonical actions, feasibility, EBM, weak supervision, safety routing, and explanations are downstream algorithms and were preserved."
+    },
+    {
+      "classification": "B_CODE_REUSABLE_DATA_STALE",
+      "path": "src/recommend_hybrid/final/data_builder.py",
+      "reason": "The feature adapter is reusable, but risk_probability/hybrid_uncertainty provenance must be regenerated from canonical PredictionResult."
+    },
+    {
+      "classification": "B_CODE_REUSABLE_DATA_STALE",
+      "path": "artifacts/recommend_hybrid/final/",
+      "reason": "Frozen learned/features artifacts may contain outputs from the copied prediction system; no silent scientific reuse is authorized."
+    },
+    {
+      "classification": "B_CODE_REUSABLE_DATA_STALE",
+      "path": "configs/recommend_hybrid/final/",
+      "reason": "Policy/ranker configuration can be retained for provenance, but learned thresholds and feature tables require corrected-risk revalidation."
+    },
+    {
+      "classification": "C_INCOMPATIBLE",
+      "path": "test_lab/prediction_legacy/src/recommend_hybrid/prediction_adapter.py",
+      "reason": "It imports the archived OULAD-specific model and is historical only."
+    }
+  ],
+  "next_action": "Regenerate prediction-derived recommendation features, then revalidate/retrain recommendation learned artifacts in a later authorized phase.",
+  "recommendation_code_reusable": "YES",
+  "recommendation_evidence_status": "REQUIRES_REVALIDATION_AFTER_PREDICTION_RESTORE",
+  "recommendation_requires_revalidation": "YES",
+  "recommendation_trained_artifacts_reusable": "PARTIAL"
+}

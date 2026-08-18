@@ -1,0 +1,22 @@
+{
+  "active_hybrid_classes": [
+    "src.prediction.model.Hybrid"
+  ],
+  "active_model_families": [
+    "hybrid"
+  ],
+  "dataset_specific_public_models": [],
+  "dataset_specific_weights_allowed": true,
+  "fitted_instances": [
+    "uci",
+    "oulad_early",
+    "oulad_final"
+  ],
+  "oulad_target": "binary_risk",
+  "output_head_count": 1,
+  "output_semantics": "binary_logit",
+  "phase8_config": "D3_both_safe + F3_adaptive_entropy + P1_stage_balanced",
+  "uci_and_oulad_joint_training": false,
+  "uci_and_oulad_share_model_class": true,
+  "uci_target": "binary_risk"
+}

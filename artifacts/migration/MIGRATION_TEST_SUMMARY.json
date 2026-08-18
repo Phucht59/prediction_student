@@ -1,0 +1,56 @@
+{
+  "active_model_family": "hybrid",
+  "active_public_model_class": "src.prediction.model.Hybrid",
+  "binary_output": true,
+  "commit": false,
+  "data_equivalence": {
+    "oulad": {
+      "destination": "src.prediction.data.oulad.apply_d3_variant",
+      "source": "phase8 apply_data_variant(D3_both_safe)"
+    },
+    "outer_test_used": false,
+    "status": "PASS",
+    "target_contracts": "binary",
+    "uci": {
+      "destination": "src.prediction.data.uci.build_uci_stage_view",
+      "source": "phase7 build_uci_phase7_view"
+    }
+  },
+  "hpo": false,
+  "kltn_modified": false,
+  "model_equivalence": {
+    "destination_class": "Hybrid",
+    "max_fusion_weight_abs_error": 0.0,
+    "max_logit_abs_error": 0.0,
+    "max_representation_abs_error": 0.0,
+    "outer_test_used": false,
+    "same_state_dict_keys": true,
+    "source_class": "Phase8UnifiedHybrid",
+    "status": "PASS"
+  },
+  "new_svm_outer_metrics": false,
+  "oulad_endpoints": [
+    "20pct",
+    "35pct",
+    "50pct",
+    "75pct",
+    "FINAL-100"
+  ],
+  "outer_rerun": false,
+  "push": false,
+  "recommendation_code_reusable": "YES",
+  "recommendation_evidence_status": "REQUIRES_REVALIDATION_AFTER_PREDICTION_RESTORE",
+  "recommendation_requires_revalidation": "YES",
+  "recommendation_trained_artifacts_reusable": "PARTIAL",
+  "restore_status": "PASS",
+  "retraining": false,
+  "scientific_phase8_checkpoint_note": "Authority branch contains frozen prediction/evidence artifacts but no trained Phase8 checkpoint files; loader is fail-closed and round-trip tested only with a non-scientific fixture.",
+  "scientific_phase8_checkpoints_available": false,
+  "tests": {
+    "command": "C:\\hufit\\student\\.venv\\Scripts\\python.exe -m pytest tests/prediction -q",
+    "log": "artifacts\\migration\\pytest_prediction_restore.txt",
+    "returncode": 0,
+    "status": "PASS"
+  },
+  "uci_combined": true
+}

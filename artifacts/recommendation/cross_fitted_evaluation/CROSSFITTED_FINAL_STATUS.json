@@ -1,0 +1,14 @@
+{
+  "status": "PASS_CROSSFITTED_RANKING_EVIDENCE_NOT_FINAL_HOLDOUT",
+  "unused_groups_in_active_recommendation_scope": 0,
+  "new_untouched_group_holdout_created": false,
+  "evaluation_scope": "179 genuine Hybrid OOF queries / 50 student groups",
+  "holdout_rows_excluded": 121,
+  "holdout_outcome_values_opened": false,
+  "recommendation_research_closed": false,
+  "claim_boundary": "cross-validated weak-supervision ranking evidence only",
+  "no_hpo": true,
+  "no_threshold_tuning": true,
+  "no_safety_tuning": true,
+  "historical_panel_b_merged": false
+}

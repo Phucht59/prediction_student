@@ -1,0 +1,69 @@
+{
+  "cardinality": 4,
+  "epochs": 1000,
+  "folds": [
+    {
+      "held_query_count": 99,
+      "held_rows": 495,
+      "outer_fold": 0,
+      "seed": 2026,
+      "train_query_count": 201,
+      "train_rows": 1005
+    },
+    {
+      "held_query_count": 100,
+      "held_rows": 500,
+      "outer_fold": 1,
+      "seed": 2027,
+      "train_query_count": 200,
+      "train_rows": 1000
+    },
+    {
+      "held_query_count": 101,
+      "held_rows": 505,
+      "outer_fold": 2,
+      "seed": 2028,
+      "train_query_count": 199,
+      "train_rows": 995
+    }
+  ],
+  "input_vote_sha256": "336ab0e1af16d9082917e1d84c80a7896c4ba51baa758e8cdc9ae30eb2759c71",
+  "minimum_independent_source_families": 2,
+  "panel": "A",
+  "panel_b_touched": false,
+  "prediction_identity": "RECONSTRUCTED_FROM_FROZEN_PROTOCOL_OOF_AND_FINAL_HOLDOUT_INFERENCE",
+  "retained_rows": 1499,
+  "rows": 1500,
+  "schema_version": "reconstructed_prediction_panel_a_snorkel_oof_v1",
+  "sources": [
+    {
+      "family": "BEHAVIORAL",
+      "name": "LF_ASSESSMENT_NEED_V4"
+    },
+    {
+      "family": "BEHAVIORAL",
+      "name": "LF_ENGAGEMENT_RECOVERY_V4"
+    },
+    {
+      "family": "BEHAVIORAL",
+      "name": "LF_STUDY_REGULARITY_V4"
+    },
+    {
+      "family": "BEHAVIORAL",
+      "name": "LF_CONTENT_REVIEW_V4"
+    },
+    {
+      "family": "BEHAVIORAL",
+      "name": "LF_QUIZ_RETRIEVAL_V4"
+    },
+    {
+      "family": "FEASIBILITY",
+      "name": "LF_FEASIBILITY_CONSTRAINT_V4"
+    },
+    {
+      "family": "LLM_EXPERT",
+      "name": "REAL_EXTERNAL_GEMINI_REVIEW_V4"
+    }
+  ],
+  "status": "COMPLETE"
+}

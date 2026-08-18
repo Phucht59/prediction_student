@@ -1,0 +1,146 @@
+{
+  "ebm_parameters": {
+    "early_stopping_rounds": 100,
+    "early_stopping_tolerance": 1e-05,
+    "inner_bags": 0,
+    "interactions": 3,
+    "learning_rate": 0.025,
+    "max_bins": 64,
+    "max_rounds": 2000,
+    "min_samples_leaf": 20,
+    "n_jobs": 1,
+    "outer_bags": 8,
+    "random_state": 2026,
+    "validation_size": 0.15
+  },
+  "evaluation_scope": "179 genuine Hybrid OOF queries / 50 student groups",
+  "feature_schema": [
+    "risk_probability",
+    "hybrid_uncertainty",
+    "course_progress",
+    "inactivity_streak",
+    "active_day_rate",
+    "assessments_due",
+    "regularity_score",
+    "content_coverage",
+    "quiz_activity",
+    "missing_assessment_count",
+    "due_soon_count",
+    "completion_rate",
+    "vle_available",
+    "study_material_available",
+    "quiz_available",
+    "stage"
+  ],
+  "feature_schema_hash": "56f959245c543d16431380fcde37aa8b438e451b91fdec6812fa76ad8a769bf9",
+  "label_audit_sha256": "5df8bee090d1eadbbc2480bf5104761c77ca3399bc001f90604d7c5f7df780f5",
+  "model_hashes": {
+    "outer_0_ASSESSMENT_COMPLETION": "9567f34f4d55ac08cc233e4740c2c553b1f94efe001334fa60d3f4b98ad8f892",
+    "outer_0_QUIZ_RETRIEVAL_PRACTICE": "a7b64c41d039af20816e4212850c640f6938942f72aa9fc10ae3ced50d783525",
+    "outer_0_RECOVER_ENGAGEMENT": "ee7da3b2bef366c9f9b2153b5109aa1f046fe87c2d64f124cacc7d65e3163ae0",
+    "outer_0_STUDY_REGULARITY": "eed81e103ee2f0c1926252ec033b7268b657b9b2786d1963d07965a26262cb6e",
+    "outer_0_TARGETED_CONTENT_REVIEW": "9230daec6d655f805d16d61dd341202b4dc63ee2159d43c94b1dbe86b1412fb8",
+    "outer_1_ASSESSMENT_COMPLETION": "46c46737ceaa2066968fa6f23b88b48cd197aa5178ccc8a943b1d11f0088e3c5",
+    "outer_1_QUIZ_RETRIEVAL_PRACTICE": "b4fb971650c93a2cca9ee3ed15ff73a20e84d87102469344428992def86d7b06",
+    "outer_1_RECOVER_ENGAGEMENT": "bcc301a4450fe265004bc2e483ef00ac15f81f900a6543d447389fb709962f70",
+    "outer_1_STUDY_REGULARITY": "922da64f73b36fb8d230e8a2db2ffc834c491492a60a21aefefa78fd0a7a55e1",
+    "outer_1_TARGETED_CONTENT_REVIEW": "18bcbad6fc59fa949b115445b546e6077510618caf7ea118526014014f26d947",
+    "outer_2_ASSESSMENT_COMPLETION": "d35d963e41d5d695d67aca2167921657a4bdefcb76101019084274eb5a217da7",
+    "outer_2_QUIZ_RETRIEVAL_PRACTICE": "657e7fd42284979fa8c92ecb5eccf68cd6d3588ead181164a4c70cc0e0f4c75b",
+    "outer_2_RECOVER_ENGAGEMENT": "0de0c37c74df2c9e123cbf8c3e07ab5a26c7ee9e1f49ef6da9b49256abc7de59",
+    "outer_2_STUDY_REGULARITY": "5c0f360540c13272f2993c29362a37efff378d6fce6e0eda4180e7a44b68263d",
+    "outer_2_TARGETED_CONTENT_REVIEW": "bf0011ebe8626abb6d7195f8f68dbf7defa7b5c9306e64a2062cf690a01181c5"
+  },
+  "no_hpo": true,
+  "no_safety_tuning": true,
+  "no_threshold_selection": true,
+  "not_a_final_holdout": true,
+  "outer_folds": [
+    {
+      "fit_rows_by_action": {
+        "ASSESSMENT_COMPLETION": 113,
+        "QUIZ_RETRIEVAL_PRACTICE": 113,
+        "RECOVER_ENGAGEMENT": 113,
+        "STUDY_REGULARITY": 113,
+        "TARGETED_CONTENT_REVIEW": 113
+      },
+      "metric": {
+        "invalid_action_rate": 0.22727272727272727,
+        "mrr": 0.9696969696969697,
+        "ndcg_at_3": 0.9470452549718688,
+        "pairwise_accuracy": 0.8521341463414634,
+        "positive_query_count": 66,
+        "precision_at_1": 0.9393939393939394,
+        "query_count": 66,
+        "recall_at_3": 0.8085858585858585,
+        "unique_top1_actions": 3
+      },
+      "outer_fold": 0,
+      "test_group_count": 18,
+      "test_query_count": 66,
+      "train_group_count": 32,
+      "train_query_count": 113,
+      "train_test_group_overlap": 0,
+      "train_test_query_overlap": 0
+    },
+    {
+      "fit_rows_by_action": {
+        "ASSESSMENT_COMPLETION": 116,
+        "QUIZ_RETRIEVAL_PRACTICE": 116,
+        "RECOVER_ENGAGEMENT": 116,
+        "STUDY_REGULARITY": 116,
+        "TARGETED_CONTENT_REVIEW": 116
+      },
+      "metric": {
+        "invalid_action_rate": 0.15873015873015872,
+        "mrr": 1.0,
+        "ndcg_at_3": 0.9541145421702484,
+        "pairwise_accuracy": 0.8389154704944178,
+        "positive_query_count": 63,
+        "precision_at_1": 1.0,
+        "query_count": 63,
+        "recall_at_3": 0.7812169312169313,
+        "unique_top1_actions": 3
+      },
+      "outer_fold": 1,
+      "test_group_count": 17,
+      "test_query_count": 63,
+      "train_group_count": 33,
+      "train_query_count": 116,
+      "train_test_group_overlap": 0,
+      "train_test_query_overlap": 0
+    },
+    {
+      "fit_rows_by_action": {
+        "ASSESSMENT_COMPLETION": 129,
+        "QUIZ_RETRIEVAL_PRACTICE": 129,
+        "RECOVER_ENGAGEMENT": 129,
+        "STUDY_REGULARITY": 129,
+        "TARGETED_CONTENT_REVIEW": 129
+      },
+      "metric": {
+        "invalid_action_rate": 0.06,
+        "mrr": 1.0,
+        "ndcg_at_3": 0.9613405278711844,
+        "pairwise_accuracy": 0.8672032193158954,
+        "positive_query_count": 50,
+        "precision_at_1": 1.0,
+        "query_count": 50,
+        "recall_at_3": 0.8463333333333333,
+        "unique_top1_actions": 3
+      },
+      "outer_fold": 2,
+      "test_group_count": 15,
+      "test_query_count": 50,
+      "train_group_count": 35,
+      "train_query_count": 129,
+      "train_test_group_overlap": 0,
+      "train_test_query_overlap": 0
+    }
+  ],
+  "runtime_authorized": false,
+  "scores_sha256": "2c90ec187d87be5e32259359bd0357597dea9a0c96e6fc531837458db3acf155",
+  "status": "COMPLETE_CROSSFITTED_EVIDENCE",
+  "train_test_group_overlap_all_folds": 0,
+  "weak_label_protocol": "nested group-safe LabelModel: inner train -> outer-test aggregation"
+}

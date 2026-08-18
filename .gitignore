@@ -105,6 +105,8 @@ db_backups/
 
 # Local research history; never a release dependency
 /test_lab/
+!/test_lab/prediction_legacy/
+!/test_lab/prediction_legacy/**
 /notebooks/
 /backup_git/
 /archive/*

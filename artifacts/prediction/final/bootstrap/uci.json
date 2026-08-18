@@ -1,0 +1,21 @@
+{
+  "outer_predictions_only": true,
+  "primary": {
+    "bootstrap_reps": 2000,
+    "ci95_high": 0.004872401361066683,
+    "ci95_low": -0.04003005121951019,
+    "comparator": "RF",
+    "delta_mean": -0.018277204005598548,
+    "delta_median": -0.01831543322201133,
+    "groups": 662,
+    "interpretation": "bootstrap probability that the paired PR-AUC difference is positive",
+    "p_delta_gt_0": 0.055,
+    "paired_rows": 9396
+  },
+  "stages": [
+    "S0",
+    "S1",
+    "S2"
+  ],
+  "task": "uci"
+}

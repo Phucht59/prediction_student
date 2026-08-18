@@ -1,0 +1,18 @@
+{
+  "historical_panel_b_evidence_assigned": false,
+  "panel_b_touched": false,
+  "prediction_identity": "RECONSTRUCTED_FROM_FROZEN_PROTOCOL_OOF_AND_FINAL_HOLDOUT_INFERENCE",
+  "risk_policy_path": "artifacts/recommendation/phase8_prediction_rebuild/router/RISK_POLICY_REVALIDATION.json",
+  "risk_policy_status": "DEVELOPMENT_ONLY_REVALIDATION",
+  "seed_disagreement_status": "UNAVAILABLE_NOT_ZERO_IMPUTED",
+  "selected_thresholds": {
+    "maximum_hybrid_uncertainty": 0.6,
+    "maximum_label_conflict": 0.4,
+    "maximum_ood_score": 0.99,
+    "maximum_seed_disagreement": null,
+    "minimum_top1_margin": 0.0,
+    "minimum_top1_score": 0.5
+  },
+  "selection_source": "frozen_panel_a_operating_point_revalidated_without_panel_b",
+  "status": "REVALIDATED_ON_RECONSTRUCTED_PANEL_A_OOF"
+}

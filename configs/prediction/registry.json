@@ -1,0 +1,42 @@
+{
+  "active_baselines": [
+    "Logistic Regression",
+    "Decision Tree",
+    "Random Forest",
+    "SVM",
+    "MLP"
+  ],
+  "fitted_instances": [
+    "uci",
+    "oulad_early",
+    "oulad_final"
+  ],
+  "joint_training": false,
+  "outer_test_rerun": false,
+  "prediction_model": {
+    "datasets": [
+      "uci_combined",
+      "oulad"
+    ],
+    "display_name": "Hybrid",
+    "model_id": "hybrid",
+    "task": "binary_student_risk"
+  },
+  "primary": {
+    "oulad": "FINAL-100",
+    "uci": "S2"
+  },
+  "same_model_class": true,
+  "supporting": {
+    "oulad": [
+      "20pct",
+      "35pct",
+      "50pct",
+      "75pct"
+    ],
+    "uci": [
+      "S0",
+      "S1"
+    ]
+  }
+}

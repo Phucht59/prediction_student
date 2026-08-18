@@ -1,0 +1,14 @@
+{
+  "active_three_class_logits": false,
+  "final_result_predictor": false,
+  "g3_predictor": false,
+  "oulad_rule": "risk = 1 for Fail/Withdrawn and 0 for Pass/Distinction",
+  "oulad_sample_pass": true,
+  "raw_files_available": {
+    "oulad": false,
+    "student_mat": false,
+    "student_por": false
+  },
+  "uci_rule": "risk = 1 if G3 < 10 else 0",
+  "uci_sample_pass": true
+}

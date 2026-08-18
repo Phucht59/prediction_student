@@ -1,0 +1,8 @@
+{
+  "freeze_eligible": false,
+  "holdout_outcomes_opened": false,
+  "holdout_run_count": 0,
+  "post_holdout_tuning_allowed": false,
+  "reason": "Protected 121-row holdout entered recommendation feature/label/EBM development scope before this gate.",
+  "status": "NOT_CREATED_HOLDOUT_CONTAMINATION"
+}

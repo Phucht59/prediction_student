@@ -1,0 +1,8 @@
+{
+  "contraindication_violation_rate": null,
+  "holdout_opened": false,
+  "invalid_action_rate": null,
+  "post_cutoff_leakage_violation": null,
+  "safety_gate": "NOT_EVALUATED",
+  "status": "NOT_RUN_HOLDOUT_CONTAMINATION"
+}

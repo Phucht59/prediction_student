@@ -17,10 +17,9 @@ def test_final_status_is_read_only_and_ready() -> None:
     )
     assert result.returncode == 0
     payload = json.loads(result.stdout)
+    assert payload["status"] == "PASS"
+    assert payload["active_model_family"] == "hybrid"
+    assert payload["active_public_model_class"] == "src.prediction.model.Hybrid"
     assert payload["training_performed"] is False
-    assert payload["comparator_completion_performed"] is True
-    assert payload["dataset_model_rows"] == {
-        "student_mat": 10,
-        "student_por": 10,
-        "oulad": 10,
-    }
+    assert payload["hpo_performed"] is False
+    assert payload["outer_evaluation_rerun"] is False

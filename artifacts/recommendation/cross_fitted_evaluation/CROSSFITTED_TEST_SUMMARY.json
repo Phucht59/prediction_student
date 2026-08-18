@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "command": ".venv\\Scripts\\python.exe -m pytest -q",
+  "collected": 66,
+  "passed": 43,
+  "skipped": 23,
+  "failed": 0,
+  "errors": 0,
+  "holdout_rows_opened": 0
+}

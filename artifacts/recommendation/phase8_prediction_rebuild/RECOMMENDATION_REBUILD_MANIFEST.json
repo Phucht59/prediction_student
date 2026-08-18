@@ -1,0 +1,18 @@
+{
+  "code_reused": [
+    "canonical_actions",
+    "feasibility",
+    "train_only_weak_supervision",
+    "five_action_ebm",
+    "safety_router"
+  ],
+  "ebm_oof": "artifacts\\recommendation\\phase8_prediction_rebuild\\ranker\\panel_a_ebm_oof_predictions_rebuilt.parquet",
+  "feature_table": "artifacts\\recommendation\\phase8_prediction_rebuild\\features\\learner_stage_features.parquet",
+  "historical_panel_b_overwritten": false,
+  "historical_panel_b_preserved": true,
+  "panel_b_touched": false,
+  "prediction_identity": "RECONSTRUCTED_FROM_FROZEN_PROTOCOL_OOF_AND_FINAL_HOLDOUT_INFERENCE",
+  "runtime_authorized": false,
+  "status": "COMPLETE",
+  "weak_labels": "artifacts\\recommendation\\phase8_prediction_rebuild\\weak_labels\\probabilistic_relevance_labels_rebuilt.parquet"
+}

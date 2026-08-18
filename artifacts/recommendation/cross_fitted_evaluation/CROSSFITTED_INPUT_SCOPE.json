@@ -1,0 +1,23 @@
+{
+  "group_count": 50,
+  "group_id_sha256": "52c42bfe72261f18822415543b8c3fb40e59588b253dbee40a374811bf517751",
+  "holdout_outcome_values_opened": false,
+  "holdout_rows_excluded": 121,
+  "outer_folds": [
+    0,
+    1,
+    2
+  ],
+  "prediction_identity": [
+    "RECONSTRUCTED_FROM_FROZEN_PROTOCOL_OOF"
+  ],
+  "prediction_kind": {
+    "OOF_INNER_VALIDATION": 179
+  },
+  "prediction_source": [
+    "artifacts\\prediction\\reconstructed\\oulad_early\\oof_predictions.parquet"
+  ],
+  "query_count": 179,
+  "query_id_sha256": "be09c9dee94819d4053ae34c984274a45e61fd45ff35914021a1da06d7f416f9",
+  "status": "PASS_CLEAN_OOF_SCOPE"
+}

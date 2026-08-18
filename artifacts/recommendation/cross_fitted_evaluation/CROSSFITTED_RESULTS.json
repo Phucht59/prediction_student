@@ -1,0 +1,163 @@
+{
+  "action_results": [
+    {
+      "action": "ASSESSMENT_COMPLETION",
+      "feasibility_pass_rate": 0.5027932960893855,
+      "mae": 0.44049442829623087,
+      "mean_relevance": 1.2587588563901824,
+      "mean_score": 0.39777831197047164,
+      "retained_label_support": 179,
+      "selection_frequency": 0.0893854748603352,
+      "support_query_count": 179
+    },
+    {
+      "action": "RECOVER_ENGAGEMENT",
+      "feasibility_pass_rate": 0.7541899441340782,
+      "mae": 0.3939499010753739,
+      "mean_relevance": 1.7710423008908658,
+      "mean_score": 0.5954047612823977,
+      "retained_label_support": 179,
+      "selection_frequency": 0.27932960893854747,
+      "support_query_count": 179
+    },
+    {
+      "action": "STUDY_REGULARITY",
+      "feasibility_pass_rate": 0.9776536312849162,
+      "mae": 0.3195292570898661,
+      "mean_relevance": 1.6377402697466967,
+      "mean_score": 0.5305496581380932,
+      "retained_label_support": 179,
+      "selection_frequency": 0.0,
+      "support_query_count": 179
+    },
+    {
+      "action": "TARGETED_CONTENT_REVIEW",
+      "feasibility_pass_rate": 0.5810055865921788,
+      "mae": 0.28860656749352276,
+      "mean_relevance": 0.6977241889421408,
+      "mean_score": 0.23540420873520584,
+      "retained_label_support": 179,
+      "selection_frequency": 0.0,
+      "support_query_count": 179
+    },
+    {
+      "action": "QUIZ_RETRIEVAL_PRACTICE",
+      "feasibility_pass_rate": 0.7318435754189944,
+      "mae": 0.33540771159166055,
+      "mean_relevance": 2.1966296804147527,
+      "mean_score": 0.7681043417038582,
+      "retained_label_support": 179,
+      "selection_frequency": 0.6312849162011173,
+      "support_query_count": 179
+    }
+  ],
+  "claim_boundary": "cross-validated weak-supervision ranking evidence only; not held-out evidence and not a final recommendation performance claim",
+  "fold_metrics": [
+    {
+      "fit_rows_by_action": {
+        "ASSESSMENT_COMPLETION": 113,
+        "QUIZ_RETRIEVAL_PRACTICE": 113,
+        "RECOVER_ENGAGEMENT": 113,
+        "STUDY_REGULARITY": 113,
+        "TARGETED_CONTENT_REVIEW": 113
+      },
+      "metric": {
+        "invalid_action_rate": 0.22727272727272727,
+        "mrr": 0.9696969696969697,
+        "ndcg_at_3": 0.9470452549718688,
+        "pairwise_accuracy": 0.8521341463414634,
+        "positive_query_count": 66,
+        "precision_at_1": 0.9393939393939394,
+        "query_count": 66,
+        "recall_at_3": 0.8085858585858585,
+        "unique_top1_actions": 3
+      },
+      "outer_fold": 0,
+      "test_group_count": 18,
+      "test_query_count": 66,
+      "train_group_count": 32,
+      "train_query_count": 113,
+      "train_test_group_overlap": 0,
+      "train_test_query_overlap": 0
+    },
+    {
+      "fit_rows_by_action": {
+        "ASSESSMENT_COMPLETION": 116,
+        "QUIZ_RETRIEVAL_PRACTICE": 116,
+        "RECOVER_ENGAGEMENT": 116,
+        "STUDY_REGULARITY": 116,
+        "TARGETED_CONTENT_REVIEW": 116
+      },
+      "metric": {
+        "invalid_action_rate": 0.15873015873015872,
+        "mrr": 1.0,
+        "ndcg_at_3": 0.9541145421702484,
+        "pairwise_accuracy": 0.8389154704944178,
+        "positive_query_count": 63,
+        "precision_at_1": 1.0,
+        "query_count": 63,
+        "recall_at_3": 0.7812169312169313,
+        "unique_top1_actions": 3
+      },
+      "outer_fold": 1,
+      "test_group_count": 17,
+      "test_query_count": 63,
+      "train_group_count": 33,
+      "train_query_count": 116,
+      "train_test_group_overlap": 0,
+      "train_test_query_overlap": 0
+    },
+    {
+      "fit_rows_by_action": {
+        "ASSESSMENT_COMPLETION": 129,
+        "QUIZ_RETRIEVAL_PRACTICE": 129,
+        "RECOVER_ENGAGEMENT": 129,
+        "STUDY_REGULARITY": 129,
+        "TARGETED_CONTENT_REVIEW": 129
+      },
+      "metric": {
+        "invalid_action_rate": 0.06,
+        "mrr": 1.0,
+        "ndcg_at_3": 0.9613405278711844,
+        "pairwise_accuracy": 0.8672032193158954,
+        "positive_query_count": 50,
+        "precision_at_1": 1.0,
+        "query_count": 50,
+        "recall_at_3": 0.8463333333333333,
+        "unique_top1_actions": 3
+      },
+      "outer_fold": 2,
+      "test_group_count": 15,
+      "test_query_count": 50,
+      "train_group_count": 35,
+      "train_query_count": 129,
+      "train_test_group_overlap": 0,
+      "train_test_query_overlap": 0
+    }
+  ],
+  "group_bootstrap_ndcg": {
+    "ci_high_95": 0.9666358180908503,
+    "ci_low_95": 0.9374497393578379,
+    "iterations": 1000,
+    "mean": 0.9534039213618958,
+    "seed": 2026,
+    "unit": "student/group"
+  },
+  "historical_panel_b_merged": false,
+  "pooled_metrics": {
+    "invalid_action_rate": 0.1564245810055866,
+    "mrr": 0.9888268156424581,
+    "ndcg_at_3": 0.9535264211085375,
+    "pairwise_accuracy": 0.851685393258427,
+    "positive_query_count": 179,
+    "precision_at_1": 0.9776536312849162,
+    "query_count": 179,
+    "recall_at_3": 0.8094972067039105,
+    "unique_top1_actions": 3
+  },
+  "prediction_holdout_rows_used": 0,
+  "primary_metric": "NDCG@3",
+  "scope": "179 genuine Hybrid OOF queries / 50 student groups",
+  "status": "PASS_CROSSFITTED_RANKING_EVIDENCE",
+  "threshold_and_safety_policy_metrics": "NOT_CLAIMED; no threshold/safety tuning performed in this cross-fitted ranking-only evaluation"
+}

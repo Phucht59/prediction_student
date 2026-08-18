@@ -1,0 +1,87 @@
+{
+  "approved_phase8_source": [
+    {
+      "authority_sha256": "12b4610cafe4b34552bc84a0c59740e833b74070c2ea3834aa7751d3dc276498",
+      "component": "model.py",
+      "frozen_manifest_sha256": "12b4610cafe4b34552bc84a0c59740e833b74070c2ea3834aa7751d3dc276498",
+      "manifest_hash_matches": true,
+      "materialized_matches_authority": true,
+      "materialized_source_sha256": "12b4610cafe4b34552bc84a0c59740e833b74070c2ea3834aa7751d3dc276498"
+    },
+    {
+      "authority_sha256": "3a7df268a962ecdcb010235a2e4da62b085fc9eb80d6ab953c49ad314ba8b4fb",
+      "component": "execution.py",
+      "frozen_manifest_sha256": "922afb0ee7532de4230d1429e800b74bdc0be0ec6ef510270b677d8478f7bb31",
+      "manifest_hash_matches": false,
+      "materialized_matches_authority": true,
+      "materialized_source_sha256": "3a7df268a962ecdcb010235a2e4da62b085fc9eb80d6ab953c49ad314ba8b4fb"
+    },
+    {
+      "authority_sha256": "0fdf9bb6013ddef506bfc36f09986e5789c2b38989ff76f61808bfdc08f80ee1",
+      "component": "data_variants.py",
+      "frozen_manifest_sha256": "0fdf9bb6013ddef506bfc36f09986e5789c2b38989ff76f61808bfdc08f80ee1",
+      "manifest_hash_matches": true,
+      "materialized_matches_authority": true,
+      "materialized_source_sha256": "0fdf9bb6013ddef506bfc36f09986e5789c2b38989ff76f61808bfdc08f80ee1"
+    },
+    {
+      "authority_sha256": "7dbf2ff96cacb3ee60ff9a3e61df9f45aa835e6c51a9f3bd0a1795cdc46cfd15",
+      "component": "final100.py",
+      "frozen_manifest_sha256": "7dbf2ff96cacb3ee60ff9a3e61df9f45aa835e6c51a9f3bd0a1795cdc46cfd15",
+      "manifest_hash_matches": true,
+      "materialized_matches_authority": true,
+      "materialized_source_sha256": "7dbf2ff96cacb3ee60ff9a3e61df9f45aa835e6c51a9f3bd0a1795cdc46cfd15"
+    }
+  ],
+  "manifest_discrepancies": [
+    {
+      "authority_hash": "3a7df268a962ecdcb010235a2e4da62b085fc9eb80d6ab953c49ad314ba8b4fb",
+      "classification": "RUNTIME_OR_PROVENANCE",
+      "component": "execution.py",
+      "frozen_manifest_hash": "922afb0ee7532de4230d1429e800b74bdc0be0ec6ef510270b677d8478f7bb31",
+      "reason": "The preserved backup authority source is byte-identical to the materialized approved source; the embedded model-selection hash is stale for this orchestration file. Active model semantics are independently covered by numerical equivalence."
+    }
+  ],
+  "manifest_discrepancy_policy": "recorded_as_runtime_or_provenance; not treated as active model scientific mismatch when authority source and numerical semantics match",
+  "numerical_equivalence_reference": "MODEL_NUMERICAL_EQUIVALENCE.json",
+  "reconstruction_check": {
+    "approved_source_and_technical_recovery_patch": true,
+    "legacy_multiclass_or_legacy_architecture_active": false,
+    "mathematical_components_verified": [
+      "static projector",
+      "aggregate projector",
+      "temporal adapter",
+      "masking",
+      "CNN",
+      "BiLSTM",
+      "branch availability",
+      "adaptive gate",
+      "masked softmax",
+      "fusion",
+      "entropy regularization",
+      "one-logit head"
+    ],
+    "scientific_mismatch_count": 0
+  },
+  "semantic_checks": {
+    "adaptive_gate": true,
+    "aggregate_projector": true,
+    "bilstm": true,
+    "binary_head": true,
+    "branch_availability": true,
+    "cnn": true,
+    "entropy_regularization": true,
+    "fusion": true,
+    "masking": true,
+    "softmax_weights": true,
+    "static_projector": true,
+    "temporal_adapter": true
+  },
+  "status": "PASS",
+  "technical_recovery_patch": {
+    "outer_information_used_for_patch_validation": false,
+    "patch_class": "mechanical_only",
+    "patch_id": "phase8-outer-recovery-set-intersection-v1",
+    "scientific_fields_unchanged": true
+  }
+}
