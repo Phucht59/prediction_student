@@ -1,0 +1,20 @@
+{
+  "prediction_authority": "Hybrid C0",
+  "recommendation_authority": "Five-EBM-C0",
+  "recommendation_final_ready": true,
+  "panel_c_opened": true,
+  "panel_c_used_for_tuning": false,
+  "panel_b_used_for_tuning": false,
+  "prediction_authority_changed": false,
+  "prediction_hpo": false,
+  "gemini_runtime": false,
+  "simulator_core": false,
+  "uci_recommendation": false,
+  "oulad_100_intervention": false,
+  "branch": "recommendation-v3",
+  "tag": "recommendation-v3-final",
+  "freeze_commit": "f5b8bf22",
+  "origin_main_docs_merged": "5e1b41d0",
+  "working_tree_clean": true,
+  "legacy_full_suite_note": "tests/integration/test_final_cli.py expects status PASS; frozen prediction CLI reports THESIS_FINAL. Preexisting on origin/main, not a V3 regression."
+}
