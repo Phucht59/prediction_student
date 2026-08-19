@@ -1,0 +1,73 @@
+path,type,classification,imported_by,imports,artifact_dependency,current_authority,historical_value,safe_to_modify_later,safe_to_delete_later,notes
+src/prediction/contracts.py,py,ACTIVE_RUNTIME,recommend_hybrid.prediction_adapter; tests,PredictionResult,PredictionResult schema,Phase4 C0,high,no,no,Canonical recommendation input contract
+src/prediction/model/hybrid.py,py,ACTIVE_RUNTIME,src.prediction,Hybrid C0,none for rec runtime scoring,Phase4 C0,high,no,no,Current prediction authority; rec V2 did not train on this
+src/prediction/data/oulad_features.py,py,ACTIVE_RUNTIME,tests.prediction,Phase4 cutoff builder,none yet for rec,Phase4 C0,high,later adapter,no,Candidate source for V3 evidence rebuild
+src/prediction/data/preprocessing.py,py,ACTIVE_RUNTIME,oulad_features,FIT-only scalers,none yet,Phase4 C0,medium,later adapter,no,Prediction preprocessing; rec evidence is separate
+configs/prediction/hybrid_final.json,json,ACTIVE_RUNTIME,registry/tests,C0 config,none,Phase4 C0,high,no,no,
+artifacts/prediction/final/FINALIZATION_DECISION.json,json,FROZEN_EVIDENCE,docs/tests,Phase4 decision,none,Phase4 C0,high,no,no,
+src/recommend_hybrid/__init__.py,py,ACTIVE_RUNTIME,tests.recommendation.final,final public API,final pipeline,Recommendation V2,high,yes adapter only,no,Exports V2 pipeline
+src/recommend_hybrid/contracts.py,py,ACTIVE_RUNTIME,final; tests,Stage/PredictionContext/StudentRepresentation,legacy embeddings unused by V2 pipeline,V2 mixed with legacy contracts,high,careful,no,Stage enum is live; StudentRepresentation 64/32-D is leftover H1 embedding contract
+src/recommend_hybrid/prediction_adapter.py,py,COMPATIBILITY,tests.prediction,PredictionResult.recommendation_features,not used by V2 data_builder,Phase4 boundary only,high,yes,no,Code boundary exists; V2 artifacts do not flow through it
+src/recommend_hybrid/imbalance.py,py,HISTORICAL,tests.recommendation.test_frozen_hybrid_imbalance,SMOTE/ADASYN on embeddings,artifacts/recommend_hybrid/imbalance,H1 embeddings,medium,no,later,Not part of V2 ranking runtime
+src/recommend_hybrid/exceptions.py,py,ACTIVE_RUNTIME,contracts,ContractValidationError,none,V2,low,yes,no,
+src/recommend_hybrid/README.md,md,ACTIVE_DEV,humans,docs,Panel B numbers,V2 + H1 wording,high,docs later,no,Says frozen Hybrid CNN-BiLSTM; scientific source 17b519b
+src/recommend_hybrid/final/pipeline.py,py,ACTIVE_RUNTIME,public API; tests,ExplainableRecommendationPipeline.recommend,RiskThresholds SafetyThresholds,V2,high,careful,no,LOW->INSUFFICIENT_EVIDENCE; BORDERLINE HUMAN_REVIEW empty ranks
+src/recommend_hybrid/final/contracts.py,py,ACTIVE_RUNTIME,pipeline ranker router,RecommendationFeatures/Decision,runtime_authorized must stay false in dataclass,V2 CONFLICT with release manifest,high,careful,no,CONFLICT: dataclass forbids runtime_authorized=true
+src/recommend_hybrid/final/risk_policy.py,py,ACTIVE_RUNTIME,pipeline,stratify_risk,RiskThresholds,V2,high,revalidate later,no,Uses P(risk) and uncertainty; selected 0.2/0.8/0.6 from 17b519b not stored on main YAML
+src/recommend_hybrid/final/feasibility.py,py,ACTIVE_RUNTIME,pipeline,feasible_actions,contraindications + eligibility,V2,high,yes small,no,Deterministic
+src/recommend_hybrid/final/action_eligibility.py,py,ACTIVE_RUNTIME,feasibility,DEFAULT_V2_POLICY v4,none,V2,high,yes,no,Hard thresholds; TARGETED_CONTENT_REVIEW blocked at EARLY_20
+src/recommend_hybrid/final/ranker.py,py,ACTIVE_RUNTIME,pipeline; freeze joblibs,FiveEBMRanker FEATURE_COLUMNS includes risk_probability,final_models joblib,V2 trained on H1 risk,high,no without retrain,no,RETRAIN_LATER if C0 risk replaces H1
+src/recommend_hybrid/final/safety_router.py,py,ACTIVE_RUNTIME,pipeline,route_ranked_actions,ROUTER_FREEZE_MANIFEST thresholds,V2,high,revalidate,no,seed_disagreement/label_conflict/ood effectively inactive
+src/recommend_hybrid/final/plan_builder.py,py,ACTIVE_RUNTIME,docs,ACTION_PLANS static templates,none,V2,medium,yes personalize later,no,Stage/risk do not change template text
+src/recommend_hybrid/final/__init__.py,py,ACTIVE_RUNTIME,package,public exports,none,V2,low,yes,no,
+src/recommend_hybrid/final/data_builder.py,py,ACTIVE_DEV,blocked on main,build() from landmark parquet,missing explainable_v2 + causal on main,H1 OOF,high,rebuild later,no,BLOCKED_MISSING artifacts on main; hybrid_uncertainty=binary entropy; seed_disagreement=NA
+src/recommend_hybrid/final/candidate_builder.py,py,ACTIVE_DEV,blocked on main,make_features/build,explainable_v2 data,V2,high,rebuild later,no,Needs missing learner_stage_features.parquet
+src/recommend_hybrid/final/query_evidence.py,py,ACTIVE_DEV,annotation export,build_query_level_evidence,raw OULAD if present,V2,high,adapt,no,Hardcoded risk bands 0.3/0.6 conflict with selected 0.2/0.8
+src/recommend_hybrid/final/risk_policy_selection.py,py,ACTIVE_DEV,would write artifacts,select/run,explainable_v2.yaml missing on main,V2,high,DANGEROUS if rerun,no,Writes risk_policy JSON; do not run
+src/recommend_hybrid/final/weak_labels.py,py,ACTIVE_DEV,label freeze,Snorkel LabelModel fit/aggregate,weak_labels artifacts,V2,high,refit later,no,Do not refit now
+src/recommend_hybrid/final/labeling_functions/core.py,py,REDUNDANT,almost unused vs V4 LFs,toy LF stubs,none of frozen V4 sources,incomplete vs freeze,medium,replace later,later,Frozen sources are LF_*_V4 not these stubs
+src/recommend_hybrid/final/calibration.py,py,ACTIVE_DEV,ranker selection,isotonic rejected,RANKER_SELECTION_BOOTSTRAP,V2 KEEP_RAW_EBM,medium,yes if protocol,no,Not used at release
+src/recommend_hybrid/final/model_selection.py,py,ACTIVE_DEV,protocol,select_final_candidate,none,V2,medium,yes,no,
+src/recommend_hybrid/final/metrics.py,py,ACTIVE_DEV,Panel eval,evaluate_grouped_ranking NDCG@3,heldout metrics frozen,V2,high,yes,no,Do not recompute Panel B
+src/recommend_hybrid/final/sampling.py,py,FROZEN_EVIDENCE,historical sampling,300/150 seed 2026,panel cases on Module_recomend,V2,high,no,no,New V3 heldout needs new protocol
+src/recommend_hybrid/final/audits.py,py,ACTIVE_DEV,release gates,FORBIDDEN_RANKER_FEATURES,none,V2,high,yes,no,
+src/recommend_hybrid/final/independence_audit.py,py,ACTIVE_DEV,audits,student independence,none,V2,medium,yes,no,
+src/recommend_hybrid/final/provider_envelope.py,py,COMPATIBILITY,broken import on main,verify_provider_envelope,Module_recomend envelopes,V2,medium,fix import later,no,imports src.recommend_hybrid.explainable_v2.provenance which is absent on main
+src/recommend_hybrid/final/provenance.py,py,ACTIVE_DEV,hashes,sha helpers,none,V2,low,yes,no,
+src/recommend_hybrid/final/legacy_annotation_adapter.py,py,COMPATIBILITY,legacy names,LEGACY_TO_V2_MAP,none,legacy catalogs,low,keep,later,Maps STUDY_SCHEDULE etc.
+src/recommend_hybrid/final/simulator/core.py,py,ACTIVE_RUNTIME,docs,SimulationResult stub,no C0 rescoring implemented on main,V2 incomplete vs protocol,high,rebuild later,no,No Hybrid forward; causal_claim_allowed frozen false
+src/recommend_hybrid/final/simulator/__init__.py,py,ACTIVE_RUNTIME,core,exports,none,V2,low,yes,no,
+configs/recommend_hybrid/final/recommendation.yaml,yaml,FROZEN_EVIDENCE,protocol,grids + runtime_authorized false,not selected thresholds,V2 protocol,high,no overwrite,no,Selected risk 0.2/0.8 live only on 17b519b risk_policy JSON
+configs/recommend_hybrid/final/feature_contract.yaml,yaml,FROZEN_EVIDENCE,ranker schema,ranker_features,none,V2,high,adapt later,no,Defines entropy uncertainty and five-seed disagreement
+configs/recommend_hybrid/final/llm_annotation_protocol.yaml,yaml,FROZEN_EVIDENCE,Gemini,blinded; current_model_output_visible false,CONFLICT with prompt risk_band,V2,high,no,no,CONFLICT
+configs/recommend_hybrid/final/actions.yaml,yaml,FROZEN_EVIDENCE,catalog,five actions,none,V2,high,no unless new action,no,
+configs/recommend_hybrid/frozen_imbalance_evidence.yaml,yaml,HISTORICAL,imbalance study,H1,imbalance artifacts,H1,low,no,later,
+artifacts/recommend_hybrid/RECOMMEND_HYBRID_CHECKPOINT_MANIFEST.json,json,FROZEN_EVIDENCE,data_builder,H1_TABULAR_RESIDUAL_EXPERT 160492 params 5 seeds 3 folds,canonical_v3 checkpoints,LEGACY H1 not C0,high,no,no,THIS is what V2 actually used
+artifacts/recommend_hybrid/final/release/FINAL_RELEASE_MANIFEST.json,json,FROZEN_EVIDENCE,tests,runtime_authorized true Panel B metrics,hashes,V2 release,high,no,no,CONFLICT with dataclass runtime_authorized
+artifacts/recommend_hybrid/final/heldout/PANEL_B_FINAL_HELDOUT_METRICS.json,json,FROZEN_EVIDENCE,release tests,NDCG@3 0.95266 vs 0.82759,scores parquet,V2 Panel B,high,no,no,Do not recompute
+artifacts/recommend_hybrid/final/heldout/panel_b_real_external_reviews_frozen.jsonl,jsonl,FROZEN_EVIDENCE,portability,557 reviews,Gemini,V2 Panel B,high,no,no,DANGEROUS to overwrite
+artifacts/recommend_hybrid/final/panel_a_reviews/panel_a_external_reviews_frozen.jsonl,jsonl,FROZEN_EVIDENCE,Snorkel Gemini source,1117 reviews 300 cases,Gemini,V2 Panel A,high,no,no,
+artifacts/recommend_hybrid/final/ranker/final_models/ASSESSMENT_COMPLETION.joblib,joblib,FROZEN_EVIDENCE,FiveEBMRanker,trained on H1 risk features,FIVE_EBM_MANIFEST,V2,high,no,no,RETRAIN_LATER
+artifacts/recommend_hybrid/final/ranker/final_models/RECOVER_ENGAGEMENT.joblib,joblib,FROZEN_EVIDENCE,FiveEBMRanker,H1 risk,manifest,V2,high,no,no,
+artifacts/recommend_hybrid/final/ranker/final_models/STUDY_REGULARITY.joblib,joblib,FROZEN_EVIDENCE,FiveEBMRanker,H1 risk,manifest,V2,high,no,no,
+artifacts/recommend_hybrid/final/ranker/final_models/TARGETED_CONTENT_REVIEW.joblib,joblib,FROZEN_EVIDENCE,FiveEBMRanker,H1 risk,manifest,V2,high,no,no,0 Panel A top1
+artifacts/recommend_hybrid/final/ranker/final_models/QUIZ_RETRIEVAL_PRACTICE.joblib,joblib,FROZEN_EVIDENCE,FiveEBMRanker,H1 risk,manifest,V2,high,no,no,
+artifacts/recommend_hybrid/final/ranker/FIVE_EBM_MANIFEST.json,json,FROZEN_EVIDENCE,release,features include risk_probability; seed_disagreement excluded,joblibs,V2,high,no,no,
+artifacts/recommend_hybrid/final/weak_labels/label_model_manifest.json,json,FROZEN_EVIDENCE,EBM targets,7 sources 3 families,parquets,V2,high,no refit now,no,
+artifacts/recommend_hybrid/final/router/ROUTER_FREEZE_MANIFEST.json,json,FROZEN_EVIDENCE,safety_router,thresholds,none,V2,high,revalidate later,no,ood UNAVAILABLE; seed_disagreement UNAVAILABLE
+artifacts/recommend_hybrid/final/MIGRATION_MANIFEST.json,json,FROZEN_EVIDENCE,tests,17b519b source; development paths not copied,none,V2 migration,high,no,no,
+artifacts/recommend_hybrid/final/development_freeze/DEVELOPMENT_FREEZE_MANIFEST.json,json,FROZEN_EVIDENCE,release lineage,runtime_authorized false,hashes,V2,high,no,no,
+reports/recommend_hybrid/final/PANEL_B_FINAL_HELDOUT_RESULTS.md,md,FROZEN_EVIDENCE,humans,Panel B report,metrics json,V2,high,no,no,
+reports/recommend_hybrid/final/FINAL_RELEASE_SUMMARY.md,md,FROZEN_EVIDENCE,humans,runtime authorized TRUE,manifest,V2,high,no,no,CONFLICT vs code dataclass
+tests/recommendation/final/test_release_evidence.py,py,ACTIVE_DEV,pytest,hash lock Panel B,frozen artifacts,V2,high,yes add V3 later,no,Safe to rerun
+tests/recommendation/final/test_public_api.py,py,ACTIVE_DEV,pytest,public exports,none,V2,medium,yes,no,Safe
+tests/recommendation/test_frozen_hybrid_imbalance.py,py,HISTORICAL,pytest,imbalance study,H1 embeddings,H1,low,no,later,
+scripts/recommendation/final/verify_release.py,py,ACTIVE_DEV,release check,hash verify,frozen,V2,high,safe if read-only,no,Do not train/Gemini
+scripts/recommendation/run_frozen_imbalance_evidence.py,py,HISTORICAL,imbalance,writes evidence,imbalance artifacts,H1,medium,no,no,Do not run for V3
+scripts/recommendation/__pycache__/run_gemini_labeling.cpython-310.pyc,pyc,DEAD,none,orphaned pyc; .py not on main,would call Gemini,legacy,high,no,yes after confirm,DANGEROUS if restored
+scripts/recommendation/__pycache__/bootstrap_panel_b.cpython-310.pyc,pyc,DEAD,none,orphaned pyc,Panel B,legacy,high,no,yes after confirm,DANGEROUS
+scripts/reconstruction/rebuild_recommendation_phase8.py,py,HISTORICAL,phase8 recon,would retrain rec,recon artifacts,Phase8 era,high,no,no,DANGEROUS DO NOT RUN
+scripts/reconstruction/finalize_phase8_acceptance.py,py,HISTORICAL,audit writer,writes acceptance,audit,Phase8,medium,no,no,DANGEROUS if it trains
+artifacts/recommend_hybrid/causal,dir,HISTORICAL,data_builder expected,landmark_rows missing on main,17b519b,H1 OOF,high,copy read-only later,no,Not on main; development_experiment_paths_copied_to_main=false
+artifacts/recommend_hybrid/explainable_v2,dir,HISTORICAL,training path,missing on main,17b519b,V2 scientific workspace,high,no merge blindly,no,Full envelopes/prompts/features live only on Module_recomend
+src/recommend_hybrid/explainable_v2,dir,HISTORICAL,provider_envelope import,absent on main; present 17b519b,none,V2 source tree,high,do not checkout onto main,no,

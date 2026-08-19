@@ -1,0 +1,176 @@
+{
+  "repo_commit": "356becec7802659c4b9ff20171046871425bfade",
+  "branch": "main",
+  "prediction_authority": {
+    "model_id": "hybrid",
+    "display_name": "Hybrid",
+    "public_class": "Hybrid",
+    "architecture_id": "C0",
+    "source_phase": "Phase4",
+    "evaluation_status": "robust_inner_finalized",
+    "outer_test_used_for_phase4_finalization": false,
+    "uci_states": [
+      "S0",
+      "S1",
+      "S2"
+    ],
+    "oulad_states": [
+      "20pct",
+      "35pct",
+      "50pct",
+      "75pct",
+      "100pct"
+    ],
+    "active_baselines": [
+      "LR",
+      "DT",
+      "RF",
+      "SVM",
+      "MLP"
+    ],
+    "xgboost_active": false
+  },
+  "recommendation_v2_authority": {
+    "schema_version": "recommendation_v2_final_release_v1",
+    "scientific_source_branch": "Module_recomend",
+    "scientific_source_commit": "17b519b22e8b69c875d27547d097e6d3b76bc404",
+    "prediction_actually_used": "H1_TABULAR_RESIDUAL_EXPERT",
+    "prediction_architecture_hash": "df5cd885b96e5cea4b840bfc5ca59c08c095f5887df8dd8dcef738edfe8bf70e",
+    "parameter_count": 160492,
+    "seeds": [
+      42,
+      1201,
+      2026,
+      3407,
+      7319
+    ],
+    "outer_folds": 3,
+    "not_phase4_c0": true
+  },
+  "actions": [
+    "ASSESSMENT_COMPLETION",
+    "RECOVER_ENGAGEMENT",
+    "STUDY_REGULARITY",
+    "TARGETED_CONTENT_REVIEW",
+    "QUIZ_RETRIEVAL_PRACTICE"
+  ],
+  "stages": [
+    "EARLY_20",
+    "EARLY_35",
+    "MIDDLE_50",
+    "LATE_75"
+  ],
+  "final_evaluation_intervention": false,
+  "label_sources": [
+    {
+      "name": "LF_ASSESSMENT_NEED_V4",
+      "family": "BEHAVIORAL"
+    },
+    {
+      "name": "LF_ENGAGEMENT_RECOVERY_V4",
+      "family": "BEHAVIORAL"
+    },
+    {
+      "name": "LF_STUDY_REGULARITY_V4",
+      "family": "BEHAVIORAL"
+    },
+    {
+      "name": "LF_CONTENT_REVIEW_V4",
+      "family": "BEHAVIORAL"
+    },
+    {
+      "name": "LF_QUIZ_RETRIEVAL_V4",
+      "family": "BEHAVIORAL"
+    },
+    {
+      "name": "LF_FEASIBILITY_CONSTRAINT_V4",
+      "family": "FEASIBILITY"
+    },
+    {
+      "name": "REAL_EXTERNAL_GEMINI_REVIEW_V4",
+      "family": "LLM_EXPERT"
+    }
+  ],
+  "panel_a": {
+    "cases": 300,
+    "weak_action_rows": 1500,
+    "gemini_records": 1117,
+    "eligible_external_review_keys": 1117,
+    "retained_snorkel_rows": 1499,
+    "status": "FROZEN_DEVELOPMENT",
+    "training_eligible": true
+  },
+  "panel_b": {
+    "cases": 150,
+    "gemini_records": 557,
+    "status": "FROZEN_HELDOUT_V2_ONLY",
+    "must_not_tune_v3": true,
+    "ndcg_at_3_ranker": 0.9526603067902532,
+    "ndcg_at_3_action_stage_baseline": 0.8275943281032121,
+    "bootstrap_mean_delta": 0.12466302441561493,
+    "ci95": [
+      0.09508467988207753,
+      0.15361541252930452
+    ],
+    "invalid_action_rate": 0.0
+  },
+  "ranker": {
+    "class": "FiveEBMRanker",
+    "model_class": "interpret.glassbox.ExplainableBoostingRegressor",
+    "selected_config_id": "a70599afad40",
+    "calibration": "NONE_RAW_EBM_SELECTED",
+    "uses_risk_probability": true,
+    "uses_hybrid_uncertainty": true,
+    "uses_seed_disagreement": false
+  },
+  "baseline": {
+    "primary_heldout": "panel_a_action_stage_only_baseline",
+    "other_challengers_in_protocol_not_all_heldout_reported": [
+      "rule_severity",
+      "global_popularity",
+      "logistic_relevance",
+      "lambdamart",
+      "frozen_neural_action_head"
+    ]
+  },
+  "metrics": {
+    "primary": "ndcg_at_3",
+    "k": 3,
+    "positive_threshold": 1.0,
+    "query_grouping": "query_id"
+  },
+  "runtime_status": {
+    "release_manifest_runtime_authorized": true,
+    "dataclass_runtime_authorized_allowed": false,
+    "conflict": true
+  },
+  "compatibility_status": "INCOMPATIBLE_WITHOUT_REBUILD_FOR_LEARNED_ARTIFACTS",
+  "must_fix_gap_ids": [
+    "G01",
+    "G02",
+    "G03",
+    "G04",
+    "G05",
+    "G15"
+  ],
+  "frozen_paths": [
+    "artifacts/recommend_hybrid/final/",
+    "reports/recommend_hybrid/final/",
+    "configs/recommend_hybrid/final/",
+    "artifacts/recommend_hybrid/RECOMMEND_HYBRID_CHECKPOINT_MANIFEST.json"
+  ],
+  "dangerous_scripts": [
+    "scripts/recommendation/__pycache__/run_gemini_labeling.cpython-310.pyc",
+    "scripts/recommendation/__pycache__/bootstrap_panel_b.cpython-310.pyc",
+    "scripts/reconstruction/rebuild_recommendation_phase8.py",
+    "scripts/reconstruction/finish_recommendation_phase8.py",
+    "src/recommend_hybrid/final/risk_policy_selection.py::run",
+    "Module_recomend:scripts/recommend_hybrid/explainable_v2/dispatch_gemini_panel_a_batch01_v3.py"
+  ],
+  "survey_invariants": {
+    "MODEL_TRAINED": false,
+    "GEMINI_CALLED": false,
+    "PANEL_B_RERUN": false,
+    "ACTIVE_RUNTIME_MODIFIED": false
+  }
+}

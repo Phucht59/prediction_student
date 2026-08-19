@@ -1,0 +1,79 @@
+{
+  "schema_version": "recommendation_v3_kb_manifest_v1",
+  "repo_commit": "356becec7802659c4b9ff20171046871425bfade",
+  "created_utc": "2026-08-19T10:08:35Z",
+  "survey_only": true,
+  "model_trained": false,
+  "gemini_called": false,
+  "panel_b_rerun": false,
+  "active_runtime_modified": false,
+  "gemini_portability_rows": 1674,
+  "files": [
+    {
+      "path": "reports/recommend_hybrid/v3_context/MASTER_RECOMMENDATION_KB.md",
+      "bytes": 15451,
+      "sha256": "dbcd44175e8ff709d9c52562007b815a71606af6878050c117c6b586aba3298a"
+    },
+    {
+      "path": "reports/recommend_hybrid/v3_context/HANDOFF_TO_CHATGPT.md",
+      "bytes": 9014,
+      "sha256": "c577f708c323263d07c390a96eaddd3bb8a71881dae53dcd0f134ca935fb676b"
+    },
+    {
+      "path": "reports/recommend_hybrid/v3_context/ARCHITECTURE_AND_CALL_GRAPH.md",
+      "bytes": 3231,
+      "sha256": "379bfb91281533de4b0cf6012880e79db0725a9707e28092326201d6013eff3d"
+    },
+    {
+      "path": "reports/recommend_hybrid/v3_context/DATA_LABEL_LINEAGE.md",
+      "bytes": 4520,
+      "sha256": "7558c38fed15e7228b6a9d8eb1acf8a295d581ece6262fdc2b697bb3e160cb7d"
+    },
+    {
+      "path": "reports/recommend_hybrid/v3_context/PREDICTION_AUTHORITY_COMPATIBILITY.md",
+      "bytes": 4562,
+      "sha256": "0786cfa3c5a8ec9d995a60709f08f39b5ce1b45d118df5b1929e918f5fc51ba4"
+    },
+    {
+      "path": "reports/recommend_hybrid/v3_context/GEMINI_LABEL_PORTABILITY.md",
+      "bytes": 2989,
+      "sha256": "499716b9e6bf719ffe2d6e5c5ae99d7b7a5ba6bbcb3198a8192855baba5dfc7b"
+    },
+    {
+      "path": "artifacts/recommend_hybrid/v3_context/GEMINI_LABEL_PORTABILITY.csv",
+      "bytes": 1082846,
+      "sha256": "ebf61cfb79a8104d4c6d25a68733afdf368bfff7ccf11d113328d4424cc51f9c"
+    },
+    {
+      "path": "artifacts/recommend_hybrid/v3_context/RECOMMENDATION_FILE_CLASSIFICATION.csv",
+      "bytes": 12788,
+      "sha256": "b11a0b05ac92dff8eb66477b47524f026c9ca91bf476ca77a57a2e168606879a"
+    },
+    {
+      "path": "artifacts/recommend_hybrid/v3_context/PHASE4_RECOMMENDATION_COMPATIBILITY.csv",
+      "bytes": 5568,
+      "sha256": "3af66e45619f624d896c7ab6d2163aa02d11139a31f0726c3ed8531bf13da1ff"
+    },
+    {
+      "path": "artifacts/recommend_hybrid/v3_context/GAP_REGISTER.csv",
+      "bytes": 4807,
+      "sha256": "0983c31633fa7ef7d7f876d6c924722e963730387c4bcae5a941ac84d0616917"
+    },
+    {
+      "path": "artifacts/recommend_hybrid/v3_context/V3_FEASIBILITY_MATRIX.csv",
+      "bytes": 3414,
+      "sha256": "5e1ecba944b5b1dad1e2f09d1ddc9e8130a7284da60337a9c3742749d2f091e3"
+    },
+    {
+      "path": "artifacts/recommend_hybrid/v3_context/CURRENT_STATE.json",
+      "bytes": 4796,
+      "sha256": "a6f2bcc64803ddac32e9102a3dd3c065480c1200a0949bb06d692e6c4226cfb2"
+    }
+  ],
+  "missing": [],
+  "invariants": {
+    "prediction_authority": "C0",
+    "v2_prediction_used": "H1_TABULAR_RESIDUAL_EXPERT",
+    "panel_b_must_not_tune_v3": true
+  }
+}
