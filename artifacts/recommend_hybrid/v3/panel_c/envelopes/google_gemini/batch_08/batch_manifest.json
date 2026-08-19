@@ -1,0 +1,10 @@
+{
+  "provider": "Google Gemini API",
+  "batch_id": "batch_08",
+  "model_name": "gemini-3.5-flash-lite",
+  "prompt_sha256": "714800f716feff78f431e1dd6d82b24ed0a2c38264db90d87880c7b9b282a7b4",
+  "request_batch_sha256": "4bf61f7510a9204c2fca94e5ee2da810d39a587d239dbb080a2d67575dee8419",
+  "request_batch_snapshot_file": "request_batch_snapshot.jsonl",
+  "n_cases": 50,
+  "n_response_records": 210
+}

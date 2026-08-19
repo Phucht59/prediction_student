@@ -63,5 +63,5 @@
     "do_not_substitute_model": true
   },
   "historical_panel_b_is_not_v3_heldout": true,
-  "status": "PROTOCOL_FROZEN_AWAITING_GEMINI"
+  "status": "GEMINI_INCOMPLETE"
 }

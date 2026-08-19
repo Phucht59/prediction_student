@@ -1,0 +1,52 @@
+{
+  "provider": "Google Gemini API",
+  "batch_id": "batch_11",
+  "model_name": "gemini-3.5-flash-lite",
+  "prompt_sha256": "714800f716feff78f431e1dd6d82b24ed0a2c38264db90d87880c7b9b282a7b4",
+  "records": [
+    {
+      "request_id": "clientreq_7365c8450065418a8b7fc9724186d782",
+      "response_id": "cqiFarrEE5DEg8UP-ceQ8AM",
+      "case_id": "case_daea314b83adc4adc080e17f",
+      "action_id": "RECOVER_ENGAGEMENT",
+      "index": 0,
+      "sha256": "d80b02ead31d1dc6b91eb8f0ba688644d9b32bc8a9e9cadd7f4a1600834f85b4",
+      "raw_response_file": "raw_responses/case_daea314b83adc4adc080e17f.json",
+      "raw_response_sha256": "1883cb7ff657277023132180d4bffce9e2954a4e125a182357d149be2d07dcf3",
+      "model_version": "gemini-3.5-flash-lite"
+    },
+    {
+      "request_id": "clientreq_7365c8450065418a8b7fc9724186d782",
+      "response_id": "cqiFarrEE5DEg8UP-ceQ8AM",
+      "case_id": "case_daea314b83adc4adc080e17f",
+      "action_id": "STUDY_REGULARITY",
+      "index": 1,
+      "sha256": "7085daf5c7a01ccc60f0b06a96722ab255f38c85451681560ad9825b0b2bae56",
+      "raw_response_file": "raw_responses/case_daea314b83adc4adc080e17f.json",
+      "raw_response_sha256": "1883cb7ff657277023132180d4bffce9e2954a4e125a182357d149be2d07dcf3",
+      "model_version": "gemini-3.5-flash-lite"
+    },
+    {
+      "request_id": "clientreq_7365c8450065418a8b7fc9724186d782",
+      "response_id": "cqiFarrEE5DEg8UP-ceQ8AM",
+      "case_id": "case_daea314b83adc4adc080e17f",
+      "action_id": "TARGETED_CONTENT_REVIEW",
+      "index": 2,
+      "sha256": "bc53e986acee1e396374b7cc7aaa95f3fb988737523bf59c5a91e9f39cbe9b8c",
+      "raw_response_file": "raw_responses/case_daea314b83adc4adc080e17f.json",
+      "raw_response_sha256": "1883cb7ff657277023132180d4bffce9e2954a4e125a182357d149be2d07dcf3",
+      "model_version": "gemini-3.5-flash-lite"
+    },
+    {
+      "request_id": "clientreq_7365c8450065418a8b7fc9724186d782",
+      "response_id": "cqiFarrEE5DEg8UP-ceQ8AM",
+      "case_id": "case_daea314b83adc4adc080e17f",
+      "action_id": "QUIZ_RETRIEVAL_PRACTICE",
+      "index": 3,
+      "sha256": "96dd15183007dce7ee89a8e492f15df17199f3eae56cd7082e3130da04d77e59",
+      "raw_response_file": "raw_responses/case_daea314b83adc4adc080e17f.json",
+      "raw_response_sha256": "1883cb7ff657277023132180d4bffce9e2954a4e125a182357d149be2d07dcf3",
+      "model_version": "gemini-3.5-flash-lite"
+    }
+  ]
+}

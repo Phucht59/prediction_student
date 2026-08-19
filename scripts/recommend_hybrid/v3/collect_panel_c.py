@@ -36,7 +36,8 @@ REVIEWS = PANEL / "PANEL_C_REVIEWS_FROZEN.jsonl"
 PROGRESS = PANEL / "collection_progress.json"
 MAX_ATTEMPTS = 3
 BATCH_SIZE = 50
-SLEEP_S = 0.15
+# Free-tier RPM is 15. Sleep is transport-only and does not change the prompt or model.
+SLEEP_S = 4.2
 ENDPOINT = f"https://generativelanguage.googleapis.com/v1beta/models/{MODEL_NAME}:generateContent"
 
 
@@ -319,7 +320,8 @@ def collect() -> dict:
             else:
                 last_error = f"http_{status}:{raw_response_text[:400]}"
                 if _retryable(status) and attempt < MAX_ATTEMPTS:
-                    time.sleep(min(30, 2 ** attempt))
+                    wait_s = 65 if status == 429 else min(30, 2 ** attempt)
+                    time.sleep(wait_s)
                     continue
                 break
         if last_error or response_obj is None:

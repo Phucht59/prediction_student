@@ -1,0 +1,14 @@
+{
+  "provider": "Google Gemini API",
+  "batch_id": "batch_11",
+  "model_name": "gemini-3.5-flash-lite",
+  "prompt_sha256": "714800f716feff78f431e1dd6d82b24ed0a2c38264db90d87880c7b9b282a7b4",
+  "records": [
+    {
+      "request_id": "clientreq_7365c8450065418a8b7fc9724186d782",
+      "case_id": "case_daea314b83adc4adc080e17f",
+      "raw_request_file": "raw_requests/case_daea314b83adc4adc080e17f.json",
+      "raw_request_sha256": "54e47216012069119562869f708e7bc2a14414859a066190b64ad658af8d2e77"
+    }
+  ]
+}
