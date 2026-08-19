@@ -1,19 +1,67 @@
 {
   "name": "PANEL_C",
+  "schema_version": "panel_c_v3_protocol_v1",
   "heldout": true,
   "n_students_requested": 150,
   "n_students_sampled": 150,
+  "n_cases": 632,
   "student_overlap_with_portable_panel_a": 0,
+  "panel_b_reuse": false,
+  "duplicate_case_count": 0,
+  "only_intervention_stages": true,
+  "candidate_policy": "feasible_actions_only",
+  "one_request_per_case": true,
+  "complete_coverage_required": true,
   "gemini_required": true,
   "gemini_executed": false,
+  "provider": "Google Gemini API",
+  "requested_model": "gemini-3.5-flash-lite",
+  "prompt_version": "panel_c_external_reviewer_v3_c0_blinded_v1",
+  "prompt_path": "configs/recommend_hybrid/v3/panel_c_external_reviewer_v3.txt",
+  "prompt_sha256": "714800f716feff78f431e1dd6d82b24ed0a2c38264db90d87880c7b9b282a7b4",
   "prompt_must_not_include": [
     "risk_probability",
     "predicted_risk",
     "risk_band",
+    "risk_margin",
+    "risk_threshold",
     "uncertainty",
     "model_id",
-    "final_result"
+    "final_result",
+    "Five-EBM scores",
+    "rank positions"
   ],
+  "score_contract": "ordinal_0_3_or_ABSTAIN",
+  "primary_metric": "NDCG@3",
+  "secondary_metrics": [
+    "precision_at_1",
+    "mrr",
+    "recall_at_3",
+    "pairwise_accuracy",
+    "exact_best_top1_agreement"
+  ],
+  "baselines_frozen_before_open": [
+    "B0_action_stage",
+    "B1_rule_score"
+  ],
+  "abstention_policy": "Preserve every authentic review record. Primary ranking metrics use only cases with a non-abstained review for every feasible candidate action.",
+  "bootstrap": {
+    "iterations": 2000,
+    "seed": 2026,
+    "unit": "query",
+    "estimand": "Five-EBM-C0 minus baseline NDCG@3"
+  },
+  "retry_policy": {
+    "max_attempts": 3,
+    "retry_on": [
+      "timeout",
+      "http_429",
+      "http_5xx",
+      "transport"
+    ],
+    "do_not_change_prompt": true,
+    "do_not_substitute_model": true
+  },
   "historical_panel_b_is_not_v3_heldout": true,
-  "status": "SAMPLED_AWAITING_GEMINI"
+  "status": "PROTOCOL_FROZEN_AWAITING_GEMINI"
 }

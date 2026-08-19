@@ -1,0 +1,12 @@
+{
+  "schema_version": "panel_c_provider_manifest_v1",
+  "status": "NOT_STARTED",
+  "provider": "Google Gemini API",
+  "requested_model": "gemini-3.5-flash-lite",
+  "prompt_version": "panel_c_external_reviewer_v3_c0_blinded_v1",
+  "prompt_sha256": "714800f716feff78f431e1dd6d82b24ed0a2c38264db90d87880c7b9b282a7b4",
+  "n_cases_planned": 632,
+  "n_cases_reviewed": 0,
+  "n_provider_failures": 0,
+  "model_substitution": false
+}
