@@ -1,4 +1,10 @@
 {
   "status": "NOT_EVALUATED",
-  "reason": "Gemini Panel C reviews not authorized in this run"
+  "reason": "Panel C coverage incomplete: 501/632 authentic cases; 131 HTTP 429 after bounded retries; free-tier daily cap 500 generate_content_free_tier_requests. complete_coverage_required=true.",
+  "n_cases_sampled": 632,
+  "n_cases_reviewed": 501,
+  "n_review_records": 1910,
+  "n_provider_failures": 131,
+  "PANEL_C_AUTHENTIC_PROVENANCE": "PASS_FOR_COLLECTED_RECORDS",
+  "PANEL_C_COVERAGE": "FAIL"
 }
