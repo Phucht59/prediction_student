@@ -4,8 +4,21 @@
   "not_current_prediction_authority": true,
   "outer_test_is_not_phase4": true,
   "checksum_manifest": "artifacts/migration/PREDICTION_PHASE8_MIGRATION_MANIFEST.csv",
+  "duplicate_historical_copies_removed": true,
+  "checksum_locked_originals_kept": true,
   "current_result_tables": [
     "reports/prediction/final/uci_final.csv",
     "reports/prediction/final/oulad_final.csv"
+  ],
+  "locked_originals": [
+    "reports/prediction/final/uci_table.csv",
+    "reports/prediction/final/oulad_early_table.csv",
+    "reports/prediction/final/oulad_final_table.csv",
+    "artifacts/prediction/final/bootstrap/",
+    "artifacts/prediction/final/outer_test_final/",
+    "artifacts/prediction/final/development/",
+    "artifacts/prediction/final/protocol/",
+    "artifacts/prediction/final/recovery/",
+    "artifacts/prediction/final/consumption/"
   ]
 }

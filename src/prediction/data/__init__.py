@@ -14,11 +14,13 @@ from .oulad_features import (
     build_oulad_information_state,
     events_strictly_before_cutoff,
     filter_events_cutoff_safe,
+    fit_oulad_preprocessor,
 )
-from .final100 import FINAL100_ENDPOINT, assert_final100_view, build_final100_view
+from .preprocessing import ContextPreprocessor
 
 __all__ = [
     "UnifiedHybridData",
+    "ContextPreprocessor",
     "load_raw_uci",
     "build_uci_combined",
     "build_uci_stage_view",
@@ -28,10 +30,8 @@ __all__ = [
     "validate_oulad_predictor_columns",
     "oulad_risk_target",
     "build_oulad_information_state",
+    "fit_oulad_preprocessor",
     "filter_events_cutoff_safe",
     "events_strictly_before_cutoff",
     "assert_predictor_contract",
-    "FINAL100_ENDPOINT",
-    "build_final100_view",
-    "assert_final100_view",
 ]

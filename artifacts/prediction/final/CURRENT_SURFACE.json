@@ -4,7 +4,8 @@
     "reports/prediction/final/uci_final.csv",
     "reports/prediction/final/oulad_final.csv",
     "reports/prediction/final/information_growth.csv",
-    "reports/prediction/final/FINAL_CLEANUP_AUDIT.md"
+    "reports/prediction/final/FINAL_CLEANUP_AUDIT.md",
+    "reports/prediction/final/FINAL_REPO_HYGIENE_AUDIT.md"
   ],
   "artifacts": [
     "artifacts/prediction/final/FINALIZATION_DECISION.json",

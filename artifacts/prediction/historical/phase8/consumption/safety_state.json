@@ -1,8 +1,0 @@
-{
-  "outer_labels_accessed": true,
-  "outer_test_authorized": true,
-  "outer_test_consumed": true,
-  "outer_test_opened": true,
-  "outer_test_run_count": 1,
-  "post_test_tuning_allowed": false
-}

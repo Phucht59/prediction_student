@@ -12,8 +12,7 @@ dependencies:
   - pytorch
   - psycopg2
   - python-dotenv
+  - pyarrow
   - pip
   - pip:
-      - optuna
       - pytest
-      - xgboost

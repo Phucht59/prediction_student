@@ -3,6 +3,6 @@
   "source_phase": "Phase8",
   "not_current_prediction_authority": true,
   "current_authority": "Phase4 Hybrid C0",
-  "relocated_copy": "artifacts/prediction/historical/phase8/protocol",
+  "duplicate_copy_removed": true,
   "kept_at_old_path_because": "checksum_locked_migration_manifest"
 }

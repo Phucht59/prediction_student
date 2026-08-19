@@ -8,6 +8,7 @@ events satisfy observation_start <= event_time < cutoff.
 from __future__ import annotations
 
 import math
+from dataclasses import dataclass
 from pathlib import Path
 
 import numpy as np
@@ -23,6 +24,24 @@ from .oulad import (
     load_oulad_static_tables,
     validate_oulad_predictor_columns,
 )
+from .preprocessing import ContextPreprocessor, MaskedStandardScaler
+
+OULAD_CATEGORICAL_CONTEXT = [
+    "gender",
+    "region",
+    "highest_education",
+    "imd_band",
+    "age_band",
+    "disability",
+    "code_module",
+    "presentation_season",
+]
+OULAD_NUMERIC_CONTEXT = [
+    "num_of_prev_attempts",
+    "studied_credits",
+    "registration_lead_time",
+    "module_presentation_length",
+]
 
 CONTENT_TYPES = {"oucontent", "resource", "page", "url", "glossary", "homepage", "subpage", "dataplus"}
 FORUM_TYPES = {"forumng"}
@@ -246,8 +265,128 @@ def build_oulad_cutoff_view(
     return eligible, view, audit
 
 
-def build_oulad_information_state(raw_dir: str | Path, state: str, *, vle_daily: pd.DataFrame | None = None, apply_d3: bool = True) -> UnifiedHybridData:
-    """Raw tables → one information state of the same OULAD Hybrid."""
+@dataclass
+class OuladPreprocessor:
+    """FIT-only static/context + aggregate + temporal scalers."""
+
+    context: ContextPreprocessor
+    aggregate_mean: np.ndarray
+    aggregate_std: np.ndarray
+    temporal: MaskedStandardScaler
+    fit_record_ids: tuple[str, ...]
+
+    @property
+    def static_dim(self) -> int:
+        return int(self.context.output_dim)
+
+
+def context_frame_from_base(base: pd.DataFrame) -> pd.DataFrame:
+    cols = ["record_id", "group_id", "target", *OULAD_NUMERIC_CONTEXT, *OULAD_CATEGORICAL_CONTEXT]
+    missing = [c for c in cols if c not in base.columns]
+    if missing:
+        raise ValueError(f"OULAD context missing columns: {missing}")
+    assert_predictor_contract([c for c in cols if c not in {"record_id", "group_id", "target"}])
+    return base[cols].drop_duplicates("record_id").copy()
+
+
+def fit_oulad_preprocessor(
+    raw_dir: str | Path,
+    fit_record_ids: list[str] | tuple[str, ...],
+    *,
+    vle_daily: pd.DataFrame | None = None,
+    states: tuple[str, ...] = OULAD_STATES,
+) -> OuladPreprocessor:
+    """Fit context/aggregate/temporal stats on FIT ids only."""
+    _, _, base = load_oulad_static_tables(raw_dir)
+    context = context_frame_from_base(base)
+    fit_ids = set(map(str, fit_record_ids))
+    fit_frame = context[context.record_id.astype(str).isin(fit_ids)].drop_duplicates("record_id")
+    if fit_frame.empty:
+        raise ValueError("no FIT records in OULAD context")
+    ctx = ContextPreprocessor(OULAD_NUMERIC_CONTEXT, OULAD_CATEGORICAL_CONTEXT).fit(fit_frame)
+    daily = vle_daily if vle_daily is not None else build_vle_daily(raw_dir)
+    aggs = []
+    temps = []
+    masks = []
+    for state in states:
+        _eligible, view, _ = build_oulad_cutoff_view(base, daily, STATE_FRACTIONS[canonical_oulad_state(state)], raw_dir)
+        view = apply_d3_variant(view)
+        lookup = {str(r): i for i, r in enumerate(view.record_id)}
+        idx = [lookup[i] for i in fit_ids if i in lookup]
+        if not idx:
+            continue
+        available = view.aggregate_available[idx].astype(bool)
+        if available.any():
+            aggs.append(view.aggregate[np.asarray(idx)[available]])
+        temps.append(view.temporal[idx])
+        masks.append(view.temporal_mask[idx])
+    if temps:
+        max_t = max(t.shape[1] for t in temps)
+        padded_t, padded_m = [], []
+        for temporal, mask in zip(temps, masks):
+            pad = max_t - temporal.shape[1]
+            if pad > 0:
+                temporal = np.pad(temporal, ((0, 0), (0, pad), (0, 0)))
+                mask = np.pad(mask, ((0, 0), (0, pad)))
+            padded_t.append(temporal)
+            padded_m.append(mask)
+        temps, masks = padded_t, padded_m
+    if aggs:
+        stacked = np.concatenate(aggs, axis=0)
+        agg_mean = stacked.mean(0).astype(np.float32)
+        agg_std = stacked.std(0).astype(np.float32)
+        agg_std = np.where(agg_std < 1e-6, 1.0, agg_std).astype(np.float32)
+    else:
+        width = len(OULAD_AGGREGATE_CHANNELS)
+        agg_mean = np.zeros(width, np.float32)
+        agg_std = np.ones(width, np.float32)
+    temporal = MaskedStandardScaler()
+    if temps:
+        temporal.fit(np.concatenate(temps, axis=0), np.concatenate(masks, axis=0))
+    else:
+        temporal.fit(np.zeros((1, 1, len(OULAD_TEMPORAL_CHANNELS)), np.float32), np.zeros((1, 1), dtype=bool))
+    return OuladPreprocessor(
+        context=ctx,
+        aggregate_mean=agg_mean,
+        aggregate_std=agg_std,
+        temporal=temporal,
+        fit_record_ids=tuple(sorted(fit_ids)),
+    )
+
+
+def apply_oulad_preprocessor(view: UnifiedHybridData, context: pd.DataFrame, preprocessor: OuladPreprocessor) -> UnifiedHybridData:
+    ctx = context.drop_duplicates("record_id").copy()
+    ctx["record_id"] = ctx.record_id.astype(str)
+    aligned = ctx.set_index("record_id", drop=True).loc[np.asarray(view.record_id).astype(str)].reset_index()
+    static = preprocessor.context.transform(aligned)
+    aggregate = ((view.aggregate - preprocessor.aggregate_mean) / preprocessor.aggregate_std).astype(np.float32)
+    temporal = preprocessor.temporal.transform(view.temporal, view.temporal_mask)
+    if not np.isfinite(static).all() or not np.isfinite(aggregate).all() or not np.isfinite(temporal).all():
+        raise ValueError("non-finite values after FIT-only transform")
+    return UnifiedHybridData(
+        static=static,
+        temporal=temporal,
+        temporal_mask=view.temporal_mask.copy(),
+        lengths=view.lengths.copy(),
+        aggregate=aggregate,
+        aggregate_available=view.aggregate_available.copy(),
+        progress=view.progress.copy(),
+        target=view.target.copy(),
+        record_id=view.record_id.copy(),
+        group_id=view.group_id.copy(),
+        metadata={**view.metadata, "static_dim": int(static.shape[1]), "fit_only_preprocessing": True},
+    )
+
+
+def build_oulad_information_state(
+    raw_dir: str | Path,
+    state: str,
+    *,
+    vle_daily: pd.DataFrame | None = None,
+    apply_d3: bool = True,
+    preprocessor: OuladPreprocessor | None = None,
+) -> UnifiedHybridData:
+    """Raw tables → one information state. Pass a FIT-fitted preprocessor for full Hybrid input."""
     state = canonical_oulad_state(state)
     if state not in STATE_FRACTIONS:
         raise ValueError(state)
@@ -256,7 +395,9 @@ def build_oulad_information_state(raw_dir: str | Path, state: str, *, vle_daily:
     _eligible, view, _audit = build_oulad_cutoff_view(base, daily, STATE_FRACTIONS[state], raw_dir)
     if apply_d3:
         view = apply_d3_variant(view)
-    return view
+    if preprocessor is None:
+        raise ValueError("preprocessor is required for full Hybrid input; call fit_oulad_preprocessor on FIT ids first")
+    return apply_oulad_preprocessor(view, context_frame_from_base(base), preprocessor)
 
 
 def assert_predictor_contract(columns) -> None:
@@ -269,11 +410,16 @@ def assert_predictor_contract(columns) -> None:
 __all__ = [
     "STATE_FRACTIONS",
     "CONTENT_TYPES",
+    "OULAD_NUMERIC_CONTEXT",
+    "OULAD_CATEGORICAL_CONTEXT",
+    "OuladPreprocessor",
     "events_strictly_before_cutoff",
     "filter_events_cutoff_safe",
     "eligible_oulad",
     "build_vle_daily",
     "build_oulad_cutoff_view",
+    "fit_oulad_preprocessor",
+    "apply_oulad_preprocessor",
     "build_oulad_information_state",
     "assert_predictor_contract",
 ]

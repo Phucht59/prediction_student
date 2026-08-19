@@ -31,7 +31,7 @@
     "artifacts/hybrid_vnext/phase4/BASELINE_CEILING.json": "87eff46016ad92a0f93ea248610e1a23fe5d2b54fbef126c8e42635d569d441a",
     "artifacts/hybrid_vnext/phase4/LEAKAGE_AUDIT.json": "9ac3d31f299127f4579c5579ba2408475c8ef98eedaa040960ac957e9f82f696",
     "artifacts/hybrid_vnext/phase4/ONE_MODEL_CONTRACT.json": "0393c80581a677578147824c6806cbd09210755068e5f27ddb9da816658d484b",
-    "HYBRID_VNEXT_PHASE4_FINAL_REPORT.md": "c212fa14f3cb4cf26c7523ac6144cc91b2c6275c319fba818cffd03cfaadb93c"
+    "reports/hybrid_vnext/phase4/HYBRID_VNEXT_PHASE4_FINAL_REPORT.md": "c212fa14f3cb4cf26c7523ac6144cc91b2c6275c319fba818cffd03cfaadb93c"
   },
   "timestamp": "2026-08-19T08:15:00Z"
 }

@@ -49,6 +49,8 @@ XGBoost is **not** an active comparator in the final project scope. Historical X
 
 Raw UCI/OULAD files are not bundled. Active source contains the feature-building pipeline (`src/prediction/data/oulad_features.py`): cutoff-safe weekly tensors and D3 aggregates from local raw tables. Scalers remain FIT-only and are not fit on VALID/test.
 
+Active conda env is `environment.yml` (no XGBoost/Optuna). Research HPO extras are in `environment.research.yml`.
+
 ## Checks (no training, no HPO, no outer)
 
 ```powershell

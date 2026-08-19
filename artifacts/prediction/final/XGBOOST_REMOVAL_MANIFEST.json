@@ -9,10 +9,10 @@
   "active_surface_hits": [],
   "factory": "experiments.hybrid_vnext.baselines.make_model no longer constructs XGB",
   "historical_locations_not_used_for_selection": [
-    "HYBRID_VNEXT_PHASE3_FINAL_REPORT.md",
+    "reports/hybrid_vnext/phase3/HYBRID_VNEXT_PHASE3_FINAL_REPORT.md",
     "artifacts/hybrid_vnext/phase3/",
     "artifacts/final/",
-    "environment.yml (optional historical extra)"
+    "environment.research.yml"
   ],
   "historical_provenance_preserved": true,
   "outer_test_used": false,

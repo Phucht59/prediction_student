@@ -231,10 +231,10 @@ def write_xgb_manifest() -> dict:
         "active_roster": list(ACTIVE_FAMILIES),
         "historical_provenance_preserved": True,
         "historical_locations_not_used_for_selection": [
-            "HYBRID_VNEXT_PHASE3_FINAL_REPORT.md",
+            "reports/hybrid_vnext/phase3/HYBRID_VNEXT_PHASE3_FINAL_REPORT.md",
             "artifacts/hybrid_vnext/phase3/",
             "artifacts/final/",
-            "environment.yml (optional historical extra)",
+            "environment.research.yml",
         ],
         "active_surface_hits": hits,
         "factory": "experiments.hybrid_vnext.baselines.make_model no longer constructs XGB",

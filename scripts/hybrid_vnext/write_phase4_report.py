@@ -186,7 +186,6 @@ def main() -> None:
         "",
     ]
     text = "\n".join(lines) + "\n"
-    (ROOT / "HYBRID_VNEXT_PHASE4_FINAL_REPORT.md").write_text(text, encoding="utf-8")
     dest = ROOT / "reports" / "hybrid_vnext" / "phase4"
     dest.mkdir(parents=True, exist_ok=True)
     (dest / "HYBRID_VNEXT_PHASE4_FINAL_REPORT.md").write_text(text, encoding="utf-8")

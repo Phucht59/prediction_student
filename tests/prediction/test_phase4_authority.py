@@ -200,6 +200,46 @@ def test_forbidden_outcome_fields_fail_predictor_contract():
         raise AssertionError("date_unregistration must not be a predictor")
 
 
+def test_current_authority_docs_are_phase4():
+    forbidden = (
+        "cnn_bilstm_mat",
+        "cnn_bilstm_por",
+        "cnn_bilstm_oulad",
+        "H1_TABULAR_RESIDUAL_EXPERT",
+        "Low     :",
+        "3-class",
+        "oulad_early_model",
+        "oulad_final_model",
+    )
+    files = [
+        ROOT / "PROJECT.md",
+        ROOT / "README.md",
+        ROOT / "reports" / "prediction" / "final" / "FINAL_PREDICTION_MODEL_REPORT.md",
+        ROOT / "configs" / "prediction" / "hybrid_final.json",
+        ROOT / "configs" / "prediction" / "registry.json",
+    ]
+    for path in files:
+        text = path.read_text(encoding="utf-8")
+        for token in forbidden:
+            assert token not in text, f"{path.name} still contains stale authority token {token!r}"
+        assert "Hybrid" in text or "hybrid" in text.lower()
+    assert not (ROOT / "configs" / "prediction" / "hybrid_phase8.json").exists()
+    assert (ROOT / "configs" / "prediction" / "historical" / "hybrid_phase8.json").is_file()
+    env = (ROOT / "environment.yml").read_text(encoding="utf-8")
+    assert "xgboost" not in env.lower()
+    assert "optuna" not in env.lower()
+    research = (ROOT / "environment.research.yml").read_text(encoding="utf-8")
+    assert "xgboost" in research.lower()
+    registry = (ROOT / "reports" / "CURRENT_REPORTS.md").read_text(encoding="utf-8")
+    assert "Phase 4 Hybrid C0" in registry
+    assert "PROJECT.md" in registry
+    assert "the current Hybrid C0 authority" in registry
+    assert "HISTORICAL / SUPERSEDED" in registry
+    assert not (ROOT / "artifacts" / "prediction" / "historical" / "phase8").exists()
+    assert not (ROOT / "reports" / "prediction" / "historical" / "phase8").exists()
+    assert not (ROOT / "src" / "prediction" / "data" / "final100.py").exists()
+
+
 def test_overfit_audit_is_stage_independent():
     audit = json.loads((ROOT / "artifacts" / "prediction" / "final" / "OVERFIT_AUDIT.json").read_text(encoding="utf-8"))
     uci = audit["uci"]["stages"]

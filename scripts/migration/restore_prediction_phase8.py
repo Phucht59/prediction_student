@@ -300,8 +300,8 @@ class Migration:
             self.record(f"{AUTHORITY_REF}:{source}", destination, role, AUTHORITY_REF, "copied", "Byte-for-byte authority copy; SHA-256 checked in manifest.")
 
         config_source = ROOT / "artifacts/prediction/final/development/hybrid_config.json"
-        copy_bytes(config_source.read_bytes(), ROOT / "configs/prediction/hybrid_phase8.json")
-        self.record("artifacts/hybrid/phase8/final_development/hybrid_config.json", "configs/prediction/hybrid_phase8.json", "active_config", AUTHORITY_REF, "copied", "Same bytes as frozen Phase8 config.")
+        copy_bytes(config_source.read_bytes(), ROOT / "configs/prediction/historical/hybrid_phase8.json")
+        self.record("artifacts/hybrid/phase8/final_development/hybrid_config.json", "configs/prediction/historical/hybrid_phase8.json", "historical_config", AUTHORITY_REF, "copied", "Same bytes as frozen Phase8 config. Not active.")
 
         registry = {
             "prediction_model": {"model_id": "hybrid", "display_name": "Hybrid", "task": "binary_student_risk", "datasets": ["uci_combined", "oulad"]},

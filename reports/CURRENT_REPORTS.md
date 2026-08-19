@@ -14,6 +14,7 @@ The only current thesis prediction model is **Phase 4 Hybrid C0**.
 | Canonical report | `reports/prediction/final/FINAL_PREDICTION_MODEL_REPORT.md` |
 | Current result tables | `reports/prediction/final/uci_final.csv`, `reports/prediction/final/oulad_final.csv` |
 | Information growth | `reports/prediction/final/information_growth.csv` |
+| Project map | `PROJECT.md` |
 | Decision manifest | `artifacts/prediction/final/FINALIZATION_DECISION.json` |
 | Current surface list | `artifacts/prediction/final/CURRENT_SURFACE.json` |
 
@@ -38,9 +39,8 @@ The following are provenance only. They are **not** the current Hybrid C0 author
 | `configs/final/cnn_bilstm_mat.yaml`, `cnn_bilstm_por.yaml`, `h1_tabular_residual_oulad.yaml` | Pre-Phase4 configs |
 | `reports/final/thesis_v3/` | Historical thesis result set |
 | `reports/prediction/final/uci_table.csv`, `oulad_early_table.csv`, `oulad_final_table.csv` | Phase 8 outer freeze (contains XGB). Kept at original path only because a checksum manifest locks it. Current tables are `uci_final.csv` / `oulad_final.csv`. |
-| `artifacts/prediction/final/outer_test_final/`, `bootstrap/`, `development/`, `protocol/`, `recovery/`, `consumption/` | Phase 8 outer / recovery freeze. Checksum-locked paths. |
-| Copies under `artifacts/prediction/historical/phase8/` and `reports/prediction/historical/phase8/` | Relocated historical copies plus mapping manifest |
+| `artifacts/prediction/final/outer_test_final/`, `bootstrap/`, `development/`, `protocol/`, `recovery/`, `consumption/` | Phase 8 outer / recovery freeze. Checksum-locked paths. Sidecar `HISTORICAL.json` markers sit beside them. |
 
 Phase 8 outer was **not** the Phase 4 evaluation. Phase 4 did not open outer.
 
-Checksum-locked historical files must not be edited or deleted. They are marked historical in `artifacts/prediction/final/HISTORICAL_PHASE8.json` and `PATH_MIGRATION.json`.
+Byte-identical extra copies under `artifacts/prediction/historical/phase8/` and `reports/prediction/historical/phase8/` were deleted after SHA match. Checksum-locked originals stay. The index is `artifacts/prediction/final/HISTORICAL_PHASE8.json`.

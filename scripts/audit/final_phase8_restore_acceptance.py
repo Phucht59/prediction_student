@@ -173,7 +173,7 @@ def config_equivalence() -> dict[str, Any]:
     source = configure_authority_namespace()
     from src.prediction.model import Hybrid, HybridConfig
 
-    active_path = ROOT / "configs" / "prediction" / "hybrid_phase8.json"
+    active_path = ROOT / "configs" / "prediction" / "historical" / "hybrid_phase8.json"
     copied_path = ROOT / "artifacts" / "prediction" / "final" / "development" / "hybrid_config.json"
     authority_path = "artifacts/hybrid/phase8/final_development/hybrid_config.json"
     active_config = read_json(active_path)
