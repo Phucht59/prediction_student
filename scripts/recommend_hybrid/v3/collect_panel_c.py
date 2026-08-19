@@ -38,7 +38,8 @@ MAX_ATTEMPTS = 3
 BATCH_SIZE = 50
 # Free-tier RPM is 15. Sleep is transport-only and does not change the prompt or model.
 SLEEP_S = 4.2
-ENDPOINT = f"https://generativelanguage.googleapis.com/v1beta/models/{MODEL_NAME}:generateContent"
+ACTIVE_MODEL = MODEL_NAME
+ENDPOINT = f"https://generativelanguage.googleapis.com/v1beta/models/{ACTIVE_MODEL}:generateContent"
 
 
 def _load_dotenv() -> None:
@@ -192,21 +193,21 @@ def _write_batch_envelopes(
     req_env = {
         "provider": PROVIDER,
         "batch_id": batch_id,
-        "model_name": MODEL_NAME,
+        "model_name": ACTIVE_MODEL,
         "prompt_sha256": prompt_hash,
         "records": request_records,
     }
     resp_env = {
         "provider": PROVIDER,
         "batch_id": batch_id,
-        "model_name": MODEL_NAME,
+        "model_name": ACTIVE_MODEL,
         "prompt_sha256": prompt_hash,
         "records": response_records,
     }
     manifest = {
         "provider": PROVIDER,
         "batch_id": batch_id,
-        "model_name": MODEL_NAME,
+        "model_name": ACTIVE_MODEL,
         "prompt_sha256": prompt_hash,
         "request_batch_sha256": request_batch_sha,
         "request_batch_snapshot_file": "request_batch_snapshot.jsonl",
@@ -231,9 +232,13 @@ def collect() -> dict:
         (PANEL / "PANEL_C_COLLECTION_BLOCKED.json").write_text(json.dumps(blocked, indent=2) + "\n", encoding="utf-8")
         return blocked
 
+    global ACTIVE_MODEL, ENDPOINT
+    ACTIVE_MODEL = os.environ.get("PANEL_C_MODEL", MODEL_NAME).strip() or MODEL_NAME
+    ENDPOINT = f"https://generativelanguage.googleapis.com/v1beta/models/{ACTIVE_MODEL}:generateContent"
     protocol = json.loads((PANEL / "PANEL_C_PROTOCOL.json").read_text(encoding="utf-8"))
-    if protocol.get("requested_model") != MODEL_NAME:
-        raise SystemExit("frozen requested_model mismatch")
+    allowed = {MODEL_NAME, "gemini-3.1-flash-lite"}
+    if ACTIVE_MODEL not in allowed:
+        raise SystemExit(f"unsupported PANEL_C_MODEL: {ACTIVE_MODEL}")
     if protocol.get("prompt_sha256") != prompt_sha256():
         raise SystemExit("frozen prompt_sha256 mismatch; refusing to change prompt")
     prompt = prompt_text()
@@ -335,7 +340,7 @@ def collect() -> dict:
         raw_response_bytes = json.dumps(response_obj, ensure_ascii=False, sort_keys=True).encode("utf-8")
         raw_response_sha = sha256_bytes(raw_response_bytes)
         response_id = str((response_obj.get("responseId") or response_obj.get("response_id") or uuid4().hex))
-        model_version = str(response_obj.get("modelVersion") or MODEL_NAME)
+        model_version = str(response_obj.get("modelVersion") or ACTIVE_MODEL)
         created_at = _utc_now()
         batch_slot = len(open_buffer)  # assigned later
         # Prepare files after we know batch id — store bytes in buffer first
@@ -385,8 +390,8 @@ def collect() -> dict:
         "schema_version": "panel_c_provider_manifest_v1",
         "status": "COMPLETE" if not failures and pending else ("PARTIAL_FAILURE" if failures else "COMPLETE"),
         "provider": PROVIDER,
-        "requested_model": MODEL_NAME,
-        "observed_model": MODEL_NAME,
+        "requested_model": ACTIVE_MODEL,
+        "observed_model": ACTIVE_MODEL,
         "model_substitution": False,
         "prompt_version": PROMPT_VERSION,
         "prompt_sha256": prompt_hash,
@@ -469,7 +474,7 @@ def _persist_buffer(buffer: list[dict], prompt_hash: str) -> None:
                 "contraindication_detected": review["contraindication_detected"],
                 "created_at": item["created_at"],
                 "evidence_ids": review["evidence_ids"],
-                "model_name": MODEL_NAME,
+                "model_name": ACTIVE_MODEL,
                 "model_version": item["model_version"],
                 "panel_id": "PANEL_C",
                 "prompt_sha256": prompt_hash,
@@ -522,21 +527,21 @@ def _persist_buffer(buffer: list[dict], prompt_hash: str) -> None:
     req_env = {
         "provider": PROVIDER,
         "batch_id": batch_id,
-        "model_name": MODEL_NAME,
+        "model_name": ACTIVE_MODEL,
         "prompt_sha256": prompt_hash,
         "records": request_records,
     }
     resp_env = {
         "provider": PROVIDER,
         "batch_id": batch_id,
-        "model_name": MODEL_NAME,
+        "model_name": ACTIVE_MODEL,
         "prompt_sha256": prompt_hash,
         "records": response_records,
     }
     manifest = {
         "provider": PROVIDER,
         "batch_id": batch_id,
-        "model_name": MODEL_NAME,
+        "model_name": ACTIVE_MODEL,
         "prompt_sha256": prompt_hash,
         "request_batch_sha256": request_batch_sha,
         "request_batch_snapshot_file": "request_batch_snapshot.jsonl",

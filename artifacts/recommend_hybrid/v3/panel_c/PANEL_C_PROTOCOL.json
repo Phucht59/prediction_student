@@ -13,7 +13,7 @@
   "one_request_per_case": true,
   "complete_coverage_required": true,
   "gemini_required": true,
-  "gemini_executed": false,
+  "gemini_executed": true,
   "provider": "Google Gemini API",
   "requested_model": "gemini-3.5-flash-lite",
   "prompt_version": "panel_c_external_reviewer_v3_c0_blinded_v1",
@@ -63,5 +63,8 @@
     "do_not_substitute_model": true
   },
   "historical_panel_b_is_not_v3_heldout": true,
-  "status": "GEMINI_INCOMPLETE"
+  "status": "GEMINI_COMPLETE",
+  "owner_authorized_remainder_model": "gemini-3.1-flash-lite",
+  "model_mixing_policy": "EXPLICIT_OWNER_AUTHORIZED_GEMINI_3_5_THEN_3_1_FLASH_LITE",
+  "n_review_records": 2398
 }
