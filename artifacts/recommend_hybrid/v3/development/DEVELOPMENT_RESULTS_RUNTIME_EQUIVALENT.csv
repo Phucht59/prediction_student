@@ -1,0 +1,4 @@
+model,semantics,query_count,positive_query_count,ndcg_at_3,precision_at_1,mrr,recall_at_3,pairwise_accuracy,invalid_action_rate,unique_top1_actions
+B0_action_stage,runtime_equivalent,8169,8169,0.9940787047068333,1.0,1.0,0.7884869629085567,0.7981451738251905,0.0,3
+B1_rule_score,runtime_equivalent,8169,8169,0.9970697806752584,1.0,1.0,0.7884869629085567,0.895362167795727,0.0,5
+B2_five_ebm_c0,runtime_equivalent,8169,8169,0.9966035358976828,1.0,1.0,0.7884869629085567,0.8528573649033728,0.0,5

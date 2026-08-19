@@ -138,27 +138,35 @@ class ActionStagePriorRanker:
         return tuple(results)
 
 
+def rule_score_for_action(action: CanonicalAction, features: RecommendationFeatures) -> float:
+    if action is CanonicalAction.ASSESSMENT_COMPLETION:
+        missing = float(features.missing_assessment_count or 0)
+        due = float(features.due_soon_count or 0)
+        return min(1.0, 0.35 * missing + 0.25 * due + (0.4 if (features.completion_rate or 1) < 0.8 else 0.0))
+    if action is CanonicalAction.RECOVER_ENGAGEMENT:
+        rate = 1.0 - float(features.active_day_rate or 1.0)
+        streak = min(1.0, float(features.inactivity_streak or 0) / 14.0)
+        return min(1.0, 0.6 * rate + 0.4 * streak)
+    if action is CanonicalAction.STUDY_REGULARITY:
+        return min(
+            1.0,
+            (1.0 - float(features.regularity_score or 1.0)) * 0.7
+            + (1.0 - float(features.active_day_rate or 1.0)) * 0.3,
+        )
+    if action is CanonicalAction.TARGETED_CONTENT_REVIEW:
+        return min(1.0, 1.0 - float(features.content_coverage or 1.0))
+    if action is CanonicalAction.QUIZ_RETRIEVAL_PRACTICE:
+        return min(1.0, 0.5 + 0.5 * (1.0 - float(features.quiz_activity or 0.0)))
+    return 0.0
+
+
 class RuleScoreRanker:
     """B1: deterministic evidence severity in [0, 1]."""
 
     def score(self, features: RecommendationFeatures, eligible_actions: tuple[CanonicalAction, ...]):
-        results = []
-        for action in eligible_actions:
-            score = 0.0
-            if action is CanonicalAction.ASSESSMENT_COMPLETION:
-                missing = float(features.missing_assessment_count or 0)
-                due = float(features.due_soon_count or 0)
-                score = min(1.0, 0.35 * missing + 0.25 * due + (0.4 if (features.completion_rate or 1) < 0.8 else 0.0))
-            elif action is CanonicalAction.RECOVER_ENGAGEMENT:
-                rate = 1.0 - float(features.active_day_rate or 1.0)
-                streak = min(1.0, float(features.inactivity_streak or 0) / 14.0)
-                score = min(1.0, 0.6 * rate + 0.4 * streak)
-            elif action is CanonicalAction.STUDY_REGULARITY:
-                score = min(1.0, (1.0 - float(features.regularity_score or 1.0)) * 0.7 + (1.0 - float(features.active_day_rate or 1.0)) * 0.3)
-            elif action is CanonicalAction.TARGETED_CONTENT_REVIEW:
-                score = min(1.0, 1.0 - float(features.content_coverage or 1.0))
-            elif action is CanonicalAction.QUIZ_RETRIEVAL_PRACTICE:
-                score = min(1.0, 0.5 + 0.5 * (1.0 - float(features.quiz_activity or 0.0)))
-            results.append(ActionScore(action, float(score)))
+        results = [
+            ActionScore(action, float(rule_score_for_action(action, features)))
+            for action in eligible_actions
+        ]
         results.sort(key=lambda item: (-item.score, item.action.value))
         return tuple(results)

@@ -1,0 +1,271 @@
+{
+  "PRE_PANEL_C_AUDIT": "PASS",
+  "invalid_action_root_cause": "A. EVALUATOR_SCOPE_BUG",
+  "invalid_case_count": 10,
+  "legacy_unfiltered_invalid_action_rate": 0.001222643354933366,
+  "runtime_equivalent_invalid_action_rate": 0.0,
+  "runtime_equivalent_five_ebm": {
+    "query_count": 8169,
+    "positive_query_count": 8169,
+    "ndcg_at_3": 0.9966035358976828,
+    "precision_at_1": 1.0,
+    "mrr": 1.0,
+    "recall_at_3": 0.7884869629085567,
+    "pairwise_accuracy": 0.8528573649033728,
+    "invalid_action_rate": 0.0,
+    "unique_top1_actions": 5
+  },
+  "runtime_equivalent_b0": {
+    "query_count": 8169,
+    "positive_query_count": 8169,
+    "ndcg_at_3": 0.9940787047068333,
+    "precision_at_1": 1.0,
+    "mrr": 1.0,
+    "recall_at_3": 0.7884869629085567,
+    "pairwise_accuracy": 0.7981451738251905,
+    "invalid_action_rate": 0.0,
+    "unique_top1_actions": 3
+  },
+  "runtime_equivalent_b1": {
+    "query_count": 8169,
+    "positive_query_count": 8169,
+    "ndcg_at_3": 0.9970697806752584,
+    "precision_at_1": 1.0,
+    "mrr": 1.0,
+    "recall_at_3": 0.7884869629085567,
+    "pairwise_accuracy": 0.895362167795727,
+    "invalid_action_rate": 0.0,
+    "unique_top1_actions": 5
+  },
+  "slices": {
+    "overall_development_oof": {
+      "slice": "overall_development_oof",
+      "query_count": 8179,
+      "action_row_count": 40895,
+      "legacy_unfiltered": {
+        "query_count": 8179,
+        "positive_query_count": 8169,
+        "ndcg_at_3": 0.9965401206786145,
+        "precision_at_1": 1.0,
+        "mrr": 1.0,
+        "recall_at_3": 0.7877871628514301,
+        "pairwise_accuracy": 0.9408898656493614,
+        "invalid_action_rate": 0.001222643354933366,
+        "unique_top1_actions": 5
+      },
+      "runtime_equivalent": {
+        "query_count": 8169,
+        "positive_query_count": 8169,
+        "ndcg_at_3": 0.9966035358976828,
+        "precision_at_1": 1.0,
+        "mrr": 1.0,
+        "recall_at_3": 0.7884869629085567,
+        "pairwise_accuracy": 0.8528573649033728,
+        "invalid_action_rate": 0.0,
+        "unique_top1_actions": 5
+      },
+      "top1_action_distribution": {
+        "QUIZ_RETRIEVAL_PRACTICE": 3426,
+        "RECOVER_ENGAGEMENT": 1748,
+        "TARGETED_CONTENT_REVIEW": 1342,
+        "ASSESSMENT_COMPLETION": 906,
+        "STUDY_REGULARITY": 747
+      }
+    },
+    "portable_gemini_supported": {
+      "slice": "portable_gemini_supported",
+      "query_count": 179,
+      "action_row_count": 895,
+      "legacy_unfiltered": {
+        "query_count": 179,
+        "positive_query_count": 179,
+        "ndcg_at_3": 0.9610516479618161,
+        "precision_at_1": 1.0,
+        "mrr": 1.0,
+        "recall_at_3": 0.8103351955307262,
+        "pairwise_accuracy": 0.8027972027972028,
+        "invalid_action_rate": 0.0,
+        "unique_top1_actions": 5
+      },
+      "runtime_equivalent": {
+        "query_count": 179,
+        "positive_query_count": 179,
+        "ndcg_at_3": 0.9609917786406218,
+        "precision_at_1": 1.0,
+        "mrr": 1.0,
+        "recall_at_3": 0.8103351955307262,
+        "pairwise_accuracy": 0.6261682242990654,
+        "invalid_action_rate": 0.0,
+        "unique_top1_actions": 5
+      },
+      "top1_action_distribution": {
+        "QUIZ_RETRIEVAL_PRACTICE": 67,
+        "RECOVER_ENGAGEMENT": 39,
+        "ASSESSMENT_COMPLETION": 27,
+        "TARGETED_CONTENT_REVIEW": 26,
+        "STUDY_REGULARITY": 20
+      }
+    },
+    "mixed_gemini_and_lf": {
+      "slice": "mixed_gemini_and_lf",
+      "query_count": 179,
+      "action_row_count": 662,
+      "legacy_unfiltered": null,
+      "runtime_equivalent": {
+        "query_count": 179,
+        "positive_query_count": 179,
+        "ndcg_at_3": 0.9645399519321826,
+        "precision_at_1": 1.0,
+        "mrr": 1.0,
+        "recall_at_3": 0.8220670391061453,
+        "pairwise_accuracy": 0.6388101983002833,
+        "invalid_action_rate": 0.0,
+        "unique_top1_actions": 5
+      },
+      "top1_action_distribution": {
+        "QUIZ_RETRIEVAL_PRACTICE": 69,
+        "RECOVER_ENGAGEMENT": 39,
+        "ASSESSMENT_COMPLETION": 27,
+        "TARGETED_CONTENT_REVIEW": 24,
+        "STUDY_REGULARITY": 20
+      }
+    },
+    "lf_only": {
+      "slice": "lf_only",
+      "query_count": 8000,
+      "action_row_count": 40000,
+      "legacy_unfiltered": {
+        "query_count": 8000,
+        "positive_query_count": 7990,
+        "ndcg_at_3": 0.9973351690661375,
+        "precision_at_1": 1.0,
+        "mrr": 1.0,
+        "recall_at_3": 0.787282019190655,
+        "pairwise_accuracy": 0.9451091833682321,
+        "invalid_action_rate": 0.00125,
+        "unique_top1_actions": 5
+      },
+      "runtime_equivalent": {
+        "query_count": 7990,
+        "positive_query_count": 7990,
+        "ndcg_at_3": 0.997401346229224,
+        "precision_at_1": 1.0,
+        "mrr": 1.0,
+        "recall_at_3": 0.7879974968710887,
+        "pairwise_accuracy": 0.8620094868477792,
+        "invalid_action_rate": 0.0,
+        "unique_top1_actions": 5
+      },
+      "top1_action_distribution": {
+        "QUIZ_RETRIEVAL_PRACTICE": 3359,
+        "RECOVER_ENGAGEMENT": 1709,
+        "TARGETED_CONTENT_REVIEW": 1316,
+        "ASSESSMENT_COMPLETION": 879,
+        "STUDY_REGULARITY": 727
+      }
+    },
+    "mixed_source_queries": {
+      "slice": "mixed_source_queries",
+      "query_count": 179,
+      "action_row_count": 895,
+      "legacy_unfiltered": {
+        "query_count": 179,
+        "positive_query_count": 179,
+        "ndcg_at_3": 0.9610516479618161,
+        "precision_at_1": 1.0,
+        "mrr": 1.0,
+        "recall_at_3": 0.8103351955307262,
+        "pairwise_accuracy": 0.8027972027972028,
+        "invalid_action_rate": 0.0,
+        "unique_top1_actions": 5
+      },
+      "runtime_equivalent": {
+        "query_count": 179,
+        "positive_query_count": 179,
+        "ndcg_at_3": 0.9609917786406218,
+        "precision_at_1": 1.0,
+        "mrr": 1.0,
+        "recall_at_3": 0.8103351955307262,
+        "pairwise_accuracy": 0.6261682242990654,
+        "invalid_action_rate": 0.0,
+        "unique_top1_actions": 5
+      },
+      "top1_action_distribution": {
+        "QUIZ_RETRIEVAL_PRACTICE": 67,
+        "RECOVER_ENGAGEMENT": 39,
+        "ASSESSMENT_COMPLETION": 27,
+        "TARGETED_CONTENT_REVIEW": 26,
+        "STUDY_REGULARITY": 20
+      }
+    }
+  },
+  "eligibility_recompute": {
+    "checked": 40895,
+    "mismatches": 0
+  },
+  "leakage": {
+    "ranker_feature_columns": [
+      "risk_probability",
+      "uncertainty",
+      "risk_margin",
+      "course_progress",
+      "inactivity_streak",
+      "active_day_rate",
+      "assessments_due",
+      "regularity_score",
+      "content_coverage",
+      "quiz_activity",
+      "missing_assessment_count",
+      "due_soon_count",
+      "completion_rate",
+      "vle_available",
+      "study_material_available",
+      "quiz_available",
+      "stage"
+    ],
+    "forbidden_in_ranker_schema": [],
+    "forbidden_in_feature_table": [],
+    "outcome_columns_in_features": [],
+    "manifest_outcome_columns": [],
+    "hundred_pct_present": false,
+    "pass": true
+  },
+  "pipeline_wiring": {
+    "checks": {
+      "stratify_risk_called": true,
+      "feasible_actions_called": true,
+      "ranker_receives_eligible_only": true,
+      "plan_builder_called": true,
+      "gemini_absent": true,
+      "simulator_absent": true,
+      "seed_disagreement_absent_from_risk_router": true,
+      "recommend_top1": true,
+      "human_review_topk": true
+    },
+    "pass": true
+  },
+  "runtime_smoke": {
+    "recommend_route": "RECOMMEND",
+    "recommend_n": 1,
+    "recommend_has_plan": true,
+    "review_route": "HUMAN_REVIEW",
+    "review_n": 3,
+    "nullable_router_ok": true
+  },
+  "risk_router_nullable_safe": true,
+  "temporal_diagnostic": {
+    "consecutive_stage_pairs": 860,
+    "action_switch_rate": 0.5034883720930232,
+    "recommendation_persistence": 0.4965116279069768,
+    "unsupported_switch_rate": 0.5034883720930232,
+    "unsupported_switch_definition": "Diagnostic only. A switch between consecutive intervention stages of the same student-course. unsupported_switch currently equals any switch (no extra temporal model); treat as upper bound."
+  },
+  "panel_b_used": false,
+  "panel_c_used": false,
+  "five_ebm_refit": false,
+  "artifact_hashes": {
+    "oof_predictions.parquet": "81b1d55f136306eca945fa332d01ed551a1ddbab62c6bc379a94725522da8b58",
+    "FIVE_EBM_MANIFEST.json": "81ab43e879db6e4426f9c87c6985c150a565030b4b6cf033a05b6f2e47a334cc",
+    "FEATURE_MANIFEST.json": "b610c1dc5f9c73eba4ff56aa1a96ee7525eba44dd00fd5e0a6a66223df496e06"
+  }
+}
