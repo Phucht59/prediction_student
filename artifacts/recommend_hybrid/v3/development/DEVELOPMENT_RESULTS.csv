@@ -1,0 +1,3 @@
+split,model,query_count,positive_query_count,ndcg_at_3,precision_at_1,mrr,recall_at_3,pairwise_accuracy,invalid_action_rate,unique_top1_actions
+oof_mixed_lf,B2_five_ebm_c0,8179,8169,0.9965401206786145,1.0,1.0,0.7877871628514301,0.9408898656493614,0.001222643354933366,5
+portable_panel_a_overlap,B2_five_ebm_c0,179,179,0.9610516479618161,1.0,1.0,0.8103351955307262,0.8027972027972028,0.0,5

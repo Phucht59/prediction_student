@@ -1,0 +1,19 @@
+{
+  "name": "PANEL_C",
+  "heldout": true,
+  "n_students_requested": 150,
+  "n_students_sampled": 150,
+  "student_overlap_with_portable_panel_a": 0,
+  "gemini_required": true,
+  "gemini_executed": false,
+  "prompt_must_not_include": [
+    "risk_probability",
+    "predicted_risk",
+    "risk_band",
+    "uncertainty",
+    "model_id",
+    "final_result"
+  ],
+  "historical_panel_b_is_not_v3_heldout": true,
+  "status": "SAMPLED_AWAITING_GEMINI"
+}

@@ -1,0 +1,9 @@
+{
+  "sources": [
+    "BEHAVIORAL",
+    "FEASIBILITY",
+    "LLM_EXPERT"
+  ],
+  "min_families": 2,
+  "panel_b_used": false
+}

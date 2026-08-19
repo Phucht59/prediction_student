@@ -1,0 +1,20 @@
+{
+  "prediction_threshold_source": "C0 STOP-only F1 then recall then |t-0.5|",
+  "risk": {
+    "maximum_automatic_uncertainty": 0.7,
+    "minimum_risk_margin": 0.05
+  },
+  "safety": {
+    "minimum_top1_score": 0.45,
+    "minimum_top1_margin": 0.0,
+    "maximum_uncertainty": 0.85
+  },
+  "retired_runtime_signals": [
+    "seed_disagreement",
+    "label_conflict",
+    "ood_score"
+  ],
+  "recommend_emits": "top1",
+  "human_review_emits": "top3",
+  "panel_b_used": false
+}

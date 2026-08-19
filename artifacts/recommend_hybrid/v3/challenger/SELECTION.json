@@ -1,0 +1,26 @@
+{
+  "diagnosis": {
+    "five_ebm": {
+      "query_count": 8179,
+      "positive_query_count": 8169,
+      "ndcg_at_3": 0.9965401206786145,
+      "precision_at_1": 1.0,
+      "mrr": 1.0,
+      "recall_at_3": 0.7877871628514301,
+      "pairwise_accuracy": 0.9408898656493614,
+      "invalid_action_rate": 0.001222643354933366,
+      "unique_top1_actions": 5
+    },
+    "top1_actions": {
+      "QUIZ_RETRIEVAL_PRACTICE": 3426,
+      "RECOVER_ENGAGEMENT": 1748,
+      "TARGETED_CONTENT_REVIEW": 1342,
+      "ASSESSMENT_COMPLETION": 906,
+      "STUDY_REGULARITY": 757
+    },
+    "mean_top1_margin": 0.03780803059407124
+  },
+  "FINAL_CANDIDATE": "Five-EBM-C0",
+  "challenger_trained": false,
+  "reason": "no clear residual bottleneck"
+}

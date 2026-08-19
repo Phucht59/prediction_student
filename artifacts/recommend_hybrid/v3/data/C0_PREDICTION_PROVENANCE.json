@@ -1,0 +1,82 @@
+{
+  "label": "C0_DOWNSTREAM_EVIDENCE_MATERIALIZATION",
+  "prediction_authority": "Phase4 Hybrid C0",
+  "architecture": {
+    "d_fuse": 128,
+    "cnn_channels": 64,
+    "bilstm_hidden": 128
+  },
+  "training": {
+    "lr": 0.00011844319751820385,
+    "weight_decay": 0.0007114476009343421,
+    "dropout": 0.31959818254342154,
+    "batch_size": 128,
+    "pos_weight_multiplier": 0.7790418060840998,
+    "entropy_floor_coefficient": 0.005
+  },
+  "seeds": [
+    42
+  ],
+  "inner_folds": [
+    0,
+    1,
+    2
+  ],
+  "split_hashes": {
+    "uci_inner": "ad8f44e5931d652e353d9d9ebe7b0e840eca3d895243b92d57deb0b3b6e02ae8",
+    "oulad_inner": "8559efcf156bcb05eb0a2bdf9e945d54f3989358d8f15064dab1204cd872650c"
+  },
+  "outer_test_used": false,
+  "canonical_phase4_metrics_changed": false,
+  "hpo_performed": false,
+  "fold_reports": [
+    {
+      "fold": 0,
+      "seed": 42,
+      "best_stop_macro_pr_auc": 0.8411833398750399,
+      "parameter_count": 482116,
+      "checkpoint": "C:\\hufit\\student\\artifacts\\recommend_hybrid\\v3\\data\\c0_inner_fold0_seed42.pt",
+      "20pct_valid_pr_auc": 0.7617058421495502,
+      "20pct_threshold": 0.18,
+      "35pct_valid_pr_auc": 0.8144585317766471,
+      "35pct_threshold": 0.26,
+      "50pct_valid_pr_auc": 0.859528140382618,
+      "50pct_threshold": 0.28,
+      "75pct_valid_pr_auc": 0.900870632341545,
+      "75pct_threshold": 0.49
+    },
+    {
+      "fold": 1,
+      "seed": 42,
+      "best_stop_macro_pr_auc": 0.8433192760243278,
+      "parameter_count": 482116,
+      "checkpoint": "C:\\hufit\\student\\artifacts\\recommend_hybrid\\v3\\data\\c0_inner_fold1_seed42.pt",
+      "20pct_valid_pr_auc": 0.7617079240973041,
+      "20pct_threshold": 0.13,
+      "35pct_valid_pr_auc": 0.8084844583903464,
+      "35pct_threshold": 0.26,
+      "50pct_valid_pr_auc": 0.8402267251274662,
+      "50pct_threshold": 0.32,
+      "75pct_valid_pr_auc": 0.8795476220435776,
+      "75pct_threshold": 0.52
+    },
+    {
+      "fold": 2,
+      "seed": 42,
+      "best_stop_macro_pr_auc": 0.8501690319025528,
+      "parameter_count": 482116,
+      "checkpoint": "C:\\hufit\\student\\artifacts\\recommend_hybrid\\v3\\data\\c0_inner_fold2_seed42.pt",
+      "20pct_valid_pr_auc": 0.7454897902670223,
+      "20pct_threshold": 0.13,
+      "35pct_valid_pr_auc": 0.8008280756936058,
+      "35pct_threshold": 0.23,
+      "50pct_valid_pr_auc": 0.8428388531237361,
+      "50pct_threshold": 0.18,
+      "75pct_valid_pr_auc": 0.8867308139027659,
+      "75pct_threshold": 0.27
+    }
+  ],
+  "row_count": 66685,
+  "query_count": 66685,
+  "uncertainty_formula": "binary_shannon_entropy_H2(p)"
+}

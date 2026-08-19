@@ -1,0 +1,55 @@
+{
+  "model": "Five-EBM-C0",
+  "features": [
+    "risk_probability",
+    "uncertainty",
+    "risk_margin",
+    "course_progress",
+    "inactivity_streak",
+    "active_day_rate",
+    "assessments_due",
+    "regularity_score",
+    "content_coverage",
+    "quiz_activity",
+    "missing_assessment_count",
+    "due_soon_count",
+    "completion_rate",
+    "vle_available",
+    "study_material_available",
+    "quiz_available",
+    "stage"
+  ],
+  "parameters": {
+    "interactions": 3,
+    "learning_rate": 0.025,
+    "max_bins": 64,
+    "max_rounds": 500,
+    "min_samples_leaf": 20,
+    "outer_bags": 4,
+    "random_state": 2026,
+    "validation_size": 0.15
+  },
+  "development_metrics": {
+    "query_count": 8179,
+    "positive_query_count": 8169,
+    "ndcg_at_3": 0.9965401206786145,
+    "precision_at_1": 1.0,
+    "mrr": 1.0,
+    "recall_at_3": 0.7877871628514301,
+    "pairwise_accuracy": 0.9408898656493614,
+    "invalid_action_rate": 0.001222643354933366,
+    "unique_top1_actions": 5
+  },
+  "baseline_b0": {
+    "query_count": 8179,
+    "positive_query_count": 8169,
+    "ndcg_at_3": 0.9551445496858323,
+    "precision_at_1": 0.975884441180071,
+    "mrr": 0.9877279960827519,
+    "recall_at_3": 0.7402701269025176,
+    "pairwise_accuracy": 0.8670384806767292,
+    "invalid_action_rate": 0.025308717447120675,
+    "unique_top1_actions": 1
+  },
+  "panel_b_used": false
+}

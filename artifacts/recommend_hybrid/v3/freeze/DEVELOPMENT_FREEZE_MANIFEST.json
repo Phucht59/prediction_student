@@ -1,0 +1,17 @@
+{
+  "status": "FROZEN_DEVELOPMENT",
+  "prediction_authority": "Phase4 Hybrid C0",
+  "ranker": "Five-EBM-C0",
+  "panel_b_used_for_tuning": false,
+  "gemini_full_relabel": false,
+  "checksums": {
+    "artifacts\\recommend_hybrid\\v3\\data\\C0_PREDICTION_PROVENANCE.json": "78c451334e69df92579a4d4870840b6a53107dd68172a89c4c090fb80adb7184",
+    "artifacts\\recommend_hybrid\\v3\\data\\FEATURE_MANIFEST.json": "b610c1dc5f9c73eba4ff56aa1a96ee7525eba44dd00fd5e0a6a66223df496e06",
+    "artifacts\\recommend_hybrid\\v3\\data\\learner_stage_features.parquet": "f47868abb9664bef4bdb5d290871cee85d299497923f99a8a122d3e0b34ea68f",
+    "artifacts\\recommend_hybrid\\v3\\labels\\LABEL_PORTABILITY_SUMMARY.json": "168596170fcadfc032b5b7d6789e536e0f14758a9f78d071f80e97c7a75746c1",
+    "artifacts\\recommend_hybrid\\v3\\ranker\\FIVE_EBM_MANIFEST.json": "81ab43e879db6e4426f9c87c6985c150a565030b4b6cf033a05b6f2e47a334cc",
+    "artifacts\\recommend_hybrid\\v3\\ranker\\BASELINE_RESULTS.csv": "6e208bc29c73e9ce516bbe003dd21e574d1da96aad0535cf889cac001ea5346b",
+    "artifacts\\recommend_hybrid\\v3\\router\\ROUTER_CONFIG.json": "4abb21bcd475c9d6fa20be4cd78418c10f29bd64867c58b8686afe47e1d03f26"
+  },
+  "post_freeze_tuning_permitted": false
+}

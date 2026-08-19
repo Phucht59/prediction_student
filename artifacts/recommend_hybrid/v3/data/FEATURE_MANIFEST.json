@@ -1,0 +1,15 @@
+{
+  "row_count": 66685,
+  "query_count": 66685,
+  "students": 16157,
+  "stages": [
+    "EARLY_20",
+    "EARLY_35",
+    "LATE_75",
+    "MIDDLE_50"
+  ],
+  "hundred_pct_present": false,
+  "duplicate_query_count": 0,
+  "outcome_columns": [],
+  "raw_dir": "C:\\hufit\\kltn\\data\\raw"
+}

@@ -1,0 +1,11 @@
+feature,family,source,cutoff_rule,fit_only
+risk_probability,prediction,C0_DOWNSTREAM_OOF,n/a,False
+uncertainty,prediction,H2(p) of C0 OOF,n/a,False
+prediction_threshold,prediction,STOP F1/recall/|t-0.5|,n/a,False
+missing_assessment_count,evidence,assessments+studentAssessment,due<t and submitted<t,False
+due_soon_count,evidence,assessments,"[cutoff, cutoff+14)",False
+inactivity_streak,evidence,studentVle,0<=date<cutoff,False
+active_day_rate,evidence,studentVle,0<=date<cutoff,False
+regularity_score,evidence,studentVle weekly flags,0<=date<cutoff,False
+content_coverage,evidence,studentVle+vle content types,0<=date<cutoff,False
+quiz_activity,evidence,studentVle quiz types,0<=date<cutoff,False

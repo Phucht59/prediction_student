@@ -1,0 +1,10 @@
+{
+  "panel_b_used": false,
+  "feature_queries": 66685,
+  "action_rows": 333425,
+  "conditionally_portable_rows": 895,
+  "unmatched_rows": 332530,
+  "retained": 333425,
+  "gemini_non_null": 662,
+  "matched_queries": 179
+}
