@@ -1,0 +1,11 @@
+{
+  "historical": true,
+  "source_phase": "Phase8_outer_freeze",
+  "not_current_prediction_authority": true,
+  "contains_xgboost": true,
+  "current_tables": [
+    "uci_final.csv",
+    "oulad_final.csv"
+  ],
+  "kept_at_old_path_because": "checksum_locked_migration_manifest"
+}

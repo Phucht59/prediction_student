@@ -1,0 +1,11 @@
+{
+  "historical": true,
+  "source_phase": "Phase8",
+  "not_current_prediction_authority": true,
+  "outer_test_is_not_phase4": true,
+  "checksum_manifest": "artifacts/migration/PREDICTION_PHASE8_MIGRATION_MANIFEST.csv",
+  "current_result_tables": [
+    "reports/prediction/final/uci_final.csv",
+    "reports/prediction/final/oulad_final.csv"
+  ]
+}

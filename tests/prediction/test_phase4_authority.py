@@ -12,6 +12,7 @@ import torch
 from src.prediction import Hybrid, HybridConfig
 from src.prediction.baselines import ACTIVE_BASELINES, build_baseline
 from src.prediction.contracts import OULAD_STATES, UCI_STAGES, canonical_oulad_state
+from src.prediction.data.oulad_features import assert_predictor_contract, events_strictly_before_cutoff, filter_events_cutoff_safe
 from src.prediction.data.uci import build_uci_stage_view
 from src.prediction.registry import ACTIVE_PREDICTION_REGISTRY
 
@@ -158,3 +159,58 @@ def test_final_artifacts_exist_and_have_no_xgb_rows():
     assert decision["previous_phase4_gate_status"] == "NOT_READY_FOR_FINAL_EVAL"
     assert decision["outer_test_used"] is False
     assert decision["final_authority_selected"] is True
+
+
+def test_one_model_contract_fields():
+    contract = json.loads((ROOT / "artifacts" / "prediction" / "final" / "ONE_MODEL_CONTRACT.json").read_text(encoding="utf-8"))
+    assert contract["architecture"] == "C0"
+    assert contract["fitted_instances"] == ["uci", "oulad"]
+    assert contract["stage_specific_models"] is False
+    assert contract["separate_oulad_100_model"] is False
+
+
+def test_oulad_cutoff_excludes_on_or_after_cutoff():
+    frame = pd.DataFrame(
+        {
+            "date": [10, 20, 21, 30],
+            "observation_start": [0, 0, 0, 0],
+            "cutoff_day": [21, 21, 21, 21],
+            "label": ["before", "before", "at_cutoff", "after"],
+        }
+    )
+    kept = filter_events_cutoff_safe(frame, time_col="date", start_col="observation_start", cutoff_col="cutoff_day")
+    assert set(kept.label) == {"before"}
+    assert events_strictly_before_cutoff(20, 0, 21) is True
+    assert events_strictly_before_cutoff(21, 0, 21) is False
+    assert events_strictly_before_cutoff(30, 0, 21) is False
+
+
+def test_forbidden_outcome_fields_fail_predictor_contract():
+    try:
+        assert_predictor_contract(["activity", "final_result"])
+    except ValueError as exc:
+        assert "final_result" in str(exc)
+    else:
+        raise AssertionError("forbidden outcome must fail")
+    try:
+        assert_predictor_contract(["date_unregistration"])
+    except ValueError:
+        pass
+    else:
+        raise AssertionError("date_unregistration must not be a predictor")
+
+
+def test_overfit_audit_is_stage_independent():
+    audit = json.loads((ROOT / "artifacts" / "prediction" / "final" / "OVERFIT_AUDIT.json").read_text(encoding="utf-8"))
+    uci = audit["uci"]["stages"]
+    assert uci["S0"]["n_runs"] == 9
+    assert uci["S1"]["n_runs"] == 9
+    assert uci["S2"]["n_runs"] == 9
+    assert uci["S0"]["generalization_gap_mean"] != uci["S1"]["generalization_gap_mean"]
+    assert uci["S0"]["generalization_gap_mean"] != uci["S2"]["generalization_gap_mean"]
+    assert audit["uci"]["s0_gap_gt_s1"] is True
+    assert audit["uci"]["s0_gap_gt_s2"] is True
+    oulad = audit["oulad"]["stages"]
+    gaps = [oulad[st]["generalization_gap_mean"] for st in ("20pct", "35pct", "50pct", "75pct", "100pct")]
+    assert len(set(round(g, 8) for g in gaps)) > 1
+    assert "classification_rule" in audit

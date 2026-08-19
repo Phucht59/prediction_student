@@ -1,0 +1,53 @@
+{
+  "model_id": "hybrid",
+  "fusion": "F3_adaptive_entropy",
+  "protocol": "P1_stage_balanced",
+  "summary": [
+    {
+      "stage": "S0",
+      "pr_auc_mean": 0.4820433994079336,
+      "accuracy_mean": 0.6380865940838486,
+      "risk_precision_mean": 0.3500068597570538,
+      "risk_recall_mean": 0.729412599449598,
+      "risk_f1_mean": 0.4670841131393173,
+      "generalization_gap_mean": 0.17155451724535514,
+      "pr_auc_std": 0.04020505647979457,
+      "accuracy_std": 0.0886622052958558,
+      "risk_precision_std": 0.06102285639727828,
+      "risk_recall_std": 0.0968797574739945,
+      "risk_f1_std": 0.04803445266932889,
+      "generalization_gap_std": 0.06631660560211386
+    },
+    {
+      "stage": "S1",
+      "pr_auc_mean": 0.8068191200498394,
+      "accuracy_mean": 0.8529158107847504,
+      "risk_precision_mean": 0.6387753727393471,
+      "risk_recall_mean": 0.792302063547,
+      "risk_f1_mean": 0.6957373821789292,
+      "generalization_gap_mean": 0.06526788773886899,
+      "pr_auc_std": 0.029359975669827166,
+      "accuracy_std": 0.02491643505164427,
+      "risk_precision_std": 0.07215296266946426,
+      "risk_recall_std": 0.1327150411984953,
+      "risk_f1_std": 0.02931990849242847,
+      "generalization_gap_std": 0.032267231916039044
+    },
+    {
+      "stage": "S2",
+      "pr_auc_mean": 0.8887364054150741,
+      "accuracy_mean": 0.9036920343683205,
+      "risk_precision_mean": 0.7580077172569788,
+      "risk_recall_mean": 0.8087231291776413,
+      "risk_f1_mean": 0.7808493247174066,
+      "generalization_gap_mean": 0.04551939148804115,
+      "pr_auc_std": 0.018981316920401718,
+      "accuracy_std": 0.009082323795128598,
+      "risk_precision_std": 0.027307106860605886,
+      "risk_recall_std": 0.06442262003473416,
+      "risk_f1_std": 0.026872038642893187,
+      "generalization_gap_std": 0.01697867282535628
+    }
+  ],
+  "outer_test_used": false
+}

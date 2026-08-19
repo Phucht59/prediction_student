@@ -1,0 +1,72 @@
+{
+  "model_id": "hybrid",
+  "display_name": "Hybrid",
+  "architecture_frozen": true,
+  "selection_scope": "Phase8 inner-development only; D3/F3/P1 selection",
+  "topology": "static/tabular + aggregate + parallel CNN local patterns + BiLSTM longitudinal dynamics + adaptive fusion + head",
+  "cnn": {
+    "channels": 128,
+    "blocks": 2,
+    "kernel_size": 2,
+    "dilations": [
+      1,
+      2
+    ]
+  },
+  "bilstm": {
+    "hidden": 128,
+    "layers": 1,
+    "bidirectional": true
+  },
+  "tabular_branch": "train-fitted static/context plus D3 exposure-safe aggregate",
+  "fusion": {
+    "mode": "F3_adaptive_entropy",
+    "entropy_floor_coefficient": 0.002
+  },
+  "training": {
+    "protocol": "P1_stage_balanced",
+    "endpoints": [
+      "20pct",
+      "35pct",
+      "50pct",
+      "75pct",
+      "FINAL-100"
+    ],
+    "loss": "BCEWithLogitsLoss",
+    "optimizer": "AdamW",
+    "learning_rate": 0.0008,
+    "weight_decay": 0.0002,
+    "dropout": 0.2,
+    "class_weight": "FIT-only positive weight"
+  },
+  "oulad_representation": "D3_both_safe",
+  "threshold_protocol": "STOP-only selection; VALID reporting; risk-F1 then recall then closeness-to-0.5 tie-break",
+  "seeds": [
+    42,
+    1201,
+    2026
+  ],
+  "folds": [
+    0,
+    1,
+    2
+  ],
+  "parameter_count_oulad": 514247,
+  "parameter_count_uci": 513287,
+  "parameter_count_mlp_oulad": 20737,
+  "parameter_count_mlp_uci": 16897,
+  "split_identity": {
+    "artifacts/hybrid/phase1/splits/oulad_inner.parquet": "8559efcf156bcb05eb0a2bdf9e945d54f3989358d8f15064dab1204cd872650c",
+    "artifacts/hybrid/phase1/splits/uci_inner.parquet": "ad8f44e5931d652e353d9d9ebe7b0e840eca3d895243b92d57deb0b3b6e02ae8"
+  },
+  "source_hashes": {
+    "src\\hybrid\\phase8\\model.py": "12b4610cafe4b34552bc84a0c59740e833b74070c2ea3834aa7751d3dc276498",
+    "src\\hybrid\\phase8\\execution.py": "922afb0ee7532de4230d1429e800b74bdc0be0ec6ef510270b677d8478f7bb31",
+    "src\\hybrid\\phase8\\data_variants.py": "0fdf9bb6013ddef506bfc36f09986e5789c2b38989ff76f61808bfdc08f80ee1",
+    "src\\hybrid\\phase8\\final100.py": "7dbf2ff96cacb3ee60ff9a3e61df9f45aa835e6c51a9f3bd0a1795cdc46cfd15"
+  },
+  "outer_test_authorized": false,
+  "outer_test_used": false,
+  "commit": false,
+  "push": false
+}

@@ -1,0 +1,27 @@
+{
+  "reports": [
+    "reports/prediction/final/FINAL_PREDICTION_MODEL_REPORT.md",
+    "reports/prediction/final/uci_final.csv",
+    "reports/prediction/final/oulad_final.csv",
+    "reports/prediction/final/information_growth.csv",
+    "reports/prediction/final/FINAL_CLEANUP_AUDIT.md"
+  ],
+  "artifacts": [
+    "artifacts/prediction/final/FINALIZATION_DECISION.json",
+    "artifacts/prediction/final/ONE_MODEL_CONTRACT.json",
+    "artifacts/prediction/final/LEAKAGE_AUDIT.json",
+    "artifacts/prediction/final/OVERFIT_AUDIT.json",
+    "artifacts/prediction/final/SVM_CONFIG.json",
+    "artifacts/prediction/final/TRAINING_CONFIG.json",
+    "artifacts/prediction/final/BASELINE_CONFIGS.json",
+    "artifacts/prediction/final/SPLIT_MANIFEST.json",
+    "artifacts/prediction/final/FEATURE_CONTRACT.json",
+    "artifacts/prediction/final/REPRODUCIBILITY_MANIFEST.json",
+    "artifacts/prediction/final/XGBOOST_REMOVAL_MANIFEST.json",
+    "artifacts/prediction/final/CURRENT_SURFACE.json",
+    "artifacts/prediction/final/HISTORICAL_PHASE8.json",
+    "artifacts/prediction/final/PATH_MIGRATION.json"
+  ],
+  "classification": "CURRENT_PHASE4_AUTHORITY",
+  "xgboost_in_current_tables": false
+}

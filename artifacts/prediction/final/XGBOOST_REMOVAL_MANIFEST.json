@@ -19,6 +19,15 @@
   "scope_change": "XGBoost removed from ACTIVE Phase 4 comparator roster by project decision",
   "src_prediction_already_excluded": true,
   "timestamp": "2026-08-19T05:59:05Z",
+  "historical_phase8_tables_not_current": [
+    "reports/prediction/final/uci_table.csv",
+    "reports/prediction/final/oulad_early_table.csv",
+    "reports/prediction/final/oulad_final_table.csv"
+  ],
+  "current_tables": [
+    "reports/prediction/final/uci_final.csv",
+    "reports/prediction/final/oulad_final.csv"
+  ],
   "promoted_to": "artifacts/prediction/final/XGBOOST_REMOVAL_MANIFEST.json",
   "active_runtime_instantiation": false
 }

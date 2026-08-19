@@ -47,7 +47,7 @@ XGBoost is **not** an active comparator in the final project scope. Historical X
 | Result tables | `reports/prediction/final/uci_final.csv`, `oulad_final.csv` |
 | Decision + audits | `artifacts/prediction/final/` |
 
-Raw UCI/OULAD files are not in this repository. Adapters require local raw paths.
+Raw UCI/OULAD files are not bundled. Active source contains the feature-building pipeline (`src/prediction/data/oulad_features.py`): cutoff-safe weekly tensors and D3 aggregates from local raw tables. Scalers remain FIT-only and are not fit on VALID/test.
 
 ## Checks (no training, no HPO, no outer)
 

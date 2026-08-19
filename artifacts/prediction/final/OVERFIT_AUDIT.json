@@ -1,55 +1,118 @@
 {
-  "oulad": {
-    "100pct": {
-      "gap_mean": 0.02497360222611238,
-      "pr_auc": 0.9203951339729622,
-      "status": "WELL_FIT",
-      "std": 0.005977943763684316
-    },
-    "20pct": {
-      "gap_mean": 0.02497360222611238,
-      "pr_auc": 0.7623615500208676,
-      "status": "WELL_FIT",
-      "std": 0.005977943763684316
-    },
-    "35pct": {
-      "gap_mean": 0.02497360222611238,
-      "pr_auc": 0.8058455497428858,
-      "status": "WELL_FIT",
-      "std": 0.005977943763684316
-    },
-    "50pct": {
-      "gap_mean": 0.02497360222611238,
-      "pr_auc": 0.8483327197196115,
-      "status": "WELL_FIT",
-      "std": 0.005977943763684316
-    },
-    "75pct": {
-      "gap_mean": 0.02497360222611238,
-      "pr_auc": 0.8884580908854048,
-      "status": "WELL_FIT",
-      "std": 0.005977943763684316
-    }
-  },
   "outer_test_used": false,
+  "n_expected_per_stage": 9,
+  "classification_rule": {
+    "HIGH": "generalization_gap_mean >= 0.10 or pr_auc_std >= 0.05",
+    "MODERATE": "generalization_gap_mean >= 0.04 or pr_auc_std >= 0.02",
+    "LOW": "otherwise"
+  },
+  "source": "phase4 runs G2_L1_control + ROB_L1_control (official 3x3, 9 jobs)",
   "uci": {
-    "S0": {
-      "gap_mean": 0.06026939062517876,
-      "pr_auc": 0.454744821940755,
-      "status": "MIXED",
-      "std": 0.024140540307607195
+    "stages": {
+      "S0": {
+        "pr_auc_mean": 0.454744821940755,
+        "pr_auc_std": 0.042735060779745225,
+        "train_pr_auc_mean": 0.5801399029075882,
+        "generalization_gap_mean": 0.12539508096683316,
+        "generalization_gap_std": 0.057423109092064675,
+        "n_runs": 9,
+        "folds": 3,
+        "seeds": 3,
+        "overfit_class": "HIGH"
+      },
+      "S1": {
+        "pr_auc_mean": 0.8214149119441971,
+        "pr_auc_std": 0.03417364824429621,
+        "train_pr_auc_mean": 0.8565753156172519,
+        "generalization_gap_mean": 0.035160403673054653,
+        "generalization_gap_std": 0.03709998350133535,
+        "n_runs": 9,
+        "folds": 3,
+        "seeds": 3,
+        "overfit_class": "MODERATE"
+      },
+      "S2": {
+        "pr_auc_mean": 0.9101038055944978,
+        "pr_auc_std": 0.022103272710169094,
+        "train_pr_auc_mean": 0.930356492830146,
+        "generalization_gap_mean": 0.02025268723564845,
+        "generalization_gap_std": 0.02318819214365123,
+        "n_runs": 9,
+        "folds": 3,
+        "seeds": 3,
+        "overfit_class": "MODERATE"
+      }
     },
-    "S1": {
-      "gap_mean": 0.06026939062517876,
-      "pr_auc": 0.8214149119441972,
-      "status": "WELL_FIT",
-      "std": 0.024140540307607195
+    "dataset_macro": {
+      "pr_auc_mean": 0.7287545131598167,
+      "generalization_gap_mean": 0.060269390625178755,
+      "note": "mean of stage-level means; not copied onto stages"
     },
-    "S2": {
-      "gap_mean": 0.06026939062517876,
-      "pr_auc": 0.9101038055944977,
-      "status": "WELL_FIT",
-      "std": 0.024140540307607195
+    "s0_gap_gt_s1": true,
+    "s0_gap_gt_s2": true
+  },
+  "oulad": {
+    "stages": {
+      "20pct": {
+        "pr_auc_mean": 0.7623615500208675,
+        "pr_auc_std": 0.006590434937080631,
+        "train_pr_auc_mean": 0.7963098009510985,
+        "generalization_gap_mean": 0.03394825093023087,
+        "generalization_gap_std": 0.007955522381916965,
+        "n_runs": 9,
+        "folds": 3,
+        "seeds": 3,
+        "overfit_class": "LOW"
+      },
+      "35pct": {
+        "pr_auc_mean": 0.8058455497428859,
+        "pr_auc_std": 0.004475754895494957,
+        "train_pr_auc_mean": 0.8370635636554767,
+        "generalization_gap_mean": 0.03121801391259081,
+        "generalization_gap_std": 0.007576997475221604,
+        "n_runs": 9,
+        "folds": 3,
+        "seeds": 3,
+        "overfit_class": "LOW"
+      },
+      "50pct": {
+        "pr_auc_mean": 0.8483327197196115,
+        "pr_auc_std": 0.0072959868866969745,
+        "train_pr_auc_mean": 0.8721810605294203,
+        "generalization_gap_mean": 0.0238483408098088,
+        "generalization_gap_std": 0.012317331803274927,
+        "n_runs": 9,
+        "folds": 3,
+        "seeds": 3,
+        "overfit_class": "LOW"
+      },
+      "75pct": {
+        "pr_auc_mean": 0.8884580908854047,
+        "pr_auc_std": 0.007582329801636547,
+        "train_pr_auc_mean": 0.9087892587704501,
+        "generalization_gap_mean": 0.020331167885045225,
+        "generalization_gap_std": 0.012303133976793234,
+        "n_runs": 9,
+        "folds": 3,
+        "seeds": 3,
+        "overfit_class": "LOW"
+      },
+      "100pct": {
+        "pr_auc_mean": 0.9203951339729625,
+        "pr_auc_std": 0.006466783161264402,
+        "train_pr_auc_mean": 0.9359173715658486,
+        "generalization_gap_mean": 0.015522237592886215,
+        "generalization_gap_std": 0.009674414585103834,
+        "n_runs": 9,
+        "folds": 3,
+        "seeds": 3,
+        "overfit_class": "LOW"
+      }
+    },
+    "dataset_macro": {
+      "pr_auc_mean": 0.8450786088683465,
+      "generalization_gap_mean": 0.024973602226112383,
+      "note": "mean of stage-level means; not copied onto stages"
     }
   }
 }

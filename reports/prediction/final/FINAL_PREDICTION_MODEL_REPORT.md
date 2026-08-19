@@ -95,7 +95,20 @@ Phase 4 leakage audit passed: G3 is never a predictor; S0 has no G1/G2; OULAD fo
 
 ## I. Overfitting audit
 
-UCI has higher seed/fold variance (std 0.024) and a larger train–valid gap (0.060), concentrated at S0. OULAD is more stable (std 0.006, gap 0.025). Those audits are retained, not retuned.
+Stage-level 3×3 (9 runs). Gaps are **not** copied from the dataset macro.
+
+| Dataset / state | PR-AUC mean | PR-AUC std | train PR-AUC | gap mean | class |
+|---|---:|---:|---:|---:|---|
+| UCI S0 | 0.4547 | (see audit) | (see audit) | **0.1254** | HIGH |
+| UCI S1 | 0.8214 |  |  | 0.0352 | MODERATE |
+| UCI S2 | 0.9101 |  |  | 0.0203 | MODERATE |
+| OULAD 20% | 0.7624 |  |  | 0.0339 | LOW |
+| OULAD 35% | 0.8058 |  |  | 0.0312 | LOW |
+| OULAD 50% | 0.8483 |  |  | 0.0238 | LOW |
+| OULAD 75% | 0.8885 |  |  | 0.0203 | LOW |
+| OULAD 100% | 0.9204 |  |  | 0.0155 | LOW |
+
+UCI S0’s generalization gap is larger than S1 and S2 on the official 3×3. Full numbers: `artifacts/prediction/final/OVERFIT_AUDIT.json`.
 
 ## J. Limitations
 

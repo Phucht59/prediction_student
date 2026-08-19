@@ -7,6 +7,9 @@
     "FIT-derived class prior"
   ],
   "architecture": "C0",
+  "fitted_instances": ["uci", "oulad"],
+  "stage_specific_models": false,
+  "separate_oulad_100_model": false,
   "forbidden": [
     "dataset_specific_topology",
     "stage_specific_model",
