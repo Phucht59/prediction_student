@@ -1,0 +1,36 @@
+{
+  "v3_minus_b0": {
+    "iterations": 2000,
+    "seed": 2026,
+    "unit": "query",
+    "n_positive_queries": 630,
+    "metric": "ndcg_at_3",
+    "mean_difference": 0.06885231461921391,
+    "ci_low_95": 0.06051015858262974,
+    "ci_high_95": 0.07748044076634683,
+    "probability_difference_positive": 1.0
+  },
+  "v3_minus_b1": {
+    "iterations": 2000,
+    "seed": 2026,
+    "unit": "query",
+    "n_positive_queries": 630,
+    "metric": "ndcg_at_3",
+    "mean_difference": 0.021313883768085913,
+    "ci_low_95": 0.014397531698858568,
+    "ci_high_95": 0.028147133716415276,
+    "probability_difference_positive": 1.0
+  },
+  "best_baseline": "B1",
+  "v3_minus_best_baseline": {
+    "iterations": 2000,
+    "seed": 2026,
+    "unit": "query",
+    "n_positive_queries": 630,
+    "metric": "ndcg_at_3",
+    "mean_difference": 0.021313883768085913,
+    "ci_low_95": 0.014397531698858568,
+    "ci_high_95": 0.028147133716415276,
+    "probability_difference_positive": 1.0
+  }
+}

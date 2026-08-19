@@ -1,0 +1,31 @@
+{
+  "FINAL_RECOMMENDATION_V3_READY": true,
+  "prediction_authority": "Phase4 Hybrid C0",
+  "recommendation_authority": "Five-EBM-C0",
+  "development_freeze_sha256": "6dd02b61cd7485f5a317c2019a1da193795d6c9577678afaf3c1d7ed94274e2f",
+  "five_ebm_hashes": {
+    "ASSESSMENT_COMPLETION.joblib": "307718e26209185e06cb3fb74ac83eb852a69a4da91be4f8809b34b94808812f",
+    "QUIZ_RETRIEVAL_PRACTICE.joblib": "71f75b3c29d537e3a09cefdf25ee836b580ded8ebf6c98adba73ae81f24021e6",
+    "RECOVER_ENGAGEMENT.joblib": "ecf890661011b1dc590a66befc9216c8a35075ea7af990f7c41be87171b18f6a",
+    "STUDY_REGULARITY.joblib": "3f534053837e42e4bc6dbf9cdf6783144316e0893a8180ab149ef90f8fdda6d3",
+    "TARGETED_CONTENT_REVIEW.joblib": "2f7d2f9b24c7a1f523f24ff4aa53bf7b3c55216f5e86e9ce3db56c6469da0373"
+  },
+  "feature_manifest_hash": "b610c1dc5f9c73eba4ff56aa1a96ee7525eba44dd00fd5e0a6a66223df496e06",
+  "label_manifest_hash": "168596170fcadfc032b5b7d6789e536e0f14758a9f78d071f80e97c7a75746c1",
+  "router_config_hash": "4abb21bcd475c9d6fa20be4cd78418c10f29bd64867c58b8686afe47e1d03f26",
+  "feasibility_hash": "581698dd7ab5de8032bd62cfb4e79449a97da60d715d15b7e4751ae410771eb5",
+  "plan_rules_hash": "4f890ab4ea04297be86ddf9d1e2931d0d2e0681d204ef1f877ccaa7fb4f26dae",
+  "Panel_C_protocol_hash": "19e8ed212cac7ae10c39aafea37972b76e01ef0ba2e01bd89b2b6eccc5391d65",
+  "Panel_C_reviews_hash": "16cc1a0db4c7a9108c6b1316f874828f2750b9814c1bb94e773b31f0e2139534",
+  "Panel_C_result_hash": "2bd687236a0435f692d2f818e024a35a92e027f3d16f3d3922226246a6abe395",
+  "Panel_C_bootstrap_hash": "9b4e00aa078fdc58850cd8de7c6b7aab3f037ee624450e1a6f8c1554b915737c",
+  "Panel_B_used_for_tuning": false,
+  "prediction_authority_changed": false,
+  "prediction_HPO": false,
+  "Gemini_runtime": false,
+  "simulator_core": false,
+  "UCI_recommendation": false,
+  "100pct_intervention": false,
+  "panel_c_model_mixing_policy": "EXPLICIT_OWNER_AUTHORIZED_GEMINI_3_5_THEN_3_1_FLASH_LITE",
+  "created_at_utc": "2026-08-19T16:01:45.280848+00:00"
+}

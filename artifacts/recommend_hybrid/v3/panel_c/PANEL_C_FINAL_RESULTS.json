@@ -1,10 +1,107 @@
 {
-  "status": "NOT_EVALUATED",
-  "reason": "Panel C coverage incomplete: 501/632 authentic cases; 131 HTTP 429 after bounded retries; free-tier daily cap 500 generate_content_free_tier_requests. complete_coverage_required=true.",
-  "n_cases_sampled": 632,
-  "n_cases_reviewed": 501,
-  "n_review_records": 1910,
-  "n_provider_failures": 131,
-  "PANEL_C_AUTHENTIC_PROVENANCE": "PASS_FOR_COLLECTED_RECORDS",
-  "PANEL_C_COVERAGE": "FAIL"
+  "status": "EVALUATED",
+  "evaluated_at_utc": "2026-08-19T15:59:43.883074+00:00",
+  "prediction_authority": "Phase4 Hybrid C0",
+  "recommendation_authority": "Five-EBM-C0",
+  "n_students": 150,
+  "n_cases": 632,
+  "n_review_records": 2398,
+  "n_primary_metric_cases": 632,
+  "n_excluded_incomplete_or_abstain": 0,
+  "five_ebm_c0": {
+    "query_count": 632,
+    "positive_query_count": 630,
+    "ndcg_at_3": 0.887848756061814,
+    "precision_at_1": 0.9920634920634921,
+    "mrr": 0.996031746031746,
+    "recall_at_3": 0.7994708994708994,
+    "pairwise_accuracy": 0.5384928716904277,
+    "invalid_action_rate": 0.0,
+    "unique_top1_actions": 5
+  },
+  "baseline_b0": {
+    "query_count": 632,
+    "positive_query_count": 630,
+    "ndcg_at_3": 0.8188892181372347,
+    "precision_at_1": 0.9936507936507937,
+    "mrr": 0.9968253968253968,
+    "recall_at_3": 0.7898148148148147,
+    "pairwise_accuracy": 0.25376782077393073,
+    "invalid_action_rate": 0.0,
+    "unique_top1_actions": 2
+  },
+  "baseline_b1": {
+    "query_count": 632,
+    "positive_query_count": 630,
+    "ndcg_at_3": 0.8664899740737895,
+    "precision_at_1": 0.9968253968253968,
+    "mrr": 0.9984126984126984,
+    "recall_at_3": 0.8035714285714284,
+    "pairwise_accuracy": 0.454020618556701,
+    "invalid_action_rate": 0.0,
+    "unique_top1_actions": 4
+  },
+  "exact_best_top1_agreement": 0.40711462450592883,
+  "pipeline_system": {
+    "n_cases": 632,
+    "invalid_action_rate": 0.0,
+    "recommendation_coverage": 0.14873417721518986,
+    "HUMAN_REVIEW_rate": 0.27689873417721517,
+    "INSUFFICIENT_EVIDENCE_rate": 0.5743670886075949,
+    "NO_FEASIBLE_ACTION_rate": 0.0,
+    "route_counts": {
+      "RECOMMEND": 94,
+      "INSUFFICIENT_EVIDENCE": 363,
+      "HUMAN_REVIEW": 175,
+      "NO_FEASIBLE_ACTION": 0
+    },
+    "top1_action_distribution": {
+      "RECOVER_ENGAGEMENT": 111,
+      "QUIZ_RETRIEVAL_PRACTICE": 64,
+      "TARGETED_CONTENT_REVIEW": 36,
+      "STUDY_REGULARITY": 31,
+      "ASSESSMENT_COMPLETION": 27
+    },
+    "unique_top1_actions": 5
+  },
+  "bootstrap": {
+    "v3_minus_b0": {
+      "iterations": 2000,
+      "seed": 2026,
+      "unit": "query",
+      "n_positive_queries": 630,
+      "metric": "ndcg_at_3",
+      "mean_difference": 0.06885231461921391,
+      "ci_low_95": 0.06051015858262974,
+      "ci_high_95": 0.07748044076634683,
+      "probability_difference_positive": 1.0
+    },
+    "v3_minus_b1": {
+      "iterations": 2000,
+      "seed": 2026,
+      "unit": "query",
+      "n_positive_queries": 630,
+      "metric": "ndcg_at_3",
+      "mean_difference": 0.021313883768085913,
+      "ci_low_95": 0.014397531698858568,
+      "ci_high_95": 0.028147133716415276,
+      "probability_difference_positive": 1.0
+    },
+    "best_baseline": "B1",
+    "v3_minus_best_baseline": {
+      "iterations": 2000,
+      "seed": 2026,
+      "unit": "query",
+      "n_positive_queries": 630,
+      "metric": "ndcg_at_3",
+      "mean_difference": 0.021313883768085913,
+      "ci_low_95": 0.014397531698858568,
+      "ci_high_95": 0.028147133716415276,
+      "probability_difference_positive": 1.0
+    }
+  },
+  "panel_b_used_for_tuning": false,
+  "panel_c_used_for_tuning": false,
+  "post_freeze_tuning": false,
+  "invalid_action_rate_required_zero": true
 }
