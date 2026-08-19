@@ -1,0 +1,305 @@
+{
+  "0.0002": {
+    "oulad": {
+      "best_epoch": 31,
+      "diagnostics": {
+        "20pct": {
+          "bilstm_mass": 0.5000914335250854,
+          "cnn_mass": 0.21363860368728638,
+          "g_temporal_mean": 0.7137300372123718,
+          "g_temporal_std": 0.09480519592761993,
+          "tabular_mass": 0.2862699627876282,
+          "tabular_norm": 13.507026672363281,
+          "temporal_available_rate": 1.0,
+          "temporal_norm": 5.685819149017334
+        },
+        "35pct": {
+          "bilstm_mass": 0.5435253977775574,
+          "cnn_mass": 0.20359399914741516,
+          "g_temporal_mean": 0.7471194267272949,
+          "g_temporal_std": 0.07402954995632172,
+          "tabular_mass": 0.2528805732727051,
+          "tabular_norm": 13.563430786132812,
+          "temporal_available_rate": 1.0,
+          "temporal_norm": 5.771182060241699
+        },
+        "50pct": {
+          "bilstm_mass": 0.5594236850738525,
+          "cnn_mass": 0.20833012461662292,
+          "g_temporal_mean": 0.7677538394927979,
+          "g_temporal_std": 0.07222755253314972,
+          "tabular_mass": 0.23224619030952454,
+          "tabular_norm": 13.467569351196289,
+          "temporal_available_rate": 1.0,
+          "temporal_norm": 6.105013847351074
+        },
+        "75pct": {
+          "bilstm_mass": 0.553101658821106,
+          "cnn_mass": 0.22831478714942932,
+          "g_temporal_mean": 0.7814164161682129,
+          "g_temporal_std": 0.0686650276184082,
+          "tabular_mass": 0.21858355402946472,
+          "tabular_norm": 13.395381927490234,
+          "temporal_available_rate": 1.0,
+          "temporal_norm": 6.374194622039795
+        }
+      },
+      "gap_mean": 0.023754732941002582,
+      "macro_pr_auc": 0.8364020690373649,
+      "parameter_count": 514373,
+      "stages": {
+        "20pct": 0.770991033219474,
+        "35pct": 0.8156550034791231,
+        "50pct": 0.8598973328229544,
+        "75pct": 0.8990649066279083
+      },
+      "worst_pr_auc": 0.770991033219474
+    },
+    "uci": {
+      "best_epoch": 20,
+      "diagnostics": {
+        "S0": {
+          "bilstm_mass": 0.0,
+          "cnn_mass": 0.0,
+          "g_temporal_mean": 0.0,
+          "g_temporal_std": 0.0,
+          "tabular_mass": 1.0,
+          "tabular_norm": 9.764261245727539,
+          "temporal_available_rate": 0.0,
+          "temporal_norm": 0.0
+        },
+        "S1": {
+          "bilstm_mass": 0.48554834723472595,
+          "cnn_mass": 0.4196506440639496,
+          "g_temporal_mean": 0.9051989316940308,
+          "g_temporal_std": 0.014300808310508728,
+          "tabular_mass": 0.09480098634958267,
+          "tabular_norm": 13.816834449768066,
+          "temporal_available_rate": 1.0,
+          "temporal_norm": 3.550177812576294
+        },
+        "S2": {
+          "bilstm_mass": 0.5158735513687134,
+          "cnn_mass": 0.3968130052089691,
+          "g_temporal_mean": 0.9126865267753601,
+          "g_temporal_std": 0.017503000795841217,
+          "tabular_mass": 0.0873134583234787,
+          "tabular_norm": 13.55150318145752,
+          "temporal_available_rate": 1.0,
+          "temporal_norm": 3.969862222671509
+        }
+      },
+      "gap_mean": 0.12133854432390974,
+      "macro_pr_auc": 0.6851291865623838,
+      "parameter_count": 513413,
+      "stages": {
+        "S0": 0.4155729752108285,
+        "S1": 0.7664499821920413,
+        "S2": 0.8733646022842814
+      },
+      "worst_pr_auc": 0.4155729752108285
+    }
+  },
+  "0.0008": {
+    "oulad": {
+      "best_epoch": 12,
+      "diagnostics": {
+        "20pct": {
+          "bilstm_mass": 0.18045169115066528,
+          "cnn_mass": 0.2180596888065338,
+          "g_temporal_mean": 0.3985113799571991,
+          "g_temporal_std": 0.19733867049217224,
+          "tabular_mass": 0.6014885902404785,
+          "tabular_norm": 13.576028823852539,
+          "temporal_available_rate": 1.0,
+          "temporal_norm": 10.404011726379395
+        },
+        "35pct": {
+          "bilstm_mass": 0.18633465468883514,
+          "cnn_mass": 0.22165967524051666,
+          "g_temporal_mean": 0.4079943299293518,
+          "g_temporal_std": 0.16402563452720642,
+          "tabular_mass": 0.5920056700706482,
+          "tabular_norm": 13.470121383666992,
+          "temporal_available_rate": 1.0,
+          "temporal_norm": 10.698625564575195
+        },
+        "50pct": {
+          "bilstm_mass": 0.1774371862411499,
+          "cnn_mass": 0.2064913809299469,
+          "g_temporal_mean": 0.3839285373687744,
+          "g_temporal_std": 0.16134068369865417,
+          "tabular_mass": 0.6160714626312256,
+          "tabular_norm": 13.441133499145508,
+          "temporal_available_rate": 1.0,
+          "temporal_norm": 11.93722915649414
+        },
+        "75pct": {
+          "bilstm_mass": 0.17835605144500732,
+          "cnn_mass": 0.21386802196502686,
+          "g_temporal_mean": 0.3922240734100342,
+          "g_temporal_std": 0.1498965322971344,
+          "tabular_mass": 0.6077759265899658,
+          "tabular_norm": 13.414015769958496,
+          "temporal_available_rate": 1.0,
+          "temporal_norm": 12.183835983276367
+        }
+      },
+      "gap_mean": 0.007838159203624545,
+      "macro_pr_auc": 0.8307519141650039,
+      "parameter_count": 514373,
+      "stages": {
+        "20pct": 0.7642478410448837,
+        "35pct": 0.8084857004111488,
+        "50pct": 0.8556105112066883,
+        "75pct": 0.8946636039972955
+      },
+      "worst_pr_auc": 0.7642478410448837
+    },
+    "uci": {
+      "best_epoch": 13,
+      "diagnostics": {
+        "S0": {
+          "bilstm_mass": 0.0,
+          "cnn_mass": 0.0,
+          "g_temporal_mean": 0.0,
+          "g_temporal_std": 0.0,
+          "tabular_mass": 1.0,
+          "tabular_norm": 9.745637893676758,
+          "temporal_available_rate": 0.0,
+          "temporal_norm": 0.0
+        },
+        "S1": {
+          "bilstm_mass": 0.5434027314186096,
+          "cnn_mass": 0.20258602499961853,
+          "g_temporal_mean": 0.7459887266159058,
+          "g_temporal_std": 0.041109148412942886,
+          "tabular_mass": 0.25401124358177185,
+          "tabular_norm": 14.029260635375977,
+          "temporal_available_rate": 1.0,
+          "temporal_norm": 5.630003452301025
+        },
+        "S2": {
+          "bilstm_mass": 0.6311792731285095,
+          "cnn_mass": 0.18257322907447815,
+          "g_temporal_mean": 0.8137525320053101,
+          "g_temporal_std": 0.042464762926101685,
+          "tabular_mass": 0.18624743819236755,
+          "tabular_norm": 13.626639366149902,
+          "temporal_available_rate": 1.0,
+          "temporal_norm": 6.372830867767334
+        }
+      },
+      "gap_mean": 0.175029257871157,
+      "macro_pr_auc": 0.6868226821511966,
+      "parameter_count": 513413,
+      "stages": {
+        "S0": 0.4372086365231367,
+        "S1": 0.7555481371599051,
+        "S2": 0.8677112727705476
+      },
+      "worst_pr_auc": 0.4372086365231367
+    }
+  },
+  "6e-05": {
+    "oulad": {
+      "best_epoch": 39,
+      "diagnostics": {
+        "20pct": {
+          "bilstm_mass": 0.46937212347984314,
+          "cnn_mass": 0.2861761152744293,
+          "g_temporal_mean": 0.7555482387542725,
+          "g_temporal_std": 0.06219440698623657,
+          "tabular_mass": 0.24445176124572754,
+          "tabular_norm": 13.818401336669922,
+          "temporal_available_rate": 1.0,
+          "temporal_norm": 4.274526596069336
+        },
+        "35pct": {
+          "bilstm_mass": 0.5098207592964172,
+          "cnn_mass": 0.2736192047595978,
+          "g_temporal_mean": 0.7834399938583374,
+          "g_temporal_std": 0.05763993412256241,
+          "tabular_mass": 0.2165600210428238,
+          "tabular_norm": 13.893535614013672,
+          "temporal_available_rate": 1.0,
+          "temporal_norm": 4.464715957641602
+        },
+        "50pct": {
+          "bilstm_mass": 0.5437954664230347,
+          "cnn_mass": 0.26694023609161377,
+          "g_temporal_mean": 0.8107357025146484,
+          "g_temporal_std": 0.0557546392083168,
+          "tabular_mass": 0.18926429748535156,
+          "tabular_norm": 13.743117332458496,
+          "temporal_available_rate": 1.0,
+          "temporal_norm": 4.690091133117676
+        },
+        "75pct": {
+          "bilstm_mass": 0.5741382241249084,
+          "cnn_mass": 0.2603241801261902,
+          "g_temporal_mean": 0.8344624042510986,
+          "g_temporal_std": 0.05245508253574371,
+          "tabular_mass": 0.16553762555122375,
+          "tabular_norm": 13.527273178100586,
+          "temporal_available_rate": 1.0,
+          "temporal_norm": 4.914395332336426
+        }
+      },
+      "gap_mean": 0.00517262464199264,
+      "macro_pr_auc": 0.8345160064712035,
+      "parameter_count": 514373,
+      "stages": {
+        "20pct": 0.7686134540183184,
+        "35pct": 0.8132302001384941,
+        "50pct": 0.859212693896104,
+        "75pct": 0.8970076778318976
+      },
+      "worst_pr_auc": 0.7686134540183184
+    },
+    "uci": {
+      "best_epoch": 40,
+      "diagnostics": {
+        "S0": {
+          "bilstm_mass": 0.0,
+          "cnn_mass": 0.0,
+          "g_temporal_mean": 0.0,
+          "g_temporal_std": 0.0,
+          "tabular_mass": 1.0,
+          "tabular_norm": 9.776330947875977,
+          "temporal_available_rate": 0.0,
+          "temporal_norm": 0.0
+        },
+        "S1": {
+          "bilstm_mass": 0.4221923053264618,
+          "cnn_mass": 0.4743298590183258,
+          "g_temporal_mean": 0.8965221643447876,
+          "g_temporal_std": 0.013557635247707367,
+          "tabular_mass": 0.10347778350114822,
+          "tabular_norm": 13.743474960327148,
+          "temporal_available_rate": 1.0,
+          "temporal_norm": 3.500516891479492
+        },
+        "S2": {
+          "bilstm_mass": 0.42518430948257446,
+          "cnn_mass": 0.48835375905036926,
+          "g_temporal_mean": 0.9135380983352661,
+          "g_temporal_std": 0.014757326804101467,
+          "tabular_mass": 0.08646190911531448,
+          "tabular_norm": 13.510679244995117,
+          "temporal_available_rate": 1.0,
+          "temporal_norm": 3.7357301712036133
+        }
+      },
+      "gap_mean": 0.10541523435386928,
+      "macro_pr_auc": 0.6798155140702411,
+      "parameter_count": 513413,
+      "stages": {
+        "S0": 0.3929278781193355,
+        "S1": 0.7692927733083451,
+        "S2": 0.8772258907830424
+      },
+      "worst_pr_auc": 0.3929278781193355
+    }
+  }
+}

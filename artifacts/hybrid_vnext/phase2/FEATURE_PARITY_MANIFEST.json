@@ -1,0 +1,160 @@
+{
+  "oulad": {
+    "aggregate": [
+      "cumulative_activity",
+      "mean_weekly_activity",
+      "recent_activity",
+      "recent_historical_activity_ratio",
+      "activity_trend",
+      "current_inactivity_streak",
+      "cumulative_inactive_weeks",
+      "days_since_last_activity",
+      "assessments_due_to_date",
+      "submitted_due_to_date",
+      "completion_rate",
+      "missed_due_count",
+      "late_submission_rate"
+    ],
+    "baseline_receives_same_columns": true,
+    "cutoff_rule": "UCI stage mask; OULAD event_time < cutoff and observation_start <= event",
+    "d3_applied": true,
+    "domain": "oulad",
+    "fit_only_scaling": true,
+    "forbidden": [
+      "final_result",
+      "target",
+      "score",
+      "date_unregistration"
+    ],
+    "hash": "f009d37276897e42d1ef175646b36394f84a5d3d3044527ce6e9ffdd22a4bfda",
+    "hybrid_privileged_features": [],
+    "progress": true,
+    "safe_summaries": [
+      "activity_intensity_log1p__last",
+      "activity_intensity_log1p__mean",
+      "activity_intensity_log1p__max",
+      "active_days__last",
+      "active_days__mean",
+      "active_days__max",
+      "unique_sites__last",
+      "unique_sites__mean",
+      "unique_sites__max",
+      "unique_activity_types__last",
+      "unique_activity_types__mean",
+      "unique_activity_types__max",
+      "content_activity__last",
+      "content_activity__mean",
+      "content_activity__max",
+      "forum_activity__last",
+      "forum_activity__mean",
+      "forum_activity__max",
+      "quiz_activity__last",
+      "quiz_activity__mean",
+      "quiz_activity__max",
+      "assessment_related_activity__last",
+      "assessment_related_activity__mean",
+      "assessment_related_activity__max",
+      "weekly_submissions__last",
+      "weekly_submissions__mean",
+      "weekly_submissions__max",
+      "weekly_late_submissions__last",
+      "weekly_late_submissions__mean",
+      "weekly_late_submissions__max",
+      "week_exposure_fraction__last",
+      "week_exposure_fraction__mean",
+      "week_exposure_fraction__max"
+    ],
+    "static_categorical": [
+      "gender",
+      "region",
+      "highest_education",
+      "imd_band",
+      "age_band",
+      "disability",
+      "code_module",
+      "presentation_season"
+    ],
+    "static_numeric": [
+      "num_of_prev_attempts",
+      "studied_credits",
+      "registration_lead_time",
+      "module_presentation_length"
+    ],
+    "temporal_channels": [
+      "activity_intensity_log1p",
+      "active_days",
+      "unique_sites",
+      "unique_activity_types",
+      "content_activity",
+      "forum_activity",
+      "quiz_activity",
+      "assessment_related_activity",
+      "weekly_submissions",
+      "weekly_late_submissions",
+      "week_exposure_fraction"
+    ]
+  },
+  "uci": {
+    "aggregate": [
+      "latest_grade",
+      "running_mean",
+      "observed_grade_fraction",
+      "delta_grade",
+      "delta_available"
+    ],
+    "baseline_receives_same_columns": true,
+    "cutoff_rule": "UCI stage mask; OULAD event_time < cutoff and observation_start <= event",
+    "d3_applied": false,
+    "domain": "uci",
+    "fit_only_scaling": true,
+    "forbidden": [
+      "G3",
+      "absences"
+    ],
+    "hash": "b8264d4b2cbc98818165920637a84a7da7017f43e256ea756e5b59ca6759476a",
+    "hybrid_privileged_features": [],
+    "progress": true,
+    "safe_summaries": [
+      "ch0__last",
+      "ch0__mean",
+      "ch0__max"
+    ],
+    "static_categorical": [
+      "school",
+      "sex",
+      "address",
+      "famsize",
+      "Pstatus",
+      "Mjob",
+      "Fjob",
+      "reason",
+      "guardian",
+      "schoolsup",
+      "famsup",
+      "paid",
+      "activities",
+      "nursery",
+      "higher",
+      "internet",
+      "romantic",
+      "subject"
+    ],
+    "static_numeric": [
+      "age",
+      "Medu",
+      "Fedu",
+      "traveltime",
+      "studytime",
+      "failures",
+      "famrel",
+      "freetime",
+      "goout",
+      "Dalc",
+      "Walc",
+      "health"
+    ],
+    "temporal_channels": [
+      "ch0"
+    ]
+  }
+}

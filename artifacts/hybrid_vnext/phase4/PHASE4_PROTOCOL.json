@@ -1,0 +1,73 @@
+{
+  "availability": [
+    {
+      "aggregate": 0,
+      "cnn_mass": 0.0,
+      "cnn_norm": 0.0,
+      "g_temporal": 0.0,
+      "lstm_mass": 0.0,
+      "lstm_norm": 0.0,
+      "pass": true,
+      "reasons": [],
+      "temporal": 0
+    },
+    {
+      "aggregate": 1,
+      "cnn_mass": 0.0,
+      "cnn_norm": 0.0,
+      "g_temporal": 0.0,
+      "lstm_mass": 0.0,
+      "lstm_norm": 0.0,
+      "pass": true,
+      "reasons": [],
+      "temporal": 0
+    },
+    {
+      "aggregate": 0,
+      "cnn_mass": 0.3146512508392334,
+      "cnn_norm": 3.316929817199707,
+      "g_temporal": 0.6458008289337158,
+      "lstm_mass": 0.3311496078968048,
+      "lstm_norm": 0.9451100826263428,
+      "pass": true,
+      "reasons": [],
+      "temporal": 1
+    },
+    {
+      "aggregate": 1,
+      "cnn_mass": 0.322809100151062,
+      "cnn_norm": 3.8436317443847656,
+      "g_temporal": 0.6737855672836304,
+      "lstm_mass": 0.35097646713256836,
+      "lstm_norm": 0.9143937230110168,
+      "pass": true,
+      "reasons": [],
+      "temporal": 1
+    }
+  ],
+  "cuda": {
+    "capability": [
+      7,
+      5
+    ],
+    "cuda_available": true,
+    "cuda_runtime": "12.8",
+    "device": "cuda:0",
+    "fail_fast_if_cpu": true,
+    "gpu_name": "NVIDIA GeForce RTX 2060",
+    "silent_cpu_fallback": false,
+    "torch_version": "2.11.0+cu128",
+    "vram_gb": 6.0
+  },
+  "goal": "robust_superiority_vs_LR_DT_RF_SVM_MLP",
+  "outer_test_used": false,
+  "phase": 4,
+  "phase2_hashes": {
+    "PROTOCOL_LOCK.json": "a0a62a4bc8a387740d856fe0d74a5520ae7613b15dd4897886616618e570fd83",
+    "SELECTED_TOPOLOGY.json": "1fe018e702caff917b5558b054f8ec45fd90d02d8de6eb20476a02b49c7041f5"
+  },
+  "svm_required": true,
+  "timestamp": "2026-08-19T05:59:17Z",
+  "topology_hash": "b2377c362eeca6deba96903cc5a9375ac05e4f9110767583ae6539490ca1b08f",
+  "xgb_removed": true
+}

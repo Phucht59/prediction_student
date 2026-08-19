@@ -8,7 +8,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from ..contracts import assert_binary_target, oulad_risk_target
+from ..contracts import OULAD_STATES, assert_binary_target, canonical_oulad_state, oulad_risk_target
 from .common import UnifiedHybridData
 
 
@@ -25,7 +25,7 @@ OULAD_AGGREGATE_CHANNELS = (
 COUNT_CHANNELS = ("activity_intensity_log1p", "content_activity", "forum_activity", "quiz_activity", "assessment_related_activity")
 UNIQUE_CHANNELS = ("unique_sites", "unique_activity_types")
 OULAD_FORBIDDEN_PREDICTORS = ("final_result", "target", "score", "date_unregistration")
-OULAD_ENDPOINTS = ("20pct", "35pct", "50pct", "75pct", "FINAL-100")
+OULAD_ENDPOINTS = OULAD_STATES
 
 
 def load_oulad_static_tables(raw_dir: str | Path = "data/raw") -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
@@ -75,15 +75,14 @@ def validate_oulad_predictor_columns(columns: list[str] | tuple[str, ...] | set[
 def build_oulad_array_view(*, static: np.ndarray, temporal: np.ndarray, temporal_mask: np.ndarray, lengths: np.ndarray,
                            aggregate: np.ndarray, aggregate_available: np.ndarray, progress: np.ndarray,
                            final_result, record_id, group_id, endpoint: str) -> UnifiedHybridData:
-    if endpoint not in OULAD_ENDPOINTS:
-        raise ValueError(f"unknown OULAD endpoint: {endpoint}")
+    state = canonical_oulad_state(endpoint)
     target = oulad_risk_target(final_result)
     view = UnifiedHybridData(static=np.asarray(static, np.float32), temporal=np.asarray(temporal, np.float32),
                              temporal_mask=np.asarray(temporal_mask, bool), lengths=np.asarray(lengths, np.int64),
                              aggregate=np.asarray(aggregate, np.float32), aggregate_available=np.asarray(aggregate_available),
                              progress=np.asarray(progress, np.float32), target=target,
                              record_id=np.asarray(record_id).astype(str), group_id=np.asarray(group_id).astype(str),
-                             metadata={"dataset": "oulad", "endpoint": endpoint, "target_rule": "Fail/Withdrawn => risk", "forbidden_predictors": list(OULAD_FORBIDDEN_PREDICTORS)})
+                             metadata={"dataset": "oulad", "endpoint": state, "information_state": state, "alias": endpoint, "target_rule": "Fail/Withdrawn => risk", "forbidden_predictors": list(OULAD_FORBIDDEN_PREDICTORS), "separate_model": False})
     view.validate()
     return view
 

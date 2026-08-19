@@ -3,11 +3,25 @@
 This registry separates current authority from immutable historical evidence.
 It is the starting point for thesis and repository readers.
 
-## Current authority
+## Current prediction authority
+
+Thesis-final prediction model (2026-08 owner finalization):
 
 | Topic | Current source |
 |---|---|
-| Final prediction authority | `configs/final/final_model_authority.yaml` |
+| Public Hybrid C0 | `src/prediction/model/hybrid.py` |
+| Config / registry | `configs/prediction/hybrid_final.json`, `configs/prediction/registry.json` |
+| Canonical report | `reports/prediction/final/FINAL_PREDICTION_MODEL_REPORT.md` |
+| Result tables | `reports/prediction/final/uci_final.csv`, `oulad_final.csv` |
+| Decision manifest | `artifacts/prediction/final/FINALIZATION_DECISION.json` |
+
+Older rows below remain historical provenance. They are not the active Hybrid prediction authority.
+
+## Current authority (other subsystems)
+
+| Topic | Current source |
+|---|---|
+| Historical pre-Phase4 prediction configs | `configs/final/final_model_authority.yaml` |
 | Student-Mat and Student-Por configurations | `configs/final/cnn_bilstm_mat.yaml`, `configs/final/cnn_bilstm_por.yaml` |
 | OULAD H1 configuration | `configs/final/h1_tabular_residual_oulad.yaml` |
 | Thesis result set | `reports/final/thesis_v3/` |

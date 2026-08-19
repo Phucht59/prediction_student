@@ -1,0 +1,11 @@
+{
+  "source": "phase2_PROTOCOL_LOCK",
+  "split_hashes": {
+    "uci_inner": "ad8f44e5931d652e353d9d9ebe7b0e840eca3d895243b92d57deb0b3b6e02ae8",
+    "oulad_inner": "8559efcf156bcb05eb0a2bdf9e945d54f3989358d8f15064dab1204cd872650c",
+    "uci_outer": "e1fbb15e97bdf53b1408026dc60639f5f08665e528208fc5974f1659dbd405c0",
+    "oulad_outer": "46cd0eddc720d9da0869778050b9d025d3e10519e096b6fe6323fde3e4f99ef1",
+    "matches_phase8_expected": true
+  },
+  "outer_test_used": false
+}

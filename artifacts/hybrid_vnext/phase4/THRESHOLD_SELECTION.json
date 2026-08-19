@@ -1,0 +1,4 @@
+{
+  "outer_test_used": false,
+  "policy": "STOP-only F1 then recall then |t-0.5|"
+}

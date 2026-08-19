@@ -1,0 +1,238 @@
+{
+  "authority_untouched": true,
+  "availability": {
+    "C0": {
+      "fusion": "softmax_3way",
+      "parameter_count": 508997,
+      "pass": true,
+      "results": [
+        {
+          "aggregate": 0,
+          "cnn_mass": 0.0,
+          "cnn_norm": 0.0,
+          "g_temporal": 0.0,
+          "lstm_mass": 0.0,
+          "lstm_norm": 0.0,
+          "pass": true,
+          "reasons": [],
+          "temporal": 0
+        },
+        {
+          "aggregate": 1,
+          "cnn_mass": 0.0,
+          "cnn_norm": 0.0,
+          "g_temporal": 0.0,
+          "lstm_mass": 0.0,
+          "lstm_norm": 0.0,
+          "pass": true,
+          "reasons": [],
+          "temporal": 0
+        },
+        {
+          "aggregate": 0,
+          "cnn_mass": 0.37149348855018616,
+          "cnn_norm": 3.6761622428894043,
+          "g_temporal": 0.6481512784957886,
+          "lstm_mass": 0.2766578197479248,
+          "lstm_norm": 0.8068108558654785,
+          "pass": true,
+          "reasons": [],
+          "temporal": 1
+        },
+        {
+          "aggregate": 1,
+          "cnn_mass": 0.34725114703178406,
+          "cnn_norm": 4.055906772613525,
+          "g_temporal": 0.7055925130844116,
+          "lstm_mass": 0.3583413362503052,
+          "lstm_norm": 0.7595580816268921,
+          "pass": true,
+          "reasons": [],
+          "temporal": 1
+        }
+      ],
+      "temporal_path": "parallel"
+    },
+    "C1": {
+      "fusion": "residual_add",
+      "parameter_count": 181381,
+      "pass": true,
+      "results": [
+        {
+          "aggregate": 0,
+          "cnn_mass": 0.0,
+          "cnn_norm": 0.0,
+          "g_temporal": 0.0,
+          "lstm_mass": 0.0,
+          "lstm_norm": 0.0,
+          "pass": true,
+          "reasons": [],
+          "temporal": 0
+        },
+        {
+          "aggregate": 1,
+          "cnn_mass": 0.0,
+          "cnn_norm": 0.0,
+          "g_temporal": 0.0,
+          "lstm_mass": 0.0,
+          "lstm_norm": 0.0,
+          "pass": true,
+          "reasons": [],
+          "temporal": 0
+        },
+        {
+          "aggregate": 0,
+          "cnn_mass": 1.0,
+          "cnn_norm": 2.8803598880767822,
+          "g_temporal": 1.0,
+          "lstm_mass": 1.0,
+          "lstm_norm": 0.6880595088005066,
+          "pass": true,
+          "reasons": [],
+          "temporal": 1
+        },
+        {
+          "aggregate": 1,
+          "cnn_mass": 1.0,
+          "cnn_norm": 2.642056703567505,
+          "g_temporal": 1.0,
+          "lstm_mass": 1.0,
+          "lstm_norm": 0.5079604387283325,
+          "pass": true,
+          "reasons": [],
+          "temporal": 1
+        }
+      ],
+      "temporal_path": "parallel"
+    },
+    "C2": {
+      "fusion": "residual_add",
+      "parameter_count": 164869,
+      "pass": true,
+      "results": [
+        {
+          "aggregate": 0,
+          "cnn_mass": 0.0,
+          "cnn_norm": 0.0,
+          "g_temporal": 0.0,
+          "lstm_mass": 0.0,
+          "lstm_norm": 0.0,
+          "pass": true,
+          "reasons": [],
+          "temporal": 0
+        },
+        {
+          "aggregate": 1,
+          "cnn_mass": 0.0,
+          "cnn_norm": 0.0,
+          "g_temporal": 0.0,
+          "lstm_mass": 0.0,
+          "lstm_norm": 0.0,
+          "pass": true,
+          "reasons": [],
+          "temporal": 0
+        },
+        {
+          "aggregate": 0,
+          "cnn_mass": 1.0,
+          "cnn_norm": 0.0,
+          "g_temporal": 1.0,
+          "lstm_mass": 1.0,
+          "lstm_norm": 0.0,
+          "pass": true,
+          "reasons": [],
+          "temporal": 1
+        },
+        {
+          "aggregate": 1,
+          "cnn_mass": 1.0,
+          "cnn_norm": 0.0,
+          "g_temporal": 1.0,
+          "lstm_mass": 1.0,
+          "lstm_norm": 0.0,
+          "pass": true,
+          "reasons": [],
+          "temporal": 1
+        }
+      ],
+      "temporal_path": "serial"
+    },
+    "C3": {
+      "fusion": "gated_residual",
+      "parameter_count": 164869,
+      "pass": true,
+      "results": [
+        {
+          "aggregate": 0,
+          "cnn_mass": 0.0,
+          "cnn_norm": 0.0,
+          "g_temporal": 0.0,
+          "lstm_mass": 0.0,
+          "lstm_norm": 0.0,
+          "pass": true,
+          "reasons": [],
+          "temporal": 0
+        },
+        {
+          "aggregate": 1,
+          "cnn_mass": 0.0,
+          "cnn_norm": 0.0,
+          "g_temporal": 0.0,
+          "lstm_mass": 0.0,
+          "lstm_norm": 0.0,
+          "pass": true,
+          "reasons": [],
+          "temporal": 0
+        },
+        {
+          "aggregate": 0,
+          "cnn_mass": 0.4855656027793884,
+          "cnn_norm": 0.0,
+          "g_temporal": 0.4855656027793884,
+          "lstm_mass": 0.4855656027793884,
+          "lstm_norm": 0.0,
+          "pass": true,
+          "reasons": [],
+          "temporal": 1
+        },
+        {
+          "aggregate": 1,
+          "cnn_mass": 0.46892160177230835,
+          "cnn_norm": 0.0,
+          "g_temporal": 0.46892160177230835,
+          "lstm_mass": 0.46892160177230835,
+          "lstm_norm": 0.0,
+          "pass": true,
+          "reasons": [],
+          "temporal": 1
+        }
+      ],
+      "temporal_path": "serial"
+    }
+  },
+  "branch": "main",
+  "cuda": {
+    "capability": [
+      7,
+      5
+    ],
+    "cuda_available": true,
+    "cuda_runtime": "12.8",
+    "device": "cuda:0",
+    "fail_fast_if_cpu": true,
+    "gpu_name": "NVIDIA GeForce RTX 2060",
+    "silent_cpu_fallback": false,
+    "torch_version": "2.11.0+cu128",
+    "vram_gb": 6.0
+  },
+  "development_outer_fold": 0,
+  "gate": 0,
+  "git_commit": "7813913ce76fa29429530f65d6e3109944ca992a",
+  "outer_test_used": false,
+  "split_hashes": {
+    "oulad_inner": "8559efcf156bcb05eb0a2bdf9e945d54f3989358d8f15064dab1204cd872650c",
+    "uci_inner": "ad8f44e5931d652e353d9d9ebe7b0e840eca3d895243b92d57deb0b3b6e02ae8"
+  },
+  "status": "PASS",
+  "timestamp": "2026-08-18T15:29:32Z"
+}

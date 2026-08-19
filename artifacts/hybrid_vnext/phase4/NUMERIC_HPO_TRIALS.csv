@@ -1,0 +1,2 @@
+trial_id,domain,status,note,outer_test_used
+none,both,skipped_no_better_training_family,"Ladder L2-L6 did not beat L1_control; Phase 3 numeric priors kept. Extra HPO would not close UCI S0 vs RF (~0.045) without forbidden topology change.",false

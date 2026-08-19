@@ -1,0 +1,16 @@
+{
+  "name": "L1_control",
+  "outer_test_used": false,
+  "spec": {
+    "curriculum": "C3",
+    "ema": 0.7,
+    "hard_stage_weights": false,
+    "lambda_rank": 0.0,
+    "name": "L1_control",
+    "notes": "Phase3 C0 control, mixed states",
+    "stage_norm": false,
+    "trunc_p": 0.0,
+    "weight_hi": 1.5,
+    "weight_lo": 0.75
+  }
+}

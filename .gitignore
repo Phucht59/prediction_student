@@ -103,6 +103,23 @@ db_backups/
 *.backup
 *.sql.gz
 
+# Hybrid vNext experiment caches (keep code + canonical summaries only)
+artifacts/hybrid_vnext/**/cache/
+artifacts/hybrid_vnext/**/runs/
+artifacts/hybrid_vnext/**/baseline_cache/
+artifacts/hybrid_vnext/**/optuna/
+artifacts/hybrid_vnext/**/checkpoints/
+artifacts/hybrid_vnext/phase2/authority_src/
+artifacts/audit/hybrid_vnext_forensic_probe.py
+artifacts/audit/hybrid_vnext_forensic_probe.json
+artifacts/hybrid_vnext/phase2/phase2_failure.json
+scripts/hybrid_vnext/fast_complete_phase3.py
+scripts/hybrid_vnext/phase3_post_robust.py
+scripts/hybrid_vnext/run_fixed_baselines.py
+scripts/hybrid_vnext/summarize_hpo.py
+scripts/hybrid_vnext/summarize_structural.py
+scripts/hybrid_vnext/watch_robust_then_finish.py
+
 # Local research history; never a release dependency
 /test_lab/
 !/test_lab/prediction_legacy/

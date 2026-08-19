@@ -12,8 +12,7 @@ from ..model import Hybrid, HybridConfig
 
 INSTANCE_LAYOUT = {
     "uci": "checkpoints/uci",
-    "oulad_early": "checkpoints/oulad_early",
-    "oulad_final": "checkpoints/oulad_final",
+    "oulad": "checkpoints/oulad",
 }
 
 
@@ -31,7 +30,8 @@ def load_checkpoint(path: str | Path, *, map_location: str | torch.device = "cpu
     payload = torch.load(Path(path), map_location=map_location, weights_only=False)
     if payload.get("model_id") != "hybrid":
         raise ValueError("checkpoint is not a Hybrid checkpoint")
-    config = HybridConfig(**payload["config"])
+    fields = set(HybridConfig.__dataclass_fields__)
+    config = HybridConfig(**{k: v for k, v in payload["config"].items() if k in fields})
     model = Hybrid(config)
     model.load_state_dict(payload["state_dict"], strict=True)
     model.eval()

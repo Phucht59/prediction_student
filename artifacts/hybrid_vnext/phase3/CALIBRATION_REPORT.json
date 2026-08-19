@@ -1,0 +1,41 @@
+{
+  "brier_gain": 0.0013447923043156118,
+  "cal_brier": 0.12741389080061313,
+  "cal_ece": 0.10856157216186607,
+  "calibrator": "temperature_scaling",
+  "domain": "uci",
+  "ece_gain": -0.009423176679288034,
+  "eval_split": "VALID",
+  "fit_split": "STOP",
+  "fold": 0,
+  "keep_rule": "ece_gain>=0.005 and brier_gain>0",
+  "other_calibrators_tried": false,
+  "outer_test_used": false,
+  "raw_brier": 0.12875868310492875,
+  "raw_ece": 0.09913839548257804,
+  "reason": "no_clear_ece_brier_gain_dropped",
+  "runtime_seconds": 19.01600000000326,
+  "seed": 42,
+  "stages": {
+    "S0": {
+      "cal_brier": 0.20497000440827826,
+      "cal_ece": 0.22110338718958308,
+      "raw_brier": 0.20490889056103448,
+      "raw_ece": 0.21659941362663057
+    },
+    "S1": {
+      "cal_brier": 0.10620063250365964,
+      "cal_ece": 0.08796166620728835,
+      "raw_brier": 0.10879535001115925,
+      "raw_ece": 0.08138786553418341
+    },
+    "S2": {
+      "cal_brier": 0.07107103548990146,
+      "cal_ece": 0.06541812554342856,
+      "raw_brier": 0.07257180874259254,
+      "raw_ece": 0.058943930462422495
+    }
+  },
+  "temperature": 1.1093170159774741,
+  "used": false
+}

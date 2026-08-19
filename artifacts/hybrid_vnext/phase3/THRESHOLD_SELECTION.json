@@ -1,0 +1,17 @@
+{
+  "outer_test_used": false,
+  "policy": "STOP-only F1 then recall then |t-0.5|",
+  "thresholds": {
+    "oulad": {
+      "20pct": 0.29,
+      "35pct": 0.32,
+      "50pct": 0.34,
+      "75pct": 0.47
+    },
+    "uci": {
+      "S0": 0.46,
+      "S1": 0.88,
+      "S2": 0.27
+    }
+  }
+}

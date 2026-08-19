@@ -6,37 +6,25 @@
     "SVM",
     "MLP"
   ],
+  "xgboost_active": false,
   "fitted_instances": [
     "uci",
-    "oulad_early",
-    "oulad_final"
+    "oulad"
   ],
+  "uci_states": ["S0", "S1", "S2"],
+  "oulad_states": ["20pct", "35pct", "50pct", "75pct", "100pct"],
   "joint_training": false,
+  "stage_specific_models": false,
+  "separate_oulad_100_model": false,
   "outer_test_rerun": false,
+  "evaluation_status": "robust_inner_finalized",
   "prediction_model": {
-    "datasets": [
-      "uci_combined",
-      "oulad"
-    ],
+    "datasets": ["uci_combined", "oulad"],
     "display_name": "Hybrid",
     "model_id": "hybrid",
+    "public_class": "Hybrid",
+    "architecture_id": "C0",
+    "authority_source": "Phase4",
     "task": "binary_student_risk"
-  },
-  "primary": {
-    "oulad": "FINAL-100",
-    "uci": "S2"
-  },
-  "same_model_class": true,
-  "supporting": {
-    "oulad": [
-      "20pct",
-      "35pct",
-      "50pct",
-      "75pct"
-    ],
-    "uci": [
-      "S0",
-      "S1"
-    ]
   }
 }

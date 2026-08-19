@@ -1,42 +1,5 @@
 {
-  "model_id": "hybrid",
-  "display_name": "Hybrid",
-  "topology": "static/tabular + aggregate + parallel CNN local patterns + BiLSTM longitudinal dynamics + adaptive fusion + head",
-  "cnn": {
-    "channels": 128,
-    "blocks": 2,
-    "kernel_size": 2,
-    "dilations": [
-      1,
-      2
-    ]
-  },
-  "bilstm": {
-    "hidden": 128,
-    "layers": 1,
-    "bidirectional": true
-  },
-  "tabular_branch": "train-fitted static/context plus D3 exposure-safe aggregate",
-  "fusion": {
-    "mode": "F3_adaptive_entropy",
-    "entropy_floor_coefficient": 0.002
-  },
-  "training": {
-    "protocol": "P1_stage_balanced",
-    "endpoints": [
-      "20pct",
-      "35pct",
-      "50pct",
-      "75pct",
-      "FINAL-100"
-    ],
-    "loss": "BCEWithLogitsLoss",
-    "optimizer": "AdamW",
-    "learning_rate": 0.0008,
-    "weight_decay": 0.0002,
-    "dropout": 0.2,
-    "class_weight": "FIT-only positive weight"
-  },
-  "oulad_representation": "D3_both_safe",
-  "threshold_protocol": "STOP-only selection; VALID reporting; risk-F1 then recall then closeness-to-0.5 tie-break"
+  "superseded_by": "configs/prediction/hybrid_final.json",
+  "note": "Phase8 config is historical. Active thesis authority is Phase 4 Hybrid C0.",
+  "active": false
 }

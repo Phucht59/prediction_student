@@ -1,0 +1,10 @@
+{
+  "model": "src/prediction/model/hybrid.py",
+  "config": "configs/prediction/hybrid_final.json",
+  "registry": "configs/prediction/registry.json",
+  "baselines": "configs/prediction/baselines_final.json",
+  "metrics_source": "artifacts/hybrid_vnext/phase4/robust_summary.json + BASELINE_CEILING.json",
+  "evaluation_status": "robust_inner_finalized",
+  "outer_test_used": false,
+  "raw_data": "not bundled; UCI student-mat/por and OULAD raw required locally"
+}

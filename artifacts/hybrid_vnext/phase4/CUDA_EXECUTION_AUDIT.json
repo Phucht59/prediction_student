@@ -1,0 +1,384 @@
+{
+  "jobs": [
+    {
+      "amp": true,
+      "batch_size": 32,
+      "device": "cuda:0",
+      "gpu_name": "NVIDIA GeForce RTX 2060",
+      "outer_test_used": false,
+      "peak_vram_bytes": 44507648,
+      "run_id": "G1_L1_control_uci_f0_s42_lr8.605034792033103e-05_do0.4061978796339918_tr0.0_rk0.0",
+      "runtime_seconds": 18.26599999999962
+    },
+    {
+      "amp": true,
+      "batch_size": 128,
+      "device": "cuda:0",
+      "gpu_name": "NVIDIA GeForce RTX 2060",
+      "outer_test_used": false,
+      "peak_vram_bytes": 97686016,
+      "run_id": "G1_L1_control_oulad_f0_s42_lr0.00011844319751820385_do0.31959818254342154_tr0.0_rk0.0",
+      "runtime_seconds": 206.95400000000154
+    },
+    {
+      "amp": true,
+      "batch_size": 32,
+      "device": "cuda:0",
+      "gpu_name": "NVIDIA GeForce RTX 2060",
+      "outer_test_used": false,
+      "peak_vram_bytes": 44507648,
+      "run_id": "G1_L2_stagenorm_uci_f0_s42_lr8.605034792033103e-05_do0.4061978796339918_tr0.0_rk0.0",
+      "runtime_seconds": 17.39099999999962
+    },
+    {
+      "amp": true,
+      "batch_size": 128,
+      "device": "cuda:0",
+      "gpu_name": "NVIDIA GeForce RTX 2060",
+      "outer_test_used": false,
+      "peak_vram_bytes": 97686016,
+      "run_id": "G1_L2_stagenorm_oulad_f0_s42_lr0.00011844319751820385_do0.31959818254342154_tr0.0_rk0.0",
+      "runtime_seconds": 206.51499999999942
+    },
+    {
+      "amp": true,
+      "batch_size": 32,
+      "device": "cuda:0",
+      "gpu_name": "NVIDIA GeForce RTX 2060",
+      "outer_test_used": false,
+      "peak_vram_bytes": 41334784,
+      "run_id": "G1_L3_C1_uci_f0_s42_lr8.605034792033103e-05_do0.4061978796339918_tr0.0_rk0.0",
+      "runtime_seconds": 7.15599999999904
+    },
+    {
+      "amp": true,
+      "batch_size": 128,
+      "device": "cuda:0",
+      "gpu_name": "NVIDIA GeForce RTX 2060",
+      "outer_test_used": false,
+      "peak_vram_bytes": 80945152,
+      "run_id": "G1_L3_C1_oulad_f0_s42_lr0.00011844319751820385_do0.31959818254342154_tr0.0_rk0.0",
+      "runtime_seconds": 230.18799999999828
+    },
+    {
+      "amp": true,
+      "batch_size": 32,
+      "device": "cuda:0",
+      "gpu_name": "NVIDIA GeForce RTX 2060",
+      "outer_test_used": false,
+      "peak_vram_bytes": 44508672,
+      "run_id": "G1_L3_C2_uci_f0_s42_lr8.605034792033103e-05_do0.4061978796339918_tr0.0_rk0.0",
+      "runtime_seconds": 16.610000000000582
+    },
+    {
+      "amp": true,
+      "batch_size": 128,
+      "device": "cuda:0",
+      "gpu_name": "NVIDIA GeForce RTX 2060",
+      "outer_test_used": false,
+      "peak_vram_bytes": 97689088,
+      "run_id": "G1_L3_C2_oulad_f0_s42_lr0.00011844319751820385_do0.31959818254342154_tr0.0_rk0.0",
+      "runtime_seconds": 75.98400000000038
+    },
+    {
+      "amp": true,
+      "batch_size": 32,
+      "device": "cuda:0",
+      "gpu_name": "NVIDIA GeForce RTX 2060",
+      "outer_test_used": false,
+      "peak_vram_bytes": 44507648,
+      "run_id": "G1_L4_hard_uci_f0_s42_lr8.605034792033103e-05_do0.4061978796339918_tr0.0_rk0.0",
+      "runtime_seconds": 17.454000000001543
+    },
+    {
+      "amp": true,
+      "batch_size": 128,
+      "device": "cuda:0",
+      "gpu_name": "NVIDIA GeForce RTX 2060",
+      "outer_test_used": false,
+      "peak_vram_bytes": 97686016,
+      "run_id": "G1_L4_hard_oulad_f0_s42_lr0.00011844319751820385_do0.31959818254342154_tr0.0_rk0.0",
+      "runtime_seconds": 247.90599999999904
+    },
+    {
+      "amp": true,
+      "batch_size": 32,
+      "device": "cuda:0",
+      "gpu_name": "NVIDIA GeForce RTX 2060",
+      "outer_test_used": false,
+      "peak_vram_bytes": 44507648,
+      "run_id": "G1_L5_trunc_uci_f0_s42_lr8.605034792033103e-05_do0.4061978796339918_tr0.3_rk0.0",
+      "runtime_seconds": 17.98400000000038
+    },
+    {
+      "amp": true,
+      "batch_size": 128,
+      "device": "cuda:0",
+      "gpu_name": "NVIDIA GeForce RTX 2060",
+      "outer_test_used": false,
+      "peak_vram_bytes": 97587712,
+      "run_id": "G1_L5_trunc_oulad_f0_s42_lr0.00011844319751820385_do0.31959818254342154_tr0.3_rk0.0",
+      "runtime_seconds": 264.5470000000023
+    },
+    {
+      "amp": true,
+      "batch_size": 32,
+      "device": "cuda:0",
+      "gpu_name": "NVIDIA GeForce RTX 2060",
+      "outer_test_used": false,
+      "peak_vram_bytes": 44508160,
+      "run_id": "G1_L6_rank05_uci_f0_s42_lr8.605034792033103e-05_do0.4061978796339918_tr0.0_rk0.05",
+      "runtime_seconds": 22.625
+    },
+    {
+      "amp": true,
+      "batch_size": 128,
+      "device": "cuda:0",
+      "gpu_name": "NVIDIA GeForce RTX 2060",
+      "outer_test_used": false,
+      "peak_vram_bytes": 97686016,
+      "run_id": "G1_L6_rank05_oulad_f0_s42_lr0.00011844319751820385_do0.31959818254342154_tr0.0_rk0.05",
+      "runtime_seconds": 212.46900000000096
+    },
+    {
+      "amp": true,
+      "batch_size": 32,
+      "device": "cuda:0",
+      "gpu_name": "NVIDIA GeForce RTX 2060",
+      "outer_test_used": false,
+      "peak_vram_bytes": 44507648,
+      "run_id": "G2_L1_control_uci_f0_s42_lr8.605034792033103e-05_do0.4061978796339918_tr0.0_rk0.0",
+      "runtime_seconds": 17.48400000000038
+    },
+    {
+      "amp": true,
+      "batch_size": 32,
+      "device": "cuda:0",
+      "gpu_name": "NVIDIA GeForce RTX 2060",
+      "outer_test_used": false,
+      "peak_vram_bytes": 44508672,
+      "run_id": "G2_L1_control_uci_f1_s42_lr8.605034792033103e-05_do0.4061978796339918_tr0.0_rk0.0",
+      "runtime_seconds": 10.35899999999674
+    },
+    {
+      "amp": true,
+      "batch_size": 32,
+      "device": "cuda:0",
+      "gpu_name": "NVIDIA GeForce RTX 2060",
+      "outer_test_used": false,
+      "peak_vram_bytes": 44508160,
+      "run_id": "G2_L1_control_uci_f2_s42_lr8.605034792033103e-05_do0.4061978796339918_tr0.0_rk0.0",
+      "runtime_seconds": 9.156999999999243
+    },
+    {
+      "amp": true,
+      "batch_size": 128,
+      "device": "cuda:0",
+      "gpu_name": "NVIDIA GeForce RTX 2060",
+      "outer_test_used": false,
+      "peak_vram_bytes": 97686016,
+      "run_id": "G2_L1_control_oulad_f0_s42_lr0.00011844319751820385_do0.31959818254342154_tr0.0_rk0.0",
+      "runtime_seconds": 210.98400000000038
+    },
+    {
+      "amp": true,
+      "batch_size": 128,
+      "device": "cuda:0",
+      "gpu_name": "NVIDIA GeForce RTX 2060",
+      "outer_test_used": false,
+      "peak_vram_bytes": 97689088,
+      "run_id": "G2_L1_control_oulad_f1_s42_lr0.00011844319751820385_do0.31959818254342154_tr0.0_rk0.0",
+      "runtime_seconds": 240.43799999999828
+    },
+    {
+      "amp": true,
+      "batch_size": 128,
+      "device": "cuda:0",
+      "gpu_name": "NVIDIA GeForce RTX 2060",
+      "outer_test_used": false,
+      "peak_vram_bytes": 97679872,
+      "run_id": "G2_L1_control_oulad_f2_s42_lr0.00011844319751820385_do0.31959818254342154_tr0.0_rk0.0",
+      "runtime_seconds": 239.1720000000023
+    },
+    {
+      "amp": true,
+      "batch_size": 32,
+      "device": "cuda:0",
+      "gpu_name": "NVIDIA GeForce RTX 2060",
+      "outer_test_used": false,
+      "peak_vram_bytes": 44507648,
+      "run_id": "G2_L2_stagenorm_uci_f0_s42_lr8.605034792033103e-05_do0.4061978796339918_tr0.0_rk0.0",
+      "runtime_seconds": 17.235000000000582
+    },
+    {
+      "amp": true,
+      "batch_size": 32,
+      "device": "cuda:0",
+      "gpu_name": "NVIDIA GeForce RTX 2060",
+      "outer_test_used": false,
+      "peak_vram_bytes": 44508672,
+      "run_id": "G2_L2_stagenorm_uci_f1_s42_lr8.605034792033103e-05_do0.4061978796339918_tr0.0_rk0.0",
+      "runtime_seconds": 10.625
+    },
+    {
+      "amp": true,
+      "batch_size": 32,
+      "device": "cuda:0",
+      "gpu_name": "NVIDIA GeForce RTX 2060",
+      "outer_test_used": false,
+      "peak_vram_bytes": 44508160,
+      "run_id": "G2_L2_stagenorm_uci_f2_s42_lr8.605034792033103e-05_do0.4061978796339918_tr0.0_rk0.0",
+      "runtime_seconds": 9.31300000000192
+    },
+    {
+      "amp": true,
+      "batch_size": 128,
+      "device": "cuda:0",
+      "gpu_name": "NVIDIA GeForce RTX 2060",
+      "outer_test_used": false,
+      "peak_vram_bytes": 97686016,
+      "run_id": "G2_L2_stagenorm_oulad_f0_s42_lr0.00011844319751820385_do0.31959818254342154_tr0.0_rk0.0",
+      "runtime_seconds": 206.90700000000288
+    },
+    {
+      "amp": true,
+      "batch_size": 128,
+      "device": "cuda:0",
+      "gpu_name": "NVIDIA GeForce RTX 2060",
+      "outer_test_used": false,
+      "peak_vram_bytes": 97689088,
+      "run_id": "G2_L2_stagenorm_oulad_f1_s42_lr0.00011844319751820385_do0.31959818254342154_tr0.0_rk0.0",
+      "runtime_seconds": 238.125
+    },
+    {
+      "amp": true,
+      "batch_size": 128,
+      "device": "cuda:0",
+      "gpu_name": "NVIDIA GeForce RTX 2060",
+      "outer_test_used": false,
+      "peak_vram_bytes": 97679872,
+      "run_id": "G2_L2_stagenorm_oulad_f2_s42_lr0.00011844319751820385_do0.31959818254342154_tr0.0_rk0.0",
+      "runtime_seconds": 238.76499999999942
+    },
+    {
+      "amp": true,
+      "batch_size": 32,
+      "device": "cuda:0",
+      "gpu_name": "NVIDIA GeForce RTX 2060",
+      "outer_test_used": false,
+      "peak_vram_bytes": 44508160,
+      "run_id": "ROB_L1_control_uci_f0_s1201_lr8.605034792033103e-05_do0.4061978796339918_tr0.0_rk0.0",
+      "runtime_seconds": 12.4220000000023
+    },
+    {
+      "amp": true,
+      "batch_size": 32,
+      "device": "cuda:0",
+      "gpu_name": "NVIDIA GeForce RTX 2060",
+      "outer_test_used": false,
+      "peak_vram_bytes": 44508160,
+      "run_id": "ROB_L1_control_uci_f0_s2026_lr8.605034792033103e-05_do0.4061978796339918_tr0.0_rk0.0",
+      "runtime_seconds": 23.20300000000134
+    },
+    {
+      "amp": true,
+      "batch_size": 32,
+      "device": "cuda:0",
+      "gpu_name": "NVIDIA GeForce RTX 2060",
+      "outer_test_used": false,
+      "peak_vram_bytes": 44508160,
+      "run_id": "ROB_L1_control_uci_f1_s1201_lr8.605034792033103e-05_do0.4061978796339918_tr0.0_rk0.0",
+      "runtime_seconds": 13.531000000002678
+    },
+    {
+      "amp": true,
+      "batch_size": 32,
+      "device": "cuda:0",
+      "gpu_name": "NVIDIA GeForce RTX 2060",
+      "outer_test_used": false,
+      "peak_vram_bytes": 44507648,
+      "run_id": "ROB_L1_control_uci_f1_s2026_lr8.605034792033103e-05_do0.4061978796339918_tr0.0_rk0.0",
+      "runtime_seconds": 16.34299999999712
+    },
+    {
+      "amp": true,
+      "batch_size": 32,
+      "device": "cuda:0",
+      "gpu_name": "NVIDIA GeForce RTX 2060",
+      "outer_test_used": false,
+      "peak_vram_bytes": 44508160,
+      "run_id": "ROB_L1_control_uci_f2_s1201_lr8.605034792033103e-05_do0.4061978796339918_tr0.0_rk0.0",
+      "runtime_seconds": 9.046999999998661
+    },
+    {
+      "amp": true,
+      "batch_size": 32,
+      "device": "cuda:0",
+      "gpu_name": "NVIDIA GeForce RTX 2060",
+      "outer_test_used": false,
+      "peak_vram_bytes": 44508160,
+      "run_id": "ROB_L1_control_uci_f2_s2026_lr8.605034792033103e-05_do0.4061978796339918_tr0.0_rk0.0",
+      "runtime_seconds": 21.51599999999962
+    },
+    {
+      "amp": true,
+      "batch_size": 128,
+      "device": "cuda:0",
+      "gpu_name": "NVIDIA GeForce RTX 2060",
+      "outer_test_used": false,
+      "peak_vram_bytes": 97689088,
+      "run_id": "ROB_L1_control_oulad_f0_s1201_lr0.00011844319751820385_do0.31959818254342154_tr0.0_rk0.0",
+      "runtime_seconds": 249.64100000000326
+    },
+    {
+      "amp": true,
+      "batch_size": 128,
+      "device": "cuda:0",
+      "gpu_name": "NVIDIA GeForce RTX 2060",
+      "outer_test_used": false,
+      "peak_vram_bytes": 97686016,
+      "run_id": "ROB_L1_control_oulad_f0_s2026_lr0.00011844319751820385_do0.31959818254342154_tr0.0_rk0.0",
+      "runtime_seconds": 302.2649999999994
+    },
+    {
+      "amp": true,
+      "batch_size": 128,
+      "device": "cuda:0",
+      "gpu_name": "NVIDIA GeForce RTX 2060",
+      "outer_test_used": false,
+      "peak_vram_bytes": 97689088,
+      "run_id": "ROB_L1_control_oulad_f1_s1201_lr0.00011844319751820385_do0.31959818254342154_tr0.0_rk0.0",
+      "runtime_seconds": 288.54699999999866
+    },
+    {
+      "amp": true,
+      "batch_size": 128,
+      "device": "cuda:0",
+      "gpu_name": "NVIDIA GeForce RTX 2060",
+      "outer_test_used": false,
+      "peak_vram_bytes": 97689088,
+      "run_id": "ROB_L1_control_oulad_f1_s2026_lr0.00011844319751820385_do0.31959818254342154_tr0.0_rk0.0",
+      "runtime_seconds": 278.20300000000134
+    },
+    {
+      "amp": true,
+      "batch_size": 128,
+      "device": "cuda:0",
+      "gpu_name": "NVIDIA GeForce RTX 2060",
+      "outer_test_used": false,
+      "peak_vram_bytes": 97689088,
+      "run_id": "ROB_L1_control_oulad_f2_s1201_lr0.00011844319751820385_do0.31959818254342154_tr0.0_rk0.0",
+      "runtime_seconds": 243.70300000000134
+    },
+    {
+      "amp": true,
+      "batch_size": 128,
+      "device": "cuda:0",
+      "gpu_name": "NVIDIA GeForce RTX 2060",
+      "outer_test_used": false,
+      "peak_vram_bytes": 97689088,
+      "run_id": "ROB_L1_control_oulad_f2_s2026_lr0.00011844319751820385_do0.31959818254342154_tr0.0_rk0.0",
+      "runtime_seconds": 232.73399999999674
+    }
+  ]
+}

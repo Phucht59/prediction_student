@@ -1,0 +1,30 @@
+{
+  "strategy": "L1_control",
+  "shared_structural_config": {
+    "d_fuse": 128,
+    "cnn_channels": 64,
+    "bilstm_hidden": 128
+  },
+  "uci": {
+    "lr": 8.605034792033103e-05,
+    "weight_decay": 0.0032859708169642424,
+    "dropout": 0.4061978796339918,
+    "batch_size": 32,
+    "pos_weight_multiplier": 1.1830880728874675,
+    "entropy_floor_coefficient": 0.002
+  },
+  "oulad": {
+    "lr": 0.00011844319751820385,
+    "weight_decay": 0.0007114476009343421,
+    "dropout": 0.31959818254342154,
+    "batch_size": 128,
+    "pos_weight_multiplier": 0.7790418060840998,
+    "entropy_floor_coefficient": 0.005
+  },
+  "seeds": [
+    42,
+    1201,
+    2026
+  ],
+  "outer_test_used": false
+}

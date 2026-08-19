@@ -1,0 +1,42 @@
+{
+  "oulad": {
+    "best_epoch": 27,
+    "best_macro": 0.8359099218325732,
+    "best_params": {
+      "batch_size": 128,
+      "dropout": 0.31959818254342154,
+      "entropy_floor_coefficient": 0.005,
+      "lr": 0.00011844319751820385,
+      "pos_weight_multiplier": 0.7790418060840998,
+      "weight_decay": 0.0007114476009343421
+    },
+    "best_worst": 0.7710835298411771,
+    "domain": "oulad",
+    "n_complete": 10,
+    "n_pruned": 25,
+    "outer_test_used": false
+  },
+  "outer_test_used": false,
+  "shared": {
+    "bilstm_hidden": 128,
+    "cnn_channels": 64,
+    "d_fuse": 128
+  },
+  "uci": {
+    "best_epoch": 22,
+    "best_macro": 0.7103179844378973,
+    "best_params": {
+      "batch_size": 32,
+      "dropout": 0.4061978796339918,
+      "entropy_floor_coefficient": 0.002,
+      "lr": 8.605034792033103e-05,
+      "pos_weight_multiplier": 1.1830880728874675,
+      "weight_decay": 0.0032859708169642424
+    },
+    "best_worst": 0.46026277790961,
+    "domain": "uci",
+    "n_complete": 25,
+    "n_pruned": 3,
+    "outer_test_used": false
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "model_id": "hybrid",
+  "display_name": "Hybrid",
+  "public_class": "Hybrid",
+  "architecture_id": "C0",
+  "authority_source": "Phase4",
+  "topology": "static ResidualProjector + aggregate ResidualProjector + parallel CNN ∥ BiLSTM + corrected availability + 3-way masked softmax + binary logit",
+  "availability": {
+    "tabular": true,
+    "cnn": "temporal_available",
+    "bilstm": "temporal_available",
+    "aggregate": "aggregate_available independent"
+  },
+  "shared_structural_config": {
+    "d_fuse": 128,
+    "cnn_channels": 64,
+    "cnn_blocks": 2,
+    "cnn_kernel_size": 2,
+    "cnn_dilations": [1, 2],
+    "bilstm_hidden": 128,
+    "bilstm_layers": 1,
+    "pooling": "masked_mean_max",
+    "fusion": "softmax_3way"
+  },
+  "uci_states": ["S0", "S1", "S2"],
+  "oulad_states": ["20pct", "35pct", "50pct", "75pct", "100pct"],
+  "one_fitted_model_per_dataset": true,
+  "separate_oulad_100_model": false,
+  "training": {
+    "strategy": "L1_control",
+    "protocol": "FIT/STOP/VALID inner, STOP early-stop on macro PR-AUC",
+    "uci": {
+      "lr": 8.605034792033103e-05,
+      "weight_decay": 0.0032859708169642424,
+      "dropout": 0.4061978796339918,
+      "batch_size": 32,
+      "pos_weight_multiplier": 1.1830880728874675,
+      "entropy_floor_coefficient": 0.002
+    },
+    "oulad": {
+      "lr": 0.00011844319751820385,
+      "weight_decay": 0.0007114476009343421,
+      "dropout": 0.31959818254342154,
+      "batch_size": 128,
+      "pos_weight_multiplier": 0.7790418060840998,
+      "entropy_floor_coefficient": 0.005
+    },
+    "seeds": [42, 1201, 2026],
+    "dataset_specific_numeric_exception": true,
+    "reason": "dataset scale; architecture and strategy family remain one"
+  },
+  "evaluation_status": "robust_inner_finalized",
+  "outer_test_used_for_phase4_finalization": false,
+  "threshold_protocol": "STOP-only F1 then recall then |t-0.5|"
+}

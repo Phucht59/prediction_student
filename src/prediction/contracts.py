@@ -10,8 +10,18 @@ import numpy as np
 
 UCI_RISK_RULE = "risk = 1 if G3 < 10 else 0"
 OULAD_RISK_RULE = "risk = 1 if final_result in {'Fail', 'Withdrawn'} else 0"
-OULAD_ENDPOINTS = ("20pct", "35pct", "50pct", "75pct", "FINAL-100")
+OULAD_STATES = ("20pct", "35pct", "50pct", "75pct", "100pct")
+OULAD_ENDPOINTS = OULAD_STATES
+OULAD_ENDPOINT_ALIASES = {"FINAL-100": "100pct", "100": "100pct"}
 UCI_STAGES = ("S0", "S1", "S2")
+
+
+def canonical_oulad_state(endpoint: str) -> str:
+    if endpoint in OULAD_ENDPOINT_ALIASES:
+        return OULAD_ENDPOINT_ALIASES[endpoint]
+    if endpoint not in OULAD_STATES:
+        raise ValueError(f"unknown OULAD information state: {endpoint}")
+    return endpoint
 
 
 def uci_risk_target(g3: Iterable[float] | np.ndarray) -> np.ndarray:
@@ -86,8 +96,11 @@ __all__ = [
     "PredictionResult",
     "UCI_RISK_RULE",
     "OULAD_RISK_RULE",
+    "OULAD_STATES",
     "OULAD_ENDPOINTS",
+    "OULAD_ENDPOINT_ALIASES",
     "UCI_STAGES",
+    "canonical_oulad_state",
     "uci_risk_target",
     "oulad_risk_target",
     "assert_binary_target",

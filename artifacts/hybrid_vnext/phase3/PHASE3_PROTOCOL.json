@@ -1,0 +1,90 @@
+{
+  "availability": [
+    {
+      "aggregate": 0,
+      "cnn_mass": 0.0,
+      "cnn_norm": 0.0,
+      "g_temporal": 0.0,
+      "lstm_mass": 0.0,
+      "lstm_norm": 0.0,
+      "pass": true,
+      "reasons": [],
+      "temporal": 0
+    },
+    {
+      "aggregate": 1,
+      "cnn_mass": 0.0,
+      "cnn_norm": 0.0,
+      "g_temporal": 0.0,
+      "lstm_mass": 0.0,
+      "lstm_norm": 0.0,
+      "pass": true,
+      "reasons": [],
+      "temporal": 0
+    },
+    {
+      "aggregate": 0,
+      "cnn_mass": 0.33908697962760925,
+      "cnn_norm": 3.377885580062866,
+      "g_temporal": 0.726743221282959,
+      "lstm_mass": 0.38765624165534973,
+      "lstm_norm": 0.6838709712028503,
+      "pass": true,
+      "reasons": [],
+      "temporal": 1
+    },
+    {
+      "aggregate": 1,
+      "cnn_mass": 0.39398184418678284,
+      "cnn_norm": 3.2059338092803955,
+      "g_temporal": 0.7532874345779419,
+      "lstm_mass": 0.35930559039115906,
+      "lstm_norm": 0.9252039194107056,
+      "pass": true,
+      "reasons": [],
+      "temporal": 1
+    }
+  ],
+  "cuda": {
+    "capability": [
+      7,
+      5
+    ],
+    "cuda_available": true,
+    "cuda_runtime": "12.8",
+    "device": "cuda:0",
+    "fail_fast_if_cpu": true,
+    "gpu_name": "NVIDIA GeForce RTX 2060",
+    "silent_cpu_fallback": false,
+    "torch_version": "2.11.0+cu128",
+    "vram_gb": 6.0
+  },
+  "git_commit": "7813913ce76fa29429530f65d6e3109944ca992a",
+  "outer_test_used": false,
+  "phase2_hashes": {
+    "PROTOCOL_LOCK.json": "a0a62a4bc8a387740d856fe0d74a5520ae7613b15dd4897886616618e570fd83",
+    "SELECTED_TOPOLOGY.json": "1fe018e702caff917b5558b054f8ec45fd90d02d8de6eb20476a02b49c7041f5"
+  },
+  "timestamp": "2026-08-18T17:37:21Z",
+  "topology_hash": "b2377c362eeca6deba96903cc5a9375ac05e4f9110767583ae6539490ca1b08f",
+  "topology_spec": {
+    "architecture_id": "C0",
+    "availability": "[1, temporal_available, temporal_available]",
+    "bilstm_layers": 1,
+    "cnn_blocks": 2,
+    "cnn_dilations": [
+      1,
+      2
+    ],
+    "cnn_kernel_size": 2,
+    "fusion": "softmax_3way",
+    "head": "binary_logit",
+    "pooling": "masked_mean_max",
+    "public_model_class": "Hybrid",
+    "temporal_path": "parallel"
+  },
+  "uci_1fold_floor": 0.670129,
+  "uci_robust_floor": 0.720022,
+  "uci_std_ceiling": 0.036282,
+  "variance_rule": "materially_worsen if robust UCI std > Phase2 std + 0.010"
+}

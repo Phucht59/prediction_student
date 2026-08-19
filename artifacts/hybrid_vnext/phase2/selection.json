@@ -1,0 +1,37 @@
+{
+  "all": [
+    {
+      "architecture_id": "C0",
+      "oulad_mean": 0.8254984839434818,
+      "oulad_std": 0.006097914362856897,
+      "oulad_worst_mean": 0.7629331918034107,
+      "params": 514373,
+      "uci_gap": 0.0846467967617345,
+      "uci_mean": 0.7250223619594965,
+      "uci_std": 0.026282303082326416
+    },
+    {
+      "architecture_id": "C3",
+      "oulad_mean": 0.8247541320239191,
+      "oulad_std": 0.006301066342248776,
+      "oulad_worst_mean": 0.7625997522446519,
+      "params": 172037,
+      "uci_gap": 0.11249228660100659,
+      "uci_mean": 0.7032360009172773,
+      "uci_std": 0.05088264806823831
+    }
+  ],
+  "eligible": true,
+  "outer_test_used": false,
+  "reasons": [],
+  "winner": {
+    "architecture_id": "C0",
+    "oulad_mean": 0.8254984839434818,
+    "oulad_std": 0.006097914362856897,
+    "oulad_worst_mean": 0.7629331918034107,
+    "params": 514373,
+    "uci_gap": 0.0846467967617345,
+    "uci_mean": 0.7250223619594965,
+    "uci_std": 0.026282303082326416
+  }
+}

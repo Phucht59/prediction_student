@@ -1,0 +1,46 @@
+{
+  "allowed_dataset_differences": [
+    "input_dimensions",
+    "FIT-only preprocessing statistics",
+    "categorical vocabulary",
+    "learned weights",
+    "FIT-derived class prior"
+  ],
+  "architecture": "C0",
+  "forbidden": [
+    "dataset_specific_topology",
+    "stage_specific_model",
+    "stage_specific_checkpoint",
+    "separate_oulad_100_model"
+  ],
+  "oulad": {
+    "one_fitted_model": true,
+    "states": [
+      "20pct",
+      "35pct",
+      "50pct",
+      "75pct",
+      "100pct"
+    ]
+  },
+  "outer_test_used": false,
+  "public_class": "Hybrid",
+  "same_architecture_for_uci_and_oulad": true,
+  "same_fusion": true,
+  "same_structural_config": true,
+  "same_training_strategy_family": true,
+  "shared_structural_config": {
+    "bilstm_hidden": 128,
+    "cnn_channels": 64,
+    "d_fuse": 128
+  },
+  "topology_hash": "b2377c362eeca6deba96903cc5a9375ac05e4f9110767583ae6539490ca1b08f",
+  "uci": {
+    "one_fitted_model": true,
+    "states": [
+      "S0",
+      "S1",
+      "S2"
+    ]
+  }
+}

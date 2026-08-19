@@ -1,0 +1,12 @@
+{
+  "uci_s0_no_g1_g2": true,
+  "g3_never_predictor": true,
+  "oulad_forbidden": [
+    "final_result",
+    "target",
+    "score",
+    "date_unregistration"
+  ],
+  "cutoff_safe": true,
+  "fit_only_scaling": true
+}

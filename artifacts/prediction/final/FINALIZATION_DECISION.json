@@ -1,0 +1,37 @@
+{
+  "model_id": "hybrid",
+  "display_name": "Hybrid",
+  "public_class": "Hybrid",
+  "architecture_id": "C0",
+  "source_phase": "Phase4",
+  "previous_phase4_gate_status": "NOT_READY_FOR_FINAL_EVAL",
+  "final_authority_selected": true,
+  "selection_type": "user_authorized_thesis_finalization",
+  "evaluation_status": "robust_inner_finalized",
+  "outer_test_used": false,
+  "outer_test_used_for_phase4_finalization": false,
+  "accepted_limitations": [
+    "UCI S0 underperforms strongest active baseline (RF)",
+    "UCI S0 has no temporal academic-grade input",
+    "Phase4 strict all-dataset superiority gate did not pass",
+    "OULAD 100% length is associated with Withdrawn and must not be read as a pure academic-risk signal"
+  ],
+  "supporting_evidence": [
+    "OULAD 5-stage and early-macro robust superiority vs LR",
+    "UCI S1/S2 competitive or superior vs RF",
+    "leakage audit pass",
+    "overfit audit retained",
+    "one-model contract",
+    "information-growth S0->S2 and 20->100"
+  ],
+  "git_commit_before_finalization": "7813913ce76fa29429530f65d6e3109944ca992a",
+  "source_artifact_hashes": {
+    "artifacts/hybrid_vnext/phase4/INNER_SUPERIORITY_GATE.json": "dff3a219277ff4758f1a7c33a529ac6ce45ad3c321fa3c749138b433af813833",
+    "artifacts/hybrid_vnext/phase4/robust_summary.json": "345ccdaa7f4f0b55481273704bd8eca978207d215f1bc8587b11e934389c9bc4",
+    "artifacts/hybrid_vnext/phase4/BASELINE_CEILING.json": "87eff46016ad92a0f93ea248610e1a23fe5d2b54fbef126c8e42635d569d441a",
+    "artifacts/hybrid_vnext/phase4/LEAKAGE_AUDIT.json": "9ac3d31f299127f4579c5579ba2408475c8ef98eedaa040960ac957e9f82f696",
+    "artifacts/hybrid_vnext/phase4/ONE_MODEL_CONTRACT.json": "0393c80581a677578147824c6806cbd09210755068e5f27ddb9da816658d484b",
+    "HYBRID_VNEXT_PHASE4_FINAL_REPORT.md": "c212fa14f3cb4cf26c7523ac6144cc91b2c6275c319fba818cffd03cfaadb93c"
+  },
+  "timestamp": "2026-08-19T08:15:00Z"
+}

@@ -1,0 +1,48 @@
+{
+  "phase": 2,
+  "inner_only_selection": true,
+  "outer_test_used": false,
+  "outer_firewall": {
+    "development_outer_fold": 0,
+    "inner_source": "kltn artifacts/hybrid/phase1/splits/*_inner.parquet filtered to outer_fold==0",
+    "outer_ids_loaded_only_for_exclusion": true,
+    "outer_labels_never_scored": true,
+    "every_run_records_outer_test_used_false": true
+  },
+  "split_hashes": {
+    "uci_inner": "ad8f44e5931d652e353d9d9ebe7b0e840eca3d895243b92d57deb0b3b6e02ae8",
+    "oulad_inner": "8559efcf156bcb05eb0a2bdf9e945d54f3989358d8f15064dab1204cd872650c",
+    "uci_outer": "e1fbb15e97bdf53b1408026dc60639f5f08665e528208fc5974f1659dbd405c0",
+    "oulad_outer": "46cd0eddc720d9da0869778050b9d025d3e10519e096b6fe6323fde3e4f99ef1",
+    "matches_phase8_expected": true
+  },
+  "feature_contract_hashes": {
+    "uci": "b8264d4b2cbc98818165920637a84a7da7017f43e256ea756e5b59ca6759476a",
+    "oulad": "f009d37276897e42d1ef175646b36394f84a5d3d3044527ce6e9ffdd22a4bfda"
+  },
+  "forbidden_predictors": {
+    "uci": ["G3", "absences", "G1/G2 except stage-allowed temporal/aggregate"],
+    "oulad": ["final_result", "target", "score", "date_unregistration"]
+  },
+  "cutoff_rules": {
+    "uci": "S0 no G1/G2; S1 G1 only; S2 G1+G2; group-safe quasi-identity",
+    "oulad_early": "event_time < cutoff_day and event_time >= observation_start; D3_both_safe",
+    "oulad_final100": "diagnostic only; observation_end=min(course_end, unregistration); not used for topology selection"
+  },
+  "preprocessing": {
+    "fit_only": true,
+    "static": "ContextPreprocessor on FIT record ids",
+    "aggregate": "mean/std on FIT rows with aggregate_available=1",
+    "oulad_temporal": "MaskedStandardScaler on FIT valid timesteps"
+  },
+  "grouping": {
+    "uci": "global_student_group from quasi-identity including MAT/POR cross-subject",
+    "oulad": "id_student"
+  },
+  "seeds": [42, 1201, 2026],
+  "folds": [0, 1, 2],
+  "primary_oulad_stages": ["20pct", "35pct", "50pct", "75pct"],
+  "authority_untouched": true,
+  "src_prediction_not_replaced": true,
+  "git_commit": "7813913ce76fa29429530f65d6e3109944ca992a"
+}

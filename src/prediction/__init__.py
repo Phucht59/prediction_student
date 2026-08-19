@@ -1,7 +1,7 @@
 """Canonical binary student-risk prediction API.
 
-The public prediction surface intentionally contains one architecture only:
-``Hybrid``. Dataset differences belong to adapters and fitted instances.
+Public model: Hybrid (C0). UCI and OULAD share the architecture.
+Information states are views of one fitted model per dataset.
 """
 
 from .contracts import PredictionResult, UCI_RISK_RULE, OULAD_RISK_RULE

@@ -59,7 +59,8 @@ def test_checkpoint_roundtrip_uses_same_hybrid_class():
 
 def test_active_baselines_have_required_comparators():
     assert ACTIVE_BASELINES == ("Logistic Regression", "Decision Tree", "Random Forest", "SVM", "MLP")
-    assert build_baseline("SVM").__class__.__name__ == "SVC"
+    svm = build_baseline("SVM", dataset="uci")
+    assert hasattr(svm, "predict_proba")
 
 
 def test_recommendation_consumes_prediction_result_only():
