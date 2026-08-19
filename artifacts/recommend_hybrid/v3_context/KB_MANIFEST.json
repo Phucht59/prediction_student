@@ -1,7 +1,8 @@
 {
   "schema_version": "recommendation_v3_kb_manifest_v1",
   "repo_commit": "356becec7802659c4b9ff20171046871425bfade",
-  "created_utc": "2026-08-19T10:08:35Z",
+  "kb_local_commit_note": "surveyed 356becec; KB commits local-only not pushed",
+  "created_utc": "2026-08-19T10:18:04Z",
   "survey_only": true,
   "model_trained": false,
   "gemini_called": false,
@@ -11,13 +12,13 @@
   "files": [
     {
       "path": "reports/recommend_hybrid/v3_context/MASTER_RECOMMENDATION_KB.md",
-      "bytes": 15451,
-      "sha256": "dbcd44175e8ff709d9c52562007b815a71606af6878050c117c6b586aba3298a"
+      "bytes": 15728,
+      "sha256": "80a3416fe658c8f9faf98257f869cac61dd58f0705aa480ac8f0d974616b27c6"
     },
     {
       "path": "reports/recommend_hybrid/v3_context/HANDOFF_TO_CHATGPT.md",
-      "bytes": 9014,
-      "sha256": "c577f708c323263d07c390a96eaddd3bb8a71881dae53dcd0f134ca935fb676b"
+      "bytes": 9910,
+      "sha256": "f83d523d9262e0cf5c7a13c92d4e9cbc9f87566973398017c912f4d8ad7cf2ad"
     },
     {
       "path": "reports/recommend_hybrid/v3_context/ARCHITECTURE_AND_CALL_GRAPH.md",
@@ -31,8 +32,8 @@
     },
     {
       "path": "reports/recommend_hybrid/v3_context/PREDICTION_AUTHORITY_COMPATIBILITY.md",
-      "bytes": 4562,
-      "sha256": "0786cfa3c5a8ec9d995a60709f08f39b5ce1b45d118df5b1929e918f5fc51ba4"
+      "bytes": 4913,
+      "sha256": "8ddfbea35737ae34bd4967535e7db7088aabb920cb67587f0fa3a176f7830497"
     },
     {
       "path": "reports/recommend_hybrid/v3_context/GEMINI_LABEL_PORTABILITY.md",
@@ -46,18 +47,18 @@
     },
     {
       "path": "artifacts/recommend_hybrid/v3_context/RECOMMENDATION_FILE_CLASSIFICATION.csv",
-      "bytes": 12788,
-      "sha256": "b11a0b05ac92dff8eb66477b47524f026c9ca91bf476ca77a57a2e168606879a"
+      "bytes": 12824,
+      "sha256": "828a276ae781dcbd0e6c36ce52d67a3b8273ee342122c13e47d03b2d9412a43d"
     },
     {
       "path": "artifacts/recommend_hybrid/v3_context/PHASE4_RECOMMENDATION_COMPATIBILITY.csv",
-      "bytes": 5568,
-      "sha256": "3af66e45619f624d896c7ab6d2163aa02d11139a31f0726c3ed8531bf13da1ff"
+      "bytes": 5590,
+      "sha256": "f76c473828631ebcb60e0afeab1c470d47d320e496817530f24a7ae79d91e1e6"
     },
     {
       "path": "artifacts/recommend_hybrid/v3_context/GAP_REGISTER.csv",
-      "bytes": 4807,
-      "sha256": "0983c31633fa7ef7d7f876d6c924722e963730387c4bcae5a941ac84d0616917"
+      "bytes": 6634,
+      "sha256": "9b648fa421da5a65762a0e5b35c25501afdca80ab76a19f513fb94c3a8379ee6"
     },
     {
       "path": "artifacts/recommend_hybrid/v3_context/V3_FEASIBILITY_MATRIX.csv",
@@ -66,14 +67,9 @@
     },
     {
       "path": "artifacts/recommend_hybrid/v3_context/CURRENT_STATE.json",
-      "bytes": 4796,
-      "sha256": "a6f2bcc64803ddac32e9102a3dd3c065480c1200a0949bb06d692e6c4226cfb2"
+      "bytes": 4820,
+      "sha256": "1228c0ee7d435384bd887728cbc97e25896e296ea4bf5e55b3d8efdccaca19d0"
     }
   ],
-  "missing": [],
-  "invariants": {
-    "prediction_authority": "C0",
-    "v2_prediction_used": "H1_TABULAR_RESIDUAL_EXPERT",
-    "panel_b_must_not_tune_v3": true
-  }
+  "correction_pass": "subagent reconciliation: C0 H2(p) matches V2 formula; plan/simulator unwired; C0 weights unpublished; explainable_v2 renamed to final"
 }

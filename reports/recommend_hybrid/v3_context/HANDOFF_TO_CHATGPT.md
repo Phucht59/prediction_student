@@ -46,6 +46,10 @@ checkpoint manifest: artifacts/recommend_hybrid/RECOMMEND_HYBRID_CHECKPOINT_MANI
 
 `src/recommend_hybrid/prediction_adapter.py` only maps `PredictionResult` → dict. V2 `data_builder.py` reads H1 OOF landmark parquet (file **absent on main**; lives on 17b519b).
 
+What landed on main as `src/recommend_hybrid/final/` is **`explainable_v2` renamed**, not `17b519b`'s old conditional-action `final/`. Phase-8 rebuild trees under `artifacts/recommendation/` are a **later overlay**, not V2 Panel B.
+
+C0 `predict_results` **does** fill `uncertainty` as binary Shannon entropy of that single `p` (same formula V2 used on H1 mean-P). No C0 `.pt` is published under `artifacts/hybrid_vnext/phase4/`. H1 `.pt` cited by the rec checkpoint manifest are also **missing** from this checkout (`artifacts/canonical_v3/checkpoints/` absent).
+
 ## Exact current pipeline
 
 ```text
@@ -59,11 +63,10 @@ H1 OOF risk_probability
             → FiveEBMRanker (eligible only)
             → safety_router
             → RECOMMEND | HUMAN_REVIEW | INSUFFICIENT_EVIDENCE | NO_FEASIBLE_ACTION
-  → static learning-plan template for top1
-  → simulator stub (model-implied risk delta; no actual rescoring on main)
+  → RecommendationDecision (top-k only if RECOMMEND or post-rank HUMAN_REVIEW)
 ```
 
-Code: `src/recommend_hybrid/final/pipeline.py::ExplainableRecommendationPipeline.recommend`.
+`plan_builder` and `simulator` are **not called** by `recommend()`. README still lists them. Code: `src/recommend_hybrid/final/pipeline.py::ExplainableRecommendationPipeline.recommend`.
 
 ## Five actions
 
@@ -172,10 +175,13 @@ Verdict table: `artifacts/recommend_hybrid/v3_context/PHASE4_RECOMMENDATION_COMP
 
 G01 H1≠C0 risk lineage  
 G02 identity join map  
-G03 uncertainty semantics  
+G03 uncertainty is same H2(p) formula but on a different p (H1 5-seed mean vs C0 single logit); still revalidate  
 G04 `runtime_authorized` conflict (manifest true vs dataclass false)  
-G05 rebuild inputs missing on main  
+G05 rebuild inputs missing on main (`explainable_v2/`, `causal/`, H1 `.pt`)  
 G15 new heldout required; Panel B freeze  
+G17 no published C0 serving checkpoint  
+G18 plan/simulator unwired  
+G20 `stratify_risk` TypeError if `seed_disagreement` is float and cap is `None`  
 
 ## Do-not-touch
 

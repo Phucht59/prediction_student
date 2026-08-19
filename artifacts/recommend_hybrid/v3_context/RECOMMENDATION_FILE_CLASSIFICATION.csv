@@ -18,7 +18,7 @@ src/recommend_hybrid/final/feasibility.py,py,ACTIVE_RUNTIME,pipeline,feasible_ac
 src/recommend_hybrid/final/action_eligibility.py,py,ACTIVE_RUNTIME,feasibility,DEFAULT_V2_POLICY v4,none,V2,high,yes,no,Hard thresholds; TARGETED_CONTENT_REVIEW blocked at EARLY_20
 src/recommend_hybrid/final/ranker.py,py,ACTIVE_RUNTIME,pipeline; freeze joblibs,FiveEBMRanker FEATURE_COLUMNS includes risk_probability,final_models joblib,V2 trained on H1 risk,high,no without retrain,no,RETRAIN_LATER if C0 risk replaces H1
 src/recommend_hybrid/final/safety_router.py,py,ACTIVE_RUNTIME,pipeline,route_ranked_actions,ROUTER_FREEZE_MANIFEST thresholds,V2,high,revalidate,no,seed_disagreement/label_conflict/ood effectively inactive
-src/recommend_hybrid/final/plan_builder.py,py,ACTIVE_RUNTIME,docs,ACTION_PLANS static templates,none,V2,medium,yes personalize later,no,Stage/risk do not change template text
+src/recommend_hybrid/final/plan_builder.py,py,DEAD,no importers,ACTION_PLANS static templates,none,V2,medium,yes wire or keep as template,no,README claims runtime; recommend() never calls it
 src/recommend_hybrid/final/__init__.py,py,ACTIVE_RUNTIME,package,public exports,none,V2,low,yes,no,
 src/recommend_hybrid/final/data_builder.py,py,ACTIVE_DEV,blocked on main,build() from landmark parquet,missing explainable_v2 + causal on main,H1 OOF,high,rebuild later,no,BLOCKED_MISSING artifacts on main; hybrid_uncertainty=binary entropy; seed_disagreement=NA
 src/recommend_hybrid/final/candidate_builder.py,py,ACTIVE_DEV,blocked on main,make_features/build,explainable_v2 data,V2,high,rebuild later,no,Needs missing learner_stage_features.parquet
@@ -35,8 +35,8 @@ src/recommend_hybrid/final/independence_audit.py,py,ACTIVE_DEV,audits,student in
 src/recommend_hybrid/final/provider_envelope.py,py,COMPATIBILITY,broken import on main,verify_provider_envelope,Module_recomend envelopes,V2,medium,fix import later,no,imports src.recommend_hybrid.explainable_v2.provenance which is absent on main
 src/recommend_hybrid/final/provenance.py,py,ACTIVE_DEV,hashes,sha helpers,none,V2,low,yes,no,
 src/recommend_hybrid/final/legacy_annotation_adapter.py,py,COMPATIBILITY,legacy names,LEGACY_TO_V2_MAP,none,legacy catalogs,low,keep,later,Maps STUDY_SCHEDULE etc.
-src/recommend_hybrid/final/simulator/core.py,py,ACTIVE_RUNTIME,docs,SimulationResult stub,no C0 rescoring implemented on main,V2 incomplete vs protocol,high,rebuild later,no,No Hybrid forward; causal_claim_allowed frozen false
-src/recommend_hybrid/final/simulator/__init__.py,py,ACTIVE_RUNTIME,core,exports,none,V2,low,yes,no,
+src/recommend_hybrid/final/simulator/core.py,py,DEAD,no importers,SimulationResult stub,no C0 rescoring implemented on main,V2 incomplete vs protocol,high,rebuild later,no,Zero callers from recommend(); causal_claim_allowed frozen false
+src/recommend_hybrid/final/simulator/__init__.py,py,DEAD,core,exports,none,V2,low,yes,no,Unwired with core.py
 configs/recommend_hybrid/final/recommendation.yaml,yaml,FROZEN_EVIDENCE,protocol,grids + runtime_authorized false,not selected thresholds,V2 protocol,high,no overwrite,no,Selected risk 0.2/0.8 live only on 17b519b risk_policy JSON
 configs/recommend_hybrid/final/feature_contract.yaml,yaml,FROZEN_EVIDENCE,ranker schema,ranker_features,none,V2,high,adapt later,no,Defines entropy uncertainty and five-seed disagreement
 configs/recommend_hybrid/final/llm_annotation_protocol.yaml,yaml,FROZEN_EVIDENCE,Gemini,blinded; current_model_output_visible false,CONFLICT with prompt risk_band,V2,high,no,no,CONFLICT

@@ -26,7 +26,7 @@ Current prediction authority is Hybrid C0 (`src/prediction/contracts.py`, `confi
 | `risk_probability` | C0 sigmoid / calibrated inner | H1 five-seed OOF mean | **INCOMPATIBLE** numerically |
 | `predicted_risk` | binary vs STOP threshold | `predicted_class` | SEMANTICALLY_COMPATIBLE_BUT_REVALIDATION_REQUIRED |
 | `threshold` | per-dataset STOP protocol | not stored on `RecommendationFeatures` | ADAPT |
-| `uncertainty` | optional `[0,1]`, unspecified generator | entropy of mean P | **INCOMPATIBLE** |
+| `uncertainty` | `predict_results` always sets binary Shannon entropy H2(p) of the **single** C0 probability | V2 `data_builder` uses the **same H2 formula** on H1 **mean-of-5-seed** P | SEMANTICALLY_COMPATIBLE_BUT_REVALIDATION_REQUIRED (formula match, distribution shift) |
 | seed disagreement | not on `PredictionResult` | required nullable; always NA in V2 table | LEGACY_ONLY / REBUILD |
 | checkpoints | two fitted instances `uci`,`oulad`; 3 seeds inner | 30 H1 pt files; 5 seeds × 3 folds × (shared+final) | **INCOMPATIBLE** |
 | embeddings | none exposed | `StudentRepresentation` 64-D + 32-D unused by V2 pipeline | LEGACY_ONLY |
@@ -44,7 +44,8 @@ Current prediction authority is Hybrid C0 (`src/prediction/contracts.py`, `confi
 | Gemini reviews | SEMANTICALLY_COMPATIBLE_BUT_REVALIDATION_REQUIRED | No numeric P in evidence_ids; prompt still had H1 `risk_band` |
 | Safety router code | DIRECTLY_COMPATIBLE | Logic reusable; thresholds need revalidation |
 | Plans | DIRECTLY_COMPATIBLE | Static templates |
-| Simulator on main | INCOMPATIBLE / incomplete | Stub; protocol wanted frozen Hybrid seed rescoring |
+| Simulator on main | LEGACY_ONLY / unwired | Stub; **zero callers** from `recommend()`; protocol wanted frozen Hybrid seed rescoring |
+| C0 serving weights | INCOMPATIBLE for production adapter | No Phase4 `.pt` on current surface; H1 rec checkpoints also missing from disk |
 | Panel B metrics | LEGACY_ONLY | V2 confirmatory evidence; not a V3 tuning set |
 | `StudentRepresentation` | LEGACY_ONLY | H1 embedding contract, unused by explainable V2 |
 

@@ -58,7 +58,8 @@ Scientific source: `Module_recomend` @ `17b519b22e8b69c875d27547d097e6d3b76bc404
 
 | Class | Paths |
 |---|---|
-| ACTIVE_RUNTIME | `final/pipeline.py`, `risk_policy.py`, `feasibility.py`, `action_eligibility.py`, `ranker.py`, `safety_router.py`, `plan_builder.py`, `final/contracts.py`, package `__init__` |
+| ACTIVE_RUNTIME | `final/pipeline.py`, `risk_policy.py`, `feasibility.py`, `action_eligibility.py`, `ranker.py`, `safety_router.py`, `final/contracts.py`, package `__init__` |
+| UNWIRED (docs claim runtime) | `plan_builder.py`, `simulator/*` — **zero callers** from `recommend()` |
 | ACTIVE_DEV | `data_builder.py`, `candidate_builder.py`, `query_evidence.py`, `weak_labels.py`, `metrics.py`, `calibration.py`, `sampling.py`, `audits.py`, tests under `tests/recommendation/final/` |
 | COMPATIBILITY | `prediction_adapter.py`, `legacy_annotation_adapter.py`, `provider_envelope.py` (broken import) |
 | FROZEN_EVIDENCE | `artifacts/recommend_hybrid/final/**`, `configs/recommend_hybrid/final/**`, `reports/recommend_hybrid/final/**`, H1 checkpoint manifest |
@@ -210,13 +211,15 @@ Do not “fix” now; V3 should decide whether to populate or retire.
 
 `plan_builder.py::ACTION_PLANS`: static Vietnamese templates. `stage` and risk magnitude do **not** change text. Workload is not summed across top-k. Conflicts cannot occur inside the builder (single top action). `runtime_authorized=False` on the plan dataclass.
 
+**Not wired:** `build_structured_plan` has no importers. Public `recommend()` never attaches a plan.
+
 ---
 
 ## 16. Simulator
 
-On main: `SimulationResult` + `validate_empirical_support`. `causal_claim_allowed=False`. No Hybrid forward, no feature perturbation, no C0 hook.
+On main: `SimulationResult` + `validate_empirical_support`. `causal_claim_allowed=False`. No Hybrid forward, no feature perturbation, no C0 hook. **Zero callers** from the pipeline.
 
-YAML still claims `simulator.enabled: true` and “all frozen hybrid seeds required”. **Implementation on main does not meet that protocol.** Full simulator code/artifacts remain on `17b519b` `explainable_v2` if needed later. No causal claims.
+YAML still claims `simulator.enabled: true` and “all frozen hybrid seeds required”. **Implementation on main does not meet that protocol.** Full historical simulator/workspace remains on `17b519b` `explainable_v2`. No causal claims.
 
 ---
 
@@ -296,7 +299,7 @@ Authority if conflict: **frozen hashes + source code behavior** over README adje
 
 See `artifacts/recommend_hybrid/v3_context/GAP_REGISTER.csv`.
 
-MUST_FIX: G01 H1≠C0, G02 identity map, G03 uncertainty, G04 runtime_authorized, G05 missing rebuild inputs, G15 new heldout.
+MUST_FIX: G01 H1≠C0, G02 identity map, G03 uncertainty (same H2 formula, different p), G04 runtime_authorized, G05 missing rebuild inputs, G15 new heldout, G17 unpublished C0 weights.
 
 HIGH_VALUE: G06 prompt bands, G07 dead safety signals, G08 empty BORDERLINE ranks, G09 band mismatch, G10 envelope import.
 

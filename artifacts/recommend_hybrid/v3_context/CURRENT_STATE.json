@@ -151,7 +151,9 @@
     "G03",
     "G04",
     "G05",
-    "G15"
+    "G15",
+    "G17",
+    "G20"
   ],
   "frozen_paths": [
     "artifacts/recommend_hybrid/final/",
