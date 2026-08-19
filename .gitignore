@@ -94,6 +94,10 @@ models/saved/*
 /artifacts/recommend_hybrid/scientific_labeling/candidates.parquet
 /artifacts/recommend_hybrid/scientific_labeling/silver_labels.parquet
 
+# Local scratch archives, not release artifacts
+/artifacts/recommend_hybrid/v3.zip
+/reports/recommend_hybrid/v3_context.zip
+
 # Database volumes and safety backups
 database/**/volume/
 database/**/backups/
