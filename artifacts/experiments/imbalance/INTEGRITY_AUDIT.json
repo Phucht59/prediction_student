@@ -1,0 +1,33 @@
+{
+  "MODEL_CHANGED": false,
+  "FINAL_WEIGHTS_CHANGED": false,
+  "HPO_PERFORMED": false,
+  "OUTER_OPENED": false,
+  "RECOMMENDATION_CHANGED": false,
+  "changed_files": [],
+  "before": {
+    "src/prediction/model/hybrid.py": "cc4fb032d9a15c5200f6fdd6144546fcb11c626842fc56a316fc2435bc73dd7d",
+    "src/prediction/model/components.py": "a189e166e248ce0d5f2d02d3e26ae66def7b3a01a12c4286b246051fa6af69a1",
+    "src/prediction/data/uci.py": "992648b076caa3cdcbb1c6477a691e6e6f0f1b2f527c1ec5cb7808e654ec45a8",
+    "src/prediction/data/oulad.py": "a6c11e64556c2275baf31429903401c988d1aed6892c778529a9b1f2df9b02b0",
+    "src/prediction/data/oulad_features.py": "4dbc86057ec3fe77712e08f7d84552d6a0a9975145bc03f633877d8c63536d81",
+    "src/prediction/data/preprocessing.py": "a74304693cb7feac2256e505737d5325d019b4fd5a692060daa44283acbc0c65",
+    "configs/prediction/hybrid_final.json": "055bc1a5efe26b5053d541560fd84bbb0cf0dcf6767cb3c7444f2790e88a5754",
+    "artifacts/prediction/final/TRAINING_CONFIG.json": "4638bcb8384094c8471a24acaf9c5e68e16871982298bbec5d32f068afc8c81e",
+    "src/recommend_hybrid/v3/pipeline.py": "9c4d6024994f0345cdaec1e53112fbc612c6a71a410d026c89044311c9a36e5d",
+    "src/recommend_hybrid/v3/ranker.py": "afea62193ed13f03b2a2661e4036076a9e1f64908b30ec453199637eec08ece3"
+  },
+  "after": {
+    "src/prediction/model/hybrid.py": "cc4fb032d9a15c5200f6fdd6144546fcb11c626842fc56a316fc2435bc73dd7d",
+    "src/prediction/model/components.py": "a189e166e248ce0d5f2d02d3e26ae66def7b3a01a12c4286b246051fa6af69a1",
+    "src/prediction/data/uci.py": "992648b076caa3cdcbb1c6477a691e6e6f0f1b2f527c1ec5cb7808e654ec45a8",
+    "src/prediction/data/oulad.py": "a6c11e64556c2275baf31429903401c988d1aed6892c778529a9b1f2df9b02b0",
+    "src/prediction/data/oulad_features.py": "4dbc86057ec3fe77712e08f7d84552d6a0a9975145bc03f633877d8c63536d81",
+    "src/prediction/data/preprocessing.py": "a74304693cb7feac2256e505737d5325d019b4fd5a692060daa44283acbc0c65",
+    "configs/prediction/hybrid_final.json": "055bc1a5efe26b5053d541560fd84bbb0cf0dcf6767cb3c7444f2790e88a5754",
+    "artifacts/prediction/final/TRAINING_CONFIG.json": "4638bcb8384094c8471a24acaf9c5e68e16871982298bbec5d32f068afc8c81e",
+    "src/recommend_hybrid/v3/pipeline.py": "9c4d6024994f0345cdaec1e53112fbc612c6a71a410d026c89044311c9a36e5d",
+    "src/recommend_hybrid/v3/ranker.py": "afea62193ed13f03b2a2661e4036076a9e1f64908b30ec453199637eec08ece3"
+  },
+  "PREDICTION_AUTHORITY": "Hybrid CNN-BiLSTM (frozen production)"
+}

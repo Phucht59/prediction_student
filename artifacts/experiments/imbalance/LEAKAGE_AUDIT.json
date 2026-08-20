@@ -1,0 +1,9 @@
+{
+  "sampler_fit_scope": "train_only",
+  "validation_resampled": false,
+  "test_resampled": false,
+  "outer_test_used_for_selection": false,
+  "preprocessor_fit_scope": "train_only",
+  "oulad_cutoff_safe": true,
+  "split_source": "recovered_from_official_oof_valid"
+}

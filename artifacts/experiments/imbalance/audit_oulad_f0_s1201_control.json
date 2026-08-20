@@ -1,0 +1,58 @@
+{
+  "sampler_fit_scope": "train_only",
+  "validation_resampled": false,
+  "test_resampled": false,
+  "outer_test_used_for_selection": false,
+  "preprocessor_fit_scope": "train_only",
+  "oulad_cutoff_safe": true,
+  "stop_valid_fingerprint_unchanged": true,
+  "split_meta": {
+    "split_source": "recovered_from_official_oof_valid",
+    "frozen_parquet_available": false,
+    "note": "C:\\hufit\\kltn Phase-1 parquet bundle is absent; inner_fold taken from reconstructed OOF VALID (one fold/student)."
+  },
+  "stage_audits": {
+    "20pct": {
+      "sampler": "control",
+      "n_train_before": 9521,
+      "n_train_after": 9521,
+      "n_positive_before": 4021,
+      "n_positive_after": 4021,
+      "fit_on": "train_only"
+    },
+    "35pct": {
+      "sampler": "control",
+      "n_train_before": 9122,
+      "n_train_after": 9122,
+      "n_positive_before": 3620,
+      "n_positive_after": 3620,
+      "fit_on": "train_only"
+    },
+    "50pct": {
+      "sampler": "control",
+      "n_train_before": 8748,
+      "n_train_after": 8748,
+      "n_positive_before": 3246,
+      "n_positive_after": 3246,
+      "fit_on": "train_only"
+    },
+    "75pct": {
+      "sampler": "control",
+      "n_train_before": 8246,
+      "n_train_after": 8246,
+      "n_positive_before": 2744,
+      "n_positive_after": 2744,
+      "fit_on": "train_only"
+    },
+    "100pct": {
+      "sampler": "control",
+      "n_train_before": 7998,
+      "n_train_after": 7998,
+      "n_positive_before": 2496,
+      "n_positive_after": 2496,
+      "fit_on": "train_only"
+    }
+  },
+  "availability_s0": null,
+  "pos_weight_from_original_fit": true
+}

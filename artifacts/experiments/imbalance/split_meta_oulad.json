@@ -1,0 +1,5 @@
+{
+  "split_source": "recovered_from_official_oof_valid",
+  "frozen_parquet_available": false,
+  "note": "C:\\hufit\\kltn Phase-1 parquet bundle is absent; inner_fold taken from reconstructed OOF VALID (one fold/student)."
+}

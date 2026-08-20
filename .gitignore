@@ -44,7 +44,7 @@ reports/runtime/
 reports/debug/
 artifacts/smoke/
 artifacts/preflight/
-artifacts/experiments/
+# Experiment tables/plots/caches under artifacts/experiments/ are tracked.
 *.log
 *.tmp
 *.temp
