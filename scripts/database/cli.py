@@ -2,11 +2,7 @@
 from __future__ import annotations
 
 import argparse
-import csv
-import hashlib
-import json
 import shutil
-from datetime import datetime, timezone
 from pathlib import Path
 
 import pandas as pd
@@ -16,19 +12,21 @@ from src.database.connection import DatabaseSettings, connect_with_retry, load_d
 
 ROOT = Path(__file__).resolve().parents[2]
 LIVE_SQL_DIR = ROOT / "database" / "live"
-RAW_SQL = LIVE_SQL_DIR / "001_create_raw_schema.sql"
-RELATIONSHIP_SQL = LIVE_SQL_DIR / "003_add_relationships.sql"
+LIVE_MIGRATIONS = (
+    LIVE_SQL_DIR / "001_create_raw_schema.sql",
+    LIVE_SQL_DIR / "004_connect_raw_workflow.sql",
+)
+UCI_COLUMNS = (
+    "school, sex, age, address, famsize, pstatus, medu, fedu, mjob, fjob, "
+    "reason, guardian, traveltime, studytime, failures, schoolsup, famsup, paid, "
+    "activities, nursery, higher, internet, romantic, famrel, freetime, goout, "
+    "dalc, walc, health, absences, g1, g2, g3"
+)
 RAW_TRUNCATE_SQL = """
 TRUNCATE TABLE
-    raw.oulad_student_vle,
-    raw.oulad_student_assessment,
-    raw.oulad_student_registration,
-    raw.oulad_student_info,
-    raw.oulad_assessments,
-    raw.oulad_vle,
-    raw.oulad_courses,
-    raw.uci_mat,
-    raw.uci_por
+    raw.student_mat,
+    raw.student_por,
+    raw.oulad
 RESTART IDENTITY
 """
 DEFAULT_RAW_CANDIDATES = (
@@ -70,14 +68,6 @@ def os_env(name: str) -> str:
     return os.getenv(name, "").strip()
 
 
-def sha256_file(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(1 << 20), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
-
-
 def cmd_status(_: argparse.Namespace) -> int:
     connection = connect_with_retry(settings())
     try:
@@ -89,6 +79,9 @@ def cmd_status(_: argparse.Namespace) -> int:
                 "prediction.prediction": "SELECT COUNT(*) FROM prediction.prediction",
                 "recommendation.recommendation": "SELECT COUNT(*) FROM recommendation.recommendation",
                 "recommendation.recommendation_item": "SELECT COUNT(*) FROM recommendation.recommendation_item",
+                "raw.student_mat": "SELECT COUNT(*) FROM raw.student_mat",
+                "raw.student_por": "SELECT COUNT(*) FROM raw.student_por",
+                "raw.oulad": "SELECT COUNT(*) FROM raw.oulad",
             }
             for label, sql in queries.items():
                 try:
@@ -97,20 +90,15 @@ def cmd_status(_: argparse.Namespace) -> int:
                 except Exception as exc:
                     connection.rollback()
                     print(f"{label}\tERROR {exc}")
-            cursor.execute(
-                """
-                SELECT table_name FROM information_schema.tables
-                WHERE table_schema='raw' ORDER BY 1
-                """
-            )
-            raw_tables = [row[0] for row in cursor.fetchall()]
-            print("raw_tables", raw_tables or "NONE")
-            if raw_tables:
-                for table in raw_tables:
-                    if table == "load_manifest":
-                        continue
-                    cursor.execute(f"SELECT COUNT(*) FROM raw.{table}")
-                    print(f"raw.{table}\t{cursor.fetchone()[0]}")
+            try:
+                cursor.execute(
+                    "SELECT source_file, COUNT(*) FROM raw.oulad GROUP BY 1 ORDER BY 1"
+                )
+                for source_file, count in cursor.fetchall():
+                    print(f"raw.oulad:{source_file}\t{count}")
+            except Exception as exc:
+                connection.rollback()
+                print("raw.oulad files\tERROR", exc)
     finally:
         connection.close()
     return 0
@@ -118,9 +106,8 @@ def cmd_status(_: argparse.Namespace) -> int:
 
 def apply_live_schema(cursor) -> None:
     cursor.execute("SET statement_timeout = 0")
-    cursor.execute(RAW_SQL.read_text(encoding="utf-8"))
-    if RELATIONSHIP_SQL.is_file():
-        cursor.execute(RELATIONSHIP_SQL.read_text(encoding="utf-8"))
+    for path in LIVE_MIGRATIONS:
+        cursor.execute(path.read_text(encoding="utf-8"))
 
 
 def cmd_migrate_raw(_: argparse.Namespace) -> int:
@@ -137,33 +124,100 @@ def cmd_migrate_raw(_: argparse.Namespace) -> int:
     return 0
 
 
-def _copy_csv(cursor, table: str, path: Path, copy_sql: str) -> int:
+def _copy_csv(cursor, path: Path, copy_sql: str) -> None:
     with path.open("r", encoding="utf-8", newline="") as handle:
         cursor.copy_expert(copy_sql, handle)
+
+
+def _load_uci_table(cursor, table: str, path: Path) -> int:
+    copy_sql = (
+        f"COPY {table} ({UCI_COLUMNS}) FROM STDIN WITH "
+        "(FORMAT csv, HEADER true, DELIMITER ';')"
+    )
+    _copy_csv(cursor, path, copy_sql)
     cursor.execute(f"SELECT COUNT(*) FROM {table}")
     return int(cursor.fetchone()[0])
 
 
-def _load_uci_json(cursor, table: str, path: Path) -> int:
-    cursor.execute(f"TRUNCATE {table}")
-    rows = []
-    with path.open("r", encoding="utf-8", newline="") as handle:
-        reader = csv.DictReader(handle, delimiter=";")
-        for row in reader:
-            rows.append((Json(row), path.name))
-    execute_values(
-        cursor,
-        f"INSERT INTO {table} (payload, source_file) VALUES %s",
-        rows,
-        page_size=500,
+def _load_oulad_file(cursor, path: Path, source_file: str, columns: str, copy_options: str) -> int:
+    cursor.execute(f"CREATE TEMP TABLE _stg ({columns}) ON COMMIT DROP")
+    _copy_csv(cursor, path, f"COPY _stg FROM STDIN WITH ({copy_options})")
+    cursor.execute(
+        "INSERT INTO raw.oulad (source_file, payload) SELECT %s, to_jsonb(s) FROM _stg s",
+        (source_file,),
     )
-    return len(rows)
+    cursor.execute("SELECT COUNT(*) FROM _stg")
+    count = int(cursor.fetchone()[0])
+    cursor.execute("DROP TABLE _stg")
+    return count
+
+
+def _refresh_dataset_files(cursor) -> None:
+    cursor.execute(
+        """
+        UPDATE raw.dataset d SET files = COALESCE(src.files, '[]'::jsonb)
+        FROM (
+            SELECT 'student_mat'::text AS dataset_key,
+                   jsonb_build_array(jsonb_build_object('file','student-mat.csv','rows', COUNT(*))) AS files
+            FROM raw.student_mat
+            UNION ALL
+            SELECT 'student_por',
+                   jsonb_build_array(jsonb_build_object('file','student-por.csv','rows', COUNT(*)))
+            FROM raw.student_por
+            UNION ALL
+            SELECT 'oulad',
+                   COALESCE(
+                       jsonb_agg(jsonb_build_object('file', source_file, 'rows', n) ORDER BY source_file),
+                       '[]'::jsonb
+                   )
+            FROM (SELECT source_file, COUNT(*) AS n FROM raw.oulad GROUP BY source_file) t
+        ) src
+        WHERE d.dataset_key = src.dataset_key
+        """
+    )
 
 
 def cmd_load_raw(_: argparse.Namespace) -> int:
     source = raw_dir()
     dest = ROOT / "data" / "raw"
     dest.mkdir(parents=True, exist_ok=True)
+    oulad_files = [
+        (
+            "courses.csv",
+            "code_module TEXT, code_presentation TEXT, module_presentation_length INTEGER",
+            "FORMAT csv, HEADER true, NULL ''",
+        ),
+        (
+            "assessments.csv",
+            "code_module TEXT, code_presentation TEXT, id_assessment INTEGER, assessment_type TEXT, date DOUBLE PRECISION, weight DOUBLE PRECISION",
+            "FORMAT csv, HEADER true, FORCE_NULL (date, weight)",
+        ),
+        (
+            "vle.csv",
+            "id_site INTEGER, code_module TEXT, code_presentation TEXT, activity_type TEXT, week_from DOUBLE PRECISION, week_to DOUBLE PRECISION",
+            "FORMAT csv, HEADER true, FORCE_NULL (week_from, week_to)",
+        ),
+        (
+            "studentInfo.csv",
+            "code_module TEXT, code_presentation TEXT, id_student BIGINT, gender TEXT, region TEXT, highest_education TEXT, imd_band TEXT, age_band TEXT, num_of_prev_attempts INTEGER, studied_credits INTEGER, disability TEXT, final_result TEXT",
+            "FORMAT csv, HEADER true, NULL ''",
+        ),
+        (
+            "studentRegistration.csv",
+            "code_module TEXT, code_presentation TEXT, id_student BIGINT, date_registration DOUBLE PRECISION, date_unregistration DOUBLE PRECISION",
+            "FORMAT csv, HEADER true, FORCE_NULL (date_registration, date_unregistration)",
+        ),
+        (
+            "studentAssessment.csv",
+            "id_assessment INTEGER, id_student BIGINT, date_submitted DOUBLE PRECISION, is_banked INTEGER, score DOUBLE PRECISION",
+            "FORMAT csv, HEADER true, FORCE_NULL (date_submitted, score)",
+        ),
+        (
+            "studentVle.csv",
+            "code_module TEXT, code_presentation TEXT, id_student BIGINT, id_site INTEGER, date DOUBLE PRECISION, sum_click INTEGER",
+            "FORMAT csv, HEADER true, FORCE_NULL (date, sum_click)",
+        ),
+    ]
     connection = connect_with_retry(settings())
     try:
         connection.autocommit = False
@@ -171,63 +225,11 @@ def cmd_load_raw(_: argparse.Namespace) -> int:
             cursor.execute("SET statement_timeout = 0")
             apply_live_schema(cursor)
             cursor.execute(RAW_TRUNCATE_SQL)
-            specs = [
-                (
-                    "raw.uci_mat",
-                    source / "student-mat.csv",
-                    None,
-                    "uci_json",
-                ),
-                (
-                    "raw.uci_por",
-                    source / "student-por.csv",
-                    None,
-                    "uci_json",
-                ),
-                (
-                    "raw.oulad_courses",
-                    source / "courses.csv",
-                    "COPY raw.oulad_courses (code_module, code_presentation, module_presentation_length) FROM STDIN WITH (FORMAT csv, HEADER true, NULL '')",
-                    "copy",
-                ),
-                (
-                    "raw.oulad_assessments",
-                    source / "assessments.csv",
-                    "COPY raw.oulad_assessments (code_module, code_presentation, id_assessment, assessment_type, date, weight) FROM STDIN WITH (FORMAT csv, HEADER true, FORCE_NULL (date, weight))",
-                    "copy",
-                ),
-                (
-                    "raw.oulad_vle",
-                    source / "vle.csv",
-                    "COPY raw.oulad_vle (id_site, code_module, code_presentation, activity_type, week_from, week_to) FROM STDIN WITH (FORMAT csv, HEADER true, FORCE_NULL (week_from, week_to))",
-                    "copy",
-                ),
-                (
-                    "raw.oulad_student_info",
-                    source / "studentInfo.csv",
-                    "COPY raw.oulad_student_info (code_module, code_presentation, id_student, gender, region, highest_education, imd_band, age_band, num_of_prev_attempts, studied_credits, disability, final_result) FROM STDIN WITH (FORMAT csv, HEADER true, NULL '')",
-                    "copy",
-                ),
-                (
-                    "raw.oulad_student_registration",
-                    source / "studentRegistration.csv",
-                    "COPY raw.oulad_student_registration (code_module, code_presentation, id_student, date_registration, date_unregistration) FROM STDIN WITH (FORMAT csv, HEADER true, FORCE_NULL (date_registration, date_unregistration))",
-                    "copy",
-                ),
-                (
-                    "raw.oulad_student_assessment",
-                    source / "studentAssessment.csv",
-                    "COPY raw.oulad_student_assessment (id_assessment, id_student, date_submitted, is_banked, score) FROM STDIN WITH (FORMAT csv, HEADER true, FORCE_NULL (date_submitted, score))",
-                    "copy",
-                ),
-                (
-                    "raw.oulad_student_vle",
-                    source / "studentVle.csv",
-                    "COPY raw.oulad_student_vle (code_module, code_presentation, id_student, id_site, date, sum_click) FROM STDIN WITH (FORMAT csv, HEADER true, FORCE_NULL (date, sum_click))",
-                    "copy",
-                ),
-            ]
-            for table, path, copy_sql, kind in specs:
+            uci_specs = (
+                ("raw.student_mat", source / "student-mat.csv"),
+                ("raw.student_por", source / "student-por.csv"),
+            )
+            for table, path in uci_specs:
                 if not path.is_file():
                     print("SKIP missing", path)
                     continue
@@ -235,23 +237,20 @@ def cmd_load_raw(_: argparse.Namespace) -> int:
                 if path.resolve() != target.resolve():
                     shutil.copy2(path, target)
                 print("LOADING", table, path.name, "bytes", path.stat().st_size)
-                if kind == "uci_json":
-                    count = _load_uci_json(cursor, table, path)
-                else:
-                    count = _copy_csv(cursor, table, path, copy_sql)
-                cursor.execute(
-                    """
-                    INSERT INTO raw.load_manifest(table_name, source_path, source_sha256, row_count, loaded_at)
-                    VALUES (%s,%s,%s,%s, NOW())
-                    ON CONFLICT (table_name) DO UPDATE SET
-                        source_path=EXCLUDED.source_path,
-                        source_sha256=EXCLUDED.source_sha256,
-                        row_count=EXCLUDED.row_count,
-                        loaded_at=EXCLUDED.loaded_at
-                    """,
-                    (table, str(path), sha256_file(path), count),
-                )
+                count = _load_uci_table(cursor, table, path)
                 print("  rows", count)
+            for filename, columns, copy_options in oulad_files:
+                path = source / filename
+                if not path.is_file():
+                    print("SKIP missing", path)
+                    continue
+                target = dest / path.name
+                if path.resolve() != target.resolve():
+                    shutil.copy2(path, target)
+                print("LOADING", "raw.oulad", filename, "bytes", path.stat().st_size)
+                count = _load_oulad_file(cursor, path, filename, columns, copy_options)
+                print("  rows", count)
+            _refresh_dataset_files(cursor)
             connection.commit()
         print("RAW_LOAD_COMPLETE")
     except Exception:

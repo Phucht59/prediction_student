@@ -1,6 +1,5 @@
--- Make pgAdmin ERD show real relationships.
--- Serving layer: catalog -> prediction -> recommendation.
--- Raw OULAD: courses star. UCI JSONB dumps stay unlinked on purpose.
+-- Historical. Raw landing was later collapsed to 3 datasets in 004_connect_raw_workflow.sql.
+-- Serving-layer FKs from this file are still valid.
 
 SET statement_timeout = 0;
 SET maintenance_work_mem = '1GB';

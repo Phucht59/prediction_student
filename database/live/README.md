@@ -1,48 +1,37 @@
 # Live PostgreSQL (`student_db`)
 
-This is the running application database on localhost.
+One chain, matching the thesis workflow:
 
-Unused leftover objects were dropped (`database/live/002_prune_unused.sql`):
-empty `audit` log schema, V2 recommendation freeze tables, derived `data.*`
-feature copies, and old `student_predict*` test/restore databases.
-
-Relationships are in `database/live/003_add_relationships.sql`.
-Refresh the pgAdmin ERD after that migration — it previously looked messy
-because raw tables had no keys and prediction/recommendation were not
-linked to catalog.
+**raw (3 datasets) → catalog (identity) → prediction (Hybrid C0) → recommendation (V3)**
 
 ```mermaid
 erDiagram
-    student ||--o{ enrollment : "student_id"
-    course ||--o{ enrollment : "course_id"
-    enrollment ||--o{ prediction : "enrollment_id"
-    model ||--o{ model_run : "model_id"
-    model_run ||--o{ prediction : "run_id"
-    prediction ||--o| recommendation : "prediction_id"
-    recommendation ||--o{ recommendation_item : "recommendation_id"
-    action ||--o{ recommendation_item : "action_id"
-
-    oulad_courses ||--o{ oulad_assessments : "module+presentation"
-    oulad_courses ||--o{ oulad_vle : "module+presentation"
-    oulad_courses ||--o{ oulad_student_info : "module+presentation"
-    oulad_student_info ||--|| oulad_student_registration : "student+course"
-    oulad_assessments ||--o{ oulad_student_assessment : "id_assessment"
-    oulad_vle ||--o{ oulad_student_vle : "id_site"
-    oulad_student_info ||--o{ oulad_student_vle : "student+course"
+    dataset ||--o{ student_mat : student_mat
+    dataset ||--o{ student_por : student_por
+    dataset ||--o{ oulad : oulad
+    dataset ||--o{ course : "dataset_key"
+    student ||--o{ enrollment : student_id
+    course ||--o{ enrollment : course_id
+    enrollment ||--o{ prediction : enrollment_id
+    model ||--o{ model_run : model_id
+    model_run ||--o{ prediction : run_id
+    prediction ||--o| recommendation : prediction_id
+    recommendation ||--o{ recommendation_item : recommendation_id
+    action ||--o{ recommendation_item : action_id
 ```
 
-Two clusters is intentional: serving tables (`catalog` / `prediction` / `recommendation`)
-and OULAD landing (`raw.oulad_*`). `raw.uci_mat`, `raw.uci_por`, and
-`raw.load_manifest` stay unlinked — JSON dumps and a loader log.
+| Schema | Role |
+|---|---|
+| `raw` | Three source datasets only: `student_mat`, `student_por`, `oulad` |
+| `catalog` | Unified student–course enrollment (UCI + OULAD identities) |
+| `prediction` | Hybrid C0 OOF risk (OULAD stages 20/35/50/75) |
+| `recommendation` | Five-EBM-C0 ranked actions |
 
-## What is stored
+`raw.dataset` is the join root: both UCI tables and OULAD hang off it, and `catalog.course.dataset_key` points at the same row. That is why raw is no longer an island.
 
-| Layer | Tables | Content |
-|---|---|---|
-| Raw CSVs | `raw.uci_*`, `raw.oulad_*` | Full UCI + OULAD source files, including `studentVle` |
-| Catalog | `catalog.student/course/enrollment` | Student–course identities |
-| Prediction | `prediction.model`, `model_run`, `prediction` | Hybrid C0 OOF probabilities (66,685 rows) |
-| Recommendation V3 | `recommendation.action`, `recommendation`, `recommendation_item` | Five-EBM-C0 ranked actions |
+OULAD is **one** landing table (`raw.oulad`) because it is one dataset. The original 7 CSVs are `source_file` + `payload` (courses, assessments, vle, studentInfo, studentRegistration, studentAssessment, studentVle). UCI is typed columns because each file is already one table.
+
+C0 / V3 rows attach to OULAD enrollments only. UCI enrollments exist in `catalog` for identity; they have no V3 recommendations.
 
 ## Commands
 
