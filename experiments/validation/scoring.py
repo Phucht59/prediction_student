@@ -66,10 +66,30 @@ def gate_masses(model: Hybrid, batch: PackedBatch, *, batch_size: int, cap: int 
     }
 
 
-def fit_sklearn_baselines(train: PackedBatch, valid: PackedBatch, *, seed: int) -> dict[str, np.ndarray]:
-    x_train = pack_features(train)
+def pack_tabular(batch: PackedBatch) -> np.ndarray:
+    """Native tabular view: static ∥ aggregate ∥ progress. No flattened sequence."""
+    n = len(batch.target)
+    return np.concatenate(
+        [
+            batch.static.astype(np.float32),
+            batch.aggregate.astype(np.float32),
+            batch.progress.reshape(n, 1).astype(np.float32),
+        ],
+        axis=1,
+    )
+
+
+def fit_sklearn_baselines(
+    train: PackedBatch,
+    valid: PackedBatch,
+    *,
+    seed: int,
+    feature_mode: str = "tabular",
+) -> dict[str, np.ndarray]:
+    pack = pack_tabular if feature_mode == "tabular" else pack_features
+    x_train = pack(train)
     y_train = np.asarray(train.target, dtype=int)
-    x_valid = pack_features(valid)
+    x_valid = pack(valid)
     lr = LogisticRegression(class_weight="balanced", max_iter=1000, C=1.0, random_state=seed)
     rf = RandomForestClassifier(
         n_estimators=200, min_samples_leaf=2, class_weight="balanced", random_state=seed, n_jobs=-1
