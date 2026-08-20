@@ -178,6 +178,7 @@ pytest tests/prediction tests/recommend_hybrid/v3 tests/database -q
 
 | Thành phần | Path |
 |---|---|
+| Bản đồ project | `PROJECT.md` |
 | Hybrid CNN–BiLSTM | `src/prediction/model/hybrid.py` |
 | UCI / OULAD features | `src/prediction/data/uci.py`, `oulad_features.py` |
 | Recommendation V | `src/recommend_hybrid/v3/` |

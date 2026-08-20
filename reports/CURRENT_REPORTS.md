@@ -27,7 +27,7 @@ Current comparison roster: Hybrid / LR / DT / RF / SVM / MLP. XGBoost is not cur
 | Topic | Current source |
 |---|---|
 | Recommendation V | `reports/recommend_hybrid/v3/FINAL_RECOMMENDATION_V3_REPORT.md` |
-| Database schema | `database/final/FINAL_SCHEMA_CONTRACT.md` |
+| Live PostgreSQL | `database/live/README.md` |
 
 Non-release research trees (old `artifacts/final`, imbalance experiment, H1, Phase2–4 run dumps) were moved to `test_lab/`. See `test_lab/MOVED_FROM_RELEASE.md`.
 

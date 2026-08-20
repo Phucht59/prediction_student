@@ -1,49 +1,74 @@
-# PROJECT — Hybrid CNN–BiLSTM (current authority)
+# PROJECT — Hybrid CNN–BiLSTM and Recommendation V
 
-This is the current project map for the thesis prediction system.
-Historical multiclass / `cnn_bilstm_*` / H1 descriptions live only under
-`reports/prediction/historical/pre_phase4/PROJECT_LEGACY.md`.
+Bản đồ hiện tại của khóa luận. Không dùng tên C0 / V2 / V3 trên tài liệu công khai.
 
-## Task
+Lịch sử multiclass / `cnn_bilstm_*` / H1: `reports/prediction/historical/pre_phase4/PROJECT_LEGACY.md`.
 
-Binary academic-risk prediction.
+## Hệ thống
 
-| Dataset | Target | Information states of one fitted model |
+```text
+Raw CSV
+  → cutoff-safe features
+  → Hybrid CNN–BiLSTM
+  → p, ngưỡng t, ŷ, H₂(p)
+  → Recommendation V
+  → RECOMMEND Top-1 / HUMAN_REVIEW Top-3
+```
+
+| Module | Việc | Phạm vi |
+|---|---|---|
+| **Hybrid CNN–BiLSTM** | Dự đoán nguy cơ nhị phân | UCI S0–S2; OULAD 20–100% |
+| **Recommendation V** | Xếp hạng 5 hành động hỗ trợ | OULAD 20/35/50/75% only |
+| **PostgreSQL `student_db`** | Lưu raw → catalog → prediction → recommendation | Serve, không refit |
+
+Báo cáo kỹ thuật (I/O từng bước, đặc trưng, kiến trúc, kết quả): `reports/BAO_CAO_KY_THUAT_PROJECT.md`.  
+Landing page: `README.md`.
+
+## Prediction
+
+| Dataset | Target | Mốc của **một** fitted model |
 |---|---|---|
 | UCI | `G3 < 10` | S0 → S1 → S2 |
 | OULAD | Fail / Withdrawn | 20% → 35% → 50% → 75% → 100% |
 
-## Model
-
-- Public name: **Hybrid** (`model_id = hybrid`, class `Hybrid`)
-- Architecture: **Hybrid CNN–BiLSTM** — parallel CNN ∥ BiLSTM, corrected availability, 3-way masked softmax, one binary logit
+- Public name: **Hybrid CNN–BiLSTM** (`model_id = hybrid`, class `Hybrid`)
+- Topology: CNN ∥ BiLSTM song song + cổng softmax 3 nhánh + một logit nhị phân
 - Shared widths: `d_fuse=128`, `cnn_channels=64`, `bilstm_hidden=128`
-- One architecture for UCI and OULAD. No dataset-specific topology. No separate OULAD-100 model.
+- Cùng kiến trúc cho UCI và OULAD. Không mô hình riêng 100%.
 
-## Active baselines
+Baseline đang dùng: `LR / DT / RF / SVM / MLP`. XGBoost chỉ còn historical.
 
-`LR / DT / RF / SVM / MLP`
+Đánh giá: robust inner 3×3. Outer **không** mở. Gate nghiên cứu từng ghi `NOT_READY_FOR_FINAL_EVAL` (UCI S0 vs RF); owner chọn Hybrid CNN–BiLSTM làm authority.
 
-XGBoost is historical only, not active.
+Giới hạn: UCI S0 chưa có G1/G2; OULAD 100% độ dài lịch sử liên hệ Withdrawn.
 
-## Evaluation
+## Recommendation V
 
-- Thesis-final numbers: Phase 4 robust inner 3×3
-- Outer was **not** opened
-- Research gate recorded `NOT_READY_FOR_FINAL_EVAL` (UCI S0 vs RF). The project owner later selected this Hybrid CNN–BiLSTM as thesis-final authority.
+Chỉ OULAD 20/35/50/75. Không refit Hybrid. Năm EBM, feasibility cứng, RECOMMEND Top-1 hoặc HUMAN_REVIEW Top-3.
 
-## Known limitations
+Panel C held-out: NDCG@3 **0.88785**, invalid-action **0**.
 
-- **UCI S0** has no G1/G2 and underperforms RF.
-- **OULAD 100%** history length is associated with Withdrawn.
+## PostgreSQL
 
-## Where to read
+Schema live: `raw` (student_mat, student_por, oulad) → `catalog` → `prediction` → `recommendation`.
+
+```powershell
+python project.py db status
+python project.py db lookup --student 631334 --course CCC --presentation 2014B --stage 20
+python project.py db predict --student 631334 --course CCC --presentation 2014B --stage 20
+python project.py db recommend --student 631334 --course CCC --presentation 2014B --stage 20
+```
+
+## Đọc ở đâu
 
 | Item | Path |
 |---|---|
-| Canonical report | `reports/prediction/final/FINAL_PREDICTION_MODEL_REPORT.md` |
-| Tables | `reports/prediction/final/uci_final.csv`, `oulad_final.csv` |
-| Decision | `artifacts/prediction/final/FINALIZATION_DECISION.json` |
-| Config | `configs/prediction/hybrid_final.json` |
-| Code | `src/prediction/` |
-| Registry of current vs historical | `reports/CURRENT_REPORTS.md` |
+| README | `README.md` |
+| Báo cáo kỹ thuật | `reports/BAO_CAO_KY_THUAT_PROJECT.md` |
+| Robust mean dự đoán | `reports/prediction/final/FINAL_PREDICTION_MODEL_REPORT.md` |
+| Bảng metric | `reports/prediction/final/uci_final.csv`, `oulad_final.csv` |
+| Recommendation V | `reports/recommend_hybrid/v3/FINAL_RECOMMENDATION_V3_REPORT.md` |
+| Live DB | `database/live/README.md` |
+| Code dự đoán | `src/prediction/` |
+| Code khuyến nghị | `src/recommend_hybrid/v3/` |
+| Current vs historical | `reports/CURRENT_REPORTS.md` |
