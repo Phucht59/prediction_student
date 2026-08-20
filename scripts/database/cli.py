@@ -73,7 +73,7 @@ def cmd_status(_: argparse.Namespace) -> int:
                 "catalog.enrollment": "SELECT COUNT(*) FROM catalog.enrollment",
                 "prediction.prediction": "SELECT COUNT(*) FROM prediction.prediction",
                 "recommendation.recommendation": "SELECT COUNT(*) FROM recommendation.recommendation",
-                "recommendation.plan": "SELECT COUNT(*) FROM recommendation.plan",
+                "recommendation.recommendation_item": "SELECT COUNT(*) FROM recommendation.recommendation_item",
             }
             for label, sql in queries.items():
                 try:

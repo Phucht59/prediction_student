@@ -2,16 +2,18 @@
 
 This is the running application database on localhost.
 
+Unused leftover objects were dropped (`database/live/002_prune_unused.sql`):
+empty `audit` log schema, V2 recommendation freeze tables, derived `data.*`
+feature copies, and old `student_predict*` test/restore databases.
+
 ## What is stored
 
 | Layer | Tables | Content |
 |---|---|---|
 | Raw CSVs | `raw.uci_*`, `raw.oulad_*` | Full UCI + OULAD source files, including `studentVle` |
 | Catalog | `catalog.student/course/enrollment` | Student–course identities |
-| Features | `data.feature_snapshot`, `data.temporal_observation` | Cutoff-safe snapshots already loaded |
-| Prediction | `prediction.prediction` | Hybrid C0 OOF probabilities (66,685 rows) |
-| Recommendation V3 | `recommendation.recommendation` + `_item` | Five-EBM-C0 ranked actions |
-| Recommendation V2 | `recommendation.plan/score` | Historical V2 plans (kept) |
+| Prediction | `prediction.model`, `model_run`, `prediction` | Hybrid C0 OOF probabilities (66,685 rows) |
+| Recommendation V3 | `recommendation.action`, `recommendation`, `recommendation_item` | Five-EBM-C0 ranked actions |
 
 ## Commands
 
