@@ -15,7 +15,22 @@ from psycopg2.extras import Json, execute_values
 from src.database.connection import DatabaseSettings, connect_with_retry, load_dotenv
 
 ROOT = Path(__file__).resolve().parents[2]
-RAW_SQL = ROOT / "database" / "live" / "001_create_raw_schema.sql"
+LIVE_SQL_DIR = ROOT / "database" / "live"
+RAW_SQL = LIVE_SQL_DIR / "001_create_raw_schema.sql"
+RELATIONSHIP_SQL = LIVE_SQL_DIR / "003_add_relationships.sql"
+RAW_TRUNCATE_SQL = """
+TRUNCATE TABLE
+    raw.oulad_student_vle,
+    raw.oulad_student_assessment,
+    raw.oulad_student_registration,
+    raw.oulad_student_info,
+    raw.oulad_assessments,
+    raw.oulad_vle,
+    raw.oulad_courses,
+    raw.uci_mat,
+    raw.uci_por
+RESTART IDENTITY
+"""
 DEFAULT_RAW_CANDIDATES = (
     Path(r"C:\hufit\kltn\data\raw"),
     ROOT / "data" / "raw",
@@ -101,14 +116,22 @@ def cmd_status(_: argparse.Namespace) -> int:
     return 0
 
 
+def apply_live_schema(cursor) -> None:
+    cursor.execute("SET statement_timeout = 0")
+    cursor.execute(RAW_SQL.read_text(encoding="utf-8"))
+    if RELATIONSHIP_SQL.is_file():
+        cursor.execute(RELATIONSHIP_SQL.read_text(encoding="utf-8"))
+
+
 def cmd_migrate_raw(_: argparse.Namespace) -> int:
-    sql = RAW_SQL.read_text(encoding="utf-8")
     connection = connect_with_retry(settings())
     try:
         connection.autocommit = True
         with connection.cursor() as cursor:
-            cursor.execute(sql)
-        print("raw schema ready")
+            cursor.execute("SET statement_timeout = 0")
+            cursor.execute("SET maintenance_work_mem = '1GB'")
+            apply_live_schema(cursor)
+        print("live schema ready")
     finally:
         connection.close()
     return 0
@@ -146,7 +169,8 @@ def cmd_load_raw(_: argparse.Namespace) -> int:
         connection.autocommit = False
         with connection.cursor() as cursor:
             cursor.execute("SET statement_timeout = 0")
-            cursor.execute(RAW_SQL.read_text(encoding="utf-8"))
+            apply_live_schema(cursor)
+            cursor.execute(RAW_TRUNCATE_SQL)
             specs = [
                 (
                     "raw.uci_mat",
@@ -211,7 +235,6 @@ def cmd_load_raw(_: argparse.Namespace) -> int:
                 if path.resolve() != target.resolve():
                     shutil.copy2(path, target)
                 print("LOADING", table, path.name, "bytes", path.stat().st_size)
-                cursor.execute(f"TRUNCATE {table}")
                 if kind == "uci_json":
                     count = _load_uci_json(cursor, table, path)
                 else:
