@@ -111,6 +111,10 @@ def main() -> int:
         from scripts.database_final import main as database_final_main
 
         return int(database_final_main(sys.argv[2:]))
+    if len(sys.argv) > 1 and sys.argv[1] == "db":
+        from scripts.database.cli import main as database_live_main
+
+        return int(database_live_main(sys.argv[2:]))
     args = build_parser().parse_args()
     return int(args.handler(args))
 

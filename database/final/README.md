@@ -7,7 +7,16 @@ This directory is the only active database migration line.
 - `FINAL_SCHEMA_CONTRACT.md`: 13-table contract.
 - `LEGACY_TO_FINAL_MAPPING.yaml`: complete mapping for the 29 audited tables.
 
-Use the repository CLI:
+Live application database (`student_db`) loaders:
+
+```powershell
+python project.py db status
+python project.py db load-all
+```
+
+See `database/live/README.md`.
+
+Historical cutover CLI:
 
 ```powershell
 python project.py db-final inventory
