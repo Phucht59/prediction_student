@@ -126,6 +126,8 @@ scripts/hybrid_vnext/watch_robust_then_finish.py
 
 # Local research history; never a release dependency
 /test_lab/
+!/test_lab/README.md
+!/test_lab/MOVED_FROM_RELEASE.md
 !/test_lab/prediction_legacy/
 !/test_lab/prediction_legacy/**
 /notebooks/

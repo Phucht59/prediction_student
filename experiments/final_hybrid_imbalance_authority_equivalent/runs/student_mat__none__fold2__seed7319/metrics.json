@@ -1,9 +1,0 @@
-{
-  "accuracy": 0.8734177215189873,
-  "checkpoint_sha256": "c99ca11dcab1a85fbbadffb1525ab3d9ddb59a554c100e6b1df135e625f3dacb",
-  "macro_f1": 0.8888888888888888,
-  "parameter_count": 40276,
-  "prediction_sha256": "69601ec3e1dd59c1d53de45722e2c073d6f5371ea4815268e5f17f1d62a291ed",
-  "runtime_seconds": 5.269404999969993,
-  "selected_epoch": 21
-}

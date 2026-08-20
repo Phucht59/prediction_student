@@ -1,6 +1,0 @@
-entity,source_rows,migrated_rows,rejected_rows,duplicate_rows,status
-datasets,3,3,0,0,PASS
-models,30,30,0,0,PASS
-risk_profiles,15378,15378,0,0,PASS
-plans,15378,15378,0,0,PASS
-actions,27355,27355,0,0,PASS

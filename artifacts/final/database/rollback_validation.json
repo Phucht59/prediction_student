@@ -1,7 +1,0 @@
-{
-  "backup_restore_hash_matches": true,
-  "credentials": "REDACTED",
-  "schema_cutback_executed": true,
-  "status": "PASS",
-  "transaction_rollback": true
-}

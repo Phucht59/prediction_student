@@ -1,9 +1,0 @@
-{
-  "errors": [],
-  "expert_status": "PENDING_EXPERT_LABELS",
-  "future_oulad": "LOCKED_NOT_EXECUTED",
-  "official_deep_models_retrained": false,
-  "schema_version": "teacher_feedback_validation_v1",
-  "status": "PASS",
-  "xapi_in_final": false
-}

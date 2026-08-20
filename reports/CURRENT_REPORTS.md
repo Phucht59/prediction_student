@@ -29,6 +29,8 @@ Current comparison roster: Hybrid / LR / DT / RF / SVM / MLP. XGBoost is not cur
 | Recommendation V2 release | `artifacts/recommend_hybrid/final/release/FINAL_RELEASE_MANIFEST.json` |
 | Database schema | `database/final/FINAL_SCHEMA_CONTRACT.md` |
 
+Non-release research trees (old `artifacts/final`, imbalance experiment, H1, Phase2–4 run dumps) were moved to `test_lab/`. See `test_lab/MOVED_FROM_RELEASE.md`.
+
 ## HISTORICAL / SUPERSEDED — DO NOT USE AS CURRENT PREDICTION AUTHORITY
 
 The following are provenance only. They are **not** the current Hybrid C0 authority.

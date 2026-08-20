@@ -1,8 +1,0 @@
-{
-  "holdout_id_set_sha256": "931f1230cf0603891cacdb568c9f9b3e3be4704bdfd3121d86c88cef7fc7044a",
-  "holdout_opened": false,
-  "holdout_run_count": 0,
-  "post_holdout_tuning_allowed": false,
-  "reason": "FAIL_HOLDOUT_CONTAMINATION was established before opening outcome/relevance values.",
-  "status": "BLOCKED_BEFORE_HOLDOUT_ACCESS"
-}

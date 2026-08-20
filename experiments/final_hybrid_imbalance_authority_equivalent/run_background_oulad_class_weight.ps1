@@ -1,3 +1,0 @@
-$root=Split-Path -Parent $MyInvocation.MyCommand.Path;$env:CUBLAS_WORKSPACE_CONFIG=':4096:8';$python=Join-Path $root '..\..\.venv-oulad-v2\Scripts\python.exe';New-Item -ItemType Directory -Force -Path (Join-Path $root 'runtime'),(Join-Path $root 'logs')|Out-Null
-$p=Start-Process $python -ArgumentList (Join-Path $root 'supervisor_oulad_class_weight.py') -WorkingDirectory $root -RedirectStandardOutput (Join-Path $root 'logs\oulad_class_weight_stdout.log') -RedirectStandardError (Join-Path $root 'logs\oulad_class_weight_stderr.log') -WindowStyle Hidden -PassThru
-$p.Id|Set-Content -NoNewline (Join-Path $root 'runtime\OULAD_CLASS_WEIGHT_PID.txt')

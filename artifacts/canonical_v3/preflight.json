@@ -1,8 +1,0 @@
-{
-  "architecture_search": false,
-  "benchmark_hash": "74004abf54f74c5a051b45836dbfa30cae4037467be55958b81cffd191b8edaf",
-  "outer_labels_used_for_selection": false,
-  "policy": "STRICT_REAL_TIME",
-  "protocol_commit": "bb93af2df11e0f180db5a689acc612bea2a8062a",
-  "status": "PASS"
-}
