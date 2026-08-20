@@ -33,6 +33,9 @@ OULAD is **one** landing table (`raw.oulad`) because it is one dataset. The orig
 
 C0 / V3 rows attach to OULAD enrollments only. UCI enrollments exist in `catalog` for identity; they have no V3 recommendations.
 
+Runtime reads **stored Hybrid C0** from `prediction.prediction` (no refit) and can run
+frozen Five-EBM-C0, then write the decision back to `recommendation.*`.
+
 ## Commands
 
 ```powershell
@@ -42,6 +45,10 @@ python project.py db load-raw
 python project.py db load-predictions
 python project.py db load-recommendations
 python project.py db load-all
+python project.py db lookup --student 631334 --course CCC --presentation 2014B --stage 20
+python project.py db predict --student 631334 --course CCC --presentation 2014B --stage 20
+python project.py db recommend --student 631334 --course CCC --presentation 2014B --stage 20
+python project.py db recommend --student 631334 --course CCC --presentation 2014B --stage 20 --no-persist
 ```
 
 Connection comes from `.env` (`DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`).

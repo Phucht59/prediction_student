@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import shutil
 from pathlib import Path
 
@@ -9,6 +10,7 @@ import pandas as pd
 from psycopg2.extras import Json, execute_values
 
 from src.database.connection import DatabaseSettings, connect_with_retry, load_dotenv
+from src.database.live_runtime import lookup_case, predict_case, recommend_case
 
 ROOT = Path(__file__).resolve().parents[2]
 LIVE_SQL_DIR = ROOT / "database" / "live"
@@ -495,6 +497,44 @@ def cmd_load_all(args: argparse.Namespace) -> int:
     return cmd_status(args)
 
 
+def _print_json(payload: dict) -> int:
+    print(json.dumps(payload, indent=2, ensure_ascii=True))
+    return 0 if payload.get("ok") else 1
+
+
+def cmd_lookup(args: argparse.Namespace) -> int:
+    return _print_json(
+        lookup_case(args.student, args.course, args.presentation, args.stage)
+    )
+
+
+def cmd_predict(args: argparse.Namespace) -> int:
+    return _print_json(predict_case(args.student, args.course, args.presentation, args.stage))
+
+
+def cmd_recommend(args: argparse.Namespace) -> int:
+    return _print_json(
+        recommend_case(
+            args.student,
+            args.course,
+            args.presentation,
+            args.stage,
+            persist=not args.no_persist,
+        )
+    )
+
+
+def _add_case_args(parser: argparse.ArgumentParser, *, stage_required: bool) -> None:
+    parser.add_argument("--student", required=True, help="id_student or OULAD:id / UCI:hash")
+    parser.add_argument("--course", required=True, help="OULAD module (CCC) or math/portuguese")
+    parser.add_argument("--presentation", required=True, help="OULAD presentation (2014B) or subject")
+    parser.add_argument(
+        "--stage",
+        required=stage_required,
+        help="20/35/50/75 (C0 intervention stages)",
+    )
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Live PostgreSQL loaders")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -504,6 +544,16 @@ def build_parser() -> argparse.ArgumentParser:
     sub.add_parser("load-predictions").set_defaults(handler=cmd_load_predictions)
     sub.add_parser("load-recommendations").set_defaults(handler=cmd_load_recommendations)
     sub.add_parser("load-all").set_defaults(handler=cmd_load_all)
+    lookup = sub.add_parser("lookup", help="Read catalog + C0 + V3 for one enrollment from student_db")
+    _add_case_args(lookup, stage_required=False)
+    lookup.set_defaults(handler=cmd_lookup)
+    predict = sub.add_parser("predict", help="Serve frozen Hybrid C0 from student_db (no refit)")
+    _add_case_args(predict, stage_required=True)
+    predict.set_defaults(handler=cmd_predict)
+    recommend = sub.add_parser("recommend", help="Run frozen Five-EBM-C0 using DB C0 and persist")
+    _add_case_args(recommend, stage_required=True)
+    recommend.add_argument("--no-persist", action="store_true", help="Do not write the decision")
+    recommend.set_defaults(handler=cmd_recommend)
     return parser
 
 
