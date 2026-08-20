@@ -1,0 +1,15 @@
+roster: [LR, DT, RF, SVM, XGB, CatBoost, MLP]
+primary_metric: ap
+fit_only: [scaler, encoder, class_weight, resampling, teacher, early_stop]
+stop_only: [threshold, calibration, boosting_early_stop]
+never: [outer_test, valid_for_fit]
+spaces:
+  LR: {C: log[1e-3, 30], class_weight: [balanced, null]}
+  DT: {max_depth: [3, 16], min_samples_leaf: [2, 40]}
+  RF: {n_estimators: [200, 800], min_samples_leaf: [1, 8], max_depth: [null, 8, 12, 16, 24]}
+  SVM: {kernel: [linear, rbf], C: log[1e-3, 20]}
+  XGB: {n_estimators: [200, 800], max_depth: [3, 8], learning_rate: log[0.01, 0.2], subsample: [0.6, 1], colsample_bytree: [0.5, 1], min_child_weight: log[0.5, 8], reg_lambda: log[1e-3, 10], reg_alpha: log[1e-4, 1]}
+  CatBoost: {depth: [4, 8], learning_rate: log[0.01, 0.2], l2_leaf_reg: [1, 10], iterations: [200, 800]}
+  MLP: {hidden: [64, 128, 256], depth: [1, 3], alpha: log[1e-6, 1e-2]}
+panel_a: same_raw_information_representation_native
+panel_b: hybrid_tabular_vs_full__xgb_static_vs_summaries

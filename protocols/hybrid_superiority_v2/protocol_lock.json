@@ -1,0 +1,13 @@
+{
+  "protocol_id": "hybrid_superiority_v2.0",
+  "sha256": "eb5f4cfbf4e1629281386367400970241ff68fdaec6c0f7905b0e3a6f33646a2",
+  "frozen_before_hpo": true,
+  "authority_untouched": true,
+  "primary_metric": "ap",
+  "primary_metric_fn": "sklearn.metrics.average_precision_score",
+  "baseline_roster": ["LR", "DT", "RF", "SVM", "XGB", "CatBoost", "MLP"],
+  "candidates": ["C0-R", "C1-R", "C2-S", "C3-G"],
+  "warm_set": ["uci:S1", "uci:S2", "oulad:35pct", "oulad:50pct", "oulad:75pct", "oulad:100pct"],
+  "outer_test_used_for_selection": false,
+  "note": "sha256 is protocol_payload() hash from experiments.hybrid_superiority_v2.protocol"
+}

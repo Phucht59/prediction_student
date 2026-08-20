@@ -1,0 +1,296 @@
+"""Fair CPU baselines including XGBoost and CatBoost. Tune AP on inner splits only."""
+from __future__ import annotations
+
+from typing import Any
+
+import numpy as np
+import pandas as pd
+from sklearn.calibration import CalibratedClassifierCV
+from sklearn.compose import ColumnTransformer
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.impute import SimpleImputer
+from sklearn.linear_model import LogisticRegression
+from sklearn.neural_network import MLPClassifier
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.svm import SVC, LinearSVC
+from sklearn.tree import DecisionTreeClassifier
+
+from .metrics import binary_metrics, select_stop_threshold
+from .protocol import BASELINE_ROSTER  # noqa: F401
+
+try:
+    from xgboost import XGBClassifier
+except Exception:  # pragma: no cover
+    XGBClassifier = None
+try:
+    from catboost import CatBoostClassifier
+except Exception:  # pragma: no cover
+    CatBoostClassifier = None
+
+
+def preprocessor(frame: pd.DataFrame, columns: list[str], categorical: list[str]) -> ColumnTransformer:
+    cats = [c for c in categorical if c in columns]
+    nums = [c for c in columns if c not in cats]
+    return ColumnTransformer(
+        [
+            ("num", Pipeline([("impute", SimpleImputer(strategy="median")), ("scale", StandardScaler())]), nums),
+            (
+                "cat",
+                Pipeline(
+                    [
+                        ("impute", SimpleImputer(strategy="most_frequent")),
+                        ("enc", OneHotEncoder(handle_unknown="ignore", sparse_output=False)),
+                    ]
+                ),
+                cats,
+            ),
+        ],
+        remainder="drop",
+    )
+
+
+def default_params(name: str, seed: int) -> dict[str, Any]:
+    if name == "LR":
+        return {"C": 1.0, "class_weight": "balanced", "max_iter": 2000}
+    if name == "DT":
+        return {"max_depth": 8, "min_samples_leaf": 20, "class_weight": "balanced", "random_state": seed}
+    if name == "RF":
+        return {"n_estimators": 400, "min_samples_leaf": 2, "max_depth": None, "class_weight": "balanced", "random_state": seed, "n_jobs": 4}
+    if name == "SVM":
+        return {"kernel": "linear", "C": 1.0, "class_weight": "balanced"}
+    if name == "MLP":
+        return {"hidden": 128, "depth": 2, "alpha": 1e-4, "lr": 1e-3, "dropout_like_alpha": 1e-4}
+    if name == "XGB":
+        return {"n_estimators": 400, "max_depth": 5, "learning_rate": 0.05, "subsample": 0.8, "colsample_bytree": 0.8, "min_child_weight": 2.0, "reg_lambda": 1.0, "reg_alpha": 0.0}
+    if name == "CatBoost":
+        return {"depth": 6, "learning_rate": 0.05, "l2_leaf_reg": 3.0, "random_strength": 0.5, "bagging_temperature": 0.2, "iterations": 400}
+    raise ValueError(name)
+
+
+def make_estimator(name: str, params: dict[str, Any], seed: int, y_train: np.ndarray):
+    if name == "LR":
+        return LogisticRegression(
+            C=float(params.get("C", 1.0)),
+            class_weight=params.get("class_weight", "balanced"),
+            max_iter=int(params.get("max_iter", 2000)),
+            solver="lbfgs",
+            random_state=seed,
+        )
+    if name == "DT":
+        return DecisionTreeClassifier(
+            max_depth=int(params.get("max_depth", 8)),
+            min_samples_leaf=int(params.get("min_samples_leaf", 20)),
+            class_weight="balanced",
+            random_state=seed,
+        )
+    if name == "RF":
+        return RandomForestClassifier(
+            n_estimators=int(params.get("n_estimators", 400)),
+            min_samples_leaf=int(params.get("min_samples_leaf", 2)),
+            max_depth=None if not params.get("max_depth") else int(params["max_depth"]),
+            max_features=params.get("max_features", "sqrt"),
+            class_weight="balanced",
+            random_state=seed,
+            n_jobs=4,
+        )
+    if name == "SVM":
+        kernel = params.get("kernel", "linear")
+        C = float(params.get("C", 1.0))
+        cw = params.get("class_weight", "balanced")
+        if kernel == "linear":
+            base = LinearSVC(C=C, class_weight=cw, max_iter=4000, dual="auto", random_state=seed)
+            return CalibratedClassifierCV(base, method="sigmoid", cv=3)
+        return SVC(kernel="rbf", C=C, gamma=params.get("gamma", "scale"), class_weight=cw, probability=True, random_state=seed, cache_size=500)
+    if name == "MLP":
+        hidden = int(params.get("hidden", 128))
+        depth = int(params.get("depth", 2))
+        layers = tuple([hidden] * depth)
+        return MLPClassifier(
+            hidden_layer_sizes=layers,
+            alpha=float(params.get("alpha", 1e-4)),
+            learning_rate_init=float(params.get("lr", 1e-3)),
+            max_iter=400,
+            random_state=seed,
+            early_stopping=True,
+            validation_fraction=0.1,
+        )
+    if name == "XGB":
+        if XGBClassifier is None:
+            raise RuntimeError("XGBOOST_MISSING")
+        n_pos = max(1, int(y_train.sum()))
+        n_neg = max(1, int(len(y_train) - n_pos))
+        return XGBClassifier(
+            n_estimators=int(params.get("n_estimators", 400)),
+            max_depth=int(params.get("max_depth", 5)),
+            learning_rate=float(params.get("learning_rate", 0.05)),
+            subsample=float(params.get("subsample", 0.8)),
+            colsample_bytree=float(params.get("colsample_bytree", 0.8)),
+            min_child_weight=float(params.get("min_child_weight", 2.0)),
+            reg_lambda=float(params.get("reg_lambda", 1.0)),
+            reg_alpha=float(params.get("reg_alpha", 0.0)),
+            objective="binary:logistic",
+            eval_metric="logloss",
+            tree_method="hist",
+            n_jobs=4,
+            random_state=seed,
+            scale_pos_weight=n_neg / n_pos,
+            verbosity=0,
+            early_stopping_rounds=40,
+        )
+    if name == "CatBoost":
+        if CatBoostClassifier is None:
+            raise RuntimeError("CATBOOST_MISSING")
+        return CatBoostClassifier(
+            depth=int(params.get("depth", 6)),
+            learning_rate=float(params.get("learning_rate", 0.05)),
+            l2_leaf_reg=float(params.get("l2_leaf_reg", 3.0)),
+            random_strength=float(params.get("random_strength", 0.5)),
+            bagging_temperature=float(params.get("bagging_temperature", 0.2)),
+            iterations=int(params.get("iterations", 400)),
+            loss_function="Logloss",
+            eval_metric="Logloss",
+            random_seed=seed,
+            verbose=False,
+            thread_count=4,
+            auto_class_weights="Balanced",
+        )
+    raise ValueError(name)
+
+
+def sample_space(name: str, trial, *, domain: str = "uci") -> dict[str, Any]:
+    if name == "LR":
+        return {"C": trial.suggest_float("C", 1e-3, 30.0, log=True), "class_weight": trial.suggest_categorical("class_weight", ["balanced", None])}
+    if name == "DT":
+        return {
+            "max_depth": trial.suggest_int("max_depth", 3, 16),
+            "min_samples_leaf": trial.suggest_int("min_samples_leaf", 2, 40),
+        }
+    if name == "RF":
+        return {
+            "n_estimators": trial.suggest_int("n_estimators", 200, 800, step=100),
+            "min_samples_leaf": trial.suggest_int("min_samples_leaf", 1, 8),
+            "max_depth": trial.suggest_categorical("max_depth", [None, 8, 12, 16, 24]),
+            "max_features": trial.suggest_categorical("max_features", ["sqrt", "log2", 0.5]),
+        }
+    if name == "SVM":
+        kernel = "linear" if domain == "oulad" else trial.suggest_categorical("kernel", ["linear", "rbf"])
+        params = {"kernel": kernel, "C": trial.suggest_float("C", 1e-3, 20.0, log=True), "class_weight": "balanced"}
+        if kernel == "rbf":
+            params["gamma"] = trial.suggest_categorical("gamma", ["scale", "auto"])
+        return params
+    if name == "MLP":
+        return {
+            "hidden": trial.suggest_categorical("hidden", [64, 128, 256]),
+            "depth": trial.suggest_int("depth", 1, 3),
+            "alpha": trial.suggest_float("alpha", 1e-6, 1e-2, log=True),
+            "lr": trial.suggest_float("lr", 1e-4, 5e-3, log=True),
+        }
+    if name == "XGB":
+        return {
+            "n_estimators": trial.suggest_int("n_estimators", 200, 800, step=100),
+            "max_depth": trial.suggest_int("max_depth", 3, 8),
+            "learning_rate": trial.suggest_float("learning_rate", 0.01, 0.2, log=True),
+            "subsample": trial.suggest_float("subsample", 0.6, 1.0),
+            "colsample_bytree": trial.suggest_float("colsample_bytree", 0.5, 1.0),
+            "min_child_weight": trial.suggest_float("min_child_weight", 0.5, 8.0, log=True),
+            "reg_lambda": trial.suggest_float("reg_lambda", 1e-3, 10.0, log=True),
+            "reg_alpha": trial.suggest_float("reg_alpha", 1e-4, 1.0, log=True),
+        }
+    if name == "CatBoost":
+        return {
+            "depth": trial.suggest_int("depth", 4, 8),
+            "learning_rate": trial.suggest_float("learning_rate", 0.01, 0.2, log=True),
+            "l2_leaf_reg": trial.suggest_float("l2_leaf_reg", 1.0, 10.0),
+            "random_strength": trial.suggest_float("random_strength", 0.0, 2.0),
+            "bagging_temperature": trial.suggest_float("bagging_temperature", 0.0, 1.0),
+            "iterations": trial.suggest_int("iterations", 200, 800, step=100),
+        }
+    raise ValueError(name)
+
+
+def _predict_proba(model, x) -> np.ndarray:
+    if hasattr(model, "predict_proba"):
+        return model.predict_proba(x)[:, 1]
+    scores = model.decision_function(x)
+    scores = np.asarray(scores, dtype=float)
+    return 1.0 / (1.0 + np.exp(-scores))
+
+
+def fit_eval(
+    name: str,
+    frame: pd.DataFrame,
+    columns: list[str],
+    categorical: list[str],
+    fit_ids: list[str],
+    stop_ids: list[str],
+    valid_ids: list[str],
+    seed: int,
+    params: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    ids = frame.record_id.astype(str)
+    train = frame[ids.isin(fit_ids)]
+    stop = frame[ids.isin(stop_ids)]
+    valid = frame[ids.isin(valid_ids)]
+    params = params or default_params(name, seed)
+    if name == "CatBoost":
+        cats = [c for c in categorical if c in columns]
+        nums = [c for c in columns if c not in cats]
+        x_train = train[nums + cats].copy()
+        x_stop = stop[nums + cats].copy()
+        x_valid = valid[nums + cats].copy()
+        for c in cats:
+            x_train[c] = x_train[c].astype(str).fillna("Unknown")
+            x_stop[c] = x_stop[c].astype(str).fillna("Unknown")
+            x_valid[c] = x_valid[c].astype(str).fillna("Unknown")
+        for c in nums:
+            med = x_train[c].median()
+            x_train[c] = x_train[c].fillna(med)
+            x_stop[c] = x_stop[c].fillna(med)
+            x_valid[c] = x_valid[c].fillna(med)
+        model = make_estimator(name, params, seed, train.target.to_numpy())
+        cat_idx = list(range(len(nums), len(nums) + len(cats)))
+        model.fit(x_train, train.target.to_numpy(), cat_features=cat_idx, eval_set=(x_stop, stop.target.to_numpy()), use_best_model=True)
+        stop_p = model.predict_proba(x_stop)[:, 1]
+        valid_p = model.predict_proba(x_valid)[:, 1]
+        n_features = x_train.shape[1]
+    else:
+        prep = preprocessor(train, columns, categorical)
+        x_train = prep.fit_transform(train)
+        x_stop = prep.transform(stop)
+        x_valid = prep.transform(valid)
+        y_train = train.target.to_numpy()
+        model = make_estimator(name, params, seed, y_train)
+        if name == "XGB":
+            try:
+                model.fit(x_train, y_train, eval_set=[(x_stop, stop.target.to_numpy())], verbose=False)
+            except TypeError:
+                model.fit(x_train, y_train, eval_set=[(x_stop, stop.target.to_numpy())])
+        else:
+            model.fit(x_train, y_train)
+        stop_p = _predict_proba(model, x_stop)
+        valid_p = _predict_proba(model, x_valid)
+        n_features = int(x_train.shape[1])
+    threshold = select_stop_threshold(stop.target.to_numpy(), stop_p)
+    metrics = binary_metrics(valid.target.to_numpy(), valid_p, threshold=threshold)
+    metrics.update(
+        {
+            "stop_ap": binary_metrics(stop.target.to_numpy(), stop_p)["ap"],
+            "family": name,
+            "n_features": n_features,
+            "params": params,
+            "outer_test_used": False,
+            "valid_record_id": valid.record_id.astype(str).to_numpy(),
+            "valid_p": np.asarray(valid_p, dtype=np.float32),
+            "valid_y": valid.target.to_numpy(),
+            "valid_group": valid.group_id.astype(str).to_numpy(),
+        }
+    )
+    return metrics
+
+
+def predictor_columns(frame: pd.DataFrame) -> tuple[list[str], list[str]]:
+    skip = {"record_id", "group_id", "target", "final_result", "id_student", "G1", "G2"}
+    columns = [c for c in frame.columns if c not in skip]
+    categorical = [c for c in columns if frame[c].dtype == object or str(frame[c].dtype) in {"string", "category"}]
+    return columns, categorical

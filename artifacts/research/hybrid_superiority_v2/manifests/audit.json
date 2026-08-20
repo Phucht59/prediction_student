@@ -1,0 +1,96 @@
+{
+  "authority_ref_commit": "0cb02479154a734240b55bf5525a96e11a72e863",
+  "database": {
+    "database": "student_db",
+    "dbname": "student_db",
+    "host": "localhost",
+    "ok": true,
+    "password_present": true,
+    "port": 5432,
+    "protocol_hash": "eb5f4cfbf4e1629281386367400970241ff68fdaec6c0f7905b0e3a6f33646a2",
+    "protocol_id": "hybrid_superiority_v2.0",
+    "schemas": [
+      "optuna_hs_v2",
+      "research",
+      "recommendation"
+    ],
+    "user": "postgres",
+    "version": "PostgreSQL 18.4 on x86_64-windows, compiled by msvc-19.44.35227, 64-bit"
+  },
+  "git_branch": "research/hybrid-superiority-v2",
+  "git_commit": "0cb02479154a734240b55bf5525a96e11a72e863",
+  "git_dirty": true,
+  "hardware": {
+    "benchmark": {
+      "amp_bf16": {
+        "seconds": 0.006268737500249699,
+        "tflops": 2.7405628618706213
+      },
+      "amp_fp16": {
+        "seconds": 0.0008881250000740692,
+        "tflops": 19.343976560244567
+      },
+      "cuda": {
+        "bf16_supported": true,
+        "capability": [
+          7,
+          5
+        ],
+        "cuda_available": true,
+        "cuda_runtime": "12.8",
+        "cudnn": 91900,
+        "device": "cuda:0",
+        "fail_fast_if_cpu": true,
+        "gpu_name": "NVIDIA GeForce RTX 2060",
+        "silent_cpu_fallback": false,
+        "tf32_supported": false,
+        "torch_version": "2.11.0+cu128",
+        "vram_gb": 6.0
+      },
+      "fp32": {
+        "seconds": 0.003799912499744096,
+        "tflops": 4.521122311410322
+      },
+      "reason": "Turing RTX 2060: FP16 AMP with GradScaler; TF32 is Ampere+ so left off",
+      "selected_amp": "fp16"
+    },
+    "cpu": {
+      "cpu_count_logical": 12,
+      "disk_free_gb": 50.401,
+      "disk_total_gb": 463.886,
+      "machine": "AMD64",
+      "os": "Windows-10-10.0.26220-SP0",
+      "processor": "Intel64 Family 6 Model 165 Stepping 3, GenuineIntel",
+      "python": "3.10.0",
+      "ram_available_gb": 7.928,
+      "ram_gb": 15.855
+    },
+    "env_names_present": [
+      "GEMINI_API_KEY",
+      "OMP_NUM_THREADS",
+      "MKL_NUM_THREADS"
+    ],
+    "git_branch": "research/hybrid-superiority-v2",
+    "git_commit": "0cb02479154a734240b55bf5525a96e11a72e863",
+    "git_dirty": true,
+    "packages": {
+      "catboost": "1.2.10",
+      "imblearn": "0.14.1",
+      "numpy": "2.2.6",
+      "optuna": "4.8.0",
+      "pandas": "2.3.3",
+      "psycopg2": "2.9.12 (dt dec pq3 ext lo64)",
+      "sklearn": "1.7.2",
+      "torch": "2.11.0+cu128",
+      "xgboost": "3.2.0"
+    },
+    "threads": {
+      "MKL_NUM_THREADS": "4",
+      "OMP_NUM_THREADS": "4"
+    },
+    "timestamp": "2026-08-20T17:18:42Z"
+  },
+  "head_matches_audit_commit": true,
+  "protocol_hash": "eb5f4cfbf4e1629281386367400970241ff68fdaec6c0f7905b0e3a6f33646a2",
+  "protocol_id": "hybrid_superiority_v2.0"
+}

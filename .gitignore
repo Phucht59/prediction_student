@@ -107,6 +107,17 @@ db_backups/
 *.backup
 *.sql.gz
 
+# Hybrid superiority v2 research run material (keep protocol/reports/tests)
+artifacts/research/hybrid_superiority_v2/cache/
+artifacts/research/hybrid_superiority_v2/checkpoints/
+artifacts/research/hybrid_superiority_v2/oof/
+artifacts/research/hybrid_superiority_v2/optuna/
+artifacts/research/hybrid_superiority_v2/runs/
+artifacts/research/hybrid_superiority_v2/tmp/
+artifacts/research/hybrid_superiority_v2/figures/
+!artifacts/research/hybrid_superiority_v2/manifests/
+!artifacts/research/hybrid_superiority_v2/manifests/**
+
 # Hybrid vNext experiment caches (keep code + canonical summaries only)
 artifacts/hybrid_vnext/**/cache/
 artifacts/hybrid_vnext/**/runs/
