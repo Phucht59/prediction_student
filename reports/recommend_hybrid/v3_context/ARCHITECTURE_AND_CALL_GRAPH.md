@@ -7,7 +7,7 @@ Authority on `main`: `src/recommend_hybrid/final/` (exported as `RecommendationP
 ```mermaid
 flowchart TD
   subgraph predAuth [Prediction authorities]
-    C0["Phase4 Hybrid C0\nPredictionResult\nCURRENT thesis authority"]
+    C0["Hybrid CNN-BiLSTM\nPredictionResult\nCURRENT thesis authority"]
     H1["H1_TABULAR_RESIDUAL_EXPERT\n5-seed OOF landmark\nWHAT V2 ACTUALLY USED"]
   end
   C0 -. "adapter exists; unused by V2 artifacts" .-> Adapter

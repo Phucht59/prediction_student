@@ -6,13 +6,13 @@ This is the only official V3 held-out claim. Development weak-label metrics are 
 
 | Model | cases | NDCG@3 | P@1 | MRR | R@3 | pairwise | invalid |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| Five-EBM-C0 | 632 | 0.88785 | 0.99206 | 0.99603 | 0.79947 | 0.53849 | 0.0 |
+| Recommendation V | 632 | 0.88785 | 0.99206 | 0.99603 | 0.79947 | 0.53849 | 0.0 |
 | B0 action+stage | 632 | 0.81889 | 0.99365 | 0.99683 | 0.78981 | 0.25377 | 0.0 |
 | B1 rule score | 632 | 0.86649 | 0.99683 | 0.99841 | 0.80357 | 0.45402 | 0.0 |
 
 Exact-best Top-1 agreement: 0.40711462450592883
 
-Bootstrap Five-EBM-C0 minus B1 NDCG@3: mean=0.02131, 95% CI [0.01440, 0.02815], P(diff>0)=1.0000, iterations=2000, seed=2026.
+Bootstrap Recommendation V minus B1 NDCG@3: mean=0.02131, 95% CI [0.01440, 0.02815], P(diff>0)=1.0000, iterations=2000, seed=2026.
 
 Pipeline system rates: {
   "n_cases": 632,
@@ -37,4 +37,4 @@ Pipeline system rates: {
   "unique_top1_actions": 5
 }
 
-Historical Panel B is Recommendation V2 held-out evidence and was not used for V3 tuning or this evaluation.
+Historical Panel B is previous recommendation release held-out evidence and was not used for V3 tuning or this evaluation.

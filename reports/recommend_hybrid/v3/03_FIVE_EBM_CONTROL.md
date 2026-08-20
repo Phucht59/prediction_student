@@ -1,4 +1,4 @@
-# Five-EBM-C0
+# Recommendation V
 
 **STATUS: PASS** as development control
 
@@ -6,7 +6,7 @@ Features: C0 `risk_probability`, H2 `uncertainty`, `risk_margin`, stage, cutoff-
 
 Honest development slice = 179 portable Panel A queries:
 
-| Metric | Five-EBM-C0 |
+| Metric | Recommendation V |
 |---|---:|
 | NDCG@3 | 0.96105 |
 | P@1 | 1.000 |

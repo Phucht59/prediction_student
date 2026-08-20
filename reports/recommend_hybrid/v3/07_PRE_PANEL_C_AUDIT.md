@@ -45,7 +45,7 @@ Panel C is the independent held-out evidence.
 |---|---:|---:|---:|
 | B0 action+stage prior | 0.99408 | 1.00000 | 0.0 |
 | B1 rule score | 0.99707 | 1.00000 | 0.0 |
-| Five-EBM-C0 | 0.99660 | 1.00000 | 0.0 |
+| Recommendation V | 0.99660 | 1.00000 | 0.0 |
 
 ## Leakage / runtime / wiring
 

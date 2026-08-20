@@ -1,5 +1,5 @@
 {
   "superseded_by": "configs/prediction/hybrid_final.json",
-  "note": "Phase8 config is historical. Active thesis authority is Phase 4 Hybrid C0.",
+  "note": "Phase8 config is historical. Active thesis authority is Hybrid CNN-BiLSTM.",
   "active": false
 }

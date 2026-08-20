@@ -1,6 +1,6 @@
-# Recommendation V2 Final Release Summary
+# previous recommendation release Final Release Summary
 
-Recommendation V2 is frozen and authorized for runtime integration under the exact hashed lineage in `FINAL_RELEASE_MANIFEST.json`.
+previous recommendation release is frozen and authorized for runtime integration under the exact hashed lineage in `FINAL_RELEASE_MANIFEST.json`.
 
 - Development freeze: PASS
 - Phase 9 integration: PASS

@@ -33,9 +33,9 @@ def _live_available() -> bool:
         connection.close()
 
 
-def test_lookup_and_predict_frozen_c0():
+def test_lookup_and_predict_frozen_hybrid():
     if not _live_available():
-        pytest.skip("live student_db with C0 predictions is not available")
+        pytest.skip("live student_db with Hybrid CNN-BiLSTM predictions is not available")
     payload = lookup_case("631334", "CCC", "2014B", "20")
     assert payload["ok"] is True
     assert payload["enrollment"]["dataset_key"] == "oulad"
@@ -48,14 +48,14 @@ def test_lookup_and_predict_frozen_c0():
     assert served["prediction"]["prediction_id"] == prediction["prediction_id"]
 
 
-def test_recommend_uses_frozen_v3_without_changing_c0():
+def test_recommend_uses_frozen_v_without_changing_hybrid():
     if not _live_available():
-        pytest.skip("live student_db with C0 predictions is not available")
+        pytest.skip("live student_db with Hybrid CNN-BiLSTM predictions is not available")
     before = predict_case("631334", "CCC", "2014B", "20")
     payload = recommend_case("631334", "CCC", "2014B", "20", persist=False)
     assert payload["ok"] is True
     assert payload["refit"] is False
-    assert payload["ranker"] == "Five-EBM-C0"
+    assert payload["ranker"] == "Recommendation V"
     assert payload["decision"]["route"] in {
         "RECOMMEND",
         "HUMAN_REVIEW",

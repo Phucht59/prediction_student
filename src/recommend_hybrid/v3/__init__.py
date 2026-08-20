@@ -1,4 +1,4 @@
-"""Recommendation V3: Phase4 Hybrid C0 risk + Five-EBM + deterministic plans."""
+"""Recommendation V: Hybrid CNN–BiLSTM risk + Five-EBM + deterministic plans."""
 
 from .contracts import (
     CanonicalAction,

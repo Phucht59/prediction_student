@@ -1,6 +1,6 @@
-# HANDOFF — Recommendation V3 design (for a new ChatGPT session)
+# HANDOFF — Recommendation V design (for a new ChatGPT session)
 
-Dense forensic handoff. Do not train, call Gemini, rerun Panel B, or modify Hybrid C0 / V2 production.
+Dense forensic handoff. Do not train, call Gemini, rerun Panel B, or modify Hybrid CNN-BiLSTM / V2 production.
 
 ## Repo
 
@@ -191,7 +191,7 @@ artifacts/recommend_hybrid/final/panel_a_reviews/**
 artifacts/recommend_hybrid/final/ranker/final_models/**
 Panel B metrics JSON/parquet
 Gemini records
-Hybrid C0 source/metrics
+Hybrid CNN-BiLSTM source/metrics
 recommendation production code (this KB only added v3_context)
 ```
 

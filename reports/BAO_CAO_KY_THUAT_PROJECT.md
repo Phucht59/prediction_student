@@ -1,10 +1,10 @@
 # Báo cáo kỹ thuật hệ thống
 
-**Dự đoán nguy cơ học tập (Hybrid CNN ∥ BiLSTM C0) và khuyến nghị hành động (Five-EBM-C0)**
+**Dự đoán nguy cơ học tập (Hybrid CNN–BiLSTM) và khuyến nghị hành động (Recommendation V)**
 
-Tài liệu này mô tả pipeline đầy đủ của project: từ raw data đến xác suất nguy cơ, rồi đến gói khuyến nghị. Mỗi bước ghi rõ **input**, **xử lý**, **output**. Số liệu kết quả lấy **run tốt nhất theo từng mốc thời gian** (cùng một kiến trúc C0, cùng protocol FIT/STOP/VALID). Bốn thang đo trình bày là **PR-AUC, Accuracy, F1, Recall** — bốn chỉ số Hybrid đạt mức cao nhất trên các mốc có tín hiệu học tập.
+Tài liệu này mô tả pipeline đầy đủ của project: từ raw data đến xác suất nguy cơ, rồi đến gói khuyến nghị. Mỗi bước ghi rõ **input**, **xử lý**, **output**. Số liệu kết quả lấy **run tốt nhất theo từng mốc thời gian** (cùng một kiến trúc Hybrid CNN–BiLSTM, cùng protocol FIT/STOP/VALID). Bốn thang đo trình bày là **PR-AUC, Accuracy, F1, Recall** — bốn chỉ số Hybrid đạt mức cao nhất trên các mốc có tín hiệu học tập.
 
-Authority: Hybrid C0 (Phase 4) → Recommendation V3 Five-EBM-C0. Outer test không dùng cho chốt mô hình.
+Authority: Hybrid CNN–BiLSTM → Recommendation V. Outer test không dùng cho chốt mô hình.
 
 ---
 
@@ -16,11 +16,11 @@ Hệ thống có hai module nối tiếp, không dùng kết quả tương lai:
 RAW CSV
   → tiền xử lý cutoff-safe + FIT-only scale
   → tensor Hybrid (static, temporal, aggregate, mask, progress)
-  → Hybrid C0: CNN ∥ BiLSTM + cổng 3 nhánh
+  → Hybrid CNN–BiLSTM: CNN ∥ BiLSTM + cổng 3 nhánh
   → output dự đoán: p, ngưỡng t, ŷ, H2(p)
   → evidence khuyến nghị (cutoff-safe)
   → feasibility cứng (5 hành động)
-  → Five-EBM-C0 xếp hạng
+  → Recommendation V xếp hạng
   → router an toàn
   → RECOMMEND Top-1  hoặc  HUMAN_REVIEW Top-3  + kế hoạch xác định
 ```
@@ -105,7 +105,7 @@ Với mỗi mốc `f ∈ {0.20, 0.35, 0.50, 0.75, 1.00}`:
 | **STOP** | Early-stop theo macro PR-AUC; chọn ngưỡng `t` (F1 rồi recall rồi `|t−0.5|`) |
 | **VALID** | Báo cáo metric — không fit, không chọn epoch, không chọn `t` |
 
-Split **theo group**: UCI = chữ ký nhân khẩu học; OULAD = `id_student`. FIT ∩ STOP ∩ VALID = ∅. Outer test **không** dùng khi chốt C0.
+Split **theo group**: UCI = chữ ký nhân khẩu học; OULAD = `id_student`. FIT ∩ STOP ∩ VALID = ∅. Outer test **không** dùng khi chốt Hybrid CNN–BiLSTM.
 
 Scaler temporal: `MaskedStandardScaler` — mean/std chỉ trên ô `mask=True` của FIT.
 
@@ -228,7 +228,7 @@ Mọi dataset về cùng schema `UnifiedHybridData`:
 
 ## 6. Kiến trúc mô hình
 
-Một class `Hybrid` (architecture **C0**) cho cả UCI và OULAD. Khác nhau chỉ `Ds, Ct, Da` và trọng số đã fit. Không có mô hình riêng 100%, không có checkpoint theo stage.
+Một class `Hybrid` (**Hybrid CNN–BiLSTM**) cho cả UCI và OULAD. Khác nhau chỉ `Ds, Ct, Da` và trọng số đã fit. Không có mô hình riêng 100%, không có checkpoint theo stage.
 
 Cấu hình dùng chung: `d_fuse = 128`, `cnn_channels = 64`, `bilstm_hidden = 128`, `cnn_blocks = 2`, kernel 2, dilation `(1, 2)`, BiLSTM 1 lớp, dropout theo dataset (UCI 0.41, OULAD 0.32).
 
@@ -344,7 +344,7 @@ Hợp đồng `PredictionResult` (đưa sang khuyến nghị, không lộ CNN/LS
 
 ---
 
-## 10. Kết quả Hybrid C0
+## 10. Kết quả Hybrid CNN–BiLSTM
 
 Mỗi mốc: lấy **một run có PR-AUC cao nhất** trên VALID, rồi ghi bốn thang của **cùng run đó**. Không trộn chỉ số giữa các lần chạy. Không dùng outer test.
 
@@ -458,7 +458,7 @@ Trên OULAD, Hybrid **đứng nhất PR-AUC mọi mốc** và F1 từ 35% trở 
 
 ---
 
-## 12. Module khuyến nghị (Five-EBM-C0)
+## 12. Module khuyến nghị (Recommendation V)
 
 Chỉ OULAD, chỉ mốc 20/35/50/75 (100% không can thiệp). Không khuyến nghị UCI. Không Gemini lúc chạy. Không đụng lại Hybrid.
 
@@ -466,7 +466,7 @@ Chỉ OULAD, chỉ mốc 20/35/50/75 (100% không can thiệp). Không khuyến 
 
 | Bước | Input | Output |
 |---|---|---|
-| 1. Nhận C0 | `PredictionResult` | `p, t, ŷ, H2` |
+| 1. Nhận dự đoán | `PredictionResult` | `p, t, ŷ, H2` |
 | 2. Evidence | Raw OULAD, `t < cutoff` | Bảng learner–stage |
 | 3. Feasibility | 5 hành động + evidence | Tập **eligible** (loại cứng) |
 | 4. Ranker | 17 feature, **không** `action_id` | 5 EBM → điểm `[0,1]` |
@@ -484,7 +484,7 @@ Ví dụ feasibility: `ASSESSMENT_COMPLETION` chỉ khi còn bài thiếu hoặc
 
 | Nhóm | Đặc trưng |
 |---|---|
-| C0 | `risk_probability`, `uncertainty`, `risk_margin`, `stage` |
+| Dự đoán | `risk_probability`, `uncertainty`, `risk_margin`, `stage` |
 | Tiến độ | `course_progress`, `assessments_due`, `missing_assessment_count`, `due_soon_count`, `completion_rate` |
 | Hành vi | `inactivity_streak`, `active_day_rate`, `regularity_score`, `content_coverage`, `quiz_activity` |
 | Sẵn sàng | `vle_available`, `study_material_available`, `quiz_available` |
@@ -510,7 +510,7 @@ Kế hoạch là luật xác định (ví dụ RECOVER_ENGAGEMENT: “4 ngày VL
 
 ### 12.5 Chống leakage / overfit khuyến nghị
 
-- Evidence cùng cutoff với C0; không `final_result`.
+- Evidence cùng cutoff với dự đoán; không `final_result`.
 - EBM không thấy `action_id` (tránh shortcut nhãn).
 - Feasibility **trước** rank: hành động không đủ điều kiện không được điểm.
 - Panel C: 150 học viên / 632 case **rời** Panel A; reviewer không thấy `p`, rank, mô hình, outcome.
@@ -528,11 +528,11 @@ Baseline: B0 (tần suất action×stage), B1 (điểm luật evidence).
 
 | Mô hình | NDCG@3 | P@1 | MRR | R@3 |
 |---|---:|---:|---:|---:|
-| **Five-EBM-C0** | **0.88785** | 0.99206 | 0.99603 | 0.79947 |
+| **Recommendation V** | **0.88785** | 0.99206 | 0.99603 | 0.79947 |
 | B0 | 0.81889 | 0.99365 | 0.99683 | 0.78981 |
 | B1 | 0.86649 | **0.99683** | **0.99841** | **0.80357** |
 
-Five-EBM-C0 **cao nhất NDCG@3** (thang xếp hạng chính). Bootstrap vs B1: trung bình +0.0213, 95% CI [0.0144, 0.0282]. Invalid-action = 0. Đủ 5 hành động ở Top-1.
+Recommendation V **cao nhất NDCG@3** (thang xếp hạng chính). Bootstrap vs B1: trung bình +0.0213, 95% CI [0.0144, 0.0282]. Invalid-action = 0. Đủ 5 hành động ở Top-1.
 
 Pipeline trên 632 case: RECOMMEND 94, HUMAN_REVIEW 175, INSUFFICIENT_EVIDENCE 363, NO_FEASIBLE_ACTION 0.
 
@@ -554,7 +554,7 @@ RAW studentVle/assessments  +  studentInfo
         │  cutoff = 20% độ dài khóa, t < cutoff
         ▼
 temporal [T×11], aggregate [13], static [Ds], progress=0.20
-        │  Hybrid C0 (CNN∥BiLSTM, cổng 3 nhánh)
+        │  Hybrid CNN–BiLSTM (CNN∥BiLSTM, cổng 3 nhánh)
         ▼
 z ∈ ℝ  →  p=0.258, t=0.18, ŷ=1, H2=0.823
         │  + evidence thiếu bài / click

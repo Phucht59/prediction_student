@@ -1,15 +1,15 @@
 # Dự đoán nguy cơ học tập và khuyến nghị hành động
 
-Khóa luận: **Hybrid CNN ∥ BiLSTM (C0)** dự đoán nguy cơ học tập trên **UCI** và **OULAD**, rồi **Five-EBM-C0** xếp hạng hành động hỗ trợ trên OULAD (20/35/50/75%).
+Khóa luận: **Hybrid CNN–BiLSTM** dự đoán nguy cơ học tập trên **UCI** và **OULAD**, rồi **Recommendation V** xếp hạng hành động hỗ trợ trên OULAD (20/35/50/75%).
 
-Hai dataset dùng **cùng kiến trúc C0**. Khác nhau chỉ ở chiều input, FIT-only preprocessing và trọng số đã học.
+Hai dataset dùng **cùng kiến trúc Hybrid CNN–BiLSTM**. Khác nhau chỉ ở chiều input, FIT-only preprocessing và trọng số đã học.
 
 ```text
 Raw CSV
   → cutoff-safe features
-  → Hybrid C0  (CNN ∥ BiLSTM + cổng 3 nhánh)
+  → Hybrid CNN–BiLSTM  (CNN ∥ BiLSTM + cổng 3 nhánh)
   → p, ngưỡng t, ŷ, H₂(p)
-  → feasibility → Five-EBM-C0 → RECOMMEND Top-1 / HUMAN_REVIEW Top-3
+  → feasibility → Recommendation V → RECOMMEND Top-1 / HUMAN_REVIEW Top-3
 ```
 
 Báo cáo kỹ thuật đầy đủ (pipeline I/O từng bước, bảng đặc trưng, kiến trúc, leakage, kết quả):
@@ -46,7 +46,7 @@ Fail / Withdrawn   → Risk
 Pass / Distinction → Non-risk
 ```
 
-Một Hybrid được chấm tại `20% → 35% → 50% → 75% → 100%`. Sự kiện chỉ lấy khi `observation_start ≤ t < cutoff`. Cấm predictor: `final_result`, `score`, `target`, `date_unregistration`. **100% không dùng cho khuyến nghị.**
+Một Hybrid CNN–BiLSTM được chấm tại `20% → 35% → 50% → 75% → 100%`. Sự kiện chỉ lấy khi `observation_start ≤ t < cutoff`. Cấm predictor: `final_result`, `score`, `target`, `date_unregistration`. **100% không dùng cho khuyến nghị.**
 
 ---
 
@@ -76,7 +76,7 @@ Chi tiết từng cột: `reports/BAO_CAO_KY_THUAT_PROJECT.md`.
 
 ---
 
-## 4. Hybrid C0
+## 4. Hybrid CNN–BiLSTM
 
 CNN và BiLSTM **song song** trên cùng chuỗi temporal, rồi hợp với nhánh tabular bằng cổng softmax 3 nhánh (có mask availability).
 
@@ -97,7 +97,7 @@ UCI S0: chưa có chuỗi → CNN/BiLSTM tắt, chỉ tabular. Output: `p`, ngư
 
 ---
 
-## 5. Kết quả dự đoán (bốn thang Hybrid)
+## 5. Kết quả dự đoán (bốn thang)
 
 Mỗi mốc: run có **PR-AUC cao nhất**, bốn chỉ số lấy từ **cùng run**. Không phải trung bình 3×3. Trung bình robust: `reports/prediction/final/FINAL_PREDICTION_MODEL_REPORT.md`.
 
@@ -121,16 +121,16 @@ S0 chưa có điểm — PR-AUC thấp. S2 (đủ G1+G2): PR-AUC 94.17%, Accurac
 | 75% | **0.8993** | 0.8766 | 0.7974 | 0.7080 |
 | 100% | **0.9297** | **0.9098** | **0.8508** | 0.7890 |
 
-Hybrid đứng nhất **PR-AUC mọi cutoff** so với LR, DT, RF, SVM, MLP. Bảng so sánh đầy đủ trong báo cáo kỹ thuật.
+Hybrid CNN–BiLSTM đứng nhất **PR-AUC mọi cutoff** so với LR, DT, RF, SVM, MLP. Bảng so sánh đầy đủ trong báo cáo kỹ thuật.
 
 ---
 
-## 6. Khuyến nghị V3 (Five-EBM-C0)
+## 6. Recommendation V
 
-Chỉ OULAD 20/35/50/75. C0 không bị refit.
+Chỉ OULAD 20/35/50/75. Hybrid CNN–BiLSTM không bị refit.
 
 ```text
-C0 (p, t, H₂)
+Hybrid CNN–BiLSTM (p, t, H₂)
   → evidence cutoff-safe
   → feasibility cứng (5 hành động)
   → 5 EBM, mỗi cái ℝ¹⁷ → s ∈ [0,1]
@@ -144,7 +144,7 @@ Hành động: `ASSESSMENT_COMPLETION`, `RECOVER_ENGAGEMENT`, `STUDY_REGULARITY`
 
 | | NDCG@3 | P@1 | MRR | R@3 | invalid |
 |---|---:|---:|---:|---:|---:|
-| Five-EBM-C0 | **0.88785** | 0.99206 | 0.99603 | 0.79947 | 0 |
+| Recommendation V | **0.88785** | 0.99206 | 0.99603 | 0.79947 | 0 |
 | B0 | 0.81889 | 0.99365 | 0.99683 | 0.78981 | 0 |
 | B1 | 0.86649 | 0.99683 | 0.99841 | 0.80357 | 0 |
 
@@ -154,7 +154,7 @@ NDCG@3 vs B1: +0.0213, 95% CI [0.0144, 0.0282].
 
 ## 7. PostgreSQL (`student_db`)
 
-Luồng lưu trữ: `raw` (3 dataset) → `catalog` → `prediction` (C0) → `recommendation` (V3).
+Luồng lưu trữ: `raw` (3 dataset) → `catalog` → `prediction` (Hybrid CNN–BiLSTM) → `recommendation` (Recommendation V).
 
 ```powershell
 python project.py db status
@@ -164,7 +164,7 @@ python project.py db predict --student 631334 --course CCC --presentation 2014B 
 python project.py db recommend --student 631334 --course CCC --presentation 2014B --stage 20
 ```
 
-`predict` đọc C0 đã lưu (không train lại). `recommend` chạy EBM đóng băng và có thể ghi DB.
+`predict` đọc xác suất đã lưu (không train lại). `recommend` chạy Recommendation V đóng băng và có thể ghi DB.
 
 ---
 
@@ -178,22 +178,22 @@ pytest tests/prediction tests/recommend_hybrid/v3 tests/database -q
 
 | Thành phần | Path |
 |---|---|
-| Hybrid | `src/prediction/model/hybrid.py` |
+| Hybrid CNN–BiLSTM | `src/prediction/model/hybrid.py` |
 | UCI / OULAD features | `src/prediction/data/uci.py`, `oulad_features.py` |
-| V3 ranker / pipeline | `src/recommend_hybrid/v3/` |
+| Recommendation V | `src/recommend_hybrid/v3/` |
 | Live DB runtime | `src/database/live_runtime.py` |
-| Config C0 | `configs/prediction/hybrid_final.json` |
+| Config | `configs/prediction/hybrid_final.json` |
 | Báo cáo kỹ thuật | `reports/BAO_CAO_KY_THUAT_PROJECT.md` |
-| Robust mean C0 | `reports/prediction/final/FINAL_PREDICTION_MODEL_REPORT.md` |
-| V3 final | `reports/recommend_hybrid/v3/FINAL_RECOMMENDATION_V3_REPORT.md` |
+| Robust mean dự đoán | `reports/prediction/final/FINAL_PREDICTION_MODEL_REPORT.md` |
+| Recommendation V final | `reports/recommend_hybrid/v3/FINAL_RECOMMENDATION_V3_REPORT.md` |
 
 ---
 
 ## 9. Authority
 
 ```text
-Prediction       : Hybrid C0 (Phase 4)
-Recommendation   : Five-EBM-C0
+Prediction       : Hybrid CNN–BiLSTM
+Recommendation   : Recommendation V
 UCI              : S0 / S1 / S2
 OULAD predict    : 20 / 35 / 50 / 75 / 100
 OULAD recommend  : 20 / 35 / 50 / 75

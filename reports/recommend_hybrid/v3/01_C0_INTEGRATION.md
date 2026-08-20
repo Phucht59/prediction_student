@@ -2,7 +2,7 @@
 
 **STATUS: PASS**
 
-C0 row-level OOF did not exist on disk. Materialized with frozen Phase4 Hybrid C0 (`src.prediction.Hybrid`), frozen HPO, verified inner splits, no outer, no HPO.
+C0 row-level OOF did not exist on disk. Materialized with frozen Hybrid CNN-BiLSTM (`src.prediction.Hybrid`), frozen HPO, verified inner splits, no outer, no HPO.
 
 | Fold | stop macro PR-AUC | 20pct | 35pct | 50pct | 75pct |
 |---|---:|---:|---:|---:|---:|

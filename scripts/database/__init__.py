@@ -1,1 +1,1 @@
-"""Live PostgreSQL loaders for raw CSVs, Hybrid C0 predictions, and V3 recommendations."""
+"""Live PostgreSQL loaders for raw CSVs, Hybrid CNN–BiLSTM predictions, and Recommendation V."""

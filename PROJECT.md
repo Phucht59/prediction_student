@@ -1,4 +1,4 @@
-# PROJECT — Phase 4 Hybrid C0 (current authority)
+# PROJECT — Hybrid CNN–BiLSTM (current authority)
 
 This is the current project map for the thesis prediction system.
 Historical multiclass / `cnn_bilstm_*` / H1 descriptions live only under
@@ -16,7 +16,7 @@ Binary academic-risk prediction.
 ## Model
 
 - Public name: **Hybrid** (`model_id = hybrid`, class `Hybrid`)
-- Architecture: **C0** — parallel CNN ∥ BiLSTM, corrected availability, 3-way masked softmax, one binary logit
+- Architecture: **Hybrid CNN–BiLSTM** — parallel CNN ∥ BiLSTM, corrected availability, 3-way masked softmax, one binary logit
 - Shared widths: `d_fuse=128`, `cnn_channels=64`, `bilstm_hidden=128`
 - One architecture for UCI and OULAD. No dataset-specific topology. No separate OULAD-100 model.
 
@@ -30,7 +30,7 @@ XGBoost is historical only, not active.
 
 - Thesis-final numbers: Phase 4 robust inner 3×3
 - Outer was **not** opened
-- Research gate recorded `NOT_READY_FOR_FINAL_EVAL` (UCI S0 vs RF). The project owner later selected this C0 as thesis-final authority.
+- Research gate recorded `NOT_READY_FOR_FINAL_EVAL` (UCI S0 vs RF). The project owner later selected this Hybrid CNN–BiLSTM as thesis-final authority.
 
 ## Known limitations
 

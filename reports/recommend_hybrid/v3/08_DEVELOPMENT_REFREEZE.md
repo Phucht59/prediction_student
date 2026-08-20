@@ -6,7 +6,7 @@
 `POST_FREEZE_TUNING_ALLOWED = false`
 
 Reason for V2 freeze: Phase 1 corrected ranking evaluation to runtime-equivalent
-eligible-only semantics (evaluator scope bug). Five-EBM-C0 artifacts were not refit.
+eligible-only semantics (evaluator scope bug). Recommendation V artifacts were not refit.
 Risk-router / pipeline wiring were already correct; regression tests were added.
 
 Panel C protocol completed before any provider call:

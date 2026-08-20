@@ -1,4 +1,4 @@
-# MASTER Recommendation V3 forensic knowledge base
+# MASTER Recommendation V forensic knowledge base
 
 Survey-only. Commit `356becec7802659c4b9ff20171046871425bfade` on `main`.  
 No training, no Gemini, no Panel B rerun, no C0 or V2 production edits.
@@ -11,7 +11,7 @@ Companion files: `HANDOFF_TO_CHATGPT.md`, `ARCHITECTURE_AND_CALL_GRAPH.md`, `DAT
 
 | Item | State |
 |---|---|
-| Thesis prediction | Phase4 Hybrid C0, binary, inner 3×3, outer not opened |
+| Thesis prediction | Hybrid CNN-BiLSTM, binary, inner 3×3, outer not opened |
 | Recommendation on main | V2 explainable five-EBM, frozen Panel B |
 | What V2 actually scores on | **H1_TABULAR_RESIDUAL_EXPERT** OOF risk, not C0 |
 | Gemini | 1117 Panel A + 557 Panel B, frozen, conditionally portable |
@@ -42,7 +42,7 @@ Not H1, not Phase8, not `cnn_bilstm_*`, not XGB.
 
 ---
 
-## 3. Recommendation V2 architecture
+## 3. previous recommendation release architecture
 
 Public: `src/recommend_hybrid/final/` exported from `src/recommend_hybrid/__init__.py` as `RecommendationPipeline = ExplainableRecommendationPipeline`.
 

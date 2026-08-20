@@ -2,7 +2,7 @@
 
 One chain, matching the thesis workflow:
 
-**raw (3 datasets) → catalog (identity) → prediction (Hybrid C0) → recommendation (V3)**
+**raw (3 datasets) → catalog (identity) → prediction (Hybrid CNN–BiLSTM) → recommendation (Recommendation V)**
 
 ```mermaid
 erDiagram
@@ -24,8 +24,8 @@ erDiagram
 |---|---|
 | `raw` | Three source datasets only: `student_mat`, `student_por`, `oulad` |
 | `catalog` | Unified student–course enrollment (UCI + OULAD identities) |
-| `prediction` | Hybrid C0 OOF risk (OULAD stages 20/35/50/75) |
-| `recommendation` | Five-EBM-C0 ranked actions |
+| `prediction` | Hybrid CNN–BiLSTM OOF risk (OULAD stages 20/35/50/75) |
+| `recommendation` | Recommendation V ranked actions |
 
 `raw.dataset` is the join root: both UCI tables and OULAD hang off it, and `catalog.course.dataset_key` points at the same row. That is why raw is no longer an island.
 
@@ -33,8 +33,8 @@ OULAD is **one** landing table (`raw.oulad`) because it is one dataset. The orig
 
 C0 / V3 rows attach to OULAD enrollments only. UCI enrollments exist in `catalog` for identity; they have no V3 recommendations.
 
-Runtime reads **stored Hybrid C0** from `prediction.prediction` (no refit) and can run
-frozen Five-EBM-C0, then write the decision back to `recommendation.*`.
+Runtime reads **stored Hybrid CNN–BiLSTM** from `prediction.prediction` (no refit) and can run
+frozen Recommendation V, then write the decision back to `recommendation.*`.
 
 ## Commands
 

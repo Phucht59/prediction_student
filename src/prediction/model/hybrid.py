@@ -1,4 +1,4 @@
-"""Thesis-final Hybrid: Phase 4 C0, one architecture for UCI and OULAD."""
+"""Thesis-final Hybrid CNN–BiLSTM, one architecture for UCI and OULAD."""
 
 from __future__ import annotations
 

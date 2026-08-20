@@ -1,16 +1,16 @@
-# Recommendation V3 — final report
+# Recommendation V — final report
 
 **FINAL_RECOMMENDATION_V3_READY = true**
 
 ## Runtime authority
 
 ```text
-Phase4 Hybrid C0
+Hybrid CNN–BiLSTM
     → risk_probability + STOP threshold + H2(p)
     → cutoff-safe OULAD 20/35/50/75 evidence
-    → C0-aligned risk router
+    → risk router
     → hard feasibility
-    → Five-EBM-C0
+    → Recommendation V
     → simple safety router
     → RECOMMEND Top-1 or HUMAN_REVIEW Top-3
     → deterministic personalized plan
@@ -30,7 +30,7 @@ Runtime-equivalent evaluation (feasible actions only):
 
 The large LF-only / overall numbers are **development fit/consistency**. They are not confirmatory.
 
-Official development baselines (runtime-equivalent): B0 NDCG@3 = 0.99408; B1 = 0.99707; Five-EBM-C0 = 0.99660. B1 beating Five-EBM on weak labels is expected circularity. The frozen candidate stayed Five-EBM-C0.
+Official development baselines (runtime-equivalent): B0 NDCG@3 = 0.99408; B1 = 0.99707; Recommendation V = 0.99660. B1 beating Five-EBM on weak labels is expected circularity. The frozen candidate stayed Recommendation V.
 
 `PRE_PANEL_C_AUDIT = PASS`. Legacy invalid-action rate 0.0012226 was **A. EVALUATOR_SCOPE_BUG**. Official runtime-equivalent invalid-action rate is 0.
 
@@ -40,13 +40,13 @@ Official development baselines (runtime-equivalent): B0 NDCG@3 = 0.99408; B1 = 0
 
 | Model | NDCG@3 | P@1 | MRR | R@3 | pairwise | invalid |
 |---|---:|---:|---:|---:|---:|---:|
-| Five-EBM-C0 | 0.88785 | 0.99206 | 0.99603 | 0.79947 | 0.53849 | 0.0 |
+| Recommendation V | 0.88785 | 0.99206 | 0.99603 | 0.79947 | 0.53849 | 0.0 |
 | B0 action+stage | 0.81889 | 0.99365 | 0.99683 | 0.78981 | 0.25377 | 0.0 |
 | B1 rule score | 0.86649 | 0.99683 | 0.99841 | 0.80357 | 0.45402 | 0.0 |
 
 Exact-best Top-1 agreement: 0.407.
 
-Bootstrap Five-EBM-C0 minus B1 (best baseline) NDCG@3: mean 0.02131, 95% CI [0.01440, 0.02815], P(diff>0)=1.0, 2000 iterations, seed 2026.
+Bootstrap Recommendation V minus B1 (best baseline) NDCG@3: mean 0.02131, 95% CI [0.01440, 0.02815], P(diff>0)=1.0, 2000 iterations, seed 2026.
 
 Pipeline on the same 632 cases: RECOMMEND 94, HUMAN_REVIEW 175, INSUFFICIENT_EVIDENCE 363, NO_FEASIBLE_ACTION 0. Invalid-action rate 0. Unique Top-1 actions: 5.
 
@@ -54,7 +54,7 @@ Panel C reviewers did not see risk, uncertainty, model identity, ranks, or outco
 
 ## Historical Panel B
 
-Recommendation V2 historical held-out. Not used for V3 tuning or final evaluation.
+Historical recommendation held-out (previous release). Not used for Recommendation V tuning or final evaluation.
 
 ## Claim boundary
 

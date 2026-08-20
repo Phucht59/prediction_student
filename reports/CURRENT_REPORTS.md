@@ -4,11 +4,11 @@ This registry separates **current prediction authority** from historical / super
 
 ## Current prediction authority (only)
 
-The only current thesis prediction model is **Phase 4 Hybrid C0**.
+The only current thesis prediction model is **Hybrid CNN–BiLSTM**.
 
 | Topic | Current source |
 |---|---|
-| Public Hybrid C0 | `src/prediction/model/hybrid.py` |
+| Public Hybrid CNN–BiLSTM | `src/prediction/model/hybrid.py` |
 | Config | `configs/prediction/hybrid_final.json` |
 | Registry | `configs/prediction/registry.json` |
 | Canonical report | `reports/prediction/final/FINAL_PREDICTION_MODEL_REPORT.md` |
@@ -26,14 +26,14 @@ Current comparison roster: Hybrid / LR / DT / RF / SVM / MLP. XGBoost is not cur
 
 | Topic | Current source |
 |---|---|
-| Recommendation V2 release | `artifacts/recommend_hybrid/final/release/FINAL_RELEASE_MANIFEST.json` |
+| Recommendation V | `reports/recommend_hybrid/v3/FINAL_RECOMMENDATION_V3_REPORT.md` |
 | Database schema | `database/final/FINAL_SCHEMA_CONTRACT.md` |
 
 Non-release research trees (old `artifacts/final`, imbalance experiment, H1, Phase2–4 run dumps) were moved to `test_lab/`. See `test_lab/MOVED_FROM_RELEASE.md`.
 
 ## HISTORICAL / SUPERSEDED — DO NOT USE AS CURRENT PREDICTION AUTHORITY
 
-The following are provenance only. They are **not** the current Hybrid C0 authority.
+The following are provenance only. They are **not** the current Hybrid CNN–BiLSTM authority.
 
 | Item | Why it is historical |
 |---|---|

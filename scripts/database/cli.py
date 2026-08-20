@@ -282,7 +282,7 @@ def _insert_predictions(connection, frame: pd.DataFrame, parquet: Path) -> int:
                     """
                     INSERT INTO prediction.model
                         (model_key, display_name, version, model_type, artifact_path, config_path, is_active)
-                    VALUES ('hybrid', 'Hybrid C0', 'final', 'hybrid_cnn_bilstm', %s, %s, TRUE)
+                    VALUES ('hybrid', 'Hybrid CNN-BiLSTM', 'final', 'hybrid_cnn_bilstm', %s, %s, TRUE)
                     RETURNING model_id
                     """,
                     (
@@ -547,10 +547,10 @@ def build_parser() -> argparse.ArgumentParser:
     lookup = sub.add_parser("lookup", help="Read catalog + C0 + V3 for one enrollment from student_db")
     _add_case_args(lookup, stage_required=False)
     lookup.set_defaults(handler=cmd_lookup)
-    predict = sub.add_parser("predict", help="Serve frozen Hybrid C0 from student_db (no refit)")
+    predict = sub.add_parser("predict", help="Serve frozen Hybrid CNN-BiLSTM from student_db (no refit)")
     _add_case_args(predict, stage_required=True)
     predict.set_defaults(handler=cmd_predict)
-    recommend = sub.add_parser("recommend", help="Run frozen Five-EBM-C0 using DB C0 and persist")
+    recommend = sub.add_parser("recommend", help="Run frozen Recommendation V using stored Hybrid CNN-BiLSTM and persist")
     _add_case_args(recommend, stage_required=True)
     recommend.add_argument("--no-persist", action="store_true", help="Do not write the decision")
     recommend.set_defaults(handler=cmd_recommend)

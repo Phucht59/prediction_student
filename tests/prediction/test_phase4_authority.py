@@ -1,4 +1,4 @@
-"""Thesis-final Hybrid C0 contracts. No new training."""
+"""Thesis-final Hybrid CNN–BiLSTM contracts. No new training."""
 
 from __future__ import annotations
 
@@ -231,9 +231,9 @@ def test_current_authority_docs_are_phase4():
     research = (ROOT / "environment.research.yml").read_text(encoding="utf-8")
     assert "xgboost" in research.lower()
     registry = (ROOT / "reports" / "CURRENT_REPORTS.md").read_text(encoding="utf-8")
-    assert "Phase 4 Hybrid C0" in registry
+    assert "Hybrid CNN–BiLSTM" in registry
     assert "PROJECT.md" in registry
-    assert "the current Hybrid C0 authority" in registry
+    assert "the current Hybrid CNN–BiLSTM authority" in registry
     assert "HISTORICAL / SUPERSEDED" in registry
     assert not (ROOT / "artifacts" / "prediction" / "historical" / "phase8").exists()
     assert not (ROOT / "reports" / "prediction" / "historical" / "phase8").exists()

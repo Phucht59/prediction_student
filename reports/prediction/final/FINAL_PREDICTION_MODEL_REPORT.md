@@ -1,6 +1,6 @@
 # Final prediction model
 
-**Authority:** Phase 4 Hybrid C0, selected by the project owner as the thesis-final model.  
+**Authority:** Hybrid CNN–BiLSTM, selected by the project owner as the thesis-final model.  
 **Evaluation:** robust inner 3×3 only.  
 **Outer test used:** `false`.  
 **Historical Phase 4 gate:** `NOT_READY_FOR_FINAL_EVAL` (unchanged in the research record).
@@ -12,7 +12,7 @@
 | `model_id` | `hybrid` |
 | `display_name` | Hybrid |
 | `public_class` | Hybrid |
-| `architecture_id` | C0 |
+| Architecture | Hybrid CNN–BiLSTM |
 | Topology | parallel CNN ∥ BiLSTM, corrected availability, 3-way masked softmax, binary risk logit |
 | Shared widths | `d_fuse=128`, `cnn_channels=64`, `bilstm_hidden=128` |
 | Training family | `L1_control` (Phase 3 numerics; one strategy family) |

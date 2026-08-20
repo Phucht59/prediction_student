@@ -1,7 +1,7 @@
-"""Serve frozen Hybrid C0 + Five-EBM-C0 through live student_db.
+"""Serve frozen Hybrid CNN–BiLSTM + Recommendation V through live student_db.
 
-C0 probabilities are read from prediction.prediction (OOF dump). Hybrid is
-not refit. V3 uses the frozen EBM artifacts and persists the decision.
+Probabilities are read from prediction.prediction (OOF dump). Hybrid is
+not refit. Recommendation V uses the frozen EBM artifacts and persists the decision.
 """
 from __future__ import annotations
 
@@ -240,14 +240,14 @@ def predict_case(student: str, course: str, presentation: str, stage: str) -> di
     if not cases:
         payload["ok"] = False
         payload["error"] = "C0_PREDICTION_NOT_FOUND"
-        payload["note"] = "Frozen Hybrid C0 is served from prediction.prediction; it is not refit."
+        payload["note"] = "Frozen Hybrid CNN–BiLSTM is served from prediction.prediction; it is not refit."
         return payload
     prediction = cases[0]["prediction"]
     return jsonable(
         {
             "ok": True,
             "source": "student_db",
-            "model": "Hybrid C0",
+            "model": "Hybrid CNN-BiLSTM",
             "refit": False,
             "enrollment": payload["enrollment"],
             "query_id": payload["query_id"],
@@ -414,8 +414,8 @@ def recommend_case(
                     "source": "runtime",
                     "persist": persist,
                     "refit": False,
-                    "c0_source": "prediction.prediction",
-                    "ranker": "Five-EBM-C0",
+                    "prediction_source": "prediction.prediction",
+                    "ranker": "Recommendation V",
                     "enrollment": enrollment,
                     "query_id": query_id,
                     "prediction": prediction,

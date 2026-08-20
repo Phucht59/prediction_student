@@ -4,7 +4,7 @@ Survey commit: `356becec7802659c4b9ff20171046871425bfade`.
 
 ## High-priority verdict
 
-Recommendation V2 **training, threshold selection, EBM features, and Panel A/B cases** use **H1_TABULAR_RESIDUAL_EXPERT** frozen OOF probabilities, not Phase 4 Hybrid C0.
+previous recommendation release **training, threshold selection, EBM features, and Panel A/B cases** use **H1_TABULAR_RESIDUAL_EXPERT** frozen OOF probabilities, not Hybrid CNN-BiLSTM.
 
 Evidence:
 
@@ -14,7 +14,7 @@ Evidence:
 - `seed_disagreement` is forced to missing (`MISSING_IN_SOURCE_ARTIFACT`).
 - `src/recommend_hybrid/prediction_adapter.py` is a **compatibility layer only**. Nothing in the frozen V2 feature table path calls it.
 
-Current prediction authority is Hybrid C0 (`src/prediction/contracts.py`, `configs/prediction/hybrid_final.json`, `artifacts/prediction/final/FINALIZATION_DECISION.json`).
+Current prediction authority is Hybrid CNN-BiLSTM (`src/prediction/contracts.py`, `configs/prediction/hybrid_final.json`, `artifacts/prediction/final/FINALIZATION_DECISION.json`).
 
 ## Prediction → recommendation input contract
 

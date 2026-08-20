@@ -6,7 +6,7 @@
 model_id = hybrid
 display_name = Hybrid
 public_class = Hybrid
-architecture_id = C0
+architecture = Hybrid CNN-BiLSTM
 source_phase = Phase4
 evaluation_status = robust_inner_finalized
 outer_test_used = false
