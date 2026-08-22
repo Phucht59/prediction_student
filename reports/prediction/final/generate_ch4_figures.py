@@ -30,7 +30,7 @@ plt.rcParams.update(
 UCI_STAGES = ["S0", "S1", "S2"]
 OULAD_STAGES = ["20pct", "35pct", "50pct", "75pct", "100pct"]
 OULAD_LABELS = ["20%", "35%", "50%", "75%", "100%"]
-SERVING = ["Hybrid", "LR", "DT", "RF", "SVM", "MLP"]
+SERVING = ["Hybrid", "LR", "DT", "RF", "SVM", "MLP", "XGB"]
 COLORS = {
     "Hybrid": "#1f4e79",
     "LR": "#7f8c8d",
@@ -62,16 +62,16 @@ def fig01_uci_ap_serving(frame: pd.DataFrame) -> Path:
     sub = frame[(frame.dataset == "uci") & (frame.model.isin(SERVING)) & (frame.stage.isin(UCI_STAGES))]
     fig, ax = plt.subplots(figsize=(8.2, 4.4))
     x = np.arange(len(UCI_STAGES))
-    width = 0.13
+    width = 0.11
     for i, model in enumerate(SERVING):
         vals = [float(sub[(sub.model == model) & (sub.stage == st)].pr_auc.iloc[0]) for st in UCI_STAGES]
-        ax.bar(x + (i - 2.5) * width, vals, width, label=model, color=COLORS[model])
+        ax.bar(x + (i - 3) * width, vals, width, label=model, color=COLORS[model])
     ax.set_xticks(x)
     ax.set_xticklabels(UCI_STAGES)
     ax.set_ylabel("AP")
     ax.set_ylim(0.35, 1.0)
     ax.set_title("Hybrid CNN–BiLSTM UCI — AP theo mốc thông tin (3×3); cột khác là bộ so sánh")
-    ax.legend(ncol=3, fontsize=8)
+    ax.legend(ncol=4, fontsize=8)
     return _save(fig, "fig01_uci_ap_serving.png")
 
 
@@ -79,16 +79,16 @@ def fig02_oulad_ap_serving(frame: pd.DataFrame) -> Path:
     sub = frame[(frame.dataset == "oulad") & (frame.model.isin(SERVING)) & (frame.stage.isin(OULAD_STAGES))]
     fig, ax = plt.subplots(figsize=(9.2, 4.6))
     x = np.arange(len(OULAD_STAGES))
-    width = 0.13
+    width = 0.11
     for i, model in enumerate(SERVING):
         vals = [float(sub[(sub.model == model) & (sub.stage == st)].pr_auc.iloc[0]) for st in OULAD_STAGES]
-        ax.bar(x + (i - 2.5) * width, vals, width, label=model, color=COLORS[model])
+        ax.bar(x + (i - 3) * width, vals, width, label=model, color=COLORS[model])
     ax.set_xticks(x)
     ax.set_xticklabels(OULAD_LABELS)
     ax.set_ylabel("AP")
     ax.set_ylim(0.65, 0.95)
     ax.set_title("Hybrid CNN–BiLSTM OULAD — AP theo cutoff (3×3); cột khác là bộ so sánh")
-    ax.legend(ncol=3, fontsize=8)
+    ax.legend(ncol=4, fontsize=8)
     return _save(fig, "fig02_oulad_ap_serving.png")
 
 
@@ -190,46 +190,37 @@ def fig07_ece() -> Path:
 
 
 def fig08_parity_uci() -> Path:
-    raw = pd.read_csv(DATA / "baseline_fair_stage_metrics_uci.csv")
-    g = raw.groupby(["model", "stage"])["ap"].mean().reset_index()
-    models = ["LR", "DT", "RF", "SVM", "XGB", "CatBoost", "MLP"]
-    # Hybrid same-run means from CHUONG_3 3.3.6
-    hybrid = {"S0": 0.4559, "S1": 0.8110, "S2": 0.9132}
+    frame = load_serving()
+    g = frame[(frame.dataset == "uci") & (frame.model.isin(SERVING))]
     fig, ax = plt.subplots(figsize=(8.4, 4.5))
     x = np.arange(3)
-    width = 0.1
-    series = [("Hybrid", [hybrid[s] for s in UCI_STAGES], COLORS["Hybrid"])]
-    for model in models:
-        series.append((model, [float(g[(g.model == model) & (g.stage == st)].ap.iloc[0]) for st in UCI_STAGES], COLORS.get(model, "#555")))
-    for i, (name, vals, color) in enumerate(series):
-        ax.bar(x + (i - 3.5) * width, vals, width, label=name, color=color)
+    width = 0.11
+    for i, model in enumerate(SERVING):
+        vals = [float(g[(g.model == model) & (g.stage == st)].pr_auc.iloc[0]) for st in UCI_STAGES]
+        ax.bar(x + (i - 3) * width, vals, width, label=model, color=COLORS.get(model, "#555"))
     ax.set_xticks(x)
     ax.set_xticklabels(UCI_STAGES)
     ax.set_ylabel("AP")
-    ax.set_title("Hybrid CNN–BiLSTM UCI trên cùng tensor — AP 3×3; family còn lại chỉ đối chiếu")
+    ax.set_title("Hybrid CNN–BiLSTM UCI — AP khóa 3×3 (S1/S2 là claim chính); bộ so sánh cùng protocol")
     ax.legend(ncol=4, fontsize=7)
     ax.set_ylim(0.35, 0.95)
     return _save(fig, "fig08_parity_uci_ap.png")
 
 
 def fig09_parity_oulad() -> Path:
-    raw = pd.read_csv(DATA / "baseline_fair_stage_metrics_oulad.csv")
-    g = raw.groupby(["model", "stage"])["ap"].mean().reset_index()
-    hybrid = {"20pct": 0.7469, "35pct": 0.8054, "50pct": 0.8524, "75pct": 0.8929, "100pct": 0.9190}
-    models = ["LR", "DT", "RF", "SVM", "XGB", "CatBoost", "MLP"]
+    frame = load_serving()
+    g = frame[(frame.dataset == "oulad") & (frame.model.isin(SERVING))]
     fig, ax = plt.subplots(figsize=(9.2, 4.6))
     x = np.arange(5)
-    width = 0.1
-    series = [("Hybrid", [hybrid[s] for s in OULAD_STAGES], COLORS["Hybrid"])]
-    for model in models:
-        series.append((model, [float(g[(g.model == model) & (g.stage == st)].ap.iloc[0]) for st in OULAD_STAGES], COLORS.get(model, "#555")))
-    for i, (name, vals, color) in enumerate(series):
-        ax.bar(x + (i - 3.5) * width, vals, width, label=name, color=color)
+    width = 0.11
+    for i, model in enumerate(SERVING):
+        vals = [float(g[(g.model == model) & (g.stage == st)].pr_auc.iloc[0]) for st in OULAD_STAGES]
+        ax.bar(x + (i - 3) * width, vals, width, label=model, color=COLORS.get(model, "#555"))
     ax.set_xticks(x)
     ax.set_xticklabels(OULAD_LABELS)
     ax.set_ylabel("AP")
-    ax.set_ylim(0.68, 0.94)
-    ax.set_title("Hybrid CNN–BiLSTM OULAD trên cùng tensor — AP tăng theo cutoff (3×3)")
+    ax.set_ylim(0.65, 0.95)
+    ax.set_title("Hybrid CNN–BiLSTM OULAD — AP khóa tăng theo cutoff; một checkpoint, bộ so sánh cùng protocol")
     ax.legend(ncol=4, fontsize=7)
     return _save(fig, "fig09_parity_oulad_ap.png")
 

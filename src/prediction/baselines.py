@@ -1,4 +1,4 @@
-"""Active comparator factory. XGBoost is not constructible."""
+"""Active comparator factory. One-weight roster including XGBoost."""
 
 from __future__ import annotations
 
@@ -16,9 +16,22 @@ ACTIVE_BASELINES = (
     "Random Forest",
     "SVM",
     "MLP",
+    "XGBoost",
 )
 
-ACTIVE_BASELINE_IDS = ("LR", "DT", "RF", "SVM", "MLP")
+ACTIVE_BASELINE_IDS = ("LR", "DT", "RF", "SVM", "MLP", "XGB")
+
+XGB_FIXED = {
+    "n_estimators": 200,
+    "max_depth": 5,
+    "learning_rate": 0.05,
+    "subsample": 0.8,
+    "colsample_bytree": 0.8,
+    "objective": "binary:logistic",
+    "eval_metric": "logloss",
+    "tree_method": "hist",
+    "verbosity": 0,
+}
 
 
 def make_svm(seed: int, *, kernel: str = "rbf", C: float = 1.0, gamma: str = "scale", class_weight: str = "balanced"):
@@ -29,11 +42,35 @@ def make_svm(seed: int, *, kernel: str = "rbf", C: float = 1.0, gamma: str = "sc
     return SVC(kernel="rbf", C=C, gamma=gamma, class_weight=cw, probability=True, random_state=seed)
 
 
-def build_baseline(name: str, *, random_state: int = 42, dataset: str | None = None):
+def _scale_pos_weight(y_train) -> float:
+    if y_train is None:
+        return 1.0
+    import numpy as np
+
+    y = np.asarray(y_train)
+    n_pos = max(1, int(y.sum()))
+    n_neg = max(1, int(len(y) - n_pos))
+    return n_neg / n_pos
+
+
+def make_xgboost(seed: int, *, y_train=None, n_jobs: int = 1):
+    from xgboost import XGBClassifier
+
+    return XGBClassifier(
+        **XGB_FIXED,
+        n_jobs=n_jobs,
+        random_state=seed,
+        scale_pos_weight=_scale_pos_weight(y_train),
+    )
+
+
+def build_baseline(name: str, *, random_state: int = 42, dataset: str | None = None, y_train=None):
     aliases = {
         "LR": "Logistic Regression",
         "DT": "Decision Tree",
         "RF": "Random Forest",
+        "XGB": "XGBoost",
+        "XGBOOST": "XGBoost",
     }
     name = aliases.get(name, name)
     if name == "Logistic Regression":
@@ -48,9 +85,9 @@ def build_baseline(name: str, *, random_state: int = 42, dataset: str | None = N
         return make_svm(random_state, kernel="rbf", C=1.0, gamma="scale", class_weight="balanced")
     if name == "MLP":
         return MLPClassifier(hidden_layer_sizes=(128, 64), alpha=1e-4, max_iter=250, random_state=random_state)
-    if name.upper() in {"XGB", "XGBOOST"}:
-        raise ValueError("XGBoost is not an active baseline")
+    if name == "XGBoost":
+        return make_xgboost(random_state, y_train=y_train)
     raise ValueError(f"unknown active baseline: {name}")
 
 
-__all__ = ["ACTIVE_BASELINES", "ACTIVE_BASELINE_IDS", "build_baseline", "make_svm"]
+__all__ = ["ACTIVE_BASELINES", "ACTIVE_BASELINE_IDS", "XGB_FIXED", "build_baseline", "make_svm", "make_xgboost"]

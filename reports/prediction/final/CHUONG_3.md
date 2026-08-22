@@ -1,35 +1,33 @@
 # Chương 3. Phân tích và thiết kế hệ thống
 
-Đối tượng nghiên cứu chính của đề tài là mô hình **Hybrid CNN–BiLSTM**, dùng để dự đoán nguy cơ học tập nhị phân trên hai miền dữ liệu độc lập UCI và OULAD, kết hợp **Recommendation V** để xếp hạng hành động hỗ trợ trên OULAD. Các mô hình học máy cổ điển (hồi quy logistic, cây quyết định, rừng ngẫu nhiên, SVM, mạng perceptron đa lớp) chỉ đóng vai trò bộ so sánh cùng giao thức, không phải mô hình khóa của khóa luận.
+Đối tượng nghiên cứu chính của đề tài là mô hình **Hybrid CNN–BiLSTM**, dùng để dự đoán nguy cơ học tập nhị phân trên hai miền độc lập UCI và OULAD, kết hợp **Recommendation V** để xếp hành động hỗ trợ trên OULAD. Các mô hình học máy cổ điển (hồi quy logistic, cây quyết định, rừng ngẫu nhiên, SVM, mạng perceptron đa lớp, XGBoost) chỉ là bộ so sánh cùng giao thức, không phải mô hình khóa.
 
-Chương này trình bày phân tích dữ liệu đầu vào, quy trình tiền xử lý, kiến trúc mô hình đề xuất, cấu hình và quy trình huấn luyện, cách đóng gói phục vụ, và thiết kế Recommendation V. **Toàn bộ số liệu hiệu suất, biểu đồ thực nghiệm và nhận xét kết quả được trình bày ở Chương 4.**
+Chương này trình bày phân tích dữ liệu đầu vào, quy trình tiền xử lý, kiến trúc mô hình, cấu hình huấn luyện, cách đóng gói phục vụ, và thiết kế Recommendation V. **Toàn bộ số liệu hiệu suất, biểu đồ thực nghiệm và nhận xét kết quả được trình bày ở Chương 4.**
 
 ---
 
 ## 3.1. Phân tích dữ liệu đầu vào
 
-Trước khi xây dựng mô hình, việc phân tích và tìm hiểu sâu về dữ liệu đầu vào là một bước vô cùng quan trọng. Bước này giúp đảm bảo các đặc trưng được lựa chọn là phù hợp, không rò rỉ nhãn hay thông tin tương lai, và có ý nghĩa đối với bài toán cảnh báo sớm.
+Trước khi xây dựng mô hình, việc phân tích dữ liệu đầu vào là bước bắt buộc. Bước này bảo đảm đặc trưng được chọn phù hợp với cảnh báo sớm, không rò rỉ nhãn hay thông tin tương lai, và có vai trò rõ trong từng nhánh của Hybrid.
 
 ### 3.1.1. Mô tả bộ dữ liệu
 
-Đề tài sử dụng **hai bộ dữ liệu độc lập**, không gộp thành một tập huấn luyện chung. Cùng một class `Hybrid` nhận tensor thống nhất; sự khác nhau giữa hai miền nằm ở chiều đầu vào, bộ scaler FIT-only và trọng số đã học.
+Đề tài sử dụng **hai bộ dữ liệu độc lập**, không gộp thành một tập huấn luyện chung. Cùng một class `Hybrid` nhận tensor thống nhất; khác nhau giữa hai miền nằm ở chiều đầu vào, scaler FIT-only và trọng số đã học.
 
-**UCI Student Performance (Cortez & Silva, 2008).** Đề tài gộp hai file gốc Mathematics (395 dòng) và Portuguese (649 dòng) thành **1 044 bản ghi**, 33 cột gốc, định dạng CSV phân tách bằng dấu `;`. Mỗi bản ghi là một cặp (học sinh, môn) trong một học kỳ. Bản chất dữ liệu là **tĩnh theo học kỳ**: chuỗi điểm tối đa **T = 2** (G1 rồi G2).
+**UCI Student Performance (Cortez và Silva, 2008).** Đề tài gộp Mathematics (395 dòng) và Portuguese (649 dòng) thành **1 044 bản ghi**, 33 cột gốc, CSV phân tách `;`. Mỗi bản ghi là một cặp (học sinh, môn) trong một học kỳ. Bản chất dữ liệu là **tĩnh theo học kỳ**: chuỗi điểm tối đa **T = 2** (G1 rồi G2).
 
 Nhãn nhị phân được tạo một lần từ điểm cuối kỳ:
 
 - `risk = 1` khi `G3 < 10`
 - `risk = 0` khi `G3 ≥ 10`
 
-Tỷ lệ lớp nguy cơ trên toàn bộ 1 044 bản ghi là **0.220** (230/1044). `G3` trung bình 11.34. Để tách nhóm khi chia fold, 13 trường quasi-identity (`school`, `sex`, `age`, `address`, `famsize`, `Pstatus`, `Medu`, `Fedu`, `Mjob`, `Fjob`, `reason`, `nursery`, `internet`) tạo **662** `global_student_group`; 366 nhóm xuất hiện ở cả hai môn.
+Tỷ lệ lớp nguy cơ trên 1 044 bản ghi là **0.220** (230/1044). `G3` trung bình 11.34. Để tách nhóm khi chia fold, 13 trường quasi-identity (`school`, `sex`, `age`, `address`, `famsize`, `Pstatus`, `Medu`, `Fedu`, `Mjob`, `Fjob`, `reason`, `nursery`, `internet`) tạo **662** `global_student_group`; 366 nhóm xuất hiện ở cả hai môn.
 
-Thông tin điểm giữa kỳ được đưa vào theo mốc, không phải lúc nào cũng có đủ:
+Thông tin điểm giữa kỳ được đưa vào theo mốc, không phải lúc nào cũng đủ:
 
 - S0: chưa có `G1`/`G2`
 - S1: đã có `G1`
 - S2: đã có `G1` rồi `G2`
-
-Chi tiết các nhóm thuộc tính UCI sau khi xác định vai trò trong mô hình được mô tả trong bảng dưới đây:
 
 | Tên thuộc tính | Mô tả | Vai trò trong mô hình |
 |---|---|---|
@@ -42,7 +40,7 @@ Chi tiết các nhóm thuộc tính UCI sau khi xác định vai trò trong mô 
 
 **Bảng 3.1.** Mô tả các thuộc tính UCI sau khi xác định vai trò trong Hybrid CNN–BiLSTM.
 
-**OULAD (Kuzilek, Hlosta & Zdrahal, 2017).** 32 593 enrollment, 28 785 sinh viên. Nhật ký `studentVle` gồm 10 655 280 dòng click. Bản chất dữ liệu là **tương tác theo thời gian**: mỗi enrollment là chuỗi tuần VLE cộng đặc trưng gộp tại cutoff.
+**OULAD (Kuzilek, Hlosta và Zdrahal, 2017).** 32 593 enrollment, 28 785 sinh viên. Nhật ký `studentVle` gồm 10 655 280 dòng click. Bản chất dữ liệu là **tương tác theo thời gian**: mỗi enrollment là chuỗi tuần VLE cộng đặc trưng gộp tại cutoff.
 
 Nhãn nhị phân:
 
@@ -80,7 +78,7 @@ SHA-256 từng file gốc được khóa trong protocol (in-repo, không dump ng
 
 ### 3.1.2. Phân tích tương quan và lựa chọn thuộc tính
 
-Để hiểu rõ hơn mối quan hệ giữa các biến nền tảng và nhãn nguy cơ trên UCI, hệ số Spearman với nhãn `G3 < 10` (n = 1 044) được tính trên dữ liệu thô. Đây là mô tả dữ liệu trước khi FIT-scale, không phải thứ tự importance sau khi huấn luyện.
+Để hiểu mối quan hệ giữa biến nền và nhãn nguy cơ trên UCI, hệ số Spearman với nhãn `G3 < 10` (n = 1 044) được tính trên dữ liệu thô. Đây là mô tả dữ liệu **trước** FIT-scale, không phải thứ tự importance sau khi huấn luyện, và không phải bảng hiệu suất mô hình.
 
 | Thuộc tính | Spearman | p | Đưa vào Hybrid? |
 |---|---:|---:|---|
@@ -96,34 +94,34 @@ SHA-256 từng file gốc được khóa trong protocol (in-repo, không dump ng
 
 Dựa trên phân tích:
 
-- **Tương quan nghịch với nhãn nguy cơ:** `G1`, `G2`, `G3` đều cho thấy tương quan nghịch mạnh: điểm càng cao thì xác suất `G3 < 10` càng thấp. `G3` bị loại khỏi predictor vì chính nó tạo nhãn. `G1`/`G2` được giữ nhưng **chỉ khi mốc đã quan sát được**, dưới dạng chuỗi temporal có mask (và tóm tắt aggregate cùng mốc), không đưa vào vector context tĩnh.
+- **Tương quan nghịch với nhãn nguy cơ:** `G1`, `G2`, `G3` tương quan nghịch mạnh: điểm càng cao thì xác suất `G3 < 10` càng thấp. `G3` bị loại khỏi predictor vì chính nó tạo nhãn. `G1`/`G2` được giữ nhưng **chỉ khi mốc đã quan sát được**, dưới dạng chuỗi temporal có mask (và tóm tắt aggregate cùng mốc), không đưa vào vector context tĩnh.
 - **Tương quan thuận với nhãn nguy cơ:** `failures` là tín hiệu static mạnh nhất còn lại (+0.376). `age` và một số biến nền (`Fedu`, `studytime`, `goout`, `Medu`) có tương quan yếu hơn nhưng vẫn mang ngữ cảnh.
-- **Tín hiệu bị cấm dù |ρ| nhỏ:** `absences` có |ρ| = 0.052 (p = 0.091). Việc cấm không dựa trên Spearman yếu, mà vì số buổi vắng có thể đồng thời với kết quả, không hợp với cảnh báo sớm.
+- **Tín hiệu bị cấm dù |ρ| nhỏ:** `absences` có |ρ| = 0.052 (p = 0.091). Việc cấm không dựa trên Spearman yếu, mà vì số buổi vắng có thể đồng thời với kết quả.
 
 **Lý do lựa chọn thuộc tính:**
 
-Mặc dù một số tương quan static không quá mạnh, chúng vẫn cho thấy sự tồn tại của mối liên hệ giữa hoàn cảnh học tập và nguy cơ. Trong bài toán cảnh báo sớm, việc đưa vào các biến ngữ cảnh (exogenous) có liên quan cung cấp thêm thông tin cho nhánh tabular, trong khi tín hiệu mạnh `G1`/`G2` (UCI) và nhật ký VLE (OULAD) được để cho CNN và BiLSTM khai thác theo thời gian.
+Mặc dù một số tương quan static không quá mạnh, chúng vẫn cho thấy mối liên hệ giữa hoàn cảnh học tập và nguy cơ. Trong cảnh báo sớm, biến ngữ cảnh (exogenous) cung cấp tín hiệu cho nhánh tabular, trong khi `G1`/`G2` (UCI) và nhật ký VLE (OULAD) được để cho CNN và BiLSTM khai thác theo thời gian.
 
-Do đó, đề tài quyết định:
+Do đó đề tài quyết định:
 
-- Giữ toàn bộ context tĩnh hợp lệ (categorical + numeric ở mục 3.1.1), trừ các trường đã cấm.
+- Giữ toàn bộ context tĩnh hợp lệ (mục 3.1.1), trừ trường đã cấm.
 - Đưa `G1`/`G2` vào chuỗi temporal đúng mốc; không dùng `G3` làm đầu vào.
-- Trên OULAD, khóa 11 kênh temporal / tuần và 13 số aggregate tại cutoff như đã liệt kê — không dùng `final_result`, `score`, `date_unregistration` hay độ dài chuỗi làm predictor.
+- Trên OULAD, khóa 11 kênh temporal / tuần và 13 số aggregate tại cutoff — không dùng `final_result`, `score`, `date_unregistration` hay độ dài chuỗi làm predictor.
 
 ---
 
 ## 3.2. Quy trình tiền xử lý dữ liệu
 
-Để xây dựng một mô hình học sâu hiệu quả, việc chuẩn bị một bộ tensor sạch, cutoff-safe và được chuẩn hóa đúng cách là bước nền tảng. Quy trình tiền xử lý được thực hiện có hệ thống, từ file CSV gốc đến `UnifiedHybridData` sẵn sàng cho Hybrid CNN–BiLSTM.
+Để huấn luyện học sâu ổn định, cần một bộ tensor sạch, cutoff-safe và chuẩn hóa đúng cách. Quy trình đi từ CSV gốc đến `UnifiedHybridData`.
 
 ### 3.2.1. Thu thập và khám phá dữ liệu
 
-Quá trình tiền xử lý bắt đầu bằng việc đọc dữ liệu gốc trong `data/raw/`.
+Quá trình bắt đầu bằng việc đọc `data/raw/`.
 
 - **UCI:** bắt buộc đúng 395 dòng Mathematics + 649 dòng Portuguese; thêm cột `subject` (`math` / `portuguese`).
-- **OULAD:** join `studentInfo`–`studentRegistration`–`courses`; log VLE và assessment được đọc riêng theo từng cutoff.
+- **OULAD:** join `studentInfo`–`studentRegistration`–`courses`; log VLE và assessment đọc riêng theo từng cutoff.
 
-Các bước khảo sát ban đầu cho thấy:
+Khảo sát ban đầu cho thấy:
 
 - UCI đang ở dạng bản ghi học kỳ, chưa phải chuỗi tuần.
 - OULAD `studentVle` ở dạng sự kiện click; phải gom theo tuần **trước** cutoff.
@@ -131,32 +129,26 @@ Các bước khảo sát ban đầu cho thấy:
 
 ### 3.2.2. Tái cấu trúc và xử lý rò rỉ thời gian
 
-Sau khi đọc file gốc, dữ liệu trải qua các bước biến đổi để có cấu trúc phù hợp cho mô hình chuỗi có mask, đồng thời loại rò rỉ thời gian.
+Sau khi đọc file gốc, dữ liệu được biến đổi để có cấu trúc chuỗi có mask, đồng thời loại rò rỉ.
 
-**UCI:**
+- **UCI:**
+  - Chuyển đổi nhãn: `target` từ `G3` một lần theo `G3 < 10`.
+  - Định danh: `record_id` = hash ổn định (`subject`, chỉ số dòng, chữ ký identity); `global_student_group` = hash 13 trường quasi-identity.
+  - Chuỗi: bước 0 = `G1/20` (nếu S1/S2), bước 1 = `G2/20` (nếu S2); S0 mask toàn 0.
+  - Tóm tắt aggregate cùng mốc (5 chiều): S0 tắt (`aggregate_available = 0`); S1/S2 bật trên điểm **đã có**. Đây không phải thông tin tương lai.
+  - Context tĩnh: one-hot / scale các cột đã chọn; `G1`, `G2`, `G3`, `absences` không vào nhánh static.
+- **OULAD:**
+  - Gom VLE **theo tuần** với `event_time < cutoff`.
+  - Assessment chỉ tính hạn / `date_submitted` **trước** cutoff.
+  - Enrollment có `date_unregistration < cutoff` bị loại khỏi mốc đó.
+  - 100%: còn 94 Withdrawn sau lọc — không dùng độ dài chuỗi làm proxy Withdrawn cho cảnh báo sớm.
 
-- Chuyển đổi nhãn: `target` từ `G3` một lần theo quy tắc `G3 < 10`.
-- Tái cấu trúc định danh: `record_id` = hash ổn định (`subject`, chỉ số dòng, chữ ký identity); `global_student_group` = hash 13 trường quasi-identity.
-- Tái cấu trúc chuỗi: bước 0 = `G1/20` (nếu S1/S2), bước 1 = `G2/20` (nếu S2); S0 mask toàn 0.
-- Tóm tắt aggregate cùng mốc (5 chiều): S0 tắt (`aggregate_available = 0`); S1/S2 bật trên điểm **đã có** tại mốc đó. Đây không phải thông tin tương lai.
-- Context tĩnh: one-hot / scale các cột categorical và numeric đã chọn; `G1`, `G2`, `G3`, `absences` không vào nhánh static.
-
-**OULAD:**
-
-- Gom VLE **theo tuần** với điều kiện `event_time < cutoff`.
-- Assessment chỉ tính hạn / `date_submitted` **trước** cutoff.
-- Enrollment có `date_unregistration < cutoff` bị loại khỏi mốc đó.
-- 100%: 94 Withdrawn còn lại sau lọc — không dùng độ dài chuỗi làm proxy Withdrawn cho cảnh báo sớm.
-
-Kết quả của giai đoạn này là hai bộ tensor cùng schema `UnifiedHybridData`, mỗi miền một scaler FIT-only, sẵn sàng cho kiến trúc chung.
+Kết quả giai đoạn này: hai bộ tensor cùng schema `UnifiedHybridData`, mỗi miền một scaler FIT-only.
 
 ### 3.2.3. Chuẩn hóa và phân chia dữ liệu
 
-**Tensor thống nhất** (`UnifiedHybridData`):
-
-`static [N, Ds]`, `temporal [N, T, C]`, `temporal_mask [N, T]`, `lengths [N]`, `aggregate [N, Da]`, `aggregate_available [N]`, `progress [N]`, `target`, `record_id`, `group_id`.
-
-Ràng buộc: `lengths = sum(mask)`; ô temporal bị mask ≈ 0; `target ∈ {0,1}`; `progress ∈ [0,1]`.
+- **Tensor thống nhất** (`UnifiedHybridData`): `static [N, Ds]`, `temporal [N, T, C]`, `temporal_mask [N, T]`, `lengths [N]`, `aggregate [N, Da]`, `aggregate_available [N]`, `progress [N]`, `target`, `record_id`, `group_id`.
+  - Ràng buộc: `lengths = sum(mask)`; ô temporal bị mask ≈ 0; `target ∈ {0,1}`; `progress ∈ [0,1]`.
 
 | Miền | T | C | Da | progress |
 |---|---:|---:|---:|---|
@@ -165,27 +157,23 @@ Ràng buộc: `lengths = sum(mask)`; ô temporal bị mask ≈ 0; `target ∈ {0
 
 **Bảng 3.5.** Kích thước tensor thống nhất theo miền.
 
-**Chuẩn hóa dữ liệu (FIT-only):**
-
-- Context tĩnh: one-hot + scale **chỉ trên FIT**.
-- Temporal: `MaskedStandardScaler` — chỉ ô `mask = 1`.
-- Aggregate: mean / std FIT, chỉ hàng `aggregate_available = 1`.
-- STOP / VALID / outer **không** refit scaler. Đối tượng scaler sau khi fit được lưu kèm checkpoint để inference dùng đúng thống kê FIT.
-
-**Phân chia biến và fold:**
-
-- Biến độc lập: bộ tensor trên; biến phụ thuộc: `target` nhị phân.
-- Group-split: UCI theo `global_student_group`, OULAD theo `id_student`.
-- Outer 3 fold tồn tại nhưng **fold 0 outer là firewall** — không tune, không chọn kiến trúc, không chốt mô hình.
-- Inner 3 fold trên phần còn lại: FIT / STOP / VALID. Seed split 42; seed train 42, 1201, 2026.
-
-Hash split khóa: inner UCI `ad8f44e5…e02ae8`, inner OULAD `8559efcf…72650c`.
+- **Chuẩn hóa (FIT-only):**
+  - Context tĩnh: one-hot + scale **chỉ trên FIT**.
+  - Temporal: `MaskedStandardScaler` — chỉ ô `mask = 1`.
+  - Aggregate: mean / std FIT, chỉ hàng `aggregate_available = 1`.
+  - STOP / VALID / outer **không** refit scaler. Đối tượng scaler sau khi fit được lưu kèm checkpoint để inference dùng đúng thống kê FIT.
+- **Phân chia biến và fold:**
+  - Biến độc lập: bộ tensor trên; biến phụ thuộc: `target` nhị phân.
+  - Group-split: UCI theo `global_student_group`, OULAD theo `id_student`.
+  - Outer 3 fold tồn tại nhưng **fold 0 outer là firewall** — không tune, không chọn kiến trúc, không chốt mô hình.
+  - Inner 3 fold trên phần còn lại: FIT / STOP / VALID. Seed split 42; seed train 42, 1201, 2026.
+  - Hash split khóa: inner UCI `ad8f44e5…e02ae8`, inner OULAD `8559efcf…72650c`.
 
 ### 3.2.4. Kiến trúc mô hình đề xuất
 
-Mô hình này kết hợp sức mạnh của nhánh tabular (static + aggregate) để mã hóa ngữ cảnh và thống kê tại cutoff, module CNN để trích mẫu cục bộ trên chuỗi có mask, và module BiLSTM để nắm bắt phụ thuộc hai chiều theo thời gian. Khác với kiến trúc CNN → BiLSTM nối tiếp thuần túy, Hybrid CNN–BiLSTM chạy **CNN song song với BiLSTM**, rồi trộn với nhánh tabular qua **cổng softmax 3 nhánh có mask**.
+Mô hình kết hợp nhánh tabular (static + aggregate) để mã hóa ngữ cảnh và thống kê tại cutoff, module CNN để trích mẫu cục bộ trên chuỗi có mask, và module BiLSTM để nắm bắt phụ thuộc hai chiều theo thời gian. Khác kiến trúc CNN → BiLSTM nối tiếp thuần túy, Hybrid CNN–BiLSTM chạy **CNN song song với BiLSTM**, rồi trộn với tabular qua **cổng softmax 3 nhánh có mask**.
 
-Kiến trúc tổng thể:
+Kiến trúc tổng thể được minh họa ở **Hình 3.1**:
 
 ```text
 static ── ResidualProjector ─┐
@@ -199,13 +187,17 @@ temporal ─ Linear+LN ─┬─ ResidualCNN ── h_cnn ─┐
                                                     Head → logit z → p = σ(z)
 ```
 
+![Hình 3.1. Kiến trúc Hybrid CNN–BiLSTM](figures/architecture_hybrid.png)
+
+**Hình 3.1.** Hybrid CNN–BiLSTM: ResidualProjector tabular, CNN ∥ BiLSTM, cổng softmax có mask, head logit nhị phân.
+
 Một class `Hybrid` (`src/prediction/model/hybrid.py`), `model_id = hybrid`, `display_name = "Hybrid CNN-BiLSTM"`. Một checkpoint UCI chấm S0–S2; một checkpoint OULAD chấm 20–100%. Không huấn luyện mô hình riêng cho mốc 100%.
 
 Khi `lengths = 0` (S0 / chuỗi rỗng): CNN và BiLSTM **tắt**, chỉ tabular. Đây là hành vi thiết kế, không phải trường hợp lỗi.
 
 ### 3.2.5. Module CNN
 
-Module này có nhiệm vụ như một bộ trích xuất đặc trưng tự động trên chuỗi temporal đã được adapter về 128 chiều và nhân mask.
+Module này là bộ trích xuất đặc trưng tự động trên chuỗi temporal đã adapter về 128 chiều và nhân mask.
 
 - **Adapter temporal:** `Linear + LayerNorm` đưa kênh temporal về `d_fuse = 128`, sau đó nhân mask để ô không hợp lệ không đóng góp.
 - **Chiếu kênh:** `Linear` xuống `cnn_channels = 64`.
@@ -215,43 +207,39 @@ Module này có nhiệm vụ như một bộ trích xuất đặc trưng tự đ
 
 ### 3.2.6. Module Bi-LSTM
 
-Dữ liệu chuỗi sau adapter 128 chiều (cùng nhánh với CNN) được đưa vào module BiLSTM để mô hình hóa phụ thuộc thời gian hai chiều.
+Dữ liệu chuỗi sau adapter 128 chiều (cùng nhánh với CNN) được đưa vào BiLSTM để mô hình hóa phụ thuộc thời gian hai chiều.
 
 - **Lớp BiLSTM** (`nn.LSTM` với `bidirectional=True`): hidden 128, **một** lớp, hai chiều. Chuỗi được `pack_padded_sequence` theo `lengths` để không học pad.
 - **Gộp:** masked mean–max trên đầu ra 256 chiều (128 xuôi + 128 ngược) tạo vector 512 chiều, rồi `Linear` → `h_lstm ∈ ℝ^128`.
-- **Dropout** nằm trên projector / head / cổng theo `dropout` miền, không xếp lớp BiLSTM thứ hai — khác với một số kiến trúc hai lớp BiLSTM xếp chồng.
+- **Dropout** nằm trên projector / head / cổng theo `dropout` miền, không xếp lớp BiLSTM thứ hai — khác kiến trúc hai lớp BiLSTM xếp chồng.
 - Cùng quy tắc tắt khi `lengths = 0`: `h_lstm = 0`.
 
-Việc dùng kiến trúc hai chiều cho phép tại mỗi bước thời gian học thông tin từ cả quá khứ (hướng xuôi) và ngữ cảnh tương lai trong **cửa sổ đã quan sát** (hướng ngược trên chuỗi đã cắt tại cutoff), không nhìn sự kiện sau cutoff.
+Hướng ngược chỉ nằm trong **cửa sổ đã quan sát** (chuỗi đã cắt tại cutoff), không nhìn sự kiện sau cutoff.
 
 ### 3.2.7. Module fusion và đầu ra
 
-Đây là module cuối cùng của mô hình, có nhiệm vụ tổng hợp các đặc trưng bậc cao từ ba nhánh và đưa ra xác suất nguy cơ.
+Module cuối tổng hợp ba nhánh và đưa ra xác suất nguy cơ.
 
-**Nhánh tabular (trước cổng):**
+- **Nhánh tabular (trước cổng):**
+  - `ResidualProjector` trên `static` → `h_static ∈ ℝ^128`.
+  - `ResidualProjector` trên `aggregate` → nhân `aggregate_available` → cộng vào `h_static` tạo `h_tab`.
+  - Projector: shortcut tuyến tính + nhánh sâu (Linear → LayerNorm → GELU → Dropout → Linear), cộng residual, LayerNorm.
+- **Cổng softmax 3 nhánh:**
+  - Đầu vào cổng: `[h_tab, h_cnn, h_lstm, a_tab = 1, a_cnn, a_lstm, progress]`.
+  - `a_cnn = a_lstm = 1[lengths > 0]`.
+  - Logit nhánh tắt được gán −∞, rồi softmax 3 nhánh — nhánh không available nhận khối lượng 0.
+  - `h = g_tab h_tab + g_cnn h_cnn + g_lstm h_lstm`.
+  - Entropy-floor (hệ số UCI 0.002, OULAD 0.005) phạt cổng quá chắc khi nhiều nhánh available; đây là số hạng phụ, không thay BCE.
+- **Head (tương đương khối fully connected của mô hình hồi quy trong mẫu):**
+  - LayerNorm → Linear 128 → GELU → Dropout → Linear 1 → logit `z`, `p = σ(z)`.
+  - Output serving: `p`, ngưỡng `t` (chọn trên STOP, mục 3.3), `ŷ = [p ≥ t]`, bất định `H₂(p)`.
+  - Hợp đồng `PredictionResult` — Recommendation V không đọc vector CNN/LSTM nội bộ.
 
-- `ResidualProjector` trên `static` → `h_static ∈ ℝ^128`.
-- `ResidualProjector` trên `aggregate` → nhân `aggregate_available` → cộng vào `h_static` tạo `h_tab`.
-- Projector: shortcut tuyến tính + nhánh sâu (Linear → LayerNorm → GELU → Dropout → Linear), cộng residual, LayerNorm.
-
-**Cổng softmax 3 nhánh:**
-
-Đầu vào cổng: `[h_tab, h_cnn, h_lstm, a_tab = 1, a_cnn, a_lstm, progress]`.
-
-- `a_cnn = a_lstm = 1[lengths > 0]`.
-- Logit nhánh tắt được gán −∞, rồi softmax 3 nhánh — nhánh không available nhận khối lượng 0.
-- `h = g_tab h_tab + g_cnn h_cnn + g_lstm h_lstm`.
-- Entropy-floor (hệ số UCI 0.002, OULAD 0.005) phạt cổng quá chắc khi nhiều nhánh available; đây là số hạng phụ, không thay BCE.
-
-**Head (tương đương khối fully connected của mô hình hồi quy):**
-
-LayerNorm → Linear 128 → GELU → Dropout → Linear 1 → logit `z`, `p = σ(z)`.
-
-Output serving: `p`, ngưỡng `t` (chọn trên STOP, mục 3.3), `ŷ = [p ≥ t]`, bất định `H₂(p)`. Hợp đồng `PredictionResult` — Recommendation V không đọc vector CNN/LSTM nội bộ.
+Công thức BCE, AP, \(H_2(p)\) và softmax cổng được viết ở **Chương 2 mục 2.6–2.7**.
 
 ### 3.2.8. Cấu hình chi tiết mô hình
 
-Bảng dưới đây trình bày cấu trúc từng khối của mô hình được triển khai trong thực tế, với các thông số khóa trong `configs/prediction/hybrid_final.json` và class `Hybrid`.
+Bảng dưới đây trình bày từng khối, thông số khóa trong `configs/prediction/hybrid_final.json` và class `Hybrid`.
 
 | # | Khối | Thiết lập | Ghi chú |
 |---|---|---|---|
@@ -269,42 +257,41 @@ Bảng dưới đây trình bày cấu trúc từng khối của mô hình đư�
 
 **Bảng 3.6.** Cấu hình chi tiết Hybrid CNN–BiLSTM.
 
-Phân tích chi tiết từ bảng:
+Phân tích từ bảng:
 
-- **Mask và availability:** CNN/BiLSTM nhận mask từng bước; cổng nhận cờ available theo nhánh. Khi `T = 0`, hai nhánh temporal bị tắt hoàn toàn.
-- **Tham số:** Phần lớn dung lượng nằm ở projector residual, BiLSTM và cổng/head. Checkpoint OULAD serving có 482 116 tham số — đủ nhỏ để inference trên GPU Turing 6 GB, đồng thời đủ lớn hơn một hồi quy tuyến tính trên cùng tensor.
+- **Mask và availability:** CNN/BiLSTM nhận mask từng bước; cổng nhận cờ available theo nhánh. Khi `T = 0`, hai nhánh temporal tắt hoàn toàn.
+- **Tham số:** Phần lớn dung lượng nằm ở projector residual, BiLSTM và cổng/head. Checkpoint OULAD serving có 482 116 tham số — đủ nhỏ để inference trên GPU Turing 6 GB.
 - **Một topology, hai miền:** `d_fuse`, CNN, BiLSTM, fusion không đổi. Khác dataset chỉ `lr`, `dropout`, `batch_size`, `pos_weight_multiplier` và chiều đầu vào (mục 3.3.1).
-- Bảng này khẳng định lại kiến trúc lai CNN ∥ BiLSTM + tabular đã mô tả và cho thấy cách các module được hiện thực hóa bằng PyTorch.
 
 ---
 
 ## 3.3. Quy trình huấn luyện mô hình
 
-Quy trình huấn luyện được thiết kế để một checkpoint / miền chấm mọi mốc thông tin, early-stop trên STOP, và không nhìn outer test khi chốt mô hình.
+Quy trình được thiết kế để một checkpoint / miền chấm mọi mốc thông tin, early-stop trên STOP, và không nhìn outer test khi chốt mô hình.
 
 ### 3.3.1. Cấu hình huấn luyện
 
-- **Thiết Kế Kiến Trúc Mô Hình**
-  - Thiết kế Hybrid CNN–BiLSTM: ResidualProjector tabular; CNN song song với BiLSTM; cổng softmax 3 nhánh có mask.
+- **Thiết kế kiến trúc mô hình:**
+  - Hybrid CNN–BiLSTM: ResidualProjector tabular; CNN song song với BiLSTM; cổng softmax 3 nhánh có mask.
   - Một class `Hybrid` cho cả UCI và OULAD; khác nhau chỉ chiều input, scaler FIT-only và trọng số.
   - Tắt CNN/BiLSTM khi `lengths = 0` (S0 / chuỗi rỗng).
   - Không huấn luyện mô hình riêng cho OULAD 100%.
-- **Lựa Chọn Hàm Tối Ưu Và Mất Mát**
-  - Chọn AdamW cho việc học ổn định trên hai miền khác quy mô.
-  - Dùng Binary Cross-Entropy with logits, cost-sensitive: `pos_weight_FIT = (n_neg / n_pos)_FIT × hệ_số`.
+- **Lựa chọn hàm tối ưu và mất mát:**
+  - AdamW cho hai miền khác quy mô.
+  - Binary Cross-Entropy with logits, cost-sensitive: `pos_weight_FIT = (n_neg / n_pos)_FIT × hệ_số`.
   - UCI hệ số 1.183; OULAD hệ số 0.779. Cùng công thức mọi fold; hệ số và `(n_neg / n_pos)` chỉ tính trên FIT.
-  - SMOTE / ADASYN trên tensor: thử FIT-only như phương án cân bằng lớp, **không chọn** — nội suy không tạo G1/G2 hay tuần VLE thật.
+  - SMOTE / ADASYN trên tensor: thử FIT-only, **không chọn** — nội suy không tạo G1/G2 hay tuần VLE thật.
   - Entropy-floor trên cổng là số hạng phụ (UCI 0.002, OULAD 0.005), không thay BCE.
-- **Thiết Lập Tham Số Huấn Luyện**
+- **Thiết lập tham số huấn luyện:**
   - UCI: `lr = 8.61×10⁻⁵`, `weight_decay = 3.29×10⁻³`, `dropout = 0.406`, `batch = 32`.
   - OULAD: `lr = 1.18×10⁻⁴`, `weight_decay = 7.11×10⁻⁴`, `dropout = 0.320`, `batch = 128`.
   - Seed train: 42, 1201, 2026. Seed split: 42.
   - Early-stop trên **STOP macro AP** (`sklearn.metrics.average_precision_score`).
-- **Cấu Hình Hardware Và Environment**
+- **Cấu hình phần cứng và môi trường:**
   - Tự phát hiện CUDA; AMP FP16 + GradScaler trên RTX 2060 (Turing; TF32 tắt vì không phải Ampere).
   - DataLoader shuffle trên FIT; `eval()` trên STOP/VALID để tắt dropout.
   - Serving đọc xác suất đã lưu, không train lại.
-- **Chiến Lược Lưu Trữ Mô Hình**
+- **Chiến lược lưu trữ mô hình:**
   - Theo dõi STOP macro AP làm metric lưu checkpoint.
   - Lưu `state_dict` theo fold, kèm scaler FIT-only.
   - Ngưỡng `t`: lưới trên STOP, xếp F1 rồi recall rồi `|t − 0.5|`. VALID không chọn `t`.
@@ -312,49 +299,49 @@ Quy trình huấn luyện được thiết kế để một checkpoint / miền 
 
 ### 3.3.2. Quy trình huấn luyện
 
-- **Khởi Tạo Phân Chia**
+- **Khởi tạo phân chia:**
   - Group-disjoint inner 3 fold trên phần không thuộc outer firewall.
   - Mỗi fold tách FIT / STOP / VALID theo nhóm: UCI `global_student_group`, OULAD `id_student`.
   - Hash split khóa như mục 3.2.3.
-- **Vòng Lặp Huấn Luyện Chính**
+- **Vòng lặp huấn luyện chính:**
   - Với mỗi cặp (fold, seed), khởi tạo mô hình mới từ đầu theo `HybridConfig`.
   - Fit scaler và `pos_weight` **chỉ trên FIT**.
-  - Tạo DataLoader riêng cho FIT (train) và STOP (early-stop).
-- **Quy Trình Một Epoch**
-  - Giai đoạn Training: `train()` , bật gradient, lặp batch FIT: chuyển tensor lên GPU, forward, BCE with logits (có `pos_weight`), backward, bước AdamW.
+  - DataLoader riêng cho FIT (train) và STOP (early-stop).
+- **Quy trình một epoch:**
+  - Giai đoạn Training: `train()`, bật gradient, lặp batch FIT: chuyển tensor lên GPU, forward, BCE with logits (có `pos_weight`), backward, bước AdamW.
   - Giai đoạn STOP: `eval()`, tắt gradient, tính macro AP trên STOP; lưu checkpoint nếu cải thiện; early-stop theo số epoch chờ đã cấu hình.
-- **Đánh Giá Và Giám Sát (giao thức, chưa phải bảng số)**
+- **Đánh giá và giám sát (giao thức, chưa phải bảng số):**
   - Chỉ số chính khi dừng: AP trên STOP.
   - Acc / Precision / F1 / Recall tại `t` đã chọn trên STOP, áp lên VALID.
   - F1 là trung hòa điều hòa của Precision và Recall — một `t` không tối đa đồng thời cả ba.
   - Lặp 3 fold × 3 seed; báo cáo **trung bình 9 số** ở Chương 4. Không lấy run đẹp nhất, không chọn fold theo VALID.
-- **Lưu Trữ Phục Vụ**
+- **Lưu trữ phục vụ:**
   - Checkpoint UCI (S0–S2) và OULAD (20–100%).
   - OOF 20–75% cho Recommendation V: 3 inner fold, seed 42.
   - Không joint-train hai miền.
   - Không mở outer khi chốt mô hình.
-- **Validation Và Inference Sau Huấn Luyện**
+- **Inference sau huấn luyện:**
   - Load `state_dict` + scaler FIT; `eval()`.
   - Forward cho ra `p`; so với `t` fold/mốc đã khóa.
   - Gói `PredictionResult` (`p`, `t`, `ŷ`, `H₂`) cho Recommendation V.
 
 ---
 
-## 3.4. Triển khai dự đoán Hybrid CNN–BiLSTM
+## 3.4. Đóng gói mô hình Hybrid CNN–BiLSTM
 
-Để đưa mô hình đã huấn luyện vào vận hành trên dữ liệu enrollment, đề tài đóng gói Hybrid CNN–BiLSTM thành chuỗi lệnh PostgreSQL (`raw` → `catalog` → `prediction`), không huấn luyện lại tại lúc phục vụ.
+Để đưa mô hình đã huấn luyện vào vận hành trên enrollment đã catalog, đề tài đóng gói Hybrid thành chuỗi PostgreSQL (`raw` → `catalog` → `prediction`), không huấn luyện lại lúc phục vụ. Đề tài **không** xây FastAPI hay giao diện người dùng.
 
 ### 3.4.1. Đóng gói mô hình đã huấn luyện
 
-- **Tải Và Khởi Tạo Mô Hình**
-  - Khởi tạo kiến trúc `Hybrid` với `HybridConfig` (`d_fuse = 128`, CNN 64 kênh, BiLSTM hidden 128).
+- **Tải và khởi tạo mô hình:**
+  - Khởi tạo `Hybrid` với `HybridConfig` (`d_fuse = 128`, CNN 64 kênh, BiLSTM hidden 128).
   - Nạp trọng số đã khóa (`state_dict`); `eval()` — tắt dropout.
   - Tự phát hiện CUDA/CPU; bản phục vụ DB đọc hàng xác suất đã materialize, không bắt buộc forward GPU từng request.
-- **Tải Scaler Và Tiền Xử Lý**
+- **Tải scaler và tiền xử lý:**
   - Scaler FIT-only đi kèm miền (UCI / OULAD).
   - Không refit min/max hay mean/std khi `python project.py db predict`.
   - Cutoff và mask được áp dụng giống lúc huấn luyện.
-- **Phụ Thuộc**
+- **Phụ thuộc:**
   - PyTorch cho kiến trúc và (nếu cần) forward.
   - scikit-learn / pandas / numpy cho tiền xử lý đã khóa.
   - psycopg2 cho PostgreSQL.
@@ -365,13 +352,8 @@ Quy trình huấn luyện được thiết kế để một checkpoint / miền 
 Chuỗi PostgreSQL: `raw` → `catalog` → `prediction` → `recommendation`.
 
 ```text
-Base: python project.py db
-
-predict:
-  python project.py db predict --student 631334 --course CCC --presentation 2014B --stage 20
-
-recommend:
-  python project.py db recommend --student 631334 --course CCC --presentation 2014B --stage 20
+python project.py db predict --student 631334 --course CCC --presentation 2014B --stage 20
+python project.py db recommend --student 631334 --course CCC --presentation 2014B --stage 20
 ```
 
 - **Đầu vào predict:** định danh sinh viên / môn / kỳ / mốc (20, 35, 50, 75, 100).
@@ -380,16 +362,16 @@ recommend:
 
 ### 3.4.3. Đặc điểm kỹ thuật
 
-- **Đặc Tính Vận Hành**
+- **Đặc tính vận hành:**
   - Inference phục vụ đọc hàng `prediction.prediction` (OOF đã materialize).
   - `t` lấy theo mốc đã khóa trên STOP, không chỉnh trên VALID hay outer.
-  - Clickstream `studentVle` không copy vào Postgres (giữ DB tối giản; tensor VLE được dựng lúc materialize).
-- **Phạm Vi Recommendation**
+  - Clickstream `studentVle` không copy vào Postgres (tensor VLE dựng lúc materialize).
+- **Phạm vi Recommendation:**
   - Recommendation V chỉ OULAD 20 / 35 / 50 / 75.
   - 100% bị từ chối trước module khuyến nghị — không phải cảnh báo sớm.
-- **An Toàn Giao Thức**
+- **An toàn giao thức:**
   - Không train lại khi predict/recommend.
-  - Schema `optuna_hs_v2` / `research` không thuộc bản phục vụ.
+  - Schema Optuna / research không thuộc bản phục vụ.
 
 ### 3.4.4. Ví dụ sử dụng
 
@@ -399,7 +381,7 @@ Yêu cầu: sinh viên `631334`, môn `CCC`, kỳ `2014B`, mốc 20%.
 python project.py db predict --student 631334 --course CCC --presentation 2014B --stage 20
 ```
 
-Phản hồi gồm: `p`, `t`, `ŷ`, `H₂(p)`, `enrollment_id`, `prediction_id`. Recommendation V nhận đúng `PredictionResult` đó. Số liệu một lần chạy cụ thể được ghi ở Chương 4 (mục hệ thống phục vụ).
+Phản hồi gồm `p`, `t`, `ŷ`, `H₂(p)`, `enrollment_id`, `prediction_id`. Số liệu một lần chạy cụ thể ghi ở Chương 4.
 
 ---
 
@@ -435,17 +417,13 @@ Code phục vụ: `src/recommend_hybrid/v3/`. Không refit Hybrid.
 
 ### 3.5.2. Các chức năng chính
 
-**Năm hành động chuẩn:**
+Năm hành động chuẩn: `ASSESSMENT_COMPLETION`, `RECOVER_ENGAGEMENT`, `STUDY_REGULARITY`, `TARGETED_CONTENT_REVIEW`, `QUIZ_RETRIEVAL_PRACTICE`.
 
-`ASSESSMENT_COMPLETION`, `RECOVER_ENGAGEMENT`, `STUDY_REGULARITY`, `TARGETED_CONTENT_REVIEW`, `QUIZ_RETRIEVAL_PRACTICE`.
-
-**Định tuyến risk (trước feasibility):**
-
-- `p < t` → không tự động (`INSUFFICIENT_EVIDENCE` / không phát hành Top-1).
-- `H₂(p) > 0.70` hoặc `(p − t) < 0.05` → `HUMAN_REVIEW`.
-- Còn lại vào feasibility + EBM.
-
-**Feasibility cứng (không học):**
+- **Định tuyến risk (trước feasibility):**
+  - `p < t` → không tự động (`INSUFFICIENT_EVIDENCE` / không phát hành Top-1).
+  - `H₂(p) > 0.70` hoặc `(p − t) < 0.05` → `HUMAN_REVIEW`.
+  - Còn lại vào feasibility + EBM.
+- **Feasibility cứng (không học):**
 
 | Hành động | Eligible khi | Chặn |
 |---|---|---|
@@ -457,13 +435,10 @@ Code phục vụ: `src/recommend_hybrid/v3/`. Không refit Hybrid.
 
 **Bảng 3.7.** Luật feasibility cứng của Recommendation V.
 
-**Bốn trạng thái phát hành:** `RECOMMEND`, `HUMAN_REVIEW`, `INSUFFICIENT_EVIDENCE`, `NO_FEASIBLE_ACTION`.
-
-**Mười bảy cột EBM** (cấm `action_id`, `final_result`, weak-label): `risk_probability`, `uncertainty`, `risk_margin`, `course_progress`, `inactivity_streak`, `active_day_rate`, `assessments_due`, `regularity_score`, `content_coverage`, `quiz_activity`, `missing_assessment_count`, `due_soon_count`, `completion_rate`, `vle_available`, `study_material_available`, `quiz_available`, `stage`. Mỗi hành động một EBM riêng.
-
-**An toàn sau xếp hạng:** nếu Top-1 `s` thấp hơn ngưỡng, chuyển `INSUFFICIENT_EVIDENCE`; nếu biên Top-1/Top-2 quá mỏng hoặc bất định còn cao, chuyển `HUMAN_REVIEW`.
-
-**Kế hoạch sau Top-1:** template xác định (ví dụ: nộp bài trước hạn 24 giờ; 15–20 phút VLE mỗi ngày khi phục hồi tương tác). Gemini không tham gia bước này lúc serving.
+- **Bốn trạng thái phát hành:** `RECOMMEND`, `HUMAN_REVIEW`, `INSUFFICIENT_EVIDENCE`, `NO_FEASIBLE_ACTION`.
+- **Mười bảy cột EBM** (cấm `action_id`, `final_result`, weak-label): `risk_probability`, `uncertainty`, `risk_margin`, `course_progress`, `inactivity_streak`, `active_day_rate`, `assessments_due`, `regularity_score`, `content_coverage`, `quiz_activity`, `missing_assessment_count`, `due_soon_count`, `completion_rate`, `vle_available`, `study_material_available`, `quiz_available`, `stage`. Mỗi hành động một EBM riêng.
+- **An toàn sau xếp hạng:** nếu Top-1 `s` thấp hơn ngưỡng, chuyển `INSUFFICIENT_EVIDENCE`; nếu biên Top-1/Top-2 quá mỏng hoặc bất định còn cao, chuyển `HUMAN_REVIEW`.
+- **Kế hoạch sau Top-1:** template xác định (ví dụ: nộp bài trước hạn 24 giờ; 15–20 phút VLE mỗi ngày khi phục hồi tương tác). Gemini không tham gia bước này lúc serving.
 
 ### 3.5.3. Tích hợp dữ liệu và giới hạn thiết kế
 
@@ -476,5 +451,6 @@ Giới hạn chương (thiết kế, không phải bảng hiệu suất):
 - Một kiến trúc hai miền; lệch lớp bằng `pos_weight` FIT-only.
 - Recommendation V xếp hành động khả thi, không ước lượng ATE lên `final_result`.
 - S0 / 20% là mốc thiếu chuỗi (CNN/BiLSTM tắt khi `T = 0`) — không dùng làm claim chính của kiến trúc lai.
-- AP UCI và AP OULAD không so trực tiếp với nhau (khác prevalence, khác sinh dữ liệu).
+- AP UCI và AP OULAD không so trực tiếp (khác prevalence, khác sinh dữ liệu).
 - 100% OULAD không phải mốc cảnh báo sớm; Recommendation V không nhận 100%.
+- Không xây giao diện người dùng.

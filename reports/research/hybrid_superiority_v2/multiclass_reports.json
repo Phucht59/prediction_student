@@ -1,0 +1,215 @@
+{
+  "35pct_4class": {
+    "classification_report": "              precision    recall  f1-score   support\n\n Distinction       0.20      0.53      0.29       647\n        Pass       0.56      0.24      0.34      2722\n        Fail       0.40      0.34      0.37      1611\n   Withdrawn       0.19      0.40      0.26       692\n\n    accuracy                           0.32      5672\n   macro avg       0.34      0.38      0.31      5672\nweighted avg       0.43      0.32      0.33      5672\n",
+    "confusion": [
+      [
+        343,
+        117,
+        75,
+        112
+      ],
+      [
+        895,
+        657,
+        590,
+        580
+      ],
+      [
+        340,
+        268,
+        550,
+        453
+      ],
+      [
+        141,
+        121,
+        155,
+        275
+      ]
+    ],
+    "labels": [
+      "Distinction",
+      "Pass",
+      "Fail",
+      "Withdrawn"
+    ],
+    "support": {
+      "Distinction": 647,
+      "Pass": 2722,
+      "Fail": 1611,
+      "Withdrawn": 692
+    }
+  },
+  "35pct_3class_passband": {
+    "classification_report": "              precision    recall  f1-score   support\n\n    PassBand       0.71      0.51      0.60      3369\n        Fail       0.40      0.39      0.39      1611\n   Withdrawn       0.18      0.45      0.26       692\n\n    accuracy                           0.47      5672\n   macro avg       0.43      0.45      0.42      5672\nweighted avg       0.56      0.47      0.50      5672\n",
+    "confusion": [
+      [
+        1724,
+        765,
+        880
+      ],
+      [
+        483,
+        625,
+        503
+      ],
+      [
+        206,
+        173,
+        313
+      ]
+    ],
+    "labels": [
+      "PassBand",
+      "Fail",
+      "Withdrawn"
+    ],
+    "support": {
+      "PassBand": 3369,
+      "Fail": 1611,
+      "Withdrawn": 692
+    }
+  },
+  "50pct_4class": {
+    "classification_report": "              precision    recall  f1-score   support\n\n Distinction       0.20      0.52      0.29       647\n        Pass       0.58      0.25      0.35      2722\n        Fail       0.41      0.34      0.37      1611\n   Withdrawn       0.14      0.39      0.21       481\n\n    accuracy                           0.32      5461\n   macro avg       0.34      0.38      0.31      5461\nweighted avg       0.45      0.32      0.34      5461\n",
+    "confusion": [
+      [
+        339,
+        121,
+        75,
+        112
+      ],
+      [
+        889,
+        673,
+        596,
+        564
+      ],
+      [
+        341,
+        278,
+        553,
+        439
+      ],
+      [
+        93,
+        80,
+        120,
+        188
+      ]
+    ],
+    "labels": [
+      "Distinction",
+      "Pass",
+      "Fail",
+      "Withdrawn"
+    ],
+    "support": {
+      "Distinction": 647,
+      "Pass": 2722,
+      "Fail": 1611,
+      "Withdrawn": 481
+    }
+  },
+  "50pct_3class_passband": {
+    "classification_report": "              precision    recall  f1-score   support\n\n    PassBand       0.74      0.52      0.61      3369\n        Fail       0.40      0.38      0.39      1611\n   Withdrawn       0.14      0.45      0.21       481\n\n    accuracy                           0.47      5461\n   macro avg       0.43      0.45      0.40      5461\nweighted avg       0.59      0.47      0.51      5461\n",
+    "confusion": [
+      [
+        1740,
+        772,
+        857
+      ],
+      [
+        483,
+        611,
+        517
+      ],
+      [
+        134,
+        131,
+        216
+      ]
+    ],
+    "labels": [
+      "PassBand",
+      "Fail",
+      "Withdrawn"
+    ],
+    "support": {
+      "PassBand": 3369,
+      "Fail": 1611,
+      "Withdrawn": 481
+    }
+  },
+  "75pct_4class": {
+    "classification_report": "              precision    recall  f1-score   support\n\n Distinction       0.21      0.51      0.30       647\n        Pass       0.62      0.26      0.36      2722\n        Fail       0.43      0.35      0.39      1611\n   Withdrawn       0.05      0.40      0.09       149\n\n    accuracy                           0.32      5129\n   macro avg       0.33      0.38      0.29      5129\nweighted avg       0.49      0.32      0.35      5129\n",
+    "confusion": [
+      [
+        330,
+        120,
+        77,
+        120
+      ],
+      [
+        859,
+        698,
+        624,
+        541
+      ],
+      [
+        328,
+        287,
+        562,
+        434
+      ],
+      [
+        23,
+        29,
+        38,
+        59
+      ]
+    ],
+    "labels": [
+      "Distinction",
+      "Pass",
+      "Fail",
+      "Withdrawn"
+    ],
+    "support": {
+      "Distinction": 647,
+      "Pass": 2722,
+      "Fail": 1611,
+      "Withdrawn": 149
+    }
+  },
+  "75pct_3class_passband": {
+    "classification_report": "              precision    recall  f1-score   support\n\n    PassBand       0.77      0.52      0.62      3369\n        Fail       0.43      0.40      0.41      1611\n   Withdrawn       0.05      0.44      0.09       149\n\n    accuracy                           0.48      5129\n   macro avg       0.41      0.45      0.37      5129\nweighted avg       0.64      0.48      0.54      5129\n",
+    "confusion": [
+      [
+        1757,
+        810,
+        802
+      ],
+      [
+        494,
+        640,
+        477
+      ],
+      [
+        41,
+        43,
+        65
+      ]
+    ],
+    "labels": [
+      "PassBand",
+      "Fail",
+      "Withdrawn"
+    ],
+    "support": {
+      "PassBand": 3369,
+      "Fail": 1611,
+      "Withdrawn": 149
+    }
+  }
+}

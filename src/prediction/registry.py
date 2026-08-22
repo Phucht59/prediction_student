@@ -21,7 +21,7 @@ ACTIVE_PREDICTION_REGISTRY = {
     "stage_specific_models": False,
     "separate_oulad_100_model": False,
     "baselines": list(ACTIVE_BASELINES),
-    "xgboost_active": False,
+    "xgboost_active": True,
     "evaluation_status": "robust_inner_finalized",
     "outer_test_used_for_phase4_finalization": False,
 }

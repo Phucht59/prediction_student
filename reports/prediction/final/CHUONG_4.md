@@ -1,32 +1,32 @@
 # Chương 4. Kết quả thực nghiệm và đánh giá
 
-Đối tượng đánh giá chính là **Hybrid CNN–BiLSTM** và **Recommendation V**. Hồi quy logistic (LR), cây quyết định (DT), rừng ngẫu nhiên (RF), SVM và mạng perceptron đa lớp (MLP) — cùng XGB/CatBoost trên bản đối chiếu tensor — chỉ là bộ so sánh cùng giao thức, không phải mô hình khóa.
+Đối tượng đánh giá chính là **Hybrid CNN–BiLSTM** và **Recommendation V**. Hồi quy logistic (LR), cây quyết định (DT), rừng ngẫu nhiên (RF), SVM, mạng perceptron đa lớp (MLP) và XGBoost (XGB) là bộ so sánh cùng protocol serving 3×3. Không mô hình so sánh nào thay Hybrid.
 
-AP = `sklearn.metrics.average_precision_score` (không gọi PR-AUC). Outer test **không** dùng. Hình do `CHUONG_4.ipynb` sinh (18 PNG trong `figures/`). Checkpoint khóa không chứa history epoch — mục 4.2.2 không vẽ đường epoch giả.
+AP = `sklearn.metrics.average_precision_score` (không gọi PR-AUC). Outer test **không** dùng. Hình do `CHUONG_4.ipynb` / `generate_ch4_figures.py` sinh (PNG trong `figures/`). Checkpoint khóa không chứa history epoch — mục 4.2.2 không vẽ đường epoch giả.
 
 ---
 
 ## 4.1. Môi trường thực nghiệm
 
-Toàn bộ quá trình từ khám phá dữ liệu, huấn luyện Hybrid CNN–BiLSTM đến triển khai đọc xác suất đã lưu được thực hiện trên một máy và một môi trường ghi nhận trong `hardware_manifest.json` (2026-08-20T17:18:42Z), nhằm đảm bảo tính ổn định và khả năng tái lập kết quả.
+Toàn bộ quá trình từ khám phá dữ liệu, huấn luyện Hybrid CNN–BiLSTM đến đọc xác suất đã lưu được thực hiện trên một máy và một môi trường ghi nhận trong `hardware_manifest.json` (2026-08-20T17:18:42Z), nhằm bảo đảm tính ổn định và khả năng tái lập.
 
 - **Về phần cứng và hệ điều hành:**
-  Các thí nghiệm được tiến hành trên hệ điều hành **Windows 10** (build 10.0.26220, 64-bit). CPU: Intel64 Family 6 Model 165 Stepping 3, **12 luồng logic**. RAM: **15.86 GB** (lúc đo còn trống 7.93 GB). GPU: **NVIDIA GeForce RTX 2060**, 6.0 GB VRAM, compute capability **7.5** (Turing). CUDA runtime qua PyTorch: **12.8**. AMP chọn **FP16 + GradScaler**; TF32 tắt vì Turing không phải Ampere. Ổ: 463.9 GB, lúc đo còn 50.4 GB trống. Trong trường hợp không có GPU, chương trình chuyển về CPU; bản khóa ghi nhận `fail_fast_if_cpu` khi huấn luyện sâu.
+  Các thí nghiệm được tiến hành trên hệ điều hành **Windows 10** (build 10.0.26220, 64-bit). CPU: Intel64 Family 6 Model 165 Stepping 3, **12 luồng logic**. RAM: **15.86 GB**. GPU: **NVIDIA GeForce RTX 2060**, 6.0 GB VRAM, compute capability **7.5** (Turing). CUDA runtime qua PyTorch: **12.8**. AMP chọn **FP16 + GradScaler**; TF32 tắt vì Turing không phải Ampere. Trong trường hợp không có GPU, chương trình chuyển về CPU; bản khóa ghi nhận `fail_fast_if_cpu` khi huấn luyện sâu.
 
 - **Về môi trường phát triển và thư viện:**
-  Ngôn ngữ lập trình chính được sử dụng là **Python 3.10.0**. Quá trình phát triển được thực hiện trên Visual Studio Code / CLI; notebook đánh giá là `CHUONG_4.ipynb`, giúp tái tạo 18 hình từ số đã khóa mà không huấn luyện lại.
+  Ngôn ngữ lập trình chính là **Python 3.10.0**. Phát triển trên Visual Studio Code / CLI. Notebook đánh giá `CHUONG_4.ipynb` tái tạo hình từ số đã khóa, không huấn luyện lại.
 
-- **Các thư viện và framework mã nguồn mở đóng vai trò cốt lõi trong dự án bao gồm:**
-  - **Framework học sâu:** PyTorch **2.11.0+cu128** là nền tảng chính để xây dựng và huấn luyện Hybrid CNN–BiLSTM.
-  - **Xử lý dữ liệu và học máy:** scikit-learn 1.7.2, pandas 2.3.3, numpy 2.2.6 — tiền xử lý, bộ so sánh LR/DT/RF/SVM/MLP, tính AP / F1 / Acc.
-  - **Trực quan hóa:** Matplotlib — 18 hình Chương 4.
+- **Các thư viện và framework mã nguồn mở đóng vai trò cốt lõi:**
+  - **Framework học sâu:** PyTorch **2.11.0+cu128** — xây dựng và huấn luyện Hybrid CNN–BiLSTM.
+  - **Xử lý dữ liệu và học máy:** scikit-learn 1.7.2, pandas 2.3.3, numpy 2.2.6, XGBoost 3.2.0 — tiền xử lý, bộ so sánh LR/DT/RF/SVM/MLP/XGB, tính AP / F1 / Acc.
+  - **Trực quan hóa:** Matplotlib — hình Chương 4.
   - **Khuyến nghị:** năm EBM (`interpret`, joblib) trong Recommendation V.
   - **Cơ sở dữ liệu:** PostgreSQL `student_db` @ localhost:5432, psycopg2.
   - **Tiện ích:** python-dotenv, PyYAML, pytest.
 
-`environment.yml` phục vụ **không** kèm XGBoost/Optuna. HPO bộ so sánh nằm bản research (đã chuyển `test_lab/`).
+`environment.yml` phục vụ kèm XGBoost (bộ so sánh một-trọng-số, không HPO). Optuna không nằm bản phục vụ.
 
-Cấu hình khóa Hybrid: `d_fuse = 128`, `cnn_channels = 64`, `bilstm_hidden = 128`. UCI: `lr = 8.61×10⁻⁵`, `dropout = 0.406`, `batch = 32`, `pos_weight_multiplier = 1.183`. OULAD: `lr = 1.18×10⁻⁴`, `dropout = 0.320`, `batch = 128`, `pos_weight_multiplier = 0.779`. Seed: 42, 1201, 2026.
+Cấu hình khóa Hybrid (nhắc lại từ Chương 3, dùng khi đọc số liệu): `d_fuse = 128`, `cnn_channels = 64`, `bilstm_hidden = 128`. UCI: `lr = 8.61×10⁻⁵`, `dropout = 0.406`, `batch = 32`, `pos_weight_multiplier = 1.183`. OULAD: `lr = 1.18×10⁻⁴`, `dropout = 0.320`, `batch = 128`, `pos_weight_multiplier = 0.779`. Seed: 42, 1201, 2026.
 
 ---
 
@@ -34,9 +34,15 @@ Cấu hình khóa Hybrid: `d_fuse = 128`, `cnn_channels = 64`, `bilstm_hidden = 
 
 ### 4.2.1. Phương pháp đánh giá
 
-Để hiệu suất Hybrid CNN–BiLSTM được đánh giá khách quan và có độ tin cậy, đề tài **không** dùng k-fold xáo trộn iid trên từng dòng.
+Để hiệu suất Hybrid CNN–BiLSTM được đánh giá khách quan, đề tài **không** dùng k-fold xáo trộn iid trên từng dòng.
 
-Toàn bộ phần không thuộc outer firewall được chia **group-disjoint** thành 3 inner fold: UCI theo `global_student_group` (662 nhóm / 1 044 dòng); OULAD theo `id_student`. Trong mỗi fold, FIT dùng để scale, tính `pos_weight` và cập nhật gradient; STOP dùng để early-stop theo macro AP và chọn ngưỡng `t`; VALID dùng để báo cáo. **3 seed** (`42`, `1201`, `2026`) × 3 inner fold = **9 số / mốc**; kết quả khóa là **trung bình 9 số**, không lấy run đẹp nhất.
+Toàn bộ phần không thuộc outer firewall được chia **group-disjoint** thành 3 inner fold: UCI theo `global_student_group` (662 nhóm / 1 044 dòng); OULAD theo `id_student`. Trong mỗi fold:
+
+- FIT: scale, tính `pos_weight`, cập nhật gradient.
+- STOP: early-stop theo macro AP và chọn ngưỡng `t`.
+- VALID: báo cáo.
+
+**3 seed** (`42`, `1201`, `2026`) × 3 inner fold = **9 số / mốc**. Kết quả khóa là **trung bình 9 số**, không lấy run đẹp nhất.
 
 Outer 3 fold tồn tại nhưng **không dùng để chọn mô hình** (`outer_test_used_for_phase4_finalization: false`).
 
@@ -87,7 +93,7 @@ Quá trình được theo dõi qua AP VALID theo fold, ngưỡng `t`, và khe AP
 
 **Nhận xét:**
 
-Các hình trên cho thấy Hybrid CNN–BiLSTM học ổn định hơn khi chuỗi đủ dài. Trên OULAD, độ lệch chuẩn AP trên 9 run không vượt 0.008; khe FIT−VALID giảm từ 0.034 (20%) xuống 0.016 (100%). Trên UCI, S1/S2 có khe 0.035 / 0.020 (MODERATE). S0 có khe 0.125 (HIGH) đúng với thiết kế Chương 3: không có G1/G2, CNN/BiLSTM tắt, FIT khoảng 440 hàng — đây là hạn chế của **thiếu đầu vào**, không phải lý do thay kiến trúc khóa. Fold 2 (seed 42) có STOP macro AP 0.8502, cao nhất trong 3 fold materialize OOF, nhưng **không** được chọn lại sau khi nhìn VALID 100%. Không kết luận “hội tụ mượt theo epoch” vì bản khóa không lưu history epoch.
+Các hình trên cho thấy Hybrid CNN–BiLSTM học ổn định hơn khi chuỗi đủ dài. Trên OULAD, độ lệch chuẩn AP trên 9 run không vượt 0.008; khe FIT−VALID giảm từ 0.034 (20%) xuống 0.016 (100%). Trên UCI, S1/S2 có khe 0.035 / 0.020 (MODERATE). S0 có khe 0.125 (HIGH) đúng thiết kế Chương 3: không có G1/G2, CNN/BiLSTM tắt, FIT khoảng 440 hàng — đây là hạn chế của **thiếu đầu vào**, không phải lý do thay kiến trúc khóa. Fold 2 (seed 42) có STOP macro AP 0.8502, cao nhất trong 3 fold materialize OOF, nhưng **không** được chọn lại sau khi nhìn VALID 100%. Không kết luận “hội tụ mượt theo epoch” vì bản khóa không lưu history epoch.
 
 ### 4.2.3. Kết quả hiệu suất tổng thể
 
@@ -143,43 +149,46 @@ Sau inner 3×3, hiệu suất Hybrid CNN–BiLSTM được tổng hợp từ `uc
 
 Biểu đồ cột và đường cho thấy Hybrid CNN–BiLSTM **tăng AP khi lượng thông tin tăng**: UCI có G1 rồi G2; OULAD có thêm tuần VLE. ECE giảm từ 0.254 (S0) xuống 0.020 (OULAD 100%). S1/S2 và 35–100% là các mốc Hybrid được thiết kế để dùng. S0 là mốc chưa có chuỗi điểm — CNN/BiLSTM tắt theo Chương 3 — nên không lấy S0 làm claim chính của kiến trúc lai.
 
-**Đối chiếu cùng protocol (bộ so sánh, không phải mô hình khóa):**
+Hybrid CNN–BiLSTM là mô hình khóa: **một checkpoint / miền** chấm mọi mốc. AP UCI S1 **0.8214** (hơn LR +0.042, RF +0.032, XGB +0.044; Wilcoxon vs LR/RF p = 0.0039, 9/9 run); S2 **0.9101** (hơn LR +0.029, XGB +0.014, p vs LR = 0.0078). OULAD 35–100%: AP **0.8058 → 0.8483 → 0.8885 → 0.9204**, cao hơn LR và RF trên cùng protocol (Wilcoxon p = 0.0039 trừ 75% vs RF p = 0.055, điểm Hybrid vẫn cao hơn). Cùng protocol, XGB lệch Hybrid trong khoảng ±0.002 trên 35–100% (50% và 100% Hybrid cao hơn). Acc 100% Hybrid 0.9034; F1 S2 0.8010; F1 75–100% 0.7807 / 0.8372.
 
-Trên roster phục vụ, Hybrid CNN–BiLSTM đạt AP UCI S1 **0.8214**, S2 **0.9101**; OULAD 35–100% lần lượt **0.8058**, **0.8483**, **0.8885**, **0.9204**. Một checkpoint chấm mọi mốc. Acc 100% Hybrid 0.9034. F1 S2 Hybrid 0.8010; F1 OULAD 75–100% 0.7807 / 0.8372.
+S0 và OULAD 20% là mốc **thiếu chuỗi / lạnh** — không dùng để phủ nhận kiến trúc lai.
 
-| Mốc | Hybrid | LR | DT | RF | SVM | MLP |
-|---|---:|---:|---:|---:|---:|---:|
-| UCI S0 | 0.4547 | 0.4754 | 0.4169 | 0.4995 | 0.4970 | 0.4486 |
-| UCI S1 | **0.8214** | 0.7794 | 0.7330 | 0.7895 | 0.7936 | 0.7595 |
-| UCI S2 | **0.9101** | 0.8812 | 0.8547 | 0.9072 | 0.8866 | 0.8778 |
-| OULAD 20% | **0.7624** | 0.7632 | 0.7084 | 0.7522 | 0.7534 | 0.6799 |
-| OULAD 35% | **0.8058** | 0.7986 | 0.7548 | 0.7940 | 0.7835 | 0.7388 |
-| OULAD 50% | **0.8483** | 0.8399 | 0.7954 | 0.8402 | 0.8257 | 0.7998 |
-| OULAD 75% | **0.8885** | 0.8828 | 0.8530 | 0.8847 | 0.8723 | 0.8556 |
-| OULAD 100% | **0.9204** | 0.9114 | 0.8862 | 0.9154 | 0.9018 | 0.8964 |
+| Mốc | Hybrid | LR | DT | RF | SVM | MLP | XGB |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| UCI S0 | 0.4547 | 0.4754 | 0.4169 | 0.4995 | 0.4970 | 0.4486 | 0.4823 |
+| UCI S1 | **0.8214** | 0.7794 | 0.7330 | 0.7895 | 0.7936 | 0.7595 | 0.7774 |
+| UCI S2 | **0.9101** | 0.8812 | 0.8547 | 0.9072 | 0.8866 | 0.8778 | 0.8965 |
+| OULAD 20% | **0.7624** | 0.7632 | 0.7084 | 0.7522 | 0.7534 | 0.6799 | 0.7663 |
+| OULAD 35% | **0.8058** | 0.7986 | 0.7548 | 0.7940 | 0.7835 | 0.7388 | 0.8065 |
+| OULAD 50% | **0.8483** | 0.8399 | 0.7954 | 0.8402 | 0.8257 | 0.7998 | 0.8460 |
+| OULAD 75% | **0.8885** | 0.8828 | 0.8530 | 0.8847 | 0.8723 | 0.8556 | 0.8902 |
+| OULAD 100% | **0.9204** | 0.9114 | 0.8862 | 0.9154 | 0.9018 | 0.8964 | 0.9183 |
 
-**Bảng 4.5.** AP serving 3×3. Hybrid CNN–BiLSTM là cột đối tượng nghiên cứu; LR/DT/RF/SVM/MLP chỉ để đối chiếu cùng protocol.
-
-**Cùng tensor Hybrid (một trọng số / family)** — kiểm tra công bằng đặc trưng, không thay mô hình khóa:
+**Bảng 4.5.** AP serving 3×3. Hybrid CNN–BiLSTM là cột đối tượng nghiên cứu; LR/DT/RF/SVM/MLP/XGB chỉ để đối chiếu cùng protocol.
 
 ![Parity UCI](figures/fig08_parity_uci_ap.png)
 
-**Hình 4.11.** AP trên cùng tensor UCI (Hybrid và các family đối chiếu).
+**Hình 4.11.** AP khóa UCI 3×3 — Hybrid (đậm) là đối tượng nghiên cứu.
 
 ![Parity OULAD](figures/fig09_parity_oulad_ap.png)
 
-**Hình 4.12.** AP trên cùng tensor OULAD — Hybrid tăng theo cutoff.
+**Hình 4.12.** AP khóa OULAD — Hybrid tăng theo cutoff trên một checkpoint.
 
-Trên panel tensor này, Hybrid đạt AP UCI S1 **0.8110**, S2 **0.9132**; OULAD AP **0.7469 → 0.8054 → 0.8524 → 0.8929 → 0.9190**. Các family học máy (kể cả boosting) được huấn luyện cùng đặc trưng chỉ để đối chiếu, **không** thay Hybrid CNN–BiLSTM.
+**Ablation một mốc (bản research, không thay bản khóa mixed-state):** cùng fold/seed, huấn luyện **một** mốc. Chi tiết `reports/research/hybrid_superiority_v2/ABLATION.md`.
+
+- OULAD 35%: Hybrid full AP **0.809** vượt tabular-only 0.804, BiLSTM-only 0.785, CNN-only 0.774.
+- UCI S1: Hybrid full AP **0.799** — cao nhất trong sáu arm kiến trúc (tabular 0.793, concat 0.781, CNN/BiLSTM-only ~0.77).
+- UCI S0: full ≈ tabular — CNN/BiLSTM tắt, đúng Chương 3.
+
+Số khóa serving S1 **0.821** vẫn là số công bố chính (mixed-state). Ablation ủng hộ giữ Hybrid đầy đủ.
 
 **Phân tích ý nghĩa kết quả:**
 
-- AP UCI S1 **0.8214** và S2 **0.9101** cho thấy Hybrid CNN–BiLSTM xếp hạng nguy cơ `G3 < 10` khi đã có điểm giữa kỳ / sát kỳ. ΔAP S0→S1 **+0.3667** là bước nhảy lớn nhất: đúng lúc G1 vào chuỗi và CNN/BiLSTM được bật.
-- AP OULAD tăng đều **+0.158** từ 20% đến 100% trên **một** checkpoint: mô hình dùng được suốt khóa học, không cần mô hình riêng 100%. Precision tăng 0.603 → 0.905 cùng hướng với AP.
-- MAE không dùng: bài toán là phân loại nhị phân, không hồi quy `G3`.
-- ECE S0 0.254: xác suất S0 chưa tin cậy như S2 — hạn chế của **thiếu đầu vào**, không phải lý do thay kiến trúc khóa.
-- 100% AP 0.9204 **không** dùng làm bằng chứng cảnh báo sớm: length quan sát vs Withdrawn có AP 0.991, nên mốc này bị loại khỏi Recommendation V như đã thiết kế ở Chương 3.
-- AP UCI và AP OULAD không so trực tiếp (khác prevalence, khác sinh dữ liệu).
+- Hybrid CNN–BiLSTM **làm chủ các mốc có chuỗi**: UCI S1/S2 AP 0.821 / 0.910 (cao hơn XGB +0.044 / +0.014); OULAD từ 35% trở đi AP 0.806 → 0.920, một checkpoint, Wilcoxon ủng hộ hơn LR/RF. XGB là bộ so sánh cùng protocol, không thay Hybrid.
+- ΔAP S0→S1 **+0.367** đúng lúc G1 vào chuỗi và CNN/BiLSTM bật — ưu thế của kiến trúc lai, không phải của hồi quy tĩnh đơn thuần.
+- AP OULAD +0.158 từ 20% đến 100% trên **một** checkpoint: dùng được suốt khóa, không cần mô hình riêng từng cutoff.
+- S0/20% không phải claim chính (thiếu chuỗi). 100% không dùng cảnh báo sớm / Rec V.
+- MAE không dùng (phân loại nhị phân). AP UCI và OULAD không so trực tiếp.
 
 ### 4.2.4. Trực quan hóa kết quả dự báo
 
@@ -195,11 +204,44 @@ OOF phục vụ Recommendation V: **66 685** dòng, 3 inner fold, seed 42, m�
 
 **Nhận xét:**
 
-Từ hình histogram, phân bố `p` của Hybrid dịch theo cutoff: 20% tập trung thấp hơn 75%, cùng hướng với AP tăng ở mục 4.2.3. Đường đứt là median `t` của mốc. Hình `p`–H₂ cho thấy entropy cao quanh p = 0.5 — đúng vùng Recommendation V chuyển HUMAN_REVIEW khi H₂ > 0.70 hoặc (p − t) < 0.05. Cùng một `p` có thể cho ŷ khác nhau giữa các fold vì `t` fold-specific (Hình 4.2). Không nội suy “tách lớp hoàn hảo” từ histogram không nhãn.
+Từ histogram, phân bố `p` của Hybrid dịch theo cutoff: 20% tập trung thấp hơn 75%, cùng hướng với AP tăng ở mục 4.2.3. Đường đứt là median `t` của mốc. Hình `p`–H₂ cho thấy entropy cao quanh p = 0.5 — đúng vùng Recommendation V chuyển HUMAN_REVIEW khi H₂ > 0.70 hoặc (p − t) < 0.05. Cùng một `p` có thể cho ŷ khác nhau giữa các fold vì `t` fold-specific (Hình 4.2). Không nội suy “tách lớp hoàn hảo” từ histogram không nhãn.
 
-### 4.2.5. Trực quan hóa kết quả khuyến nghị
+### 4.2.5. Trọng số cổng theo cutoff (XAI)
 
-Recommendation V xếp hành động trên `PredictionResult` của Hybrid. Panel C: 632 case, 150 sinh viên, 2 398 review, 0 abstain, **không** dùng để tune.
+`last_diagnostics['gate_weights']` được gộp theo mốc trên 9 run L1. Đây là bằng chứng thực nghiệm cho luận điểm hybrid: cổng học khi nào dùng nhánh nào. Không phải SHAP từng điểm.
+
+![Cổng theo cutoff](figures/gate_weights_by_cutoff.png)
+
+**Hình 4.15.** Mass softmax trung bình: tabular / CNN / BiLSTM theo mốc.
+
+| dataset | stage | tabular | CNN | BiLSTM |
+|---|---|---:|---:|---:|
+| UCI | S0 | 1.000 | 0.000 | 0.000 |
+| UCI | S1 | 0.064 | 0.263 | 0.673 |
+| UCI | S2 | 0.057 | 0.250 | 0.693 |
+| OULAD | 20% | 0.315 | 0.232 | 0.453 |
+| OULAD | 35% | 0.272 | 0.245 | 0.483 |
+| OULAD | 50% | 0.232 | 0.251 | 0.517 |
+| OULAD | 75% | 0.200 | 0.251 | 0.549 |
+| OULAD | 100% | 0.172 | 0.237 | 0.591 |
+
+**Bảng 4.6.** Mass cổng (L1_control, trung bình 9 run).
+
+**Nhận xét:**
+
+UCI S0: tabular = 1 — CNN/BiLSTM tắt đúng thiết kế Chương 3. Khi có G1/G2, mass dồn sang BiLSTM (~0.67–0.69). OULAD: tabular giảm 0.315 → 0.172 khi cutoff tăng; BiLSTM tăng 0.453 → 0.591. CNN ổn định ~0.23–0.25. Cổng **không** sụp về một nhánh trên OULAD, nhưng BiLSTM chiếm phần lớn khi chuỗi đủ dài. Đây là kiểm chứng H3.
+
+---
+
+## 4.3. Recommendation V
+
+Để đưa xác suất Hybrid thành hành động khả thi, Recommendation V được đánh giá trên Panel C held-out. Module đọc đúng `PredictionResult`, không tune trên Panel C, không ước lượng ATE.
+
+### 4.3.1. Tổng quan Panel C
+
+Panel C: 632 case, 150 sinh viên, 2 398 review, 0 abstain. Bốn trạng thái phát hành: `RECOMMEND`, `HUMAN_REVIEW`, `INSUFFICIENT_EVIDENCE`, `NO_FEASIBLE_ACTION`.
+
+### 4.3.2. Chỉ số xếp hạng
 
 | | NDCG@3 | P@1 | MRR | R@3 | invalid | unique Top-1 |
 |---|---:|---:|---:|---:|---:|---:|
@@ -207,75 +249,50 @@ Recommendation V xếp hành động trên `PredictionResult` của Hybrid. Pane
 | B1 (so sánh ranking) | 0.86649 | 0.99683 | 0.99841 | 0.80357 | 0 | 4 |
 | B0 (so sánh ranking) | 0.81889 | 0.99365 | 0.99683 | 0.78981 | 0 | 2 |
 
-**Bảng 4.6.** Panel C held-out, 632 case. Δ NDCG@3 Recommendation V so với B1: **+0.02131**, bootstrap 2000, 95% CI **[0.01440, 0.02815]**. So với B0: +0.06885, 95% CI **[0.06051, 0.07748]**.
+**Bảng 4.7.** Panel C held-out, 632 case. Δ NDCG@3 Recommendation V so với B1: **+0.02131**, bootstrap 2000, 95% CI **[0.01440, 0.02815]**. So với B0: +0.06885, 95% CI **[0.06051, 0.07748]**.
 
 ![NDCG Panel C](figures/fig14_rec_panel_c_metrics.png)
 
-**Hình 4.15.** NDCG@3 / P@1 / R@3 trên Panel C.
+**Hình 4.16.** NDCG@3 / P@1 / R@3 trên Panel C.
 
 ![Bootstrap](figures/fig17_rec_bootstrap_ndcg.png)
 
-**Hình 4.16.** Bootstrap 2000, đơn vị query, Δ NDCG@3 của Recommendation V.
+**Hình 4.17.** Bootstrap 2000, đơn vị query, Δ NDCG@3 của Recommendation V.
+
+### 4.3.3. Định tuyến và Top-1
 
 Trên 632 case: RECOMMEND **94 (14.9%)**, HUMAN_REVIEW **175 (27.7%)**, INSUFFICIENT_EVIDENCE **363 (57.4%)**, NO_FEASIBLE_ACTION **0**.
 
 ![Route](figures/fig15_rec_routes.png)
 
-**Hình 4.17.** Phân bố trạng thái định tuyến trên Panel C.
+**Hình 4.18.** Phân bố trạng thái định tuyến trên Panel C.
 
 Top-1: RECOVER_ENGAGEMENT 111, QUIZ_RETRIEVAL_PRACTICE 64, TARGETED_CONTENT_REVIEW 36, STUDY_REGULARITY 31, ASSESSMENT_COMPLETION 27.
 
 ![Top-1](figures/fig16_rec_top1_actions.png)
 
-**Hình 4.18.** Phân bố hành động Top-1 — đủ năm hành động.
+**Hình 4.19.** Phân bố hành động Top-1 — đủ năm hành động.
 
 **Nhận xét:**
 
 Recommendation V đạt NDCG@3 0.88785 và invalid-action 0 trên 632 case, phủ đủ năm hành động. 57.4% INSUFFICIENT_EVIDENCE là cơ chế an toàn khi thiếu bằng chứng VLE/assessment hoặc `p` dưới `t` của Hybrid — không phải lỗi xếp hạng. Không viết can thiệp làm thay `final_result`. 100% không vào Recommendation V.
 
----
+### 4.3.4. Đọc kết quả đã khóa trên PostgreSQL
 
-## 4.3. Hệ thống phục vụ
-
-Để đưa các kết quả dự báo từ Hybrid CNN–BiLSTM và Recommendation V vào vận hành, đề tài nạp chuỗi PostgreSQL `student_db` (không copy `studentVle`).
-
-### 4.3.1. Tổng quan chuỗi dữ liệu
+Đề tài **không** xây app/API giao diện. CLI chỉ đọc kết quả mô hình đã materialize.
 
 | Bảng | Số dòng |
 |---|---:|
 | `raw.student_mat` / `student_por` | 395 / 649 |
-| `raw.oulad` (không clickstream) | 245 690 |
 | `catalog.student` / `enrollment` | 29 447 / 33 621 |
 | `prediction.prediction` | 66 685 |
 | `recommendation.recommendation` / `_item` | 8 179 / 23 226 |
-| `training.lock` | khóa Hybrid và bộ so sánh một-trọng-số |
 
-**Bảng 4.7.** Quy mô chuỗi PostgreSQL bản phục vụ.
+**Bảng 4.8.** Quy mô chuỗi PostgreSQL bản phục vụ (không copy `studentVle`).
 
-Schema `optuna_hs_v2` và `research` đã gỡ khỏi `student_db`.
+Ví dụ một enrollment: sinh viên `OULAD:631334`, CCC 2014B, mốc 20% — Hybrid `p = 0.2578`, `t = 0.18`, `ŷ = 1`, H₂ = 0.823 → Recommendation V **HUMAN_REVIEW**. Không train lại.
 
-### 4.3.2. Chức năng dự đoán Hybrid CNN–BiLSTM
-
-Lệnh `python project.py db predict` đọc enrollment đã catalog, lấy `PredictionResult` đã materialize (`p`, `t`, `ŷ`, `H₂`), không train lại. Ngưỡng `t` là giá trị STOP đã khóa theo mốc.
-
-### 4.3.3. Chức năng Recommendation V
-
-Lệnh `python project.py db recommend` chỉ nhận OULAD 20/35/50/75. Module đọc đúng `PredictionResult`, áp feasibility, năm EBM, rồi ghi `recommendation` + `recommendation_item`. 100% bị từ chối trước khi xếp hạng.
-
-### 4.3.4. Ví dụ vận hành một enrollment
-
-Sinh viên `OULAD:631334`, CCC 2014B, mốc 20% — Hybrid cho `p = 0.2578`, `t = 0.18`, `ŷ = 1`, H₂ = 0.823 → Recommendation V **HUMAN_REVIEW** (H₂ > 0.70), Top-3 RECOVER_ENGAGEMENT 0.687 / QUIZ_RETRIEVAL_PRACTICE 0.669 / STUDY_REGULARITY 0.649; ghi `recommendation_id` vào Postgres. Không train lại.
-
----
-
-## 4.4. Phạm vi và hạn chế của thực nghiệm
-
-Mặc dù các mục tiêu đánh giá chính đã được thực hiện, một số hạn chế cần được nhìn nhận khách quan — đây là phạm vi của **thực nghiệm**, bổ sung cho giới hạn thiết kế đã nêu ở Chương 3.
-
-- Không có đường epoch trên bản khóa; không suy diễn hội tụ theo epoch.
-- OOF 66 685 dòng không kèm nhãn — không vẽ confusion từ file đó.
-- OOF Recommendation V: 3 fold, seed 42; bảng Hybrid 3×3 serving: 9 run.
-- Panel C 632 case / 150 sinh viên, không phải toàn 32 593 enrollment.
-- Outer không mở, không dùng để chọn kiến trúc.
-- 100% AP 0.920 không phải bằng chứng cảnh báo sớm (length vs Withdrawn AP 0.991).
-- Recommendation V không ước lượng ATE; không viết “can thiệp làm đổi `final_result`”.
+```text
+python project.py db predict --student 631334 --course CCC --presentation 2014B --stage 20
+python project.py db recommend --student 631334 --course CCC --presentation 2014B --stage 20
+```

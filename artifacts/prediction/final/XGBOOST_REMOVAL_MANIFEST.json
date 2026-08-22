@@ -4,21 +4,15 @@
     "DT",
     "RF",
     "SVM",
-    "MLP"
+    "MLP",
+    "XGB"
   ],
-  "active_surface_hits": [],
-  "factory": "experiments.hybrid_vnext.baselines.make_model no longer constructs XGB",
-  "historical_locations_not_used_for_selection": [
-    "reports/hybrid_vnext/phase3/HYBRID_VNEXT_PHASE3_FINAL_REPORT.md",
-    "artifacts/hybrid_vnext/phase3/",
-    "artifacts/final/",
-    "environment.research.yml"
-  ],
-  "historical_provenance_preserved": true,
+  "superseded_by": "artifacts/prediction/final/XGBOOST_ROSTER_ADDITION.json",
+  "historical_removal_timestamp": "2026-08-19T05:59:05Z",
+  "restored_timestamp": "2026-08-23T00:00:00Z",
+  "scope_change": "XGBoost restored to ACTIVE Phase 4 comparator roster; Hybrid remains the locked prediction model",
+  "factory": "src.prediction.baselines.build_baseline constructs XGB",
   "outer_test_used": false,
-  "scope_change": "XGBoost removed from ACTIVE Phase 4 comparator roster by project decision",
-  "src_prediction_already_excluded": true,
-  "timestamp": "2026-08-19T05:59:05Z",
   "historical_phase8_tables_not_current": [
     "reports/prediction/final/uci_table.csv",
     "reports/prediction/final/oulad_early_table.csv",
@@ -28,6 +22,6 @@
     "reports/prediction/final/uci_final.csv",
     "reports/prediction/final/oulad_final.csv"
   ],
-  "promoted_to": "artifacts/prediction/final/XGBOOST_REMOVAL_MANIFEST.json",
-  "active_runtime_instantiation": false
+  "xgboost_active": true,
+  "active_runtime_instantiation": true
 }

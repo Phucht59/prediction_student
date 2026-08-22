@@ -2,7 +2,7 @@
 
 Bản đồ khóa luận. Tên công khai: **Hybrid CNN–BiLSTM**, **Recommendation V**. Không dùng tên thí nghiệm trên tài liệu công khai.
 
-**Bản kỹ thuật:** Chương 3 [`CHUONG_3.md`](reports/prediction/final/CHUONG_3.md) · Chương 4 [`CHUONG_4.md`](reports/prediction/final/CHUONG_4.md) (18 hình, notebook `CHUONG_4.ipynb`).
+**Bản kỹ thuật:** [`CHUONG_3.md`](reports/prediction/final/CHUONG_3.md) (thiết kế) và Chương 1–5 trong [`reports/prediction/final/`](reports/prediction/final/) (Ch1 giả thuyết H1–H3, Ch2 công thức, Ch4 thực nghiệm + XAI cổng, Ch5 hạn chế). Nhật ký: `NHAT_KY_THI_NGHIEM.ipynb`. Không xây giao diện.
 
 Outer test không dùng. AP = `sklearn.metrics.average_precision_score`.
 
@@ -14,7 +14,7 @@ Outer test không dùng. AP = `sklearn.metrics.average_precision_score`.
 |---|---|
 | Dự đoán | Hybrid CNN–BiLSTM, `model_id=hybrid`, một checkpoint UCI (S0–S2), một checkpoint OULAD (20–100%) |
 | Khuyến nghị | Recommendation V, chỉ OULAD 20/35/50/75, đọc `PredictionResult` |
-| Roster serving | Hybrid, LR, DT, RF, SVM, MLP (không XGB) |
+| Roster serving | Hybrid, LR, DT, RF, SVM, MLP, XGB |
 | Lệch lớp | `pos_weight` FIT-only; SMOTE tensor thử, không chọn |
 
 ### Hybrid serving 3×3 (số khóa)
@@ -22,12 +22,11 @@ Outer test không dùng. AP = `sklearn.metrics.average_precision_score`.
 UCI AP: S0 0.455 · S1 **0.821** · S2 **0.910**  
 OULAD AP: 20% 0.762 · 35% **0.806** · 50% **0.848** · 75% **0.889** · 100% **0.920**
 
-Hybrid (mô hình chính): UCI AP S1 0.821 / S2 0.910; OULAD AP 0.762 → 0.920 theo cutoff. LR/DT/RF/SVM/MLP chỉ so sánh.
+Hybrid (mô hình chính): UCI AP S1 0.821 / S2 0.910; OULAD AP 0.762 → 0.920 theo cutoff. LR/DT/RF/SVM/MLP/XGB chỉ so sánh.
 
 ### Baseline một-trọng-số cùng tensor
 
-UCI AP Hybrid S1 0.811 / S2 0.913.  
-OULAD AP Hybrid 0.747 (20%) → 0.919 (100%). Family đối chiếu không phải mô hình khóa.
+Hybrid khóa: UCI S1 **0.821** / S2 **0.910**; OULAD 35–100% **0.806 → 0.920**. Family chỉ đối chiếu.
 
 ### Recommendation V
 

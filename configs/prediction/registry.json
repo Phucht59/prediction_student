@@ -4,9 +4,10 @@
     "Decision Tree",
     "Random Forest",
     "SVM",
-    "MLP"
+    "MLP",
+    "XGBoost"
   ],
-  "xgboost_active": false,
+  "xgboost_active": true,
   "fitted_instances": [
     "uci",
     "oulad"

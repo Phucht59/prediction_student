@@ -73,7 +73,7 @@ def test_public_identity():
     assert ACTIVE_PREDICTION_REGISTRY["uci_states"] == list(UCI_STAGES)
     assert ACTIVE_PREDICTION_REGISTRY["oulad_states"] == list(OULAD_STATES)
     assert ACTIVE_PREDICTION_REGISTRY["separate_oulad_100_model"] is False
-    assert ACTIVE_PREDICTION_REGISTRY["xgboost_active"] is False
+    assert ACTIVE_PREDICTION_REGISTRY["xgboost_active"] is True
     assert ACTIVE_PREDICTION_REGISTRY["outer_test_used_for_phase4_finalization"] is False
 
 
@@ -117,8 +117,15 @@ def test_oulad_states_are_aliases_not_models():
     assert OULAD_STATES == ("20pct", "35pct", "50pct", "75pct", "100pct")
 
 
-def test_svm_active_and_xgb_absent():
-    assert ACTIVE_BASELINES == ("Logistic Regression", "Decision Tree", "Random Forest", "SVM", "MLP")
+def test_svm_and_xgb_are_constructible():
+    assert ACTIVE_BASELINES == (
+        "Logistic Regression",
+        "Decision Tree",
+        "Random Forest",
+        "SVM",
+        "MLP",
+        "XGBoost",
+    )
     uci_svm = build_baseline("SVM", dataset="uci")
     oulad_svm = build_baseline("SVM", dataset="oulad")
     rng = np.random.default_rng(0)
@@ -128,15 +135,13 @@ def test_svm_active_and_xgb_absent():
     oulad_svm.fit(x, y)
     assert uci_svm.predict_proba(x).shape == (40, 2)
     assert oulad_svm.predict_proba(x).shape == (40, 2)
-    try:
-        build_baseline("XGBoost")
-    except ValueError as exc:
-        assert "XGBoost" in str(exc)
-    else:
-        raise AssertionError("XGBoost must not be constructible")
+    xgb = build_baseline("XGBoost", y_train=y)
+    xgb.fit(x, y)
+    assert xgb.predict_proba(x).shape == (40, 2)
+    assert build_baseline("XGB").__class__.__name__ == "XGBClassifier"
 
 
-def test_final_artifacts_exist_and_have_no_xgb_rows():
+def test_final_artifacts_exist_and_include_xgb_rows():
     final = ROOT / "artifacts" / "prediction" / "final"
     required = [
         "FINALIZATION_DECISION.json",
@@ -152,9 +157,9 @@ def test_final_artifacts_exist_and_have_no_xgb_rows():
         assert (final / name).is_file(), name
     uci = pd.read_csv(ROOT / "reports" / "prediction" / "final" / "uci_final.csv")
     oulad = pd.read_csv(ROOT / "reports" / "prediction" / "final" / "oulad_final.csv")
-    assert set(uci.model) == {"Hybrid", "LR", "DT", "RF", "SVM", "MLP"}
-    assert set(oulad.model) == {"Hybrid", "LR", "DT", "RF", "SVM", "MLP"}
-    assert "XGB" not in set(uci.model) and "XGBoost" not in set(uci.model)
+    assert set(uci.model) == {"Hybrid", "LR", "DT", "RF", "SVM", "MLP", "XGB"}
+    assert set(oulad.model) == {"Hybrid", "LR", "DT", "RF", "SVM", "MLP", "XGB"}
+    assert "XGB" in set(uci.model) and "XGB" in set(oulad.model)
     decision = json.loads((final / "FINALIZATION_DECISION.json").read_text(encoding="utf-8"))
     assert decision["previous_phase4_gate_status"] == "NOT_READY_FOR_FINAL_EVAL"
     assert decision["outer_test_used"] is False
@@ -226,7 +231,7 @@ def test_current_authority_docs_are_phase4():
     assert not (ROOT / "configs" / "prediction" / "hybrid_phase8.json").exists()
     assert not (ROOT / "configs" / "prediction" / "historical").exists()
     env = (ROOT / "environment.yml").read_text(encoding="utf-8")
-    assert "xgboost" not in env.lower()
+    assert "xgboost" in env.lower()
     assert "optuna" not in env.lower()
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     project = (ROOT / "PROJECT.md").read_text(encoding="utf-8")

@@ -1,11 +1,12 @@
 {
-  "active_roster": ["LR", "DT", "RF", "SVM", "MLP"],
-  "xgboost_active": false,
+  "active_roster": ["LR", "DT", "RF", "SVM", "MLP", "XGB"],
+  "xgboost_active": true,
   "fixed": {
     "LR": "balanced C=1 max_iter=1000",
     "DT": "depth8 leaf20 balanced",
     "RF": "200 trees leaf2 balanced",
-    "MLP": "(128,64) alpha=1e-4"
+    "MLP": "(128,64) alpha=1e-4",
+    "XGB": "200 trees depth5 lr=0.05 subsample=0.8 colsample=0.8 scale_pos_weight"
   },
   "SVM": {
     "uci": {"kernel": "rbf", "C": 1.0, "gamma": "scale", "class_weight": "balanced", "probability": true},

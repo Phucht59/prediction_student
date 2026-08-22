@@ -63,7 +63,7 @@ def command_validate(_args: argparse.Namespace) -> int:
         payload.get("final_authority_selected") is True
         and payload.get("outer_test_used") is False
         and payload.get("previous_phase4_gate_status") == "NOT_READY_FOR_FINAL_EVAL"
-        and registry_payload.get("xgboost_active") is False
+        and registry_payload.get("xgboost_active") is True
         and registry_payload.get("prediction_model", {}).get("architecture_id") == "C0"
     )
     print(

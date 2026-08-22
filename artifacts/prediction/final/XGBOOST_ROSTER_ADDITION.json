@@ -1,0 +1,36 @@
+{
+  "timestamp": "2026-08-23T00:00:00Z",
+  "xgboost_active": true,
+  "locked_model_unchanged": "Hybrid CNN-BiLSTM",
+  "role": "one-weight serving comparator, not the thesis model",
+  "outer_test_used": false,
+  "config": {
+    "n_estimators": 200,
+    "max_depth": 5,
+    "learning_rate": 0.05,
+    "subsample": 0.8,
+    "colsample_bytree": 0.8,
+    "scale_pos_weight": "FIT neg/pos",
+    "feature_set": "static+aggregate+temporal_last_mean_max+progress"
+  },
+  "evaluation": "phase4_robust_inner_3x3",
+  "metrics_source": {
+    "uci_S0_S2": "test_lab/artifacts/hybrid_vnext/phase3/baseline_cache 9-run mean; LR AP matches serving table exactly",
+    "oulad_20_75": "test_lab/artifacts/hybrid_vnext/phase3/baseline_cache 9-run mean; LR AP vs serving |delta| <= 5e-5",
+    "oulad_100pct": "retrained 2026-08-23, 3 fold x 3 seed, same FIT/STOP/VALID and 96 features as serving LR 100pct; protocol check LR 20pct f0 s42 |delta|=3.4e-5"
+  },
+  "ap_mean_9run": {
+    "uci": {"S0": 0.48225191850255755, "S1": 0.7773894091340625, "S2": 0.896477079481913},
+    "oulad": {
+      "20pct": 0.766331029081271,
+      "35pct": 0.806542827507239,
+      "50pct": 0.8459828920948088,
+      "75pct": 0.890158126609632,
+      "100pct": 0.9183279365034083
+    }
+  },
+  "current_tables": [
+    "reports/prediction/final/uci_final.csv",
+    "reports/prediction/final/oulad_final.csv"
+  ]
+}

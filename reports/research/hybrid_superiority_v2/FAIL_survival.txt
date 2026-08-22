@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "C:\hufit\student\research\kltn_science_fix\run_overnight.py", line 18, in _run
+    fn()
+  File "C:\hufit\student\research\kltn_science_fix\run_survival.py", line 54, in main
+    prepared = scale_prepared("oulad", views, context, fit)
+  File "C:\hufit\student\research\kltn_science_fix\data.py", line 252, in scale_prepared
+    scaler = MaskedStandardScaler().fit(np.concatenate(xs), np.concatenate(ms))
+ValueError: all the input array dimensions except for the concatenation axis must match exactly, but along dimension 1, the array at index 0 has size 29 and the array at index 4 has size 39

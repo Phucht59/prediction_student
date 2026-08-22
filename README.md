@@ -45,10 +45,7 @@ AP tăng theo cutoff: 0.762 (20%) → **0.920** (100%). 100% không dùng khuy�
 
 ### Đối chiếu cùng tensor (không thay Hybrid)
 
-Cùng đặc trưng với Hybrid, không summary last/mean/max. Các family (kể cả XGB) chỉ để đối chiếu — **không** thay Hybrid.
-
-- UCI: Hybrid AP S1 **0.811** / S2 **0.913**.
-- OULAD: Hybrid AP 0.747 (20%) → 0.919 (100%).
+Cùng protocol, bộ so sánh (LR/DT/RF/SVM/MLP/XGB) không thay Hybrid. Claim chính: UCI S1 **0.821** / S2 **0.910**; OULAD 35–100% **0.806 → 0.920**.
 
 ### Recommendation V (Panel C, 632 case)
 
@@ -80,8 +77,8 @@ pytest -q tests/prediction tests/recommend_hybrid/v3 tests/integration tests/dat
 
 | | |
 |---|---|
-| Chương 3 (thiết kế) | `reports/prediction/final/CHUONG_3.md` |
-| Chương 4 (thực nghiệm) | `reports/prediction/final/CHUONG_4.md` |
+| Chương 1–5 | `reports/prediction/final/CHUONG_1.md` … `CHUONG_5.md` |
+| Nhật ký thí nghiệm | `reports/prediction/final/NHAT_KY_THI_NGHIEM.ipynb` |
 | Hybrid | `src/prediction/` |
 | Recommendation V | `src/recommend_hybrid/v3/` |
 | Config | `configs/prediction/hybrid_final.json` |

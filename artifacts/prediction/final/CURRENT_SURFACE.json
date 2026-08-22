@@ -15,5 +15,5 @@
   ],
   "classification": "CURRENT_HYBRID_CNN_BILSTM",
   "public_names": ["Hybrid CNN-BiLSTM", "Recommendation V"],
-  "xgboost_in_current_tables": false
+  "xgboost_in_current_tables": true
 }
