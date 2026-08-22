@@ -556,13 +556,43 @@ def baseline_frame(prepared: PreparedDomain, stage: str) -> pd.DataFrame:
         if "code_presentation" in aligned.columns:
             frame["code_presentation"] = aligned["code_presentation"]
     frame["progress"] = view.progress
-    predictors = [c for c in frame.columns if c not in {"record_id", "group_id", "target", "final_result", "id_student", "G1", "G2"}]
+    predictors = [c for c in frame.columns if c not in {"record_id", "group_id", "target", "final_result", "id_student", "G1", "G2", "stage"}]
     leaked = [c for c in predictors if c.lower() in {x.lower() for x in FORBIDDEN_OULAD + ("G3", "absences")}]
     if leaked:
         raise RuntimeError(f"BASELINE_FORBIDDEN:{leaked}")
     if prepared.domain == "uci" and stage == "S0" and any(c.startswith("grade_g") for c in frame.columns):
         raise RuntimeError("S0_HAS_GRADES")
     return frame
+
+
+def stacked_baseline_frame(prepared: PreparedDomain) -> pd.DataFrame:
+    """One table for a one-weight baseline: all stages stacked, missing grades stay NA.
+
+    Mirrors Hybrid: the same fitted estimator scores every information state.
+    Unavailable signals (UCI G1 at S0, G2 at S0/S1) are missing values, not zeros.
+    """
+    parts = []
+    for stage in prepared.stages:
+        frame = baseline_frame(prepared, stage).copy()
+        frame["stage"] = stage
+        parts.append(frame)
+    stacked = pd.concat(parts, ignore_index=True, sort=False)
+    if stacked.duplicated(["record_id", "stage"]).any():
+        raise RuntimeError("STACKED_DUPLICATE_RECORD_STAGE")
+    predictors = [c for c in stacked.columns if c not in {"record_id", "group_id", "target", "final_result", "id_student", "G1", "G2", "stage"}]
+    leaked = [c for c in predictors if c.lower() in {x.lower() for x in FORBIDDEN_OULAD + ("G3", "absences")}]
+    if leaked:
+        raise RuntimeError(f"STACKED_BASELINE_FORBIDDEN:{leaked}")
+    if prepared.domain == "uci":
+        s0 = stacked.stage.eq("S0")
+        if "grade_g1" in stacked.columns and stacked.loc[s0, "grade_g1"].notna().any():
+            raise RuntimeError("STACKED_S0_HAS_G1")
+        if "grade_g2" in stacked.columns and stacked.loc[s0, "grade_g2"].notna().any():
+            raise RuntimeError("STACKED_S0_HAS_G2")
+        s1 = stacked.stage.eq("S1")
+        if "grade_g2" in stacked.columns and stacked.loc[s1, "grade_g2"].notna().any():
+            raise RuntimeError("STACKED_S1_HAS_G2")
+    return stacked
 
 
 def permute_temporal(temporal: np.ndarray, mask: np.ndarray, mode: str, seed: int) -> np.ndarray:

@@ -1,0 +1,13 @@
+{
+  "100pct_blocked_from_intervention": true,
+  "adapter": "src.recommend_hybrid.prediction_adapter + v3.prediction_adapter",
+  "checked_at": "2026-08-22T05:07:02Z",
+  "contract": "PredictionResult.model_id='hybrid' is the only rec input",
+  "fix_required": false,
+  "issues": [],
+  "note": "Rec ranking/EBM unchanged. Research C0-R scores must wrap as PredictionResult; rec does not inspect CNN/LSTM.",
+  "ok": true,
+  "outer_test_used": false,
+  "research_candidate": "C0-R",
+  "serving_hybrid_model_id": "hybrid"
+}

@@ -17,10 +17,14 @@ The only current thesis prediction model is **Hybrid CNN–BiLSTM**.
 | Project map | `PROJECT.md` |
 | Decision manifest | `artifacts/prediction/final/FINALIZATION_DECISION.json` |
 | Current surface list | `artifacts/prediction/final/CURRENT_SURFACE.json` |
+| C0 + rec lock | `reports/research/hybrid_superiority_v2/C0_REC_LOCK.md` |
+| Research four-metric lock | `reports/research/hybrid_superiority_v2/HEADLINE_FOUR_METRICS.md` |
 
 Do not treat any other Hybrid, H1, CNN-BiLSTM YAML, thesis_v3 table, or Phase 8 outer CSV as the current prediction authority.
 
-Current comparison roster: Hybrid / LR / DT / RF / SVM / MLP. XGBoost is not current.
+Public comparison roster: Hybrid / LR / DT / RF / SVM / MLP. XGBoost is not a serving baseline.
+
+Locked research comparison (inner only, one-weight baselines, XGB/CatBoost included): `HEADLINE_FOUR_METRICS.md`. Four headline metrics: accuracy, precision, F1, ROC-AUC. Outer test not opened.
 
 ## Other current subsystems (not the Hybrid prediction model)
 

@@ -136,6 +136,18 @@ def cmd_report(_args) -> int:
     return 0
 
 
+def cmd_lock_and_fair(args) -> int:
+    from .fair_baselines import main as fair_main
+
+    return fair_main(dataset=args.dataset, n_trials=args.trials or None)
+
+
+def cmd_lock_metrics(_args) -> int:
+    from .lock_metrics import main as metrics_main
+
+    return metrics_main()
+
+
 def cmd_overnight(args) -> int:
     failures = []
 
@@ -210,6 +222,10 @@ def build_parser() -> argparse.ArgumentParser:
     ov = sub.add_parser("overnight")
     ov.add_argument("--candidate", default="C3-G")
     ov.add_argument("--resume", action="store_true")
+    lf = sub.add_parser("lock-and-fair")
+    lf.add_argument("--dataset", default="all", choices=["all", "uci", "oulad"])
+    lf.add_argument("--trials", type=int, default=0, help="0 = protocol budget (40 UCI / 28 OULAD)")
+    sub.add_parser("lock-metrics")
     return p
 
 
@@ -228,5 +244,7 @@ def main(argv=None) -> int:
         "confirm": cmd_confirm,
         "report": cmd_report,
         "overnight": cmd_overnight,
+        "lock-and-fair": cmd_lock_and_fair,
+        "lock-metrics": cmd_lock_metrics,
     }
     return dispatch[args.cmd](args)

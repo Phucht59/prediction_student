@@ -1,0 +1,55 @@
+{
+  "ablation_margin_required": 0.005,
+  "checks": [
+    {
+      "ap_baseline": 0.8055400319033772,
+      "ap_hybrid": 0.8056210306315753,
+      "delta": 8.099872819811171e-05,
+      "material_margin": 0.019445996809662282,
+      "pass_material": false,
+      "pass_positive": true,
+      "stage": "35pct"
+    },
+    {
+      "ap_baseline": 0.8535396548130941,
+      "ap_hybrid": 0.852172468698557,
+      "delta": -0.0013671861145371222,
+      "material_margin": 0.014646034518690587,
+      "pass_material": false,
+      "pass_positive": false,
+      "stage": "50pct"
+    },
+    {
+      "ap_baseline": 0.8965890172287635,
+      "ap_hybrid": 0.8928758740170453,
+      "delta": -0.0037131432117182284,
+      "material_margin": 0.01034109827712365,
+      "pass_material": false,
+      "pass_positive": false,
+      "stage": "75pct"
+    },
+    {
+      "ap_baseline": 0.9235202087006642,
+      "ap_hybrid": 0.9191251990205175,
+      "delta": -0.004395009680146722,
+      "material_margin": 0.01,
+      "pass_material": false,
+      "pass_positive": false,
+      "stage": "100pct"
+    },
+    {
+      "ap_baseline": 0.7666419301732424,
+      "ap_hybrid": 0.7476095597553409,
+      "delta": -0.019032370417901512,
+      "guardrail": 0.02,
+      "pass_cold": true,
+      "stage": "20pct"
+    }
+  ],
+  "cold_ok": true,
+  "domain": "oulad",
+  "n_warm_fail": 4,
+  "outer_test_used": false,
+  "pass": false,
+  "protocol_hash": "eb5f4cfbf4e1629281386367400970241ff68fdaec6c0f7905b0e3a6f33646a2"
+}

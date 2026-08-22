@@ -31,6 +31,10 @@ venv/
 # JavaScript dependencies
 node_modules/
 
+# CatBoost scratch
+catboost_info/
+reports/research/*.zip
+
 # Temporary/runtime output
 tmp/
 temp/

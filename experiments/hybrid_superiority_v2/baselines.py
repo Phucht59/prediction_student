@@ -334,7 +334,147 @@ def fit_eval(
 
 
 def predictor_columns(frame: pd.DataFrame) -> tuple[list[str], list[str]]:
-    skip = {"record_id", "group_id", "target", "final_result", "id_student", "G1", "G2"}
+    skip = {"record_id", "group_id", "target", "final_result", "id_student", "G1", "G2", "stage"}
     columns = [c for c in frame.columns if c not in skip]
     categorical = [c for c in columns if frame[c].dtype == object or str(frame[c].dtype) in {"string", "category"}]
     return columns, categorical
+
+
+def _subset(frame: pd.DataFrame, ids: list[str]) -> pd.DataFrame:
+    return frame[frame.record_id.astype(str).isin(set(map(str, ids)))]
+
+
+def _fit_one(
+    name: str,
+    train: pd.DataFrame,
+    stop: pd.DataFrame,
+    columns: list[str],
+    categorical: list[str],
+    seed: int,
+    params: dict[str, Any],
+):
+    """Fit a single estimator on stacked FIT rows. STOP is only for tree early-stop."""
+    params = dict(params)
+    if name == "CatBoost":
+        cats = [c for c in categorical if c in columns]
+        nums = [c for c in columns if c not in cats]
+        x_train = train[nums + cats].copy()
+        x_stop = stop[nums + cats].copy()
+        for c in cats:
+            x_train[c] = x_train[c].astype(str).fillna("Unknown")
+            x_stop[c] = x_stop[c].astype(str).fillna("Unknown")
+        for c in nums:
+            med = x_train[c].median()
+            x_train[c] = x_train[c].fillna(med)
+            x_stop[c] = x_stop[c].fillna(med)
+        model = make_estimator(name, params, seed, train.target.to_numpy())
+        cat_idx = list(range(len(nums), len(nums) + len(cats)))
+        try:
+            model.fit(x_train, train.target.to_numpy(), cat_features=cat_idx, eval_set=(x_stop, stop.target.to_numpy()), use_best_model=True)
+        except Exception:
+            cpu_params = dict(params)
+            cpu_params["task_type"] = "CPU"
+            model = make_estimator(name, cpu_params, seed, train.target.to_numpy())
+            model.fit(x_train, train.target.to_numpy(), cat_features=cat_idx, eval_set=(x_stop, stop.target.to_numpy()), use_best_model=True)
+
+        def predict(part: pd.DataFrame) -> np.ndarray:
+            x = part[nums + cats].copy()
+            for c in cats:
+                x[c] = x[c].astype(str).fillna("Unknown")
+            for c in nums:
+                x[c] = x[c].fillna(med)
+            return model.predict_proba(x)[:, 1]
+
+        return model, predict, int(x_train.shape[1])
+
+    prep = preprocessor(train, columns, categorical)
+    x_train = prep.fit_transform(train)
+    x_stop = prep.transform(stop)
+    y_train = train.target.to_numpy()
+    model = make_estimator(name, params, seed, y_train)
+    if name == "XGB":
+        try:
+            try:
+                model.fit(x_train, y_train, eval_set=[(x_stop, stop.target.to_numpy())], verbose=False)
+            except TypeError:
+                model.fit(x_train, y_train, eval_set=[(x_stop, stop.target.to_numpy())])
+        except Exception:
+            cpu_params = dict(params)
+            cpu_params["task_type"] = "CPU"
+            cpu_params["early_stopping"] = False
+            model = make_estimator(name, cpu_params, seed, y_train)
+            model.fit(x_train, y_train)
+    else:
+        model.fit(x_train, y_train)
+
+    def predict(part: pd.DataFrame) -> np.ndarray:
+        return _predict_proba(model, prep.transform(part))
+
+    return model, predict, int(x_train.shape[1])
+
+
+def fit_eval_stacked(
+    name: str,
+    frame: pd.DataFrame,
+    columns: list[str],
+    categorical: list[str],
+    fit_ids: list[str],
+    stop_ids: list[str],
+    valid_ids: list[str],
+    seed: int,
+    params: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """One fitted estimator, all stages. Per-stage threshold from STOP only."""
+    if "stage" not in frame.columns:
+        raise RuntimeError("STACKED_FRAME_MISSING_STAGE")
+    train = _subset(frame, fit_ids)
+    stop = _subset(frame, stop_ids)
+    valid = _subset(frame, valid_ids)
+    if len(train) < 20 or len(valid) < 10:
+        raise RuntimeError("STACKED_TOO_SMALL")
+    params = params or default_params(name, seed)
+    model, predict, n_features = _fit_one(name, train, stop, columns, categorical, seed, params)
+    stop_p = predict(stop)
+    valid_p = predict(valid)
+    stop = stop.copy()
+    valid = valid.copy()
+    stop["_p"] = np.asarray(stop_p, dtype=np.float64)
+    valid["_p"] = np.asarray(valid_p, dtype=np.float64)
+    stages: dict[str, Any] = {}
+    oof_rows = []
+    for stage, valid_s in valid.groupby("stage", sort=False):
+        stop_s = stop[stop.stage == stage]
+        if len(valid_s) < 8 or len(np.unique(valid_s.target.to_numpy())) < 2:
+            continue
+        if len(stop_s) < 8 or len(np.unique(stop_s.target.to_numpy())) < 2:
+            threshold = 0.5
+        else:
+            threshold = select_stop_threshold(stop_s.target.to_numpy(), stop_s["_p"].to_numpy())
+        metrics = binary_metrics(valid_s.target.to_numpy(), valid_s["_p"].to_numpy(), threshold=threshold)
+        metrics["stop_ap"] = binary_metrics(stop_s.target.to_numpy(), stop_s["_p"].to_numpy())["ap"] if len(stop_s) >= 8 and len(np.unique(stop_s.target.to_numpy())) >= 2 else None
+        metrics["stage"] = str(stage)
+        metrics["threshold"] = float(threshold)
+        stages[str(stage)] = metrics
+        for record_id, group_id, y, p in zip(
+            valid_s.record_id.astype(str).to_numpy(),
+            valid_s.group_id.astype(str).to_numpy(),
+            valid_s.target.to_numpy(),
+            valid_s["_p"].to_numpy(),
+        ):
+            oof_rows.append({"stage": str(stage), "record_id": str(record_id), "group_id": str(group_id), "y": int(y), "p": float(p)})
+    if not stages:
+        raise RuntimeError("STACKED_NO_STAGE_METRICS")
+    return {
+        "n_models": 1,
+        "one_weight_all_stages": True,
+        "family": name,
+        "n_features": n_features,
+        "n_train_rows": int(len(train)),
+        "n_stop_rows": int(len(stop)),
+        "n_valid_rows": int(len(valid)),
+        "params": params,
+        "outer_test_used": False,
+        "estimator_id": id(model),
+        "stages": stages,
+        "oof": oof_rows,
+    }

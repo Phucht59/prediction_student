@@ -1,14 +1,13 @@
 """Development-gate evaluator. Never opens confirmation on a failed gate."""
 from __future__ import annotations
 
-import json
+from pathlib import Path
 from typing import Any
 
-import numpy as np
 import pandas as pd
 
 from .io_utils import write_json
-from .paths import METRIC_DIR, RUN_DIR
+from .paths import RUN_DIR
 from .protocol import (
     ABLATION_MARGIN,
     COLD_GUARDRAIL,
@@ -19,7 +18,13 @@ from .protocol import (
 )
 
 
-def evaluate_development_gate(domain: str, hybrid_rows: pd.DataFrame, ceiling: dict[str, dict[str, Any]]) -> dict[str, Any]:
+def evaluate_development_gate(
+    domain: str,
+    hybrid_rows: pd.DataFrame,
+    ceiling: dict[str, dict[str, Any]],
+    *,
+    out_path: Path | None = None,
+) -> dict[str, Any]:
     """hybrid_rows columns: stage, seed, fold, ap, recall_at_20."""
     mean_ap = hybrid_rows.groupby("stage")["ap"].mean().to_dict()
     warm = warm_for(domain)
@@ -55,5 +60,5 @@ def evaluate_development_gate(domain: str, hybrid_rows: pd.DataFrame, ceiling: d
         "outer_test_used": False,
         "ablation_margin_required": ABLATION_MARGIN,
     }
-    write_json(RUN_DIR / f"development_gate_{domain}.json", payload)
+    write_json(out_path or (RUN_DIR / f"development_gate_{domain}.json"), payload)
     return payload
