@@ -27,6 +27,11 @@ Low Precision/Recall at **S0 / 20%** is mainly **missing information** (no grade
 
 Old Panel A gave trees **last/mean/max/std/slope** of the sequence. Hybrid had to learn those from the tensor. That is extra engineering, not extra raw data — still unfair for an architecture claim.
 
-**Current comparator:** one-weight baselines on **the same Hybrid tensors** (static + aggregate + masked temporal + progress). No engineered summaries. One estimator per family, all stages.
+**Current comparator:** one-weight baselines on **the same Hybrid tensors** (static + aggregate + masked temporal + progress). No engineered summaries. One estimator per family, all stages. Full tables: `PARITY_ONE_WEIGHT.md`.
 
-Hybrid vs that table is the scientific comparison. Serving model remains Hybrid CNN–BiLSTM C0.
+Same-run Hybrid vs that ceiling (AP, 3×3):
+
+- UCI S1 Hybrid 0.811 vs LR 0.769; S2 0.913 vs LR 0.896. S0 RF 0.480 vs Hybrid 0.456.
+- OULAD 20% XGB 0.766 vs Hybrid 0.747. 35–100% |Δ AP| vs XGB ≤ 0.003.
+
+Do not claim OULAD architecture win against this ceiling. Serving model remains Hybrid CNN–BiLSTM.

@@ -16,6 +16,7 @@ The only current thesis prediction model is **Hybrid CNN–BiLSTM**.
 | Current result tables | `reports/prediction/final/uci_final.csv`, `reports/prediction/final/oulad_final.csv` |
 | Information growth | `reports/prediction/final/information_growth.csv` |
 | Imbalance / fairness note | `reports/prediction/final/IMBALANCE_AND_FAIRNESS.md` |
+| Tensor-parity one-weight tables | `reports/prediction/final/PARITY_ONE_WEIGHT.md` |
 | Project map | `PROJECT.md` |
 | Decision manifest | `artifacts/prediction/final/FINALIZATION_DECISION.json` |
 | Current surface list | `artifacts/prediction/final/CURRENT_SURFACE.json` |

@@ -96,7 +96,7 @@ UCI S0: chưa có chuỗi → CNN/BiLSTM tắt, chỉ tabular. Output: `p`, ngư
 
 ## 5. Kết quả dự đoán (robust 3×3)
 
-Bốn chỉ số: **AP** (`average_precision_score`), **Accuracy**, **F1**, **Recall** — trung bình 3 fold × 3 seed. Không lấy run đẹp nhất. Chi tiết: `reports/prediction/final/FINAL_PREDICTION_MODEL_REPORT.md`. Chương 3: `reports/prediction/final/CHUONG_3.md`.
+Bốn chỉ số: **AP** (`average_precision_score`), **Accuracy**, **F1**, **Recall** — trung bình 3 fold × 3 seed. Không lấy run đẹp nhất. Chi tiết: `reports/prediction/final/FINAL_PREDICTION_MODEL_REPORT.md`. Chương 3: `reports/prediction/final/CHUONG_3.md`. Đối sánh một-trọng-số trên cùng tensor Hybrid: `reports/prediction/final/PARITY_ONE_WEIGHT.md`.
 
 ### UCI
 

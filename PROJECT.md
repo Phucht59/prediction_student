@@ -66,6 +66,7 @@ python project.py db recommend --student 631334 --course CCC --presentation 2014
 | README | `README.md` |
 | Báo cáo kỹ thuật | `reports/BAO_CAO_KY_THUAT_PROJECT.md` |
 | Chương 3 | `reports/prediction/final/CHUONG_3.md` |
+| Tensor-parity one-weight | `reports/prediction/final/PARITY_ONE_WEIGHT.md` |
 | Robust mean dự đoán | `reports/prediction/final/FINAL_PREDICTION_MODEL_REPORT.md` |
 | Bảng metric Hybrid CNN–BiLSTM | `reports/prediction/final/uci_final.csv`, `oulad_final.csv` |
 | Recommendation V | `reports/recommend_hybrid/v3/FINAL_RECOMMENDATION_V3_REPORT.md` |
