@@ -24,6 +24,7 @@ Moved 2026-08-19. Bytes preserved. Not current Hybrid C0 or Recommendation V3.
 | `scripts/hybrid_vnext` | Experiment runners |
 | `scripts/recommendation` | Pre-V3 scripts |
 | `configs/archive` | Phase10 archive YAML |
+| `experiments/c4_star` + reports/artifacts/protocols/tests | C4-STAR v2.1 residual Hybrid trial; **not** thesis model. C0-R stays in the main tree. |
 
 Left in the normal tree:
 

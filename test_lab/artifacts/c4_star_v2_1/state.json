@@ -1,0 +1,18 @@
+{
+  "phase": "finalize_reports",
+  "completed": [
+    "baselines_oulad",
+    "c4_hpo",
+    "c4_ladder",
+    "diagnose",
+    "finalize_reports",
+    "joint_screen",
+    "protocol",
+    "recover",
+    "robust_3x3",
+    "tests"
+  ],
+  "failed": [],
+  "best": {},
+  "note": "rerun c4_ladder+c4_hpo after AMP-safe kd_bce fix"
+}

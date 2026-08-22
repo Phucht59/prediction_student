@@ -1,40 +1,28 @@
 # OVERNIGHT_STATUS — hybrid_superiority_v2
 
-- Updated: `2026-08-20T22:58:45Z`
+- Updated: `2026-08-22T04:17:32Z`
 - Branch: `research/hybrid-superiority-v2`
-- Commit: `ae883396b15294a075aecf47cd8c70998cd213f1`
+- Commit: `f956f29d1eabc8054270937c633648b9571523c2`
 - Protocol hash: `eb5f4cfbf4e1629281386367400970241ff68fdaec6c0f7905b0e3a6f33646a2`
-- Phase: **SPEED_FINISH done — NOT_READY_FOR_DEFENSE**
+- Phase: **C0-R scientific done**
 
 ## Completed
-
-- UCI baseline lock 3×3 (CatBoost trần)
-- UCI ladder screen C0-R/C1-R/C2-S/C3-G; robust C0-R + C3-G
-- UCI development gate: S1 pass, S2 material fail
-- OULAD SPEED lock (XGB/CatBoost GPU 4 trial; skip HPO DT/SVM/MLP/RF)
-- OULAD C0-R screen 6 trial + robust 3 seed
-- OULAD development gate: fail 4 warm
-- UCI SPEED ablation fold-0
-- Reports written (no CURRENT_REPORTS promotion)
+- hpo_oulad
+- hpo_uci
+- robust_oulad
+- robust_uci
 
 ## Evidence
-
-- `artifacts/research/hybrid_superiority_v2/runs/baseline_lock_uci.json`
-- `artifacts/research/hybrid_superiority_v2/runs/baseline_lock_oulad.json`
-- `artifacts/research/hybrid_superiority_v2/runs/development_gate.json`
-- `reports/research/hybrid_superiority_v2/FINAL_DECISION.md`
-- `reports/research/hybrid_superiority_v2/SPEED_FINISH.md`
-- Wall SPEED_FINISH = 833s, RTX 2060 HIGH priority
+- C:\hufit\student\artifacts\research\hybrid_superiority_v2\runs\c0r_sci_robust_oulad.json
+- C:\hufit\student\reports\research\hybrid_superiority_v2\C0R_SCIENTIFIC.md
 
 ## Decision
-
-**NOT_READY_FOR_DEFENSE.** Không promote Hybrid serving. Confirmation từ chối.
+see C0R_SCIENTIFIC.md — no authority promotion unless both gates pass
 
 ## Next
-
-Đọc `FINAL_DECISION.md`. Nếu muốn protocol đủ 28-trial / 3×3 OULAD thì chạy lại ngoài SPEED_FINISH — không bắt buộc để kết luận hiện tại (gate đã fail).
+read reports
 
 ## Blockers
+- none
 
-- Development gate fail (UCI S2 material; OULAD 4 warm)
-- SPEED_FINISH cắt budget OULAD — đã document
+
