@@ -65,10 +65,9 @@ python project.py db recommend --student 631334 --course CCC --presentation 2014
 |---|---|
 | README | `README.md` |
 | Báo cáo kỹ thuật | `reports/BAO_CAO_KY_THUAT_PROJECT.md` |
+| Chương 3 | `reports/prediction/final/CHUONG_3.md` |
 | Robust mean dự đoán | `reports/prediction/final/FINAL_PREDICTION_MODEL_REPORT.md` |
-| Bảng metric serving C0 | `reports/prediction/final/uci_final.csv`, `oulad_final.csv` |
-| Khóa C0 + rec | `reports/research/hybrid_superiority_v2/C0_REC_LOCK.md` |
-| Bốn chỉ số nghiên cứu C0-R | `reports/research/hybrid_superiority_v2/HEADLINE_FOUR_METRICS.md` |
+| Bảng metric Hybrid CNN–BiLSTM | `reports/prediction/final/uci_final.csv`, `oulad_final.csv` |
 | Recommendation V | `reports/recommend_hybrid/v3/FINAL_RECOMMENDATION_V3_REPORT.md` |
 | Live DB | `database/live/README.md` |
 | Code dự đoán | `src/prediction/` |

@@ -43,7 +43,7 @@ class HybridConfig:
 
 
 class Hybrid(nn.Module):
-    """One public binary Hybrid. Dataset differences are input dims and weights only."""
+    """Public Hybrid CNN–BiLSTM. Dataset differences are input dims and weights only."""
 
     model_id = "hybrid"
     display_name = "Hybrid"

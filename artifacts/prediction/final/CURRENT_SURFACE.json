@@ -1,6 +1,8 @@
 {
   "reports": [
     "reports/prediction/final/FINAL_PREDICTION_MODEL_REPORT.md",
+    "reports/prediction/final/CHUONG_3.md",
+    "reports/prediction/final/IMBALANCE_AND_FAIRNESS.md",
     "reports/prediction/final/uci_final.csv",
     "reports/prediction/final/oulad_final.csv",
     "reports/prediction/final/information_growth.csv",

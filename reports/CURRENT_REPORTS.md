@@ -12,19 +12,17 @@ The only current thesis prediction model is **Hybrid CNN–BiLSTM**.
 | Config | `configs/prediction/hybrid_final.json` |
 | Registry | `configs/prediction/registry.json` |
 | Canonical report | `reports/prediction/final/FINAL_PREDICTION_MODEL_REPORT.md` |
+| Chương 3 | `reports/prediction/final/CHUONG_3.md` |
 | Current result tables | `reports/prediction/final/uci_final.csv`, `reports/prediction/final/oulad_final.csv` |
 | Information growth | `reports/prediction/final/information_growth.csv` |
+| Imbalance / fairness note | `reports/prediction/final/IMBALANCE_AND_FAIRNESS.md` |
 | Project map | `PROJECT.md` |
 | Decision manifest | `artifacts/prediction/final/FINALIZATION_DECISION.json` |
 | Current surface list | `artifacts/prediction/final/CURRENT_SURFACE.json` |
-| C0 + rec lock | `reports/research/hybrid_superiority_v2/C0_REC_LOCK.md` |
-| Research four-metric lock | `reports/research/hybrid_superiority_v2/HEADLINE_FOUR_METRICS.md` |
 
-Do not treat any other Hybrid, H1, CNN-BiLSTM YAML, thesis_v3 table, or Phase 8 outer CSV as the current prediction authority.
+Do not treat any other Hybrid, H1, experiment code-name, thesis_v3 table, or Phase 8 outer CSV as the current prediction authority.
 
-Public comparison roster: Hybrid / LR / DT / RF / SVM / MLP. XGBoost is not a serving baseline.
-
-Locked research comparison (inner only, one-weight baselines, XGB/CatBoost included): `HEADLINE_FOUR_METRICS.md`. Four headline metrics: accuracy, precision, F1, ROC-AUC. Outer test not opened.
+Public names: **Hybrid CNN–BiLSTM**, **Recommendation V**. Public comparison roster: Hybrid / LR / DT / RF / SVM / MLP. XGBoost is not a serving baseline. Outer test not opened.
 
 ## Other current subsystems (not the Hybrid prediction model)
 

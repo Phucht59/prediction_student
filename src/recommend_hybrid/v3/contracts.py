@@ -1,4 +1,4 @@
-"""V3 contracts. C0 PredictionResult is the only prediction input."""
+"""Recommendation V contracts. Hybrid CNN–BiLSTM PredictionResult is the only prediction input."""
 
 from __future__ import annotations
 

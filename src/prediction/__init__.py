@@ -1,6 +1,6 @@
 """Canonical binary student-risk prediction API.
 
-Public model: Hybrid (C0). UCI and OULAD share the architecture.
+Public model: Hybrid CNN–BiLSTM. UCI and OULAD share the architecture.
 Information states are views of one fitted model per dataset.
 """
 

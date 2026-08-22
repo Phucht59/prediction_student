@@ -10,7 +10,7 @@
 | Field | Value |
 |---|---|
 | `model_id` | `hybrid` |
-| `display_name` | Hybrid |
+| `display_name` | Hybrid (public name: Hybrid CNN–BiLSTM) |
 | `public_class` | Hybrid |
 | Architecture | Hybrid CNN–BiLSTM |
 | Topology | parallel CNN ∥ BiLSTM, corrected availability, 3-way masked softmax, binary risk logit |
@@ -87,7 +87,7 @@ The same checkpoint is scored at every state.
 
 ## G. Dataset-nature robustness
 
-The same C0 remains usable on both a small grade-sequence dataset and a large VLE dataset. Raw PR-AUC is not comparable across tasks. The honest contrast is the margin versus the strongest active baseline: OULAD Hybrid beats LR; UCI Hybrid loses the macro to RF because of S0.
+The same Hybrid CNN–BiLSTM remains usable on both a small grade-sequence dataset and a large VLE dataset. Raw AP is not comparable across tasks. The honest contrast is the margin versus the strongest active baseline: OULAD Hybrid beats LR from 35% onward; UCI Hybrid loses the macro to RF because of S0.
 
 ## H. Leakage audit
 

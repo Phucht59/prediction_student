@@ -12,11 +12,8 @@ Raw CSV
   → feasibility → Recommendation V → RECOMMEND Top-1 / HUMAN_REVIEW Top-3
 ```
 
-Báo cáo kỹ thuật đầy đủ (pipeline I/O từng bước, bảng đặc trưng, kiến trúc, leakage, kết quả):
-
-```text
-reports/BAO_CAO_KY_THUAT_PROJECT.md
-```
+Chương 3 (đề xuất phương pháp, số liệu khóa): `reports/prediction/final/CHUONG_3.md`.  
+Báo cáo kỹ thuật pipeline: `reports/BAO_CAO_KY_THUAT_PROJECT.md`.
 
 ---
 
@@ -76,9 +73,9 @@ Chi tiết từng cột: `reports/BAO_CAO_KY_THUAT_PROJECT.md`.
 
 ---
 
-## 4. Hybrid CNN–BiLSTM
+## 4. Hybrid CNN–BiLSTM (mô hình dự đoán cuối)
 
-CNN và BiLSTM **song song** trên cùng chuỗi temporal, rồi hợp với nhánh tabular bằng cổng softmax 3 nhánh (có mask availability).
+Tên công khai **Hybrid CNN–BiLSTM**. Một class PyTorch, hai checkpoint (UCI / OULAD). CNN và BiLSTM **song song** trên cùng chuỗi temporal, hợp với nhánh tabular bằng cổng softmax 3 nhánh (mask availability).
 
 ```text
 static, aggregate     → ResidualProjector → h_tab ∈ ℝ¹²⁸
@@ -97,31 +94,31 @@ UCI S0: chưa có chuỗi → CNN/BiLSTM tắt, chỉ tabular. Output: `p`, ngư
 
 ---
 
-## 5. Kết quả dự đoán (bốn thang)
+## 5. Kết quả dự đoán (robust 3×3)
 
-Mỗi mốc: run có **PR-AUC cao nhất**, bốn chỉ số lấy từ **cùng run**. Không phải trung bình 3×3. Trung bình robust: `reports/prediction/final/FINAL_PREDICTION_MODEL_REPORT.md`.
+Bốn chỉ số: **AP** (`average_precision_score`), **Accuracy**, **F1**, **Recall** — trung bình 3 fold × 3 seed. Không lấy run đẹp nhất. Chi tiết: `reports/prediction/final/FINAL_PREDICTION_MODEL_REPORT.md`. Chương 3: `reports/prediction/final/CHUONG_3.md`.
 
 ### UCI
 
-| Mốc | PR-AUC | Accuracy | F1 | Recall |
+| Mốc | AP | Accuracy | F1 | Recall |
 |---|---:|---:|---:|---:|
-| S0 | 0.5124 | 0.4234 | 0.4104 | 0.9649 |
-| S1 | **0.8530** | 0.8787 | 0.7027 | 0.6610 |
-| S2 | **0.9417** | **0.9412** | **0.8571** | 0.8136 |
+| S0 | 0.4547 | 0.5213 | 0.4291 | 0.8421 |
+| S1 | **0.8214** | 0.8553 | 0.6899 | 0.7587 |
+| S2 | **0.9101** | **0.9094** | **0.8010** | 0.8545 |
 
-S0 chưa có điểm — PR-AUC thấp. S2 (đủ G1+G2): PR-AUC 94.17%, Accuracy 94.12%.
+S0 chưa có `G1`/`G2` — AP thấp, không tuyên bố thắng. S1/S2 Hybrid đứng đầu AP so với LR, DT, RF, SVM, MLP.
 
 ### OULAD
 
-| Mốc | PR-AUC | Accuracy | F1 | Recall |
+| Mốc | AP | Accuracy | F1 | Recall |
 |---|---:|---:|---:|---:|
-| 20% | **0.7707** | 0.6689 | 0.6811 | **0.8254** |
-| 35% | **0.8119** | 0.7551 | 0.7038 | 0.7165 |
-| 50% | **0.8594** | 0.8059 | 0.7421 | 0.7290 |
-| 75% | **0.8993** | 0.8766 | 0.7974 | 0.7080 |
-| 100% | **0.9297** | **0.9098** | **0.8508** | 0.7890 |
+| 20% | 0.7624 | 0.6854 | 0.6781 | 0.7769 |
+| 35% | **0.8058** | 0.7456 | 0.7001 | 0.7464 |
+| 50% | **0.8483** | 0.8006 | 0.7306 | 0.7207 |
+| 75% | **0.8885** | 0.8627 | 0.7807 | 0.7221 |
+| 100% | **0.9204** | **0.9088** | **0.8372** | 0.7807 |
 
-Hybrid CNN–BiLSTM đứng nhất **PR-AUC mọi cutoff** so với LR, DT, RF, SVM, MLP. Bảng so sánh đầy đủ trong báo cáo kỹ thuật.
+Hybrid đứng nhất AP từ 35% đến 100% trên roster serving. 20% thua LR 0.0008. 100% không dùng cho khuyến nghị.
 
 ---
 
@@ -184,8 +181,10 @@ pytest tests/prediction tests/recommend_hybrid/v3 tests/database -q
 | Recommendation V | `src/recommend_hybrid/v3/` |
 | Live DB runtime | `src/database/live_runtime.py` |
 | Config | `configs/prediction/hybrid_final.json` |
+| Chương 3 khóa luận | `reports/prediction/final/CHUONG_3.md` |
 | Báo cáo kỹ thuật | `reports/BAO_CAO_KY_THUAT_PROJECT.md` |
 | Robust mean dự đoán | `reports/prediction/final/FINAL_PREDICTION_MODEL_REPORT.md` |
+| Lệch lớp và so sánh công bằng | `reports/prediction/final/IMBALANCE_AND_FAIRNESS.md` |
 | Recommendation V final | `reports/recommend_hybrid/v3/FINAL_RECOMMENDATION_V3_REPORT.md` |
 
 ---
