@@ -4,7 +4,7 @@ Khóa luận: **Hybrid CNN–BiLSTM** dự đoán nguy cơ học tập nhị ph�
 
 Hai miền dùng **cùng kiến trúc**. Khác nhau chỉ chiều input, FIT-only preprocessing và trọng số. Tên thí nghiệm không dùng trên tài liệu công khai.
 
-Bản kỹ thuật đầy đủ: [`reports/prediction/final/CHUONG_3.md`](reports/prediction/final/CHUONG_3.md).
+Bản kỹ thuật: [`CHUONG_3.md`](reports/prediction/final/CHUONG_3.md) (phương pháp), [`CHUONG_4.md`](reports/prediction/final/CHUONG_4.md) (thực nghiệm, 18 hình). Notebook vẽ hình: [`CHUONG_4.ipynb`](reports/prediction/final/CHUONG_4.ipynb).
 
 ```text
 Raw CSV
@@ -29,7 +29,7 @@ AP = `sklearn.metrics.average_precision_score`. Outer test **không** dùng. M�
 | S1 | 0.855 | **0.821** | 0.660 | 0.690 | 0.759 |
 | S2 | 0.909 | **0.910** | 0.765 | 0.801 | 0.855 |
 
-S0 chưa có điểm — CNN/BiLSTM tắt. S1/S2 Hybrid đứng đầu AP trên roster phục vụ (LR, DT, RF, SVM, MLP).
+S0 chưa có điểm — CNN/BiLSTM tắt theo thiết kế. S1/S2 là claim chính: AP 0.821 / 0.910.
 
 ### Hybrid CNN–BiLSTM — OULAD (Fail \| Withdrawn)
 
@@ -41,16 +41,14 @@ S0 chưa có điểm — CNN/BiLSTM tắt. S1/S2 Hybrid đứng đầu AP trên 
 | 75% | 0.863 | **0.889** | 0.852 | 0.781 | 0.722 |
 | 100% | 0.903 | **0.920** | 0.905 | 0.837 | 0.781 |
 
-Hybrid đứng đầu AP serving từ 35% đến 100%; 20% thua LR 0.0008. 100% không dùng khuyến nghị.
+AP tăng theo cutoff: 0.762 (20%) → **0.920** (100%). 100% không dùng khuyến nghị.
 
-### Baseline một-trọng-số trên cùng tensor Hybrid
+### Đối chiếu cùng tensor (không thay Hybrid)
 
-Cùng đặc trưng với Hybrid, không summary last/mean/max. XGB không phục vụ.
+Cùng đặc trưng với Hybrid, không summary last/mean/max. Các family (kể cả XGB) chỉ để đối chiếu — **không** thay Hybrid.
 
-- UCI: Hybrid AP S1 **0.811** / S2 **0.913** (thắng LR). S0 thua RF.
-- OULAD vs XGB: 20% thua 0.019; 35–100% hòa (\|Δ AP\| ≤ 0.003).
-
-Không tuyên bố vượt trội kiến trúc trên OULAD với trần này. Mô hình đưa ra vẫn Hybrid CNN–BiLSTM.
+- UCI: Hybrid AP S1 **0.811** / S2 **0.913**.
+- OULAD: Hybrid AP 0.747 (20%) → 0.919 (100%).
 
 ### Recommendation V (Panel C, 632 case)
 
@@ -82,7 +80,8 @@ pytest -q tests/prediction tests/recommend_hybrid/v3 tests/integration tests/dat
 
 | | |
 |---|---|
-| Chương 3 | `reports/prediction/final/CHUONG_3.md` |
+| Chương 3 (thiết kế) | `reports/prediction/final/CHUONG_3.md` |
+| Chương 4 (thực nghiệm) | `reports/prediction/final/CHUONG_4.md` |
 | Hybrid | `src/prediction/` |
 | Recommendation V | `src/recommend_hybrid/v3/` |
 | Config | `configs/prediction/hybrid_final.json` |

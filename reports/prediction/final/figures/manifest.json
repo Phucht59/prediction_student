@@ -1,0 +1,23 @@
+{
+  "n_figures": 18,
+  "files": [
+    "fig01_uci_ap_serving.png",
+    "fig02_oulad_ap_serving.png",
+    "fig03_information_growth_ap.png",
+    "fig04_overfit_fit_vs_valid.png",
+    "fig05_uci_hybrid_five_metrics.png",
+    "fig06_oulad_hybrid_curves.png",
+    "fig07_hybrid_ece.png",
+    "fig08_parity_uci_ap.png",
+    "fig09_parity_oulad_ap.png",
+    "fig10_oulad_fold_stop_ap.png",
+    "fig11_stop_threshold_by_fold.png",
+    "fig12_oof_score_hist.png",
+    "fig13_p_vs_entropy.png",
+    "fig14_rec_panel_c_metrics.png",
+    "fig15_rec_routes.png",
+    "fig16_rec_top1_actions.png",
+    "fig17_rec_bootstrap_ndcg.png",
+    "fig18_ap_mean_std_9run.png"
+  ]
+}

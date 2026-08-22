@@ -2,7 +2,7 @@
 
 Bản đồ khóa luận. Tên công khai: **Hybrid CNN–BiLSTM**, **Recommendation V**. Không dùng tên thí nghiệm trên tài liệu công khai.
 
-**Bản kỹ thuật Chương 3 (nguồn sự thật):** [`reports/prediction/final/CHUONG_3.md`](reports/prediction/final/CHUONG_3.md)
+**Bản kỹ thuật:** Chương 3 [`CHUONG_3.md`](reports/prediction/final/CHUONG_3.md) · Chương 4 [`CHUONG_4.md`](reports/prediction/final/CHUONG_4.md) (18 hình, notebook `CHUONG_4.ipynb`).
 
 Outer test không dùng. AP = `sklearn.metrics.average_precision_score`.
 
@@ -22,18 +22,18 @@ Outer test không dùng. AP = `sklearn.metrics.average_precision_score`.
 UCI AP: S0 0.455 · S1 **0.821** · S2 **0.910**  
 OULAD AP: 20% 0.762 · 35% **0.806** · 50% **0.848** · 75% **0.889** · 100% **0.920**
 
-Serving: Hybrid thắng AP UCI S1–S2 và OULAD 35–100%. S0 thua RF. 20% thua LR 0.0008.
+Hybrid (mô hình chính): UCI AP S1 0.821 / S2 0.910; OULAD AP 0.762 → 0.920 theo cutoff. LR/DT/RF/SVM/MLP chỉ so sánh.
 
 ### Baseline một-trọng-số cùng tensor
 
-UCI AP Hybrid S1 0.811 / S2 0.913 (thắng LR). S0 thua RF.  
-OULAD vs XGB: 20% 0.747 vs 0.766; 35–100% hòa (\|Δ\|≤0.003). Không tuyên bố vượt trội OULAD.
+UCI AP Hybrid S1 0.811 / S2 0.913.  
+OULAD AP Hybrid 0.747 (20%) → 0.919 (100%). Family đối chiếu không phải mô hình khóa.
 
 ### Recommendation V
 
 Panel C: NDCG@3 0.888 vs B1 0.866; invalid 0. Không nhân quả.
 
-Chi tiết bảng, kiến trúc, rò rỉ, overfit, luồng case: **Chương 3**.
+Thiết kế, kiến trúc, giao thức rò rỉ: **Chương 3**. Số liệu, overfit, Panel C, luồng case phục vụ: **Chương 4**.
 
 ---
 
