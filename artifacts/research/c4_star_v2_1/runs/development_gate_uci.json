@@ -1,0 +1,37 @@
+{
+  "ablation_margin_required": 0.005,
+  "checks": [
+    {
+      "ap_baseline": 0.7693939811848465,
+      "ap_hybrid": 0.7746790599834319,
+      "delta": 0.005285078798585419,
+      "material_margin": 0.023060601881515354,
+      "pass_material": false,
+      "pass_positive": true,
+      "stage": "S1"
+    },
+    {
+      "ap_baseline": 0.9066812358700744,
+      "ap_hybrid": 0.8559020491636822,
+      "delta": -0.050779186706392254,
+      "material_margin": 0.01,
+      "pass_material": false,
+      "pass_positive": false,
+      "stage": "S2"
+    },
+    {
+      "ap_baseline": 0.5009713365027397,
+      "ap_hybrid": 0.4925165088714966,
+      "delta": -0.008454827631243111,
+      "guardrail": 0.05,
+      "pass_cold": true,
+      "stage": "S0"
+    }
+  ],
+  "cold_ok": true,
+  "domain": "uci",
+  "n_warm_fail": 2,
+  "outer_test_used": false,
+  "pass": false,
+  "protocol_hash": "eb5f4cfbf4e1629281386367400970241ff68fdaec6c0f7905b0e3a6f33646a2"
+}

@@ -127,9 +127,9 @@ class SuperiorityHybrid(nn.Module):
         self.cnn_in = nn.Linear(d, config.cnn_channels)
         if config.serial:
             self.cnn_seq = MaskedMultiScaleCNN(config.cnn_channels, config.cnn_kernels, config.dropout)
-            self.cnn_pool = nn.Linear(config.cnn_channels * 2, d)
+            self.cnn_pool = nn.Linear(config.cnn_channels * 3, d)
             self.bilstm = BiLSTMSequence(config.cnn_channels, config.bilstm_hidden)
-            self.lstm_pool = nn.Linear(config.bilstm_hidden * 4, d)
+            self.lstm_pool = nn.Linear(config.bilstm_hidden * 6, d)
             self.skip_pool = nn.Linear(d * 2, d)
             self.parallel_cnn = None
             self.parallel_lstm = None
@@ -147,9 +147,10 @@ class SuperiorityHybrid(nn.Module):
             nn.Linear(d * 3 + 3 + 1, 32), nn.GELU(), nn.Dropout(config.dropout), nn.Linear(32, 3)
         )
         self.residual_gate = nn.Sequential(nn.Linear(d * 2 + 2, 32), nn.GELU(), nn.Linear(32, 1))
-        nn.init.constant_(self.residual_gate[-1].bias, -2.0)
+        nn.init.constant_(self.residual_gate[-1].bias, -1.0)
         nn.init.zeros_(self.residual_gate[-1].weight)
         self.delta_head = nn.Linear(d, 1)
+        self.raw_last_head = nn.Linear(config.temporal_dim, 1)
         self.cnn_aux = nn.Linear(d, 1)
         self.lstm_aux = nn.Linear(d, 1)
         self.head = nn.Sequential(nn.LayerNorm(d), nn.Linear(d, 64), nn.GELU(), nn.Dropout(config.dropout), nn.Linear(64, 1))
@@ -163,13 +164,18 @@ class SuperiorityHybrid(nn.Module):
         h_agg = self.aggregate_projector(aggregate) * keep
         return h_static + h_agg
 
+    def _last_hidden(self, sequence: torch.Tensor, lengths: torch.Tensor) -> torch.Tensor:
+        idx = (lengths - 1).clamp(min=0)
+        gather = sequence[torch.arange(sequence.size(0), device=sequence.device), idx]
+        return torch.where(lengths.gt(0).unsqueeze(-1), gather, torch.zeros_like(gather))
+
     def _temporal(self, adapted, mask, lengths):
         keep = mask.unsqueeze(-1).to(adapted.dtype)
         if self.config.serial:
             local = self.cnn_seq(self.cnn_in(adapted) * keep, mask)
             long = self.bilstm(local, mask, lengths)
-            h_cnn = self.cnn_pool(masked_mean_max(local, mask))
-            h_lstm = self.lstm_pool(masked_mean_max(long, mask))
+            h_cnn = self.cnn_pool(torch.cat((masked_mean_max(local, mask), self._last_hidden(local, lengths)), dim=-1))
+            h_lstm = self.lstm_pool(torch.cat((masked_mean_max(long, mask), self._last_hidden(long, lengths)), dim=-1))
             h_temp = self.skip_pool(torch.cat((h_cnn, h_lstm), dim=-1))
             return h_cnn, h_lstm, h_temp
         cnn_feat = self.parallel_cnn(self.cnn_in(adapted) * keep, mask)
@@ -205,7 +211,8 @@ class SuperiorityHybrid(nn.Module):
         z_tab = self.tabular_head(h_tab).squeeze(-1)
         z_cnn = self.cnn_aux(h_cnn).squeeze(-1)
         z_lstm = self.lstm_aux(h_lstm).squeeze(-1)
-        delta = self.delta_head(h_temp).squeeze(-1)
+        last_raw = self._last_hidden(temporal * keep, lengths)
+        delta = self.delta_head(h_temp).squeeze(-1) + self.raw_last_head(last_raw).squeeze(-1)
         avail = temporal_available.to(h_tab.dtype)
 
         if self.config.candidate == "C0-R":

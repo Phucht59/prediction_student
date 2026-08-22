@@ -1,0 +1,61 @@
+{
+  "c4_protocol": "ce758268ce0c834624a76f847864e4f31f553d85d1bb6458d453d07b8f8ee9ac",
+  "files": {
+    "oulad_baseline_oof": {
+      "bytes": 3794070,
+      "exists": true,
+      "path": "C:\\hufit\\student\\artifacts\\research\\hybrid_superiority_v2\\oof\\baseline_oof_oulad.parquet",
+      "sha256": "b0e8f352e3734a82eef40a3d422393a67c564e8785910b3b9c58e0a19552b905"
+    },
+    "oulad_gate": {
+      "bytes": 1537,
+      "exists": true,
+      "path": "C:\\hufit\\student\\artifacts\\research\\hybrid_superiority_v2\\runs\\development_gate_oulad.json",
+      "sha256": "d6e690a6a3a795cc463a35e90db0c50e92c9837a7cc21819a78ffa8869088957"
+    },
+    "oulad_hybrid_oof": {
+      "bytes": 666098,
+      "exists": true,
+      "path": "C:\\hufit\\student\\artifacts\\research\\hybrid_superiority_v2\\oof\\hybrid_oof_oulad_C0-R.parquet",
+      "sha256": "d0b4929437d9b000cdb7b32d58908f25cc4db6e9f1c02653ec7eb6fd534ae208"
+    },
+    "oulad_lock": {
+      "bytes": 3349,
+      "exists": true,
+      "path": "C:\\hufit\\student\\artifacts\\research\\hybrid_superiority_v2\\runs\\baseline_lock_oulad.json",
+      "sha256": "809166523a9059a7bc1f7a2969db056c96e3a76d6aac36188d64d74a5fec29c2"
+    },
+    "robust_oulad_c0": {
+      "bytes": 3329,
+      "exists": true,
+      "path": "C:\\hufit\\student\\artifacts\\research\\hybrid_superiority_v2\\runs\\robust_oulad_C0-R.json",
+      "sha256": "81fe061426c78f2a0884c19eca4690ff15a4093aa4418fa2b7a638e19aec2522"
+    },
+    "robust_uci_c0": {
+      "bytes": 3805,
+      "exists": true,
+      "path": "C:\\hufit\\student\\artifacts\\research\\hybrid_superiority_v2\\runs\\robust_uci_C0-R.json",
+      "sha256": "0cf1df2032e141e20dd7b8eabf80b1c2669b185623b258f435af1ed0f1aa1807"
+    },
+    "uci_baseline_oof": {
+      "bytes": 289638,
+      "exists": true,
+      "path": "C:\\hufit\\student\\artifacts\\research\\hybrid_superiority_v2\\oof\\baseline_oof_uci.parquet",
+      "sha256": "6449bd0b318c5dc776f714d1738496beb1ea7177e2e1760801e5641fbbdbaa70"
+    },
+    "uci_gate": {
+      "bytes": 979,
+      "exists": true,
+      "path": "C:\\hufit\\student\\artifacts\\research\\hybrid_superiority_v2\\runs\\development_gate_uci.json",
+      "sha256": "5550382ca8b161bf12acfb23476fb7b2af7502655a930c89cf83f90f8fa7afe2"
+    },
+    "uci_lock": {
+      "bytes": 2319,
+      "exists": true,
+      "path": "C:\\hufit\\student\\artifacts\\research\\hybrid_superiority_v2\\runs\\baseline_lock_uci.json",
+      "sha256": "79b3e7422ebd99d89c1a2dd5f3abd177e3aeee0ac3a8c90adc8a36e8fcd88aaf"
+    }
+  },
+  "generated_at": "2026-08-21T00:38:57Z",
+  "parent_protocol": "eb5f4cfbf4e1629281386367400970241ff68fdaec6c0f7905b0e3a6f33646a2"
+}

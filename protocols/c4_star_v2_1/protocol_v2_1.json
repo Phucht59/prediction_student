@@ -1,0 +1,217 @@
+{
+  "frozen_at": "2026-08-21T00:38:57Z",
+  "payload": {
+    "ablation_margin": 0.005,
+    "amendment": "joint_domain_candidate_selection",
+    "amendment_reason": "v2 screened long-sequence candidates almost entirely on UCI T<=2; v2.1 requires UCI short-prefix + OULAD long-sequence joint screen before C4-STAR.",
+    "authority_untouched": true,
+    "backbones": [
+      "C0-R",
+      "C1-R",
+      "C2-S",
+      "C3-G"
+    ],
+    "baseline_roster": [
+      "LR",
+      "DT",
+      "RF",
+      "SVM",
+      "XGB",
+      "CatBoost",
+      "MLP",
+      "TemporalSummaryCatBoost"
+    ],
+    "bootstrap_replicates": 10000,
+    "cold_guardrail": {
+      "oulad:20pct": 0.02,
+      "recall_at_20_drop": 0.05,
+      "uci:S0": 0.05
+    },
+    "cold_set": [
+      "uci:S0",
+      "oulad:20pct"
+    ],
+    "development_outer_fold": 0,
+    "dt_timeout_sec": 90,
+    "forbidden_oulad": [
+      "final_result",
+      "target",
+      "score",
+      "date_unregistration"
+    ],
+    "forbidden_uci": [
+      "G1",
+      "G2",
+      "G3",
+      "absences"
+    ],
+    "gemini_in_prediction_hpo": false,
+    "holm_alpha": 0.05,
+    "hpo_budget": {
+      "CatBoost": {
+        "min_trials": 120,
+        "plateau": 40
+      },
+      "DT": {
+        "min_trials": 20,
+        "plateau": 10,
+        "timeout_sec": 90
+      },
+      "LR": {
+        "min_trials": 40,
+        "plateau": 20
+      },
+      "MLP": {
+        "min_trials": 120,
+        "plateau": 40
+      },
+      "RF": {
+        "min_trials": 80,
+        "plateau": 30
+      },
+      "SVM": {
+        "min_trials": 60,
+        "plateau": 25
+      },
+      "TemporalSummaryCatBoost": {
+        "min_trials": 160,
+        "plateau": 50
+      },
+      "XGB": {
+        "min_trials": 120,
+        "plateau": 40
+      },
+      "c4_min_trials": 160,
+      "c4_plateau": 50,
+      "hybrid_screen_trials": 24
+    },
+    "hybrid_uci_grade_branch": "temporal_only",
+    "locked_split_source": "artifacts/research/hybrid_superiority_v2/cache/splits",
+    "material_floor": 0.01,
+    "material_scale": 0.1,
+    "max_epochs": 40,
+    "mechanisms": [
+      "M0",
+      "M1",
+      "M2",
+      "M3",
+      "M4",
+      "M5",
+      "M6",
+      "M7"
+    ],
+    "n_inner": 3,
+    "no_dataset_topology_branch": true,
+    "one_checkpoint_scores_all_stages": true,
+    "oulad_stages": [
+      "20pct",
+      "35pct",
+      "50pct",
+      "75pct",
+      "100pct"
+    ],
+    "oulad_target": "final_result in {Fail, Withdrawn}",
+    "outer_splits_regenerated": false,
+    "outer_test_used_for_selection": false,
+    "param_target": [
+      100000,
+      350000
+    ],
+    "parent_payload_keys": [
+      "ablation_margin",
+      "authority_ref_commit",
+      "authority_untouched",
+      "baseline_roster",
+      "bootstrap_replicates",
+      "candidates",
+      "cold_guardrail",
+      "cold_set",
+      "data_root_default",
+      "development_outer_fold",
+      "forbidden_oulad",
+      "forbidden_uci",
+      "hpo_budget",
+      "hybrid_uci_grade_branch",
+      "material_floor",
+      "material_scale",
+      "n_inner",
+      "n_outer",
+      "no_dataset_topology_branch",
+      "one_checkpoint_scores_all_stages",
+      "oulad_stages",
+      "oulad_target",
+      "outer_test_used_for_selection",
+      "panel_a",
+      "panel_b",
+      "param_target",
+      "preferred_candidate",
+      "primary_metric",
+      "primary_metric_fn",
+      "protocol_id",
+      "r2_rmse_used",
+      "raw_sha256",
+      "seeds_final",
+      "seeds_robust",
+      "separate_oulad_100_model",
+      "smote_on_hybrid_tensors",
+      "split_seed",
+      "stage_weights",
+      "uci_stages",
+      "uci_target",
+      "warm_set"
+    ],
+    "parent_protocol_hash": "eb5f4cfbf4e1629281386367400970241ff68fdaec6c0f7905b0e3a6f33646a2",
+    "parent_protocol_id": "hybrid_superiority_v2.0",
+    "patience": 10,
+    "primary_metric": "ap",
+    "primary_metric_fn": "sklearn.metrics.average_precision_score",
+    "protocol_id": "c4_star_v2.1",
+    "raw_sha256": {
+      "assessments.csv": "8cc738fb88ad760571d6f2a23059bfee0ffcae3bcd830514c9cbd5c6d5a046f1",
+      "courses.csv": "4f16eee7454b15e109b0a21a0e43be820e6846ed6f9301bb7feb5ab5ad737a75",
+      "student-mat.csv": "e47f9ee225e1ee6e69b7564e6dac7123e80b8486677fe111f351964cef5dec80",
+      "student-por.csv": "a7594a11d7771c0efe1a740824e0e833da9c4cad07c39a9766a874575563fb3f",
+      "studentAssessment.csv": "fd5320786328d05af841ee7dd4b5871b9dada3b9fe9d6a3642b2f42635510a6e",
+      "studentInfo.csv": "7e6f3e474a5eee00639d2a414a6c7e928745823c2d2c2563ca1780145f99b0d6",
+      "studentRegistration.csv": "0d32676285372aaf2e7a80304e5b274b4fba24313e2ca4c04317225e1ec90170",
+      "studentVle.csv": "52668253d876c5becbcb72185977152700cecab2942aca807fecc3dd54b937f0",
+      "vle.csv": "d1b28303dea802ad87b4484e1196e878e06824850b9a4fe8aa34693439fe87e9"
+    },
+    "seeds_robust": [
+      42,
+      1201,
+      2026
+    ],
+    "seeds_screen": [
+      42,
+      1201,
+      2026
+    ],
+    "sequence_only": [
+      "CNN",
+      "BiLSTM",
+      "CNN_BiLSTM"
+    ],
+    "shuffle_gap_threshold": 0.003,
+    "smote_on_hybrid_tensors": false,
+    "speed_finish_not_confirmatory": true,
+    "split_seed": 42,
+    "temp_hard_c": 80,
+    "uci_stages": [
+      "S0",
+      "S1",
+      "S2"
+    ],
+    "uci_target": "G3 < 10",
+    "warm_set": [
+      "uci:S1",
+      "uci:S2",
+      "oulad:35pct",
+      "oulad:50pct",
+      "oulad:75pct",
+      "oulad:100pct"
+    ],
+    "warmup_epochs": 4
+  },
+  "sha256": "ce758268ce0c834624a76f847864e4f31f553d85d1bb6458d453d07b8f8ee9ac"
+}

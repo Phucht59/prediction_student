@@ -1,0 +1,35 @@
+protocol_id: c4_star_v2.1
+parent_protocol_id: hybrid_superiority_v2.0
+outer_splits_regenerated: false
+outer_test_used_for_selection: false
+primary_metric: ap
+primary_metric_fn: sklearn.metrics.average_precision_score
+uci_target: "G3 < 10"
+oulad_target: "final_result in {Fail, Withdrawn}"
+hybrid_uci_grade_branch: temporal_only
+amendment: joint_domain_candidate_selection
+amendment_reason: >
+  v2 screened long-sequence candidates almost entirely on UCI T<=2.
+  v2.1 requires UCI short-prefix tests plus OULAD long-sequence tests
+  before promoting a backbone to C4-STAR.
+backbones: [C0-R, C1-R, C2-S, C3-G]
+mechanisms: [M0, M1, M2, M3, M4, M5, M6, M7]
+baseline_roster: [LR, DT, RF, SVM, XGB, CatBoost, MLP, TemporalSummaryCatBoost]
+seeds_screen: [42, 1201, 2026]
+n_inner: 3
+split_seed: 42
+development_outer_fold: 0
+material_floor: 0.010
+material_scale: 0.10
+cold_guardrail:
+  "uci:S0": 0.05
+  "oulad:20pct": 0.02
+dt_timeout_sec: 90
+temp_hard_c: 80
+max_epochs: 40
+patience: 10
+bootstrap_replicates: 10000
+speed_finish_not_confirmatory: true
+gemini_in_prediction_hpo: false
+one_checkpoint_scores_all_stages: true
+locked_split_source: artifacts/research/hybrid_superiority_v2/cache/splits

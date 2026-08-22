@@ -392,36 +392,45 @@ class PreparedDomain:
     summary_dim: int
     feature_contract: dict[str, Any]
     fit_ids: tuple[str, ...] = field(default_factory=tuple)
+    summary_arr: dict[str, np.ndarray] = field(default_factory=dict)
+
+
+_SCALE_CACHE: dict[tuple, "PreparedDomain"] = {}
 
 
 def _temporal_summaries(temporal: np.ndarray, mask: np.ndarray) -> np.ndarray:
     n, t, c = temporal.shape
-    last = np.zeros((n, c), np.float32)
-    mean = np.zeros((n, c), np.float32)
-    mx = np.zeros((n, c), np.float32)
-    std = np.zeros((n, c), np.float32)
-    slope = np.zeros((n, c), np.float32)
+    keep = mask.astype(np.float32)[:, :, None]
     count = mask.sum(1).astype(np.float32)
+    count_safe = np.maximum(count, 1.0)
+    x = temporal * keep
+    mean = x.sum(1) / count_safe[:, None]
+    any_valid = mask.any(1)
+    rev = mask[:, ::-1]
+    last_idx = np.where(any_valid, t - 1 - rev.argmax(1), 0)
+    last = temporal[np.arange(n), last_idx]
+    last[~any_valid] = 0
+    filled = np.where(mask[:, :, None], temporal, np.float32(-1e30))
+    mx = filled.max(1)
+    mx[~np.isfinite(mx)] = 0
+    var = ((temporal - mean[:, None, :]) ** 2 * keep).sum(1) / count_safe[:, None]
+    std = np.sqrt(np.maximum(var, 0.0))
+    std[count < 1] = 0
     time = np.arange(t, dtype=np.float32)
-    for i in range(n):
-        valid = mask[i]
-        if not valid.any():
-            continue
-        values = temporal[i, valid]
-        last[i] = values[-1]
-        mean[i] = values.mean(0)
-        mx[i] = values.max(0)
-        std[i] = values.std(0)
-        if valid.sum() >= 2:
-            tt = time[valid]
-            tt = tt - tt.mean()
-            denom = float((tt ** 2).sum())
-            if denom > 0:
-                slope[i] = (tt[:, None] * (values - values.mean(0))).sum(0) / denom
+    t_mean = (time[None, :] * mask).sum(1) / count_safe
+    t_dev = (time[None, :] - t_mean[:, None]) * mask
+    denom = (t_dev ** 2).sum(1)
+    y_dev = (temporal - mean[:, None, :]) * keep
+    slope = (t_dev[:, :, None] * y_dev).sum(1) / np.maximum(denom[:, None], 1e-6)
+    slope[count < 2] = 0
     return np.concatenate([last, mean, mx, std, slope, count[:, None]], axis=1).astype(np.float32)
 
 
 def scale_views(domain: str, fit_ids: list[str]) -> PreparedDomain:
+    cache_key = (domain, tuple(fit_ids))
+    cached = _SCALE_CACHE.get(cache_key)
+    if cached is not None:
+        return cached
     views, context, _manifest = load_cached(domain)
     views = copy.deepcopy(views)
     if domain == "uci":
@@ -461,6 +470,7 @@ def scale_views(domain: str, fit_ids: list[str]) -> PreparedDomain:
         for view in views.values():
             view.temporal[:] = scaler.transform(view.temporal, view.temporal_mask)
     summaries: dict[str, dict[str, np.ndarray]] = {}
+    summary_arr: dict[str, np.ndarray] = {}
     for stage, view in views.items():
         values = _temporal_summaries(view.temporal, view.temporal_mask)
         lookup = {str(r): i for i, r in enumerate(view.record_id)}
@@ -471,10 +481,9 @@ def scale_views(domain: str, fit_ids: list[str]) -> PreparedDomain:
         else:
             mu = np.zeros(values.shape[1], np.float32)
             sd = np.ones(values.shape[1], np.float32)
-        summaries[stage] = {
-            str(record_id): ((values[i] - mu) / sd).astype(np.float32)
-            for i, record_id in enumerate(view.record_id.astype(str))
-        }
+        normed = ((values - mu) / sd).astype(np.float32)
+        summary_arr[stage] = normed
+        summaries[stage] = {str(record_id): normed[i] for i, record_id in enumerate(view.record_id.astype(str))}
     first = next(iter(views.values()))
     contract = {
         "domain": domain,
@@ -487,7 +496,7 @@ def scale_views(domain: str, fit_ids: list[str]) -> PreparedDomain:
         "protocol_hash": protocol_hash(),
     }
     contract["hash"] = sha256_json(contract)
-    return PreparedDomain(
+    prepared = PreparedDomain(
         domain=domain,
         stages=tuple(views),
         views=views,
@@ -502,7 +511,10 @@ def scale_views(domain: str, fit_ids: list[str]) -> PreparedDomain:
         summary_dim=int(next(iter(summaries[next(iter(summaries))].values())).shape[0]),
         feature_contract=contract,
         fit_ids=tuple(fit_ids),
+        summary_arr=summary_arr,
     )
+    _SCALE_CACHE[cache_key] = prepared
+    return prepared
 
 
 def hybrid_forbidden_columns(columns) -> list[str]:
@@ -531,7 +543,10 @@ def baseline_frame(prepared: PreparedDomain, stage: str) -> pd.DataFrame:
             frame["grade_g2"] = aligned["G2"].astype(np.float32)
         # Hybrid does not receive these as tabular; trees/LR do. Same raw information.
     else:
-        summaries = np.stack([prepared.summary_map[stage][str(r)] for r in view.record_id.astype(str)])
+        if prepared.summary_arr and stage in prepared.summary_arr:
+            summaries = prepared.summary_arr[stage]
+        else:
+            summaries = np.stack([prepared.summary_map[stage][str(r)] for r in view.record_id.astype(str)])
         for j in range(view.aggregate.shape[1]):
             frame[f"aggregate__{j}"] = view.aggregate[:, j]
         for j in range(summaries.shape[1]):

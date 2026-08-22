@@ -1,42 +1,40 @@
 # OVERNIGHT_STATUS — hybrid_superiority_v2
 
-- Updated: in-progress
+- Updated: `2026-08-20T22:58:45Z`
 - Branch: `research/hybrid-superiority-v2`
+- Commit: `ae883396b15294a075aecf47cd8c70998cd213f1`
 - Protocol hash: `eb5f4cfbf4e1629281386367400970241ff68fdaec6c0f7905b0e3a6f33646a2`
-- Phase: P2 done; P4 UCI baselines running
+- Phase: **SPEED_FINISH done — NOT_READY_FOR_DEFENSE**
 
 ## Completed
 
-- P0 source/scope audit (đề cương + bài báo; markdown dán missing)
-- P1 hardware/DB: RTX 2060 6GB, AMP FP16 19.3 TFLOPS, PostgreSQL 18.4 migrate `research`/`optuna_hs_v2`
-- P2 raw→stage: UCI 1044/662; OULAD risk-set 26697→22522; checksums khớp
-- Integrity tests: 18 passed
-- UCI C3-G smoke 3 epoch: 75k params, 0.035 GB VRAM
-- Optuna RDBStorage trên PostgreSQL đang chạy (LR/DT xong, RF đang tune)
+- UCI baseline lock 3×3 (CatBoost trần)
+- UCI ladder screen C0-R/C1-R/C2-S/C3-G; robust C0-R + C3-G
+- UCI development gate: S1 pass, S2 material fail
+- OULAD SPEED lock (XGB/CatBoost GPU 4 trial; skip HPO DT/SVM/MLP/RF)
+- OULAD C0-R screen 6 trial + robust 3 seed
+- OULAD development gate: fail 4 warm
+- UCI SPEED ablation fold-0
+- Reports written (no CURRENT_REPORTS promotion)
 
 ## Evidence
 
-- `reports/research/hybrid_superiority_v2/00_SOURCE_AND_SCOPE_AUDIT.md`
-- `reports/research/hybrid_superiority_v2/01_DATA_LEAKAGE_AND_COHORT_AUDIT.md`
-- `reports/research/hybrid_superiority_v2/02_HARDWARE_PERFORMANCE_AUDIT.md`
-- `artifacts/research/hybrid_superiority_v2/manifests/data_lock.json`
-- `tests/research/hybrid_superiority_v2` 18 passed
+- `artifacts/research/hybrid_superiority_v2/runs/baseline_lock_uci.json`
+- `artifacts/research/hybrid_superiority_v2/runs/baseline_lock_oulad.json`
+- `artifacts/research/hybrid_superiority_v2/runs/development_gate.json`
+- `reports/research/hybrid_superiority_v2/FINAL_DECISION.md`
+- `reports/research/hybrid_superiority_v2/SPEED_FINISH.md`
+- Wall SPEED_FINISH = 833s, RTX 2060 HIGH priority
 
 ## Decision
 
-Pipeline không phụ thuộc `C:\hufit\kltn`. G1/G2 chỉ temporal Hybrid. OULAD 100% operational gần như loại Withdrawn (94 còn lại) — không dùng length shortcut làm claim.
+**NOT_READY_FOR_DEFENSE.** Không promote Hybrid serving. Confirmation từ chối.
 
 ## Next
 
-1. Đóng băng baseline UCI (XGB/CatBoost trong roster)
-2. Diagnose C0-R UCI
-3. Screen C0-R…C3-G UCI
-4. Baseline + Hybrid OULAD
-5. Gate phát triển; confirmation chỉ nếu pass
+Đọc `FINAL_DECISION.md`. Nếu muốn protocol đủ 28-trial / 3×3 OULAD thì chạy lại ngoài SPEED_FINISH — không bắt buộc để kết luận hiện tại (gate đã fail).
 
 ## Blockers
 
-- `Đã dán markdown (1).md` missing
-- Docker không có (dùng PostgreSQL local)
-- Confirmation chưa mở (đúng protocol)
-- Serving Hybrid authority chưa đụng
+- Development gate fail (UCI S2 material; OULAD 4 warm)
+- SPEED_FINISH cắt budget OULAD — đã document

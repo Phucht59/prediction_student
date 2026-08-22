@@ -205,13 +205,13 @@ def sample_hybrid(trial, candidate: str, static_dim: int, temporal_dim: int, agg
     train_kw = {
         "lr": trial.suggest_float("lr", 3e-5, 8e-4, log=True),
         "weight_decay": trial.suggest_float("weight_decay", 1e-5, 8e-3, log=True),
-        "batch_size": trial.suggest_categorical("batch_size", [32, 64, 128] if static_dim < 80 else [64, 128, 256]),
+        "batch_size": trial.suggest_categorical("batch_size", [32, 64, 128] if static_dim < 80 else [128, 256, 512]),
         "pos_weight_multiplier": trial.suggest_float("pos_weight_multiplier", 0.6, 1.6),
         "lambda_rank": trial.suggest_float("lambda_rank", 0.0, 0.3),
         "lambda_aux": trial.suggest_float("lambda_aux", 0.05, 0.4),
         "lambda_kd": trial.suggest_float("lambda_kd", 0.0, 0.5),
-        "max_epochs": 20,
-        "patience": 6,
+        "max_epochs": 24,
+        "patience": 8,
         "use_ema": True,
         "multiprefix": True,
     }
@@ -226,13 +226,18 @@ def evaluate_hybrid(
     *,
     fold: int,
     seed: int,
+    prepared: PreparedDomain | None = None,
 ) -> dict[str, Any]:
     fit_ids, stop_ids, valid_ids = inner_partitions(domain, fold)
-    prepared = scale_views(domain, fit_ids)
+    if prepared is None:
+        prepared = scale_views(domain, fit_ids)
     cfg = copy.deepcopy(cfg)
     cfg.static_dim = prepared.static_dim
     cfg.temporal_dim = prepared.temporal_dim
     cfg.aggregate_dim = prepared.aggregate_dim
+    from .teacher import teachers_for_prepared
+
+    teacher_map = teachers_for_prepared(prepared, fit_ids, seed=seed) if float(train_kw.get("lambda_kd", 0)) > 0 else None
     allowed = {
         "lr",
         "weight_decay",
@@ -248,7 +253,13 @@ def evaluate_hybrid(
         "use_ema",
         "multiprefix",
     }
-    trainer = HybridTrainer(prepared, cfg, seed=seed, **{k: v for k, v in train_kw.items() if k in allowed})
+    trainer = HybridTrainer(
+        prepared,
+        cfg,
+        seed=seed,
+        teacher_map=teacher_map,
+        **{k: v for k, v in train_kw.items() if k in allowed},
+    )
     result = trainer.fit(fit_ids, stop_ids)
     model = result["model"]
     thresholds = trainer.fit_thresholds(model, stop_ids)
@@ -288,6 +299,25 @@ def run_hybrid_screen(domain: str, candidate: str, n_trials: int | None = None) 
         return float(sel["J"])
 
     n_done = len([t for t in study.trials if t.state.name == "COMPLETE"])
+    if n_done == 0:
+        try:
+            study.enqueue_trial(
+                {
+                    "d_fuse": 64,
+                    "cnn_channels": 32,
+                    "bilstm_hidden": 32,
+                    "dropout": 0.30,
+                    "lr": 2e-4,
+                    "weight_decay": 2e-4,
+                    "batch_size": 64,
+                    "pos_weight_multiplier": 1.0,
+                    "lambda_rank": 0.15,
+                    "lambda_aux": 0.25,
+                    "lambda_kd": 0.40,
+                }
+            )
+        except Exception:
+            pass
     remaining = max(0, n_trials - n_done)
     if remaining:
         study.optimize(objective, n_trials=remaining, catch=(Exception,))

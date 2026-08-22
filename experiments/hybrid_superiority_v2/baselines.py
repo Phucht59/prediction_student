@@ -16,8 +16,24 @@ from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from sklearn.svm import SVC, LinearSVC
 from sklearn.tree import DecisionTreeClassifier
 
+import os
+
 from .metrics import binary_metrics, select_stop_threshold
 from .protocol import BASELINE_ROSTER  # noqa: F401
+
+N_JOBS = max(1, os.cpu_count() or 8)
+USE_GPU_TREES = os.environ.get("HS_V2_GPU_TREES", "1") != "0"
+
+
+def _cuda_ok() -> bool:
+    if not USE_GPU_TREES:
+        return False
+    try:
+        import torch
+
+        return bool(torch.cuda.is_available())
+    except Exception:
+        return False
 
 try:
     from xgboost import XGBClassifier
@@ -56,7 +72,7 @@ def default_params(name: str, seed: int) -> dict[str, Any]:
     if name == "DT":
         return {"max_depth": 8, "min_samples_leaf": 20, "class_weight": "balanced", "random_state": seed}
     if name == "RF":
-        return {"n_estimators": 400, "min_samples_leaf": 2, "max_depth": None, "class_weight": "balanced", "random_state": seed, "n_jobs": 4}
+        return {"n_estimators": 200, "min_samples_leaf": 2, "max_depth": None, "class_weight": "balanced", "random_state": seed, "n_jobs": N_JOBS}
     if name == "SVM":
         return {"kernel": "linear", "C": 1.0, "class_weight": "balanced"}
     if name == "MLP":
@@ -64,7 +80,7 @@ def default_params(name: str, seed: int) -> dict[str, Any]:
     if name == "XGB":
         return {"n_estimators": 400, "max_depth": 5, "learning_rate": 0.05, "subsample": 0.8, "colsample_bytree": 0.8, "min_child_weight": 2.0, "reg_lambda": 1.0, "reg_alpha": 0.0}
     if name == "CatBoost":
-        return {"depth": 6, "learning_rate": 0.05, "l2_leaf_reg": 3.0, "random_strength": 0.5, "bagging_temperature": 0.2, "iterations": 400}
+        return {"depth": 6, "learning_rate": 0.08, "l2_leaf_reg": 3.0, "random_strength": 0.5, "bagging_temperature": 0.2, "iterations": 200}
     raise ValueError(name)
 
 
@@ -92,15 +108,17 @@ def make_estimator(name: str, params: dict[str, Any], seed: int, y_train: np.nda
             max_features=params.get("max_features", "sqrt"),
             class_weight="balanced",
             random_state=seed,
-            n_jobs=4,
+            n_jobs=N_JOBS,
         )
     if name == "SVM":
         kernel = params.get("kernel", "linear")
         C = float(params.get("C", 1.0))
         cw = params.get("class_weight", "balanced")
         if kernel == "linear":
-            base = LinearSVC(C=C, class_weight=cw, max_iter=4000, dual="auto", random_state=seed)
-            return CalibratedClassifierCV(base, method="sigmoid", cv=3)
+            base = LinearSVC(C=C, class_weight=cw, max_iter=int(params.get("max_iter", 2000)), dual="auto", random_state=seed)
+            if params.get("calibrate", True):
+                return CalibratedClassifierCV(base, method="sigmoid", cv=int(params.get("cv", 2)))
+            return base
         return SVC(kernel="rbf", C=C, gamma=params.get("gamma", "scale"), class_weight=cw, probability=True, random_state=seed, cache_size=500)
     if name == "MLP":
         hidden = int(params.get("hidden", 128))
@@ -110,7 +128,7 @@ def make_estimator(name: str, params: dict[str, Any], seed: int, y_train: np.nda
             hidden_layer_sizes=layers,
             alpha=float(params.get("alpha", 1e-4)),
             learning_rate_init=float(params.get("lr", 1e-3)),
-            max_iter=400,
+            max_iter=int(params.get("max_iter", 120)),
             random_state=seed,
             early_stopping=True,
             validation_fraction=0.1,
@@ -120,41 +138,54 @@ def make_estimator(name: str, params: dict[str, Any], seed: int, y_train: np.nda
             raise RuntimeError("XGBOOST_MISSING")
         n_pos = max(1, int(y_train.sum()))
         n_neg = max(1, int(len(y_train) - n_pos))
-        return XGBClassifier(
-            n_estimators=int(params.get("n_estimators", 400)),
-            max_depth=int(params.get("max_depth", 5)),
-            learning_rate=float(params.get("learning_rate", 0.05)),
-            subsample=float(params.get("subsample", 0.8)),
-            colsample_bytree=float(params.get("colsample_bytree", 0.8)),
-            min_child_weight=float(params.get("min_child_weight", 2.0)),
-            reg_lambda=float(params.get("reg_lambda", 1.0)),
-            reg_alpha=float(params.get("reg_alpha", 0.0)),
-            objective="binary:logistic",
-            eval_metric="logloss",
-            tree_method="hist",
-            n_jobs=4,
-            random_state=seed,
-            scale_pos_weight=n_neg / n_pos,
-            verbosity=0,
-            early_stopping_rounds=40,
-        )
+        xgb_kw: dict[str, Any] = {
+            "n_estimators": int(params.get("n_estimators", 400)),
+            "max_depth": int(params.get("max_depth", 5)),
+            "learning_rate": float(params.get("learning_rate", 0.05)),
+            "subsample": float(params.get("subsample", 0.8)),
+            "colsample_bytree": float(params.get("colsample_bytree", 0.8)),
+            "min_child_weight": float(params.get("min_child_weight", 2.0)),
+            "reg_lambda": float(params.get("reg_lambda", 1.0)),
+            "reg_alpha": float(params.get("reg_alpha", 0.0)),
+            "objective": "binary:logistic",
+            "eval_metric": "logloss",
+            "tree_method": "hist",
+            "n_jobs": 1 if (_cuda_ok() and params.get("task_type", "GPU") != "CPU") else N_JOBS,
+            "random_state": seed,
+            "scale_pos_weight": n_neg / n_pos,
+            "verbosity": 0,
+        }
+        if params.get("early_stopping", True):
+            xgb_kw["early_stopping_rounds"] = 40
+        if _cuda_ok() and params.get("task_type", "GPU") != "CPU":
+            xgb_kw["device"] = "cuda"
+        return XGBClassifier(**xgb_kw)
     if name == "CatBoost":
         if CatBoostClassifier is None:
             raise RuntimeError("CATBOOST_MISSING")
-        return CatBoostClassifier(
-            depth=int(params.get("depth", 6)),
-            learning_rate=float(params.get("learning_rate", 0.05)),
-            l2_leaf_reg=float(params.get("l2_leaf_reg", 3.0)),
-            random_strength=float(params.get("random_strength", 0.5)),
-            bagging_temperature=float(params.get("bagging_temperature", 0.2)),
-            iterations=int(params.get("iterations", 400)),
-            loss_function="Logloss",
-            eval_metric="Logloss",
-            random_seed=seed,
-            verbose=False,
-            thread_count=4,
-            auto_class_weights="Balanced",
-        )
+        cb_kw: dict[str, Any] = {
+            "depth": int(params.get("depth", 6)),
+            "learning_rate": float(params.get("learning_rate", 0.05)),
+            "l2_leaf_reg": float(params.get("l2_leaf_reg", 3.0)),
+            "random_strength": float(params.get("random_strength", 0.5)),
+            "iterations": int(params.get("iterations", 400)),
+            "loss_function": "Logloss",
+            "eval_metric": "Logloss",
+            "random_seed": seed,
+            "verbose": False,
+            "auto_class_weights": "Balanced",
+            "allow_writing_files": False,
+        }
+        gpu = _cuda_ok() and params.get("task_type", "GPU") != "CPU"
+        if gpu:
+            cb_kw["task_type"] = "GPU"
+            cb_kw["devices"] = "0"
+            cb_kw["thread_count"] = 1
+        else:
+            cb_kw["task_type"] = "CPU"
+            cb_kw["thread_count"] = N_JOBS
+            cb_kw["bagging_temperature"] = float(params.get("bagging_temperature", 0.2))
+        return CatBoostClassifier(**cb_kw)
     raise ValueError(name)
 
 
@@ -204,7 +235,7 @@ def sample_space(name: str, trial, *, domain: str = "uci") -> dict[str, Any]:
             "l2_leaf_reg": trial.suggest_float("l2_leaf_reg", 1.0, 10.0),
             "random_strength": trial.suggest_float("random_strength", 0.0, 2.0),
             "bagging_temperature": trial.suggest_float("bagging_temperature", 0.0, 1.0),
-            "iterations": trial.suggest_int("iterations", 200, 800, step=100),
+            "iterations": trial.suggest_int("iterations", 100, 300, step=50),
         }
     raise ValueError(name)
 
@@ -250,7 +281,13 @@ def fit_eval(
             x_valid[c] = x_valid[c].fillna(med)
         model = make_estimator(name, params, seed, train.target.to_numpy())
         cat_idx = list(range(len(nums), len(nums) + len(cats)))
-        model.fit(x_train, train.target.to_numpy(), cat_features=cat_idx, eval_set=(x_stop, stop.target.to_numpy()), use_best_model=True)
+        try:
+            model.fit(x_train, train.target.to_numpy(), cat_features=cat_idx, eval_set=(x_stop, stop.target.to_numpy()), use_best_model=True)
+        except Exception:
+            cpu_params = dict(params)
+            cpu_params["task_type"] = "CPU"
+            model = make_estimator(name, cpu_params, seed, train.target.to_numpy())
+            model.fit(x_train, train.target.to_numpy(), cat_features=cat_idx, eval_set=(x_stop, stop.target.to_numpy()), use_best_model=True)
         stop_p = model.predict_proba(x_stop)[:, 1]
         valid_p = model.predict_proba(x_valid)[:, 1]
         n_features = x_train.shape[1]
@@ -263,9 +300,16 @@ def fit_eval(
         model = make_estimator(name, params, seed, y_train)
         if name == "XGB":
             try:
-                model.fit(x_train, y_train, eval_set=[(x_stop, stop.target.to_numpy())], verbose=False)
-            except TypeError:
-                model.fit(x_train, y_train, eval_set=[(x_stop, stop.target.to_numpy())])
+                try:
+                    model.fit(x_train, y_train, eval_set=[(x_stop, stop.target.to_numpy())], verbose=False)
+                except TypeError:
+                    model.fit(x_train, y_train, eval_set=[(x_stop, stop.target.to_numpy())])
+            except Exception:
+                cpu_params = dict(params)
+                cpu_params["task_type"] = "CPU"
+                cpu_params["early_stopping"] = False
+                model = make_estimator(name, cpu_params, seed, y_train)
+                model.fit(x_train, y_train)
         else:
             model.fit(x_train, y_train)
         stop_p = _predict_proba(model, x_stop)

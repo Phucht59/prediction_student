@@ -1,4 +1,4 @@
-"""CUDA Hybrid trainer. Multi-prefix, AMP, STOP-only early stop. Never sees outer labels."""
+"""C4-STAR trainer. CUDA AMP, thermal pause at 80C, STOP-only early stop, never outer labels."""
 from __future__ import annotations
 
 import copy
@@ -9,43 +9,45 @@ import numpy as np
 import torch
 from torch.amp import GradScaler, autocast
 
-from .data import PreparedDomain, permute_temporal
-from .hardware import require_cuda
-from .losses import gate_live_penalty, kd_kl, pairwise_rank_loss
-from .metrics import binary_metrics, select_stop_threshold
-from .model import SuperiorityConfig, SuperiorityHybrid, count_parameters
-from .protocol import STAGE_WEIGHTS, seed_everything, stages_for, warm_for
+from experiments.hybrid_superiority_v2.data import permute_temporal
+from experiments.hybrid_superiority_v2.hardware import require_cuda
+from experiments.hybrid_superiority_v2.metrics import binary_metrics, select_stop_threshold
+from experiments.hybrid_superiority_v2.protocol import STAGE_WEIGHTS, seed_everything, warm_for
+from experiments.hybrid_superiority_v2.train import _ids_for_stage
+
+from .losses import gate_reg, kd_bce, pairwise_rank_loss, ssl_reconstruct
+from .model import C4Config, C4STAR, count_parameters
+from .protocol import MAX_EPOCHS, PATIENCE, WARMUP_EPOCHS
+from .thermal import wait_if_hot
 
 
-def _ids_for_stage(view, ids: list[str]) -> list[str]:
-    present = set(map(str, view.record_id))
-    return [record_id for record_id in ids if record_id in present]
-
-
-class HybridTrainer:
+class C4Trainer:
     def __init__(
         self,
-        prepared: PreparedDomain,
-        config: SuperiorityConfig,
+        prepared,
+        config: C4Config,
         *,
-        lr: float = 2e-4,
-        weight_decay: float = 2e-4,
-        max_epochs: int = 24,
-        patience: int = 8,
-        batch_size: int = 128,
+        lr: float = 5e-4,
+        weight_decay: float = 1e-4,
+        max_epochs: int = MAX_EPOCHS,
+        patience: int = PATIENCE,
+        batch_size: int = 256,
         amp: bool = True,
         seed: int = 42,
         pos_weight_multiplier: float = 1.0,
-        lambda_rank: float = 0.10,
-        lambda_kd: float = 0.0,
-        lambda_aux: float = 0.25,
-        lambda_gate: float = 0.05,
+        lambda_rank: float = 0.05,
+        lambda_kd: float = 0.25,
+        lambda_aux: float = 0.5,
+        lambda_ssl: float = 0.0,
+        lambda_gate: float = 0.02,
         kd_temperature: float = 2.0,
-        teacher_map: dict[str, dict[str, float]] | None = None,
+        teacher_map: dict | None = None,
         use_ema: bool = True,
-        ema_decay: float = 0.995,
+        group_dro: bool = False,
+        dro_eta: float = 0.1,
         multiprefix: bool = True,
-        warmup_epochs: int = 2,
+        warmup_epochs: int = WARMUP_EPOCHS,
+        freeze_anchor_epochs: int = 0,
     ):
         require_cuda()
         self.prepared = prepared
@@ -61,30 +63,30 @@ class HybridTrainer:
         self.lambda_rank = lambda_rank
         self.lambda_kd = lambda_kd
         self.lambda_aux = lambda_aux
+        self.lambda_ssl = lambda_ssl
         self.lambda_gate = lambda_gate
         self.kd_temperature = kd_temperature
         self.teacher_map = teacher_map or {}
         self.use_ema = use_ema
-        self.ema_decay = ema_decay
+        self.group_dro = group_dro
+        self.dro_eta = dro_eta
         self.multiprefix = multiprefix
         self.warmup_epochs = warmup_epochs
+        self.freeze_anchor_epochs = freeze_anchor_epochs
         self.device = torch.device("cuda")
         self.history: list[dict[str, Any]] = []
-        self._lookups = {stage: {str(r): i for i, r in enumerate(view.record_id)} for stage, view in self.prepared.views.items()}
-        recs = list(self.prepared.static_map.keys())
+        self._lookups = {stage: {str(r): i for i, r in enumerate(view.record_id)} for stage, view in prepared.views.items()}
+        recs = list(prepared.static_map.keys())
         self._static_index = {r: i for i, r in enumerate(recs)}
-        self._static_mat = np.stack([self.prepared.static_map[r] for r in recs]).astype(np.float32)
-        self._gpu: dict[str, dict[str, torch.Tensor]] = {}
-        self._static_gpu: torch.Tensor | None = None
-        self._views_on_gpu = False
-        self._pin_views()
+        self._static_mat = np.stack([prepared.static_map[r] for r in recs]).astype(np.float32)
+        self._pin()
 
-    def _pin_views(self) -> None:
+    def _pin(self) -> None:
         try:
-            self._static_gpu = torch.as_tensor(self._static_mat, dtype=torch.float32, device=self.device)
-            gpu: dict[str, dict[str, torch.Tensor]] = {}
+            self._static_gpu = torch.as_tensor(self._static_mat, device=self.device)
+            self._gpu = {}
             for stage, view in self.prepared.views.items():
-                gpu[stage] = {
+                self._gpu[stage] = {
                     "temporal": torch.as_tensor(view.temporal, dtype=torch.float32, device=self.device),
                     "temporal_mask": torch.as_tensor(view.temporal_mask, device=self.device),
                     "lengths": torch.as_tensor(view.lengths, device=self.device),
@@ -93,7 +95,6 @@ class HybridTrainer:
                     "progress": torch.as_tensor(view.progress, dtype=torch.float32, device=self.device),
                     "target": torch.as_tensor(view.target.astype(np.float32), device=self.device),
                 }
-            self._gpu = gpu
             self._views_on_gpu = True
         except torch.cuda.OutOfMemoryError:
             torch.cuda.empty_cache()
@@ -119,7 +120,7 @@ class HybridTrainer:
                 "aggregate": torch.as_tensor(view.aggregate[np_idx], dtype=torch.float32, device=self.device),
                 "aggregate_available": torch.as_tensor(view.aggregate_available[np_idx], device=self.device),
                 "progress": torch.as_tensor(view.progress[np_idx], dtype=torch.float32, device=self.device),
-            }, view.target[np_idx].astype(np.float32)
+            }, torch.as_tensor(view.target[np_idx].astype(np.float32), device=self.device)
         idx = torch.from_numpy(np_idx).to(self.device)
         st_idx = torch.tensor([self._static_index[i] for i in ids], device=self.device, dtype=torch.long)
         g = self._gpu[stage]
@@ -133,7 +134,16 @@ class HybridTrainer:
             "progress": g["progress"].index_select(0, idx),
         }, g["target"].index_select(0, idx)
 
-    def _predict(self, model: SuperiorityHybrid, stage: str, ids: list[str], temporal_mode: str = "identity") -> np.ndarray:
+    def _teacher(self, stage: str, ids: list[str]):
+        table = self.teacher_map.get(stage)
+        if not table:
+            return None
+        vals = [table.get(i) for i in ids]
+        if any(v is None for v in vals):
+            return None
+        return torch.tensor(vals, dtype=torch.float32, device=self.device)
+
+    def _predict(self, model: C4STAR, stage: str, ids: list[str], temporal_mode: str = "identity") -> np.ndarray:
         if not ids:
             return np.empty(0, np.float32)
         model.eval()
@@ -145,12 +155,9 @@ class HybridTrainer:
                 with autocast("cuda", enabled=self.amp):
                     logits = model(**inputs)
                 scores.append(torch.sigmoid(logits.float()).cpu().numpy())
-        out = np.concatenate(scores).astype(np.float32)
-        if not np.isfinite(out).all():
-            raise RuntimeError("NONFINITE_SCORES")
-        return out
+        return np.concatenate(scores).astype(np.float32)
 
-    def stage_ap(self, model: SuperiorityHybrid, ids: list[str]) -> dict[str, float]:
+    def stage_ap(self, model: C4STAR, ids: list[str]) -> dict[str, float]:
         values = {}
         for stage, view in self.prepared.views.items():
             stage_ids = _ids_for_stage(view, ids)
@@ -165,25 +172,13 @@ class HybridTrainer:
 
     def _stop_score(self, ap: dict[str, float]) -> float:
         warm = [ap[s] for s in warm_for(self.prepared.domain) if s in ap]
-        if not warm:
-            return float("nan")
-        return float(np.mean(warm))
-
-    def _teacher(self, stage: str, ids: list[str], device) -> torch.Tensor | None:
-        table = self.teacher_map.get(stage)
-        if not table:
-            return None
-        vals = [table.get(i) for i in ids]
-        if any(v is None for v in vals):
-            return None
-        return torch.tensor(vals, dtype=torch.float32, device=device)
+        return float(np.mean(warm)) if warm else float("nan")
 
     def fit(self, fit_ids: list[str], stop_ids: list[str]) -> dict[str, Any]:
         seed_everything(self.seed)
         torch.cuda.reset_peak_memory_stats()
-        model = SuperiorityHybrid(self.config).to(self.device)
+        model = C4STAR(self.config).to(self.device)
         optimizer = torch.optim.AdamW(model.parameters(), lr=self.lr, weight_decay=self.weight_decay)
-        y_fit = []
         rec = self.prepared.context.drop_duplicates("record_id")
         id_to_y = {str(r): int(t) for r, t in zip(rec.record_id.astype(str), rec.target)}
         y_fit = np.asarray([id_to_y[i] for i in fit_ids])
@@ -194,27 +189,36 @@ class HybridTrainer:
         ema = {k: v.detach().clone() for k, v in model.state_dict().items()} if self.use_ema else None
         indexes = self._lookups
         eligible = {r: [s for s, lookup in indexes.items() if r in lookup] for r in fit_ids}
+        stages = list(self.prepared.views)
+        dro_w = {s: 1.0 / len(stages) for s in stages}
         best = -np.inf
         best_epoch = 0
         stale = 0
         best_state = None
         started = time.monotonic()
-        batch_size = self.batch_size
         n_params = count_parameters(model)
+        batch_size = self.batch_size
         for epoch in range(self.max_epochs):
+            wait_if_hot()
             model.train()
-            epoch_losses = []
-            grad_norms = []
+            if self.freeze_anchor_epochs and epoch < self.freeze_anchor_epochs:
+                for p in model.anchor.parameters():
+                    p.requires_grad = False
+            else:
+                for p in model.anchor.parameters():
+                    p.requires_grad = True
             if self.multiprefix:
-                by_stage = {stage: [] for stage in self.prepared.views}
-                for record_id, stages in eligible.items():
-                    for stage in stages:
+                by_stage = {stage: [] for stage in stages}
+                for record_id, st in eligible.items():
+                    for stage in st:
                         by_stage[stage].append(record_id)
             else:
                 rng = np.random.default_rng(self.seed + epoch)
-                by_stage = {stage: [] for stage in self.prepared.views}
-                for record_id, stages in eligible.items():
-                    by_stage[str(rng.choice(stages))].append(record_id)
+                by_stage = {stage: [] for stage in stages}
+                for record_id, st in eligible.items():
+                    by_stage[str(rng.choice(st))].append(record_id)
+            epoch_losses = []
+            stage_losses = {s: [] for s in stages}
             try:
                 for stage, ids in by_stage.items():
                     rng = np.random.default_rng(self.seed + epoch + abs(hash(stage)) % 1000)
@@ -222,43 +226,54 @@ class HybridTrainer:
                     rng.shuffle(order)
                     ids = [ids[i] for i in order]
                     weight = float(STAGE_WEIGHTS.get(stage, 1.0))
+                    if self.group_dro:
+                        weight = weight * dro_w[stage] * len(stages)
                     for start in range(0, len(ids), batch_size):
                         chunk = ids[start : start + batch_size]
                         if len(chunk) < 2:
                             continue
                         optimizer.zero_grad(set_to_none=True)
-                        inputs, labels = self._batch(stage, chunk)
-                        y = labels if torch.is_tensor(labels) else torch.as_tensor(labels, dtype=torch.float32, device=self.device)
+                        inputs, y = self._batch(stage, chunk)
                         with autocast("cuda", enabled=self.amp):
                             logits = model(**inputs)
                             diag = model.last_diagnostics
-                            loss = bce(logits, y)
-                            if self.lambda_rank > 0:
-                                loss = loss + self.lambda_rank * pairwise_rank_loss(logits, y)
-                            if self.lambda_aux > 0:
-                                aux = bce(diag["z_tab"], y)
-                                if diag["temporal_available"].any():
-                                    aux = aux + bce(diag["z_cnn"], y) + bce(diag["z_lstm"], y)
-                                loss = loss + self.lambda_aux * aux / 3.0
-                            if self.lambda_gate > 0:
-                                loss = loss + self.lambda_gate * gate_live_penalty(diag["g"], diag["temporal_available"])
-                            teacher = self._teacher(stage, chunk, self.device)
-                            if teacher is not None and self.lambda_kd > 0:
-                                loss = loss + self.lambda_kd * kd_kl(logits, teacher, self.kd_temperature)
-                            loss = loss * weight
+                        logits = logits.float()
+                        y = y.float()
+                        z_anchor = diag["z_anchor"].float()
+                        alpha = diag["alpha"].float()
+                        loss = bce(logits, y)
+                        if self.lambda_aux > 0:
+                            loss = loss + self.lambda_aux * bce(z_anchor, y)
+                        if self.lambda_rank > 0:
+                            loss = loss + self.lambda_rank * pairwise_rank_loss(logits, y)
+                        if self.lambda_gate > 0:
+                            loss = loss + self.lambda_gate * gate_reg(alpha)
+                        teacher = self._teacher(stage, chunk)
+                        if teacher is not None and self.lambda_kd > 0:
+                            loss = loss + self.lambda_kd * kd_bce(z_anchor, teacher, self.kd_temperature)
+                        if self.lambda_ssl > 0:
+                            lengths = inputs["lengths"]
+                            ssl_mask = inputs["temporal_mask"].bool() & lengths.ge(3).unsqueeze(1)
+                            if ssl_mask.any():
+                                recon = diag["recon"].float()
+                                target = inputs["temporal"].float()
+                                loss = loss + self.lambda_ssl * ssl_reconstruct(recon, target, ssl_mask)
+                        loss = loss * weight
                         if not torch.isfinite(loss):
                             raise RuntimeError("NONFINITE_LOSS")
                         scaler.scale(loss).backward()
                         scaler.unscale_(optimizer)
-                        grad_norms.append(float(torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)))
+                        torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
                         scaler.step(optimizer)
                         scaler.update()
-                        epoch_losses.append(float(loss.detach().float().cpu()))
+                        val = float(loss.detach().float().cpu())
+                        epoch_losses.append(val)
+                        stage_losses[stage].append(val)
                         if ema is not None:
                             with torch.no_grad():
                                 for k, v in model.state_dict().items():
                                     if v.dtype.is_floating_point:
-                                        ema[k].mul_(self.ema_decay).add_(v.detach(), alpha=1.0 - self.ema_decay)
+                                        ema[k].mul_(0.995).add_(v.detach(), alpha=0.005)
                                     else:
                                         ema[k].copy_(v)
             except torch.cuda.OutOfMemoryError:
@@ -268,6 +283,21 @@ class HybridTrainer:
                 batch_size = max(16, batch_size // 2)
                 self.batch_size = batch_size
                 continue
+            if self.group_dro:
+                means = {s: float(np.mean(v)) if v else 0.0 for s, v in stage_losses.items()}
+                mx = max(means.values()) if means else 1.0
+                for s, m in means.items():
+                    dro_w[s] = dro_w[s] * np.exp(self.dro_eta * (m / max(mx, 1e-6)))
+                tot = sum(dro_w.values())
+                for s in dro_w:
+                    dro_w[s] /= tot
+                # cap cold
+                cold = "S0" if "S0" in dro_w else "20pct"
+                if cold in dro_w:
+                    dro_w[cold] = min(dro_w[cold], 0.25)
+                    tot = sum(dro_w.values())
+                    for s in dro_w:
+                        dro_w[s] /= tot
             eval_model = model
             backup = None
             if ema is not None:
@@ -283,8 +313,8 @@ class HybridTrainer:
                     "train_loss": float(np.mean(epoch_losses)) if epoch_losses else None,
                     "stop_ap": stop_ap,
                     "stop_score": stop_score,
-                    "grad_norm": float(np.mean(grad_norms)) if grad_norms else None,
                     "batch_size": batch_size,
+                    "temp": (wait_if_hot() or {}).get("temp_c"),
                 }
             )
             if np.isfinite(stop_score) and stop_score > best:
@@ -298,21 +328,19 @@ class HybridTrainer:
                     break
         if best_state is not None:
             model.load_state_dict(best_state)
-        runtime = time.monotonic() - started
-        peak = torch.cuda.max_memory_allocated() / 1024**3
         return {
             "model": model,
             "best_epoch": best_epoch,
             "best_stop_score": best,
             "history": self.history,
             "parameter_count": n_params,
-            "peak_vram_gb": peak,
-            "runtime_seconds": runtime,
+            "peak_vram_gb": torch.cuda.max_memory_allocated() / 1024**3,
+            "runtime_seconds": time.monotonic() - started,
             "batch_size": batch_size,
             "outer_test_used": False,
         }
 
-    def score_split(self, model: SuperiorityHybrid, ids: list[str], thresholds: dict[str, float] | None = None) -> dict[str, Any]:
+    def score_split(self, model: C4STAR, ids: list[str], thresholds: dict[str, float] | None = None) -> dict[str, Any]:
         out = {"stages": {}, "predictions": []}
         for stage, view in self.prepared.views.items():
             stage_ids = _ids_for_stage(view, ids)
@@ -327,17 +355,11 @@ class HybridTrainer:
             groups = view.group_id[[lookup[i] for i in stage_ids]]
             for record_id, group_id, yi, pi in zip(stage_ids, groups, y, p):
                 out["predictions"].append(
-                    {
-                        "record_id": str(record_id),
-                        "group_id": str(group_id),
-                        "stage": stage,
-                        "y": int(yi),
-                        "p": float(pi),
-                    }
+                    {"record_id": str(record_id), "group_id": str(group_id), "stage": stage, "y": int(yi), "p": float(pi)}
                 )
         return out
 
-    def fit_thresholds(self, model: SuperiorityHybrid, stop_ids: list[str]) -> dict[str, float]:
+    def fit_thresholds(self, model: C4STAR, stop_ids: list[str]) -> dict[str, float]:
         thresholds = {}
         for stage, view in self.prepared.views.items():
             stage_ids = _ids_for_stage(view, stop_ids)

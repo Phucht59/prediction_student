@@ -1,13 +1,134 @@
 {
-  "protocol_id": "hybrid_superiority_v2.0",
-  "sha256": "eb5f4cfbf4e1629281386367400970241ff68fdaec6c0f7905b0e3a6f33646a2",
-  "frozen_before_hpo": true,
   "authority_untouched": true,
-  "primary_metric": "ap",
-  "primary_metric_fn": "sklearn.metrics.average_precision_score",
-  "baseline_roster": ["LR", "DT", "RF", "SVM", "XGB", "CatBoost", "MLP"],
-  "candidates": ["C0-R", "C1-R", "C2-S", "C3-G"],
-  "warm_set": ["uci:S1", "uci:S2", "oulad:35pct", "oulad:50pct", "oulad:75pct", "oulad:100pct"],
-  "outer_test_used_for_selection": false,
-  "note": "sha256 is protocol_payload() hash from experiments.hybrid_superiority_v2.protocol"
+  "frozen_before_hpo": true,
+  "payload": {
+    "ablation_margin": 0.005,
+    "authority_ref_commit": "0cb02479154a734240b55bf5525a96e11a72e863",
+    "authority_untouched": true,
+    "baseline_roster": [
+      "LR",
+      "DT",
+      "RF",
+      "SVM",
+      "XGB",
+      "CatBoost",
+      "MLP"
+    ],
+    "bootstrap_replicates": 10000,
+    "candidates": [
+      "C0-R",
+      "C1-R",
+      "C2-S",
+      "C3-G"
+    ],
+    "cold_guardrail": {
+      "oulad:20pct": 0.02,
+      "recall_at_20_drop": 0.05,
+      "uci:S0": 0.05
+    },
+    "cold_set": [
+      "uci:S0",
+      "oulad:20pct"
+    ],
+    "data_root_default": "C:\\hufit\\student\\data\\raw",
+    "development_outer_fold": 0,
+    "forbidden_oulad": [
+      "final_result",
+      "target",
+      "score",
+      "date_unregistration"
+    ],
+    "forbidden_uci": [
+      "G1",
+      "G2",
+      "G3",
+      "absences"
+    ],
+    "hpo_budget": {
+      "baseline_trials_oulad": 28,
+      "baseline_trials_uci": 40,
+      "robust_trials_per_survivor": 80,
+      "screen_trials_per_candidate": 24,
+      "smoke_trials": 2
+    },
+    "hybrid_uci_grade_branch": "temporal_only",
+    "material_floor": 0.01,
+    "material_scale": 0.1,
+    "n_inner": 3,
+    "n_outer": 3,
+    "no_dataset_topology_branch": true,
+    "one_checkpoint_scores_all_stages": true,
+    "oulad_stages": [
+      "20pct",
+      "35pct",
+      "50pct",
+      "75pct",
+      "100pct"
+    ],
+    "oulad_target": "final_result in {Fail, Withdrawn}",
+    "outer_test_used_for_selection": false,
+    "panel_a": "same_raw_information_representation_native",
+    "panel_b": "strict_feature_parity_diagnostic",
+    "param_target": [
+      50000,
+      200000
+    ],
+    "preferred_candidate": "C3-G",
+    "primary_metric": "ap",
+    "primary_metric_fn": "sklearn.metrics.average_precision_score",
+    "protocol_id": "hybrid_superiority_v2.0",
+    "r2_rmse_used": false,
+    "raw_sha256": {
+      "assessments.csv": "8cc738fb88ad760571d6f2a23059bfee0ffcae3bcd830514c9cbd5c6d5a046f1",
+      "courses.csv": "4f16eee7454b15e109b0a21a0e43be820e6846ed6f9301bb7feb5ab5ad737a75",
+      "student-mat.csv": "e47f9ee225e1ee6e69b7564e6dac7123e80b8486677fe111f351964cef5dec80",
+      "student-por.csv": "a7594a11d7771c0efe1a740824e0e833da9c4cad07c39a9766a874575563fb3f",
+      "studentAssessment.csv": "fd5320786328d05af841ee7dd4b5871b9dada3b9fe9d6a3642b2f42635510a6e",
+      "studentInfo.csv": "7e6f3e474a5eee00639d2a414a6c7e928745823c2d2c2563ca1780145f99b0d6",
+      "studentRegistration.csv": "0d32676285372aaf2e7a80304e5b274b4fba24313e2ca4c04317225e1ec90170",
+      "studentVle.csv": "52668253d876c5becbcb72185977152700cecab2942aca807fecc3dd54b937f0",
+      "vle.csv": "d1b28303dea802ad87b4484e1196e878e06824850b9a4fe8aa34693439fe87e9"
+    },
+    "seeds_final": [
+      42,
+      1201,
+      2026,
+      3407,
+      7777
+    ],
+    "seeds_robust": [
+      42,
+      1201,
+      2026
+    ],
+    "separate_oulad_100_model": false,
+    "smote_on_hybrid_tensors": false,
+    "split_seed": 42,
+    "stage_weights": {
+      "100pct": 1.0,
+      "20pct": 0.4,
+      "35pct": 1.0,
+      "50pct": 1.0,
+      "75pct": 1.0,
+      "S0": 0.4,
+      "S1": 1.0,
+      "S2": 1.0
+    },
+    "uci_stages": [
+      "S0",
+      "S1",
+      "S2"
+    ],
+    "uci_target": "G3 < 10",
+    "warm_set": [
+      "uci:S1",
+      "uci:S2",
+      "oulad:35pct",
+      "oulad:50pct",
+      "oulad:75pct",
+      "oulad:100pct"
+    ]
+  },
+  "protocol_id": "hybrid_superiority_v2.0",
+  "sha256": "eb5f4cfbf4e1629281386367400970241ff68fdaec6c0f7905b0e3a6f33646a2"
 }
