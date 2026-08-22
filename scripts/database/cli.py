@@ -214,11 +214,6 @@ def cmd_load_raw(_: argparse.Namespace) -> int:
             "id_assessment INTEGER, id_student BIGINT, date_submitted DOUBLE PRECISION, is_banked INTEGER, score DOUBLE PRECISION",
             "FORMAT csv, HEADER true, FORCE_NULL (date_submitted, score)",
         ),
-        (
-            "studentVle.csv",
-            "code_module TEXT, code_presentation TEXT, id_student BIGINT, id_site INTEGER, date DOUBLE PRECISION, sum_click INTEGER",
-            "FORMAT csv, HEADER true, FORCE_NULL (date, sum_click)",
-        ),
     ]
     connection = connect_with_retry(settings())
     try:
@@ -252,12 +247,108 @@ def cmd_load_raw(_: argparse.Namespace) -> int:
                 print("LOADING", "raw.oulad", filename, "bytes", path.stat().st_size)
                 count = _load_oulad_file(cursor, path, filename, columns, copy_options)
                 print("  rows", count)
+            _fill_catalog(cursor)
             _refresh_dataset_files(cursor)
             connection.commit()
         print("RAW_LOAD_COMPLETE")
     except Exception:
         connection.rollback()
         raise
+    finally:
+        connection.close()
+    return 0
+
+
+def _fill_catalog(cursor) -> None:
+    cursor.execute(
+        """
+        INSERT INTO catalog.course (course_code, course_name, presentation, dataset_key)
+        VALUES
+            ('math', 'Mathematics', 'combined', 'student_mat'),
+            ('portuguese', 'Portuguese', 'combined', 'student_por')
+        ON CONFLICT (course_code, presentation) DO NOTHING
+        """
+    )
+    cursor.execute(
+        """
+        INSERT INTO catalog.course (course_code, course_name, presentation, dataset_key)
+        SELECT DISTINCT
+            payload->>'code_module',
+            payload->>'code_module',
+            payload->>'code_presentation',
+            'oulad'
+        FROM raw.oulad
+        WHERE source_file = 'courses.csv'
+        ON CONFLICT (course_code, presentation) DO NOTHING
+        """
+    )
+    cursor.execute(
+        """
+        INSERT INTO catalog.student (external_student_id)
+        SELECT DISTINCT 'OULAD:' || (payload->>'id_student')
+        FROM raw.oulad
+        WHERE source_file = 'studentInfo.csv'
+          AND payload->>'id_student' IS NOT NULL
+        ON CONFLICT (external_student_id) DO NOTHING
+        """
+    )
+    cursor.execute(
+        """
+        INSERT INTO catalog.enrollment (student_id, course_id, status, external_enrollment_id)
+        SELECT s.student_id, c.course_id, COALESCE(r.payload->>'final_result', 'unknown'),
+               (r.payload->>'id_student') || '::' || (r.payload->>'code_module') || '::' || (r.payload->>'code_presentation')
+        FROM raw.oulad r
+        JOIN catalog.student s
+          ON s.external_student_id = 'OULAD:' || (r.payload->>'id_student')
+        JOIN catalog.course c
+          ON c.course_code = r.payload->>'code_module'
+         AND c.presentation = r.payload->>'code_presentation'
+        WHERE r.source_file = 'studentInfo.csv'
+        ON CONFLICT (student_id, course_id) DO NOTHING
+        """
+    )
+    print("catalog filled")
+
+
+def cmd_prune_db(_: argparse.Namespace) -> int:
+    connection = connect_with_retry(settings())
+    try:
+        connection.autocommit = True
+        with connection.cursor() as cursor:
+            cursor.execute("CREATE SCHEMA IF NOT EXISTS training")
+            cursor.execute(
+                """
+                CREATE TABLE IF NOT EXISTS training.lock (
+                    lock_key TEXT PRIMARY KEY,
+                    payload JSONB NOT NULL,
+                    frozen_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+                )
+                """
+            )
+            for path, key in (
+                (ROOT / "artifacts" / "research" / "hybrid_superiority_v2" / "manifests" / "hybrid_c0r_lock.json", "hybrid"),
+                (ROOT / "artifacts" / "research" / "hybrid_superiority_v2" / "runs" / "baseline_lock_uci_parity.json", "baseline_uci_parity"),
+                (ROOT / "artifacts" / "research" / "hybrid_superiority_v2" / "runs" / "baseline_lock_oulad_parity.json", "baseline_oulad_parity"),
+            ):
+                if path.is_file():
+                    payload = json.loads(path.read_text(encoding="utf-8"))
+                    cursor.execute(
+                        """
+                        INSERT INTO training.lock (lock_key, payload)
+                        VALUES (%s, %s)
+                        ON CONFLICT (lock_key) DO UPDATE SET payload = EXCLUDED.payload, frozen_at = NOW()
+                        """,
+                        (key, Json(payload)),
+                    )
+                    print("training.lock", key)
+            cursor.execute("DROP SCHEMA IF EXISTS optuna_hs_v2 CASCADE")
+            cursor.execute("DROP SCHEMA IF EXISTS research CASCADE")
+            cursor.execute("DROP TABLE IF EXISTS recommendation.llm_quota_ledger CASCADE")
+            cursor.execute("DROP TABLE IF EXISTS recommendation.llm_request CASCADE")
+            cursor.execute("DROP TABLE IF EXISTS recommendation.llm_response CASCADE")
+            cursor.execute("DROP TABLE IF EXISTS recommendation.weak_label CASCADE")
+            cursor.execute("DROP TABLE IF EXISTS recommendation.label_source CASCADE")
+            print("pruned extra schemas/tables")
     finally:
         connection.close()
     return 0
@@ -494,6 +585,7 @@ def cmd_load_all(args: argparse.Namespace) -> int:
     cmd_load_raw(args)
     cmd_load_predictions(args)
     cmd_load_recommendations(args)
+    cmd_prune_db(args)
     return cmd_status(args)
 
 
@@ -544,6 +636,7 @@ def build_parser() -> argparse.ArgumentParser:
     sub.add_parser("load-predictions").set_defaults(handler=cmd_load_predictions)
     sub.add_parser("load-recommendations").set_defaults(handler=cmd_load_recommendations)
     sub.add_parser("load-all").set_defaults(handler=cmd_load_all)
+    sub.add_parser("prune").set_defaults(handler=cmd_prune_db)
     lookup = sub.add_parser("lookup", help="Read catalog + C0 + V3 for one enrollment from student_db")
     _add_case_args(lookup, stage_required=False)
     lookup.set_defaults(handler=cmd_lookup)

@@ -155,15 +155,18 @@ DROP TABLE IF EXISTS raw.oulad_courses;
 
 DO $$
 BEGIN
-    IF (SELECT COUNT(*) FROM catalog.student WHERE full_name IS NOT NULL OR email IS NOT NULL) = 0 THEN
-        ALTER TABLE catalog.student DROP COLUMN IF EXISTS full_name;
-        ALTER TABLE catalog.student DROP COLUMN IF EXISTS email;
+    IF EXISTS (
+        SELECT 1 FROM information_schema.columns
+        WHERE table_schema = 'catalog' AND table_name = 'student' AND column_name = 'full_name'
+    ) THEN
+        EXECUTE $q$ALTER TABLE catalog.student DROP COLUMN IF EXISTS full_name$q$;
+        EXECUTE $q$ALTER TABLE catalog.student DROP COLUMN IF EXISTS email$q$;
     END IF;
 END $$;
 
 COMMENT ON SCHEMA raw IS 'Three source datasets: student-mat, student-por, OULAD.';
 COMMENT ON SCHEMA catalog IS 'Identity: one student–course enrollment, fed by raw.dataset.';
-COMMENT ON SCHEMA prediction IS 'Hybrid C0 risk per enrollment and stage.';
-COMMENT ON SCHEMA recommendation IS 'V3 Five-EBM-C0 ranked actions on a C0 prediction.';
+COMMENT ON SCHEMA prediction IS 'Hybrid CNN-BiLSTM risk per enrollment and stage.';
+COMMENT ON SCHEMA recommendation IS 'Recommendation V ranked actions on a Hybrid CNN-BiLSTM prediction.';
 COMMENT ON TABLE catalog.course IS 'A course belongs to one raw dataset (student_mat, student_por, or oulad).';
 COMMENT ON TABLE catalog.enrollment IS 'Links a student to a course; predictions hang off this row.';

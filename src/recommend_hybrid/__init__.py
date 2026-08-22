@@ -1,8 +1,7 @@
-"""Hybrid CNN-BiLSTM risk-guided recommendation package.
+"""Recommendation V: Hybrid CNN–BiLSTM risk-guided actions.
 
-The production recommendation authority is ``src.recommend_hybrid.final``.
-Older research and compatibility modules remain in the repository for lineage,
-but they are not exported as the validated recommendation model.
+Serving runtime is ``src.recommend_hybrid.v3``. The package still re-exports
+the frozen public contracts used by tests and the live database CLI.
 """
 
 from .final import (

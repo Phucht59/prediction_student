@@ -1,6 +1,6 @@
 {
   "model_id": "hybrid",
-  "display_name": "Hybrid",
+  "display_name": "Hybrid CNN-BiLSTM",
   "public_class": "Hybrid",
   "architecture_id": "C0",
   "authority_source": "Phase4",
@@ -28,7 +28,7 @@
   "separate_oulad_100_model": false,
   "training": {
     "strategy": "L1_control",
-    "protocol": "FIT/STOP/VALID inner, STOP early-stop on macro PR-AUC",
+    "protocol": "FIT/STOP/VALID inner, STOP early-stop on macro AP",
     "uci": {
       "lr": 8.605034792033103e-05,
       "weight_decay": 0.0032859708169642424,

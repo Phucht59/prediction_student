@@ -31,10 +31,11 @@ erDiagram
 
 OULAD is **one** landing table (`raw.oulad`) because it is one dataset. The original 7 CSVs are `source_file` + `payload` (courses, assessments, vle, studentInfo, studentRegistration, studentAssessment, studentVle). UCI is typed columns because each file is already one table.
 
-C0 / V3 rows attach to OULAD enrollments only. UCI enrollments exist in `catalog` for identity; they have no V3 recommendations.
+Hybrid CNN–BiLSTM rows attach to OULAD enrollments. UCI enrollments exist in `catalog` for identity; Recommendation V is OULAD-only.
 
 Runtime reads **stored Hybrid CNN–BiLSTM** from `prediction.prediction` (no refit) and can run
 frozen Recommendation V, then write the decision back to `recommendation.*`.
+Training locks (Hybrid + one-weight baselines) live in `training.lock`. Clickstream `studentVle` is not copied into PostgreSQL.
 
 ## Commands
 

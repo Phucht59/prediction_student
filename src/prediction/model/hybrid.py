@@ -46,7 +46,7 @@ class Hybrid(nn.Module):
     """Public Hybrid CNN–BiLSTM. Dataset differences are input dims and weights only."""
 
     model_id = "hybrid"
-    display_name = "Hybrid"
+    display_name = "Hybrid CNN-BiLSTM"
     architecture_id = "C0"
 
     def __init__(self, config: HybridConfig):

@@ -66,7 +66,7 @@ def _availability_cases(model: Hybrid) -> list[dict]:
 
 def test_public_identity():
     assert Hybrid.model_id == "hybrid"
-    assert Hybrid.display_name == "Hybrid"
+    assert Hybrid.display_name == "Hybrid CNN-BiLSTM"
     assert Hybrid.architecture_id == "C0"
     assert ACTIVE_PREDICTION_REGISTRY["prediction_model"]["model_id"] == "hybrid"
     assert ACTIVE_PREDICTION_REGISTRY["fitted_instances"] == ["uci", "oulad"]
@@ -214,7 +214,7 @@ def test_current_authority_docs_are_phase4():
     files = [
         ROOT / "PROJECT.md",
         ROOT / "README.md",
-        ROOT / "reports" / "prediction" / "final" / "FINAL_PREDICTION_MODEL_REPORT.md",
+        ROOT / "reports" / "prediction" / "final" / "CHUONG_3.md",
         ROOT / "configs" / "prediction" / "hybrid_final.json",
         ROOT / "configs" / "prediction" / "registry.json",
     ]
@@ -224,19 +224,17 @@ def test_current_authority_docs_are_phase4():
             assert token not in text, f"{path.name} still contains stale authority token {token!r}"
         assert "Hybrid" in text or "hybrid" in text.lower()
     assert not (ROOT / "configs" / "prediction" / "hybrid_phase8.json").exists()
-    assert (ROOT / "configs" / "prediction" / "historical" / "hybrid_phase8.json").is_file()
+    assert not (ROOT / "configs" / "prediction" / "historical").exists()
     env = (ROOT / "environment.yml").read_text(encoding="utf-8")
     assert "xgboost" not in env.lower()
     assert "optuna" not in env.lower()
-    research = (ROOT / "environment.research.yml").read_text(encoding="utf-8")
-    assert "xgboost" in research.lower()
-    registry = (ROOT / "reports" / "CURRENT_REPORTS.md").read_text(encoding="utf-8")
-    assert "Hybrid CNN–BiLSTM" in registry
-    assert "PROJECT.md" in registry
-    assert "the current Hybrid CNN–BiLSTM authority" in registry
-    assert "HISTORICAL / SUPERSEDED" in registry
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    project = (ROOT / "PROJECT.md").read_text(encoding="utf-8")
+    assert "Hybrid CNN–BiLSTM" in readme
+    assert "Recommendation V" in readme
+    assert "CHUONG_3.md" in project
     assert not (ROOT / "artifacts" / "prediction" / "historical" / "phase8").exists()
-    assert not (ROOT / "reports" / "prediction" / "historical" / "phase8").exists()
+    assert not (ROOT / "reports" / "prediction" / "historical").exists()
     assert not (ROOT / "src" / "prediction" / "data" / "final100.py").exists()
 
 

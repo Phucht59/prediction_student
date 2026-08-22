@@ -6,7 +6,7 @@ from .baselines import ACTIVE_BASELINES
 ACTIVE_PREDICTION_REGISTRY = {
     "prediction_model": {
         "model_id": "hybrid",
-        "display_name": "Hybrid",
+        "display_name": "Hybrid CNN-BiLSTM",
         "public_class": "Hybrid",
         "architecture_id": "C0",
         "authority_source": "Phase4",
@@ -16,7 +16,7 @@ ACTIVE_PREDICTION_REGISTRY = {
     "fitted_instances": ["uci", "oulad"],
     "uci_states": ["S0", "S1", "S2"],
     "oulad_states": ["20pct", "35pct", "50pct", "75pct", "100pct"],
-    "architecture": "C0 parallel CNN ∥ BiLSTM + corrected availability + 3-way masked softmax + binary logit",
+    "architecture": "parallel CNN ∥ BiLSTM + corrected availability + 3-way masked softmax + binary logit",
     "joint_training": False,
     "stage_specific_models": False,
     "separate_oulad_100_model": False,

@@ -1,8 +1,0 @@
-{
-  "candidate": "C0-R",
-  "comparator": "one_weight_baseline_ceiling",
-  "oulad": false,
-  "outer_test_used": false,
-  "pass": false,
-  "uci": true
-}

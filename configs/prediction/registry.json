@@ -20,7 +20,7 @@
   "evaluation_status": "robust_inner_finalized",
   "prediction_model": {
     "datasets": ["uci_combined", "oulad"],
-    "display_name": "Hybrid",
+    "display_name": "Hybrid CNN-BiLSTM",
     "model_id": "hybrid",
     "public_class": "Hybrid",
     "architecture_id": "C0",

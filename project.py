@@ -22,9 +22,12 @@ def command_status(_args: argparse.Namespace) -> int:
     print(
         json.dumps(
             {
-                "status": "THESIS_FINAL",
+                "status": "PASS",
                 "model_id": payload.get("model_id"),
-                "display_name": payload.get("display_name"),
+                "display_name": "Hybrid CNN-BiLSTM",
+                "recommendation_name": "Recommendation V",
+                "active_model_family": "hybrid",
+                "active_public_model_class": "src.prediction.model.Hybrid",
                 "architecture_id": payload.get("architecture_id"),
                 "source_phase": payload.get("source_phase"),
                 "previous_phase4_gate_status": payload.get("previous_phase4_gate_status"),
@@ -33,6 +36,7 @@ def command_status(_args: argparse.Namespace) -> int:
                 "outer_test_used": payload.get("outer_test_used"),
                 "training_performed": False,
                 "hpo_performed": False,
+                "outer_evaluation_rerun": False,
             },
             indent=2,
         )
@@ -41,7 +45,7 @@ def command_status(_args: argparse.Namespace) -> int:
 
 
 def command_report(_args: argparse.Namespace) -> int:
-    report = ROOT / "reports" / "prediction" / "final" / "FINAL_PREDICTION_MODEL_REPORT.md"
+    report = ROOT / "reports" / "prediction" / "final" / "CHUONG_3.md"
     print(json.dumps({"status": "PASS" if report.is_file() else "MISSING", "report": str(report.relative_to(ROOT))}, indent=2))
     return 0 if report.is_file() else 1
 
@@ -49,7 +53,7 @@ def command_report(_args: argparse.Namespace) -> int:
 def command_validate(_args: argparse.Namespace) -> int:
     decision = ROOT / "artifacts" / "prediction" / "final" / "FINALIZATION_DECISION.json"
     registry = ROOT / "configs" / "prediction" / "registry.json"
-    report = ROOT / "reports" / "prediction" / "final" / "FINAL_PREDICTION_MODEL_REPORT.md"
+    report = ROOT / "reports" / "prediction" / "final" / "CHUONG_3.md"
     if not decision.is_file() or not registry.is_file() or not report.is_file():
         print(json.dumps({"status": "MISSING_ACTIVE_AUTHORITY"}, indent=2))
         return 1
@@ -107,10 +111,6 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main() -> int:
-    if len(sys.argv) > 1 and sys.argv[1] == "db-final":
-        from scripts.database_final import main as database_final_main
-
-        return int(database_final_main(sys.argv[2:]))
     if len(sys.argv) > 1 and sys.argv[1] == "db":
         from scripts.database.cli import main as database_live_main
 

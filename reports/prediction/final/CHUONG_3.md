@@ -2,7 +2,7 @@
 
 Tài liệu này là bản kỹ thuật khóa luận cho **mô hình cuối**. Tên công khai: **Hybrid CNN–BiLSTM** (dự đoán) và **Recommendation V** (khuyến nghị). Không dùng mã thí nghiệm trên văn bản này.
 
-Đánh giá dự đoán: trung bình robust inner 3 fold × 3 seed (`42`, `1201`, `2026`). Tập outer **không** dùng để chọn mô hình. Nguồn số: `reports/prediction/final/FINAL_PREDICTION_MODEL_REPORT.md`, `uci_final.csv`, `oulad_final.csv`. AP là `sklearn.metrics.average_precision_score` — **không** gọi AP là PR-AUC (PR-AUC hình thang khác công thức).
+Đánh giá dự đoán: trung bình robust inner 3 fold × 3 seed (`42`, `1201`, `2026`). Tập outer **không** dùng để chọn mô hình. Nguồn số: `uci_final.csv`, `oulad_final.csv`. AP là `sklearn.metrics.average_precision_score` — **không** gọi AP là PR-AUC (PR-AUC hình thang khác công thức).
 
 ---
 
@@ -327,7 +327,7 @@ Hybrid CNN–BiLSTM → PredictionResult (p, t, ŷ, H₂)
   → kế hoạch xác định, không LLM lúc chạy
 ```
 
-Code: `src/recommend_hybrid/v3/` (implementation), hợp đồng công khai **Recommendation V**. Không refit Hybrid. Không đọc class CNN/LSTM. Adapter chỉ lấy `PredictionResult.recommendation_features()`.
+Code: `src/recommend_hybrid/` (implementation), hợp đồng công khai **Recommendation V**. Không refit Hybrid. Không đọc class CNN/LSTM. Adapter chỉ lấy `PredictionResult.recommendation_features()`.
 
 Định tuyến risk (`risk_router`): nếu `p < t` → không tự động (INSUFFICIENT_EVIDENCE, lý do dưới ngưỡng serving). Nếu `H₂(p) > 0.70` hoặc `(p − t) < 0.05` → HUMAN_REVIEW. Còn lại vào feasibility + EBM.
 
