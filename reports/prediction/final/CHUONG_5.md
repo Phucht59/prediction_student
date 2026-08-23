@@ -2,56 +2,57 @@
 
 ## 5.1. Kết luận
 
-Khóa luận đã hoàn thành các mục tiêu đề ra: xây dựng và đánh giá mô hình học sâu lai **Hybrid CNN–BiLSTM** dự đoán nguy cơ học tập nhị phân trên UCI và OULAD theo protocol cutoff-safe, rồi gắn **Recommendation V** để xếp hành động hỗ trợ trên OULAD 20 / 35 / 50 / 75%. Đề tài không xây giao diện người dùng.
+Khóa luận tốt nghiệp đã hoàn thành các mục tiêu đề ra, tập trung vào việc nghiên cứu và xây dựng một mô hình học sâu lai để dự đoán nguy cơ học tập nhị phân trên hai bộ dữ liệu UCI và OULAD, sau đó gắn module khuyến nghị hành động hỗ trợ trên các mốc còn thời gian can thiệp của OULAD.
 
 Qua quá trình nghiên cứu và thực nghiệm, đề tài đã đạt được những kết quả cụ thể sau:
 
-- **Xây dựng thành công mô hình học sâu lai:** Đã xây dựng và huấn luyện Hybrid CNN–BiLSTM bằng PyTorch: ResidualProjector tabular, CNN song song BiLSTM (kernel 2, dilation 1–2, hidden 128), cổng softmax 3 nhánh có mask, head logit nhị phân. Một class, một checkpoint UCI (S0–S2), một checkpoint OULAD (20–100%), 482 116 tham số trên checkpoint OULAD serving. Khi `lengths = 0`, CNN/BiLSTM tắt đúng thiết kế.
-- **Đánh giá hiệu năng một cách khách quan:** Inner group-disjoint 3 fold × 3 seed = 9 số / mốc; AP = `sklearn.metrics.average_precision_score`; outer không dùng để chọn mô hình. UCI S1 AP **0.8214**, S2 **0.9101** (Wilcoxon S1 hơn LR và RF, p = 0.0039, 9/9; S2 hơn LR p = 0.0078; cùng protocol S1/S2 cao hơn XGB +0.044 / +0.014). OULAD một checkpoint: AP 0.762 → 0.806 → 0.848 → 0.889 → 0.920; từ 35% trở đi Hybrid hơn LR và RF có ý nghĩa. XGB lệch Hybrid ±0.002 trên 35–100%.
-- **Kiểm chứng cổng (H3) và ablation (H1):** Mass cổng UCI S0 tabular = 1; OULAD BiLSTM tăng 0.45 → 0.59 khi cutoff tăng. Ablation một mốc: OULAD 35% full 0.809 vượt tabular/CNN/BiLSTM-only; UCI S1 full 0.799 cao nhất sáu arm. Số khóa serving vẫn là mixed-state S1 0.821.
-- **Recommendation V:** NDCG@3 **0.88785** vs B1 0.86649 (Δ +0.021, 95% CI không chứa 0); invalid-action **0**; đủ năm hành động Top-1. 57.4% INSUFFICIENT_EVIDENCE là an toàn, không phải lỗi xếp hạng.
+- Xây dựng thành công mô hình học sâu lai: Đã xây dựng và huấn luyện Hybrid CNN–BiLSTM bằng PyTorch, kết hợp nhánh bảng, CNN một chiều và BiLSTM qua cổng softmax ba nhánh. Kiến trúc này được lựa chọn nhằm tận dụng khả năng mã hóa ngữ cảnh của nhánh bảng, khả năng trích mẫu cục bộ của CNN và khả năng nắm bắt phụ thuộc thời gian của BiLSTM. Một mô hình dùng cho UCI (S0, S1, S2) và một mô hình dùng cho OULAD (20% đến 100%). Khi chưa có chuỗi, CNN và BiLSTM được tắt.
 
-Từ các kết quả trên, khóa luận mang lại đóng góp:
+- Đánh giá hiệu năng mô hình một cách khách quan: Đã tiến hành thực nghiệm theo chia nhóm, chín lần chạy cho mỗi mốc, chỉ số chính là Average Precision. Trên UCI, AP đạt 0,821 tại S1 và 0,910 tại S2. Trên OULAD, AP tăng từ 0,762 tại 20% lên 0,920 tại 100% trên cùng một mô hình. Từ mốc 35% trở đi, Hybrid CNN–BiLSTM cao hơn hồi quy logistic và rừng ngẫu nhiên theo kiểm định Wilcoxon. Thí nghiệm loại bỏ thành phần cho thấy mô hình đầy đủ không kém các biến thể chỉ dùng một nhánh. Khối lượng cổng dịch sang BiLSTM khi chuỗi dài hơn, phù hợp giả thuyết về cơ chế kết hợp.
 
-- **Về học thuật và kỹ thuật:** Protocol cutoff-safe dùng chung hai miền khác T; AP trên lớp hiếm; group-split; STOP-only ngưỡng `t`; cổng có mask kiểm chứng được. Toàn bộ quy trình từ cấm trường rò rỉ, FIT-only scale, đến 9-run và Wilcoxon được ghi tường minh.
-- **Về thực tiễn:** Hybrid đưa ra `p`, `t`, `ŷ`, `H₂` tại các mốc còn thời gian (S1; OULAD 35–75%). Recommendation V chuyển xác suất thành hành động khả thi có luật eligible/chặn, không viết “làm vậy thì đỗ”. CLI/PostgreSQL chỉ đọc kết quả đã khóa.
+- Xây dựng module khuyến nghị: Module xếp hạng năm hành động hỗ trợ trên xác suất nguy cơ và bằng chứng đã quan sát. Trên tập độc lập 632 tình huống, NDCG tại 3 đạt 0,888, không phát hành hành động vi phạm luật khả thi, đồng thời phủ đủ năm hành động ở vị trí đứng đầu.
 
-Claim đặt ở **UCI S1/S2** và **OULAD 35–75%**. S0 và 20% không dùng để phủ nhận kiến trúc lai. 100% không dùng cảnh báo sớm.
+Từ các kết quả trên, khóa luận mang lại những đóng góp về học thuật và thực tiễn:
+
+- Về học thuật: Đề tài áp dụng kiến trúc lai CNN–BiLSTM có cổng điều kiện cho bài toán cảnh báo sớm trên hai miền khác độ dài chuỗi, với quy trình đánh giá theo nhóm và chỉ số xếp hạng lớp thiểu số. Toàn bộ các bước từ loại biến rò rỉ, chuẩn hóa trên tập huấn luyện đến chín lần chạy được trình bày tường minh, có thể tham khảo cho các nghiên cứu tương tự.
+
+- Về thực tiễn: Mô hình cung cấp xác suất nguy cơ tại các mốc còn thời gian hỗ trợ. Module khuyến nghị chuyển xác suất thành hành động có điều kiện khả thi, thay vì chỉ dừng ở một con số rủi ro. Kết quả không được hiểu như đã triển khai vận hành tại một cơ sở đào tạo cụ thể.
 
 ## 5.2. Hạn chế
 
-Mặc dù khóa luận đạt các mục tiêu chính, vẫn còn hạn chế cần nhìn nhận khách quan. Việc nêu rõ hạn chế là cơ sở cho hướng phát triển, không phải gian lận số liệu.
+Mặc dù khóa luận đã đạt được những mục tiêu chính đề ra, vẫn còn tồn tại một số hạn chế nhất định cần được nhìn nhận một cách khách quan. Việc xác định rõ các hạn chế này sẽ là cơ sở quan trọng cho các hướng phát triển trong tương lai.
 
-- **Hạn chế về dữ liệu:**
-  - **Phạm vi địa lý:** Không có dữ liệu sinh viên Việt Nam. UCI và OULAD là bộ công khai; mô hình khóa **không** được diễn giải như đã triển khai tại một trường cụ thể ở Việt Nam.
-  - **UCI quy mô nhỏ và T = 2:** 1 044 bản ghi, chuỗi tối đa hai bước. S0 không có G1/G2 (khe FIT−VALID 0.125, ECE 0.254). View serving vẫn điền G1/G2 vào cả temporal và aggregate tại S1/S2.
-  - **OULAD 100%:** Prevalence giảm 0.424 → 0.317 vì enrollment rút trước cutoff bị loại. AP 0.920 tại 100% không phải chỉ số cảnh báo sớm. Recommendation V từ chối 100%.
-- **Hạn chế về mô hình và kỹ thuật:**
-  - **Outer không mở:** Chưa có ước lượng test cuối cùng ngoài vòng FIT/STOP/VALID. Outer fold 0 chỉ là firewall.
-  - **Kiến trúc:** CNN ∥ BiLSTM + cổng đã khóa. Transformer / temporal GNN mask-safe chưa thử trên cùng split và AP.
-  - **HPO:** Siêu tham số Hybrid là bộ khóa một-trọng-số theo miền. Roster so sánh (kể cả XGB) cũng một-trọng-số, không Optuna trên bản phục vụ.
-  - **XAI:** Không SHAP từng điểm. Bằng chứng diễn giải là mass cổng trung bình theo cutoff.
-  - **Checkpoint không lưu history epoch:** Không vẽ đường loss giả. Đường epoch (nếu có) thuộc bản research ablation, không thay bản khóa.
-- **Hạn chế về phạm vi ứng dụng:**
-  - **Không giao diện:** Không FastAPI công khai, không app di động. CLI chỉ đọc `prediction` / `recommendation` đã materialize.
-  - **Recommendation V không phải can thiệp nhân quả:** Không ATE, không RCT, không thử nghiệm với giảng viên thật. Panel C dùng reviewer LLM lúc gán nhãn yếu, không chạy lúc serving.
-  - **Nhãn nhị phân gộp:** Fail và Withdrawn chung một lớp dương. Tách hai đầu ra là hướng khác, không phải bản khóa.
+- Hạn chế về dữ liệu:
+  - Quy mô và độ dài chuỗi: Bộ UCI chỉ gồm 1.044 bản ghi, chuỗi tối đa hai bước. Đối với học sâu, đây là kích thước tương đối nhỏ. Tại S0 chưa có điểm giữa kỳ, khoảng cách giữa tập huấn luyện và tập kiểm định còn lớn (0,125) và sai số hiệu chỉnh còn cao (0,254), hạn chế khả năng học mẫu phức tạp.
+  - Phạm vi đặc trưng: Mô hình chưa sử dụng dữ liệu sinh viên tại Việt Nam. Các yếu tố như phản hồi giảng viên, hoàn cảnh kinh tế ngoài các biến có sẵn, hay tương tác diễn đàn ở mức ngữ nghĩa chưa được đưa vào.
+  - Mốc 100% của OULAD: Nhiều lượt rút sớm bị loại khỏi mẫu, tỷ lệ lớp dương giảm so với mốc 20%. AP tại 100% không phản ánh khả năng cảnh báo sớm.
 
-Các hạn chế trên không phủ nhận ưu thế Hybrid tại S1/S2 và OULAD 35–75% trên protocol đã khóa.
+- Hạn chế về mô hình và kỹ thuật:
+  - Kiến trúc: Mặc dù Hybrid CNN–BiLSTM đã cho thấy hiệu quả trên các mốc có chuỗi, đây vẫn là một kiến trúc tương đối gọn. Các kiến trúc như Transformer với cơ chế Attention, vốn đang thành công trên chuỗi dài, chưa được thử trên cùng cách chia tập và cùng chỉ số AP.
+  - Tối ưu hóa siêu tham số: Tốc độ học, Dropout và kích thước lô được chọn theo miền trên cơ sở thử nghiệm có kiểm soát, chưa áp dụng tối ưu siêu tham số tự động một cách hệ thống trên toàn bộ không gian tìm kiếm.
+  - Khả năng diễn giải: Việc đọc cổng trung bình theo mốc giúp hiểu nhánh nào được dùng, nhưng chưa giải thích được từng dự đoán cụ thể theo từng đặc trưng gốc như các kỹ thuật SHAP hay LIME.
+  - Phần chia ngoài: Phần chia ngoài không được mở khi công bố kết quả, nên chưa có ước lượng trên tập hoàn toàn tách khỏi quá trình chọn mô hình.
+
+- Hạn chế về phạm vi ứng dụng:
+  - Tính đặc thù dữ liệu: Mô hình được huấn luyện trên UCI và OULAD. Do đặc điểm tổ chức đào tạo và hành vi học tập khác nhau, mô hình có thể không giữ nguyên hiệu suất nếu áp trực tiếp cho một trường khác mà không huấn luyện lại.
+  - Module khuyến nghị: Module xếp hạng hành động khả thi, không ước lượng hiệu ứng can thiệp lên kết quả cuối môn. Chưa có thử nghiệm với cố vấn học tập. Fail và Withdrawn đang được gộp chung một lớp dương, trong khi hai nhóm này có thể cần hành động khác nhau.
 
 ## 5.3. Hướng phát triển trong tương lai
 
-Từ những hạn chế đã phân tích, đề tài mở ra các hướng sau. Mọi hướng mới phải giữ cutoff-safe, group-split và AP; không mở outer để chọn mô hình rồi mới “khóa”.
+Từ những hạn chế đã được phân tích, đề tài mở ra một số hướng nghiên cứu nhằm xây dựng hệ thống cảnh báo và hỗ trợ học tập đầy đủ hơn.
 
-- **Nâng cao dữ liệu:**
-  - Thu thập dữ liệu trường Việt Nam (cùng quy tắc cấm nhãn / tương lai).
-  - Mở outer **một lần** sau khi đóng băng mọi lựa chọn (cần duyệt tường minh).
-  - Tách Fail và Withdrawn thành bài toán riêng nếu có đủ mẫu Withdrawn tại VALID.
-- **Cải tiến mô hình:**
-  - Thử Transformer hoặc temporal GNN **mask-safe** trên OULAD 35–75%, cùng split và AP với bản khóa.
-  - Bỏ nhánh aggregate trùng G1/G2 trên UCI nếu ablation `temporal_only` không kém `both` trên 9 run khóa.
-  - Hiệu chỉnh xác suất (ECE S0 còn 0.254).
-- **Hoàn thiện phục vụ (ngoài phạm vi khóa luận hiện tại):**
-  - API/giao diện cảnh báo sớm nếu triển khai sản phẩm — không thuộc bản khóa này.
-  - Thử nghiệm với tư vấn học tập thật; đo hành vi, không đo ATE giả.
-  - Cá nhân hóa hành động Recommendation V theo ngữ cảnh môn, không refit Hybrid trên Panel C.
+- Nâng cao chất lượng và quy mô dữ liệu:
+  - Thu thập dữ liệu của cơ sở đào tạo tại Việt Nam, giữ nguyên nguyên tắc không dùng nhãn và không dùng sự kiện sau mốc cắt.
+  - Mở phần chia ngoài một lần sau khi đã đóng băng mọi lựa chọn, để có ước lượng khách quan hơn.
+  - Tách Fail và Withdrawn thành hai bài toán nếu số mẫu tại tập kiểm định đủ lớn.
+
+- Cải tiến mô hình:
+  - Thử Transformer hoặc mạng nơ-ron đồ thị theo thời gian trên OULAD từ 35% đến 75%, cùng cách chia tập và cùng AP với mô hình hiện tại.
+  - Xem xét bỏ thống kê gộp trùng với điểm giữa kỳ trên UCI nếu biến thể chỉ dùng chuỗi không kém mô hình hiện tại trên chín lần chạy.
+  - Hiệu chỉnh xác suất, đặc biệt tại S0, nơi sai số hiệu chỉnh còn 0,254.
+  - Bổ sung kỹ thuật diễn giải cục bộ để chỉ ra đặc trưng nào đẩy một sinh viên vào nhóm nguy cơ.
+
+- Hoàn thiện khuyến nghị và triển khai:
+  - Cá nhân hóa hành động theo môn học và theo tiến độ, không hiệu chỉnh module trên tập đánh giá độc lập.
+  - Thử nghiệm với cố vấn học tập, đo mức hữu ích của gợi ý, không suy ra hiệu quả nhân quả lên điểm cuối.
+  - Nếu triển khai sản phẩm, có thể xây dựng giao diện cảnh báo sớm; phần này nằm ngoài phạm vi khóa luận hiện tại.

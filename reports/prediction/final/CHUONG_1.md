@@ -4,174 +4,115 @@
 
 ### 1.1.1. Nhu cầu cảnh báo sớm nguy cơ học tập
 
-Bối cảnh thực trạng: nhà trường cần biết **ai đang có nguy cơ không hoàn thành môn** khi vẫn còn thời gian can thiệp, chứ không phải sau khi đã có điểm cuối kỳ hoặc trạng thái hủy đăng ký. Đây là bài toán **cảnh báo sớm** (early warning) trong Educational Data Mining: đặc trưng chỉ được lấy từ thông tin đã quan sát **trước** một mốc cutoff.
+Nhà trường cần nhận diện sinh viên có nguy cơ không hoàn thành môn học khi vẫn còn thời gian hỗ trợ, chứ không phải sau khi đã có điểm cuối kỳ hoặc trạng thái hủy đăng ký. Đây là bài toán cảnh báo sớm trong khai phá dữ liệu giáo dục: mọi đặc trưng chỉ được lấy từ thông tin đã quan sát trước một mốc thời gian cho trước.
 
-Hai nguồn dữ liệu công khai thường dùng, nhưng khác nhau về bản chất thời gian:
+Hai nguồn dữ liệu công khai thường được dùng trong lĩnh vực này khác nhau về bản chất thời gian. Bộ UCI Student Performance (Cortez và Silva, 2008) gồm 395 bản ghi môn Toán và 649 bản ghi môn Tiếng Bồ Đào Nha, gộp thành 1.044 cặp học sinh–môn. Chuỗi điểm tối đa hai bước (G1, G2); nhãn được tạo từ điểm cuối kỳ G3 theo ngưỡng 10 trên thang 0–20. Tỷ lệ lớp nguy cơ là 0,220 (230/1.044). Bộ OULAD (Kuzilek, Hlosta và Zdrahal, 2017) gồm 32.593 lượt ghi danh, 28.785 sinh viên và hơn 10 triệu sự kiện tương tác trên môi trường học trực tuyến. Nhãn nguy cơ là Fail hoặc Withdrawn. Năm mốc quan sát được đặt tại 20%, 35%, 50%, 75% và 100% chiều dài môn học.
 
-- **UCI Student Performance** (Cortez và Silva, 2008): 395 bản ghi Mathematics và 649 bản ghi Portuguese, gộp thành **1 044** cặp (học sinh, môn). Chuỗi điểm tối đa **hai bước** (G1, G2); nhãn khóa luận lấy từ `G3 < 10` (thang 0–20). Tỷ lệ lớp nguy cơ trên 1 044 bản ghi là **0.220** (230/1044).
-- **OULAD** (Kuzilek, Hlosta và Zdrahal, 2017): **32 593** enrollment, **28 785** sinh viên, nhật ký `studentVle` **10 655 280** dòng click. Nhãn khóa luận: Fail hoặc Withdrawn. Năm mốc cutoff: 20 / 35 / 50 / 75 / 100% chiều dài môn (`module_presentation_length`).
+Nếu đưa điểm cuối kỳ, kết quả cuối môn, điểm bài kiểm tra hoặc ngày hủy đăng ký vào đầu vào thì mô hình không còn mang ý nghĩa cảnh báo sớm.
 
-Nếu đưa `G3`, `final_result`, `score` hoặc ngày hủy đăng ký vào predictor thì mô hình không còn là cảnh báo sớm — đó là rò rỉ nhãn / tương lai.
+### 1.1.2. Hạn chế của độ chính xác tổng thể khi lớp nguy cơ là thiểu số
 
-### 1.1.2. Hậu quả khi xếp hạng nguy cơ sai
+Lớp nguy cơ thường chiếm tỷ lệ thấp. Trên UCI, một mô hình luôn dự đoán không nguy cơ đã đạt khoảng 0,78 độ chính xác tổng thể mà không xếp hạng được ai cần hỗ trợ. Hệ quả là bỏ sót sinh viên đang có nguy cơ (độ nhạy thấp) hoặc cảnh báo tràn lan (độ chính xác dương thấp). Một ngưỡng quyết định cố định cho mọi mốc thông tin cũng làm sai lệch ý nghĩa vận hành, vì cùng một xác suất được diễn giải khác nhau khi chưa có điểm giữa kỳ hoặc khi chuỗi tương tác còn rất ngắn.
 
-Lớp nguy cơ là thiểu số. Accuracy dễ cao khi mô hình luôn đoán “không rủi ro”: trên UCI, luôn đoán âm đã đạt khoảng **0.78** accuracy mà không xếp được ai cần hỗ trợ.
+Do đó đề tài lấy Average Precision (AP) làm chỉ số chính. AP đo chất lượng xếp hạng lớp dương trên toàn bộ ngưỡng, phù hợp hơn ROC-AUC khi hai lớp không cân bằng.
 
-Hậu quả thực tế của một hệ thống xếp hạng kém:
+### 1.1.3. Nhu cầu một kiến trúc dùng chung trên hai miền dữ liệu
 
-- Bỏ sót sinh viên đang trượt / rút (recall thấp) → can thiệp muộn.
-- Báo động giả hàng loạt (precision thấp) → quá tải tư vấn.
-- Dùng một ngưỡng cố định cho mọi mốc thông tin → cùng một xác suất `p` bị diễn giải khác nhau khi G1 chưa có hoặc khi đã hết tuần VLE.
+Hai miền không được gộp thành một tập huấn luyện. UCI là bản ghi theo học kỳ, chuỗi dài tối đa hai bước; OULAD là chuỗi theo tuần, có thể dài tới gần 40 bước. Mô hình chỉ dựa trên bảng đặc trưng phẳng bỏ qua thứ tự điểm và thứ tự tuần tương tác. Ngược lại, mô hình chỉ dựa trên CNN hay LSTM thiếu tín hiệu khi chuỗi còn rỗng, chẳng hạn khi chưa có G1 và G2.
 
-Do đó khóa luận chọn **AP** (`sklearn.metrics.average_precision_score`) làm chỉ số chính: đo chất lượng **xếp hạng lớp dương trên mọi ngưỡng**, không đối xứng hai lớp như ROC-AUC.
+Đề tài cần một kiến trúc nhận cùng kiểu đầu vào trên cả hai miền, tắt nhánh chuỗi khi chưa có quan sát thời gian, và dùng một mô hình đã huấn luyện cho mỗi miền để chấm mọi mốc thông tin. Trên OULAD, sự kiện chỉ được lấy khi thời điểm xảy ra nằm trước mốc cắt.
 
-### 1.1.3. Nhu cầu một kiến trúc dùng được trên hai miền
+### 1.1.4. Tiềm năng của kiến trúc lai CNN–BiLSTM và module khuyến nghị
 
-Hai miền **không** gộp thành một tập huấn luyện. UCI là bản ghi học kỳ, T = 2; OULAD là chuỗi tuần, T tới khoảng 39. Một mô hình “chỉ hồi quy trên bảng phẳng” bỏ qua thứ tự G1→G2 và thứ tự tuần VLE. Một mô hình “chỉ CNN/LSTM” không có tín hiệu khi chuỗi rỗng (UCI S0: chưa có G1/G2).
+CNN một chiều trích mẫu cục bộ trên cửa sổ ngắn. BiLSTM mã hóa phụ thuộc hai chiều trong cửa sổ đã cắt tại mốc quan sát. Nhánh bảng giữ ngữ cảnh tĩnh và thống kê gộp. Cổng softmax ba nhánh điều khiển tỷ lệ đóng góp của từng thành phần, trong đó nhánh chuỗi bị tắt khi chưa có bước thời gian hợp lệ.
 
-Nhu cầu thiết kế:
+Xác suất nguy cơ chưa đủ để hỗ trợ học tập. Nhà trường còn cần các hành động khả thi như hoàn thành bài đánh giá, phục hồi tương tác hay ôn luyện đều đặn. Module khuyến nghị xếp hạng các hành động đó trên cơ sở xác suất nguy cơ và bằng chứng đã quan sát, không ước lượng hiệu ứng nhân quả lên kết quả cuối môn.
 
-- Cùng một class nhận tensor thống nhất (static, temporal có mask, aggregate, progress).
-- Tắt nhánh CNN và BiLSTM khi `lengths = 0`, không học pad.
-- Một checkpoint / miền chấm mọi mốc thông tin (UCI S0–S2; OULAD 20–100%), không huấn luyện mô hình riêng cho 100%.
-- Cutoff-safe: sự kiện OULAD chỉ khi `observation_start ≤ event_time < cutoff`.
-
-### 1.1.4. Tiềm năng của kiến trúc lai CNN–BiLSTM và lớp khuyến nghị
-
-CNN 1D trích mẫu cục bộ trên cửa sổ ngắn (điểm liền kề, tuần liền kề). BiLSTM mã hóa phụ thuộc hai chiều **trong cửa sổ đã cắt tại cutoff**. Nhánh tabular giữ ngữ cảnh tĩnh và thống kê gộp. Cổng softmax 3 nhánh (tabular, CNN, BiLSTM) có mask availability quyết định nhánh nào được dùng.
-
-Sau xác suất nguy cơ, nhà trường vẫn cần **hành động khả thi** (nộp bài, phục hồi tương tác, ôn đều, …), không chỉ một số `p`. **Recommendation V** xếp năm hành động trên `PredictionResult` của Hybrid, luật feasibility cứng, không ước lượng nhân quả lên `final_result`.
-
-Đề tài **không** xây giao diện người dùng hay API công khai. Phạm vi là mô hình dự đoán, đánh giá inner 3×3, và Recommendation V.
+Phạm vi khóa luận là mô hình dự đoán, đánh giá thực nghiệm và module khuyến nghị. Đề tài không xây dựng giao diện người dùng.
 
 ## 1.2. Mục tiêu nghiên cứu
 
 ### 1.2.1. Mục tiêu tổng quát
 
-Xây dựng và đánh giá mô hình **Hybrid CNN–BiLSTM** dự đoán nguy cơ học tập nhị phân trên UCI và OULAD theo protocol cutoff-safe, rồi gắn **Recommendation V** để xếp hành động hỗ trợ trên OULAD 20 / 35 / 50 / 75%.
+Xây dựng và đánh giá mô hình Hybrid CNN–BiLSTM dự đoán nguy cơ học tập nhị phân trên UCI và OULAD, đồng thời gắn module khuyến nghị hành động hỗ trợ trên các mốc 20%, 35%, 50% và 75% của OULAD.
 
 ### 1.2.2. Mục tiêu cụ thể
 
-- **Về mô hình dự báo:**
-  - Một class `Hybrid` (`model_id = hybrid`), `architecture_id = C0`.
-  - Một checkpoint UCI chấm S0, S1, S2; một checkpoint OULAD chấm 20 / 35 / 50 / 75 / 100%.
-  - CNN song song BiLSTM, cổng softmax 3 nhánh có mask; tắt CNN/BiLSTM khi `lengths = 0`.
-  - Không huấn luyện mô hình riêng cho OULAD 100%.
-- **Về đánh giá khoa học:**
-  - Chỉ số chính: AP = `sklearn.metrics.average_precision_score` trên VALID inner (không gọi PR-AUC).
-  - Inner group-disjoint 3 fold × 3 seed (`42`, `1201`, `2026`) = **9 số / mốc**; báo cáo trung bình 9 số, không lấy run đẹp nhất.
-  - So sánh cùng protocol với LR, DT, RF, SVM, MLP, XGB (một-trọng-số, không HPO trên roster khóa).
-  - Outer fold tồn tại nhưng **không** dùng để chọn kiến trúc, siêu tham số hay mô hình khóa.
-  - Kiểm định giả thuyết:
-    - **H1:** trên UCI S1 và OULAD 35%, AP Hybrid đầy đủ > AP tabular-only (Wilcoxon hai phía, 9 run, α = 0.05).
-    - **H2:** trên mốc có chuỗi (UCI S1; OULAD 35% trở lên), AP Hybrid > AP LR và AP RF (9 cặp fold×seed, α = 0.05).
-    - **H3:** cổng softmax tăng khối lượng CNN+BiLSTM khi cutoff OULAD tăng.
-- **Về Recommendation V:**
-  - Chỉ OULAD 20 / 35 / 50 / 75; 100% bị từ chối trước khi xếp hạng.
-  - Đọc đúng `PredictionResult` (`p`, `t`, `ŷ`, `H₂`); không đọc vector CNN/LSTM nội bộ.
-  - NDCG@3 trên Panel C held-out; invalid-action = 0; không ATE, không RCT.
+- Về mô hình dự báo:
+  - Một kiến trúc Hybrid CNN–BiLSTM dùng chung cho hai miền, khác nhau chủ yếu ở chiều đầu vào và trọng số đã học.
+  - Một mô hình UCI chấm các mốc S0, S1, S2; một mô hình OULAD chấm các mốc 20%, 35%, 50%, 75% và 100%.
+  - CNN chạy song song với BiLSTM, kết hợp bằng cổng softmax ba nhánh; tắt CNN và BiLSTM khi chưa có chuỗi.
+- Về đánh giá:
+  - Chỉ số chính là AP trên tập kiểm định trong, trung bình 9 lần chạy (3 phần chia nhóm × 3 hạt giống).
+  - So sánh với hồi quy logistic, cây quyết định, rừng ngẫu nhiên, SVM, mạng perceptron đa lớp và XGBoost trên cùng quy trình đánh giá.
+  - Phần chia ngoài không dùng để chọn kiến trúc hay siêu tham số.
+  - Kiểm định: (H1) trên UCI S1 và OULAD 35%, AP của mô hình đầy đủ cao hơn nhánh bảng đơn thuần; (H2) trên các mốc đã có chuỗi, AP của Hybrid cao hơn hồi quy logistic và rừng ngẫu nhiên; (H3) khối lượng cổng dịch sang CNN và BiLSTM khi mốc OULAD tăng.
+- Về module khuyến nghị:
+  - Chỉ áp dụng trên OULAD 20–75%; mốc 100% không đưa vào khuyến nghị.
+  - Đánh giá bằng NDCG@3 trên tập kiểm định độc lập; tỷ lệ hành động không hợp lệ bằng 0.
+  - Không ước lượng hiệu ứng can thiệp lên kết quả cuối môn.
 
-Claim chính đặt ở **UCI S1/S2** và **OULAD 35–75%**. S0 và 20% là mốc thiếu chuỗi / lạnh, không dùng để bác kiến trúc lai. Kết quả số liệu: Chương 4.
+Mốc công bố chính là UCI S1, S2 và OULAD từ 35% đến 75%. S0 và 20% là mốc thiếu chuỗi, không dùng để bác bỏ kiến trúc lai. Số liệu trình bày ở Chương 4.
 
 ## 1.3. Đối tượng và phạm vi nghiên cứu
 
 ### 1.3.1. Đối tượng nghiên cứu
 
-- **Dữ liệu đầu vào (Input):**
-  - UCI: context tĩnh (categorical + numeric hợp lệ), chuỗi G1/G2 theo mốc S0/S1/S2, tóm tắt aggregate 5 chiều trên điểm **đã quan sát** (tắt tại S0). Cấm `G3`, `absences` làm predictor.
-  - OULAD: context tĩnh (8 categorical + 4 numeric), 11 kênh temporal / tuần, 13 số aggregate tại cutoff. Cấm `final_result`, `score`, `date_unregistration` làm predictor. Enrollment có `date_unregistration < cutoff` bị loại khỏi mốc đó.
-- **Dữ liệu đầu ra (Target):**
-  - UCI: `risk = 1` khi `G3 < 10`.
-  - OULAD: `risk = 1` khi `final_result ∈ {Fail, Withdrawn}`.
-  - Serving: xác suất `p = σ(z)`, ngưỡng `t` chọn trên STOP, nhãn vận hành `ŷ = [p ≥ t]`, bất định `H₂(p)`.
-- **Mô hình:**
-  - Dự đoán: Hybrid CNN–BiLSTM, PyTorch, `d_fuse = 128`, CNN 64 kênh kernel 2 dilation (1, 2), BiLSTM hidden 128 một lớp hai chiều, cổng softmax 3 nhánh.
-  - So sánh: LR, DT, RF, SVM, MLP, XGB — cùng feature tabular cutoff-safe, cùng FIT/STOP/VALID, không thay Hybrid.
-  - Khuyến nghị: Recommendation V, năm EBM (`interpret`), luật feasibility cứng, năm hành động chuẩn.
+- Dữ liệu đầu vào:
+  - UCI: đặc trưng nền, chuỗi G1/G2 theo mốc S0/S1/S2, thống kê gộp trên điểm đã quan sát. Điểm G3 và số buổi vắng không dùng làm đầu vào.
+  - OULAD: đặc trưng nền, 11 kênh chuỗi theo tuần, 13 thống kê gộp tại mốc cắt. Kết quả cuối môn, điểm bài kiểm tra và ngày hủy đăng ký không dùng làm đầu vào. Lượt ghi danh đã hủy trước mốc cắt bị loại khỏi mốc đó.
+- Biến mục tiêu:
+  - UCI: nguy cơ khi G3 nhỏ hơn 10.
+  - OULAD: nguy cơ khi kết quả là Fail hoặc Withdrawn.
+  - Đầu ra mô hình: xác suất nguy cơ, ngưỡng quyết định chọn trên tập dừng, nhãn vận hành và độ bất định nhị phân.
+- Mô hình:
+  - Mô hình dự đoán: Hybrid CNN–BiLSTM.
+  - Các mô hình đối sánh: hồi quy logistic, cây quyết định, rừng ngẫu nhiên, SVM, mạng perceptron đa lớp, XGBoost.
+  - Module khuyến nghị: năm mô hình boosting diễn giải được, kèm luật khả thi cứng.
 
 ### 1.3.2. Phạm vi nghiên cứu
 
-- **Không gian và thời gian dữ liệu:**
-  - UCI: hai file gốc Cortes 2008, gộp 1 044 bản ghi, 662 `global_student_group`.
-  - OULAD: Open University, enrollment + VLE; số bản ghi còn đủ điều kiện theo cutoff: 20% 26 697; 35% 25 606; 50% 24 599; 75% 23 159; 100% 22 522.
-  - Không dùng dữ liệu sinh viên Việt Nam trong khóa luận này.
-- **Phạm vi kỹ thuật:**
-  - Học máy: PyTorch, FIT-only scaler, `pos_weight` FIT-only, AdamW, early-stop STOP macro AP.
-  - Đánh giá: inner 3×3, group-split; AP / Acc / Precision / F1 / Recall / ECE.
-  - Lưu trữ: PostgreSQL `student_db` (`raw` → `catalog` → `prediction` → `recommendation`); CLI `python project.py db predict|recommend`.
-  - Recommendation V: OULAD 20–75%; Panel C 632 case / 150 sinh viên / 2 398 review.
-- **Ngoài phạm vi:**
-  - Giao diện người dùng, FastAPI công khai, ứng dụng di động.
-  - Mở outer test để chọn mô hình.
-  - Ước lượng hiệu ứng can thiệp (ATE) lên `final_result`.
-  - Thử nghiệm với giảng viên thật; dữ liệu trường Việt Nam.
+- Không gian và thời gian dữ liệu:
+  - UCI: 1.044 bản ghi, 662 nhóm học sinh.
+  - OULAD: số bản ghi còn đủ điều kiện theo mốc khoảng 26.697 (20%) đến 22.522 (100%).
+  - Không sử dụng dữ liệu sinh viên tại Việt Nam.
+- Phạm vi kỹ thuật:
+  - Học sâu bằng PyTorch; chuẩn hóa và trọng số lớp dương chỉ ước lượng trên tập huấn luyện.
+  - Đánh giá theo nhóm, không xáo trộn độc lập từng dòng.
+  - Module khuyến nghị trên OULAD 20–75%, tập kiểm định độc lập 632 tình huống.
+- Ngoài phạm vi:
+  - Giao diện người dùng và dịch vụ API công khai.
+  - Dùng phần chia ngoài để chọn mô hình.
+  - Ước lượng hiệu ứng can thiệp; thử nghiệm với giảng viên.
 
 ## 1.4. Phương pháp nghiên cứu
 
 ### 1.4.1. Phương pháp nghiên cứu lý thuyết
 
-- **Nghiên cứu tài liệu:**
-  - EDM và cảnh báo sớm: cutoff, rò rỉ nhãn, lệch lớp.
-  - UCI (Cortez và Silva, 2008) và OULAD (Kuzilek và cộng sự, 2017): schema, nhãn, nhật ký VLE.
-  - CNN 1D, BiLSTM, fusion có mask; AP versus ROC-AUC trên lớp hiếm.
-  - Ranking hành động (NDCG@3), không nhầm với mô hình nhân quả.
-- **Thiết kế kiến trúc:**
-  - Tensor thống nhất `UnifiedHybridData`.
-  - Hybrid: ResidualProjector tabular ∥ ResidualCNN ∥ BiLSTM + cổng softmax 3 nhánh.
-  - Hợp đồng `PredictionResult` cho Recommendation V.
+Đề tài tổng hợp tài liệu về khai phá dữ liệu giáo dục, cảnh báo sớm, rò rỉ thông tin, lệch lớp, CNN một chiều, BiLSTM, cơ chế cổng kết hợp và xếp hạng hành động. Trên cơ sở đó, kiến trúc lai và module khuyến nghị được thiết kế sao cho đầu vào luôn nằm trước mốc quan sát.
 
 ### 1.4.2. Phương pháp nghiên cứu thực nghiệm
 
-- **Tiền xử lý:**
-  - UCI: gộp hai môn, tạo `record_id` / `global_student_group`, chuỗi G1/G2 theo mốc, cấm `G3`/`absences`.
-  - OULAD: gom VLE theo tuần `event_time < cutoff`; loại enrollment hủy trước cutoff.
-  - Scale one-hot / masked / aggregate **chỉ trên FIT**.
-- **Huấn luyện và kiểm định:**
-  - Group-disjoint inner 3 fold (UCI theo nhóm học sinh, OULAD theo `id_student`).
-  - FIT: gradient, scaler, `pos_weight`. STOP: early-stop AP, chọn `t` (lưới F1 → recall → `|t − 0.5|`). VALID: báo cáo.
-  - 3 seed × 3 fold = 9 run / mốc.
-  - Outer fold 0 là firewall, không tune.
-- **Đối chiếu:**
-  - Cùng protocol với LR / DT / RF / SVM / MLP / XGB.
-  - Ablation một mốc (bản research): tabular-only, CNN-only, BiLSTM-only, concat — không thay bản khóa mixed-state.
-  - Wilcoxon trên 9 cặp fold×seed cho H1/H2.
-- **Recommendation V:**
-  - OOF 66 685 dòng (3 fold, seed 42, mốc 20–75%).
-  - Panel C held-out: NDCG@3, P@1, invalid-action; không tune trên Panel C.
+Dữ liệu được tái cấu trúc thành tensor có mặt nạ, chuẩn hóa trên tập huấn luyện, chia nhóm học sinh thành tập huấn luyện, tập dừng và tập kiểm định trong. Mô hình được huấn luyện bằng entropi chéo nhị phân có trọng số, dừng sớm theo AP trên tập dừng, chọn ngưỡng trên tập dừng rồi báo cáo trên tập kiểm định. Mỗi mốc có 9 lần chạy. Module khuyến nghị được đánh giá trên tập độc lập, không hiệu chỉnh trên tập đó.
 
 ## 1.5. Ý nghĩa khoa học và thực tiễn của đề tài
 
 ### 1.5.1. Ý nghĩa khoa học
 
-- **Về lý thuyết:**
-  - Một protocol cutoff-safe dùng chung cho miền T = 2 (UCI) và miền chuỗi tuần (OULAD), không gộp train.
-  - Cổng softmax có mask: khi `lengths = 0` CNN/BiLSTM nhận khối lượng 0 — kiểm chứng được bằng mass cổng (Chương 4).
-  - AP làm chỉ số chính trên lớp hiếm; Acc không dùng để chọn mô hình.
-- **Về kỹ thuật:**
-  - Một topology (`d_fuse = 128`, CNN 64, BiLSTM 128), hai bộ trọng số.
-  - Group-split, FIT-only scale, STOP-only ngưỡng `t`, không outer khi khóa.
-  - Recommendation V tách khỏi Hybrid: chỉ tiêu thụ `PredictionResult`.
+Đề tài đưa ra một cách tổ chức đầu vào thống nhất cho hai miền khác độ dài chuỗi, kèm cơ chế tắt nhánh khi chưa có quan sát thời gian. Việc dùng AP và kiểm định trên nhiều lần chạy giúp đánh giá xếp hạng lớp thiểu số một cách thận trọng hơn độ chính xác tổng thể.
 
 ### 1.5.2. Ý nghĩa thực tiễn
 
-- **Cảnh báo sớm trên mốc còn thời gian:**
-  - UCI S1 (đã có G1, chưa có G3); OULAD 35 / 50 / 75% chiều dài môn.
-  - 100% không dùng cảnh báo sớm; Recommendation V từ chối 100%.
-- **Hành động khả thi, không phải “làm vậy thì đỗ”:**
-  - Năm hành động có luật eligible/chặn tường minh.
-  - Bốn trạng thái: `RECOMMEND`, `HUMAN_REVIEW`, `INSUFFICIENT_EVIDENCE`, `NO_FEASIBLE_ACTION`.
-- **Giới hạn thực tiễn đã chọn:**
-  - Không giao diện; CLI và PostgreSQL chỉ để đọc kết quả đã khóa.
-  - Không dữ liệu trường Việt Nam trong bản khóa.
+Mô hình cung cấp xác suất nguy cơ tại các mốc còn thời gian hỗ trợ (S1 trên UCI; 35–75% trên OULAD). Module khuyến nghị chuyển xác suất thành hành động có điều kiện khả thi. Kết quả không được diễn giải như đã triển khai tại một cơ sở đào tạo cụ thể ở Việt Nam.
 
 ## 1.6. Bố cục của khóa luận
 
-Chương I: Tổng quan đề tài nghiên cứu — lý do, mục tiêu, đối tượng, phạm vi, phương pháp, ý nghĩa.
+Chương I trình bày lý do, mục tiêu, đối tượng, phạm vi, phương pháp và ý nghĩa.
 
-Chương II: Cơ sở lý thuyết — cảnh báo sớm, hai bộ dữ liệu, khai phá dữ liệu, chuỗi có cutoff, tiền xử lý, CNN/BiLSTM/cổng, huấn luyện và chỉ số AP.
+Chương II trình bày cơ sở lý thuyết về nguy cơ học tập, dữ liệu, tiền xử lý, kiến trúc học sâu, khuyến nghị và chỉ số đánh giá.
 
-Chương III: Phân tích và thiết kế hệ thống — dữ liệu, tiền xử lý, kiến trúc, cấu hình huấn luyện, đóng gói mô hình, thiết kế Recommendation V. **Không đưa bảng hiệu suất hay nhận xét kết quả.**
+Chương III trình bày phân tích dữ liệu, thiết kế tiền xử lý, kiến trúc, quy trình huấn luyện và module khuyến nghị, không đưa kết quả thực nghiệm.
 
-Chương IV: Kết quả thực nghiệm và đánh giá — môi trường, quá trình huấn luyện, AP 3×3, đối chiếu bộ so sánh, trực quan hóa, Recommendation V, cổng XAI.
+Chương IV trình bày môi trường, quá trình huấn luyện, kết quả dự đoán, đối sánh, trực quan hóa và kết quả module khuyến nghị.
 
-Chương V: Kết luận, hạn chế và hướng phát triển.
+Chương V trình bày kết luận, hạn chế và hướng phát triển.

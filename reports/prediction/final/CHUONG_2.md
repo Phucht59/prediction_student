@@ -4,167 +4,76 @@
 
 ### 2.1.1. Định nghĩa bài toán
 
-Cảnh báo sớm (early warning) trong Educational Data Mining là bài toán **phân lớp nhị phân có thứ tự thời gian**: tại một mốc cutoff, mô hình xếp hạng xác suất sinh viên thuộc lớp nguy cơ, chỉ dùng thông tin đã quan sát **trước** cutoff.
+Cảnh báo sớm trong khai phá dữ liệu giáo dục là bài toán phân lớp nhị phân có ràng buộc thời gian. Tại một mốc quan sát, mô hình ước lượng xác suất sinh viên thuộc lớp nguy cơ, chỉ dùng thông tin đã có trước mốc đó.
 
-- **Lớp dương (nguy cơ):** UCI — `G3 < 10` (thang 0–20). OULAD — `final_result ∈ {Fail, Withdrawn}`.
-- **Lớp âm:** UCI — `G3 ≥ 10`. OULAD — Pass hoặc Distinction.
-- **Không phải hồi quy điểm** và **không phải dự báo chuỗi nồng độ liên tục** như bài PM2.5. Đầu ra là logit nhị phân `z`, xác suất `p = σ(z)`.
+Lớp dương trên UCI là G3 nhỏ hơn 10 (thang 0–20). Lớp dương trên OULAD là Fail hoặc Withdrawn. Đầu ra là một xác suất, không phải hồi quy điểm số liên tục.
 
-Nếu predictor chứa `G3`, `final_result`, `score` hoặc `date_unregistration` thì bài toán không còn là cảnh báo sớm.
+### 2.1.2. Lệch lớp và lựa chọn chỉ số
 
-### 2.1.2. Lệch lớp và hệ quả chọn chỉ số
+Khi lớp dương là thiểu số, độ chính xác tổng thể dễ bị thống trị bởi lớp âm. ROC-AUC đối xử hai lớp tương đối đối xứng, có thể cao trong khi độ chính xác dương vẫn thấp. Average Precision đo diện tích dưới đường precision–recall theo thứ tự xác suất giảm dần, nên phù hợp hơn để đánh giá khả năng xếp hạng sinh viên nguy cơ.
 
-Lớp dương thường là thiểu số. Trên UCI, prevalence toàn tập là 0.220. Một mô hình hằng âm đạt accuracy ≈ 0.78 mà AP thấp.
+Precision, Recall và F1 chỉ được báo cáo tại một ngưỡng đã chọn trên tập dừng, không thay thế AP.
 
-- **Accuracy:** tỷ lệ đoán đúng hai lớp; dễ bị thống trị bởi lớp âm.
-- **ROC-AUC:** đối xử đối xứng hai lớp; có thể cao khi precision lớp dương vẫn kém.
-- **AP (average precision):** diện tích dưới đường precision–recall theo thứ tự `p` giảm dần. Đây là chỉ số **xếp hạng lớp dương**.
+### 2.1.3. Rò rỉ nhãn và rò rỉ thời gian
 
-Khóa luận lấy AP làm chỉ số chính. Precision, Recall, F1 chỉ báo cáo tại **một** ngưỡng `t` đã chọn trên STOP.
+Rò rỉ nhãn xảy ra khi biến dùng để tạo nhãn, hoặc biến đồng thời với nhãn, được đưa vào đầu vào. Điểm G3, kết quả cuối môn và số buổi vắng thuộc nhóm này. Rò rỉ thời gian xảy ra khi sự kiện sau mốc cắt vẫn được tính, hoặc khi lượt ghi danh đã hủy trước mốc cắt vẫn được giữ như một mẫu cảnh báo sớm.
 
-### 2.1.3. Rò rỉ thời gian và rò rỉ nhãn
+Trên OULAD, sự kiện chỉ được lấy khi thời điểm nằm trong khoảng từ lúc bắt đầu quan sát đến trước mốc cắt. Lượt ghi danh hủy trước mốc cắt bị loại khỏi mốc đó.
 
-- **Rò rỉ nhãn:** dùng chính biến tạo nhãn (hoặc biến đồng thời với nhãn) làm đầu vào. Ví dụ: `G3` → nhãn UCI; `final_result` → nhãn OULAD; `absences` có thể đồng thời với kết quả học kỳ.
-- **Rò rỉ tương lai:** sự kiện OULAD có `event_time ≥ cutoff`; enrollment đã hủy trước cutoff nhưng vẫn được giữ trong mẫu “cảnh báo sớm”.
-- **Rò rỉ nhóm:** cùng một học sinh (hai môn UCI, nhiều enrollment OULAD) nằm cả train lẫn VALID.
+### 2.1.4. Mốc thông tin
 
-Quy tắc OULAD: `observation_start ≤ event_time < cutoff`. Enrollment có `date_unregistration < cutoff` bị loại khỏi mốc đó.
+UCI có ba cách nhìn cùng một bản ghi: S0 chưa có điểm giữa kỳ, S1 đã có G1, S2 đã có G1 rồi G2. OULAD có năm cách nhìn theo 20%, 35%, 50%, 75% và 100% chiều dài môn. Đây là các trạng thái thông tin của cùng một mô hình, không phải năm mô hình độc lập. Khi chuỗi rỗng, nhánh thời gian phải được tắt.
 
-### 2.1.4. Mốc thông tin, không phải mô hình riêng từng mốc
-
-UCI có ba **view** của cùng một bản ghi: S0 (chưa G1/G2), S1 (có G1), S2 (có G1 rồi G2). OULAD có năm view: 20 / 35 / 50 / 75 / 100% chiều dài môn. Đây là trạng thái thông tin, không phải năm mô hình độc lập. Một checkpoint / miền phải chấm được mọi mốc; khi chuỗi rỗng, nhánh temporal phải tắt chứ không học nhiễu pad.
-
-## 2.2. Hai bộ dữ liệu dùng trong khóa luận
+## 2.2. Hai bộ dữ liệu sử dụng trong đề tài
 
 ### 2.2.1. UCI Student Performance
 
-Cortez và Silva (2008) công bố hai file CSV phân tách `;`: Mathematics (395 dòng) và Portuguese (649 dòng), 33 cột gốc. Mỗi dòng là một cặp (học sinh, môn) trong một học kỳ.
+Cortez và Silva (2008) công bố hai tập điểm theo học kỳ, mỗi dòng là một cặp học sinh–môn. Điểm G1, G2, G3 nằm trên thang 0–20. Đề tài gộp hai môn thành 1.044 bản ghi. Việc chia tập theo dòng có thể đưa cùng một học sinh vào cả tập huấn luyện lẫn tập kiểm định, vì 366 nhóm xuất hiện ở cả hai môn. Do đó việc chia được thực hiện theo nhóm học sinh.
 
-- Điểm `G1`, `G2`, `G3` thang 0–20.
-- Khóa luận gộp hai môn thành 1 044 bản ghi, thêm cột `subject`.
-- Nhóm fold: 13 trường quasi-identity tạo `global_student_group` (662 nhóm); 366 nhóm xuất hiện ở cả hai môn — nếu chia fold theo dòng thì cùng học sinh có thể vừa train vừa VALID.
-
-Chuỗi tối đa T = 2. Phù hợp để kiểm tra hành vi “tắt CNN/BiLSTM khi chưa có điểm” (S0).
+Chuỗi tối đa hai bước, thích hợp để kiểm tra hành vi mô hình khi chưa có điểm.
 
 ### 2.2.2. OULAD
 
-Kuzilek, Hlosta và Zdrahal (2017): Open University Learning Analytics Dataset.
+Kuzilek, Hlosta và Zdrahal (2017) công bố dữ liệu Đại học Mở, gồm thông tin ghi danh và nhật ký tương tác theo ngày. Kết quả cuối môn gồm Pass, Distinction, Fail và Withdrawn. Chiều dài môn khác nhau theo khóa học, nên mốc cắt là tỷ lệ chiều dài chứ không phải số tuần cố định.
 
-- 32 593 enrollment, 28 785 sinh viên.
-- `studentVle`: 10 655 280 sự kiện click (site, date, sum_click).
-- `final_result`: Pass, Distinction, Fail, Withdrawn.
-- `module_presentation_length` khác nhau theo môn–kỳ; cutoff là tỷ lệ chiều dài này, không phải số tuần cố định.
+Tại mốc 100%, nhiều lượt rút sớm đã bị loại, tỷ lệ lớp dương giảm so với mốc 20%. AP tại 100% không được đọc như chỉ số cảnh báo sớm.
 
-Tại 100%, mẫu còn lại đã loại nhiều enrollment rút sớm; prevalence lớp dương giảm so với 20%. AP tại 100% **không** diễn giải như cảnh báo sớm.
+Hai miền không gộp huấn luyện. AP trên UCI và AP trên OULAD không so trực tiếp vì khác tỷ lệ lớp và khác cách sinh dữ liệu.
 
-Hai miền **không** gộp train. AP UCI và AP OULAD **không** so trực tiếp (khác prevalence, khác sinh dữ liệu).
+## 2.3. Khai phá dữ liệu giáo dục
 
-## 2.3. Tổng quan về khai phá dữ liệu
+Khai phá dữ liệu tìm mẫu có ích từ dữ liệu lớn. Các nhiệm vụ điển hình gồm phân lớp, hồi quy, phân cụm và luật kết hợp. Đề tài thuộc phân lớp nhị phân có ràng buộc thời gian, không phải hồi quy điểm cuối kỳ.
 
-Khai phá dữ liệu là quá trình tìm mẫu có ích từ dữ liệu lớn, kết hợp thống kê, học máy và quản trị dữ liệu. Các nhiệm vụ điển hình:
+## 2.4. Dữ liệu tuần tự có mặt nạ
 
-- **Phân lớp (Classification):** gán đối tượng vào một lớp đã định nghĩa.
-- **Hồi quy (Regression):** dự đoán giá trị số liên tục.
-- **Phân cụm (Clustering):** nhóm không nhãn.
-- **Luật kết hợp (Association rules):** quan hệ đồng xuất hiện.
+Khác với dự báo chuỗi hồi quy (giá trị bước kế tiếp của chính chuỗi), mục tiêu ở đây là nhãn cuối kỳ hoặc cuối môn. Độ dài chuỗi thay đổi theo mốc và theo sinh viên, nên cần mặt nạ thời gian. Hướng ngược của BiLSTM chỉ được phép chạy trong cửa sổ đã quan sát, không đọc sự kiện sau mốc cắt.
 
-Đề tài thuộc **phân lớp nhị phân** (nguy cơ / không nguy cơ), có ràng buộc thời gian cutoff. Không phải hồi quy `G3` hay hồi quy nồng độ.
+Vì vậy CNN và BiLSTM được bố trí song song trên cùng chuỗi đã che, rồi kết hợp với nhánh bảng, khác với sơ đồ CNN nối tiếp LSTM thường gặp trong dự báo chuỗi hồi quy.
 
-Quy trình: thu thập CSV gốc → làm sạch và cấm trường rò rỉ → dựng tensor có mask → huấn luyện Hybrid → đánh giá AP inner → Recommendation V đọc `PredictionResult`.
+## 2.5. Tiền xử lý dữ liệu
 
-## 2.4. Chuỗi có mask và cutoff — khác dự báo chuỗi hồi quy
+Các bước chính gồm: loại biến rò rỉ; dựng chuỗi có mặt nạ; chuẩn hóa trung bình và phương sai chỉ trên tập huấn luyện; mã hóa biến phân loại trên tập huấn luyện; tính trọng số lớp dương trên tập huấn luyện. Ô không hợp lệ được gán 0 và mặt nạ 0, không nội suy điểm G1, G2 giả và không nội suy tuần tương tác sau mốc cắt.
 
-Dữ liệu chuỗi thời gian cổ điển là quan sát cách đều, mục tiêu là giá trị tương lai của chính chuỗi (ví dụ PM2.5 ngày t+1). Bài khóa luận khác ở ba điểm:
+Chia tập theo nhóm học sinh. Phần chia ngoài chỉ dùng để loại định danh, không tham gia chọn mô hình.
 
-- Mục tiêu là **nhãn cuối kỳ / cuối môn**, không phải giá trị bước kế tiếp của chuỗi điểm hay click.
-- Độ dài chuỗi **thay đổi theo cutoff** và theo sinh viên; phải có `temporal_mask` và `lengths`.
-- Hướng “tương lai” của BiLSTM chỉ nằm **trong cửa sổ đã quan sát**. Không được đọc tuần sau cutoff.
+## 2.6. Các mô hình học sâu sử dụng trong đề tài
 
-Do đó Hybrid không phải CNN→LSTM nối tiếp trên cửa sổ trượt cố định như một số khóa luận dự báo PM2.5. CNN và BiLSTM chạy **song song** trên cùng chuỗi đã mask, rồi trộn với tabular.
+CNN một chiều dùng bộ lọc trượt theo thời gian để nhận diện mẫu cục bộ. Trong mô hình đề xuất, chuỗi được chiếu về 128 chiều, qua hai khối dư với 64 kênh, kích thước hạt 2, giãn nở 1 rồi 2, sau đó gộp theo trung bình và cực đại có mặt nạ.
 
-## 2.5. Các kỹ thuật tiền xử lý dữ liệu
+LSTM dùng các cổng để giảm suy giảm gradient so với mạng hồi quy cổ điển. BiLSTM chạy hai hướng trên chuỗi đã cắt. Đề tài dùng một lớp BiLSTM, kích thước ẩn 128, đóng gói theo độ dài thực để không học phần đệm.
 
-Tiền xử lý chuyển CSV thô thành tensor `UnifiedHybridData` thống nhất hai miền.
+Nhánh bảng chiếu đặc trưng tĩnh và thống kê gộp về cùng không gian 128 chiều. Cổng softmax nhận biểu diễn ba nhánh cùng cờ hiện diện và mức tiến độ môn, gán xác suất khối lượng; nhánh không hiện diện nhận khối lượng 0. Đầu ra là một logit nhị phân, xác suất thu được bằng hàm sigmoid.
 
-- **Xử lý thiếu / pad:** ô temporal không hợp lệ = 0 và `mask = 0`. Không nội suy G1/G2 giả ở S0. Không nội suy tuần VLE sau cutoff.
-- **Chuẩn hóa FIT-only:**
-  - Context tĩnh: one-hot + StandardScaler, fit trên FIT.
-  - Temporal: `MaskedStandardScaler` — chỉ ô `mask = 1`.
-  - Aggregate: mean/std FIT, chỉ hàng `aggregate_available = 1`.
-  - STOP, VALID, outer **không** refit.
-- **Cân bằng lớp lúc huấn luyện:** `pos_weight` = `(n_neg / n_pos)_FIT × λ`. λ UCI = 1.183; λ OULAD = 0.779. SMOTE/ADASYN trên tensor được thử rồi **không chọn**: nội suy không tạo G1/G2 hay tuần VLE thật.
-- **Chia tập group-disjoint:** UCI theo `global_student_group`, OULAD theo `id_student`. Outer fold 0 chỉ để loại ID, không đánh giá khi khóa.
+Các mô hình học máy truyền thống (hồi quy logistic, cây quyết định, rừng ngẫu nhiên, SVM, mạng perceptron đa lớp, XGBoost) được huấn luyện trên cùng các đặc trưng bảng đã tóm tắt để đối sánh, không nhìn thứ tự thô của chuỗi.
 
-Công thức `pos_weight` trên FIT:
+## 2.7. Cơ sở lý thuyết của module khuyến nghị
 
-\[
-\texttt{pos\_weight}_{\mathrm{FIT}} = \frac{n_{\mathrm{neg}}}{n_{\mathrm{pos}}}\Big|_{\mathrm{FIT}} \times \lambda.
-\]
+Bài toán khuyến nghị ở đây là xếp hạng hành động hỗ trợ khả thi, không phải gợi ý môn học hay tài liệu theo lọc cộng tác. Đầu vào là xác suất nguy cơ, độ bất định và các bằng chứng đã quan sát (mức tương tác, hạn bài, phạm vi nội dung). Explainable Boosting Machine cho phép mô hình hóa quan hệ cộng tính, thuận tiện hơn mạng sâu khi cần diễn giải mức đóng góp của từng bằng chứng.
 
-## 2.6. Các mô hình học sâu dùng trong đề tài
+Tính khả thi được kiểm bằng luật cứng: một hành động không được xếp nếu thiếu điều kiện tối thiểu, ví dụ không còn bài chưa nộp thì không khuyến nghị hoàn thành bài đánh giá. Cơ chế từ chối xuất hiện khi xác suất dưới ngưỡng, khi độ bất định cao, hoặc khi không còn hành động hợp lệ.
 
-Đề tài dùng kiến trúc lai CNN ∥ BiLSTM + nhánh tabular + cổng softmax, không dùng CNN→LSTM nối tiếp thuần túy.
+## 2.8. Huấn luyện và đánh giá
 
-**Mạng nơ-ron tích chập 1D (CNN).** CNN học bộ lọc trượt trên dữ liệu có cấu trúc lưới. Với chuỗi, bộ lọc 1D trượt theo thời gian. Trong Hybrid:
+Hàm mất mát là entropi chéo nhị phân trên logit, có trọng số lớp dương. Bộ tối ưu là AdamW. Ngưỡng quyết định được chọn trên tập dừng theo F1, sau đó đến độ nhạy, rồi độ gần 0,5. AP được tính theo định nghĩa average precision của scikit-learn.
 
-- Adapter `Linear + LayerNorm` đưa kênh temporal về `d_fuse = 128`, nhân mask.
-- Hai block dư, **kernel 2**, dilation 1 rồi 2, 64 kênh, GELU, Dropout, pad đối xứng, nhân mask sau mỗi block.
-- Gộp masked mean–max rồi chiếu về 128 chiều → `h_cnn`.
-- Khi `lengths = 0`: `h_cnn = 0`.
-
-**LSTM và BiLSTM.** LSTM dùng cổng quên / vào / ra và trạng thái ô để giảm vanishing gradient so với RNN. BiLSTM chạy hai hướng trên chuỗi đã cắt. Hybrid dùng **một** lớp BiLSTM, hidden 128, `pack_padded_sequence` theo `lengths`. Gộp masked mean–max (đầu ra 256 chiều → 512 sau mean–max) rồi Linear → `h_lstm ∈ ℝ^{128}`. Hướng ngược không nhìn quá cutoff.
-
-**Cổng fusion 3 nhánh.** Tabular: ResidualProjector trên static và aggregate (`aggregate` nhân `aggregate_available`) → `h_tab`. Logit cổng nhận `[h_tab; h_cnn; h_lstm; a_tab=1; a_cnn; a_lstm; progress]`. Nhánh tắt: logit = −∞ trước softmax. Biểu diễn trộn:
-
-\[
-h = g_{\mathrm{tab}} h_{\mathrm{tab}} + g_{\mathrm{cnn}} h_{\mathrm{cnn}} + g_{\mathrm{lstm}} h_{\mathrm{lstm}}.
-\]
-
-Head: LayerNorm → Linear 128 → GELU → Dropout → Linear 1 → logit `z`.
-
-**Bộ so sánh tabular (không phải mô hình khóa):** LR, DT, RF, SVM, MLP, XGB trên cùng đặc trưng `static + aggregate + last/mean/max temporal + progress`, cùng FIT/STOP/VALID. Chúng không nhìn thứ tự thô của chuỗi; đó là trần inductive của bảng tóm tắt, dùng để đối chiếu chứ không thay Hybrid.
-
-## 2.7. Huấn luyện và đánh giá mô hình
-
-- **Hàm mất mát:** Binary Cross-Entropy with logits, có `pos_weight` trên mẫu dương:
-
-\[
-\mathcal{L}_{\mathrm{BCE}} = -\frac{1}{N}\sum_{i=1}^{N} w_i\left[ y_i \log \sigma(z_i) + (1-y_i)\log(1-\sigma(z_i)) \right],
-\]
-
-\(w_i = \texttt{pos\_weight}\) nếu \(y_i=1\), bằng 1 nếu \(y_i=0\).
-
-- **Bộ tối ưu:** AdamW. UCI: `lr = 8.61×10⁻⁵`, `weight_decay = 3.29×10⁻³`. OULAD: `lr = 1.18×10⁻⁴`, `weight_decay = 7.11×10⁻⁴`. Dropout UCI 0.406; OULAD 0.320.
-- **Xác suất và nhãn vận hành:**
-
-\[
-p=\sigma(z)=\frac{1}{1+e^{-z}},\qquad \hat y=\mathbf{1}[p\ge t].
-\]
-
-- **Bất định nhị phân** (định tuyến HUMAN_REVIEW):
-
-\[
-H_2(p)= -\frac{p\log p + (1-p)\log(1-p)}{\log 2}.
-\]
-
-- **AP (sklearn, không tự tính thang hình thang rồi gọi PR-AUC):**
-
-\[
-\mathrm{AP} = \sum_n (R_n-R_{n-1}) P_n
-\]
-
-với \(P_n, R_n\) là precision và recall tại ngưỡng thứ \(n\) trên thứ tự `p` giảm dần.
-
-- **Chọn ngưỡng `t`:** chỉ trên STOP, lưới 0.05–0.95; xếp F1, rồi recall, rồi `|t − 0.5|`. VALID không chọn `t`.
-- **Đánh giá:** không k-fold xáo iid trên dòng. Inner 3 fold group-disjoint × 3 seed = 9 số / mốc. Báo cáo trung bình 9 số. Outer không dùng khi khóa.
-
-## 2.8. Công trình liên quan (khác protocol — không phải trần của khóa luận)
-
-Một số công bố trên OULAD hoặc early warning dùng ROC-AUC, nhãn khác, hoặc không công bố quy tắc cutoff:
-
-- Jha và cộng sự (2019): AUC dropout khoảng 0.91 (GBM, VLE) — ROC, khác split.
-- Kuznetsov (2025): AUC 0.789 ngày 14; AP 0.722 — ultra-early, GB ≈ LR.
-- Một số bài BiLSTM+MLP báo ROC-AUC 0.95 — có thể dùng assessment sau cutoff; không phải protocol khóa luận.
-- CNN–LSTM báo accuracy rất cao trên bài khác — không cutoff-safe, không dùng làm trần.
-
-Khóa luận **không** claim “vượt 0.95 ROC”. Số công bố của đề tài là AP inner 3×3, nhãn Fail|Withdrawn hoặc `G3 < 10`, cutoff-safe. Transformer / temporal GNN là hướng phát triển (Chương 5), chưa dùng vì protocol CNN ∥ BiLSTM đã khóa và UCI T = 2 gần như không có cửa sổ attention.
+Đánh giá không dùng kiểm định chéo xáo trộn độc lập từng dòng. Kết quả mỗi mốc là trung bình 9 lần chạy. Module khuyến nghị dùng NDCG tại 3, Precision tại 1 và tỷ lệ hành động không hợp lệ.
