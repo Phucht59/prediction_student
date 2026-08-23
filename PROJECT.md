@@ -1,6 +1,6 @@
-# Project — Hybrid CNN–BiLSTM và Recommendation V
+# Project — Hybrid CNN–BiLSTM và module khuyến nghị
 
-Bản đồ khóa luận. Tên công khai: **Hybrid CNN–BiLSTM**, **Recommendation V**. Không dùng tên thí nghiệm trên tài liệu công khai.
+Bản đồ khóa luận. Tên công khai: **Hybrid CNN–BiLSTM**, **module khuyến nghị**. Không dùng tên thí nghiệm trên tài liệu công khai.
 
 **Bản kỹ thuật:** [`CHUONG_3.md`](reports/prediction/final/CHUONG_3.md) (thiết kế) và Chương 1–5 trong [`reports/prediction/final/`](reports/prediction/final/) (Ch1 giả thuyết H1–H3, Ch2 công thức, Ch4 thực nghiệm + XAI cổng, Ch5 hạn chế). Nhật ký: `NHAT_KY_THI_NGHIEM.ipynb`. Không xây giao diện.
 
@@ -13,7 +13,7 @@ Outer test không dùng. AP = `sklearn.metrics.average_precision_score`.
 | | |
 |---|---|
 | Dự đoán | Hybrid CNN–BiLSTM, `model_id=hybrid`, một checkpoint UCI (S0–S2), một checkpoint OULAD (20–100%) |
-| Khuyến nghị | Recommendation V, chỉ OULAD 20/35/50/75, đọc `PredictionResult` |
+| Khuyến nghị | Persistence top-K, chỉ OULAD 20/35/50/75, đọc `PredictionResult` |
 | Roster serving | Hybrid, LR, DT, RF, SVM, MLP, XGB |
 | Lệch lớp | `pos_weight` FIT-only; SMOTE tensor thử, không chọn |
 
@@ -28,9 +28,9 @@ Hybrid (mô hình chính): UCI AP S1 0.821 / S2 0.910; OULAD AP 0.762 → 0.920 
 
 Hybrid khóa: UCI S1 **0.821** / S2 **0.910**; OULAD 35–100% **0.806 → 0.920**. Family chỉ đối chiếu.
 
-### Recommendation V
+### Module khuyến nghị
 
-Panel C: NDCG@3 0.888 vs B1 0.866; invalid 0. Không nhân quả.
+Top-K theo `p`: Precision@10% 0.923–0.999. Rec F1 0.763 vs luật 0.677. Invalid 0. Không nhân quả.
 
 Thiết kế, kiến trúc, giao thức rò rỉ: **Chương 3**. Số liệu, overfit, Panel C, luồng case phục vụ: **Chương 4**.
 
@@ -41,11 +41,11 @@ Thiết kế, kiến trúc, giao thức rò rỉ: **Chương 3**. Số liệu, o
 | | |
 |---|---|
 | Hybrid | `src/prediction/` |
-| Recommendation V | `src/recommend_hybrid/v3/` |
+| Module khuyến nghị | `src/recommend_hybrid/serving/` |
 | Live DB | `src/database/live_runtime.py`, `database/live/` |
 | CLI | `python project.py` |
 | Config | `configs/prediction/hybrid_final.json` |
-| Artifacts serving | `artifacts/prediction/final/`, `artifacts/recommend_hybrid/v3/` |
+| Artifacts serving | `artifacts/prediction/final/`, `artifacts/recommend_hybrid/serving/` |
 
 Research, HPO, test cũ: `test_lab/` — không phải bản phát hành.
 
@@ -54,7 +54,7 @@ Research, HPO, test cũ: `test_lab/` — không phải bản phát hành.
 ## PostgreSQL (`student_db`)
 
 ```text
-raw (3 dataset) → catalog (enrollment) → prediction (Hybrid) → recommendation (Recommendation V)
+raw (3 dataset) → catalog (enrollment) → prediction (Hybrid) → recommendation (persistence top-K)
 training.lock  ← khóa Hybrid + baseline một-trọng-số
 ```
 
@@ -73,5 +73,5 @@ python project.py db recommend --student 631334 --course CCC --presentation 2014
 
 ```powershell
 python project.py final status
-pytest -q tests/prediction tests/recommend_hybrid/v3 tests/integration tests/database
+pytest -q tests/prediction tests/recommend_hybrid/serving tests/integration tests/database
 ```

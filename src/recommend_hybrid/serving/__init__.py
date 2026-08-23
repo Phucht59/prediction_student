@@ -1,14 +1,14 @@
-"""Recommendation serving: persistence classifier on a Hybrid top-K worklist."""
+"""Serving recommendation: persistence classifier on Hybrid top-K worklist."""
 
-from .serving import (
+from .contracts import (
     PROTOCOL_VERSION,
     PersistLabel,
-    PersistencePipeline,
     RecommendationDecision,
     RouteStatus,
     Stage,
     map_prediction_state,
 )
+from .pipeline import PersistencePipeline
 
 __all__ = [
     "PROTOCOL_VERSION",

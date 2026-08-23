@@ -189,32 +189,35 @@ Mốc 100% của OULAD không được đưa vào module khuyến nghị, vì đ
 
 ## 3.5. Thiết kế module khuyến nghị
 
-Module khuyến nghị xếp hạng các hành động hỗ trợ khả thi, dựa trên xác suất nguy cơ của Hybrid CNN–BiLSTM và các bằng chứng đã quan sát. Module không ước lượng hiệu ứng nhân quả lên kết quả cuối môn, không huấn luyện lại mô hình dự đoán, và không gọi mô hình ngôn ngữ lớn khi vận hành.
+Module khuyến nghị không thay thế Hybrid CNN–BiLSTM và không học lại “ai đang có nguy cơ”. Hybrid xếp hạng sinh viên theo xác suất `p`. Module cắt một hàng đợi top K theo `p`, rồi học nút thắt nào còn kéo dài trong 14 ngày sau mốc cắt. Lộ trình kèm theo là danh sách bài đánh giá còn hạn. Module không ước lượng hiệu ứng nhân quả lên điểm cuối môn.
 
-### 3.5.1. Kiến trúc
+### 3.5.1. Kiến trúc tổng thể
 
-Đầu vào gồm xác suất nguy cơ, ngưỡng, nhãn vận hành, độ bất định và các bằng chứng đã quan sát trước mốc cắt như mức tương tác, hạn bài, mức đều đặn học tập. Trước khi xếp hạng, xác suất được so với ngưỡng: nếu thấp hơn ngưỡng thì không tự phát hành hành động; nếu độ bất định cao hoặc biên so với ngưỡng quá mỏng thì chuyển sang rà soát thủ công.
+Luồng gồm bốn bước, minh họa ở Hình 3.3.
 
-Tính khả thi được kiểm bằng luật cứng, không học. Năm hành động chuẩn gồm hoàn thành bài đánh giá, phục hồi tương tác, duy trì nhịp học, ôn nội dung trọng tâm và luyện tập truy xuất qua bài kiểm tra. Mỗi hành động có một mô hình boosting diễn giải được, nhận mười bảy đặc trưng bằng chứng và cho điểm trong đoạn [0, 1]. Kế hoạch kèm theo dùng mẫu xác định về thời hạn và tần suất, không sinh văn bản tự do lúc vận hành.
+![Luồng module khuyến nghị](figures/recommendation_architecture.png)
 
-Luồng xử lý được thể hiện ở nửa dưới Hình 3.2: xác suất nguy cơ đi vào module khuyến nghị, không đi ngược lại để sửa trọng số Hybrid.
+Hình 3.3. Hybrid khóa cung cấp `p`; rec học nút thắt còn kéo dài và phát hành trên hàng đợi top-K.
 
-### 3.5.2. Các chức năng chính
+- Bước 1. Tiếp nhận `PredictionResult` (`p`, ngưỡng `t`, nhãn vận hành, độ bất định) và bằng chứng LMS đã quan sát trước mốc cắt. Mốc 100% bị loại.
+- Bước 2. Hàng đợi dung lượng-K. Trong mỗi đợt (môn × kỳ × mốc), lấy top 10% theo `p`. Ngưỡng `t` không cắt rec.
+- Bước 3. Lọc khả thi cứng: hoàn thành bài khi còn thiếu hoặc sắp hạn; phục hồi tương tác khi nghỉ dài hoặc tỷ lệ ngày hoạt động rất thấp. Không có đòn bẩy LMS thì chuyển tư vấn.
+- Bước 4. Mô hình phân loại ba lớp (ASSESS, ENGAGE, COUNSEL) học nhãn tồn tại 14 ngày trên nhật ký nộp bài và VLE. Suy luận không đọc kết quả cuối môn. Đầu ra gồm một hành động, lộ trình bài còn hạn `Q_τ`, và trạng thái ACTION / QUEUE / COUNSEL / OUT_OF_BUDGET.
 
-Năm hành động và điều kiện khả thi được tóm tắt như sau.
+Đối sánh bắt buộc là luật đuôi cùng độ ưu tiên (thiếu bài trước, rồi nghỉ VLE).
+
+### 3.5.2. Nhãn học và luật khả thi
+
+Nhãn train/test: nếu bài đang thiếu tại τ vẫn chưa nộp sau 14 ngày thì ASSESS; nếu đang im VLE tại τ và không có click trong 14 ngày thì ENGAGE; còn lại COUNSEL. Kết quả Fail hoặc Withdrawn không dùng làm đặc trưng hay nhãn rec.
 
 | Hành động | Được xét khi | Không xét khi |
 |---|---|---|
-| Hoàn thành bài đánh giá | Còn bài thiếu hoặc sắp đến hạn | Không còn khoảng trống nộp bài |
-| Phục hồi tương tác | Tỷ lệ ngày hoạt động thấp và còn nhật ký tương tác | Tương tác đã đủ hoặc không có nhật ký |
-| Duy trì nhịp học | Điểm đều đặn hoặc tỷ lệ ngày hoạt động chưa đạt | Đã đều hoặc thiếu bằng chứng |
-| Ôn nội dung trọng tâm | Độ phủ nội dung thấp, không ở mốc 20% | Quá sớm, đã phủ đủ, hoặc không có tài liệu |
-| Luyện tập truy xuất | Có bài kiểm tra trên hệ thống | Không có bài kiểm tra |
+| Hoàn thành bài đánh giá (ASSESS) | Còn bài thiếu hoặc ≥ 2 bài sắp hạn | Không còn khoảng nộp |
+| Phục hồi tương tác (ENGAGE) | Nghỉ ≥ 7 ngày hoặc tỷ lệ ngày hoạt động < 0,20, còn VLE | Không có nhật ký tương tác |
+| Tư vấn (COUNSEL) | Trong hàng đợi, không đuôi LMS | — |
 
-Bảng 3.4. Điều kiện khả thi của năm hành động hỗ trợ.
-
-Bốn trạng thái phát hành gồm: đề xuất hành động đứng đầu, chuyển rà soát thủ công với ba hành động dẫn đầu, không đủ bằng chứng, và không còn hành động khả thi. Nếu điểm hành động đứng đầu quá thấp, hoặc khoảng cách với hành động thứ hai quá mỏng, trạng thái được chuyển sang rà soát hoặc không đủ bằng chứng.
+Bảng 3.4. Điều kiện khả thi của module khuyến nghị khóa.
 
 ### 3.5.3. Mối liên hệ với mô hình dự đoán
 
-Module khuyến nghị chỉ nhận xác suất nguy cơ, ngưỡng, nhãn vận hành và độ bất định do Hybrid CNN–BiLSTM tạo ra, cộng với bằng chứng đã quan sát trước mốc cắt. Nó không đọc vector ẩn của CNN hay BiLSTM, không dùng kết quả cuối môn làm đặc trưng, và không được áp dụng tại mốc 100%. Thiết kế này tách bài toán xếp hạng hành động khỏi bài toán dự đoán nguy cơ, đồng thời bảo đảm khuyến nghị không dựa trên thông tin tương lai.
+Rec chỉ đọc `p`, ngưỡng, nhãn vận hành và độ bất định từ Hybrid, cộng bằng chứng trước mốc cắt. Không đọc vector ẩn. `p` quyết định ai vào hàng đợi; rec quyết định nút thắt nào còn lại. Đánh giá bốn tầng (chọn lọc, khả thi, khớp nhãn 14 ngày, tiên lượng có kiểm soát `p`) trình bày ở Chương 4.

@@ -48,19 +48,19 @@ def test_lookup_and_predict_frozen_hybrid():
     assert served["prediction"]["prediction_id"] == prediction["prediction_id"]
 
 
-def test_recommend_uses_frozen_v_without_changing_hybrid():
+def test_recommend_uses_persistence_topk_without_changing_hybrid():
     if not _live_available():
         pytest.skip("live student_db with Hybrid CNN-BiLSTM predictions is not available")
     before = predict_case("631334", "CCC", "2014B", "20")
     payload = recommend_case("631334", "CCC", "2014B", "20", persist=False)
     assert payload["ok"] is True
     assert payload["refit"] is False
-    assert payload["ranker"] == "Recommendation V"
+    assert payload["ranker"] == "persistence_topk"
     assert payload["decision"]["route"] in {
-        "RECOMMEND",
-        "HUMAN_REVIEW",
-        "NO_FEASIBLE_ACTION",
-        "INSUFFICIENT_EVIDENCE",
+        "ACTION",
+        "QUEUE",
+        "COUNSEL",
+        "OUT_OF_BUDGET",
     }
     after = predict_case("631334", "CCC", "2014B", "20")
     assert after["prediction"]["risk_probability"] == before["prediction"]["risk_probability"]

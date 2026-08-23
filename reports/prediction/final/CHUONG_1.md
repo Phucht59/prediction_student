@@ -49,7 +49,7 @@ Xây dựng và đánh giá mô hình Hybrid CNN–BiLSTM dự đoán nguy cơ h
   - Kiểm định: (H1) trên UCI S1 và OULAD 35%, AP của mô hình đầy đủ cao hơn nhánh bảng đơn thuần; (H2) trên các mốc đã có chuỗi, AP của Hybrid cao hơn hồi quy logistic và rừng ngẫu nhiên; (H3) khối lượng cổng dịch sang CNN và BiLSTM khi mốc OULAD tăng.
 - Về module khuyến nghị:
   - Chỉ áp dụng trên OULAD 20–75%; mốc 100% không đưa vào khuyến nghị.
-  - Đánh giá bằng NDCG@3 trên tập kiểm định độc lập; tỷ lệ hành động không hợp lệ bằng 0.
+  - Hàng đợi top-K theo `p`; học nút thắt còn kéo dài 14 ngày; invalid = 0.
   - Không ước lượng hiệu ứng can thiệp lên kết quả cuối môn.
 
 Mốc công bố chính là UCI S1, S2 và OULAD từ 35% đến 75%. S0 và 20% là mốc thiếu chuỗi, không dùng để bác bỏ kiến trúc lai. Số liệu trình bày ở Chương 4.
@@ -68,7 +68,7 @@ Mốc công bố chính là UCI S1, S2 và OULAD từ 35% đến 75%. S0 và 20%
 - Mô hình:
   - Mô hình dự đoán: Hybrid CNN–BiLSTM.
   - Các mô hình đối sánh: hồi quy logistic, cây quyết định, rừng ngẫu nhiên, SVM, mạng perceptron đa lớp, XGBoost.
-  - Module khuyến nghị: năm mô hình boosting diễn giải được, kèm luật khả thi cứng.
+  - Module khuyến nghị: phân loại nút thắt 14 ngày trên hàng đợi top-K, kèm luật khả thi cứng.
 
 ### 1.3.2. Phạm vi nghiên cứu
 

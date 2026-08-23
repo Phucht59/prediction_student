@@ -1,0 +1,180 @@
+{
+  "protocol_version": "recommend_hybrid_serving_persist_v1",
+  "created_at_utc": "2026-08-23T18:21:15.359548+00:00",
+  "selected_model": "hgb",
+  "val": {
+    "macro_ap": 0.8313983897028306,
+    "macro_f1": 0.7517051957326532
+  },
+  "test_all": {
+    "model": {
+      "n": 13250,
+      "macro_f1": 0.763031882036029,
+      "kappa": 0.7011589572654742,
+      "accuracy": 0.8342641509433962,
+      "macro_ap": 0.8467931412105529,
+      "ap_ASSESS": 0.9944005266459021,
+      "ap_ENGAGE": 0.5564291816095,
+      "ap_COUNSEL": 0.9895497153762567,
+      "support_ASSESS": 3197,
+      "support_ENGAGE": 907,
+      "support_COUNSEL": 9146
+    },
+    "rule": {
+      "n": 13250,
+      "macro_f1": 0.6771789190481678,
+      "kappa": 0.5704589067504434,
+      "accuracy": 0.7435471698113207,
+      "support_ASSESS": 3197,
+      "support_ENGAGE": 907,
+      "support_COUNSEL": 9146
+    },
+    "beats_rule": true
+  },
+  "test_worklist": {
+    "model": {
+      "n": 1369,
+      "macro_f1": 0.7042127850924077,
+      "kappa": 0.7805974562104001,
+      "accuracy": 0.9576333089846604,
+      "macro_ap": 0.8843853303797058,
+      "ap_ASSESS": 0.9995561681463835,
+      "ap_ENGAGE": 0.8804444482159237,
+      "ap_COUNSEL": 0.7731553747768098,
+      "support_ASSESS": 1220,
+      "support_ENGAGE": 76,
+      "support_COUNSEL": 73
+    },
+    "rule": {
+      "n": 1369,
+      "macro_f1": 0.6853479724882391,
+      "kappa": 0.7540106351318723,
+      "accuracy": 0.9532505478451424,
+      "support_ASSESS": 1220,
+      "support_ENGAGE": 76,
+      "support_COUNSEL": 73
+    },
+    "n": 1369
+  },
+  "routes": {
+    "OUT_OF_BUDGET": 0.8966792452830189,
+    "ACTION": 0.0989433962264151,
+    "QUEUE": 0.003169811320754717,
+    "COUNSEL": 0.0012075471698113208
+  },
+  "targeting": [
+    {
+      "stage": "EARLY_20",
+      "n": 17787,
+      "positives": 7568,
+      "flag_frac": 0.5446112329229212,
+      "recall_flag": 0.7733879492600423,
+      "precision_flag": 0.6042118302880148,
+      "recall_ceiling_10": 0.2350290697674419,
+      "recall@5": 0.11482558139534883,
+      "precision@5": 0.9775028121484814,
+      "k@5": 889,
+      "recall@10": 0.21696617336152219,
+      "precision@10": 0.9229904440697021,
+      "k@10": 1779,
+      "recall@15": 0.3066860465116279,
+      "precision@15": 0.8699400299850075,
+      "k@15": 2668
+    },
+    {
+      "stage": "EARLY_35",
+      "n": 17066,
+      "positives": 6845,
+      "flag_frac": 0.4438649947263565,
+      "recall_flag": 0.7428780131482834,
+      "precision_flag": 0.6712871287128713,
+      "recall_ceiling_10": 0.24932067202337474,
+      "recall@5": 0.1241782322863404,
+      "precision@5": 0.9964830011723329,
+      "k@5": 853,
+      "recall@10": 0.24528853177501825,
+      "precision@10": 0.9835969537199766,
+      "k@10": 1707,
+      "recall@15": 0.3539810080350621,
+      "precision@15": 0.946484375,
+      "k@15": 2560
+    },
+    {
+      "stage": "LATE_75",
+      "n": 15438,
+      "positives": 5217,
+      "flag_frac": 0.2813835989117761,
+      "recall_flag": 0.714203565267395,
+      "precision_flag": 0.8577348066298343,
+      "recall_ceiling_10": 0.29591719378953424,
+      "recall@5": 0.14797776499904158,
+      "precision@5": 1.0,
+      "k@5": 772,
+      "recall@10": 0.2957638489553383,
+      "precision@10": 0.9993523316062176,
+      "k@10": 1544,
+      "recall@15": 0.44335825186889016,
+      "precision@15": 0.9987046632124352,
+      "k@15": 2316
+    },
+    {
+      "stage": "MIDDLE_50",
+      "n": 16394,
+      "positives": 6173,
+      "flag_frac": 0.37208734903013296,
+      "recall_flag": 0.7278470759760246,
+      "precision_flag": 0.7365573770491803,
+      "recall_ceiling_10": 0.26557589502672935,
+      "recall@5": 0.13251255467357848,
+      "precision@5": 0.9975609756097561,
+      "k@5": 820,
+      "recall@10": 0.26421513040660943,
+      "precision@10": 0.9951189749847468,
+      "k@10": 1639,
+      "recall@15": 0.39170581564879314,
+      "precision@15": 0.9833265555103701,
+      "k@15": 2459
+    }
+  ],
+  "feasibility": {
+    "n": 13250,
+    "invalid_action_rate": 0.0,
+    "worklist_n": 1369,
+    "dead_end_rate": 0.0,
+    "counsel_share_worklist": 0.01168736303871439
+  },
+  "tier4": {
+    "n_worklist": 1369,
+    "resolved_rate": 0.04382761139517896,
+    "mismatch_rate": 0.06574141709276844,
+    "outcome": "Pass_or_Distinction",
+    "matched": {
+      "beta1_mean": 2.331399000001224,
+      "ci_low": 1.685528145761232,
+      "ci_high": 2.9390942264838213,
+      "p_positive": 1.0,
+      "n_boot": 400
+    },
+    "mismatched": {
+      "beta1_mean": 0.8800170628261543,
+      "ci_low": 0.036881725329213286,
+      "ci_high": 1.5431567547752012,
+      "p_positive": 0.9775,
+      "n_boot": 400
+    },
+    "specificity_holds": true
+  },
+  "split_counts": {
+    "train": 40094,
+    "val": 13341,
+    "test": 13250
+  },
+  "label_counts": {
+    "COUNSEL": 46496,
+    "ASSESS": 15566,
+    "ENGAGE": 4623
+  },
+  "hybrid_locked": true,
+  "causal_claim": false,
+  "model_path": "artifacts/recommend_hybrid/serving/persistence_classifier.joblib"
+}

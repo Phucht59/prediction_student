@@ -25,7 +25,7 @@ def command_status(_args: argparse.Namespace) -> int:
                 "status": "PASS",
                 "model_id": payload.get("model_id"),
                 "display_name": "Hybrid CNN-BiLSTM",
-                "recommendation_name": "Recommendation V",
+                "recommendation_name": "persistence_topk",
                 "active_model_family": "hybrid",
                 "active_public_model_class": "src.prediction.model.Hybrid",
                 "architecture_id": payload.get("architecture_id"),

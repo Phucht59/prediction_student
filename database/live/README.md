@@ -2,7 +2,7 @@
 
 One chain, matching the thesis workflow:
 
-**raw (3 datasets) → catalog (identity) → prediction (Hybrid CNN–BiLSTM) → recommendation (Recommendation V)**
+**raw (3 datasets) → catalog (identity) → prediction (Hybrid CNN–BiLSTM) → recommendation (persistence top-K)**
 
 ```mermaid
 erDiagram
@@ -25,16 +25,16 @@ erDiagram
 | `raw` | Three source datasets only: `student_mat`, `student_por`, `oulad` |
 | `catalog` | Unified student–course enrollment (UCI + OULAD identities) |
 | `prediction` | Hybrid CNN–BiLSTM OOF risk (OULAD stages 20/35/50/75) |
-| `recommendation` | Recommendation V ranked actions |
+| `recommendation` | Persistence top-K actions |
 
 `raw.dataset` is the join root: both UCI tables and OULAD hang off it, and `catalog.course.dataset_key` points at the same row. That is why raw is no longer an island.
 
 OULAD is **one** landing table (`raw.oulad`) because it is one dataset. The original 7 CSVs are `source_file` + `payload` (courses, assessments, vle, studentInfo, studentRegistration, studentAssessment, studentVle). UCI is typed columns because each file is already one table.
 
-Hybrid CNN–BiLSTM rows attach to OULAD enrollments. UCI enrollments exist in `catalog` for identity; Recommendation V is OULAD-only.
+Hybrid CNN–BiLSTM rows attach to OULAD enrollments. UCI enrollments exist in `catalog` for identity; recommendation is OULAD-only.
 
 Runtime reads **stored Hybrid CNN–BiLSTM** from `prediction.prediction` (no refit) and can run
-frozen Recommendation V, then write the decision back to `recommendation.*`.
+frozen persistence recommendation, then write the decision back to `recommendation.*`.
 Training locks (Hybrid + one-weight baselines) live in `training.lock`. Clickstream `studentVle` is not copied into PostgreSQL.
 
 ## Commands
