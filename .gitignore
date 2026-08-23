@@ -33,7 +33,11 @@ node_modules/
 
 # CatBoost scratch
 catboost_info/
-reports/research/*.zip
+
+# Local research only — not part of the locked thesis release
+research/
+reports/research/
+artifacts/research/
 
 # Temporary/runtime output
 tmp/
