@@ -1,10 +1,12 @@
-"""Serve frozen Hybrid CNN–BiLSTM and the persistence recommendation module.
+"""Serve frozen Hybrid CNN–BiLSTM + Recommendation V through live student_db.
 
 Probabilities are read from prediction.prediction (OOF dump). Hybrid is
-not refit. Recommendation uses the locked persistence classifier on a top-K worklist.
+not refit. Recommendation V uses the frozen EBM artifacts and persists the decision.
 """
 from __future__ import annotations
 
+import json
+from dataclasses import asdict, replace
 from datetime import datetime
 from decimal import Decimal
 from functools import lru_cache
@@ -16,17 +18,21 @@ import pandas as pd
 from psycopg2.extras import Json, RealDictCursor
 
 from src.database.connection import DatabaseSettings, connect_with_retry, load_dotenv
-from src.recommend_hybrid.serving.contracts import (
-    PROTOCOL_VERSION,
+from src.recommend_hybrid.v3.contracts import (
     RecommendationDecision,
+    RiskThresholds,
+    SafetyThresholds,
     map_prediction_state,
 )
-from src.recommend_hybrid.serving.pipeline import PersistencePipeline
+from src.recommend_hybrid.v3.features_io import features_from_row
+from src.recommend_hybrid.v3.pipeline import RecommendationV3Pipeline
+from src.recommend_hybrid.v3.ranker import FiveEBMC0Ranker
 
 ROOT = Path(__file__).resolve().parents[2]
-SERVING = ROOT / "artifacts" / "recommend_hybrid" / "serving"
-MODEL_PATH = SERVING / "persistence_classifier.joblib"
-COHORT_PATH = SERVING / "cohort_features.parquet"
+V3 = ROOT / "artifacts" / "recommend_hybrid" / "v3"
+FEATURES_PATH = V3 / "data" / "learner_stage_features.parquet"
+RANKER_DIR = V3 / "ranker" / "final_models"
+ROUTER_PATH = V3 / "router" / "ROUTER_CONFIG.json"
 
 DB_STAGE_TO_PCT = {
     "20": "20pct",
@@ -93,10 +99,31 @@ def _settings() -> DatabaseSettings:
 
 
 @lru_cache(maxsize=1)
-def _pipeline() -> PersistencePipeline:
-    if not MODEL_PATH.is_file() or not COHORT_PATH.is_file():
-        raise FileNotFoundError("missing serving recommendation artifacts")
-    return PersistencePipeline.from_artifacts(MODEL_PATH, COHORT_PATH)
+def _feature_table() -> pd.DataFrame:
+    if not FEATURES_PATH.is_file():
+        raise FileNotFoundError(f"missing V3 feature table: {FEATURES_PATH}")
+    frame = pd.read_parquet(FEATURES_PATH)
+    if "query_id" not in frame.columns:
+        raise RuntimeError("learner_stage_features.parquet has no query_id")
+    return frame
+
+
+@lru_cache(maxsize=1)
+def _pipeline() -> RecommendationV3Pipeline:
+    payload = json.loads(ROUTER_PATH.read_text(encoding="utf-8"))
+    return RecommendationV3Pipeline(
+        FiveEBMC0Ranker.from_artifacts(RANKER_DIR),
+        RiskThresholds(
+            maximum_automatic_uncertainty=float(payload["risk"]["maximum_automatic_uncertainty"]),
+            minimum_risk_margin=float(payload["risk"]["minimum_risk_margin"]),
+        ),
+        SafetyThresholds(
+            minimum_top1_score=float(payload["safety"]["minimum_top1_score"]),
+            minimum_top1_margin=float(payload["safety"]["minimum_top1_margin"]),
+            maximum_uncertainty=float(payload["safety"]["maximum_uncertainty"]),
+        ),
+        review_k=3,
+    )
 
 
 def _fetch_enrollment(cursor, student_key: str, course: str, presentation: str) -> dict | None:
@@ -229,27 +256,37 @@ def predict_case(student: str, course: str, presentation: str, stage: str) -> di
     )
 
 
+def _features_for_query(query_id: str, prediction: dict) -> Any:
+    table = _feature_table()
+    matched = table.loc[table["query_id"].astype(str) == str(query_id)]
+    if matched.empty:
+        raise KeyError(query_id)
+    row = matched.iloc[0].copy()
+    row["risk_probability"] = float(prediction["risk_probability"])
+    row["predicted_risk"] = int(bool(prediction["predicted_risk"]))
+    row["prediction_threshold"] = float(prediction["threshold"])
+    row["uncertainty"] = float(prediction["uncertainty"])
+    return features_from_row(row)
+
+
 def _decision_payload(decision: RecommendationDecision) -> dict[str, Any]:
+    plan = None
+    if decision.plan is not None:
+        plan = asdict(decision.plan)
+        plan["observed_evidence"] = list(decision.plan.observed_evidence)
     return {
         "student_key": decision.student_key,
         "course_key": decision.course_key,
         "stage": decision.stage.value,
+        "risk_route": decision.risk_route.value,
         "route": decision.route.value,
-        "action": decision.action.value,
-        "score": float(decision.score),
         "reason_codes": list(decision.reason_codes),
         "protocol_version": decision.protocol_version,
-        "in_worklist": bool(decision.in_worklist),
-        "rank_in_cohort": decision.rank_in_cohort,
-        "cohort_size": decision.cohort_size,
-        "pathway": [
-            {
-                "assessment_id": item.assessment_id,
-                "deadline_day": item.deadline_day,
-                "days_until_due": item.days_until_due,
-            }
-            for item in decision.pathway
+        "ranked_actions": [
+            {"action": item.action.value, "score": float(item.score)}
+            for item in decision.ranked_actions
         ],
+        "plan": plan,
     }
 
 
@@ -258,16 +295,16 @@ def _persist_decision(cursor, prediction_id, decision: RecommendationDecision, q
         "SELECT action_id, action_key FROM recommendation.action WHERE is_active IS TRUE"
     )
     actions = {str(row["action_key"]): row["action_id"] for row in cursor.fetchall()}
-    action_key = decision.action.value
-    if action_key not in actions:
-        cursor.execute(
-            """
-            INSERT INTO recommendation.action (action_key, action_name, description, is_active)
-            VALUES (%s,%s,%s,TRUE) RETURNING action_id
-            """,
-            (action_key, action_key, "serving persistence action"),
-        )
-        actions[action_key] = cursor.fetchone()["action_id"]
+    for key in [item.action.value for item in decision.ranked_actions]:
+        if key not in actions:
+            cursor.execute(
+                """
+                INSERT INTO recommendation.action (action_key, action_name, description, is_active)
+                VALUES (%s,%s,%s,TRUE) RETURNING action_id
+                """,
+                (key, key.replace("_", " ").title(), "V3 canonical action"),
+            )
+            actions[key] = cursor.fetchone()["action_id"]
     cursor.execute(
         """
         DELETE FROM recommendation.recommendation_item
@@ -286,37 +323,35 @@ def _persist_decision(cursor, prediction_id, decision: RecommendationDecision, q
         """,
         (
             prediction_id,
-            "HYBRID",
+            "C0",
             decision.route.value,
             Json(
                 {
                     "query_id": query_id,
-                    "authority": PROTOCOL_VERSION,
+                    "authority": "Five-EBM-C0",
                     "source": "runtime",
+                    "risk_route": decision.risk_route.value,
                     "reason_codes": list(decision.reason_codes),
                     "protocol_version": decision.protocol_version,
-                    "in_worklist": bool(decision.in_worklist),
                 }
             ),
         ),
     )
     rec_id = cursor.fetchone()["recommendation_id"]
-    action_id = actions.get(decision.action.value)
-    if action_id is not None and decision.route.value != "OUT_OF_BUDGET":
+    for rank, item in enumerate(decision.ranked_actions, start=1):
+        action_id = actions.get(item.action.value)
+        if action_id is None:
+            continue
+        explanation: dict[str, Any] = {"action_id": item.action.value}
+        if rank == 1 and decision.plan is not None:
+            explanation["plan"] = _decision_payload(decision)["plan"]
         cursor.execute(
             """
             INSERT INTO recommendation.recommendation_item
                 (recommendation_id, action_id, rank_position, score, explanation, feasible)
             VALUES (%s,%s,%s,%s,%s,%s)
             """,
-            (
-                rec_id,
-                action_id,
-                1,
-                float(decision.score),
-                Json(_decision_payload(decision)),
-                True,
-            ),
+            (rec_id, action_id, rank, float(item.score), Json(explanation), True),
         )
     return str(rec_id)
 
@@ -354,13 +389,21 @@ def recommend_case(
                 }
             prediction = predictions[0]
             try:
-                decision = _pipeline().recommend_query(query_id)
+                features = _features_for_query(query_id, prediction)
             except KeyError:
                 return {
                     "ok": False,
-                    "error": "SERVING_FEATURES_NOT_FOUND",
+                    "error": "V3_FEATURES_NOT_FOUND",
                     "query_id": query_id,
                 }
+            features = replace(
+                features,
+                risk_probability=float(prediction["risk_probability"]),
+                predicted_risk=int(bool(prediction["predicted_risk"])),
+                prediction_threshold=float(prediction["threshold"]),
+                uncertainty=float(prediction["uncertainty"]),
+            )
+            decision = _pipeline().recommend(features)
             rec_id = None
             if persist:
                 rec_id = _persist_decision(cursor, prediction["prediction_id"], decision, query_id)
@@ -372,7 +415,7 @@ def recommend_case(
                     "persist": persist,
                     "refit": False,
                     "prediction_source": "prediction.prediction",
-                    "ranker": "persistence_topk",
+                    "ranker": "Recommendation V",
                     "enrollment": enrollment,
                     "query_id": query_id,
                     "prediction": prediction,

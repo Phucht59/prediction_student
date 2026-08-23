@@ -10,13 +10,13 @@ Qua quá trình nghiên cứu và thực nghiệm, đề tài đã đạt đư�
 
 - Đánh giá hiệu năng mô hình một cách khách quan: Đã tiến hành thực nghiệm theo chia nhóm, chín lần chạy cho mỗi mốc, chỉ số chính là Average Precision. Trên UCI, AP đạt 0,821 tại S1 và 0,910 tại S2. Trên OULAD, AP tăng từ 0,762 tại 20% lên 0,920 tại 100% trên cùng một mô hình. Từ mốc 35% trở đi, Hybrid CNN–BiLSTM cao hơn hồi quy logistic và rừng ngẫu nhiên theo kiểm định Wilcoxon. Thí nghiệm loại bỏ thành phần cho thấy mô hình đầy đủ không kém các biến thể chỉ dùng một nhánh. Khối lượng cổng dịch sang BiLSTM khi chuỗi dài hơn, phù hợp giả thuyết về cơ chế kết hợp.
 
-- Xây dựng module khuyến nghị: Hybrid cắt hàng đợi top 10% theo `p` (Precision@10% từ 0,923 tại 20% đến 0,999 tại 75%). Rec học nút thắt còn kéo dài 14 ngày, macro-F1 0,763 so với luật đuôi 0,677 trên tập test chia theo sinh viên. Tỷ lệ hành động không hợp lệ bằng 0. Liên hệ tiên lượng khi gỡ đúng nút thắt được kiểm soát theo `p`; không ước lượng nhân quả lên điểm cuối.
+- Xây dựng module khuyến nghị: Module xếp hạng năm hành động hỗ trợ trên xác suất nguy cơ và bằng chứng đã quan sát. Trên tập độc lập 632 tình huống, NDCG tại 3 đạt 0,888, không phát hành hành động vi phạm luật khả thi, đồng thời phủ đủ năm hành động ở vị trí đứng đầu.
 
 Từ các kết quả trên, khóa luận mang lại những đóng góp về học thuật và thực tiễn:
 
 - Về học thuật: Đề tài áp dụng kiến trúc lai CNN–BiLSTM có cổng điều kiện cho bài toán cảnh báo sớm trên hai miền khác độ dài chuỗi, với quy trình đánh giá theo nhóm và chỉ số xếp hạng lớp thiểu số. Toàn bộ các bước từ loại biến rò rỉ, chuẩn hóa trên tập huấn luyện đến chín lần chạy được trình bày tường minh, có thể tham khảo cho các nghiên cứu tương tự.
 
-- Về thực tiễn: Hybrid cung cấp hàng đợi đúng sức chứa cố vấn. Rec gắn một nút thắt khả thi và lộ trình bài còn hạn. Kết quả không được hiểu như đã triển khai tại một trường Việt Nam hay như rec làm tăng điểm.
+- Về thực tiễn: Mô hình cung cấp xác suất nguy cơ tại các mốc còn thời gian hỗ trợ. Module khuyến nghị chuyển xác suất thành hành động có điều kiện khả thi, thay vì chỉ dừng ở một con số rủi ro. Kết quả không được hiểu như đã triển khai vận hành tại một cơ sở đào tạo cụ thể.
 
 ## 5.2. Hạn chế
 
@@ -35,7 +35,7 @@ Mặc dù khóa luận đã đạt được những mục tiêu chính đề ra,
 
 - Hạn chế về phạm vi ứng dụng:
   - Tính đặc thù dữ liệu: Mô hình được huấn luyện trên UCI và OULAD. Do đặc điểm tổ chức đào tạo và hành vi học tập khác nhau, mô hình có thể không giữ nguyên hiệu suất nếu áp trực tiếp cho một trường khác mà không huấn luyện lại.
-  - Module khuyến nghị: Học nút thắt còn kéo dài, không phải hiệu ứng can thiệp. Chưa có thử nghiệm với cố vấn học tập. Fail và Withdrawn đang được gộp chung một lớp dương. AP lớp ENGAGE còn thấp hơn ASSESS.
+  - Module khuyến nghị: Module xếp hạng hành động khả thi, không ước lượng hiệu ứng can thiệp lên kết quả cuối môn. Chưa có thử nghiệm với cố vấn học tập. Fail và Withdrawn đang được gộp chung một lớp dương, trong khi hai nhóm này có thể cần hành động khác nhau.
 
 ## 5.3. Hướng phát triển trong tương lai
 

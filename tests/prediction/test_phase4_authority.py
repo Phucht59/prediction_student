@@ -236,8 +236,7 @@ def test_current_authority_docs_are_phase4():
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     project = (ROOT / "PROJECT.md").read_text(encoding="utf-8")
     assert "Hybrid CNN–BiLSTM" in readme
-    assert "module khuyến nghị" in readme
-    assert "Recommendation V" not in readme
+    assert "Recommendation V" in readme
     assert "CHUONG_3.md" in project
     assert not (ROOT / "artifacts" / "prediction" / "historical" / "phase8").exists()
     assert not (ROOT / "reports" / "prediction" / "historical").exists()

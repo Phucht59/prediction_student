@@ -1,6 +1,6 @@
-# Hybrid CNN–BiLSTM và module khuyến nghị
+# Hybrid CNN–BiLSTM và Recommendation V
 
-Khóa luận: **Hybrid CNN–BiLSTM** dự đoán nguy cơ học tập nhị phân trên **UCI** và **OULAD**; **module khuyến nghị** gắn nút thắt còn kéo dài trên hàng đợi top-K (OULAD 20/35/50/75%).
+Khóa luận: **Hybrid CNN–BiLSTM** dự đoán nguy cơ học tập nhị phân trên **UCI** và **OULAD**; **Recommendation V** xếp hành động hỗ trợ trên OULAD (20/35/50/75%).
 
 Hai miền dùng **cùng kiến trúc**. Khác nhau chỉ chiều input, FIT-only preprocessing và trọng số. Tên thí nghiệm không dùng trên tài liệu công khai.
 
@@ -11,7 +11,7 @@ Raw CSV
   → cutoff-safe tensors
   → Hybrid CNN–BiLSTM  (CNN ∥ BiLSTM + cổng 3 nhánh)
   → p, ngưỡng t, ŷ, H₂(p)
-  → module khuyến nghị → ACTION / QUEUE / COUNSEL / OUT_OF_BUDGET
+  → Recommendation V → RECOMMEND Top-1 / HUMAN_REVIEW Top-3
   → PostgreSQL: raw → catalog → prediction → recommendation
 ```
 
@@ -47,9 +47,9 @@ AP tăng theo cutoff: 0.762 (20%) → **0.920** (100%). 100% không dùng khuy�
 
 Cùng protocol, bộ so sánh (LR/DT/RF/SVM/MLP/XGB) không thay Hybrid. Claim chính: UCI S1 **0.821** / S2 **0.910**; OULAD 35–100% **0.806 → 0.920**.
 
-### Module khuyến nghị (persistence, top-K)
+### Recommendation V (Panel C, 632 case)
 
-Hàng đợi 10% theo Hybrid `p`: Precision@10% 0.923 (20%) → 0.999 (75%). Rec học nút thắt 14 ngày, macro-F1 **0.763** vs luật đuôi 0.677 trên test chia theo sinh viên. Invalid **0**. Không phải nhân quả.
+NDCG@3 **0.888** vs B1 0.866 (Δ +0.021, 95% CI [0.014, 0.028]). P@1 0.992. Invalid-action **0**. RECOMMEND 94 / HUMAN_REVIEW 175 / INSUFFICIENT_EVIDENCE 363. Không phải nhân quả.
 
 ---
 
@@ -68,7 +68,7 @@ Kết nối PostgreSQL từ `.env` (`DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, 
 Chuỗi DB tối giản: `raw` → `catalog` → `prediction` → `recommendation`. Khóa train nằm ở `training.lock`. Không copy `studentVle` vào Postgres.
 
 ```powershell
-pytest -q tests/prediction tests/recommend_hybrid/serving tests/integration tests/database
+pytest -q tests/prediction tests/recommend_hybrid/v3 tests/integration tests/database
 ```
 
 ---
@@ -80,7 +80,7 @@ pytest -q tests/prediction tests/recommend_hybrid/serving tests/integration test
 | Chương 1–5 | `reports/prediction/final/CHUONG_1.md` … `CHUONG_5.md` |
 | Nhật ký thí nghiệm | `reports/prediction/final/NHAT_KY_THI_NGHIEM.ipynb` |
 | Hybrid | `src/prediction/` |
-| Module khuyến nghị | `src/recommend_hybrid/serving/` |
+| Recommendation V | `src/recommend_hybrid/v3/` |
 | Config | `configs/prediction/hybrid_final.json` |
 | DB live | `database/live/` |
 | Research / test cũ | `test_lab/` (không thuộc bản phát hành) |

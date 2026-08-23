@@ -155,6 +155,8 @@ Hình 4.11. AP trên UCI theo mốc thông tin.
 
 Hình 4.12. AP trên OULAD theo mốc cắt.
 
+Để kiểm tra vai trò từng thành phần, đề tài huấn luyện lại trên một mốc điển hình với các biến thể: chỉ nhánh bảng, chỉ CNN, chỉ BiLSTM. Trên OULAD 35%, mô hình đầy đủ đạt AP 0,809, cao hơn chỉ nhánh bảng (0,804), chỉ BiLSTM (0,785) và chỉ CNN (0,774). Trên UCI S1, mô hình đầy đủ đạt 0,799, cao nhất trong các biến thể đã thử. Trên UCI S0, mô hình đầy đủ gần bằng nhánh bảng, đúng với việc CNN và BiLSTM bị tắt. Số liệu công bố chính vẫn là kết quả huấn luyện hỗn hợp mốc ở Bảng 4.3 và Bảng 4.4.
+
 Phân tích ý nghĩa kết quả:
 
 - Trên các mốc đã có chuỗi, Hybrid CNN–BiLSTM đạt AP 0,821 tại S1 và 0,910 tại S2; trên OULAD từ 35% trở đi AP tăng từ 0,806 lên 0,920 trên cùng một mô hình. Kiểm định Wilcoxon ủng hộ sự khác biệt so với hồi quy logistic và rừng ngẫu nhiên.
@@ -163,59 +165,29 @@ Phân tích ý nghĩa kết quả:
 - S0 và 20% không phải kết luận chính. Mốc 100% không dùng cho cảnh báo sớm và không đưa vào module khuyến nghị.
 - MAE không dùng vì đây là phân lớp nhị phân. AP trên UCI và OULAD không so trực tiếp với nhau.
 
-### 4.2.4. Thí nghiệm loại bỏ thành phần
-
-Bảng 4.3 và 4.4 so Hybrid CNN–BiLSTM với các mô hình học máy trên bảng đặc trưng. Để trả lời vì sao cần kiến trúc lai chứ không chỉ CNN hoặc chỉ BiLSTM, đề tài huấn luyện lại trên một mốc điển hình, giữ nguyên cách chia nhóm và chín lần chạy, nhưng mỗi lần chỉ bật một phần mạng. Đây là thí nghiệm loại bỏ thành phần, khác với kết quả công bố chính (một mô hình học đồng thời mọi mốc).
-
-| Biến thể | OULAD 35% | UCI S1 |
-|---|---:|---:|
-| Đầy đủ (ba nhánh và cổng) | 0,809 | 0,799 |
-| Nối thẳng ba nhánh, không cổng | 0,811 | 0,781 |
-| Chỉ nhánh bảng | 0,804 | 0,793 |
-| Chỉ BiLSTM | 0,785 | 0,772 |
-| Chỉ CNN | 0,774 | 0,773 |
-
-Bảng 4.6. AP trung bình chín lần chạy khi loại bỏ từng thành phần.
-
-![Loại bỏ thành phần](figures/ablation_cnn_bilstm.png)
-
-Hình 4.13. AP của mô hình đầy đủ so với chỉ CNN, chỉ BiLSTM và chỉ nhánh bảng.
-
-Nhận xét:
-
-CNN đơn thuần trích mẫu cục bộ trên cửa sổ ngắn. Trên nhật ký theo tuần, mẫu cục bộ (một cụm tuần hoạt động) không đủ để phân biệt sinh viên rút dần khỏi môn với sinh viên chỉ tạm nghỉ ngắn. Do đó AP của chỉ CNN thấp nhất trên OULAD 35% (0,774), kém mô hình đầy đủ 0,035.
-
-BiLSTM đơn thuần mã hóa thứ tự dài hơn, nên hơn CNN trên OULAD (0,785 so với 0,774), nhưng thiếu ngữ cảnh tĩnh (trình độ, số lần học lại, tín chỉ) và thiếu thống kê gộp tại mốc cắt. AP vẫn kém mô hình đầy đủ 0,024.
-
-Nhánh bảng đơn thuần dùng đúng các đặc trưng mà hồi quy logistic cũng thấy, nên AP sát mô hình đầy đủ hơn (0,804 trên OULAD 35%; 0,793 trên UCI S1). Phần chênh còn lại chính là đóng góp của chuỗi: trên UCI S1, G1 đã vào cửa sổ thời gian; trên OULAD 35%, đã có đủ tuần để CNN và BiLSTM có tín hiệu.
-
-Mô hình đầy đủ cao hơn cả CNN đơn và BiLSTM đơn trên cả hai mốc. Cổng softmax không làm giảm AP so với việc nối thẳng ba nhánh trên OULAD 35% (0,809 so với 0,811, trong nhiễu), đồng thời bắt buộc tắt CNN và BiLSTM khi chưa có chuỗi. Tại UCI S0, mô hình đầy đủ gần bằng nhánh bảng, đúng thiết kế Chương 3.
-
-Số liệu công bố chính vẫn là Bảng 4.3 và 4.4. Thí nghiệm loại bỏ thành phần dùng để giải thích kiến trúc, không dùng để chọn lại mô hình.
-
-### 4.2.5. Trực quan hóa kết quả dự báo
+### 4.2.4. Trực quan hóa kết quả dự báo
 
 Xác suất trên 66.685 dòng của các mốc 20–75% (ba phần chia, hạt giống 42) được dùng cho module khuyến nghị. Tập này không chứa nhãn gốc nên không vẽ ma trận nhầm lẫn từ chính file đó.
 
 ![Phân bố xác suất](figures/fig12_oof_score_hist.png)
 
-Hình 4.14. Phân bố xác suất Hybrid CNN–BiLSTM trên tập kiểm định. Đường đứt là trung vị ngưỡng của từng mốc.
+Hình 4.13. Phân bố xác suất Hybrid CNN–BiLSTM trên tập kiểm định. Đường đứt là trung vị ngưỡng của từng mốc.
 
 ![Xác suất và độ bất định](figures/fig13_p_vs_entropy.png)
 
-Hình 4.15. Quan hệ giữa xác suất và entropy nhị phân, mẫu 8.000 điểm.
+Hình 4.14. Quan hệ giữa xác suất và entropy nhị phân, mẫu 8.000 điểm.
 
 Nhận xét:
 
 Từ histogram, phân bố xác suất dịch theo mốc cắt: tại 20% tập trung thấp hơn tại 75%, cùng chiều với AP tăng ở mục 4.2.3. Entropy cao quanh xác suất 0,5, đúng vùng module khuyến nghị chuyển sang rà soát thủ công khi độ bất định lớn hoặc biên so với ngưỡng mỏng. Cùng một xác suất có thể cho nhãn vận hành khác nhau giữa các phần chia vì ngưỡng phụ thuộc phần chia (Hình 4.2). Không suy ra mô hình tách lớp hoàn hảo từ histogram không nhãn.
 
-### 4.2.6. Trọng số cổng theo mốc quan sát
+### 4.2.5. Trọng số cổng theo mốc quan sát
 
 Khối lượng softmax trung bình của ba nhánh được gộp theo mốc trên chín lần chạy. Đây là cách đọc hành vi của kiến trúc lai: cổng học khi nào dùng nhánh nào. Kết quả không thay thế phân tích đóng góp từng điểm dữ liệu.
 
 ![Cổng theo mốc](figures/gate_weights_by_cutoff.png)
 
-Hình 4.16. Khối lượng trung bình của nhánh bảng, CNN và BiLSTM theo mốc.
+Hình 4.15. Khối lượng trung bình của nhánh bảng, CNN và BiLSTM theo mốc.
 
 | Tập dữ liệu | Mốc | Nhánh bảng | CNN | BiLSTM |
 |---|---|---:|---:|---:|
@@ -228,7 +200,7 @@ Hình 4.16. Khối lượng trung bình của nhánh bảng, CNN và BiLSTM theo
 | OULAD | 75% | 0,200 | 0,251 | 0,549 |
 | OULAD | 100% | 0,172 | 0,237 | 0,591 |
 
-Bảng 4.7. Khối lượng cổng trung bình trên chín lần chạy.
+Bảng 4.6. Khối lượng cổng trung bình trên chín lần chạy.
 
 Nhận xét:
 
@@ -238,48 +210,48 @@ Tại UCI S0, nhánh bảng nhận toàn bộ khối lượng, CNN và BiLSTM b�
 
 ## 4.3. Kết quả module khuyến nghị
 
-Module khuyến nghị không cạnh tranh Hybrid trên AP. Hybrid xếp ai vào hàng đợi; rec học nút thắt nào còn kéo dài 14 ngày. Chia theo sinh viên: 40.094 / 13.341 / 13.250 dòng train/val/test. Nhãn rec lấy từ nhật ký nộp bài và VLE; kết quả cuối môn chỉ dùng khi đo tầng chọn lọc và tầng tiên lượng.
+Module khuyến nghị xếp hạng hành động hỗ trợ trên xác suất của Hybrid CNN–BiLSTM. Việc đánh giá thực hiện trên tập độc lập, không dùng để hiệu chỉnh module.
 
-### 4.3.1. Tầng 1 — hàng đợi top-K theo `p`
+### 4.3.1. Tập đánh giá
 
-| Mốc | Precision@10% | Recall@10% | Trần recall@10% | Precision ngưỡng `t` | Tỷ lệ bị gắn cờ `p ≥ t` |
-|---|---:|---:|---:|---:|---:|
-| 20% | 0,923 | 0,217 | 0,235 | 0,604 | 0,545 |
-| 35% | 0,984 | 0,245 | 0,249 | 0,671 | 0,444 |
-| 50% | 0,995 | 0,264 | 0,266 | 0,737 | 0,372 |
-| 75% | 0,999 | 0,296 | 0,296 | 0,858 | 0,281 |
+Tập độc lập gồm 632 tình huống, 150 sinh viên, 2.398 lượt đánh giá, không có tình huống bỏ qua. Bốn trạng thái phát hành gồm đề xuất hành động, rà soát thủ công, không đủ bằng chứng và không còn hành động khả thi.
 
-Bảng 4.8. Chọn lọc theo ngân sách 10% sĩ số. Precision@10% sát 1 từ mốc 35%; recall gần trần lý thuyết. Ngưỡng `t` bắt nhiều người dương hơn vì xem 28–54% lớp, không phải vì xếp hạng hay hơn.
+### 4.3.2. Chỉ số xếp hạng
 
-![Hàng đợi](figures/fig_rec_targeting.png)
+| Phương án | NDCG@3 | P@1 | MRR | R@3 | Hành động không hợp lệ | Số hành động đứng đầu khác nhau |
+|---|---:|---:|---:|---:|---:|---:|
+| Module khuyến nghị | 0,88785 | 0,99206 | 0,99603 | 0,79947 | 0 | 5 |
+| Quy tắc xếp hạng B1 | 0,86649 | 0,99683 | 0,99841 | 0,80357 | 0 | 4 |
+| Quy tắc xếp hạng B0 | 0,81889 | 0,99365 | 0,99683 | 0,78981 | 0 | 2 |
 
-Hình 4.17. Precision và Recall tại K = 10% theo mốc.
+Bảng 4.7. Kết quả trên 632 tình huống độc lập. Chênh lệch NDCG@3 của module khuyến nghị so với B1 là 0,02131, khoảng tin cậy 95% [0,01440; 0,02815] (bootstrap 2.000). So với B0: 0,06885, khoảng tin cậy [0,06051; 0,07748].
 
-### 4.3.2. Tầng 2 — khả thi
+![Chỉ số xếp hạng](figures/fig14_rec_panel_c_metrics.png)
 
-Trên 13.250 dòng test: tỷ lệ hành động không hợp lệ = 0. Hàng đợi 1.369 dòng, dead-end = 0, COUNSEL 1,2%. Lộ trình `Q_τ` chỉ gồm bài có hạn sau cutoff.
+Hình 4.16. NDCG@3, Precision tại 1 và Recall tại 3 trên tập độc lập.
 
-### 4.3.3. Kết quả mô hình rec (nhãn 14 ngày)
+![Bootstrap](figures/fig17_rec_bootstrap_ndcg.png)
 
-Mô hình chọn là boosting histogram (HGB). Đối sánh: luật đuôi cùng độ ưu tiên.
+Hình 4.17. Phân bố chênh lệch NDCG@3, bootstrap 2.000.
 
-| | Macro-F1 | Macro-AP | κ | Độ chính xác |
-|---|---:|---:|---:|---:|
-| Mô hình rec | **0,763** | **0,847** | 0,701 | 0,834 |
-| Luật đuôi | 0,677 | — | 0,570 | 0,744 |
+### 4.3.3. Trạng thái phát hành và hành động đứng đầu
 
-Bảng 4.9. Tập test 13.250 dòng, chia theo sinh viên. Rec thắng luật trên F1. AP lớp ASSESS 0,994; ENGAGE 0,556; COUNSEL 0,990. Trên đúng hàng đợi, F1 0,704 so với luật 0,685; độ chính xác 0,958.
+Trên 632 tình huống: đề xuất 94 (14,9%), rà soát thủ công 175 (27,7%), không đủ bằng chứng 363 (57,4%), không còn hành động khả thi 0.
 
-![Mô hình rec](figures/fig_rec_model.png)
+![Trạng thái](figures/fig15_rec_routes.png)
 
-Hình 4.18. Macro-F1 và Macro-AP của rec so với luật đuôi.
+Hình 4.18. Phân bố trạng thái phát hành.
 
-### 4.3.4. Tầng 4 — tiên lượng, không phải nhân quả
+Hành động đứng đầu: phục hồi tương tác 111, luyện tập truy xuất 64, ôn nội dung trọng tâm 36, duy trì nhịp học 31, hoàn thành bài đánh giá 27.
 
-Trên hàng đợi test, hồi quy logistic P(Pass) ~ gỡ đúng nút thắt + `p` (bootstrap 400 lần): β1 khớp cơ chế = 2,33, khoảng [1,69; 2,94], xác suất β1 > 0 bằng 1. β1 lệch cơ chế = 0,88, khoảng [0,04; 1,54]. Điều kiện đặc hiệu (khớp > lệch) thỏa. Đây là liên hệ tiên lượng: cùng `p`, người tự gỡ đúng nút thắt gắn với xác suất Pass cao hơn. Không phải hiệu ứng can thiệp của rec.
+![Hành động đứng đầu](figures/fig16_rec_top1_actions.png)
 
-![Đặc hiệu](figures/fig_rec_specificity.png)
+Hình 4.19. Phân bố năm hành động ở vị trí đứng đầu.
 
-Hình 4.19. β1 khớp so với lệch cơ chế, kiểm soát `p`.
+Nhận xét:
 
-Nhận xét: Hybrid gần tối ưu cho top-K. Rec có kết quả học thật (thắng luật trên nhãn 14 ngày). Invalid = 0. Không diễn giải β1 như rec làm tăng điểm. Mốc 100% không vào module.
+Module khuyến nghị đạt NDCG@3 bằng 0,888 và không phát hành hành động vi phạm luật khả thi. Tỷ lệ không đủ bằng chứng 57,4% phản ánh cơ chế an toàn khi nhật ký tương tác còn mỏng hoặc xác suất dưới ngưỡng, không phải lỗi xếp hạng. Kết quả không được đọc như bằng chứng can thiệp làm thay đổi kết quả cuối môn. Mốc 100% không đưa vào module khuyến nghị.
+
+### 4.3.4. Minh họa một tình huống
+
+Với một lượt ghi danh OULAD tại mốc 20%, mô hình dự đoán cho xác suất 0,258, ngưỡng 0,18, nhãn vận hành dương và độ bất định 0,823. Module khuyến nghị chuyển sang rà soát thủ công vì độ bất định cao, phù hợp quy tắc đã mô tả ở Chương 3.

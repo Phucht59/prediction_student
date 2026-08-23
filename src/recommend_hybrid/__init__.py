@@ -1,21 +1,43 @@
-"""Recommendation serving: persistence classifier on a Hybrid top-K worklist."""
+"""Recommendation V: Hybrid CNN–BiLSTM risk-guided actions.
 
-from .serving import (
-    PROTOCOL_VERSION,
-    PersistLabel,
-    PersistencePipeline,
+Serving runtime is ``src.recommend_hybrid.v3``. The package still re-exports
+the frozen public contracts used by tests and the live database CLI.
+"""
+
+from .final import (
+    ActionScore,
+    CanonicalAction,
+    ExplainableRecommendationPipeline,
+    FeasibilityResult,
+    FiveEBMRanker,
     RecommendationDecision,
+    RecommendationFeatures,
+    RecommendationPipeline,
+    RiskBand,
+    RiskThresholds,
     RouteStatus,
-    Stage,
-    map_prediction_state,
+    SafetyThresholds,
+    evaluate_action,
+    feasible_actions,
+    route_ranked_actions,
+    stratify_risk,
 )
 
 __all__ = [
-    "PROTOCOL_VERSION",
-    "PersistLabel",
-    "PersistencePipeline",
+    "ActionScore",
+    "CanonicalAction",
+    "ExplainableRecommendationPipeline",
+    "FeasibilityResult",
+    "FiveEBMRanker",
     "RecommendationDecision",
+    "RecommendationFeatures",
+    "RecommendationPipeline",
+    "RiskBand",
+    "RiskThresholds",
     "RouteStatus",
-    "Stage",
-    "map_prediction_state",
+    "SafetyThresholds",
+    "evaluate_action",
+    "feasible_actions",
+    "route_ranked_actions",
+    "stratify_risk",
 ]
