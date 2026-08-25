@@ -1,41 +1,32 @@
-"""Recommendation V: Hybrid CNN–BiLSTM risk-guided actions.
+"""Recommendation V — thesis serving is V3 only."""
 
-Serving runtime is ``src.recommend_hybrid.v3``. The package still re-exports
-the frozen public contracts used by tests and the live database CLI.
-"""
-
-from .final import (
-    ActionScore,
+from .v3 import (
     CanonicalAction,
-    ExplainableRecommendationPipeline,
-    FeasibilityResult,
-    FiveEBMRanker,
     RecommendationDecision,
     RecommendationFeatures,
-    RecommendationPipeline,
-    RiskBand,
-    RiskThresholds,
+    RecommendationV3Pipeline,
+    RiskRoute,
     RouteStatus,
-    SafetyThresholds,
+    Stage,
     evaluate_action,
     feasible_actions,
     route_ranked_actions,
     stratify_risk,
 )
+from .v3.ranker import FiveEBMC0Ranker
+
+RecommendationPipeline = RecommendationV3Pipeline
 
 __all__ = [
-    "ActionScore",
     "CanonicalAction",
-    "ExplainableRecommendationPipeline",
-    "FeasibilityResult",
-    "FiveEBMRanker",
+    "FiveEBMC0Ranker",
     "RecommendationDecision",
     "RecommendationFeatures",
     "RecommendationPipeline",
-    "RiskBand",
-    "RiskThresholds",
+    "RecommendationV3Pipeline",
+    "RiskRoute",
     "RouteStatus",
-    "SafetyThresholds",
+    "Stage",
     "evaluate_action",
     "feasible_actions",
     "route_ranked_actions",
