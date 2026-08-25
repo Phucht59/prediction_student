@@ -79,8 +79,9 @@ pytest -q tests/prediction tests/recommend_hybrid/v3 tests/integration tests/dat
 |---|---|
 | Chương 1–5 | `reports/prediction/final/CHUONG_1.md` … `CHUONG_5.md` |
 | Nhật ký thí nghiệm | `reports/prediction/final/NHAT_KY_THI_NGHIEM.ipynb` |
-| Hybrid | `src/prediction/` |
+| Hybrid | `src/prediction/` + `configs/prediction/hybrid_final.json` |
 | Recommendation V | `src/recommend_hybrid/v3/` |
+| Trọng số khóa | `artifacts/recommend_hybrid/v3/` (không dùng `artifacts/recommend_hybrid/final/`) |
 | Config | `configs/prediction/hybrid_final.json` |
 | DB live | `database/live/` |
 | Research / test cũ | `test_lab/` (không thuộc bản phát hành) |

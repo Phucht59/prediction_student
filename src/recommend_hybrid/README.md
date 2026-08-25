@@ -1,41 +1,32 @@
-# Recommendation system
+# Recommendation V
 
-## Production authority
+Bản phát hành khóa luận: **`src/recommend_hybrid/v3/`** (Five-EBM-C0).
 
-The released recommendation model lives in `src/recommend_hybrid/final/`.
-The previous conditional-action recommender is no longer the production authority.
+Không dùng `src/recommend_hybrid/final/` làm mô hình cuối. Đó là lineage Panel B cũ (NDCG@3 ≈ 0,953), **không** phải số khóa luận. Serving live đọc V3.
 
 ```python
-from src.recommend_hybrid import RecommendationPipeline
-from src.recommend_hybrid.final import FiveEBMRanker, RouteStatus
+from src.recommend_hybrid.v3.pipeline import RecommendationV3Pipeline
+from src.recommend_hybrid.v3.ranker import FiveEBMC0Ranker
+from src.recommend_hybrid.v3.contracts import RouteStatus
 ```
 
-Validated flow:
+CLI / PostgreSQL: `src/database/live_runtime.py` nạp
 
-1. frozen Hybrid CNN-BiLSTM risk prediction;
-2. risk/evidence routing;
-3. hard feasibility filtering;
-4. five action-specific EBM relevance models;
-5. valid-action ranking;
-6. four-status safety routing;
-7. evidence-grounded recommendation and learning plan;
-8. plausibility simulation reported only as **model-implied risk delta**.
+- ranker: `artifacts/recommend_hybrid/v3/ranker/final_models/*.joblib`
+- router: `artifacts/recommend_hybrid/v3/router/ROUTER_CONFIG.json`
+- features: `artifacts/recommend_hybrid/v3/data/learner_stage_features.parquet`
+- Hybrid OOF folds (OULAD serving rec): `artifacts/recommend_hybrid/v3/data/c0_inner_fold{0,1,2}_seed42.pt`
 
-The public statuses are `RECOMMEND`, `INSUFFICIENT_EVIDENCE`, `HUMAN_REVIEW`, and
-`NO_FEASIBLE_ACTION`.
+Luồng khóa:
 
-## Final evidence
+1. Hybrid CNN–BiLSTM (`src/prediction/`) → `p, t, ŷ, u`
+2. định tuyến rủi ro (`p` vs `t`, `u`, `margin`)
+3. luật khả thi cứng (5 hành động)
+4. năm EBM độc lập, cùng 17 cột, mục tiêu `expected_relevance / 3`
+5. an toàn Top-1
+6. `RECOMMEND` / `HUMAN_REVIEW` / `INSUFFICIENT_EVIDENCE` / `NO_FEASIBLE_ACTION`
 
-`PANEL_B_FINAL_HELDOUT` was evaluated exactly once on 150 cases with 557 real external
-Gemini review records. The frozen ranker reached NDCG@3 `0.9526603067902532`; the
-frozen action+stage baseline reached `0.8275943281032121`. The paired-bootstrap mean
-difference was `+0.12466302441561493`, 95% CI
-`[0.09508467988207753, 0.15361541252930452]`, with invalid-action rate `0.0`.
+Không gọi mô hình ngôn ngữ lúc vận hành. Không khuyến nghị UCI. Không khuyến nghị OULAD 100%.
 
-Release evidence: `artifacts/recommend_hybrid/final/`.
-Final reports: `reports/recommend_hybrid/final/`.
-Final configuration: `configs/recommend_hybrid/final/`.
-
-The immutable scientific lineage is retained on Git branch `Module_recomend`, release
-commit `17b519b22e8b69c875d27547d097e6d3b76bc404`. No Panel-B rerun or post-heldout
-model tuning is permitted.
+Số khóa Panel C: NDCG@3 0,88785 vs B1 0,86649; invalid = 0.
+`artifacts/recommend_hybrid/v3/release/FINAL_RELEASE_MANIFEST.json`
